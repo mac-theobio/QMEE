@@ -2,7 +2,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: index.html 
+target pngtarget pdftarget vtarget acrtarget: push_site 
 
 ##################################################################
 
@@ -39,14 +39,12 @@ index.html: index.md
 
 ## Formatting
 
-Sources += qmee.css header.html footer.html
+format = qmee.css header.html footer.html
+Sources += $(format)
 %.html: %.md qmee.css header.html footer.html
 	pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
-
-html.format:
-	pandoc -D html > $@
-
-Sources += qmee.css
+pages/%.html: %.md qmee.css header.html footer.html
+	pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
 
 ######################################################################
 
@@ -56,6 +54,13 @@ pages:
 	git clone git@github.com:mac-theobio/QMEE.git $@
 	cp local.mk pages
 	cd pages && $(MAKE) gh-pages.branch
+
+md = $(wildcard *.md)
+pages = $(md:%.md=pages/%.html)
+pformat = $(format:%=pages/%)
+
+push_site: $(format) $(pages)
+	cd pages && $(MAKE) sync
 
 ######################################################################
 
