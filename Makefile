@@ -1,8 +1,10 @@
 # QMEE pages branch
+# https://mac-theobio.github.io/QMEE/index.html
+
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: notarget
+target pngtarget pdftarget vtarget acrtarget: index.html
 
 ##################################################################
 
