@@ -1,11 +1,11 @@
 # QMEE
+# https://mac-theobio.github.io/QMEE/index.html
 ### Hooks for the editor to set the default target
 current: target
 
 target pngtarget pdftarget vtarget acrtarget: push_site 
 
 ##################################################################
-
 
 # make files
 
@@ -17,16 +17,21 @@ include stuff.mk
 
 ## Scraping
 
+Evolutionary_analysis.new: %.new: Makefile
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
+
 ## This isn't recognizing title! Why not?
-%.mediawiki: 
+%.mediawiki: Makefile
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
+
+%.arc:
 	wget -O $@ --post-data="title=$*&action=raw" "http://lalashan.mcmaster.ca/theobio/bio_708/index.php/"
 
-## Converting
-%.mw.md: %.mediawiki
-	pandoc -f mediawiki -o $@ $<
+Evolutionary_analysis.mediawiki:
 
-MainPage.mw.md:
-Outline.mw.md:
+## Converting
+%.mw.md: 
+	pandoc -f mediawiki -o $@ $*.mediawiki
 
 ######################################################################
 
@@ -34,6 +39,7 @@ Outline.mw.md:
 
 Sources += $(wildcard *.md)
 index.html: index.md
+topics.html: topics.md
 
 ######################################################################
 
@@ -41,10 +47,11 @@ index.html: index.md
 
 format = qmee.css header.html footer.html
 Sources += $(format)
+mds = pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
 %.html: %.md qmee.css header.html footer.html
-	pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
+	$(mds)
 pages/%.html: %.md qmee.css header.html footer.html
-	pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
+	$(mds)
 
 ######################################################################
 
@@ -57,10 +64,14 @@ pages:
 
 md = $(wildcard *.md)
 pages = $(md:%.md=pages/%.html)
-pformat = $(format:%=pages/%)
+pages/%.css: %.css
+	$(copy)
 
-push_site: $(format) $(pages)
+push_site: pages/qmee.css $(pages)
 	cd pages && $(MAKE) sync
+
+check:
+	@echo $(pages)
 
 ######################################################################
 
