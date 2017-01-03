@@ -2,7 +2,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: pages 
+target pngtarget pdftarget vtarget acrtarget: index.html 
 
 ##################################################################
 
@@ -17,6 +17,7 @@ include stuff.mk
 
 ## Scraping
 
+## This isn't recognizing title! Why not?
 %.mediawiki: 
 	wget -O $@ --post-data="title=$*&action=raw" "http://lalashan.mcmaster.ca/theobio/bio_708/index.php/"
 
@@ -25,13 +26,36 @@ include stuff.mk
 	pandoc -f mediawiki -o $@ $<
 
 MainPage.mw.md:
+Outline.mw.md:
 
 ######################################################################
 
 ## Editing
 
+Sources += $(wildcard *.md)
+index.html: index.md
+
+######################################################################
+
+## Formatting
+
+Sources += qmee.css header.html footer.html
+%.html: %.md qmee.css header.html footer.html
+	pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
+
+html.format:
+	pandoc -D html > $@
+
+Sources += qmee.css
+
+######################################################################
+
+## Exporting
+
 pages:
 	git clone git@github.com:mac-theobio/QMEE.git $@
+	cp local.mk pages
+	cd pages && $(MAKE) gh-pages.branch
 
 ######################################################################
 
