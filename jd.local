@@ -1,0 +1,3 @@
+gitroot = ~/git
+Drop = ~/Dropbox
+EDIT = gvim -f
