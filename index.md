@@ -19,7 +19,7 @@ _This schedule is subject to change_
 -   [Introduction to R](Introduction_to_R.html) Week of 9 Jan
 -   [Data management](Data_management.html) Week of 16 Jan
 -   [Visualization](Visualization.html) Week of 23 Jan
--   [Statistical philosophy](Statistical_philosophy.html) Week of
+-   [Statistical philosophy](Statistical_philosophy.html) Week of 30 Jan
 
 ### Basic Statistics
 

@@ -3,7 +3,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_pages 
+target pngtarget pdftarget vtarget acrtarget: Statistical_philosophy.new 
 
 ##################################################################
 
@@ -32,16 +32,22 @@ Visualization.mw.md:
 Evolutionary_analysis.mediawiki:
 
 ## Converting
-%.mw.md: %.mediawiki
-	pandoc -f mediawiki -o $@ $<
+%.mw: %.mediawiki
+	pandoc -f mediawiki -t markdown -o $@ $<
 
 Sources += $(wildcard *.pl)
-%.md:
-	perl -wf mdtrim.pl $*.mw.md > $@
+Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
+%.new: %.mw mdtrim.pl
+	$(PUSH)
+	cp -n $@ $*.md
 
 Data_management.tmk: Data_management.md tmk.pl
 %.tmk: %.md tmk.pl
 	$(PUSH)
+
+%.rmk:
+	$(RM) $*
+	$(MAKE) $*
 
 # Introduction_to_R.md: Introduction_to_R.mw.md mdtrim.pl
 
@@ -57,11 +63,8 @@ topics.html: topics.md
 
 ## Formatting
 
-format = qmee.css header.html footer.html
-Sources += $(format)
+Sources += qmee.css header.html footer.html
 mds = pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
-%.html: %.md qmee.css header.html footer.html
-	$(mds)
 pages/%.html: %.md qmee.css header.html footer.html
 	$(mds)
 

@@ -8,5 +8,5 @@ while (<>){
 	chomp;
 	s/.*\(//;
 	s/\.html.*//;
-	print " $_.mediawiki $_.mw.md $_.md";
+	print " $_.new";
 }
