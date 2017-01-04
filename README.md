@@ -20,3 +20,5 @@ Then:
   * You can try to update the real site yourself, or just leave it to me if the following doesn't work.
 * `make push_site` to update the pages/ directory and sync automatically (probably requires gvim). 
 
+__Actually, right now I'm not sure you can do anything without gvim, which seems really stupid, but I'll push in case you have it__
+
