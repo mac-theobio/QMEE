@@ -1,0 +1,8 @@
+The general flow is:
+
+Do
+* Make a .tmk
+* Check for new super-pages (pages with subpages)
+* Make patterns for the super-pages in a perl script and the Makefile
+While super-pages have not been resolved
+* Execute the make statement from the .tmk

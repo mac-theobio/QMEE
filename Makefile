@@ -9,7 +9,7 @@ target pngtarget pdftarget vtarget acrtarget: Statistical_philosophy.new
 
 # make files
 
-Sources = Makefile .gitignore README.md stuff.mk LICENSE.md
+Sources = Makefile .gitignore README.md stuff.mk LICENSE.md notes.txt
 include stuff.mk
 include $(ms)/git.def
 include $(ms)/perl.def
