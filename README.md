@@ -3,12 +3,20 @@ The web site for Biology 708 https://mac-theobio.github.io/QMEE/index.html
 To install the backend:
 
 * Clone this repo
+* Examine standard.local
+* Either
+  * type `ln standard.local local.mk`
+  * create bb.local and link that
 * Type `make pages`
 
-Then you just need to figure out how it all is supposed to work:
+Then:
 
-* edit .md files
-* `make push_site` to send everything to pages/. It is pushed automatically to github; so it should work to view it here, or there. There often takes longer than you would expect to update to the web server.
-* To view it here, go to pages subdir after push_site, and open index.html.
+* From pages directory
+  * <open> index.html shows you the local version
 
+* From main directory
+* `make push_pages` to update the pages/ directory. 
+* sync however you want (I like `make sync` but it may have the same problem; there's probably also a simple workaround).
+  * You can try to update the real site yourself, or just leave it to me if the following doesn't work.
+* `make push_site` to update the pages/ directory and sync automatically (probably requires gvim). 
 
