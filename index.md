@@ -4,7 +4,7 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Course information
 
-Course time and place to be arranged. Please fill out the course doodle!
+Course time and place to be arranged. Please fill out [the course doodle](http://doodle.com/poll/wpes2zqbzsur36gz)!
 
 -   [Course description](description.html)
 -   [Assignments](assignments.html)
@@ -39,3 +39,4 @@ We may choose one or more additional [statistical topics](topics.html), or focus
 
 -   [Jonathan Dushoff](http://bio.mcmaster.ca/faculty/dushoff/dushoff.htm)
 -   [Ben Bolker](http://www.math.mcmaster.ca/~bolker/)
+
