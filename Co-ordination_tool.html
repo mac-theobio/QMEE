@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<p>You should try to have a pipeline-driven project where as many steps as possible are clearly documented and easily replicable.</p>
+<p>There are many, many techniques for this, and we will try not to get too deeply into it in the course (unless it’s a Requested Topic).</p>
+<p>Some of the tools that we like include:</p>
+<h2 id="make">Make</h2>
+<p><a href="Wikipedia:Make_(software).html">make</a> is a system for controlling how files are made from other files. It is useful for making your project self-documenting: you write down the steps of your pipeline in a permanent fashion, in order to make them work.</p>
+<p>There is an <a href="Projects:Introduction_to_make.html">introduction to make on the Working Wiki</a> on the projects wiki, which means you are welcome to edit it as well as learn from it.</p>
+<p>The <a href="http://www.gnu.org/software/make/manual/make.html">gnu make documentation</a> is very useful, but not necessarily easy to attack.</p>
+<p><em>If you find useful resources for learning about make (especially general uses), please post them on the participant wiki</em></p>
+<h3 id="working-wiki">Working wiki</h3>
+<p><a href="Projects:Main_Page.html">Working wiki</a> allows you to incorporate projects driven by make into wiki pages, which has advantages in terms of co-operative editing, versioning and so forth. It also has special scripts designed to make it easier to run R on the wiki (it understands how to save and read outputs and inputs without being told).</p>
+<p>Working wiki is the tool that we use to embed working R scripts in this wiki and the participant wiki, for example. All the information that the wiki requires to run these scripts is on the wiki pages, and the associated “Projects” pages (see <code>projects</code> box on the left).</p>
+<h2 id="r-markdown">R markdown</h2>
+<p>R markdown is a format that allows you to incorporate R code into your documents. This allows you (like the wiki) to develop and document your project at the same time, and (better than the wiki) to allow your documentation to evolve directly into a document that can be submitted to a supervisory committee or a journal (the wiki can do this too, but extra steps are involved).</p>
+<p>RStudio makes a great platform for composing R markdown files, and there’s really good documentation on this format at the <a href="http://rmarkdown.rstudio.com/">RStudio web site</a>. To recap some of the most important features of R Markdown:</p>
+<ul>
+<li>relatively natural/easy formatting rules</li>
+<li>flexible output: HTML, PDF (even MS Word)</li>
+<li>automatically incorporate figures</li>
+<li>incorporate LaTeX equations</li>
+<li>caching for long computations</li>
+</ul>
+<footer class="site-header">
+<div class="wrapper">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com)">Course email address</a>
+	</div>
+</div>
+</footer>
+</body>
+</html>
