@@ -16,17 +16,16 @@ _This schedule is subject to change_
 
 ### Foundations
 
--   [Introduction to R](Introduction_to_R "wikilink") Week of 9 Jan
--   [Data management](Data_management "wikilink") Week of 16 Jan
--   [Visualization](Visualization "wikilink") Week of 23 Jan
--   [Statistical philosophy](Statistical_philosophy "wikilink") Week of
-    30 Jan
+-   [Introduction to R](Introduction_to_R.html) Week of 9 Jan
+-   [Data management](Data_management.html) Week of 16 Jan
+-   [Visualization](Visualization.html) Week of 23 Jan
+-   [Statistical philosophy](Statistical_philosophy.html) Week of
 
 ### Basic Statistics
 
--   [Permutations](Permutations "wikilink")
--   [Linear models](Linear_models "wikilink")
--   [Bayesian statistics](Bayesian_statistics "wikilink")
+-   [Permutations](Permutations.html)
+-   [Linear models](Linear_models.html)
+-   [Bayesian statistics](Bayesian_statistics.html)
 
 ### Additional topics
 

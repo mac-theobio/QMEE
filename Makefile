@@ -3,7 +3,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_site 
+target pngtarget pdftarget vtarget acrtarget: push_pages 
 
 ##################################################################
 
@@ -11,27 +11,39 @@ target pngtarget pdftarget vtarget acrtarget: push_site
 
 Sources = Makefile .gitignore README.md stuff.mk LICENSE.md
 include stuff.mk
-# include $(ms)/perl.def
+include $(ms)/git.def
+include $(ms)/perl.def
 
 ##################################################################
 
 ## Scraping
 
-Evolutionary_analysis.new: %.new: Makefile
+intro_%.mediawiki:
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Introduction_to_R/$*&action=raw"
+
+intro_Lecture_notes.mediawiki:
+
+%.mediawiki: 
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
 
-## This isn't recognizing title! Why not?
-%.mediawiki: Makefile
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
-
-%.arc:
-	wget -O $@ --post-data="title=$*&action=raw" "http://lalashan.mcmaster.ca/theobio/bio_708/index.php/"
+Data_management.mw.md:
+Visualization.mw.md:
 
 Evolutionary_analysis.mediawiki:
 
 ## Converting
-%.mw.md: 
-	pandoc -f mediawiki -o $@ $*.mediawiki
+%.mw.md: %.mediawiki
+	pandoc -f mediawiki -o $@ $<
+
+Sources += $(wildcard *.pl)
+%.md:
+	perl -wf mdtrim.pl $*.mw.md > $@
+
+Data_management.tmk: Data_management.md tmk.pl
+%.tmk: %.md tmk.pl
+	$(PUSH)
+
+# Introduction_to_R.md: Introduction_to_R.mw.md mdtrim.pl
 
 ######################################################################
 
@@ -66,6 +78,9 @@ md = $(wildcard *.md)
 pages = $(md:%.md=pages/%.html)
 pages/%.css: %.css
 	$(copy)
+
+push_pages: pages/qmee.css $(pages)
+	cd pages
 
 push_site: pages/qmee.css $(pages)
 	cd pages && $(MAKE) sync
