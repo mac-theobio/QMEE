@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h1 id="programming">Programming</h1>
+<p><bullet> R is a programming language</p>
+<p><code>   You may or may not use it for programming tasks, but it will help</code><br />
+<code>   if you understand roughly how it works inside.</code></p>
+<p>What is a program?</p>
+<p><code>   A program is a collection of simple instructions (read, write, send,</code><br />
+<code>   manipulate, calculate) that should be executed in a logical order</code></p>
+<p><code>   A program's flow is controlled by control structures (instructions</code><br />
+<code>   about what instruction to do next)</code></p>
+<p><code>   What are some examples of programs, and how do they work?</code></p>
+<p></bullet></p>
+<h1 id="basic-instructions">Basic instructions</h1>
+<h2 id="calculation">Calculation</h2>
+<p>R works as a calculator.</p>
+<p><source-file filename="calc.R"> 2+2 2439*41 259*3861 2+sqrt(91) </source-file></p>
+<p><project-file filename="calc.Rout" make="true" display=link /></p>
+<p>What about 7+3*9? 32/4*4? Figure out what the second one does, and then explain how you would write it more clearly.</p>
+<h2 id="assignment">Assignment</h2>
+<p>R can remember numbers and give them back to you. This is the foundation of being able to write programs that do many things in a specified order.</p>
+<p><source-file filename="assign.R"> x &lt;- 23 x x + 17 x &lt;- x + 17 </source-file></p>
+<p><project-file filename="assign.Rout" make="true" display=link /></p>
+<h1 id="objects">Objects</h1>
+<p>R keeps track of a variety of objects: data structures and functions mostly. You can see all of your user-defined objects by typing <code>objects()</code> (the parentheses mean that you are calling a <em>function</em>; more on this later).</p>
+<h2 id="values">Values</h2>
+<p>In addition to numbers, R has other kinds of “values”. The main ones we’re interested in are “character”, “numeric” and “logical” (ie., <code>TRUE</code> or <code>FALSE</code>). <code>str</code> is one way to try to figure out what your R object is.</p>
+<p><source-file filename="values.R"> num &lt;- 3 str(num)</p>
+<p>char &lt;- “Hello, class?” str(char)</p>
+<p>logic &lt;- TRUE ## Note lack of quotes str(logic) </source-file></p>
+<p><project-file filename="values.Rout" make="true" display=link /></p>
+<h2 id="types">Types</h2>
+<p>R objects are divided into types. For now, we’re mostly interested in three of these: <em>vectors</em>, <em>lists</em> and <em>functions</em>.</p>
+<h3 id="vectors">Vectors</h3>
+<p>A vector consists of zero or more values of the same <em>storage mode</em></p>
+<p><source-file filename="vector.R"> words &lt;- c(“Mary”, “had”, “a”, “little”, “lamb”)</p>
+<ol style="list-style-type: decimal">
+<li><ol style="list-style-type: decimal">
+<li>c() puts elements together into a vector</li>
+</ol></li>
+</ol>
+<p>str(words)</p>
+<p>print(v &lt;- 1:5) ## ‘m:n’ creates a sequence from m to n str(v) </source-file></p>
+<p><project-file filename="vector.Rout" make="true" display=link /></p>
+<h4 id="vector-math">Vector math</h4>
+<p>R does math on vectors directly. If we add two vectors we add each pair of corresponding elements. If we multiply a vector by a “scalar” (a single number) we multiply each element by the scalar. Avoid arithmetic involving two vectors of different length (except the scalar case, which cannot be avoided).</p>
+<p><source-file filename="math.R"> v &lt;- 1:5 w &lt;- c(0, 1, 1, 2, 4) v+w 2*w </source-file></p>
+<p><project-file filename="math.Rout" make="true" display=link /></p>
+<h3 id="numbers">Numbers</h3>
+<p>R does not have any particular idea of individual numbers (or strings, etc.); you represent a number as a vector of length 1. This has advantages and disadvantages.</p>
+<h3 id="lists">Lists</h3>
+<p>A list is a bunch of things in order. Those things can be any R object – vectors, functions, other lists …</p>
+<p><source-file filename="list.R"> L &lt;- list(1:3, “Apple tree”, TRUE) str(L) str(L<a href="1" class="uri" title="wikilink">1</a>) ## L<a href="1" class="uri" title="wikilink">1</a> picks out the first element of the list</p>
+<p>LL &lt;- list(L, c(2, 7, 9)) str(LL) str(LL<a href="1" class="uri" title="wikilink">1</a>) </source-file></p>
+<p><project-file filename="list.Rout" make="true" display=link /></p>
+<h3 id="functions">Functions</h3>
+<p>Functions are “called” using parentheses. A function is a set of commands that uses whatever “arguments” are inside the parentheses and does things (including possibly “returning” a result).</p>
+<p>What functions have we seen so far?</p>
+<p>Example: <code>mean()</code> in its simplest form takes a vector argument and returns the mean.</p>
+<p><source-file filename="mean.R"> mean(c(2, 5, 11))</p>
+<p>x &lt;- 1:10 m_x &lt;- mean(x) print(m_x) </source-file></p>
+<p><project-file filename="mean.Rout" make="true" display=link /></p>
+<p>You can learn about any built-in function by using R’s help: type <code>?&quot;mean&quot;</code> or <code>help(&quot;mean&quot;)</code>.</p>
+<p>Arguments can be passed to functions in order, or by using names. For example, <code>mean</code> takes an optional argument <code>trim</code>.</p>
+<p><source-file filename="trim.R"> x &lt;- (1:10)^2 mean(x) mean(x, trim=0.1) </source-file></p>
+<p><project-file filename="trim.Rout" make="true" display=link /></p>
+<h4 id="syntax">Syntax</h4>
+<p>“=” is a synonym for “&lt;-” at the top level (and many people use it). Be aware that they are not synonyms inside a function call: “&lt;-” still means assignment, but “=” is used to name an argument.</p>
+<p>R variable names are case-sensitive. This means that <code>m</code> and <code>M</code> are different variables.</p>
+<p>R variable names have to start with a letter, and certain characters (particularly space characters) are not allowed. Good naming conventions may include:</p>
+<ul>
+<li>Using mostly or only letters and underscores (“_”)
+<ul>
+<li>some people prefer dot (“.”) to underscore</li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li>Not using potentially confusing names like “l” or “O”.</li>
+</ul>
+<!-- -->
+<ul>
+<li>Not using built-in names (like “c” or “list”) for variables.</li>
+</ul>
+<!-- -->
+<ul>
+<li>Many people use <code>camelCase</code> or <code>underscore_spacing</code> or <code>dot.spacing</code> to make readable variable names
+<ul>
+<li>but it’s also better not to use <code>variableNamesThatAreExcessivelyLong</code></li>
+</ul></li>
+</ul>
+<h1 id="compound-objects">Compound objects</h1>
+<p>R is a sophisticated system that builds complicated structures on top of these simple objects. Hopefully we’ll develop an intuition for more of that as we go along. People interested in nuts and bolts can also look at the (rather scary!) R language definition on the <a href="http://cran.r-project.org/manuals.html">R manuals page</a>. For now, we’ll talk about just a few structures.</p>
+<h2 id="matrices">Matrices</h2>
+<p>In R, matrices are basically vectors that understand that they have a shape. R knows how to do matrix multiplication on them, which is very cool, and other kinds of linear algebra. There are many ways to make a matrix: use <code>?&quot;matrix&quot;</code> to get more information.</p>
+<p><source-file filename="matrix.R"> print(m &lt;- matrix(c(1, 3, 0, 1), nrow=2))</p>
+<ol style="list-style-type: decimal">
+<li>R arranges vectors into matrices in COLUMN-FIRST order, by default</li>
+</ol>
+<!-- -->
+<ol style="list-style-type: decimal">
+<li>Elementwise (“vector”) multiplication (or “Hadamard product”)</li>
+</ol>
+<p>m*m</p>
+<ol style="list-style-type: decimal">
+<li>Matrix multiplication</li>
+</ol>
+<p>m %*% m </source-file></p>
+<p><project-file filename="matrix.Rout" make="true" display=link /></p>
+<h2 id="data-frames">Data frames</h2>
+<p>Data frames are lists that have a rectangular shape (they look like, and can be used a like matrices, but don’t have to be of a single “mode” – in particular you can mix numbers, factors (see below), dates, …).</p>
+<p>We’ll talk more about data frames when we start dealing with data.</p>
+<h2 id="factors">Factors</h2>
+<p>Factors are used to describe items that can have a known set of values (gender, social class, etc.) – <em>categorical variables</em> in statistical terms. We will also talk more about them later.</p>
+<h1 id="control-structures">Control structures</h1>
+<p>Control structures in R include:</p>
+<ul>
+<li>loops: we will use <code>for</code>, <code>lapply</code> and <code>apply</code>, among others. <code>lapply</code> stands for <strong>l</strong>ist <strong>apply</strong>.</li>
+</ul>
+<!-- -->
+<ul>
+<li>conditionals: <code>if</code> and <code>ifelse</code>. Use <code>ifelse</code> with care!</li>
+</ul>
+<p><source-file filename="control.R"> v &lt;- 1:10 for (x in v){</p>
+<p><code>   print(x^2)</code></p>
+<p>}</p>
+<p>for (x in v){</p>
+<p><code>   if(x&gt;=4) {</code><br />
+<code>       print(x^2)</code><br />
+<code>   }</code></p>
+<p>} </source-file></p>
+<p><project-file filename="control.Rout" make="true" display=link /></p>
+<p>R uses <code>==</code> to test equality, and <code>!=</code> to test inequality. (R will often guess and warn you if you wrongly try to use <code>=</code>, but not always …)</p>
+<p>Use <code>&amp;</code> for “and”, and <code>|</code> for “or” <strong>when testing vectors in parallel</strong> (use <code>&amp;&amp;</code> and <code>||</code> for testing single conditions: if this makes no sense to you, stick to <code>&amp;</code> and <code>|</code>).</p>
+<h2 id="syntax-1">Syntax</h2>
+<p>You may have noticed that we sometimes just state something in order to print its value. This does not always work inside of loops. It’s better practice to always say <code>print</code>, when that’s what you want.</p>
+<h1 id="names">Names</h1>
+<p>R’s primary objects often have associated “attributes”. The information that tells R what shape a matrix (or higher-dimensional array) is is an attribute. R also has “name” attributes: <code>names</code>, <code>rownames</code> and <code>colnames</code>.</p>
+<p>You can select single elements from an R object using the element operator <a href="%22wikilink%22"></a>, and subsets using the subset operator <code>[]</code>. If the object has dimensions, you can separate them with a comma.</p>
+<p>You can also select things by name, using the syntax <code>v[&quot;name&quot;]</code> or <code>v[n]</code>, if <code>n</code> is a variable that contains the name. In general it’s a good idea to use names instead of numbers whenever you can, because (1) your code will be easier to read (<code>x[&quot;temperature&quot;]</code> instead of <code>x[21]</code>) and (2) your code will be more robust (i.e., if you modify something so that temperature is now in position 22 rather than 21).</p>
+<p><source-file filename="select.R" display="source"> class(InsectSprays) head(InsectSprays) names(InsectSprays)</p>
+<ol style="list-style-type: decimal">
+<li>Select the first list element of InsectSprays</li>
+</ol>
+<p>InsectSprays<a href="1" class="uri" title="wikilink">1</a></p>
+<ol style="list-style-type: decimal">
+<li>Select a subset of InsectSprays containing only the first list element</li>
+</ol>
+<p>InsectSprays[1]</p>
+<ol style="list-style-type: decimal">
+<li>Select the first column of InsectSprays</li>
+</ol>
+<p>InsectSprays[, 1]</p>
+<ol style="list-style-type: decimal">
+<li>Select part of the first column of InsectSprays</li>
+</ol>
+<p>InsectSprays[1:10, 1]</p>
+<ol style="list-style-type: decimal">
+<li>Select the first list element of InsectSprays by name</li>
+</ol>
+<p>InsectSprays<a href="%22count%22" title="wikilink">“count”</a></p>
+<ol style="list-style-type: decimal">
+<li>Use a convenient but sometimes dangerous short-cut for this</li>
+</ol>
+<p>InsectSprays$count </source-file></p>
+<p><project-file filename="select.Rout" make=true display=link/></p>
+<h1 id="arcane">Arcane</h1>
+<p>You may have been surprised by the column-selection results. We used the subset operator, but got a single element instead. R noticed we only selected one thing, and “collapsed” the object for our “convenience”. This sort of thing is a common problem in R, probably due to its rather ancient history, and the tension between structure and convenience (particularly convenience for interactive use).</p>
+<p>In programs, it is bad practice to let R do this (because it will confuse the program when the structure of your results changes). In this case, you can avoid it by selecting from the list. Another trick that works is this:</p>
+<p><source-file filename="drop.R" display="source"></p>
+<ol style="list-style-type: decimal">
+<li>A data frame</li>
+</ol>
+<p>InsectSprays[, 1:2]</p>
+<ol style="list-style-type: decimal">
+<li>An inappropriate “collapse” to a simpler form</li>
+</ol>
+<p>InsectSprays[, 1]</p>
+<ol style="list-style-type: decimal">
+<li>Avoid inappropriate collapse</li>
+</ol>
+<p>InsectSprays[, 1, drop=FALSE] </source-file></p>
+<p><project-file filename="drop.Rout" make=true display=link/></p>
+<footer class="site-header">
+<div class="wrapper">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com)">Course email address</a>
+	</div>
+</div>
+</footer>
+</body>
+</html>
