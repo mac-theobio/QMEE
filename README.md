@@ -1,14 +1,18 @@
-The web site for Biology 708 https://mac-theobio.github.io/QMEE/index.html
+## Biology 708
 
-To install the backend:
+The web site for Biology 708. The user-friendly view is [here](https://mac-theobio.github.io/QMEE/index.html).
+
+
+##  Installing the backend
+
+You can view any of the files for the course on this web site as well as in the user-friendly view.
+
+If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away ...)
 
 
 * Clone this repo
-
 * you need JD's `makestuff` machinery
     * Clone https://github.com/dushoff/makestuff.git into $HOME/git (or anywhere, as long as it matches what's in the `$gitroot` variable in `local.mk`
-
-
 * Examine standard.local
 * Either
   * type `ln standard.local local.mk`
