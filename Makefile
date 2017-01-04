@@ -12,7 +12,7 @@ target pngtarget pdftarget vtarget acrtarget: index.html
 
 Sources = Makefile .gitignore README.md stuff.mk LICENSE.md
 include stuff.mk
-include $(ms)/git.def
+-include $(ms)/git.def
 
 Sources += $(wildcard *.html *.css)
 
