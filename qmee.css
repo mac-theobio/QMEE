@@ -59,7 +59,8 @@ dd p {
 
 #footer {
         padding-top: 1em;
-        font-size: 70%;
+        font-size: 100%;
         color: gray;
         text-align: center;
+		  margin-bottom: 2ex;
         }

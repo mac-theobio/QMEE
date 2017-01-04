@@ -19,15 +19,27 @@
 	</div>
 </div>
 </header>
-
-<footer class="site-header">
-<div class="wrapper">
+<h1 id="data-structure">Data structure</h1>
+<p>You will typically import data into <code>R</code> as a data frame. This is basically a rectangle of data, with each column representing a different variable. R will try to figure out the type of each variable by looking at the values.</p>
+<p>Your rectangle may additionally have “names” (equivalent to “colnames”) at the top, and “rownames” along the left (see <a href="intro_Lecture_notes#Attributes.html">Attributes and Selection</a> from the lecture notes for a <em>little</em> more information about names).</p>
+<h1 id="plain-data">Plain data</h1>
+<p>You may have a table in text format (with “fields” separated by spaces or tabs. Or you may use a spreadsheet program to save the data you want to import in “CSV” format. To import such data, you will use the R function <code>read.table</code> or <code>read.csv</code> (the latter is really just a version of the former). You will want to read about these in R help (e.g., type <code>?read.table</code>, and give some attention to the various arguments, particularly <code>header</code>.</p>
+<h1 id="spreadsheet-data">Spreadsheet data</h1>
+<p>If you prefer to save a spreadsheet in a proprietary format and read it in directly, this actually works quite well, if you give your spreadsheet a rectangular shape that R can understand.</p>
+<p>You will need to use a <a href="package.html">package</a> to do this; JD uses <code>gdata</code>. Once you have loaded <code>gdata</code>, you can read about <code>read.xls</code> in the documentation.</p>
+<p>Although this works fine, we tend to prefer the CSV route, since it makes it absolutely easy to look at your data file and make sure that it consists exactly of what you want it to (no hidden Microsoft magic).</p>
+<h1 id="missing-data">Missing data</h1>
+<p>If your data set has any missing values, you will want R to “get” that they are missing. You should be able to do this with the <code>na.strings</code> argument, and to verify it by applying summary to your new data frame (which is something you should do anyway).</p>
+<h1 id="an-example">An example</h1>
+<h2 id="a-csv-file">A csv file</h2>
+<p>11 5, 14 6, 10 </source-file></p>
+<p>read.csv(“xy.csv”) print(dat) dat$ratio &lt;- dat$y/dat$x print(dat)</p>
+<div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 		<a href="mailto:bio708qmee@gmail.com)">Course email address</a>
 	</div>
 </div>
-</footer>
 </body>
 </html>
