@@ -15,6 +15,7 @@ Sources += $(wildcard *.local)
 include stuff.mk
 include $(ms)/git.def
 include $(ms)/perl.def
+-include local.mk
 
 ##################################################################
 
