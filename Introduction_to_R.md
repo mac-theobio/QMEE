@@ -9,13 +9,15 @@ Preparation
 
 -   Please install and run the free (and open-source) program `R` from
     the links at the top of [the Comprehensive R Archive
-    Network](http://cran.r-project.org/)
+    Network](http://cran.r-project.org/). (If you have an older version of R installed on your computer (e.g. version < 3.3.0), we strongly recommend that you update it by downloading and installing the latest version.)
 
 
 -   You should also install and run the free (and open-source) R
     development environment `RStudio` from the Download button at the
     [RStudio web site](http://www.rstudio.com/ide/). You want the
     "desktop" version.
+
+
 
 Goals
 =====
