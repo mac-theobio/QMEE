@@ -26,10 +26,15 @@ opts_chunk$set(results="hide")  ## match wiki behaviour - don't show results
 ## Intro
 
 <!-- BMB: not sure what this stuff is for?  Was it hidden in a previous version?  How is it helpful? -->
+
+<!-- in markdown, two or more spaces at the end of a line specify a hard line break>
 - You may or may not use R for programming tasks, but it will help if you understand roughly how it works inside.
 - What is a program?
-    - A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order
-    - A program's flow is controlled by control structures (instructions about what instruction to do next)
+    - A program is a collection of simple instructions
+(read, write, send, manipulate, calculate)
+that should be executed in a logical order
+    - A program's flow is controlled by *control structures*
+(instructions about what instruction to do next)
     - What are some examples of programs, and how do they work?
 
 # Basic instructions
@@ -59,6 +64,7 @@ x <- 23
 x
 x + 17
 x <- x + 17
+x
 ```
 
 ## Objects
@@ -70,8 +76,10 @@ more on this later).
 
 ## Values
 
-In addition to numbers, R has other kinds of "values". The main ones
-we're interested in are "character", "numeric" and "logical" (ie., `TRUE` or `FALSE`). `str` is one way to try to figure out what your R object is.
+<!-- these are types too; "atomic types" -->
+
+In addition to numbers, R has other kinds of values. The main ones
+we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` is one way to try to figure out what your R object is.
 
 
 ```{r values}
@@ -329,8 +337,7 @@ case, you can avoid it by selecting from the list.
 
 ***
 
-Another trick that
-works is this:
+Here is another trick that works:
 
 ```{r arcane}
 # A data frame
