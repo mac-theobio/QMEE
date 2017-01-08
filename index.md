@@ -4,13 +4,19 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Course information
 
-Course time and place to be arranged. Please fill out [the course doodle](http://doodle.com/poll/wpes2zqbzsur36gz)!
+_The first course meeting (informal) is this Monday (9 Jan) at 10:30 AM_
+
+* The course meets in LSB-130A:
+	*  Mon 10:30-12:20
+	*  Wed 10:30-11:20
 
 -   [Course description](description.html)
 -   [Assignments](assignments.html)
 -   [Final project](project.html)
 
 ## Course schedule
+
+__Some links may be broken as we build our new website__, your patience is appreciated.
 
 _This schedule is subject to change_
 
@@ -37,6 +43,6 @@ We may choose one or more additional [statistical topics](topics.html), or focus
 
 ## Faculty
 
--   [Jonathan Dushoff](http://bio.mcmaster.ca/faculty/dushoff/dushoff.htm)
+-   [Jonathan Dushoff](http://www.biology.mcmaster.ca/dushoff/)
 -   [Ben Bolker](http://www.math.mcmaster.ca/~bolker/)
 

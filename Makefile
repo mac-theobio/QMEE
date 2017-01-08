@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: intro_Lecture_notes.io.html 
+target pngtarget pdftarget vtarget acrtarget: pages/index.html 
 
 ##################################################################
 
@@ -47,6 +47,8 @@ Visualization.mw.md:
 
 Evolutionary_analysis.mediawiki:
 
+##################################################################
+
 ## Converting
 %.mw: %.mediawiki
 	pandoc -f mediawiki -t markdown -o $@ $<
@@ -69,11 +71,10 @@ Data_management.tmk: Data_management.md tmk.pl
 
 ######################################################################
 
-## Editing
+## Editing pages
 
 Sources += $(wildcard *.md)
-index.html: index.md
-topics.html: topics.md
+pages/index.html: index.md
 
 ######################################################################
 
