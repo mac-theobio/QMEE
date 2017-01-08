@@ -23,12 +23,14 @@ library(knitr)
 opts_chunk$set(results="hide")  ## match wiki behaviour - don't show results
 ```
 
-## Intro
-
 <!-- BMB: not sure what this stuff is for?  Was it hidden in a previous version?  How is it helpful? -->
 
-<!-- in markdown, two or more spaces at the end of a line specify a hard line break>
-- You may or may not use R for programming tasks, but it will help if you understand roughly how it works inside.
+<!-- in markdown, two or more spaces at the end of a line specify a hard line break-->
+
+## Intro
+
+- You may or may not use R for programming tasks,  
+but it will help if you understand roughly how it works inside.
 - What is a program?
     - A program is a collection of simple instructions
 (read, write, send, manipulate, calculate)
@@ -149,6 +151,7 @@ LL <- list(L, c(2, 7, 9))
 str(LL)
 str(LL[1])
 ```
+----------------------------------------------------------------------
 
 ### Functions
 
@@ -169,6 +172,8 @@ m_x <- mean(x)
 print(m_x)
 ```
 
+----------------------------------------------------------------------
+
 You can learn about any built-in function by using R's help: type
 `?"mean"` or `help("mean")`.
 
@@ -180,6 +185,8 @@ x <- (1:10)^2
 mean(x)
 mean(x, trim=0.1)
 ```
+
+----------------------------------------------------------------------
 
 #### Syntax
 
@@ -198,8 +205,8 @@ may include:
   - some people prefer dot (`.`) to underscore
 -  Not using potentially confusing names like `l` or `O`.
 -  Not using built-in names (like `c`, `list`, or `data`) for variables.
--   Many people use `camelCase` or `underscor_spacing` ("snake case") or `dot.spacing` ("kebab case") to make readable variable names
-    -   but it's also better not to use `variableNamesThatAreExcessivelyLong`
+-   Many people use `camelCase`, `snake_case`, or `kebab.case` to make readable variable names
+    -   it's also better not to use `variableNamesThatAreExcessivelyLong`
 
 ## Compound objects
 

@@ -1,21 +1,34 @@
 # QMEE
 # https://mac-theobio.github.io/QMEE/index.html
+# https://docs.google.com/spreadsheets/d/1J1Zus295rPJADVXIt6GwomSxisgDurhjzskhUtsMbr4/edit#gid=2011507906
+
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: Statistical_philosophy.new 
+target pngtarget pdftarget vtarget acrtarget: intro_Lecture_notes.io.html 
 
 ##################################################################
 
 # make files
 
-Sources = Makefile .gitignore README.md stuff.mk LICENSE.md notes.txt
+Sources = Makefile .gitignore README.md stuff.mk LICENSE.md notes.txt TODO.md
 Sources += $(wildcard *.local)
 
 include stuff.mk
 -include $(ms)/git.def
 -include $(ms)/perl.def
 -include local.mk
+
+##################################################################
+
+Sources += $(wildcard *.Rmd *.rmd)
+
+intro_Lecture_notes.html: intro_Lecture_notes.rmd
+	echo 'rmarkdown::render("intro_Lecture_notes.rmd")' | R --vanilla
+
+intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
+	echo 'rmarkdown::render("intro_Lecture_notes.rmd",output_format="ioslides_presentation", output_file="$@")' | R --vanilla
+
 
 ##################################################################
 
