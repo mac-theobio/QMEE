@@ -1,9 +1,21 @@
+---
+title: "Introduction to R"
+author: Jonathan Dushoff and Ben Bolker
+date:  26 April 2016
+output: html_document
+---
+
 # Programming
 
 <!-- rendering
  HTML:
    rmarkdown::render("intro_Lecture_notes.rmd")
    rmarkdown::render("intro_Lecture_notes.rmd",output_format="ioslides_presentation")
+   NOTE slide_level=3 doesn't do what I want! Makes section headers <3 into *section slides* ...
+
+   rmarkdown::ioslides_presentation("intro_Lecture_notes.rmd",header_level=3)
+
+https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_presentation
    -->
 
 ```{r opts,echo=FALSE}
@@ -91,6 +103,8 @@ print(v <- 1:5)  ## 'm:n' creates a sequence from m to n
 str(v)
 ```
 
+***
+
 ### Vector math
 
 R does math on vectors directly. If we add two vectors we add each pair
@@ -106,6 +120,8 @@ v+w
 2*w
 ```
 
+
+***
 
 ### Numbers
 
@@ -263,6 +279,8 @@ You can select single elements from an R object using the element
 operator `[[]]`, and subsets using the subset operator `[]`. If
 the object has dimensions, you can separate them with a comma.
 
+***
+
 You can also select things by name, using the syntax `v["name"]` or
 `v[n]`, if `n` is a variable that contains the name. In general it's a
 good idea to use names instead of numbers whenever you can, because (1)
@@ -307,7 +325,11 @@ ancient history, and the tension between structure and convenience
 
 In programs, it is bad practice to let R do this (because it will
 confuse the program when the structure of your results changes). In this
-case, you can avoid it by selecting from the list. Another trick that
+case, you can avoid it by selecting from the list.
+
+***
+
+Another trick that
 works is this:
 
 ```{r arcane}
