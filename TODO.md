@@ -1,3 +1,15 @@
+## immediate
+
+- BB will send an email before lunch 
+- JD will prepare to live code tomorrow in Rstudio!
+- JD will make some version of notes io available on site
+
+* https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html
+
+## For next week
+
+* Lecture may need quite a bit of work to be tidier, and less wiki-ish
+
 ## infrastructure
 
 - reorganize directories?

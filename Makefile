@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: pages/index.html 
+target pngtarget pdftarget vtarget acrtarget: intro_Lecture_notes.html 
 
 ##################################################################
 
