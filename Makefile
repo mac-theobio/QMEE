@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: intro_Lecture_notes.html 
+target pngtarget pdftarget vtarget acrtarget: intro_Lecture_notes.io.html 
 
 ##################################################################
 
@@ -21,14 +21,19 @@ include stuff.mk
 
 ##################################################################
 
+## Rmd stuff
+
+### Right now building "notes" html like regular html (with this upstream rule)
+### Could cause problems with figures or (less likely) mathjax
 Sources += $(wildcard *.Rmd *.rmd)
 
-intro_Lecture_notes.html: intro_Lecture_notes.rmd
-	echo 'rmarkdown::render("intro_Lecture_notes.rmd")' | R --vanilla
+intro_Lecture_notes.md: intro_Lecture_notes.rmd
+%.md: %.rmd
+	echo 'knitr::knit("$<")' | R --vanilla 
 
 intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
-	echo 'rmarkdown::render("intro_Lecture_notes.rmd",output_format="ioslides_presentation", output_file="$@")' | R --vanilla
-
+%.io.html: %.rmd
+	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
 
 ##################################################################
 

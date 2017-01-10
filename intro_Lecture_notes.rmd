@@ -2,10 +2,9 @@
 title: "Introduction to R"
 author: Jonathan Dushoff and Ben Bolker
 date:  26 April 2016
+slide_level: 3
 output: html_document
 ---
-
-# Programming
 
 <!-- rendering
  HTML:
@@ -14,6 +13,7 @@ output: html_document
    NOTE slide_level=3 doesn't do what I want! Makes section headers <3 into *section slides* ...
 
    rmarkdown::ioslides_presentation("intro_Lecture_notes.rmd",header_level=3)
+
 
 https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_presentation
    -->
@@ -27,7 +27,12 @@ opts_chunk$set(results="hide")  ## match wiki behaviour - don't show results
 
 <!-- in markdown, two or more spaces at the end of a line specify a hard line break-->
 
-## Intro
+
+# Programming
+
+----------------------------------------------------------------------
+
+## R is a programming language
 
 - You may or may not use R for programming tasks,  
 but it will help if you understand roughly how it works inside.
@@ -41,6 +46,8 @@ that should be executed in a logical order
 
 # Basic instructions
 
+----------------------------------------------------------------------
+
 ## Calculation
 
 R works as a calculator.
@@ -52,10 +59,17 @@ R works as a calculator.
 2+sqrt(91)
 ```
 
-What about `7+3*9`? `32/4*4`? Figure out what the second one does, and
+What about:
+
+
+```{r precedence}
+7+3*9
+32/4*4
+```
+Figure out what the second one does, and
 then explain how you would write it more clearly.
 
-## Assignment
+## Assigning values
 
 R can remember numbers and give them back to you. This is the foundation
 of being able to write programs that do many things in a specified
@@ -63,7 +77,7 @@ order.
 
 ```{r assign}
 x <- 23
-x
+print(x)
 x + 17
 x <- x + 17
 x
@@ -76,12 +90,11 @@ mostly. You can see all of your user-defined objects by typing
 `objects()` (the parentheses mean that you are calling a *function*;
 more on this later).
 
-## Values
+# Values
 
 <!-- these are types too; "atomic types" -->
 
-In addition to numbers, R has other kinds of values. The main ones
-we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` is one way to try to figure out what your R object is.
+In addition to numbers, R has other kinds of values (also known as "atomic types"). The main ones we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` is one way to try to figure out what your R object is.
 
 
 ```{r values}
@@ -95,18 +108,19 @@ logic <- TRUE ## Note lack of quotes
 str(logic)
 ```
 
-## Types
+# Other types
 
-R objects are divided into *types*. For now, we're mostly interested in
-three of these: *vectors*, *lists* and *functions*.
+R objects are divided into *types*. Other than the above, we're mostly interested in three of these: *vectors*, *lists* and *functions*.
 
-### Vectors
+----------------------------------------------------------------------
+
+## Vectors
 
 A vector consists of zero or more values of the same *storage mode*:
 
 ```{r vector}
 words <- c("Mary", "had", "a", "little", "lamb")
-## c() puts elements together into a vector
+# c() puts elements together into a vector
 str(words)
  
 print(v <- 1:5)  ## 'm:n' creates a sequence from m to n
@@ -115,7 +129,7 @@ str(v)
 
 ***
 
-### Vector math
+## Vector math
 
 R does math on vectors directly. If we add two vectors we add each pair
 of corresponding elements. If we multiply a vector by a *scalar* (a
@@ -129,17 +143,17 @@ w <- c(0, 1, 1, 2, 4)
 v+w
 2*w
 ```
+----------------------------------------------------------------------
 
-
-***
-
-### Numbers
+## No scalars
 
 R does not have any particular idea of individual numbers (or strings,
 etc.); you represent a number as a vector of length 1. This has
 advantages and disadvantages.
 
-### Lists
+----------------------------------------------------------------------
+
+## Lists
 
 A list is a bunch of things in order. Those things can be any R object - vectors, functions, other lists ...
 
@@ -153,7 +167,7 @@ str(LL[1])
 ```
 ----------------------------------------------------------------------
 
-### Functions
+## Functions
 
 Functions are "called" using parentheses. A function is a set of
 commands that uses whatever "arguments" are inside the parentheses and
@@ -174,6 +188,8 @@ print(m_x)
 
 ----------------------------------------------------------------------
 
+### About functions
+
 You can learn about any built-in function by using R's help: type
 `?"mean"` or `help("mean")`.
 
@@ -188,27 +204,26 @@ mean(x, trim=0.1)
 
 ----------------------------------------------------------------------
 
-#### Syntax
+### Function syntax
 
 `=` is a synonym for `<-` at the top level (and many people use it).
 Be aware that they are not synonyms inside a function call: `<-`
 still means assignment, but `=` is used to name an argument.
 
 R variable names are case-sensitive. This means that `m` and `M` are
-different variables.
+different variables. In general, you should not try to take advantage of this, because it may cause confusion.
 
 R variable names have to start with a letter, and certain characters
 (particularly space characters) are not allowed. Good naming conventions
-may include:
+include:
 
--   Using mostly or only letters and underscores (`_`)
-  - some people prefer dot (`.`) to underscore
+-   Using mostly letters, underscores (`_`) and dots (`.`)
 -  Not using potentially confusing names like `l` or `O`.
 -  Not using built-in names (like `c`, `list`, or `data`) for variables.
--   Many people use `camelCase`, `snake_case`, or `kebab.case` to make readable variable names
-    -   it's also better not to use `variableNamesThatAreExcessivelyLong`
+-   Make readable variable names using `camelCase`, `snake_case`, or `kebab.case`
+-   Avoid `variableNamesThatAreExcessivelyLong`
 
-## Compound objects
+# Compound objects
 
 R is a sophisticated system that builds complicated structures on top of
 these simple objects. Hopefully we'll develop an intuition for more of
@@ -217,7 +232,7 @@ at the (rather scary!) R language definition on the [R manuals
 page](http://cran.r-project.org/manuals.html). For now, we'll talk about
 just a few structures.
 
-## Matrices
+# Matrices
 
 In R, matrices are basically vectors that understand that they have a
 shape. R knows how to do matrix multiplication on them, which is very
@@ -236,7 +251,7 @@ m*m
 m %*% m
 ```
 
-## Data frames
+# Data frames
 
 Data frames are lists that have a rectangular shape (they look like, and
 can be used a like matrices, but don't have to be of a single "mode" --
@@ -244,13 +259,13 @@ in particular you can mix numbers, factors (see below), dates, ...).
 
 We'll talk more about data frames when we start dealing with data.
 
-### Factors
+## Factors
 
 Factors are used to describe items that can have a known set of values
 (gender, social class, etc.) - *categorical variables* in statistical
 terms. We will also talk more about them later.
 
-## Control structures
+# Control structures
 
 Control structures in R include:
 
@@ -277,13 +292,13 @@ Use `&` for "and", and `|` for "or" **when testing vectors in parallel**
 (use `&&` and `||` for testing single conditions: if this makes no sense
 to you, stick to `&` and `|`).
 
-## Syntax
+# Syntax
 
 You may have noticed that we sometimes just state something in order to
 print its value. This does not always work inside of loops. It's better
 practice to always say `print`, when that's what you want.
 
-## Names
+# Names
 
 R's primary objects often have associated "attributes". The information
 that tells R what shape a matrix (or higher-dimensional array) is is an
@@ -304,7 +319,7 @@ and (2) your code will be more robust (i.e., if you modify something so
 that temperature is now in position 22 rather than 21).
 
 ```{r indexing}
-## InsectSprays is a built-in data set in R
+# InsectSprays is a built-in data set in R
 class(InsectSprays)
 head(InsectSprays)
 names(InsectSprays)
@@ -328,8 +343,7 @@ InsectSprays[["count"]]
 InsectSprays$count
 ```
 
-## Arcane
-
+# Arcane
 
 You may have been surprised by the column-selection results. We used the
 subset operator, but got a single element instead. R noticed we only
