@@ -25,9 +25,7 @@ https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_p
 <!-- in markdown, two or more spaces at the end of a line specify a hard line break-->
 
 
-# Programming
-
-----------------------------------------------------------------------
+# Basics
 
 ## R is a programming language
 
@@ -40,10 +38,6 @@ that should be executed in a logical order
     - A program's flow is controlled by *control structures*
 (instructions about what instruction to do next)
     - What are some examples of programs, and how do they work?
-
-# Basic instructions
-
-----------------------------------------------------------------------
 
 ## Calculation
 
@@ -58,7 +52,6 @@ R works as a calculator.
 ```
 
 What about:
-
 
 
 ```r
@@ -79,20 +72,21 @@ order.
 x <- 23
 print(x)
 x + 17
-x <- x + 17
-x
+y <- x + 17
+y
 ```
 
-## Objects
+# Objects
+
+----------------------------------------------------------------------
+
 
 R keeps track of a variety of objects: data structures and functions
 mostly. You can see all of your user-defined objects by typing
 `objects()` (the parentheses mean that you are calling a *function*;
 more on this later).
 
-# Values
-
-<!-- these are types too; "atomic types" -->
+## Values
 
 In addition to numbers, R has other kinds of values (also known as "atomic types"). The main ones we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` is one way to try to figure out what your R object is.
 
@@ -109,11 +103,9 @@ logic <- TRUE ## Note lack of quotes
 str(logic)
 ```
 
-# Other types
+## Other types
 
 R objects are divided into *types*. Other than the above, we're mostly interested in three of these: *vectors*, *lists* and *functions*.
-
-----------------------------------------------------------------------
 
 ## Vectors
 
@@ -129,15 +121,14 @@ print(v <- 1:5)  ## 'm:n' creates a sequence from m to n
 str(v)
 ```
 
-***
-
 ## Vector math
 
-R does math on vectors directly. If we add two vectors we add each pair
-of corresponding elements. If we multiply a vector by a *scalar* (a
-single number) we multiply each element by the scalar. Avoid arithmetic
-involving two vectors of different length (except the scalar case, which
-cannot be avoided).
+R does math on vectors directly.
+* If we add (for example) two vectors we add each pair
+of corresponding elements.
+* If we multiply a vector by a *scalar* (a
+single number) we multiply each element by the scalar.
+* Avoid arithmetic involving two vectors of different length (except the scalar case, above)
 
 
 ```r
@@ -146,7 +137,7 @@ w <- c(0, 1, 1, 2, 4)
 v+w
 2*w
 ```
-----------------------------------------------------------------------
+
 
 ## No scalars
 
@@ -154,7 +145,7 @@ R does not have any particular idea of individual numbers (or strings,
 etc.); you represent a number as a vector of length 1. This has
 advantages and disadvantages.
 
-----------------------------------------------------------------------
+
 
 ## Lists
 
@@ -169,7 +160,6 @@ LL <- list(L, c(2, 7, 9))
 str(LL)
 str(LL[1])
 ```
-----------------------------------------------------------------------
 
 ## Functions
 
@@ -191,9 +181,7 @@ m_x <- mean(x)
 print(m_x)
 ```
 
-----------------------------------------------------------------------
-
-### About functions
+## About functions
 
 You can learn about any built-in function by using R's help: type
 `?"mean"` or `help("mean")`.
@@ -208,13 +196,13 @@ mean(x)
 mean(x, trim=0.1)
 ```
 
-----------------------------------------------------------------------
-
-### Function syntax
+## Function syntax
 
 `=` is a synonym for `<-` at the top level (and many people use it).
 Be aware that they are not synonyms inside a function call: `<-`
 still means assignment, but `=` is used to name an argument.
+
+## Variable names
 
 R variable names are case-sensitive. This means that `m` and `M` are
 different variables. In general, you should not try to take advantage of this, because it may cause confusion.
@@ -231,6 +219,8 @@ include:
 
 # Compound objects
 
+----------------------------------------------------------------------
+
 R is a sophisticated system that builds complicated structures on top of
 these simple objects. Hopefully we'll develop an intuition for more of
 that as we go along. People interested in nuts and bolts can also look
@@ -238,7 +228,7 @@ at the (rather scary!) R language definition on the [R manuals
 page](http://cran.r-project.org/manuals.html). For now, we'll talk about
 just a few structures.
 
-# Matrices
+## Matrices
 
 In R, matrices are basically vectors that understand that they have a
 shape. R knows how to do matrix multiplication on them, which is very
@@ -258,7 +248,7 @@ m*m
 m %*% m
 ```
 
-# Data frames
+## Data frames
 
 Data frames are lists that have a rectangular shape (they look like, and
 can be used a like matrices, but don't have to be of a single "mode" --
@@ -272,7 +262,9 @@ Factors are used to describe items that can have a known set of values
 (gender, social class, etc.) - *categorical variables* in statistical
 terms. We will also talk more about them later.
 
-# Control structures
+# More stuff
+
+## Control structures
 
 Control structures in R include:
 
@@ -293,20 +285,28 @@ for (x in v){
 }
 ```
 
+## Control syntax
+
 R uses `==` to test equality, and `!=` to test inequality. (R will often
 guess and warn you if you wrongly try to use `=`, but not always ...)
 
-Use `&` for "and", and `|` for "or" **when testing vectors in parallel**
-(use `&&` and `||` for testing single conditions: if this makes no sense
-to you, stick to `&` and `|`).
+* Use `&` for "and", and `|` for "or" when testing vectors in parallel
+	* `&&` and `||` test single conditions; it's usually OK to stick to `&` and `|`.
 
-# Syntax
+## Syntactic principles
 
 You may have noticed that we sometimes just state something in order to
-print its value. This does not always work inside of loops. It's better
+print its value. It's better
 practice to always say `print`, when that's what you want.
+* Clearer, and less fragile
 
-# Names
+Similarly, you usually don't need to say `return` to return a function value … but you should. 
+
+Clarity and explicitness are worth more than saving a few keystrokes.
+
+* When R was invented, this was less clear
+
+## Names
 
 R's primary objects often have associated "attributes". The information
 that tells R what shape a matrix (or higher-dimensional array) is is an
@@ -317,7 +317,7 @@ You can select single elements from an R object using the element
 operator `[[]]`, and subsets using the subset operator `[]`. If
 the object has dimensions, you can separate them with a comma.
 
-***
+## Selecting
 
 You can also select things by name, using the syntax `v["name"]` or
 `v[n]`, if `n` is a variable that contains the name. In general it's a
@@ -325,6 +325,8 @@ good idea to use names instead of numbers whenever you can, because (1)
 your code will be easier to read (`x["temperature"]` instead of `x[21]`)
 and (2) your code will be more robust (i.e., if you modify something so
 that temperature is now in position 22 rather than 21).
+
+## Selection example
 
 
 ```r
@@ -352,7 +354,7 @@ InsectSprays[["count"]]
 InsectSprays$count
 ```
 
-# Arcane
+## Arcane
 
 You may have been surprised by the column-selection results. We used the
 subset operator, but got a single element instead. R noticed we only
@@ -365,9 +367,9 @@ In programs, it is bad practice to let R do this (because it will
 confuse the program when the structure of your results changes). In this
 case, you can avoid it by selecting from the list.
 
-***
+## Being explicit
 
-Here is another trick that works:
+It's unfortunate that R makes you do stuff like this…
 
 
 ```r

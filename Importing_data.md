@@ -7,9 +7,7 @@ variable. R will try to figure out the type of each variable by looking
 at the values.
 
 Your rectangle may additionally have "names" (equivalent to "colnames")
-at the top, and "rownames" along the left (see [ Attributes and
-Selection](intro_Lecture_notes#Attributes.html) from
-the lecture notes for a *little* more information about names).
+at the top, and "rownames" along the left.
 
 Plain data
 ==========
@@ -48,10 +46,10 @@ argument, and to verify it by applying summary to your new data frame
 An example
 ==========
 
-A csv file
-----------
-
-11 5, 14 6, 10 </source-file>
-
-read.csv("xy.csv") print(dat) dat\$ratio &lt;- dat\$y/dat\$x print(dat)
+``` r
+dat <- read.csv("xy.csv")
+print(dat)
+dat$ratio <- dat$y/dat$x
+print(dat)
+```
 

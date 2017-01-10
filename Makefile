@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: intro_Lecture_notes.io.html 
+target pngtarget pdftarget vtarget acrtarget: push_pages 
 
 ##################################################################
 
@@ -28,12 +28,26 @@ include stuff.mk
 Sources += $(wildcard *.Rmd *.rmd)
 
 intro_Lecture_notes.md: intro_Lecture_notes.rmd
+### md for _made_ markdown; not to be repo-ed
 %.md: %.rmd
 	echo 'knitr::knit("$<")' | R --vanilla 
 
 intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
 %.io.html: %.rmd
 	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+
+pages/%.slides.html: %.md
+	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+
+######################################################################
+
+# Dushoff learns patch!
+
+intro_Lecture_notes.diff: intro_Lecture_notes.md intro_Lecture_notes.rmd
+	- diff $^ > $@
+
+intro_Lecture_notes.test: intro_Lecture_notes.md intro_Lecture_notes.diff
+	patch -o $@ $^
 
 ##################################################################
 
@@ -80,6 +94,7 @@ Data_management.tmk: Data_management.md tmk.pl
 
 Sources += $(wildcard *.md)
 pages/index.html: index.md
+pages/Importing_data.html: Importing_data.md
 
 ######################################################################
 
@@ -100,12 +115,12 @@ pages:
 	cd pages && $(MAKE) gh-pages.branch
 
 md = $(wildcard *.md)
-pages = $(md:%.md=pages/%.html)
+pages = $(md:%.md=pages/%.html) $(rmd:%.rmd=pages/%.html)
+slides = $(md:%.md=pages/%.slides.html)
 pages/%.css: %.css
 	$(copy)
 
-push_pages: pages/qmee.css $(pages)
-	cd pages
+push_pages: pages/qmee.css $(pages) $(slides) ;
 
 push_site: pages/qmee.css $(pages)
 	cd pages && $(MAKE) sync
