@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_pages 
+target pngtarget pdftarget vtarget acrtarget: open_pages 
 
 ##################################################################
 
@@ -96,6 +96,8 @@ Sources += $(wildcard *.md)
 pages/index.html: index.md
 pages/Importing_data.html: Importing_data.md
 
+local:
+
 ######################################################################
 
 ## Formatting
@@ -120,7 +122,12 @@ slides = $(md:%.md=pages/%.slides.html)
 pages/%.css: %.css
 	$(copy)
 
-push_pages: pages/qmee.css $(pages) $(slides) ;
+push_pages: pages/qmee.css $(pages) $(slides) 
+	$(MAKE) pages/index.html.go
+
+open_pages: 
+	$(MAKE) push_pages
+	$(MAKE) pages/index.html.go
 
 push_site: pages/qmee.css $(pages)
 	cd pages && $(MAKE) sync

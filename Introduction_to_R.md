@@ -46,6 +46,7 @@ Resources
     R](http://yushan.mcmaster.ca/theobio/mmed/index.php/Introduction_to_R),
     with tutorials (also from JD and associates).
 
+<!---
 Exercise
 ========
 
@@ -57,3 +58,10 @@ reads it and does the calculation. You should confirm that these work
 
 Also, a short paragraph about the data would be nice so we can think
 about what sort of projects to do in the future.
+-->
+
+
+Assignment
+========
+
+Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and send a paragraph to the course email address (see below) describing the data. Add any thoughts that you like
