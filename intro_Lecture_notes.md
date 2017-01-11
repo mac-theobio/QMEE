@@ -124,6 +124,9 @@ str(v)
 ## Vector math
 
 R does math on vectors directly.
+
+<!-- this flavor of markdown / pandoc needs an empty line before an itemized list -->
+
 * If we add (for example) two vectors we add each pair
 of corresponding elements.
 * If we multiply a vector by a *scalar* (a
@@ -251,7 +254,7 @@ m %*% m
 ## Data frames
 
 Data frames are lists that have a rectangular shape (they look like, and
-can be used a like matrices, but don't have to be of a single "mode" --
+can be used a like matrices, but don't have to be of a single "mode" -
 in particular you can mix numbers, factors (see below), dates, ...).
 
 We'll talk more about data frames when we start dealing with data.
@@ -380,4 +383,3 @@ InsectSprays[, 1]
 # Avoid inappropriate collapse
 InsectSprays[, 1, drop=FALSE]
 ```
-
