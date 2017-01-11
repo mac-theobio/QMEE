@@ -129,7 +129,13 @@ logic &lt;-<span class="st"> </span><span class="ot">TRUE</span> ## Note lack of
 <span class="kw">print</span>(v &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>)  ## &#39;m:n&#39; creates a sequence from m to n
 <span class="kw">str</span>(v)</code></pre></div>
 <h2 id="vector-math">Vector math</h2>
-<p>R does math on vectors directly. * If we add (for example) two vectors we add each pair of corresponding elements. * If we multiply a vector by a <em>scalar</em> (a single number) we multiply each element by the scalar. * Avoid arithmetic involving two vectors of different length (except the scalar case, above)</p>
+<p>R does math on vectors directly.</p>
+<!-- this flavor of markdown / pandoc needs an empty line before an itemized list -->
+<ul>
+<li>If we add (for example) two vectors we add each pair of corresponding elements.</li>
+<li>If we multiply a vector by a <em>scalar</em> (a single number) we multiply each element by the scalar.</li>
+<li>Avoid arithmetic involving two vectors of different length (except the scalar case, above)</li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
 w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>)
 v+w
@@ -186,7 +192,7 @@ m*m
 <span class="co"># Matrix multiplication</span>
 m %*%<span class="st"> </span>m</code></pre></div>
 <h2 id="data-frames">Data frames</h2>
-<p>Data frames are lists that have a rectangular shape (they look like, and can be used a like matrices, but don’t have to be of a single “mode” – in particular you can mix numbers, factors (see below), dates, …).</p>
+<p>Data frames are lists that have a rectangular shape (they look like, and can be used a like matrices, but don’t have to be of a single “mode” - in particular you can mix numbers, factors (see below), dates, …).</p>
 <p>We’ll talk more about data frames when we start dealing with data.</p>
 <h2 id="factors">Factors</h2>
 <p>Factors are used to describe items that can have a known set of values (gender, social class, etc.) - <em>categorical variables</em> in statistical terms. We will also talk more about them later.</p>
