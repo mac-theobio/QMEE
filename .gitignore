@@ -1,5 +1,9 @@
 commit.txt
+commit.time
 .*.sw*
+*~
+.#*
+\#*
 
 *.pdf
 
@@ -25,3 +29,4 @@ subclone_dir/
 
 *.makestuff
 pages/
+
