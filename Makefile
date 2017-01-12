@@ -122,8 +122,7 @@ slides = $(md:%.md=pages/%.slides.html)
 pages/%.css: %.css
 	$(copy)
 
-push_pages: pages/qmee.css $(pages) $(slides) 
-	$(MAKE) pages/index.html.go
+push_pages: pages/qmee.css $(pages) $(slides) ;
 
 open_pages: 
 	$(MAKE) push_pages

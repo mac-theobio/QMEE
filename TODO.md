@@ -2,6 +2,8 @@
 
 - send e-mail to students pointing them to http://happygitwithr.com and telling them to register for a GH account over the weekend (and maybe send in an "I'm an academic" request for private repos?)
 
+* https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html
+
 ## For next week
 
 - Lecture may need quite a bit of work to be tidier, and less wiki-ish
