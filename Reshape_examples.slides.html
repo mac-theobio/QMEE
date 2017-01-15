@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reshape example</title>
+  <title></title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,6 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Reshape example',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -88,39 +87,142 @@
           </hgroup>
   </slide>
 
-<pre class = 'prettyprint lang-r'>library(reshape)
+<table class = 'rmdtable'>
+<tr class="odd">
+<td align="left">title: &quot;Reshaping data with <code>tidyr</code>&quot;</td>
+</tr>
+<tr class="even">
+<td align="left">date: &quot;15:44 15 January 2017&quot;</td>
+</tr>
+<tr class="odd">
+<td align="left">author: Ben Bolker</td>
+</tr>
+</table>
 
-# Look at some example data that comes with reshape
-smiths
+<pre class = 'prettyprint lang-r'>library(tidyr)</pre>
 
-# The default melt misinterprets time as a measured variable
-melt(smiths)
+<p>Look at some example data that comes with the package:</p>
 
-## Manually name either id.vars or measure.vars
-melt(smiths, id.vars = c(&quot;subject&quot;, &quot;time&quot;))
+<pre class = 'prettyprint lang-r'>smiths</pre>
 
-## Make id variables into factors
-smiths &lt;- (within(smiths, time&lt;-as.factor(time)))
+<pre >## # A tibble: 2 × 5
+##      subject  time   age weight height
+##        &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 John Smith     1    33     90   1.87
+## 2 Mary Smith     1    NA     NA   1.54</pre>
 
-smelt &lt;- melt(smiths)
+<p>The default <code>gather()</code> operation squashes everything too far, including the subject name and time in the value column &#8230;</p>
 
-## Recast is equivalent to doing a melt followed by a cast
-## You will usually do these steps separately
+<pre class = 'prettyprint lang-r'>gather(smiths)</pre>
 
-# Make rows for each person
-cast(smelt, subject~variable)
+<pre >## # A tibble: 10 × 2
+##        key      value
+##      &lt;chr&gt;      &lt;chr&gt;
+## 1  subject John Smith
+## 2  subject Mary Smith
+## 3     time          1
+## 4     time          1
+## 5      age         33
+## 6      age       &lt;NA&gt;
+## 7   weight         90
+## 8   weight       &lt;NA&gt;
+## 9   height       1.87
+## 10  height       1.54</pre>
 
-# Make rows for each variable
-cast(smelt, variable~subject)
+<p>We can specify that we only want to gather the <code>age</code> and <code>weight</code> variables (however, we have to specify the name of key and value columns explicitly).</p>
 
-# Take the mean for each variable
-cast(smelt, variable~., fun.aggregate=mean)
+<pre class = 'prettyprint lang-r'>print(smelt &lt;- gather(smiths, key=&quot;var&quot;, value=&quot;value&quot;,
+       c(age,weight)))</pre>
 
-# Insist that R calculate a mean
-cast(smelt, variable~., fun.aggregate=mean, na.rm=TRUE)
+<pre >## # A tibble: 4 × 5
+##      subject  time height    var value
+##        &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt; &lt;dbl&gt;
+## 1 John Smith     1   1.87    age    33
+## 2 Mary Smith     1   1.54    age    NA
+## 3 John Smith     1   1.87 weight    90
+## 4 Mary Smith     1   1.54 weight    NA</pre>
 
-# Insist that R calculate a mean, but also report how many values are in each mean
-cast(smelt, variable~., fun.aggregate=function(v){c(mean=mean(v, na.rm=TRUE), len=sum(!is.na(v)))})</pre>
+<p>Alternatively we could specify that we want to gather everything <em>but</em> the subject name and time variable:</p>
+
+<pre class = 'prettyprint lang-r'>gather(smiths, key=&quot;var&quot;, value=&quot;value&quot;,
+       -c(subject,time))</pre>
+
+<pre >## # A tibble: 6 × 4
+##      subject  time    var value
+##        &lt;chr&gt; &lt;dbl&gt;  &lt;chr&gt; &lt;dbl&gt;
+## 1 John Smith     1    age 33.00
+## 2 Mary Smith     1    age    NA
+## 3 John Smith     1 weight 90.00
+## 4 Mary Smith     1 weight    NA
+## 5 John Smith     1 height  1.87
+## 6 Mary Smith     1 height  1.54</pre>
+
+<p>Make a column for each subject (= a row for each measurement)</p>
+
+<pre class = 'prettyprint lang-r'>spread(smelt, key=subject, value)</pre>
+
+<pre >## # A tibble: 4 × 5
+##    time height    var `John Smith` `Mary Smith`
+## * &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+## 1     1   1.54    age           NA           NA
+## 2     1   1.54 weight           NA           NA
+## 3     1   1.87    age           33           NA
+## 4     1   1.87 weight           90           NA</pre>
+
+<p>Make a column for each value (= a row for each person):</p>
+
+<pre class = 'prettyprint lang-r'>spread(smelt, key=var, value)</pre>
+
+<pre >## # A tibble: 2 × 5
+##      subject  time height   age weight
+## *      &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1 John Smith     1   1.87    33     90
+## 2 Mary Smith     1   1.54    NA     NA</pre>
+
+<p>Take the mean for each variable:</p>
+
+<pre class = 'prettyprint lang-r'>library(dplyr)
+smelt %&gt;% group_by(var) %&gt;% summarise(mean=mean(value))</pre>
+
+<pre >## # A tibble: 2 × 2
+##      var  mean
+##    &lt;chr&gt; &lt;dbl&gt;
+## 1    age    NA
+## 2 weight    NA</pre>
+
+<p>Insist that R calculate a mean:</p>
+
+<pre class = 'prettyprint lang-r'>smelt %&gt;% group_by(var) %&gt;% summarise(mean=mean(value,na.rm=TRUE))</pre>
+
+<pre >## # A tibble: 2 × 2
+##      var  mean
+##    &lt;chr&gt; &lt;dbl&gt;
+## 1    age    33
+## 2 weight    90</pre>
+
+<p>Insist that R calculate a mean, but also report how many values are in each mean:</p>
+
+<pre class = 'prettyprint lang-r'>smelt %&gt;% group_by(var) %&gt;% 
+    summarise(mean=mean(value,na.rm=TRUE),
+              n=length(na.omit(value)))</pre>
+
+<pre >## # A tibble: 2 × 3
+##      var  mean     n
+##    &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
+## 1    age    33     1
+## 2 weight    90     1</pre>
+
+<p>If you&#39;re careful you can <code>na.omit()</code> first (be careful, this will remove all rows with <em>any</em> <code>NA</code> values):</p>
+
+<pre class = 'prettyprint lang-r'>smelt %&gt;% na.omit %&gt;% group_by(var) %&gt;% 
+    summarise(mean=mean(value,na.rm=TRUE),
+              n=n())</pre>
+
+<pre >## # A tibble: 2 × 3
+##      var  mean     n
+##    &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
+## 1    age    33     1
+## 2 weight    90     1</pre>
 
 
   <slide class="backdrop"></slide>
