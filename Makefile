@@ -53,11 +53,13 @@ intro_Lecture_notes.test: intro_Lecture_notes.md intro_Lecture_notes.diff
 
 ## Scraping
 
+.PRECIOUS: intro_%.mediawiki
 intro_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Introduction_to_R/$*&action=raw"
 
 intro_Lecture_notes.mediawiki:
 
+.PRECIOUS: %.mediawiki
 %.mediawiki: 
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
 

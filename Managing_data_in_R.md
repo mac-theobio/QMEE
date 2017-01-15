@@ -147,5 +147,5 @@ Manipulation
 
 -   Simple [Reshape examples](Reshape_examples.html)
 -   [Canadian homicide rate
-    example](http://lalashan.mcmaster.ca/theobio/bio_708/index.php/homicide_example)
+    example](Homicide_example.html)
 
