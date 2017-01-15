@@ -20,6 +20,7 @@
 </div>
 </header>
 <h1 id="intro">Intro</h1>
+<h2 id="goals">Goals</h2>
 <p>You should be able to</p>
 <ul>
 <li>read data into R</li>
@@ -29,17 +30,18 @@
 </ul></li>
 <li>examine the data visually, numerically, textually, etc.</li>
 </ul>
-<h1 id="representations">Representations</h1>
-<p>Numeric and character types seem fairly straightforward, and you rarely have to worry about when and whether R represents things as integers. Very occasionally you will need to know that R is limited in its capacity to represent numbers of extremely large or small magnitude, and that floating-point computations are always approximate.</p>
+<h2 id="representations">Representations</h2>
+<p>Numeric and character types are fairly straightforward, and you rarely have to worry about when and whether R represents things as integers or <em>floating point</em>. <em>Very occasionally</em> you will need to know that R is limited in its capacity to represent numbers of extremely large or small magnitude, and that floating-point computations are always approximate.</p>
 <p>You do need to know about <strong>factors</strong>, and to be aware when your variables are being treated as such.</p>
-<p>When you input data, you need to be aware of <code>NA</code> (not available). Your read function has an option called <code>na.strings</code> which you can use to communicate between R and your csv files, for example. You need to know that</p>
+<h2 id="missing-values">Missing values</h2>
+<p>When you input data, you need to be aware of <code>NA</code> (“not available”). Your read function has an option called <code>na.strings</code> which you can use to communicate between R and your CSV files, for example. You need to know that</p>
 <ul>
 <li><code>NA==x</code> is always <code>NA</code></li>
 <li>use <code>is.na()</code> to test for <code>NA</code> values, <code>na.omit()</code> to drop them, and the optional <code>na.rm</code> argument in some functions (<code>mean</code>, <code>sum</code>, <code>median</code> …)</li>
 </ul>
 <h2 id="changing-representations">Changing representations</h2>
 <p>R has a big suite of functions for creating, testing and changing representations. These have names like <code>factor()</code>, <code>as.numeric()</code> and <code>is.character()</code>.</p>
-<h2 id="factors">Factors</h2>
+<h3 id="factors">Factors</h3>
 <p>Factors are logically variables with a fixed number of categories. In R they are represented as integer variables that have a “levels” attribute. In other words, each possible value of the factor is given an integer, and the variable carries around the code that allows translation from this integer to its meaning.</p>
 <p>This system has advantages:</p>
 <ul>
@@ -54,10 +56,10 @@
 </ul></li>
 <li>Similar variables can have different sets of levels</li>
 </ul>
-<p>There has been <a href="https://stat.ethz.ch/pipermail/r-help//2012-August/321913.html">much discussion</a> of the pros and cons of factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data.</p>
-<h1 id="examination">Examination</h1>
+<p>There has been <a href="https://stat.ethz.ch/pipermail/r-help//2012-August/321913.html">much discussion</a> of the pros and cons of factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data. The <a href="http://tidyverse.org/">tidyverse</a> (more later on this) abandons automatic conversion as well.</p>
+<h2 id="examination">Examination</h2>
 <p>You should think creatively, and early on, about how to check your data. Is it internally consistent? Are there extreme outliers? Are there typos? Are there certain values that really mean something else?</p>
-<p>In the 1980s, I randomly found an American Airlines memo about fuel reporting, that complained of multiple cases of:</p>
+<p>An American Airlines memo about fuel reporting from the 1980s complained of multiple cases of:</p>
 <ul>
 <li>Reported departure fuel greater than aircraft capacity</li>
 <li>Reported departure fuel less than minimum required for trip</li>
@@ -68,8 +70,8 @@
 <p>See <a href="http://lalashan.mcmaster.ca/theobio/mmed/index.php/Introduction_to_data_management_and_cleaning">The MMED data management lecture</a>.</p>
 <p>Graphical approaches are really useful for data cleaning; we will discuss this more later on.</p>
 <p>What R functions do you know that are useful for examination? What are your strategies?</p>
-<h1 id="manipulation">Manipulation</h1>
-<p>Even once your data are clean, there can still be a lot of work getting it into a format you want to use. “Data manipulation”, “munging”, or “wrangling” are the terms covering this activity. The RStudio folks has a useful [cheat sheet](http://www.rstudio.com/wp-content/uploads/2015/01/data-wrangling-cheatsheet.pdf)</p>
+<h2 id="manipulation">Manipulation</h2>
+<p>Even once your data are clean, there can still be a lot of work getting it into a format you want to use. “Data manipulation”, “munging”, or “wrangling” are the terms covering this activity. The RStudio folks have a useful <a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheat sheet</a>.</p>
 <p>This is a very, very hard, very general problem; everyone’s data problems and requirements are slightly different. But there are recurring themes.</p>
 <h2 id="specialized-data">Specialized data</h2>
 <p>Some data are in specialized formats, and often already cleaned. We will mention only in passing:</p>
@@ -99,16 +101,7 @@
 <li><code>split</code>, <code>lapply</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
 <li><code>sort</code></li>
 </ul>
-<h4 id="hadleyverse-1">Hadleyverse 1</h4>
-<ul>
-<li><code>plyr</code> package: split-apply-combine
-<ul>
-<li><code>arrange</code></li>
-</ul></li>
-<li><code>reshape(2)</code> package: wide-to-long and vice versa (<code>melt</code>, <code>cast</code>)</li>
-<li><code>ggplot2</code> package: graphics</li>
-</ul>
-<h4 id="hadleyverse-2">Hadleyverse 2</h4>
+<h4 id="the-tidyverse">The tidyverse</h4>
 <ul>
 <li><code>tidyr</code> package: <code>gather</code>, <code>spread</code></li>
 <li><code>dplyr</code> package:
@@ -123,9 +116,8 @@
 </ul>
 <h2 id="manipulation-1">Manipulation</h2>
 <ul>
-<li><p>aggregate: reshape has the ability to calculate aggregate statistics (mean, range, sd) for variables not given columns or rows in a cast</p></li>
 <li>Simple <a href="Reshape_examples.html">Reshape examples</a></li>
-<li><p><a href="http://lalashan.mcmaster.ca/theobio/bio_708/index.php/homicide_example">Canadian homicide rate example</a></p></li>
+<li><a href="Homicide_example.html">Canadian homicide rate example</a></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

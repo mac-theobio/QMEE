@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Introduction to R</title>
+  <title>Canadian homicide rates</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,7 +10,6 @@
 
 
 
-  <meta name="date" content="2016-04-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,7 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Introduction to R',
+                title: 'Canadian homicide rates',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -31,7 +30,7 @@
       // Author information
       presenters: [
             {
-        name:  'Jonathan Dushoff and Ben Bolker' ,
+        name:  'Ben Bolker' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -94,301 +93,236 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">26 April 2016</p>
           </hgroup>
   </slide>
 
-<!-- rendering
- HTML:
-   rmarkdown::render("intro_Lecture_notes.rmd")
-   rmarkdown::render("intro_Lecture_notes.rmd",output_format="ioslides_presentation")
-   NOTE slide_level=3 doesn't do what I want! Makes section headers <3 into *section slides* ...
+<slide class=''><hgroup><h2>Read data in wide format and play with it</h2></hgroup><article  id="read-data-in-wide-format-and-play-with-it">
 
-   rmarkdown::ioslides_presentation("intro_Lecture_notes.rmd",header_level=3)
+<p>Data are originally from <a href='http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm' title=''>StatCan</a> (it might be possible to <em>scrape</em> this data set using the <code>XML</code> package &#8230;).</p>
 
+<p>I also got <a href='http://en.wikipedia.org/wiki/List_of_Canadian_provinces_and_territories_by_population' title=''>data on population size in 2011 from Wikipedia</a> .</p>
 
-https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_presentation
-   -->
+<pre class = 'prettyprint lang-r'>dat &lt;- read.csv(&quot;CA_homicide.csv&quot;,check.names=FALSE)</pre>
 
-<!-- BMB: not sure what this stuff is for?  Was it hidden in a previous version?  How is it helpful? -->
+<pre >## Warning in file(file, &quot;rt&quot;): cannot open file &#39;CA_homicide.csv&#39;: No such
+## file or directory</pre>
 
-<!-- in markdown, two or more spaces at the end of a line specify a hard line break-->
+<pre >## Error in file(file, &quot;rt&quot;): cannot open the connection</pre>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Basics</h2></hgroup><article  id="basics">
+<pre class = 'prettyprint lang-r'>popdat &lt;- read.csv(&quot;popdat.csv&quot;)</pre>
 
-</article></slide><slide class=''><hgroup><h2>R is a programming language</h2></hgroup><article  id="r-is-a-programming-language">
+<pre >## Warning in file(file, &quot;rt&quot;): cannot open file &#39;popdat.csv&#39;: No such file or
+## directory</pre>
 
-<ul>
-<li>You may or may not use R for programming tasks,<br/>but it will help if you understand roughly how it works inside.</li>
-<li>What is a program?
+<pre >## Error in file(file, &quot;rt&quot;): cannot open the connection</pre>
 
-<ul>
-<li>A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order</li>
-<li>A program&#39;s flow is controlled by <em>control structures</em> (instructions about what instruction to do next)</li>
-<li>What are some examples of programs, and how do they work?</li>
-</ul></li>
-</ul>
+<p>We use <code>check.names=FALSE</code> to stop R from trying to sanitize the column names: this is reasonable if we plan to convert to long form and want to preserve the values (years, in this case).</p>
 
-</article></slide><slide class=''><hgroup><h2>Calculation</h2></hgroup><article  id="calculation">
+<p>These data are in wide format:</p>
 
-<p>R works as a calculator.</p>
+<pre class = 'prettyprint lang-r'>head(dat)</pre>
 
-<pre class = 'prettyprint lang-r'>2+2
-2439*41
-259*3861
-2+sqrt(91)</pre>
+<pre >## Error in head(dat): object &#39;dat&#39; not found</pre>
 
-<p>What about:</p>
+<p>What if we want combine other information?</p>
 
-<pre class = 'prettyprint lang-r'>7+3*9
-32/4*4</pre>
+<pre class = 'prettyprint lang-r'>head(rdat &lt;- data.frame(Place=dat$Place,
+      Region=c(&quot;all&quot;,rep(&quot;Atlantic&quot;,4),
+             rep(&quot;East&quot;,2),
+             rep(&quot;West&quot;,4),
+             rep(&quot;North&quot;,3))))</pre>
 
-<p>Figure out what the second one does, and then explain how you would write it more clearly.</p>
+<pre >## Error in data.frame(Place = dat$Place, Region = c(&quot;all&quot;, rep(&quot;Atlantic&quot;, : object &#39;dat&#39; not found</pre>
 
-</article></slide><slide class=''><hgroup><h2>Assigning values</h2></hgroup><article  id="assigning-values">
+<p>Let&#39;s start by converting the data to long form:</p>
 
-<p>R can remember numbers and give them back to you. This is the foundation of being able to write programs that do many things in a specified order.</p>
+<pre class = 'prettyprint lang-r'>library(&quot;tidyr&quot;)
+library(&quot;dplyr&quot;)</pre>
 
-<pre class = 'prettyprint lang-r'>x &lt;- 23
-print(x)
-x + 17
-y &lt;- x + 17
-y</pre>
+<pre >## 
+## Attaching package: &#39;dplyr&#39;</pre>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Objects</h2></hgroup><article  id="objects">
+<pre >## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+<pre >## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</pre>
 
-<p>R keeps track of a variety of objects: data structures and functions mostly. You can see all of your user-defined objects by typing <code>objects()</code> (the parentheses mean that you are calling a <em>function</em>; more on this later).</p>
+<pre class = 'prettyprint lang-r'>sdat &lt;- dat %&gt;% gather(year,homicides,-Place,convert=TRUE)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Values</h2></hgroup><article  id="values">
+<pre >## Error in eval(expr, envir, enclos): object &#39;dat&#39; not found</pre>
 
-<p>In addition to numbers, R has other kinds of values (also known as &quot;atomic types&quot;). The main ones we&#39;re interested in are <code>character</code>, <code>numeric</code> and <code>logical</code> (ie., <code>TRUE</code> or <code>FALSE</code>). <code>str()</code> is one way to try to figure out what your R object is.</p>
+<p>(we use <code>convert=TRUE</code> to convert the years back to numeric values)</p>
 
-<pre class = 'prettyprint lang-r'>num &lt;- 3
-str(num) 
- 
-char &lt;- &quot;Hello, class?&quot;
-str(char)
- 
-logic &lt;- TRUE ## Note lack of quotes
-str(logic)</pre>
+<pre class = 'prettyprint lang-r'>sdat2 &lt;- sdat %&gt;% full_join(rdat) %&gt;% full_join(popdat)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Other types</h2></hgroup><article  id="other-types">
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat&#39; not found</pre>
 
-<p>R objects are divided into <em>types</em>. Other than the above, we&#39;re mostly interested in three of these: <em>vectors</em>, <em>lists</em> and <em>functions</em>.</p>
+<p>If we just used the original data set (without the added stuff), it&#39;s fairly easy to get summary statistics by dropping the first row (so that we have a data frame that is all numeric) and computing means of rows and columns:</p>
 
-</article></slide><slide class=''><hgroup><h2>Vectors</h2></hgroup><article  id="vectors">
+<pre class = 'prettyprint lang-r'>dmat &lt;- dat[,-1]</pre>
 
-<p>A vector consists of zero or more values of the same <em>storage mode</em>:</p>
+<pre >## Error in eval(expr, envir, enclos): object &#39;dat&#39; not found</pre>
 
-<pre class = 'prettyprint lang-r'>words &lt;- c(&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;)
-# c() puts elements together into a vector
-str(words)
- 
-print(v &lt;- 1:5)  ## &#39;m:n&#39; creates a sequence from m to n
-str(v)</pre>
+<pre class = 'prettyprint lang-r'>rownames(dmat) &lt;- dat[,1]</pre>
 
-</article></slide><slide class=''><hgroup><h2>Vector math</h2></hgroup><article  id="vector-math">
+<pre >## Error in eval(expr, envir, enclos): object &#39;dat&#39; not found</pre>
 
-<p>R does math on vectors directly.</p>
+<pre class = 'prettyprint lang-r'>rowMeans(dmat)  ## means by place</pre>
 
-<!-- this flavor of markdown / pandoc needs an empty line before an itemized list -->
+<pre >## Error in is.data.frame(x): object &#39;dmat&#39; not found</pre>
 
-<ul>
-<li>If we add (for example) two vectors we add each pair of corresponding elements.</li>
-<li>If we multiply a vector by a <em>scalar</em> (a single number) we multiply each element by the scalar.</li>
-<li>Avoid arithmetic involving two vectors of different length (except the scalar case, above)</li>
-</ul>
+<pre class = 'prettyprint lang-r'>colMeans(dmat)  ## means by year</pre>
 
-<pre class = 'prettyprint lang-r'>v &lt;- 1:5
-w &lt;- c(0, 1, 1, 2, 4)
-v+w
-2*w</pre>
+<pre >## Error in is.data.frame(x): object &#39;dmat&#39; not found</pre>
 
-</article></slide><slide class=''><hgroup><h2>No scalars</h2></hgroup><article  id="no-scalars">
+<p>(Don&#39;t forget the <code>na.rm</code> argument, unnecessary in this case, that can be provided to most R summary functions to get them to ignore <code>NA</code> values.)</p>
 
-<p>R does not have any particular idea of individual numbers (or strings, etc.); you represent a number as a vector of length 1. This has advantages and disadvantages.</p>
+<p>If we want summary statistics from the full data set we can do</p>
 
-</article></slide><slide class=''><hgroup><h2>Lists</h2></hgroup><article  id="lists">
+<pre class = 'prettyprint lang-r'>sdat2 %&gt;% group_by(Place) %&gt;% summarise(mean=mean(homicides))</pre>
 
-<p>A list is a bunch of things in order. Those things can be any R object - vectors, functions, other lists &#8230;</p>
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</pre>
 
-<pre class = 'prettyprint lang-r'>L &lt;- list(1:3, &quot;Apple tree&quot;, TRUE)
-str(L)
-str(L[1]) ## L[1] picks out the first element of the list
-LL &lt;- list(L, c(2, 7, 9))
-str(LL)
-str(LL[1])</pre>
+<pre class = 'prettyprint lang-r'>sdat2 %&gt;% group_by(year) %&gt;% summarise(mean=mean(homicides))</pre>
 
-</article></slide><slide class=''><hgroup><h2>Functions</h2></hgroup><article  id="functions">
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</pre>
 
-<p>Functions are &quot;called&quot; using parentheses. A function is a set of commands that uses whatever &quot;arguments&quot; are inside the parentheses and does things (including possibly &quot;returning&quot; a result).</p>
+<p>One more useful technique is reordering factors (representing categorical variables) in a sensible way. Right now the &#39;places&#39; (provinces, territories, etc.) are ordered alphabetically, R&#39;s default.</p>
 
-<p>What functions have we seen so far?</p>
+<pre class = 'prettyprint lang-r'>sdat3 &lt;- sdat2 %&gt;% mutate(Place=reorder(Place,Pop_2011))</pre>
 
-<p>Example: <code>mean()</code> in its simplest form takes a vector argument and returns the mean.</p>
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</pre>
 
-<pre class = 'prettyprint lang-r'>mean(c(2, 5, 11))
- 
-x &lt;- 1:10
-m_x &lt;- mean(x)
-print(m_x)</pre>
+<p>I can also group by two different variables:</p>
 
-</article></slide><slide class=''><hgroup><h2>About functions</h2></hgroup><article  id="about-functions">
+<pre class = 'prettyprint lang-r'>sdat2 %&gt;% group_by(year,Region) %&gt;% summarise(mean=mean(homicides))</pre>
 
-<p>You can learn about any built-in function by using R&#39;s help: type <code>?&quot;mean&quot;</code> or <code>help(&quot;mean&quot;)</code>.</p>
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</pre>
 
-<p>Arguments can be passed to functions in order, or by using names. For example, <code>mean</code> takes an optional argument <code>trim</code>.</p>
+<p>What if I want the mean and standard error? R doesn&#39;t have a built-in &quot;standard error of the mean&quot; function so I define one on the fly:</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;- (1:10)^2
-mean(x)
-mean(x, trim=0.1)</pre>
+<pre class = 'prettyprint lang-r'>sem &lt;- function(x) { sd(x)/sqrt(length(x))}
+sdat2 %&gt;% group_by(year,Region) %&gt;%
+    summarise(mean=mean(homicides,na.rm=TRUE),
+              sem=sem(homicides))</pre>
 
-</article></slide><slide class=''><hgroup><h2>Function syntax</h2></hgroup><article  id="function-syntax">
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</pre>
 
-<p><code>=</code> is a synonym for <code>&lt;-</code> at the top level (and many people use it). Be aware that they are not synonyms inside a function call: <code>&lt;-</code> still means assignment, but <code>=</code> is used to name an argument.</p>
+<p>What if I want to check the variables to see why they&#39;re <code>NA</code>?</p>
 
-</article></slide><slide class=''><hgroup><h2>Variable names</h2></hgroup><article  id="variable-names">
+<pre class = 'prettyprint lang-r'>sdat2 %&gt;% filter(year==2007 &amp; Region==&quot;all&quot;)</pre>
 
-<p>R variable names are case-sensitive. This means that <code>m</code> and <code>M</code> are different variables. In general, you should not try to take advantage of this, because it may cause confusion.</p>
+<pre >## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</pre>
 
-<p>R variable names have to start with a letter, and certain characters (particularly space characters) are not allowed. Good naming conventions include:</p>
+</article></slide><slide class=''><hgroup><h2>Hadleyverse 1</h2></hgroup><article  id="hadleyverse-1">
 
-<ul>
-<li>Using mostly letters, underscores (<code>_</code>) and dots (<code>.</code>)</li>
-<li>Not using potentially confusing names like <code>l</code> or <code>O</code>.</li>
-<li>Not using built-in names (like <code>c</code>, <code>list</code>, or <code>data</code>) for variables.</li>
-<li>Make readable variable names using <code>camelCase</code>, <code>snake_case</code>, or <code>kebab.case</code></li>
-<li>Avoid <code>variableNamesThatAreExcessivelyLong</code></li>
-</ul>
+<pre class = 'prettyprint lang-r'>detach(&quot;package:dplyr&quot;)
+detach(&quot;package:tidyr&quot;)
+library(&quot;plyr&quot;)</pre>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Compound objects</h2></hgroup><article  id="compound-objects">
+<pre >## -------------------------------------------------------------------------</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+<pre >## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)</pre>
 
-<p>R is a sophisticated system that builds complicated structures on top of these simple objects. Hopefully we&#39;ll develop an intuition for more of that as we go along. People interested in nuts and bolts can also look at the (rather scary!) R language definition on the <a href='http://cran.r-project.org/manuals.html' title=''>R manuals page</a>. For now, we&#39;ll talk about just a few structures.</p>
+<pre >## -------------------------------------------------------------------------</pre>
 
-</article></slide><slide class=''><hgroup><h2>Matrices</h2></hgroup><article  id="matrices">
+<p>We can use <code>merge</code> to combine the data (without getting tricky, we can&#39;t <code>merge</code> more than two data sets at a time)</p>
 
-<p>In R, matrices are basically vectors that understand that they have a shape. R knows how to do matrix multiplication on them, which is very cool, and other kinds of linear algebra. There are many ways to make a matrix: use <code>?&quot;matrix&quot;</code> to get more information.</p>
+<pre class = 'prettyprint lang-r'>dat2 &lt;- merge(dat,rdat)</pre>
 
-<pre class = 'prettyprint lang-r'>m &lt;- matrix(c(1, 3, 0, 1), nrow=2)
-print(m)
-# R arranges vectors into matrices in COLUMN-FIRST order, by default
- 
-# Elementwise (&quot;vector&quot;) multiplication (or &quot;Hadamard product&quot;)
-m*m
- 
-# Matrix multiplication
-m %*% m</pre>
+<pre >## Error in merge(dat, rdat): object &#39;dat&#39; not found</pre>
 
-</article></slide><slide class=''><hgroup><h2>Data frames</h2></hgroup><article  id="data-frames">
+<pre class = 'prettyprint lang-r'>dat3 &lt;- merge(dat2,popdat)</pre>
 
-<p>Data frames are lists that have a rectangular shape (they look like, and can be used a like matrices, but don&#39;t have to be of a single &quot;mode&quot; - in particular you can mix numbers, factors (see below), dates, &#8230;).</p>
+<pre >## Error in merge(dat2, popdat): object &#39;dat2&#39; not found</pre>
 
-<p>We&#39;ll talk more about data frames when we start dealing with data.</p>
+<pre class = 'prettyprint lang-r'>head(dat3)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Factors</h2></hgroup><article  id="factors">
+<pre >## Error in head(dat3): object &#39;dat3&#39; not found</pre>
 
-<p>Factors are used to describe items that can have a known set of values (gender, social class, etc.) - <em>categorical variables</em> in statistical terms. We will also talk more about them later.</p>
+<pre class = 'prettyprint lang-r'>## Long format</pre>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>More stuff</h2></hgroup><article  id="more-stuff">
+<pre class = 'prettyprint lang-r'>library(&quot;reshape2&quot;)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Control structures</h2></hgroup><article  id="control-structures">
+<p>Reshape data from wide to long (&quot;melt&quot;): since I added the population data, I can&#39;t rely on <code>melt</code>&#39;s default rule (ID variables=factor variables) but have to specify <code>id.var</code> explicitly.</p>
 
-<p>Control structures in R include:</p>
+<pre class = 'prettyprint lang-r'>mdat &lt;- melt(dat3,variable.name=&quot;Year&quot;,id.var=c(&quot;Place&quot;,&quot;Region&quot;,&quot;Pop_2011&quot;))</pre>
 
-<ul>
-<li>loops: we will use <code>for</code>, <code>lapply</code> and <code>apply</code>, among others. <code>lapply</code> stands for <strong>l</strong>ist <strong>apply</strong>.</li>
-<li>conditionals: <code>if</code> and <code>ifelse</code>. Use <code>ifelse</code> with care!</li>
-</ul>
+<pre >## Error in melt(dat3, variable.name = &quot;Year&quot;, id.var = c(&quot;Place&quot;, &quot;Region&quot;, : object &#39;dat3&#39; not found</pre>
 
-<pre class = 'prettyprint lang-r'>v &lt;- 1:10
-for (x in v) {
-  print(x^2)
-}
-for (x in v){
-    if(x&gt;=4) {
-        print(x^2)
-    }
-}</pre>
+<p>Now clean up, relabeling the value column and translating years back to a numeric variable:</p>
 
-</article></slide><slide class=''><hgroup><h2>Control syntax</h2></hgroup><article  id="control-syntax">
+<pre class = 'prettyprint lang-r'>mdat &lt;- rename(mdat,c(value=&quot;Hom_rate&quot;))</pre>
 
-<p>R uses <code>==</code> to test equality, and <code>!=</code> to test inequality. (R will often guess and warn you if you wrongly try to use <code>=</code>, but not always &#8230;)</p>
+<pre >## Error in revalue(names(x), replace, warn_missing = warn_missing): object &#39;mdat&#39; not found</pre>
 
-<ul>
-<li>Use <code>&amp;</code> for &quot;and&quot;, and <code>|</code> for &quot;or&quot; when testing vectors in parallel
+<pre class = 'prettyprint lang-r'>mdat$Year &lt;- as.numeric(as.character(mdat$Year))</pre>
 
-<ul>
-<li><code>&amp;&amp;</code> and <code>||</code> test single conditions; it&#39;s usually OK to stick to <code>&amp;</code> and <code>|</code>.</li>
-</ul></li>
-</ul>
+<pre >## Error in eval(expr, envir, enclos): object &#39;mdat&#39; not found</pre>
 
-</article></slide><slide class=''><hgroup><h2>Syntactic principles</h2></hgroup><article  id="syntactic-principles">
+<p>We could also have <code>melt</code>ed the original data set (without region or population data) and waited until we had the data in long format to merge the extra information: <code>merge</code> is pretty smart.</p>
 
-<p>You may have noticed that we sometimes just state something in order to print its value. It&#39;s better practice to always say <code>print</code>, when that&#39;s what you want. * Clearer, and less fragile</p>
+</article></slide><slide class=''><hgroup><h2>Casting</h2></hgroup><article  id="casting">
 
-<p>Similarly, you usually don&#39;t need to say <code>return</code> to return a function value … but you should.</p>
+<p>How do we summarize the data if we have it in long format?</p>
 
-<p>Clarity and explicitness are worth more than saving a few keystrokes.</p>
+<p>Mean by place (I have to be a little careful with the way I <code>rename</code>: since <code>(all)</code> is not a legal R name, I have to surround it with back-quotes):</p>
 
-<ul>
-<li>When R was invented, this was less clear</li>
-</ul>
+<pre class = 'prettyprint lang-r'>place_mean &lt;- dcast(mdat,Place~.,
+      value=&quot;Hom_rate&quot;,fun.aggregate=mean)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Names</h2></hgroup><article  id="names">
+<pre >## Error in match(x, table, nomatch = 0L): object &#39;mdat&#39; not found</pre>
 
-<p>R&#39;s primary objects often have associated &quot;attributes&quot;. The information that tells R what shape a matrix (or higher-dimensional array) is is an attribute. R also has &quot;name&quot; attributes: <code>names</code>, <code>rownames</code> and <code>colnames</code>.</p>
+<pre class = 'prettyprint lang-r'>place_mean &lt;- rename(place_mean,c(`(all)`=&quot;mean_hom&quot;))</pre>
 
-<p>You can select single elements from an R object using the element operator <code>[[]]</code>, and subsets using the subset operator <code>[]</code>. If the object has dimensions, you can separate them with a comma.</p>
+<pre >## Error in revalue(names(x), replace, warn_missing = warn_missing): object &#39;place_mean&#39; not found</pre>
 
-</article></slide><slide class=''><hgroup><h2>Selecting</h2></hgroup><article  id="selecting">
+<pre class = 'prettyprint lang-r'>print(place_mean)</pre>
 
-<p>You can also select things by name, using the syntax <code>v[&quot;name&quot;]</code> or <code>v[n]</code>, if <code>n</code> is a variable that contains the name. In general it&#39;s a good idea to use names instead of numbers whenever you can, because (1) your code will be easier to read (<code>x[&quot;temperature&quot;]</code> instead of <code>x[21]</code>) and (2) your code will be more robust (i.e., if you modify something so that temperature is now in position 22 rather than 21).</p>
+<pre >## Error in print(place_mean): object &#39;place_mean&#39; not found</pre>
 
-</article></slide><slide class=''><hgroup><h2>Selection example</h2></hgroup><article  id="selection-example">
+<p>By year:</p>
 
-<pre class = 'prettyprint lang-r'># InsectSprays is a built-in data set in R
-class(InsectSprays)
-head(InsectSprays)
-names(InsectSprays)
- 
-# Select the first list element of InsectSprays
-InsectSprays[[1]]
- 
-# Select a subset of InsectSprays containing only the first list element
-InsectSprays[1]
- 
-# Select the first column of InsectSprays
-InsectSprays[, 1]
- 
-# Select part of the first column of InsectSprays
-InsectSprays[1:10, 1]
- 
-# Select the first list element of InsectSprays by name
-InsectSprays[[&quot;count&quot;]]
- 
-# Use a convenient but sometimes dangerous short-cut for this
-InsectSprays$count</pre>
+<pre class = 'prettyprint lang-r'>dcast(mdat,Year~.,
+      value=&quot;Hom_rate&quot;,fun.aggregate=mean)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Arcane</h2></hgroup><article  id="arcane">
+<pre >## Error in match(x, table, nomatch = 0L): object &#39;mdat&#39; not found</pre>
 
-<p>You may have been surprised by the column-selection results. We used the subset operator, but got a single element instead. R noticed we only selected one thing, and &quot;collapsed&quot; the object for our &quot;convenience&quot;. This sort of thing is a common problem in R, probably due to its rather ancient history, and the tension between structure and convenience (particularly convenience for interactive use).</p>
+<p>By region:</p>
 
-<p>In programs, it is bad practice to let R do this (because it will confuse the program when the structure of your results changes). In this case, you can avoid it by selecting from the list.</p>
+<pre class = 'prettyprint lang-r'>dcast(mdat,Region~.,
+      value=&quot;Hom_rate&quot;,fun.aggregate=mean)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Being explicit</h2></hgroup><article  id="being-explicit">
+<pre >## Error in match(x, table, nomatch = 0L): object &#39;mdat&#39; not found</pre>
 
-<p>It&#39;s unfortunate that R makes you do stuff like this…</p>
+<p>By region <em>and</em> year:</p>
 
-<pre class = 'prettyprint lang-r'># A data frame
-InsectSprays[, 1:2]
-#  An inappropriate &quot;collapse&quot; to a simpler form
-InsectSprays[, 1]
-# Avoid inappropriate collapse
-InsectSprays[, 1, drop=FALSE]</pre></article></slide>
+<pre class = 'prettyprint lang-r'>dcast(mdat,Region+Year~.,
+      value=&quot;Hom_rate&quot;,fun.aggregate=mean)</pre>
+
+<pre >## Error in match(x, table, nomatch = 0L): object &#39;mdat&#39; not found</pre>
+
+<p>To get multiple summaries in the same data frame, I need <code>plyr::ddply</code>.</p>
+
+<pre class = 'prettyprint lang-r'>ddply(mdat,&quot;Region&quot;,summarise,
+      mean=mean(Hom_rate),sem=sem(Hom_rate))</pre>
+
+<pre >## Error in empty(.data): object &#39;mdat&#39; not found</pre>
+
+<p>We could also cast it back into the original wide format, or into the transposed form, using <code>dcast(mdat,Year~Place)</code> or <code>dcast(mdat,Place~Year)</code>. <code>reshape2</code> can do considerably more complicated things, too.</p>
+
+<p>In the long run it is generally easier to keep your data in long format and cast it to wide as necessary.</p>
+
+<p>Save the data frame we&#39;ve created:</p>
+
+<pre class = 'prettyprint lang-r'>save(&quot;mdat&quot;,file=&quot;CA_homicide.RData&quot;)</pre>
+
+<pre >## Error in save(&quot;mdat&quot;, file = &quot;CA_homicide.RData&quot;): object &#39;mdat&#39; not found</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
