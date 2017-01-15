@@ -1,0 +1,39 @@
+---
+title: Reshape example
+---
+
+``` R
+library(reshape)
+
+# Look at some example data that comes with reshape
+smiths
+
+# The default melt misinterprets time as a measured variable
+melt(smiths)
+
+## Manually name either id.vars or measure.vars
+melt(smiths, id.vars = c("subject", "time"))
+
+## Make id variables into factors
+smiths <- (within(smiths, time<-as.factor(time)))
+
+smelt <- melt(smiths)
+
+## Recast is equivalent to doing a melt followed by a cast
+## You will usually do these steps separately
+
+# Make rows for each person
+cast(smelt, subject~variable)
+
+# Make rows for each variable
+cast(smelt, variable~subject)
+
+# Take the mean for each variable
+cast(smelt, variable~., fun.aggregate=mean)
+
+# Insist that R calculate a mean
+cast(smelt, variable~., fun.aggregate=mean, na.rm=TRUE)
+
+# Insist that R calculate a mean, but also report how many values are in each mean
+cast(smelt, variable~., fun.aggregate=function(v){c(mean=mean(v, na.rm=TRUE), len=sum(!is.na(v)))})
+```
