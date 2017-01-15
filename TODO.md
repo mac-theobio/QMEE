@@ -7,12 +7,15 @@
 ## For next week
 
 - Lecture may need quite a bit of work to be tidier, and less wiki-ish
+    - talk about best spreadsheet practices?
+	- slide 24 of https://twitter.com/hspter/status/820354490553552897 ?
 - add appropriate tidyverse material
 - Do Github in second hour! http://happygitwithr.com
 
 ## infrastructure
 
-- reorganize directories?
+- can we put stuff in subdirectories?
+
 
 ## Weekly schedule
 

@@ -6,10 +6,10 @@ This is the main page for week 2
 Goals
 =====
 
--   Participants will continue to practice with R, and will examine
-    their data and make some products
 -   We will discuss some principles of data management, data flow and
     reproducible research
+-   Participants will continue to practice with R, and will examine
+    their data and make some products
 
 Resources
 =========
@@ -18,6 +18,15 @@ Resources
     -   [Co-ordination tools](Co-ordination_tool.html)
 -   [Managing data in R](Managing_data_in_R.html)
 -   [More bits and pieces](More_bits_and_pieces.html)
+
+Preparation
+-----------
+
+In the second hour of Monday's class we will be working to get you set up with Git and Github, following [Happy Git and GitHub for the useR](http://happygitwithr.com/). If possible, before Monday's class:
+
+- Register a GitHub account: you can just go straight to https://github.com to do this (by clicking on either of the green "Sign up" buttons). The one thing you may want to read first is [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html).
+- if you're on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/).
+- it will also be helpful to install the `tidyverse` suite of R packages: withinan R session, type `install.packages("tidyverse")` (*or* you can do this via the package manager window in RStudio).
 
 Exercise
 --------
