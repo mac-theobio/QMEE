@@ -1,7 +1,6 @@
-Intro
-=====
-
-This is the main page for week 2
+---
+title: Week 2: Data management
+---
 
 Goals
 =====
@@ -14,9 +13,8 @@ Goals
 Resources
 =========
 
--   [Managing projects in R](Managing_projects_in_R.html)
-    -   [Co-ordination tools](Co-ordination_tool.html)
 -   [Managing data in R](Managing_data_in_R.html)
+-   [Managing projects in R](Managing_projects_in_R.html)
 -   [More bits and pieces](More_bits_and_pieces.html)
 
 Preparation

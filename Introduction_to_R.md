@@ -1,3 +1,7 @@
+---
+title: Week 1: Introduction to R
+---
+
 Preparation
 ===========
 
