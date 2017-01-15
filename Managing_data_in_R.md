@@ -146,4 +146,5 @@ Manipulation
 ------------
 
 -   [Canadian homicide rate example](CA_homicide_example.html)
+-   Simple [Reshape examples](Reshape_examples.html)
 

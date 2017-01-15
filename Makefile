@@ -119,10 +119,15 @@ pages:
 	cd pages && $(MAKE) gh-pages.branch
 
 md = $(wildcard *.md)
-pages = $(md:%.md=pages/%.html) $(rmd:%.rmd=pages/%.html)
-slides = $(md:%.md=pages/%.slides.html)
+rmd = $(wildcard *.rmd)
+pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
+pages = $(pageroots:%=pages/%.html)
+slides = $(pages:%.html=%.slides.html)
 pages/%.css: %.css
 	$(copy)
+
+echo:
+	@echo $(pages)
 
 push_pages: pages/qmee.css $(pages) $(slides) ;
 
