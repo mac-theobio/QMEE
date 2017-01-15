@@ -1,39 +1,76 @@
 ---
-title: Reshape example
----
+title: "Reshaping data with `tidyr`"
+date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
+author: Ben Bolker
+------
 
-``` R
-library(reshape)
+```{r pkgs}
+library(tidyr)
+```
 
-# Look at some example data that comes with reshape
+Look at some example data that comes with the package:
+
+```{r view}
 smiths
+```
 
-# The default melt misinterprets time as a measured variable
-melt(smiths)
+The default `gather()` operation squashes everything too far,
+including the subject name and time in the value column ...
 
-## Manually name either id.vars or measure.vars
-melt(smiths, id.vars = c("subject", "time"))
+```{r gather1}
+gather(smiths)
+```
 
-## Make id variables into factors
-smiths <- (within(smiths, time<-as.factor(time)))
+We can specify that we only want to gather the `age` and `weight` variables
+(however, we have to specify the name of key and value columns explicitly).
+```{r gather2}
+print(smelt <- gather(smiths, key="var", value="value",
+       c(age,weight)))
+```
 
-smelt <- melt(smiths)
+Alternatively we could specify that we
+want to gather everything *but* the subject name and time variable:
+```{r gather3}
+gather(smiths, key="var", value="value",
+       -c(subject,time))
+```
 
-## Recast is equivalent to doing a melt followed by a cast
-## You will usually do these steps separately
+Make a column for each subject (= a row for each measurement)
 
-# Make rows for each person
-cast(smelt, subject~variable)
+```{r col_per_subj}
+spread(smelt, key=subject, value)
+```
 
-# Make rows for each variable
-cast(smelt, variable~subject)
+Make a column for each value (= a row for each person):
 
-# Take the mean for each variable
-cast(smelt, variable~., fun.aggregate=mean)
+```{r col_per_value}
+spread(smelt, key=var, value)
+```
 
-# Insist that R calculate a mean
-cast(smelt, variable~., fun.aggregate=mean, na.rm=TRUE)
+Take the mean for each variable:
 
-# Insist that R calculate a mean, but also report how many values are in each mean
-cast(smelt, variable~., fun.aggregate=function(v){c(mean=mean(v, na.rm=TRUE), len=sum(!is.na(v)))})
+```{r aggregate1,message=FALSE}
+library(dplyr)
+smelt %>% group_by(var) %>% summarise(mean=mean(value))
+```
+
+Insist that R calculate a mean:
+
+```{r na1}
+smelt %>% group_by(var) %>% summarise(mean=mean(value,na.rm=TRUE))
+```
+Insist that R calculate a mean, but also report how many values are in each mean:
+
+```{r mean_n1}
+smelt %>% group_by(var) %>% 
+    summarise(mean=mean(value,na.rm=TRUE),
+              n=length(na.omit(value)))
+```
+
+If you're careful you can `na.omit()` first (be careful, this will
+remove all rows with *any* `NA` values):
+```{r mean_n2}
+smelt %>% na.omit %>% group_by(var) %>% 
+    summarise(mean=mean(value,na.rm=TRUE),
+              n=n())
 ```

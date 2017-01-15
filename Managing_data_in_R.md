@@ -145,7 +145,7 @@ introduced the `tidyr` package.
 Manipulation
 ------------
 
--   Simple [Reshape examples](Reshape_examples.html)
 -   [Canadian homicide rate
     example](Homicide_example.html)
+-   Simple [Reshape examples](Reshape_examples.html)
 
