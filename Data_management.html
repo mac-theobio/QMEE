@@ -38,7 +38,7 @@
 <p>If possible, before Monday’s class:</p>
 <ul>
 <li>Register a GitHub account: you can just go straight to https://github.com to do this (by clicking on either of the green “Sign up” buttons). The one thing you may want to read first is <a href="http://happygitwithr.com/github-acct.html">this advice on picking a GitHub user name</a>.</li>
-<li>if you’re on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/).</li>
+<li>if you’re on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/). If you are using an old version of MacOS, ask for help.</li>
 <li>it will also be helpful to install the <code>tidyverse</code> suite of R packages:</li>
 <li>within an R session, type <code>install.packages(&quot;tidyverse&quot;)</code></li>
 <li>(<em>or</em> you can do this via the package manager window in RStudio).</li>
@@ -50,15 +50,30 @@ Old version:
 Continue working on your data
 -->
 <ul>
+<li>E-mail your GitHub user name to <code>bio708qmee@gmail.com</code>, if you haven’t already done so.</li>
 <li>Input your data into <code>R</code>.</li>
 <li>Examine your data for mistakes, and to make sure you understand the R classes</li>
-<li>Describe what sort of investigations you might do with your data, and how you might break it into replicable components</li>
-<li><p>Make sure you know how to use <code>source</code>, <code>save</code> and <code>load</code> in R: finish a task, and then close R without saving your workspace and efficiently redo the task.</p></li>
-<li>Make a directory on the github repo named after yourself</li>
-<li>Upload your data and a script that reads them and does at least one thing with them</li>
-<li>Make a file <em>in your directory on the repo</em> called README.md and put the description (bullet two above), in there</li>
-<li>Email us to say that your assignment is ready to be seen.</li>
-<li><p>The R script should run and work independently when started in the correct directory (avoid absolute directory names in your script, and make sure you can restart your R session and run it correctly)</p></li>
+<li>Describe what sort of investigations you might do with your data, and how you might break it into replicable components: save this (somewhere) as a file called <code>README.md</code></li>
+<li>Make sure you know how to use <code>source</code>, <code>save</code> and <code>load</code> in R: finish a task, and then close R without saving your workspace and efficiently redo the task.</li>
+<li>Make a directory on the github repo named after yourself; add your data, a script that does something with the data, and the <code>README.md</code> file you created above to this directory
+<ul>
+<li><em>more detailed instructions on this to follow, but approximately …</em></li>
+<li>(all subsequent steps are in RStudio)</li>
+<li>in the menus, go to <code>File &gt; New Project &gt; Version Control &gt; Git</code></li>
+<li>enter <code>https://github.com/mac-theobio/QMEE_2017.git</code> as the repository URL (or the equivalent <code>git@...</code> URL if you have set up SSH keys). You can also find this string by clicking on the <code>Clone</code> button on the <a href="https://github.com/mac-theobio/QMEE_2017">front page of the QMEE_2017 repo</a>.</li>
+<li>click on the <code>New Folder</code> button in the files panel. <strong>Use your GitHub ID for the folder name</strong>, and don’t let RStudio autocorrect it!</li>
+<li>copy your CSV file to this directory (using the file browser in your operating system)</li>
+<li>either press the <code>New File</code> button in RStudio to create your R script (when you save it, <em>make sure you click on your personal subdirectory/folder to save it there</em>), or copy an R script you created somewhere else to your personal subdirectory</li>
+<li><strong>still working on how to tell RStudio/git to add the file to the git repository …</strong></li>
+<li>Click on the Git icon (should appear on your menu bar)
+<ul>
+<li>make sure your files are ‘staged’ (check boxes)</li>
+<li>click <code>Commit</code> and enter a commit message</li>
+<li>click <code>Push</code></li>
+</ul></li>
+</ul></li>
+<li>E-mail us to say that your assignment is ready to be seen.</li>
+<li>The R script should run and work independently when started in the correct directory (avoid absolute directory names in your script, and make sure you can restart your R session and run it correctly).</li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
