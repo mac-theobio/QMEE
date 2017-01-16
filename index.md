@@ -4,8 +4,6 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Course information
 
-_The first course meeting (informal) is this Monday (9 Jan) at 10:30 AM_
-
 * The course meets in LSB-130A:
 	*  Mon 10:30-12:20
 	*  Wed 10:30-11:20
