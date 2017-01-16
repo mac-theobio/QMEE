@@ -87,86 +87,27 @@
           </hgroup>
   </slide>
 
-<table class = 'rmdtable'>
-<tr class="odd">
-<td align="left">title: &quot;Reshaping data with <code>tidyr</code>&quot;</td>
-</tr>
-<tr class="even">
-<td align="left">date: &quot;18:37 16 January 2017&quot;</td>
-</tr>
-<tr class="odd">
-<td align="left">author: Ben Bolker</td>
-</tr>
-</table>
+<p>&quot;File&quot; &gt; &quot;New Project&quot; &gt; &quot;Version Control&quot; &gt; &quot;Git&quot; &gt;</p>
 
-<pre class = 'prettyprint lang-r'>library(tidyr)</pre>
+<p>repository URL</p>
 
-<p>Look at some example data that comes with the package:</p>
+<p><a href='mailto:git@github.com' title=''>git@github.com</a>:mac-theobio/QMEE_2017.git</p>
 
-<pre class = 'prettyprint lang-r'>smiths</pre>
+<p>or</p>
 
-<pre >## Error in eval(expr, envir, enclos): object &#39;smiths&#39; not found</pre>
+<p><a href='https://github.com/mac-theobio/QMEE_2017.git' title=''>https://github.com/mac-theobio/QMEE_2017.git</a></p>
 
-<p>The default <code>gather()</code> operation squashes everything too far, including the subject name and time in the value column &#8230;</p>
+<p>folder name: (whatever you want)</p>
 
-<pre class = 'prettyprint lang-r'>gather(smiths)</pre>
+<p>make subdirectory: (somewhere sensible)</p>
 
-<pre >## Error in is.data.frame(x): object &#39;smiths&#39; not found</pre>
+<p>click &quot;New Folder&quot; <strong>use your GitHub ID for the folder name</strong> don&#39;t let RStudio autocorrect!</p>
 
-<p>We can specify that we only want to gather the <code>age</code> and <code>weight</code> variables (however, we have to specify the name of key and value columns explicitly).</p>
+<p>Create a new file <strong>in that folder</strong></p>
 
-<pre class = 'prettyprint lang-r'>print(smelt &lt;- gather(smiths, key=&quot;var&quot;, value=&quot;value&quot;,
-       c(age,weight)))</pre>
+<p>click on &quot;Git&quot; button</p>
 
-<pre >## Error in is.data.frame(x): object &#39;smiths&#39; not found</pre>
-
-<p>Alternatively we could specify that we want to gather everything <em>but</em> the subject name and time variable:</p>
-
-<pre class = 'prettyprint lang-r'>gather(smiths, key=&quot;var&quot;, value=&quot;value&quot;,
-       -c(subject,time))</pre>
-
-<pre >## Error in is.data.frame(x): object &#39;smiths&#39; not found</pre>
-
-<p>Make a column for each subject (= a row for each measurement)</p>
-
-<pre class = 'prettyprint lang-r'>spread(smelt, key=subject, value)</pre>
-
-<pre >## Error in match(x, table, nomatch = 0L): object &#39;smelt&#39; not found</pre>
-
-<p>Make a column for each value (= a row for each person):</p>
-
-<pre class = 'prettyprint lang-r'>spread(smelt, key=var, value)</pre>
-
-<pre >## Error in match(x, table, nomatch = 0L): object &#39;smelt&#39; not found</pre>
-
-<p>Take the mean for each variable:</p>
-
-<pre class = 'prettyprint lang-r'>library(dplyr)
-smelt %&gt;% group_by(var) %&gt;% summarise(mean=mean(value))</pre>
-
-<pre >## Error in eval(expr, envir, enclos): object &#39;smelt&#39; not found</pre>
-
-<p>Insist that R calculate a mean:</p>
-
-<pre class = 'prettyprint lang-r'>smelt %&gt;% group_by(var) %&gt;% summarise(mean=mean(value,na.rm=TRUE))</pre>
-
-<pre >## Error in eval(expr, envir, enclos): object &#39;smelt&#39; not found</pre>
-
-<p>Insist that R calculate a mean, but also report how many values are in each mean:</p>
-
-<pre class = 'prettyprint lang-r'>smelt %&gt;% group_by(var) %&gt;% 
-    summarise(mean=mean(value,na.rm=TRUE),
-              n=length(na.omit(value)))</pre>
-
-<pre >## Error in eval(expr, envir, enclos): object &#39;smelt&#39; not found</pre>
-
-<p>If you&#39;re careful you can <code>na.omit()</code> first (be careful, this will remove all rows with <em>any</em> <code>NA</code> values):</p>
-
-<pre class = 'prettyprint lang-r'>smelt %&gt;% na.omit %&gt;% group_by(var) %&gt;% 
-    summarise(mean=mean(value,na.rm=TRUE),
-              n=n())</pre>
-
-<pre >## Error in eval(expr, envir, enclos): object &#39;smelt&#39; not found</pre>
+<p>commit, push</p>
 
 
   <slide class="backdrop"></slide>

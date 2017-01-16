@@ -19,15 +19,36 @@
 	</div>
 </div>
 </header>
+<h1 id="todo">TODO</h1>
+<h2 id="assignments">Assignments</h2>
 <ul>
-<li>Can ioslides break intelligently (or at least warn)? (A: so far it looks like we can <a href="http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative">make ioslides use scroll bars</a> but not break)</li>
+<li>add “e-mail us your GH address” to exercise</li>
+<li>read &amp; respond to student assignments (how are we coordinating this?)</li>
+</ul>
+<h2 id="admin">Admin</h2>
+<ul>
+<li>solve BMB’s pushing problems</li>
+<li>add student GH IDs to roster</li>
+<li><p>add students, programmatically, to private repo: according to <a href="https://gist.github.com/marchampson/4655798">this</a> (found via Googling “github api add collaborators”), we just need</p>
+<pre><code>curl -i -u &quot;my_user_name:my_password&quot; -X \
+   PUT -d &#39;&#39; &#39;https://api.github.com/repos/my_gh_userid/my_repo/collaborators/my_collaborator_id&#39;</code></pre>
+<p>We should look <a href="http://stackoverflow.com/questions/15044534/how-to-use-ssh-authentication-with-github-api">here</a> to figure out the equivalent SSH-aware incantation.</p></li>
+</ul>
+<h2 id="optionalprettification">Optional/prettification</h2>
+<ul>
+<li><p>Add code in an appropriate place (possibly a header/footer file?) to <a href="http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative">make ioslides use scroll bars</a> but not break: specifically (from that link) we need to incorporate</p>
+<pre><code>&lt;style&gt;
+slides &gt; slide { overflow: scroll; }
+&lt;/style&gt;</code></pre>
+at an appropriate point in the slide files themselves, or in a CSS file they refer to</li>
 <li>Prettify CSS? https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</li>
+<li></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-		<a href="mailto:bio708qmee@gmail.com)">Email the profs</a>
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 		<a href="logo.html">Logo information</a>
 	</div>
