@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_all 
+target pngtarget pdftarget vtarget acrtarget: open_pages 
 
 ##################################################################
 
@@ -124,7 +124,8 @@ open_pages:
 	$(MAKE) pages/index.html.go
 
 ## Push the site to github.io (all to simultaneously sync this repo)
-push_site: pages/qmee.css $(pages)
+push_site: 
+	$(MAKE) push_pages
 	cd pages && $(MAKE) remotesync
 push_all: 
 	$(MAKE) push_site
