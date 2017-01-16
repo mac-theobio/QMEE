@@ -24,19 +24,14 @@ https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_p
 
 <!-- in markdown, two or more spaces at the end of a line specify a hard line break-->
 
-
 # Basics
 
 ## R is a programming language
 
-- You may or may not use R for programming tasks,  
-but it will help if you understand roughly how it works inside.
+- You may or may not use R for programming tasks,  but it will help if you understand roughly how it works inside.
 - What is a program?
-    - A program is a collection of simple instructions
-(read, write, send, manipulate, calculate)
-that should be executed in a logical order
-    - A program's flow is controlled by *control structures*
-(instructions about what instruction to do next)
+    - A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order
+    - A program's flow is controlled by *control structures* (instructions about what instruction to do next)
     - What are some examples of programs, and how do they work?
 
 ## Calculation
@@ -48,7 +43,7 @@ R works as a calculator.
 2+2
 2439*41
 259*3861
-2+sqrt(91)
+2+sqrt(92)
 ```
 
 What about:

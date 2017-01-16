@@ -41,16 +41,6 @@ pages/%.slides.html: %.md
 
 ######################################################################
 
-# Dushoff learns patch!
-
-intro_Lecture_notes.diff: intro_Lecture_notes.md intro_Lecture_notes.rmd
-	- diff $^ > $@
-
-intro_Lecture_notes.test: intro_Lecture_notes.md intro_Lecture_notes.diff
-	patch -o $@ $^
-
-##################################################################
-
 ## Scraping
 
 .PRECIOUS: intro_%.mediawiki
