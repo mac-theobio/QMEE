@@ -58,4 +58,4 @@ Continue working on your data
 		- click `Commit` and enter a commit message
 		- click `Push`
 - E-mail us to say that your assignment is ready to be seen.
-  - The R script should run and work independently when started in the correct directory (avoid absolute directory names in your script, and make sure you can restart your R session and run it correctly) 
+  - The R script should run and work independently when started in the correct directory (avoid absolute directory names in your script, and make sure you can restart your R session and run it correctly).
