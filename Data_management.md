@@ -1,5 +1,5 @@
 ---
-title: Week 2: Data management
+title: "Week 2: Data management"
 ---
 
 Goals
