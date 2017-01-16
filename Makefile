@@ -5,7 +5,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: open_pages 
+target pngtarget pdftarget vtarget acrtarget: push_all 
 
 ##################################################################
 
@@ -126,20 +126,19 @@ slides = $(pages:%.html=%.slides.html)
 pages/%.css: %.css
 	$(copy)
 
-echo:
-	@echo $(pages)
-
+## Update the _local copy_ of the site (open to open the main page as well)
 push_pages: pages/qmee.css $(pages) $(slides) ;
 
 open_pages: 
 	$(MAKE) push_pages
 	$(MAKE) pages/index.html.go
 
+## Push the site to github.io (all to simultaneously sync this repo)
 push_site: pages/qmee.css $(pages)
-	cd pages && $(MAKE) sync
-
-check:
-	@echo $(pages)
+	cd pages && $(MAKE) remotesync
+push_all: 
+	$(MAKE) push_site
+	$(MAKE) sync
 
 ######################################################################
 
