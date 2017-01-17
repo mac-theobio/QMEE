@@ -18,6 +18,8 @@ We should look [here](http://stackoverflow.com/questions/15044534/how-to-use-ssh
 
 ## Optional/prettification
 
+- put stuff in subdirectories
+- don't make HTML/slides from all `.md` files (e.g. `TODO.md`)
 - Add code in an appropriate place (possibly a header/footer file?) to [make ioslides use scroll bars](http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative) but not break: specifically (from that link) we need to incorporate
 ```
 <style>
