@@ -14,9 +14,7 @@ commit.default
 *.bbl
 
 *out
-*.RData
 *.Rlog
-*.r
 .Rhistory
 
 *.wrapR.*

@@ -52,10 +52,11 @@ Continue working on your data
 	- click on the `New Folder` button in the files panel. **Use your GitHub ID for the folder name**, and don't let RStudio autocorrect it!
 	- copy your CSV file to this directory (using the file browser in your operating system)
 	- either press the `New File` button in RStudio to create your R script (when you save it, *make sure you click on your personal subdirectory/folder to save it there*), or copy an R script you created somewhere else to your personal subdirectory
-	- **still working on how to tell RStudio/git to add the file to the git repository ...**
-	- Click on the Git icon (should appear on your menu bar)
-	    - make sure your files are 'staged' (check boxes)
+	- find the `Git` icon in the menu bar (not the main menu bar):  
+    ![](pix/git_commit_button2.png)
+        - click the icon and select `Commit` from the drop-down menu
+	    - check the boxes next to your new files and/or changed files
 		- click `Commit` and enter a commit message
-		- click `Push`
+		- click the `Push` (up-arrow) icon in the upper right corner of the window
 - E-mail us to say that your assignment is ready to be seen.
   - The R script should run and work independently when started in the correct directory (avoid absolute directory names in your script, and make sure you can restart your R session and run it correctly).
