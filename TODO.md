@@ -2,7 +2,6 @@
 
 ## Assignments
 
-- add "e-mail us your GH address" to exercise
 - read & respond to student assignments (how are we coordinating this?)
 
 ## Admin
