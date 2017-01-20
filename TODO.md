@@ -2,10 +2,6 @@
 
 ## Content
 
-JD:
-
-* Lecture notes structure for next week by end of day (email BB)
-
 BB:
 
 * A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)
