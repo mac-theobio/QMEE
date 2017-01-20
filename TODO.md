@@ -1,20 +1,38 @@
 # TODO
 
+## Content
+
+JD:
+
+* Lecture notes structure for next week by end of day (email BB)
+
+BB:
+
+* A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)
+
+## Github
+
+* Tell them:
+	* to not "amend"
+	* include the commit ID which pops up next to the word "master" when you commit.
+	* to not stage files that are stupid, and to not stage files that are not in their own directory
+
+* Ongoing problems
+  * spawning "sh"
+  * somebody says they can't click
+
 ## Assignments
 
 - read & respond to student assignments (how are we coordinating this?)
+  - JD will do a task script
+
+## JD
+
+* QMEE_private repo on bitbucket to bbolker
 
 ## Admin
 
-- solve BMB's pushing problems
-- add student GH IDs to roster
-- add students, programmatically, to private repo: according to [this](https://gist.github.com/marchampson/4655798) (found via Googling "github api add collaborators"), we just need
-```
-curl -i -u "my_user_name:my_password" -X \
-   PUT -d '' 'https://api.github.com/repos/my_gh_userid/my_repo/collaborators/my_collaborator_id'
-```
-We should look [here](http://stackoverflow.com/questions/15044534/how-to-use-ssh-authentication-with-github-api) to figure out the equivalent SSH-aware incantation.
-
+######################################################################
 
 ## Optional/prettification
 
@@ -28,4 +46,3 @@ slides > slide { overflow: scroll; }
 ```
 at an appropriate point in the slide files themselves, or in a CSS file they refer to
 - Prettify CSS? https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html
-- 

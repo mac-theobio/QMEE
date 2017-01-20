@@ -22,10 +22,10 @@ Resources
 =========
 
 -   Course material
-    -   [ Lecture notes](Visualization/Lecture_notes.html)
-    -   [ R code: homicide example](Homicide/pix.html)
+    -   [ Lecture notes](Visualization_Lecture_notes.html)
+    -   [ R code: homicide example](Homicide_pix.html)
     -   [ R code: contraception
-        example](Visualization/Contraception.html)
+        example](Visualization_Contraception.html)
 
 
 -   [ggplot](http://had.co.nz/ggplot2/)

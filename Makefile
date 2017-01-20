@@ -47,6 +47,10 @@ pages/%.slides.html: %.md
 intro_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Introduction_to_R/$*&action=raw"
 
+.PRECIOUS: Visualization_%.mediawiki
+intro_%.mediawiki:
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Visualization/$*&action=raw"
+
 intro_Lecture_notes.mediawiki:
 
 .PRECIOUS: %.mediawiki
