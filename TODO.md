@@ -18,13 +18,19 @@ BB:
   * somebody says they can't click
 
 ## Assignments
-
 - read & respond to student assignments (how are we coordinating this?)
   - JD will do a task script
 
 ## JD
 
 * QMEE_private repo on bitbucket to bbolker
+
+## Notes
+
+* `which` doesn't always work on Windows, even if git does!
+* `where` sometimes works where `which` doesn't
+
+* parentheses for spanning and print for printing in tidyverse intro
 
 ## Admin
 
