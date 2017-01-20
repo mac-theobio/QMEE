@@ -89,29 +89,57 @@
 
 <slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>TODO</h2></hgroup><article  id="todo">
 
+</article></slide><slide class=''><hgroup><h2>Content</h2></hgroup><article  id="content">
+
+<p>JD:</p>
+
+<ul>
+<li>Lecture notes structure for next week by end of day (email BB)</li>
+</ul>
+
+<p>BB:</p>
+
+<ul>
+<li>A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Github</h2></hgroup><article  id="github">
+
+<ul>
+<li>Tell them:
+
+<ul>
+<li>to not &quot;amend&quot;</li>
+<li>include the commit ID which pops up next to the word &quot;master&quot; when you commit.</li>
+<li>to not stage files that are stupid, and to not stage files that are not in their own directory</li>
+</ul></li>
+<li>Ongoing problems</li>
+<li>spawning &quot;sh&quot;</li>
+<li>somebody says they can&#39;t click</li>
+</ul>
+
 </article></slide><slide class=''><hgroup><h2>Assignments</h2></hgroup><article  id="assignments">
 
 <ul>
-<li>add &quot;e-mail us your GH address&quot; to exercise</li>
 <li>read &amp; respond to student assignments (how are we coordinating this?)</li>
+<li>JD will do a task script</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>JD</h2></hgroup><article  id="jd">
+
+<ul>
+<li>QMEE_private repo on bitbucket to bbolker</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Admin</h2></hgroup><article  id="admin">
 
-<ul>
-<li>solve BMB&#39;s pushing problems</li>
-<li>add student GH IDs to roster</li>
-<li><p>add students, programmatically, to private repo: according to <a href='https://gist.github.com/marchampson/4655798' title=''>this</a> (found via Googling &quot;github api add collaborators&quot;), we just need</p>
-
-<pre >curl -i -u &quot;my_user_name:my_password&quot; -X \
-   PUT -d &#39;&#39; &#39;https://api.github.com/repos/my_gh_userid/my_repo/collaborators/my_collaborator_id&#39;</pre>
-
-<p>We should look <a href='http://stackoverflow.com/questions/15044534/how-to-use-ssh-authentication-with-github-api' title=''>here</a> to figure out the equivalent SSH-aware incantation.</p></li>
-</ul>
+<h70></h70>
 
 </article></slide><slide class=''><hgroup><h2>Optional/prettification</h2></hgroup><article  id="optionalprettification">
 
 <ul>
+<li>put stuff in subdirectories</li>
+<li>don&#39;t make HTML/slides from all <code>.md</code> files (e.g. <code>TODO.md</code>)</li>
 <li><p>Add code in an appropriate place (possibly a header/footer file?) to <a href='http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative' title=''>make ioslides use scroll bars</a> but not break: specifically (from that link) we need to incorporate</p>
 
 <pre >&lt;style&gt;
@@ -119,8 +147,7 @@ slides &gt; slide { overflow: scroll; }
 &lt;/style&gt;</pre>
 
 at an appropriate point in the slide files themselves, or in a CSS file they refer to</li>
-<li>Prettify CSS? <a href='https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html' title=''>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</a></li>
-<li></li>
+<li><p>Prettify CSS? <a href='https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html' title=''>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</a></p></li>
 </ul></article></slide>
 
 

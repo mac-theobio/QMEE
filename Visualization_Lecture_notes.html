@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h2 id="ideas">Ideas</h2>
+<ul>
+<li>Exploratory vs diagnostic vs presentation</li>
+<li><a href="http://processtrends.com/toc_data_visualization.htm">Cleveland hierarchy</a>: position, length, angle, area, volume, colour</li>
+<li><a href="http://en.wikipedia.org/wiki/Edward_tufte">Edward Tufte</a>: data- and non-data-ink, small multiples, direct labeling, …</li>
+<li>graphics nazis: <a href="http://emdbolker.wikidot.com/blog:dynamite">dynamite plots</a>, <a href="http://www.qualia.hr/pie-chart-controversy/">pie charts</a>, <a href="http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf">dual-axes plots</a> …</li>
+<li>Extending the pipeline: R vs <a href="http://glx.sourceforge.net/">GLE</a> vs …</li>
+<li>Telling a story vs. letting the data speak</li>
+<li>Showing the data vs. representing the statistical model accurately</li>
+<li>Dynamic graphics</li>
+</ul>
+<h2 id="r">R</h2>
+<ul>
+<li>Base graphics
+<ul>
+<li>advantages: speed, simplicity, breadth</li>
+<li>disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation</li>
+<li>basic commands:
+<ul>
+<li><code>plot()</code>, <code>lines()</code> and <code>points()</code> and <code>text()</code> (for adding stuff to an existing plot)</li>
+<li><code>legend()</code>, <code>axis()</code> (for decoration), <code>par()</code> (for all kinds of graphics parameters)</li>
+<li>other kinds of graphs: <code>matplot()</code> for multi-series plots, <code>boxplot()</code> for box plots, <code>hist()</code> for histograms, <code>contour()</code> and <code>image()</code>, <code>pairs</code>, …</li>
+<li><code>par(mfrow)</code>, <code>layout()</code> for multiple plots on a page</li>
+<li>useful packages: <code>car</code> (for <code>scatterplot()</code>, <code>scatterplotMatrix()</code>), <code>plotrix</code> (for a million little bits and pieces)</li>
+</ul></li>
+</ul></li>
+<li>Lattice: <code>xyplot</code> (with <code>type=</code> one or more of [<code>&quot;p&quot;</code>, <code>&quot;l&quot;</code>, <code>&quot;r&quot;</code>,<code>&quot;smooth&quot;</code>, <code>&quot;a&quot;</code> …]), <code>bwplot</code>
+<ul>
+<li>Disadvantages: tricky to customize</li>
+<li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
+</ul></li>
+<li><a href="http://had.co.nz/ggplot2">ggplot(2)</a>
+<ul>
+<li><strong>data</strong></li>
+<li><strong>aesthetic mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour …)</li>
+<li>first two show up as (e.g.) <code>ggplot(my_data,</code> <code>aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
+<li><strong>geoms</strong>:
+<ul>
+<li>simple: <code>geom_point</code>, <code>geom_line</code>:</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><code>qplot(age,rootgrowth,colour=phosphate,data=my_data)</code> <strong>or</strong> <code>ggplot(my_data,</code> <code>aes(x=age,y=rootgrowth,colour=phosphate))+geom_point()</code></p>
+<p>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></p>
+<ul>
+<li><ul>
+<li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
+<li><strong>facets</strong>: <code>facet_wrap</code> (free-form wrapping of subplots), <code>facet_grid</code> (two-D grid of subplots)</li>
+<li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
+<li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
+<li>disadvantages: slow, magical, tricky to customize</li>
+</ul></li>
+<li>general strategy for using ggplot or lattice:
+<ul>
+<li>primary response as y axis</li>
+<li>primary predictor as x axis, preferably continuous</li>
+<li>next (categorical) predictors as groupings (preferably colour/shape) within facets</li>
+<li>next (categorical) predictors as facets</li>
+</ul></li>
+<li>challenges:
+<ul>
+<li>&gt;1 continuous predictor (we can always discretize continuous predictors, but we lose information)</li>
+<li>multivariate responses</li>
+<li>high-dimensional data generally</li>
+<li>factors with lots of (unordered) levels</li>
+<li>spatial data</li>
+<li>huge data sets (hexagonal binning, summaries)</li>
+</ul></li>
+</ul>
+<h2 id="bits-and-pieces">Bits and pieces</h2>
+<ul>
+<li><a href="http://wiki.stdout.org/rcookbook/Graphs/">Cookbook for R: Graphs</a>, <a href="http://gallery.r-enthusiasts.com/">R Graph Gallery</a>, <a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook</a> ($$ book)</li>
+<li>Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations</li>
+<li>Andrew Gelman’s blog: Infovis vs. statistical graphics</li>
+<li><a href="http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/">Paul Krugman on axes starting from zero</a></li>
+<li>Beyond 2D: googleVis, Rggobi, rgl, Mondrian, …</li>
+<li>Python: scipy, matplotlib</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
