@@ -149,12 +149,7 @@ Some of the tools that we like include:
 
 ### R markdown
 
-R markdown is a format that allows you to incorporate R code into your
-documents. This allows you (like the wiki) to develop and document your
-project at the same time, and (better than the wiki) to allow your
-documentation to evolve directly into a document that can be submitted
-to a supervisory committee or a journal (the wiki can do this too, but
-extra steps are involved).
+R markdown is a format that allows you to incorporate R code into your documents. This allows you to develop and document your project at the same time, and to allow your documentation to evolve directly into a document that can be submitted to a supervisory committee or a journal.
 
 RStudio makes a great platform for composing R markdown files, and
 there's really good documentation on this format at the [RStudio web
@@ -166,7 +161,6 @@ important features of R Markdown:
 -   automatically incorporate figures
 -   incorporate LaTeX equations
 -   caching for long computations
-
 
 ### Make
 
