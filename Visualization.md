@@ -9,12 +9,8 @@ Goals
 
 -   Participants will learn to think broadly about effective uses of
     visualization
-
-
--   Participants will learn of the Cleveland hierarchy and research on
+-   Participants will learn about the Cleveland hierarchy and research on
     effective visualization techniques
-
-
 -   Participants will be introduced to
     [ggplot2](http://had.co.nz/ggplot/)
 
@@ -37,11 +33,9 @@ Resources
 Exercise
 ========
 
-Construct some (ie., more than one) ggplots using your data. Explain
+Construct some (i.e., more than one) ggplots using your data. Explain
 what you are trying to show and some of the choices that you have made.
-You should put your code on the wiki in some form, you don't have to
-make it run, but if you don't then you should email us the code and the
-data file so we can quickly run it on our machines: make sure that the
+You should put your code on GitHub in some form. Make sure that the
 code has no local commands (like "setwd") and just runs from beginning
 to end. You can test this by clearing your R workspace and running it
 from beginning to end.
