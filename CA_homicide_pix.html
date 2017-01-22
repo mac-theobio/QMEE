@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Data Vis example: homicide data</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Data Vis example: homicide data</h1>
+<h3 class="date">19:52 21 January 2017</h3>
+</div>
+<p>Load data from previous computations:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/CA_homicide.RData&quot;</span>)</code></pre></div>
+<p>One of the advantages of long format is that it allows us to use some of R’s more powerful graphics tools such as the <code>ggplot2</code> and <code>lattice</code> packages (and it’s what most statistics packages expect):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())  ## black-and-white theme
+p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class="kw">aes</span>(Year,Hom_rate,<span class="dt">colour=</span>Place))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1+<span class="kw">geom_line</span>())</code></pre></div>
+<div class="figure">
+<img src="figure/ggplot2-1.png" alt="plot of chunk ggplot2" />
+<p class="caption">plot of chunk ggplot2</p>
+</div>
+<p>We could add both lines and points:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1+<span class="kw">geom_line</span>() +<span class="kw">geom_point</span>())</code></pre></div>
+<div class="figure">
+<img src="figure/ggplot3-1.png" alt="plot of chunk ggplot3" />
+<p class="caption">plot of chunk ggplot3</p>
+</div>
+<p>Might be better on a log scale, with a sensible y-axis label:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1L &lt;-<span class="st"> </span>p1 +<span class="st"> </span><span class="kw">geom_line</span>()+
+<span class="st">  </span><span class="kw">scale_y_log10</span>()+<span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
+<span class="kw">print</span>(p1L)</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="figure">
+<img src="figure/ggplot4-1.png" alt="plot of chunk ggplot4" />
+<p class="caption">plot of chunk ggplot4</p>
+</div>
+<p>Maybe we don’t care about time at all:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class="kw">aes</span>(<span class="dt">x=</span>Place,<span class="dt">y=</span>Hom_rate,
+                      <span class="dt">colour=</span>Region))+
+<span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.colour=</span><span class="ot">NULL</span>)+<span class="st">  </span>## set outlier points to same colour
+<span class="st">  </span><span class="kw">scale_y_log10</span>()+<span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
+<span class="kw">print</span>(b1)</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_boxplot).</code></pre>
+<div class="figure">
+<img src="figure/boxplot-1.png" alt="plot of chunk boxplot" />
+<p class="caption">plot of chunk boxplot</p>
+</div>
+<p>The labels are horrible. This is less familiar, but not a bad solution …</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(b1+<span class="kw">coord_flip</span>()+<span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)+<span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>))</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_boxplot).</code></pre>
+<div class="figure">
+<img src="figure/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1" />
+<p class="caption">plot of chunk unnamed-chunk-1</p>
+</div>
+<p>Maybe we want to make our line graph less busy:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L+<span class="kw">facet_wrap</span>(~Region))</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="figure">
+<img src="figure/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" />
+<p class="caption">plot of chunk unnamed-chunk-2</p>
+</div>
+<p>We could also code population size by line width:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,
+             <span class="kw">aes</span>(Year,Hom_rate,<span class="dt">colour=</span>Region,<span class="dt">size=</span><span class="kw">log</span>(Pop_2011),
+                 <span class="dt">group=</span>Place))+<span class="kw">geom_line</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)+
+<span class="st">  </span><span class="kw">scale_y_log10</span>()+<span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
+<span class="kw">print</span>(p2)</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="figure">
+<img src="figure/plot3-1.png" alt="plot of chunk plot3" />
+<p class="caption">plot of chunk plot3</p>
+</div>
+<h2 id="experimental">Experimental</h2>
+<p>Using the <a href="http://directlabels.r-forge.r-project.org/">directlabels</a> package (also on <a href="https://github.com/tdhock/directlabels">GitHub</a>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(directlabels)
+<span class="kw">direct.label</span>(p1L)+
+<span class="st">  </span><span class="kw">expand_limits</span>(<span class="dt">x=</span><span class="dv">2004</span>,<span class="dt">y=</span><span class="fl">0.1</span>)</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis
+
+## Warning: Transformation introduced infinite values in continuous y-axis
+
+## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="figure">
+<img src="figure/directlabels-1.png" alt="plot of chunk directlabels" />
+<p class="caption">plot of chunk directlabels</p>
+</div>
+<p>Still needs work …</p>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
