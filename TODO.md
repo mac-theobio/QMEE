@@ -1,16 +1,41 @@
 # TODO
 
+## Content
+
+BB:
+
+* A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)
+
+## Github
+
+* Tell them:
+	* to not "amend"
+	* include the commit ID which pops up next to the word "master" when you commit.
+	* to not stage files that are stupid, and to not stage files that are not in their own directory
+
+* Ongoing problems
+  * spawning "sh"
+  * somebody says they can't click
+
+## Assignments
+- read & respond to student assignments (how are we coordinating this?)
+  - JD will do a task script
+
+## JD
+>>>>>>> 516ced61d66cff9a382146029c0fff9ebbca063c
+
+* QMEE_private repo on bitbucket to bbolker
+
+## Notes
+
+* `which` doesn't always work on Windows, even if git does!
+* `where` sometimes works where `which` doesn't
+
+* parentheses for spanning and print for printing in tidyverse intro
+
 ## Admin
 
-- solve BMB's pushing problems
-- add student GH IDs to roster
-- add students, programmatically, to private repo: according to [this](https://gist.github.com/marchampson/4655798) (found via Googling "github api add collaborators"), we just need
-```
-curl -i -u "my_user_name:my_password" -X \
-   PUT -d '' 'https://api.github.com/repos/my_gh_userid/my_repo/collaborators/my_collaborator_id'
-```
-We should look [here](http://stackoverflow.com/questions/15044534/how-to-use-ssh-authentication-with-github-api) to figure out the equivalent SSH-aware incantation.
-
+######################################################################
 
 ## Optional/prettification
 
@@ -24,4 +49,3 @@ slides > slide { overflow: scroll; }
 ```
 at an appropriate point in the slide files themselves, or in a CSS file they refer to
 - Prettify CSS? https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html
-- 

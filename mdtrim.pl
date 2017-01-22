@@ -5,6 +5,7 @@ while (<>){
 	next if /^</;
 	chomp;
 	s|Introduction_to_R/|intro_|;
+	s|Visualization/|Visualization_|;
 	s/ "wikilink"/.html/;
 	say;
 }
