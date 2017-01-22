@@ -87,72 +87,85 @@
           </hgroup>
   </slide>
 
-<p>JD</p>
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>TODO</h2></hgroup><article  id="todo">
+
+</article></slide><slide class=''><hgroup><h2>Content</h2></hgroup><article  id="content">
+
+<p>BB:</p>
 
 <ul>
-<li>Fix up all these links; simplify workflow; prepare workflow</li>
-<li>Link to github stuff</li>
+<li>A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)</li>
 </ul>
 
-<slide class=''><hgroup><h2>immediate/ASAP</h2></hgroup><article  id="immediateasap">
+</article></slide><slide class=''><hgroup><h2>Github</h2></hgroup><article  id="github">
 
 <ul>
-<li>send e-mail to students pointing them to <a href='http://happygitwithr.com' title=''>http://happygitwithr.com</a> and telling them to register for a GH account over the weekend (and maybe send in an &quot;I&#39;m an academic&quot; request for private repos?)</li>
-<li><p>recommend tidyverse</p></li>
-<li><p><a href='https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html' title=''>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</a></p></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>For next week</h2></hgroup><article  id="for-next-week">
+<li>Tell them:
 
 <ul>
-<li>Lecture may need quite a bit of work to be tidier, and less wiki-ish
-
-<ul>
-<li>talk about best spreadsheet practices?</li>
-<li>slide 24 of <a href='https://twitter.com/hspter/status/820354490553552897' title=''>https://twitter.com/hspter/status/820354490553552897</a> ?</li>
+<li>to not &quot;amend&quot;</li>
+<li>include the commit ID which pops up next to the word &quot;master&quot; when you commit.</li>
+<li>to not stage files that are stupid, and to not stage files that are not in their own directory</li>
 </ul></li>
-<li>add appropriate tidyverse material</li>
-<li>Do Github in second hour! <a href='http://happygitwithr.com' title=''>http://happygitwithr.com</a></li>
+<li>Ongoing problems</li>
+<li>spawning &quot;sh&quot;</li>
+<li>somebody says they can&#39;t click</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>infrastructure</h2></hgroup><article  id="infrastructure">
+</article></slide><slide class=''><hgroup><h2>Assignments</h2></hgroup><article  id="assignments">
 
 <ul>
-<li>can we put stuff in subdirectories?</li>
+<li>read &amp; respond to student assignments (how are we coordinating this?)</li>
+<li>JD will do a task script</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Weekly schedule</h2></hgroup><article  id="weekly-schedule">
+</article></slide><slide class=''><hgroup><h2>JD</h2></hgroup><article  id="jd">
+
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>516ced61d66cff9a382146029c0fff9ebbca063c</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 
 <ul>
-<li>Lecture on Monday</li>
-<li>Break at 11:20 sharp for the sake of Dushoff</li>
-<li>Assignments due Friday returned by Tuesday</li>
-<li>We are allowed to be vague about assignment on Monday as long as we are clear by Wednesday</li>
+<li>QMEE_private repo on bitbucket to bbolker</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Managing projects</h2></hgroup><article  id="managing-projects">
+</article></slide><slide class=''><hgroup><h2>Notes</h2></hgroup><article  id="notes">
 
 <ul>
-<li>We could ask for a course github organization</li>
-<li>If not, we should spend <em>one</em> of our own privates</li>
-<li>People who don&#39;t want to share with the course should set up their own github or bitbucket</li>
-<li>Revisit in a couple weeks</li>
-<li>Use Jenny Bryan as a resource (Statistics 545)</li>
-<li>Use rstudio as the interface ☹</li>
+<li><code>which</code> doesn&#39;t always work on Windows, even if git does!</li>
+<li><p><code>where</code> sometimes works where <code>which</code> doesn&#39;t</p></li>
+<li><p>parentheses for spanning and print for printing in tidyverse intro</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Class info</h2></hgroup><article  id="class-info">
+</article></slide><slide class=''><hgroup><h2>Admin</h2></hgroup><article  id="admin">
+
+<h70></h70>
+
+</article></slide><slide class=''><hgroup><h2>Optional/prettification</h2></hgroup><article  id="optionalprettification">
 
 <ul>
-<li>Roster is on google docs</li>
-<li>Email list not really set up</li>
-</ul>
+<li>put stuff in subdirectories</li>
+<li>don&#39;t make HTML/slides from all <code>.md</code> files (e.g. <code>TODO.md</code>)</li>
+<li><p>Add code in an appropriate place (possibly a header/footer file?) to <a href='http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative' title=''>make ioslides use scroll bars</a> but not break: specifically (from that link) we need to incorporate</p>
 
-</article></slide><slide class=''><hgroup><h2>Presentation authoring Workflow</h2></hgroup><article  id="presentation-authoring-workflow">
+<pre >&lt;style&gt;
+slides &gt; slide { overflow: scroll; }
+&lt;/style&gt;</pre>
 
-<ul>
-<li>Can ioslides break intelligently (or at least warn)? (A: so far it looks like we can <a href='http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative' title=''>make ioslides use scroll bars</a> but not break)</li>
-<li>Prettify CSS? <a href='https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html' title=''>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</a></li>
+at an appropriate point in the slide files themselves, or in a CSS file they refer to</li>
+<li><p>Prettify CSS? <a href='https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html' title=''>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</a></p></li>
 </ul></article></slide>
 
 

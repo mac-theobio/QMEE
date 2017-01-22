@@ -16,6 +16,8 @@ include stuff.mk
 
 Sources += $(wildcard *.html *.css)
 
+Sources += $(wildcard figure/*.*)
+
 ##################################################################
 
 -include $(ms)/git.mk
