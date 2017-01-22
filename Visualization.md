@@ -7,12 +7,9 @@ ggplot2, which is based on the Grammar of Graphics
 Goals
 =====
 
--   Participants will learn to think broadly about effective uses of
-    visualization
--   Participants will learn about the Cleveland hierarchy and research on
-    effective visualization techniques
--   Participants will be introduced to
-    [ggplot2](http://had.co.nz/ggplot/)
+-   Participants will learn to think broadly about effective uses of visualization
+-   Participants will learn about the Cleveland hierarchy and research on effective visualization techniques
+-   Participants will be introduced to [ggplot2](http://ggplot2.org)
 
 Resources
 =========
@@ -24,11 +21,9 @@ Resources
         example](Visualization_Contraception.html)
 
 
--   [ggplot](http://had.co.nz/ggplot2/)
--   [Cleveland
-    hierarchy](http://processtrends.com/toc_data_visualization.htm)
--   Graphics design pioneer [Edward
-    Tufte](http://www.edwardtufte.com/tufte/)
+-   [ggplot](http://ggplot2.org)
+-   [Cleveland hierarchy](http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555)
+-   Graphics design pioneer [Edward Tufte](https://www.edwardtufte.com/tufte/)
 
 Exercise
 ========
