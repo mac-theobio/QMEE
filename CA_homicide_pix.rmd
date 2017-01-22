@@ -53,8 +53,9 @@ We could rotate them 90 degrees to be vertical:
 b1_vertlabels <- b1+theme(axis.text.x=element_text(angle=90))
 print(b1_vertlabels)
 ```
+
 In general if you want to tweak a `ggplot` plot, Google it or
-search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) for more information ...
+search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
 
 Rotating the whole plot is less familiar, but arguably better.
 Here I'm also changing the default colour palette
