@@ -58,7 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: Contraception data</h1>
-<h3 class="date">19:39 21 January 2017</h3>
+<h3 class="date">19:42 21 January 2017</h3>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mlmRev) ## for contraception data
 <span class="kw">library</span>(ggplot2)</code></pre></div>
@@ -98,7 +98,6 @@ g3 &lt;-<span class="st"> </span>g2+<span class="kw">stat_sum</span>(<span class
 <p>Add smooth lines:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(g4 &lt;-<span class="st"> </span>g3 +
 <span class="st">          </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">as.numeric</span>(use))))</code></pre></div>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
 <div class="figure">
 <img src="figure/smooth-1.png" alt="plot of chunk smooth" />
 <p class="caption">plot of chunk smooth</p>
@@ -106,17 +105,18 @@ g3 &lt;-<span class="st"> </span>g2+<span class="kw">stat_sum</span>(<span class
 <p>Adjust the axis limits.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(g4 &lt;-<span class="st"> </span>g3 +
 <span class="st">          </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">as.numeric</span>(use)))+
-<span class="st">          </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim=</span><span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">2.1</span>)))<span class="st">`</span></code></pre></div>
-<pre><code>## Error: &lt;text&gt;:3:44: unexpected INCOMPLETE_STRING
-## 2:           geom_smooth(aes(y=as.numeric(use)))+
-## 3:           coord_cartesian(ylim=c(0.9,2.1)))`
-##                                               ^</code></pre>
+<span class="st">          </span><span class="kw">coord_cartesian</span>(<span class="dt">ylim=</span><span class="kw">c</span>(<span class="fl">0.9</span>,<span class="fl">2.1</span>)))</code></pre></div>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<div class="figure">
+<img src="figure/axis_limits-1.png" alt="plot of chunk axis_limits" />
+<p class="caption">plot of chunk axis_limits</p>
+</div>
 <p>Technical details:</p>
 <ul>
 <li>we need to know that the numeric values on the <span class="math inline"><em>y</em></span> axis actually correspond to the underlying <strong>numeric</strong> factor codes (N=1,Y=2);</li>
 <li>we use <code>coord_cartesian(ylim=...)</code> rather than just saying <code>+ylim(0.9,2.1)</code>, which will erase the confidence-interval ribbons that go below the lower limits of the graph (although <code>oob=scales::squish</code> is useful here)</li>
 </ul>
-<p>Facet by urban/rural: the syntax is <code>rows\~columns</code>, and <code>.</code> here means “nothing”, or “only a single row” (cf. <code>facet_wrap</code>)</p>
+<p>Facet by urban/rural: the syntax is <code>rows~columns</code>, and <code>.</code> here means “nothing”, or “only a single row” (cf. <code>facet_wrap</code>)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g4+<span class="kw">facet_grid</span>(.~urban) </code></pre></div>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
 <div class="figure">
@@ -161,12 +161,13 @@ g5 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="kw
 <p>A more common use would be to use <code>method=&quot;lm&quot;</code> to get linear regression lines for each group.</p>
 <p>Two-way faceting:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(g1 +
-<span class="st">      </span><span class="kw">facet_grid</span>(livch\~urban)+<span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">as.numeric</span>(use)))
+<span class="st">      </span><span class="kw">facet_grid</span>(livch~urban)+<span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">y=</span><span class="kw">as.numeric</span>(use)))
       )</code></pre></div>
-<pre><code>## Error: &lt;text&gt;:2:23: unexpected input
-## 1: print(g1 +
-## 2:       facet_grid(livch\
-##                          ^</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<div class="figure">
+<img src="figure/facet_2way-1.png" alt="plot of chunk facet_2way" />
+<p class="caption">plot of chunk facet_2way</p>
+</div>
 <p>This is nice, although a plot without data is always a little scary.</p>
 <div id="footer">
 	<div style="text-align:center">
