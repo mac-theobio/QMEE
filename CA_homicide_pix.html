@@ -58,7 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: homicide data</h1>
-<h3 class="date">13:10 22 January 2017</h3>
+<h3 class="date">13:18 22 January 2017</h3>
 </div>
 <p>Load data from previous computations:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/CA_homicide.RData&quot;</span>)</code></pre></div>
@@ -113,10 +113,14 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class
 <p class="caption">plot of chunk vertlabels</p>
 </div>
 <p>In general if you want to tweak a <code>ggplot</code> plot, Google it or search the <a href="http://docs.ggplot2.org/dev/vignettes/themes.html">ggplot theme vignette</a> or the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot cheat sheet</a> for more information …</p>
-<p>Rotating the whole plot is less familiar, but arguably better. Here I’m also changing the default colour palette</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(b1+<span class="kw">coord_flip</span>()+<span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)+<span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>))</code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
-<pre><code>## Warning: Removed 4 rows containing non-finite values (stat_boxplot).</code></pre>
+<p>Rotating the whole plot is less familiar, but arguably better. Here I’m also (1) changing the colour palette and (2) changing the order of the <code>Place</code> variable, using <code>%+%</code> to substitute a different set of data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(Place,Hom_rate))
+<span class="kw">print</span>(b1 %+%<span class="st"> </span>mdat_sort +<span class="st"> </span>## substitute sorted data
+<span class="st">      </span><span class="kw">coord_flip</span>()+<span class="st">      </span>## rotate entire plot
+<span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)+<span class="st">          </span>## x-label redundant
+<span class="st">      </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>) ## change palette
+      )</code></pre></div>
 <div class="figure">
 <img src="figure/coord_flip-1.png" alt="plot of chunk coord_flip" />
 <p class="caption">plot of chunk coord_flip</p>

@@ -58,7 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: Contraception data</h1>
-<h3 class="date">10:31 22 January 2017</h3>
+<h3 class="date">13:25 22 January 2017</h3>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mlmRev) ## for contraception data
 <span class="kw">library</span>(ggplot2)</code></pre></div>
@@ -142,14 +142,13 @@ g3 &lt;-<span class="st"> </span>g2+<span class="kw">stat_sum</span>(<span class
 <p class="caption">plot of chunk lightribbons</p>
 </div>
 <p>Advanced topic: smooth by fitting a polynomial logistic regression.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> g5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(Contraception,<span class="kw">aes</span>(<span class="dt">x=</span>age,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g5 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(Contraception,<span class="kw">aes</span>(<span class="dt">x=</span>age,
                                 <span class="dt">y=</span><span class="kw">as.numeric</span>(use)-<span class="dv">1</span>,
                                 <span class="dt">colour=</span>livch))+
 <span class="st">    </span><span class="kw">stat_sum</span>(<span class="dt">alpha=</span><span class="fl">0.25</span>)+<span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Centered age&quot;</span>,<span class="dt">y=</span><span class="st">&quot;Contraceptive use&quot;</span>)
 g5 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">lty=</span>urban),<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,
-                 <span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>,
+                 <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>),
                  <span class="dt">formula=</span>y~<span class="kw">poly</span>(x,<span class="dv">2</span>),<span class="dt">alpha=</span><span class="fl">0.1</span>)</code></pre></div>
-<pre><code>## Warning: Ignoring unknown parameters: family</code></pre>
 <div class="figure">
 <img src="figure/polylogist-1.png" alt="plot of chunk polylogist" />
 <p class="caption">plot of chunk polylogist</p>
@@ -169,6 +168,15 @@ g5 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="kw
 <p class="caption">plot of chunk facet_2way</p>
 </div>
 <p>This is nice, although a plot without data is always a little scary.</p>
+<p>Use a generalized additive model (takes some more tweaking, see <code>k</code> parameter!)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g5 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">lty=</span>urban),<span class="dt">method=</span><span class="st">&quot;gam&quot;</span>,
+                 <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;binomial&quot;</span>),
+                 <span class="dt">formula=</span>y~<span class="kw">s</span>(x,<span class="dt">k=</span><span class="dv">20</span>),
+                 <span class="dt">alpha=</span><span class="fl">0.1</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/gam-1.png" alt="plot of chunk gam" />
+<p class="caption">plot of chunk gam</p>
+</div>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
