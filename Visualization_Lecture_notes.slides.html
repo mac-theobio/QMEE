@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Data Visualization in R</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,6 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
+                title: 'Data Visualization in R',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -28,6 +29,14 @@
 
       // Author information
       presenters: [
+            {
+        name:  'Jonathan Dushoff and Ben Bolker' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
             ]
     };
   </script>
@@ -84,39 +93,107 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">19:23 21 January 2017</p>
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Intro</h2></hgroup><article  id="intro">
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Ideas</h2></hgroup><article  id="ideas">
 
-<p>We will be talking about visualizing your data, with an emphasis on ggplot2, which is based on the Grammar of Graphics</p>
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Goals</h2></hgroup><article  id="goals">
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <ul>
-<li>Participants will learn to think broadly about effective uses of visualization</li>
-<li>Participants will learn about the Cleveland hierarchy and research on effective visualization techniques</li>
-<li>Participants will be introduced to <a href='http://ggplot2.org' title=''>ggplot2</a></li>
+<li>Exploratory vs. diagnostic vs. presentation</li>
+<li><a href='http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555' title=''>Cleveland hierarchy</a>: position, length, angle, area, volume, colour</li>
+<li><a href='http://en.wikipedia.org/wiki/Edward_tufte' title=''>Edward Tufte</a>: chartjunk, data- and non-data-ink, small multiples, &quot;information at the point of need&quot;/direct labeling, &#8230;</li>
+<li>graphics nazis: <a href='http://emdbolker.wikidot.com/blog:dynamite' title=''>dynamite plots</a>, <a href='http://www.qualia.hr/pie-chart-controversy/' title=''>pie charts</a>, <a href='http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf' title=''>dual-axes plots</a> &#8230;</li>
+<li>Extending the pipeline: R vs <a href='http://glx.sourceforge.net/' title=''>GLE</a> vs. <a href='https://d3js.org/' title=''>D3.js</a> vs. <a href='https://plot.ly/' title=''>plot.ly</a> vs. &#8230;</li>
+<li>Telling a story vs. letting the data speak</li>
+<li>Showing the data vs. representing the statistical model accurately</li>
+<li>Dynamic graphics</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>R</h2></hgroup><article  id="r">
+
+</article></slide><slide class=''><hgroup><h2>Base graphics</h2></hgroup><article  id="base-graphics">
 
 <ul>
-<li>Course material
+<li>advantages: speed, simplicity, breadth</li>
+<li>disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation</li>
+<li>basic commands:
 
 <ul>
-<li><a href='Visualization_Lecture_notes.html' title=''>Lecture notes</a></li>
-<li><a href='Homicide_pix.html' title=''>R code: homicide example</a></li>
-<li><a href='Visualization_Contraception.html' title=''>R code: contraception example</a></li>
+<li><code>plot()</code>, <code>lines()</code> and <code>points()</code> and <code>text()</code> (add stuff to an existing plot)</li>
+<li><code>legend()</code>, <code>axis()</code> (for decoration), <code>par()</code> (for all kinds of graphics parameters)</li>
+<li>other kinds of graphs: <code>matplot()</code> for multi-series plots, <code>boxplot()</code> for box plots, <code>hist()</code> for histograms, <code>contour()</code> and <code>image()</code>, <code>pairs</code>, &#8230;</li>
+<li><code>par(mfrow)</code>, <code>layout()</code> for multiple plots on a page</li>
+<li>useful packages: <code>car</code> (for <code>scatterplot()</code>, <code>scatterplotMatrix()</code>), <code>plotrix</code> (miscellaneous &quot;plot tricks&quot;)</li>
 </ul></li>
-<li><a href='http://ggplot2.org' title=''>ggplot</a></li>
-<li><a href='http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555' title=''>Cleveland hierarchy</a></li>
-<li>Graphics design pioneer <a href='https://www.edwardtufte.com/tufte/' title=''>Edward Tufte</a></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Exercise</h2></hgroup><article  id="exercise">
+</article></slide><slide class=''><hgroup><h2>Lattice graphics</h2></hgroup><article  id="lattice-graphics">
 
-<p>Construct some (i.e., more than one) ggplots using your data. Explain what you are trying to show and some of the choices that you have made. You should put your code on GitHub in some form. Make sure that the code has no local commands (like &quot;setwd&quot;) and just runs from beginning to end. You can test this by clearing your R workspace and running it from beginning to end.</p></article></slide>
+<ul>
+<li>alternative, higher-level graphing interface</li>
+<li><code>xyplot</code> (with <code>type=</code> one or more of \[`&quot;p&quot;`, `&quot;l&quot;`, `&quot;r&quot;`,`&quot;smooth&quot;`, `&quot;a&quot;` ...\]), <code>bwplot</code></li>
+<li>Disadvantages: tricky to customize</li>
+<li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2><a href='http://ggplot2.org' title=''>ggplot(2)</a></h2></hgroup><article  id="ggplot2">
+
+<ul>
+<li><strong>data</strong></li>
+<li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour &#8230;)</li>
+<li>first two show up as (e.g.) <code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
+<li><strong>geoms</strong>:</li>
+<li>simple: <code>geom_point</code>, <code>geom_line</code></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))+geom_point())</pre>
+
+<ul>
+<li>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>more on ggplot2</h2></hgroup><article  id="more-on-ggplot2">
+
+<ul>
+<li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
+<li><strong>facets</strong>: <code>facet_wrap</code> (free-form wrapping of subplots), <code>facet_grid</code> (two-D grid of subplots)</li>
+<li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
+<li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
+<li>disadvantages: slow, magical, tricky to customize</li>
+<li>general strategy for using ggplot or lattice:
+
+<ul>
+<li>primary response as y axis</li>
+<li>most important predictor as x axis (or substitute most important continuous or many-category predictor)</li>
+<li>next (categorical) predictors as groupings (preferably colour/shape) within facets</li>
+<li>next (categorical) predictors as facets</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>challenges:</h2></hgroup><article  id="challenges">
+
+<ul>
+<li>more than one continuous predictor (can discretize continuous predictors, but loses information)</li>
+<li>multivariate responses</li>
+<li>high-dimensional data generally</li>
+<li>factors with lots of (unordered) levels</li>
+<li>spatial data</li>
+<li>phylogenetic trees + tip data</li>
+<li>huge data sets (hexagonal binning, summaries)</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Bits and pieces</h2></hgroup><article  id="bits-and-pieces">
+
+<ul>
+<li><a href='http://wiki.stdout.org/rcookbook/Graphs/' title=''>Cookbook for R: Graphs</a>, <a href='http://gallery.r-enthusiasts.com/' title=''>R Graph Gallery</a>, <a href='http://shop.oreilly.com/product/0636920023135.do' title=''>R Graphics Cookbook</a> ($$)</li>
+<li>Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations</li>
+<li>Andrew Gelman&#39;s blog: Infovis vs. statistical graphics</li>
+<li><a href='http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/' title=''>Paul Krugman on axes starting from zero</a></li>
+<li>Beyond 2D: <code>googleVis</code>, <code>Rggobi</code>, <code>rgl</code>, <code>Mondrian</code>, &#8230;</li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
