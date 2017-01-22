@@ -2,10 +2,6 @@
 
 ## Content
 
-BB:
-
-* A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)
-
 ## Github
 
 * Tell them:
@@ -22,7 +18,6 @@ BB:
   - JD will do a task script
 
 ## JD
->>>>>>> 516ced61d66cff9a382146029c0fff9ebbca063c
 
 * QMEE_private repo on bitbucket to bbolker
 
@@ -40,6 +35,7 @@ BB:
 ## Optional/prettification
 
 - put stuff in subdirectories
+- render HTML with rmarkdown::render rather than pandoc, to get self-contained HTMLs
 - don't make HTML/slides from all `.md` files (e.g. `TODO.md`)
 - Add code in an appropriate place (possibly a header/footer file?) to [make ioslides use scroll bars](http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative) but not break: specifically (from that link) we need to incorporate
 ```
