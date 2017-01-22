@@ -58,11 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: homicide data</h1>
-<<<<<<< HEAD
 <h3 class="date">10:18 22 January 2017</h3>
-=======
-<h3 class="date">19:52 21 January 2017</h3>
->>>>>>> abe2477fdde086d96189a7dae02f05b117abf085
 </div>
 <p>Load data from previous computations:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/CA_homicide.RData&quot;</span>)</code></pre></div>
@@ -107,25 +103,15 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## Warning: Removed 4 rows containing non-finite values (stat_boxplot).</code></pre>
 <div class="figure">
-<<<<<<< HEAD
 <img src="figure/coord_flip-1.png" alt="plot of chunk coord_flip" />
 <p class="caption">plot of chunk coord_flip</p>
-=======
-<img src="figure/unnamed-chunk-1-1.png" alt="plot of chunk unnamed-chunk-1" />
-<p class="caption">plot of chunk unnamed-chunk-1</p>
->>>>>>> abe2477fdde086d96189a7dae02f05b117abf085
 </div>
 <p>Maybe we want to make our line graph less busy:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L+<span class="kw">facet_wrap</span>(~Region))</code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <div class="figure">
-<<<<<<< HEAD
 <img src="figure/facet_wrap-1.png" alt="plot of chunk facet_wrap" />
 <p class="caption">plot of chunk facet_wrap</p>
-=======
-<img src="figure/unnamed-chunk-2-1.png" alt="plot of chunk unnamed-chunk-2" />
-<p class="caption">plot of chunk unnamed-chunk-2</p>
->>>>>>> abe2477fdde086d96189a7dae02f05b117abf085
 </div>
 <p>We could also code population size by line width:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,

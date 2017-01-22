@@ -87,142 +87,86 @@
           </hgroup>
   </slide>
 
-<table class = 'rmdtable'>
-<tr class="odd">
-<td align="left">title: &quot;Reshaping data with <code>tidyr</code>&quot;</td>
-</tr>
-<tr class="even">
-<td align="left">date: &quot;10:31 22 January 2017&quot;</td>
-</tr>
-<tr class="odd">
-<td align="left">author: Ben Bolker</td>
-</tr>
-</table>
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>TODO</h2></hgroup><article  id="todo">
 
-<pre class = 'prettyprint lang-r'>library(tidyr)</pre>
+</article></slide><slide class=''><hgroup><h2>Content</h2></hgroup><article  id="content">
 
-<p>Look at some example data that comes with the package:</p>
+<p>BB:</p>
 
-<pre class = 'prettyprint lang-r'>smiths</pre>
+<ul>
+<li>A whole bunch of stuff (rmds if you want them, cleaning the notes, lecture prep)</li>
+</ul>
 
-<pre >## # A tibble: 2 × 5
-##      subject  time   age weight height
-##        &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 John Smith     1    33     90   1.87
-## 2 Mary Smith     1    NA     NA   1.54</pre>
+</article></slide><slide class=''><hgroup><h2>Github</h2></hgroup><article  id="github">
 
-<p>The default <code>gather()</code> operation squashes everything too far, including the subject name and time in the value column &#8230;</p>
+<ul>
+<li>Tell them:
 
-<pre class = 'prettyprint lang-r'>gather(smiths)</pre>
+<ul>
+<li>to not &quot;amend&quot;</li>
+<li>include the commit ID which pops up next to the word &quot;master&quot; when you commit.</li>
+<li>to not stage files that are stupid, and to not stage files that are not in their own directory</li>
+</ul></li>
+<li>Ongoing problems</li>
+<li>spawning &quot;sh&quot;</li>
+<li>somebody says they can&#39;t click</li>
+</ul>
 
-<pre >## # A tibble: 10 × 2
-##        key      value
-##      &lt;chr&gt;      &lt;chr&gt;
-## 1  subject John Smith
-## 2  subject Mary Smith
-## 3     time          1
-## 4     time          1
-## 5      age         33
-## 6      age       &lt;NA&gt;
-## 7   weight         90
-## 8   weight       &lt;NA&gt;
-## 9   height       1.87
-## 10  height       1.54</pre>
+</article></slide><slide class=''><hgroup><h2>Assignments</h2></hgroup><article  id="assignments">
 
-<p>We can specify that we only want to gather the <code>age</code> and <code>weight</code> variables (however, we have to specify the name of key and value columns explicitly).</p>
+<ul>
+<li>read &amp; respond to student assignments (how are we coordinating this?)</li>
+<li>JD will do a task script</li>
+</ul>
 
-<pre class = 'prettyprint lang-r'>print(smelt &lt;- gather(smiths, key=&quot;var&quot;, value=&quot;value&quot;,
-       c(age,weight)))</pre>
+</article></slide><slide class=''><hgroup><h2>JD</h2></hgroup><article  id="jd">
 
-<pre >## # A tibble: 4 × 5
-##      subject  time height    var value
-##        &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt; &lt;dbl&gt;
-## 1 John Smith     1   1.87    age    33
-## 2 Mary Smith     1   1.54    age    NA
-## 3 John Smith     1   1.87 weight    90
-## 4 Mary Smith     1   1.54 weight    NA</pre>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>516ced61d66cff9a382146029c0fff9ebbca063c</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 
-<p>Alternatively we could specify that we want to gather everything <em>but</em> the subject name and time variable:</p>
+<ul>
+<li>QMEE_private repo on bitbucket to bbolker</li>
+</ul>
 
-<pre class = 'prettyprint lang-r'>gather(smiths, key=&quot;var&quot;, value=&quot;value&quot;,
-       -c(subject,time))</pre>
+</article></slide><slide class=''><hgroup><h2>Notes</h2></hgroup><article  id="notes">
 
-<pre >## # A tibble: 6 × 4
-##      subject  time    var value
-##        &lt;chr&gt; &lt;dbl&gt;  &lt;chr&gt; &lt;dbl&gt;
-## 1 John Smith     1    age 33.00
-## 2 Mary Smith     1    age    NA
-## 3 John Smith     1 weight 90.00
-## 4 Mary Smith     1 weight    NA
-## 5 John Smith     1 height  1.87
-## 6 Mary Smith     1 height  1.54</pre>
+<ul>
+<li><code>which</code> doesn&#39;t always work on Windows, even if git does!</li>
+<li><p><code>where</code> sometimes works where <code>which</code> doesn&#39;t</p></li>
+<li><p>parentheses for spanning and print for printing in tidyverse intro</p></li>
+</ul>
 
-<p>Make a column for each subject (= a row for each measurement)</p>
+</article></slide><slide class=''><hgroup><h2>Admin</h2></hgroup><article  id="admin">
 
-<pre class = 'prettyprint lang-r'>spread(smelt, key=subject, value)</pre>
+<h70></h70>
 
-<pre >## # A tibble: 4 × 5
-##    time height    var `John Smith` `Mary Smith`
-## * &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt;        &lt;dbl&gt;        &lt;dbl&gt;
-## 1     1   1.54    age           NA           NA
-## 2     1   1.54 weight           NA           NA
-## 3     1   1.87    age           33           NA
-## 4     1   1.87 weight           90           NA</pre>
+</article></slide><slide class=''><hgroup><h2>Optional/prettification</h2></hgroup><article  id="optionalprettification">
 
-<p>Make a column for each value (= a row for each person):</p>
+<ul>
+<li>put stuff in subdirectories</li>
+<li>don&#39;t make HTML/slides from all <code>.md</code> files (e.g. <code>TODO.md</code>)</li>
+<li><p>Add code in an appropriate place (possibly a header/footer file?) to <a href='http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative' title=''>make ioslides use scroll bars</a> but not break: specifically (from that link) we need to incorporate</p>
 
-<pre class = 'prettyprint lang-r'>spread(smelt, key=var, value)</pre>
+<pre >&lt;style&gt;
+slides &gt; slide { overflow: scroll; }
+&lt;/style&gt;</pre>
 
-<pre >## # A tibble: 2 × 5
-##      subject  time height   age weight
-## *      &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-## 1 John Smith     1   1.87    33     90
-## 2 Mary Smith     1   1.54    NA     NA</pre>
-
-<p>Take the mean for each variable:</p>
-
-<pre class = 'prettyprint lang-r'>library(dplyr)
-smelt %&gt;% group_by(var) %&gt;% summarise(mean=mean(value))</pre>
-
-<pre >## # A tibble: 2 × 2
-##      var  mean
-##    &lt;chr&gt; &lt;dbl&gt;
-## 1    age    NA
-## 2 weight    NA</pre>
-
-<p>Insist that R calculate a mean:</p>
-
-<pre class = 'prettyprint lang-r'>smelt %&gt;% group_by(var) %&gt;% summarise(mean=mean(value,na.rm=TRUE))</pre>
-
-<pre >## # A tibble: 2 × 2
-##      var  mean
-##    &lt;chr&gt; &lt;dbl&gt;
-## 1    age    33
-## 2 weight    90</pre>
-
-<p>Insist that R calculate a mean, but also report how many values are in each mean:</p>
-
-<pre class = 'prettyprint lang-r'>smelt %&gt;% group_by(var) %&gt;% 
-    summarise(mean=mean(value,na.rm=TRUE),
-              n=length(na.omit(value)))</pre>
-
-<pre >## # A tibble: 2 × 3
-##      var  mean     n
-##    &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
-## 1    age    33     1
-## 2 weight    90     1</pre>
-
-<p>If you&#39;re careful you can <code>na.omit()</code> first (be careful, this will remove all rows with <em>any</em> <code>NA</code> values):</p>
-
-<pre class = 'prettyprint lang-r'>smelt %&gt;% na.omit %&gt;% group_by(var) %&gt;% 
-    summarise(mean=mean(value,na.rm=TRUE),
-              n=n())</pre>
-
-<pre >## # A tibble: 2 × 3
-##      var  mean     n
-##    &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
-## 1    age    33     1
-## 2 weight    90     1</pre>
+at an appropriate point in the slide files themselves, or in a CSS file they refer to</li>
+<li><p>Prettify CSS? <a href='https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html' title=''>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</a></p></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
