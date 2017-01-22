@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Data Visualization in R</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,6 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
+                title: 'Data Visualization in R',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -28,6 +29,14 @@
 
       // Author information
       presenters: [
+            {
+        name:  'Jonathan Dushoff and Ben Bolker' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
             ]
     };
   </script>
@@ -84,145 +93,107 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">19:15 21 January 2017</p>
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Pipelines</h2></hgroup><article  id="pipelines">
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Ideas</h2></hgroup><article  id="ideas">
 
-<p>One of the main concepts of this course is <strong>pipelines</strong>. This means that the various steps of your project are all carefully recorded and systematized. The basic idea is that you should be able to delete any results of computer calculations at any time, and then quickly re-do it.</p>
-
-<p>Ideally, your project should depend on:</p>
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <ul>
-<li>Some data files</li>
-<li>Some scripts</li>
-<li>A <a href='co-ordination_tool.html' title=''>co-ordination tool</a> (a document, master script, or Makefile that describes all of the steps involved in all of your calculations)</li>
+<li>Exploratory vs. diagnostic vs. presentation</li>
+<li><a href='http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555' title=''>Cleveland hierarchy</a>: position, length, angle, area, volume, colour</li>
+<li><a href='http://en.wikipedia.org/wiki/Edward_tufte' title=''>Edward Tufte</a>: chartjunk, data- and non-data-ink, small multiples, &quot;information at the point of need&quot;/direct labeling, &#8230;</li>
+<li>graphics nazis: <a href='http://emdbolker.wikidot.com/blog:dynamite' title=''>dynamite plots</a>, <a href='http://www.qualia.hr/pie-chart-controversy/' title=''>pie charts</a>, <a href='http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf' title=''>dual-axes plots</a> &#8230;</li>
+<li>Extending the pipeline: R vs <a href='http://glx.sourceforge.net/' title=''>GLE</a> vs. <a href='https://d3js.org/' title=''>D3.js</a> vs. <a href='https://plot.ly/' title=''>plot.ly</a> vs. &#8230;</li>
+<li>Telling a story vs. letting the data speak</li>
+<li>Showing the data vs. representing the statistical model accurately</li>
+<li>Dynamic graphics</li>
 </ul>
 
-<p>&#8230; and nothing else</p>
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>R</h2></hgroup><article  id="r">
 
-</article></slide><slide class=''><hgroup><h2>Advantages of pipelines</h2></hgroup><article  id="advantages-of-pipelines">
-
-<ul>
-<li>Clarity
+</article></slide><slide class=''><hgroup><h2>Base graphics</h2></hgroup><article  id="base-graphics">
 
 <ul>
-<li>Colleagues and collaborators can see exactly what you&#39;ve done</li>
-<li>You can figure out exactly what you&#39;ve done</li>
-</ul></li>
-<li><a href='http://reproducibleresearch.net/index.php/RR_links' title=''>Reproducibility</a>
+<li>advantages: speed, simplicity, breadth</li>
+<li>disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation</li>
+<li>basic commands:
 
 <ul>
-<li>It&#39;s easy for others to confirm your work</li>
-<li>Or modify or extend it</li>
-<li><a href='http://www.economist.com/node/21528593' title=''>A scary story about why we should practice and push for reproducible research</a></li>
-</ul></li>
-<li>Flexibility
-
-<ul>
-<li>You are less likely to be trapped by choices that you&#39;ve made</li>
+<li><code>plot()</code>, <code>lines()</code> and <code>points()</code> and <code>text()</code> (add stuff to an existing plot)</li>
+<li><code>legend()</code>, <code>axis()</code> (for decoration), <code>par()</code> (for all kinds of graphics parameters)</li>
+<li>other kinds of graphs: <code>matplot()</code> for multi-series plots, <code>boxplot()</code> for box plots, <code>hist()</code> for histograms, <code>contour()</code> and <code>image()</code>, <code>pairs</code>, &#8230;</li>
+<li><code>par(mfrow)</code>, <code>layout()</code> for multiple plots on a page</li>
+<li>useful packages: <code>car</code> (for <code>scatterplot()</code>, <code>scatterplotMatrix()</code>), <code>plotrix</code> (miscellaneous &quot;plot tricks&quot;)</li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Automation</h2></hgroup><article  id="automation">
-
-<p>A corollary of the flexibility idea is that you should <em>automate</em> whenever possible. Cutting and pasting, or editing by hand, is not only tedious, error-prone and hard to replicate, it also traps you into depending on certain data sets. <strong>DRY</strong> (&quot;don&#39;t repeat yourself&quot;) is a programming maxim.</p>
-
-<p>Some examples:</p>
+</article></slide><slide class=''><hgroup><h2>Lattice graphics</h2></hgroup><article  id="lattice-graphics">
 
 <ul>
-<li>You can do most of your quality-control and correction with clever scripts; even when you can&#39;t be clever, it&#39;s still probably worth coding your corrections in a script (rather than, for example, changing an Excel file that came out of the lab).</li>
-<li>As you develop your scripts, you will find yourself wanting to do various tasks in a repetitive way. You should get in the habitat of writing <strong>functions</strong> in R as you rework your script and realize that you are doing the same task (or nearly the same task) multiple times.</li>
-<li>You should use computer scripts to download data from the web when possible. This is possibly beyond the scope of this course (or maybe it could be added as an advanced topic).
+<li>alternative, higher-level graphing interface</li>
+<li><code>xyplot</code> (with <code>type=</code> one or more of \[`&quot;p&quot;`, `&quot;l&quot;`, `&quot;r&quot;`,`&quot;smooth&quot;`, `&quot;a&quot;` ...\]), <code>bwplot</code></li>
+<li>Disadvantages: tricky to customize</li>
+<li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2><a href='http://had.co.nz/ggplot2' title=''>ggplot(2)</a></h2></hgroup><article  id="ggplot2">
 
 <ul>
-<li>R has tools for this, you can also check Perl and Python (5 years from now, we may be teaching this whole course in python).</li>
+<li><strong>data</strong></li>
+<li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour &#8230;)</li>
+<li>first two show up as (e.g.) <code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
+<li><strong>geoms</strong>:</li>
+<li>simple: <code>geom_point</code>, <code>geom_line</code></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))+geom_point())</pre>
+
+<ul>
+<li>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>more on ggplot2</h2></hgroup><article  id="more-on-ggplot2">
+
+<ul>
+<li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
+<li><strong>facets</strong>: <code>facet_wrap</code> (free-form wrapping of subplots), <code>facet_grid</code> (two-D grid of subplots)</li>
+<li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
+<li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
+<li>disadvantages: slow, magical, tricky to customize</li>
+<li>general strategy for using ggplot or lattice:
+
+<ul>
+<li>primary response as y axis</li>
+<li>most important predictor as x axis (or substitute most important continuous or many-category predictor)</li>
+<li>next (categorical) predictors as groupings (preferably colour/shape) within facets</li>
+<li>next (categorical) predictors as facets</li>
 </ul></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>R tools for managing projects</h2></hgroup><article  id="r-tools-for-managing-projects">
-
-</article></slide><slide class=''><hgroup><h2>Spreadsheets</h2></hgroup><article  id="spreadsheets">
-
-<p>R can read and write in spreadsheet form. Usually the best way to do this is with <code>read.csv</code> and <code>write.csv</code>. A good model for working in R is to read in raw data from spreadsheets and manipulate it in R.</p>
+</article></slide><slide class=''><hgroup><h2>challenges:</h2></hgroup><article  id="challenges">
 
 <ul>
-<li>If somebody has done a trivial calculation in the spreadsheet, it&#39;s usually better to redo it than to copy the answer</li>
-<li>If somebody has done a <em>non-trivial</em> calculation in the spreadsheet, it&#39;s usually better to redo it than to copy the answer
-
-<ul>
-<li>It&#39;s probably easier in R.</li>
-<li>Even if it&#39;s harder in R this time, doing it once will enable you to do it in the future and save time (but see <a href='http://xkcd.com/1319/' title=''>this</a>).</li>
-<li>It&#39;s usually better to do non-trivial calculations twice and make sure you get the same answer</li>
-<li>It&#39;s very easy to mess things up in spreadsheets</li>
-<li>It <em>should</em> be harder to make silly mistakes in R &#8211; but in practice it doesn&#39;t seem to be.</li>
-</ul></li>
-<li><a href='http://www.burns-stat.com/documents/tutorials/spreadsheet-addiction/' title=''>&quot;spreadsheet addiction&quot;</a></li>
+<li>more than one continuous predictor (can discretize continuous predictors, but loses information)</li>
+<li>multivariate responses</li>
+<li>high-dimensional data generally</li>
+<li>factors with lots of (unordered) levels</li>
+<li>spatial data</li>
+<li>phylogenetic trees + tip data</li>
+<li>huge data sets (hexagonal binning, summaries)</li>
 </ul>
 
-<p>Your goal in many cases should be to take raw data from a spreadsheet and manipulate entirely using scripts. The only time to put it back in a spreadsheet would be to share it with colleagues who want to play with your results</p>
+</article></slide><slide class=''><hgroup><h2>Bits and pieces</h2></hgroup><article  id="bits-and-pieces">
 
 <ul>
-<li>Another option is to force these colleagues to learn R</li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Metadata</h2></hgroup><article  id="metadata">
-
-<ul>
-<li>Data about the data</li>
-<li>Big topic</li>
-<li>Often saved in spreadsheet/lost in translation</li>
-<li><a href='https://github.com/ropensci/EML' title=''>ecological metadata language</a></li>
-<li>Discuss &#8230;</li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Data bases</h2></hgroup><article  id="data-bases">
-
-<p>Large, or evolving data sets may need to use database tools. As of 2015,</p>
-
-<ul>
-<li>&quot;small&quot; means &quot;fewer than 1000 observations/10 or 20 variables&quot;. As long as you write reasonably efficient R programs, you shouldn&#39;t have to worry about speed or memory at all.</li>
-<li>&quot;medium&quot; means &quot;1000 to 100,000 observations/10-50 variables&quot;. You may want to look into efficient data handling packages such as <strong>dplyr</strong> or <strong>data.table</strong></li>
-<li>&quot;large&quot; means millions of observations/1000s of variables. You may need to store your database in an external database application (R is very good at communicating with external databases). This means using <a href='Wikipedia:SQL.html' title=''>SQL</a> (a standard language for database queries) and a database server. Many free servers are available, including <a href='Wikipedia:MySQL.html' title=''>MySQL</a>.</li>
-</ul>
-
-<p><em>This is a possible advanced topic</em></p>
-
-</article></slide><slide class=''><hgroup><h2>R</h2></hgroup><article  id="r">
-
-<p>If you are following the pipeline philosophy, it will be useful to make scripts that do discrete tasks, and depend on each others&#39; outputs.</p>
-
-<p>You can do this by using the R commands <code>load</code> and <code>save</code>: if you have an R script that you are happy with and is producing some nice variables, you can write <code>save(var1,</code> <code>var2,</code> <code>vars,</code> <code>file=&quot;happy.RData&quot;</code>, at the end of that script, and then <code>load(&quot;happy.RData&quot;)</code> at the beginning of some other scripts.</p>
-
-<p><em>How should you get more information about these commands?</em></p>
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Co-ordination tools</h2></hgroup><article  id="co-ordination-tools">
-
-<p>You should try to have a pipeline-driven project where as many steps as possible are clearly documented and easily replicable.</p>
-
-<p>There are many, many techniques for this, and we will try not to get too deeply into it in the course (unless it&#39;s a Requested Topic).</p>
-
-<p>Some of the tools that we like include:</p>
-
-<h3>R markdown</h3>
-
-<p>R markdown is a format that allows you to incorporate R code into your documents. This allows you to develop and document your project at the same time, and to allow your documentation to evolve directly into a document that can be submitted to a supervisory committee or a journal.</p>
-
-<p>RStudio makes a great platform for composing R markdown files, and there&#39;s really good documentation on this format at the <a href='http://rmarkdown.rstudio.com/' title=''>RStudio web site</a>. To recap some of the most important features of R Markdown:</p>
-
-<ul>
-<li>relatively natural/easy formatting rules</li>
-<li>flexible output: HTML, PDF (even MS Word)</li>
-<li>automatically incorporate figures</li>
-<li>incorporate LaTeX equations</li>
-<li>caching for long computations</li>
-</ul>
-
-<h3>Make</h3>
-
-<p><a href='Wikipedia:Make_(software).html' title=''>make</a> is a system for controlling how files are made from other files. It is useful for making your project self-documenting: you write down the steps of your pipeline in a permanent fashion, in order to make them work.</p>
-
-<p>The <a href='http://www.gnu.org/software/make/manual/make.html' title=''>gnu make documentation</a> is very useful, but not necessarily easy to attack.</p></article></slide>
+<li><a href='http://wiki.stdout.org/rcookbook/Graphs/' title=''>Cookbook for R: Graphs</a>, <a href='http://gallery.r-enthusiasts.com/' title=''>R Graph Gallery</a>, <a href='http://shop.oreilly.com/product/0636920023135.do' title=''>R Graphics Cookbook</a> ($$)</li>
+<li>Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations</li>
+<li>Andrew Gelman&#39;s blog: Infovis vs. statistical graphics</li>
+<li><a href='http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/' title=''>Paul Krugman on axes starting from zero</a></li>
+<li>Beyond 2D: <code>googleVis</code>, <code>Rggobi</code>, <code>rgl</code>, <code>Mondrian</code>, &#8230;</li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
