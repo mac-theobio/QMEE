@@ -1,9 +1,5 @@
 # TODO
 
-## Assignments
-
-- read & respond to student assignments (how are we coordinating this?)
-
 ## Admin
 
 - solve BMB's pushing problems
