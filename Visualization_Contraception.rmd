@@ -45,7 +45,7 @@ print(g3)
 ```
 
 Add smooth lines: 
-```{r smooth}
+```{r smooth,message=FALSE}
 print(g4 <- g3 +
           geom_smooth(aes(y=as.numeric(use))))
 ```
@@ -54,7 +54,7 @@ Adjust the axis limits.
 ```{r axis_limits}
 print(g4 <- g3 +
           geom_smooth(aes(y=as.numeric(use)))+
-          coord_cartesian(ylim=c(0.9,2.1)))`
+          coord_cartesian(ylim=c(0.9,2.1)))
 ```
 
 Technical details:
@@ -62,7 +62,7 @@ Technical details:
 - we need to know that the numeric values on the $y$ axis actually correspond to the underlying **numeric** factor codes (N=1,Y=2);
 - we use `coord_cartesian(ylim=...)` rather than just saying `+ylim(0.9,2.1)`, which will erase the confidence-interval ribbons that go below the lower limits of the graph (although `oob=scales::squish` is useful here)
 
-Facet by urban/rural: the syntax is `rows\~columns`, and `.` here means "nothing", or "only a single row" (cf. `facet_wrap`)
+Facet by urban/rural: the syntax is `rows~columns`, and `.` here means "nothing", or "only a single row" (cf. `facet_wrap`)
 
 ```{r facet_urbanrural}
 g4+facet_grid(.~urban) 
@@ -103,7 +103,7 @@ regression lines for each group.
 Two-way faceting: 
 ```{r facet_2way}
 print(g1 +
-      facet_grid(livch\~urban)+geom_smooth(aes(y=as.numeric(use)))
+      facet_grid(livch~urban)+geom_smooth(aes(y=as.numeric(use)))
       )
 ```
 
