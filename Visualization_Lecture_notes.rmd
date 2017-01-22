@@ -78,6 +78,8 @@ date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 - phylogenetic trees + tip data
 - huge data sets (hexagonal binning, summaries)
 
+ggplot2 [extensions](https://www.ggplot2-exts.org) can help
+
 ## Bits and pieces
 
 - [Cookbook for R: Graphs](http://wiki.stdout.org/rcookbook/Graphs/), [R Graph Gallery](http://gallery.r-enthusiasts.com/), [R Graphics Cookbook](http://shop.oreilly.com/product/0636920023135.do) ($$)
