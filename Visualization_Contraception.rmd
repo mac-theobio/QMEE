@@ -84,12 +84,12 @@ print(g3 + geom_smooth(aes(y=as.numeric(use),
 
 Advanced topic: smooth by fitting a polynomial logistic regression.
 ```{r polylogist}
- g5 <- ggplot(Contraception,aes(x=age,
+g5 <- ggplot(Contraception,aes(x=age,
                                 y=as.numeric(use)-1,
                                 colour=livch))+
     stat_sum(alpha=0.25)+labs(x="Centered age",y="Contraceptive use")
 g5 + geom_smooth(aes(lty=urban),method="glm",
-                 family="binomial",
+                 method.args=list(family="binomial"),
                  formula=y~poly(x,2),alpha=0.1)
 ```
 
@@ -109,3 +109,12 @@ print(g1 +
 
 This is nice, although a plot without data is always a little
 scary.
+
+Use a generalized additive model (takes some more tweaking, see `k` parameter!)
+```{r gam}
+g5 + geom_smooth(aes(lty=urban),method="gam",
+                 method.args=list(family="binomial"),
+                 formula=y~s(x,k=20),
+                 alpha=0.1)
+```
+
