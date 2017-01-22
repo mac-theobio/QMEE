@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization in R"
 author: Jonathan Dushoff and Ben Bolker
-date: "19:23 21 January 2017"
+date: "12:57 22 January 2017"
 ---
 
 # Ideas
@@ -78,6 +78,8 @@ date: "19:23 21 January 2017"
 - spatial data
 - phylogenetic trees + tip data
 - huge data sets (hexagonal binning, summaries)
+
+ggplot2 [extensions](https://www.ggplot2-exts.org) can help
 
 ## Bits and pieces
 
