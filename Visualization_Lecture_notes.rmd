@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization in R"
 author: Jonathan Dushoff and Ben Bolker
-date: "19:23 21 January 2017"
+date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 ---
 
 # Ideas
@@ -46,8 +46,7 @@ date: "19:23 21 January 2017"
 -   **geoms**:
    - simple: `geom_point`, `geom_line`
 
-
-```r
+```{r eval=FALSE}
 (ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))+geom_point())
 ```
 
