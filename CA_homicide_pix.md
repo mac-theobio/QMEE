@@ -1,6 +1,6 @@
 ---
 title: "Data Vis example: homicide data"
-date: "13:10 22 January 2017"
+date: "13:18 22 January 2017"
 ---
 
 Load data from previous computations:
@@ -95,18 +95,19 @@ In general if you want to tweak a `ggplot` plot, Google it or
 search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
 
 Rotating the whole plot is less familiar, but arguably better.
-Here I'm also changing the default colour palette
+Here I'm also (1) changing the colour palette
+and (2) changing the order of the `Place` variable, using `%+%` to
+substitute a different set of data:
+
 
 ```r
-print(b1+coord_flip()+xlab("")+scale_colour_brewer(palette="Dark2"))
-```
-
-```
-## Warning: Transformation introduced infinite values in continuous y-axis
-```
-
-```
-## Warning: Removed 4 rows containing non-finite values (stat_boxplot).
+library(dplyr)
+mdat_sort <- mdat %>% mutate(Place=reorder(Place,Hom_rate))
+print(b1 %+% mdat_sort + ## substitute sorted data
+      coord_flip()+      ## rotate entire plot
+      xlab("")+          ## x-label redundant
+      scale_colour_brewer(palette="Dark2") ## change palette
+      )
 ```
 
 ![plot of chunk coord_flip](figure/coord_flip-1.png)

@@ -58,9 +58,18 @@ In general if you want to tweak a `ggplot` plot, Google it or
 search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
 
 Rotating the whole plot is less familiar, but arguably better.
-Here I'm also changing the default colour palette
-```{r coord_flip}
-print(b1+coord_flip()+xlab("")+scale_colour_brewer(palette="Dark2"))
+Here I'm also (1) changing the colour palette
+and (2) changing the order of the `Place` variable, using `%+%` to
+substitute a different set of data:
+
+```{r coord_flip,message=FALSE,warning=FALSE}
+library(dplyr)
+mdat_sort <- mdat %>% mutate(Place=reorder(Place,Hom_rate))
+print(b1 %+% mdat_sort + ## substitute sorted data
+      coord_flip()+      ## rotate entire plot
+      xlab("")+          ## x-label redundant
+      scale_colour_brewer(palette="Dark2") ## change palette
+      )
 ```
 
 Maybe we want to make our line graph less busy: 
