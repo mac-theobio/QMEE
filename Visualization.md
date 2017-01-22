@@ -16,7 +16,7 @@ Resources
 
 -   Course material
     -   [ Lecture notes](Visualization_Lecture_notes.html)
-    -   [ R code: homicide example](CA_Homicide_pix.html)
+    -   [ R code: homicide example](CA_homicide_pix.html)
     -   [ R code: contraception example](Visualization_Contraception.html)
 
 -   [ggplot](http://ggplot2.org)
