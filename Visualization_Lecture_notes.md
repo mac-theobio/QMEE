@@ -111,4 +111,4 @@ ggplot2 [extensions](https://www.ggplot2-exts.org) can help
 - Andrew Gelman's blog: Infovis vs. statistical graphics
 -   [Paul Krugman on axes starting from zero](http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/)
 - Beyond 2D: `googleVis`, `Rggobi`, `rgl`, `Mondrian`, ...
-
+- http://accidental-art.tumblr.com/
