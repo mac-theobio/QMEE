@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization in R"
 author: Jonathan Dushoff and Ben Bolker
-date: "19:23 21 January 2017"
+date: "12:57 22 January 2017"
 ---
 
 # Ideas
@@ -95,6 +95,8 @@ print(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
 - spatial data
 - phylogenetic trees + tip data
 - huge data sets (hexagonal binning, summaries)
+
+ggplot2 [extensions](https://www.ggplot2-exts.org) can help
 
 ## Bits and pieces
 

@@ -13,8 +13,11 @@ One of the advantages of long format is that it allows us to use some of R's mor
 ```{r ggplot1,message=FALSE}
 library(ggplot2)
 theme_set(theme_bw())  ## black-and-white theme
+## set up basic plot:
 p1 <- ggplot(mdat,aes(Year,Hom_rate,colour=Place))
 ```
+
+Unlike base plots (which can only be saved/replayed through the RStudio interface), `ggplot` produces an R object which can then be printed (=displayed in a graphics window), or saved (or exported to a graphics file via `ggsave()`):
 
 ```{r ggplot2}
 print(p1+geom_line())
@@ -27,29 +30,52 @@ print(p1+geom_line() +geom_point())
 
 Might be better on a log scale, with a sensible y-axis label:
 ```{r ggplot4}
-p1L <- p1 + geom_line()+
-  scale_y_log10()+labs(y="Homicides per 100,000 population")
+p1L <- (p1 + geom_line()+
+        scale_y_log10()+
+        labs(y="Homicides per 100,000 population")
+)
 print(p1L)
 ```
 
 Maybe we don't care about time at all:
 ```{r boxplot}
-b1 <- ggplot(mdat,aes(x=Place,y=Hom_rate,
+b1 <- (ggplot(mdat,aes(x=Place,y=Hom_rate,
                       colour=Region))+
   geom_boxplot(outlier.colour=NULL)+  ## set outlier points to same colour
   scale_y_log10()+labs(y="Homicides per 100,000 population")
+)
 print(b1)
 ```
 
-The labels are horrible. This is less familiar, but not a bad solution ...
-```{r coord_flip}
-print(b1+coord_flip()+xlab("")+scale_colour_brewer(palette="Dark2"))
+The labels are horrible.
+We could rotate them 90 degrees to be vertical:
+```{r vertlabels}
+b1_vertlabels <- b1+theme(axis.text.x=element_text(angle=90))
+print(b1_vertlabels)
 ```
 
-Maybe we want to make our line graph less busy:
+In general if you want to tweak a `ggplot` plot, Google it or
+search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
+
+Rotating the whole plot is less familiar, but arguably better.
+Here I'm also (1) changing the colour palette
+and (2) changing the order of the `Place` variable, using `%+%` to
+substitute a different set of data:
+
+```{r coord_flip,message=FALSE,warning=FALSE}
+library(dplyr)
+mdat_sort <- mdat %>% mutate(Place=reorder(Place,Hom_rate))
+print(b1 %+% mdat_sort + ## substitute sorted data
+      coord_flip()+      ## rotate entire plot
+      xlab("")+          ## x-label redundant
+      scale_colour_brewer(palette="Dark2") ## change palette
+      )
+```
+
+Maybe we want to make our line graph less busy: 
 ```{r facet_wrap}
 print(p1L+facet_wrap(~Region))
-```
+``
 
 We could also code population size by line width:
 ```{r plot3}
@@ -60,10 +86,6 @@ p2 <- ggplot(mdat,
 print(p2)
 ```
 
-## Experimental
-
-
-
 Using the [directlabels](http://directlabels.r-forge.r-project.org/) package (also on [GitHub](https://github.com/tdhock/directlabels)):
 
 ```{r directlabels,message=FALSE}
@@ -71,6 +93,4 @@ library(directlabels)
 direct.label(p1L)+
   expand_limits(x=2004,y=0.1)
 ```
-
-Still needs work ... 
 
