@@ -2,6 +2,10 @@
 title: Quantitative Methods in Ecology and Evolution
 ---
 
+## Current
+
+* [Git issues](git_issues.html)
+
 ## Course information
 
 * The course meets in LSB-130A:
