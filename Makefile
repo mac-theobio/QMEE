@@ -127,7 +127,6 @@ pages/figure:
 
 ## Update the _local copy_ of the site (open to open the main page as well)
 push_pages: pages/figure pages/qmee.css $(pages) $(slides) ;
-	rsync figure/*.* pages/figure
 
 open_pages: 
 	$(MAKE) push_pages

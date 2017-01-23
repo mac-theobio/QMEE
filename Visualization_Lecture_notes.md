@@ -24,11 +24,11 @@ date: "12:57 22 January 2017"
 -   advantages: speed, simplicity, breadth
 -   disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation
 -   basic commands:
-    -   `plot()`, `lines()` and `points()` and `text()` (add stuff to an existing plot)
-    -   `legend()`, `axis()` (for decoration), `par()` (for all kinds of graphics parameters)
-    -   other kinds of graphs: `matplot()` for multi-series plots, `boxplot()` for box plots, `hist()` for histograms, `contour()` and `image()`, `pairs`, ...
-    -   `par(mfrow)`, `layout()` for multiple plots on a page
-    -   useful packages: `car` (for `scatterplot()`, `scatterplotMatrix()`), `plotrix` (miscellaneous "plot tricks")
+	-   `plot()`, `lines()` and `points()` and `text()` (add stuff to an existing plot)
+	-   `legend()`, `axis()` (for decoration), `par()` (for all kinds of graphics parameters)
+	-   other kinds of graphs: `matplot()` for multi-series plots, `boxplot()` for box plots, `hist()` for histograms, `contour()` and `image()`, `pairs`, ...
+	-   `par(mfrow)`, `layout()` for multiple plots on a page
+	-   useful packages: `car` (for `scatterplot()`, `scatterplotMatrix()`), `plotrix` (miscellaneous "plot tricks")
 
 ## Lattice graphics
 
@@ -39,23 +39,29 @@ date: "12:57 22 January 2017"
 
 ## [ggplot](http://ggplot2.org)
 
+Geometry of graphics: create pictures based on _logical_ specifications of what you want to show.
+
 The library is called ggplot2; there is no ggplot1.
 
 -   **data**
-  * You are going to want your data in "long" form (probably done with tidyr)
+	* You are going to want your data in "long" form (probably done with tidyr)
 -   **mappings**: between variables in the data frame and **aesthetics**, or graphical attributes
 (x position, y position, size, colour ...)
 -   **geoms**:
-   - simple: `geom_point`, `geom_line`
+	- simple: `geom_point`, `geom_line`
 
 -   Data and aesthetic mappings set up a plot, but ggplot won't print it:
 ```r 
 	base <- ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
 ```
 
+- To make an actual picture, you need a `geom`
+
 ```r
 print(base + geom_point())
 ```
+
+equivalent to:
 
 ```r
 print(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
@@ -73,28 +79,28 @@ print(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
 - advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.
 - disadvantages: slow, magical, tricky to customize
 - general graphical strategy:
-    - primary response as y axis
-    - an important predictor as x axis
-	   - most important, or most "axis-like" (many values, or continuous)
-    - other important predictors as:
-	   - color; shape; facets
+	- primary response as y axis
+	- an important predictor as x axis
+		- most important, or most "axis-like" (many values, or continuous)
+	- other important predictors as:
+		- color; shape; facets
 		- roughly in that order
-	 - Adding predictors:
+	- Adding predictors:
 		- use friendly colors
 		- all of these are easier with smallish numbers of categories
 		- avoid forcing things into arbitrary categories
 	
 ## challenges:
 
-- more than one continuous predictor
-  - use categories when necessary
-  - color ramps don't necessary need to be categorized; use a simple, logical progression if you have more than 7 colors
-- multivariate responses
-- high-dimensional data generally
-- factors with lots of (unordered) levels
-- spatial data
-- phylogenetic trees + tip data
-- huge data sets (hexagonal binning, summaries)
+* more than one continuous predictor
+	* use categories when necessary
+	* color ramps don't necessary need to be categorized; use a simple, logical progression if you have more than 7 colors
+* multivariate responses
+* high-dimensional data generally
+* factors with lots of (unordered) levels
+* spatial data
+* phylogenetic trees + tip data
+* huge data sets (hexagonal binning, summaries)
 
 ggplot2 [extensions](https://www.ggplot2-exts.org) can help
 
