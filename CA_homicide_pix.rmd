@@ -75,7 +75,7 @@ print(b1 %+% mdat_sort + ## substitute sorted data
 Maybe we want to make our line graph less busy: 
 ```{r facet_wrap}
 print(p1L+facet_wrap(~Region))
-``
+```
 
 We could also code population size by line width:
 ```{r plot3}

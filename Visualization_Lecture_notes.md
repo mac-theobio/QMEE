@@ -39,7 +39,7 @@ date: "12:57 22 January 2017"
 
 ## [ggplot](http://ggplot2.org)
 
-Geometry of graphics: create pictures based on _logical_ specifications of what you want to show.
+Grammar of graphics: create pictures based on _logical_ specifications of what you want to show.
 
 The library is called ggplot2; there is no ggplot1.
 
@@ -106,7 +106,7 @@ ggplot2 [extensions](https://www.ggplot2-exts.org) can help
 
 ## Bits and pieces
 
-- [Cookbook for R: Graphs](http://wiki.stdout.org/rcookbook/Graphs/), [R Graph Gallery](http://gallery.r-enthusiasts.com/), [R Graphics Cookbook](http://shop.oreilly.com/product/0636920023135.do) ($$)
+- [Cookbook for R: Graphs](http://wiki.stdout.org/rcookbook/Graphs/), [R Graph Gallery](http://www.r-graph-gallery.com), [R Graphics Cookbook](http://shop.oreilly.com/product/0636920023135.do) ($$)
 - Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations
 - Andrew Gelman's blog: Infovis vs. statistical graphics
 -   [Paul Krugman on axes starting from zero](http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/)
