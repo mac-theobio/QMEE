@@ -139,23 +139,32 @@
 <li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2><a href='http://ggplot2.org' title=''>ggplot(2)</a></h2></hgroup><article  id="ggplot2">
+</article></slide><slide class=''><hgroup><h2><a href='http://ggplot2.org' title=''>ggplot</a></h2></hgroup><article  id="ggplot">
+
+<p>The library is called ggplot2; there is no ggplot1.</p>
 
 <ul>
 <li><strong>data</strong></li>
+<li>You are going to want your data in &quot;long&quot; form (probably done with tidyr)</li>
 <li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour &#8230;)</li>
-<li>first two show up as (e.g.) <code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
 <li><strong>geoms</strong>:</li>
-<li>simple: <code>geom_point</code>, <code>geom_line</code></li>
+<li><p>simple: <code>geom_point</code>, <code>geom_line</code></p></li>
+<li><p>Data and aesthetic mappings set up a plot, but ggplot won&#39;t print it:</p>
+
+<pre class = 'prettyprint lang-r'>base &lt;- ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</pre></li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))+geom_point())</pre>
+<pre class = 'prettyprint lang-r'>print(base + geom_point())</pre>
+
+<pre class = 'prettyprint lang-r'>print(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
+    + geom_point()
+)</pre>
 
 <ul>
 <li>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>more on ggplot2</h2></hgroup><article  id="more-on-ggplot2">
+</article></slide><slide class=''><hgroup><h2>more on ggplot</h2></hgroup><article  id="more-on-ggplot">
 
 <ul>
 <li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
@@ -163,20 +172,34 @@
 <li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
 <li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
 <li>disadvantages: slow, magical, tricky to customize</li>
-<li>general strategy for using ggplot or lattice:
+<li>general graphical strategy:
 
 <ul>
 <li>primary response as y axis</li>
-<li>most important predictor as x axis (or substitute most important continuous or many-category predictor)</li>
-<li>next (categorical) predictors as groupings (preferably colour/shape) within facets</li>
-<li>next (categorical) predictors as facets</li>
+<li>an important predictor as x axis</li>
+<li>most important, or most &quot;axis-like&quot; (many values, or continuous)</li>
+<li>other important predictors as:</li>
+<li>color; shape; facets
+
+<ul>
+<li>roughly in that order</li>
+</ul></li>
+<li>Adding predictors:
+
+<ul>
+<li>use friendly colors</li>
+<li>all of these are easier with smallish numbers of categories</li>
+<li>avoid forcing things into arbitrary categories</li>
+</ul></li>
 </ul></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>challenges:</h2></hgroup><article  id="challenges">
 
 <ul>
-<li>more than one continuous predictor (can discretize continuous predictors, but loses information)</li>
+<li>more than one continuous predictor</li>
+<li>use categories when necessary</li>
+<li>color ramps don&#39;t necessary need to be categorized; use a simple, logical progression if you have more than 7 colors</li>
 <li>multivariate responses</li>
 <li>high-dimensional data generally</li>
 <li>factors with lots of (unordered) levels</li>

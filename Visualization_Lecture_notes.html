@@ -95,36 +95,54 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Disadvantages: tricky to customize</li>
 <li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
 </ul>
-<h2 id="ggplot2"><a href="http://ggplot2.org">ggplot(2)</a></h2>
+<h2 id="ggplot"><a href="http://ggplot2.org">ggplot</a></h2>
+<p>The library is called ggplot2; there is no ggplot1.</p>
 <ul>
 <li><strong>data</strong></li>
+<li>You are going to want your data in “long” form (probably done with tidyr)</li>
 <li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour …)</li>
-<li>first two show up as (e.g.) <code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
 <li><strong>geoms</strong>:</li>
-<li>simple: <code>geom_point</code>, <code>geom_line</code></li>
+<li><p>simple: <code>geom_point</code>, <code>geom_line</code></p></li>
+<li><p>Data and aesthetic mappings set up a plot, but ggplot won’t print it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">base &lt;-<span class="st"> </span><span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))</code></pre></div></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))+<span class="kw">geom_point</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(base +<span class="st"> </span><span class="kw">geom_point</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))
+    +<span class="st"> </span><span class="kw">geom_point</span>()
+)</code></pre></div>
 <ul>
 <li>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></li>
 </ul>
-<h2 id="more-on-ggplot2">more on ggplot2</h2>
+<h2 id="more-on-ggplot">more on ggplot</h2>
 <ul>
 <li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
 <li><strong>facets</strong>: <code>facet_wrap</code> (free-form wrapping of subplots), <code>facet_grid</code> (two-D grid of subplots)</li>
 <li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
 <li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
 <li>disadvantages: slow, magical, tricky to customize</li>
-<li>general strategy for using ggplot or lattice:
+<li>general graphical strategy:
 <ul>
 <li>primary response as y axis</li>
-<li>most important predictor as x axis (or substitute most important continuous or many-category predictor)</li>
-<li>next (categorical) predictors as groupings (preferably colour/shape) within facets</li>
-<li>next (categorical) predictors as facets</li>
+<li>an important predictor as x axis</li>
+<li>most important, or most “axis-like” (many values, or continuous)</li>
+<li>other important predictors as:</li>
+<li>color; shape; facets
+<ul>
+<li>roughly in that order</li>
+</ul></li>
+<li>Adding predictors:
+<ul>
+<li>use friendly colors</li>
+<li>all of these are easier with smallish numbers of categories</li>
+<li>avoid forcing things into arbitrary categories</li>
+</ul></li>
 </ul></li>
 </ul>
 <h2 id="challenges">challenges:</h2>
 <ul>
-<li>more than one continuous predictor (can discretize continuous predictors, but loses information)</li>
+<li>more than one continuous predictor</li>
+<li>use categories when necessary</li>
+<li>color ramps don’t necessary need to be categorized; use a simple, logical progression if you have more than 7 colors</li>
 <li>multivariate responses</li>
 <li>high-dimensional data generally</li>
 <li>factors with lots of (unordered) levels</li>
