@@ -1,6 +1,5 @@
 # QMEE
 # https://mac-theobio.github.io/QMEE/index.html
-# https://docs.google.com/spreadsheets/d/1J1Zus295rPJADVXIt6GwomSxisgDurhjzskhUtsMbr4/edit#gid=2011507906
 
 ### Hooks for the editor to set the default target
 current: target

@@ -37,41 +37,58 @@ date: "19:23 21 January 2017"
 -   Disadvantages: tricky to customize
 -   Advantages: abstraction (relative to base graphics), speed (relative to `ggplot`), banking (aspect ratio control), shingles, faceting, 3D plots
 
-## [ggplot(2)](http://ggplot2.org)
+## [ggplot](http://ggplot2.org)
+
+The library is called ggplot2; there is no ggplot1.
 
 -   **data**
+  * You are going to want your data in "long" form (probably done with tidyr)
 -   **mappings**: between variables in the data frame and **aesthetics**, or graphical attributes
 (x position, y position, size, colour ...)
--   first two show up as (e.g.) `ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))`
 -   **geoms**:
    - simple: `geom_point`, `geom_line`
 
+-   Data and aesthetic mappings set up a plot, but ggplot won't print it:
+```r 
+	base <- ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
+```
 
 ```r
-(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))+geom_point())
+print(base + geom_point())
+```
+
+```r
+print(ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))
+	+ geom_point()
+)
 ```
 
 - more complex: `geom_boxplot`, `geom_smooth`
 
-## more on ggplot2
+## more on ggplot
 
 - geoms are **added** to an existing data/mapping combination
 - **facets**: `facet_wrap` (free-form wrapping of subplots), `facet_grid` (two-D grid of subplots)
 - also: scales, coordinate transformations, statistical summaries, position adjustments
 - advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.
 - disadvantages: slow, magical, tricky to customize
-- general strategy for using ggplot or lattice:
+- general graphical strategy:
     - primary response as y axis
-    - most important predictor as x axis
-(or substitute most important continuous or many-category predictor)
-    - next (categorical) predictors as groupings (preferably colour/shape) within facets
-    - next (categorical) predictors as facets
-
+    - an important predictor as x axis
+	   - most important, or most "axis-like" (many values, or continuous)
+    - other important predictors as:
+	   - color; shape; facets
+		- roughly in that order
+	 - Adding predictors:
+		- use friendly colors
+		- all of these are easier with smallish numbers of categories
+		- avoid forcing things into arbitrary categories
 	
 ## challenges:
 
 - more than one continuous predictor
-(can discretize continuous predictors, but loses information)
+  - use categories when necessary
+  - color ramps don't necessary need to be categorized; use a simple, logical progression if you have more than 7 colors
 - multivariate responses
 - high-dimensional data generally
 - factors with lots of (unordered) levels
