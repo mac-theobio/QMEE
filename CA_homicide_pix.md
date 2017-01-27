@@ -1,6 +1,6 @@
 ---
 title: "Data Vis example: homicide data"
-date: "13:18 22 January 2017"
+date: "18:27 27 January 2017"
 ---
 
 Load data from previous computations:
@@ -116,14 +116,15 @@ Maybe we want to make our line graph less busy:
 
 ```r
 print(p1L+facet_wrap(~Region))
-``
+```
+
+```
+## Warning: Transformation introduced infinite values in continuous y-axis
+```
+
+![plot of chunk facet_wrap](figure/facet_wrap-1.png)
 
 We could also code population size by line width:
-```
-
-```
-## Error: attempt to use zero-length variable name
-```
 
 ```r
 p2 <- ggplot(mdat,
