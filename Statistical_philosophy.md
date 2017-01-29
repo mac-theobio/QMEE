@@ -33,13 +33,8 @@ Resources
 -   [Statistical philosophy/Lecture
     notes](Statistical_philosophy/Lecture_notes.html)
 
+-   [MMV example](MMV.html)
 
--   [Statistical philosophy/Epstein-Barr
-    example](Statistical_philosophy/Epstein-Barr_example.html)
-
-
--   [JD's related Africa
-    lecture](http://lalashan.mcmaster.ca/theobio/mmed/index.php/Philosophy_lecture)
 
 ### Additional readings
 

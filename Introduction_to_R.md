@@ -50,7 +50,7 @@ Resources
     R](http://yushan.mcmaster.ca/theobio/mmed/index.php/Introduction_to_R),
     with tutorials (also from JD and associates).
 
-<!---
+<!--- Commented out because schedule awkwardness; comment back in for next time as default
 Exercise
 ========
 
