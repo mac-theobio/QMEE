@@ -1,5 +1,9 @@
 # TODO
 
+Garden of forking
+
+Find and link assignment guidelines
+
 ## Content
 
 ## Github
