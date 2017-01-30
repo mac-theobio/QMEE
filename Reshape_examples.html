@@ -59,27 +59,27 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <table>
 <tbody>
 <tr class="odd">
-<td align="left">title: “Reshaping data with <code>tidyr</code>”</td>
+<td>title: “Reshaping data with <code>tidyr</code>”</td>
 </tr>
 <tr class="even">
-<td align="left">date: “10:31 22 January 2017”</td>
+<td>date: “15:32 30 January 2017”</td>
 </tr>
 <tr class="odd">
-<td align="left">author: Ben Bolker</td>
+<td>author: Ben Bolker</td>
 </tr>
 </tbody>
 </table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr)</code></pre></div>
 <p>Look at some example data that comes with the package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smiths</code></pre></div>
-<pre><code>## # A tibble: 2 × 5
+<pre><code>## # A tibble: 2 x 5
 ##      subject  time   age weight height
 ##        &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 ## 1 John Smith     1    33     90   1.87
 ## 2 Mary Smith     1    NA     NA   1.54</code></pre>
 <p>The default <code>gather()</code> operation squashes everything too far, including the subject name and time in the value column …</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gather</span>(smiths)</code></pre></div>
-<pre><code>## # A tibble: 10 × 2
+<pre><code>## # A tibble: 10 x 2
 ##        key      value
 ##      &lt;chr&gt;      &lt;chr&gt;
 ## 1  subject John Smith
@@ -95,7 +95,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>We can specify that we only want to gather the <code>age</code> and <code>weight</code> variables (however, we have to specify the name of key and value columns explicitly).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(smelt &lt;-<span class="st"> </span><span class="kw">gather</span>(smiths, <span class="dt">key=</span><span class="st">&quot;var&quot;</span>, <span class="dt">value=</span><span class="st">&quot;value&quot;</span>,
        <span class="kw">c</span>(age,weight)))</code></pre></div>
-<pre><code>## # A tibble: 4 × 5
+<pre><code>## # A tibble: 4 x 5
 ##      subject  time height    var value
 ##        &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt; &lt;dbl&gt;
 ## 1 John Smith     1   1.87    age    33
@@ -105,7 +105,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Alternatively we could specify that we want to gather everything <em>but</em> the subject name and time variable:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gather</span>(smiths, <span class="dt">key=</span><span class="st">&quot;var&quot;</span>, <span class="dt">value=</span><span class="st">&quot;value&quot;</span>,
        -<span class="kw">c</span>(subject,time))</code></pre></div>
-<pre><code>## # A tibble: 6 × 4
+<pre><code>## # A tibble: 6 x 4
 ##      subject  time    var value
 ##        &lt;chr&gt; &lt;dbl&gt;  &lt;chr&gt; &lt;dbl&gt;
 ## 1 John Smith     1    age 33.00
@@ -116,16 +116,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 6 Mary Smith     1 height  1.54</code></pre>
 <p>Make a column for each subject (= a row for each measurement)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(smelt, <span class="dt">key=</span>subject, value)</code></pre></div>
-<pre><code>## # A tibble: 4 × 5
-##    time height    var `John Smith` `Mary Smith`
-## * &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt;        &lt;dbl&gt;        &lt;dbl&gt;
-## 1     1   1.54    age           NA           NA
-## 2     1   1.54 weight           NA           NA
-## 3     1   1.87    age           33           NA
-## 4     1   1.87 weight           90           NA</code></pre>
+<pre><code>## # A tibble: 4 x 5
+##    time height    var John Smith Mary Smith
+## * &lt;dbl&gt;  &lt;dbl&gt;  &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1     1   1.54    age         NA         NA
+## 2     1   1.54 weight         NA         NA
+## 3     1   1.87    age         33         NA
+## 4     1   1.87 weight         90         NA</code></pre>
 <p>Make a column for each value (= a row for each person):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(smelt, <span class="dt">key=</span>var, value)</code></pre></div>
-<pre><code>## # A tibble: 2 × 5
+<pre><code>## # A tibble: 2 x 5
 ##      subject  time height   age weight
 ## *      &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 ## 1 John Smith     1   1.87    33     90
@@ -133,14 +133,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Take the mean for each variable:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 smelt %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(value))</code></pre></div>
-<pre><code>## # A tibble: 2 × 2
+<pre><code>## # A tibble: 2 x 2
 ##      var  mean
 ##    &lt;chr&gt; &lt;dbl&gt;
 ## 1    age    NA
 ## 2 weight    NA</code></pre>
 <p>Insist that R calculate a mean:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smelt %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(value,<span class="dt">na.rm=</span><span class="ot">TRUE</span>))</code></pre></div>
-<pre><code>## # A tibble: 2 × 2
+<pre><code>## # A tibble: 2 x 2
 ##      var  mean
 ##    &lt;chr&gt; &lt;dbl&gt;
 ## 1    age    33
@@ -149,7 +149,7 @@ smelt %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smelt %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(value,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),
               <span class="dt">n=</span><span class="kw">length</span>(<span class="kw">na.omit</span>(value)))</code></pre></div>
-<pre><code>## # A tibble: 2 × 3
+<pre><code>## # A tibble: 2 x 3
 ##      var  mean     n
 ##    &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
 ## 1    age    33     1
@@ -158,7 +158,7 @@ smelt %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smelt %&gt;%<span class="st"> </span>na.omit %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;%<span class="st"> </span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(value,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),
               <span class="dt">n=</span><span class="kw">n</span>())</code></pre></div>
-<pre><code>## # A tibble: 2 × 3
+<pre><code>## # A tibble: 2 x 3
 ##      var  mean     n
 ##    &lt;chr&gt; &lt;dbl&gt; &lt;int&gt;
 ## 1    age    33     1
