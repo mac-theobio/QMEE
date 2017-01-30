@@ -58,7 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: homicide data</h1>
-<h3 class="date">13:18 22 January 2017</h3>
+<h3 class="date">18:27 27 January 2017</h3>
 </div>
 <p>Load data from previous computations:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/CA_homicide.RData&quot;</span>)</code></pre></div>
@@ -126,11 +126,13 @@ mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><spa
 <p class="caption">plot of chunk coord_flip</p>
 </div>
 <p>Maybe we want to make our line graph less busy:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L+<span class="kw">facet_wrap</span>(~Region))
-<span class="st">``</span>
-
-We could also code population size by line width:</code></pre></div>
-<pre><code>## Error: attempt to use zero-length variable name</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L+<span class="kw">facet_wrap</span>(~Region))</code></pre></div>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<div class="figure">
+<img src="figure/facet_wrap-1.png" alt="plot of chunk facet_wrap" />
+<p class="caption">plot of chunk facet_wrap</p>
+</div>
+<p>We could also code population size by line width:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,
              <span class="kw">aes</span>(Year,Hom_rate,<span class="dt">colour=</span>Region,<span class="dt">size=</span><span class="kw">log</span>(Pop_2011),
                  <span class="dt">group=</span>Place))+<span class="kw">geom_line</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)+

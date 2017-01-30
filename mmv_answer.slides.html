@@ -87,55 +87,42 @@
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Introduction</h2></hgroup><article  id="introduction">
-
-<p>This week is the introduction to the main statistical part of the course. We will be grappling with difficult, abstract questions about what we mean by scientific and statistical inference and about statistical philosophies.</p>
-
-<p>Time spent grappling with these questions will make you a better scientist, and will provide you a strong foundation to navigate the various detailed questions that arise from particular questions and approaches.</p>
-
-</article></slide><slide class=''><hgroup><h2>Resources</h2></hgroup><article  id="resources">
+<p>= Intuitive answer =</p>
 
 <ul>
-<li><a href='http://dushoff.github.io/notebook/materials/philosophy.handouts.emb.html' title=''>Lecture notes</a></li>
+<li><p>prior odds: 1/99 (against EBV)</p></li>
+<li><p>relative probability given the observation (positive test): 20/1</p></li>
+<li><p>posterior odds: 20/99</p></li>
+<li><p>posterior probability = 20/(99+20) = 20/119</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Assignment</h2></hgroup><article  id="assignment">
+<p>= Formal answer =</p>
 
-<ul>
-<li>Answer the <a href='MMV.html' title=''>MMV question</a>. Get help where you need it, but write up the answer by yourself.</li>
-<li>Formulate a hypothesis about your data, and discuss how you would test it statistically.</li>
-</ul>
+<p>== What are our a priori probabilities? ==</p>
 
-</article></slide><slide class=''><hgroup><h2>Main readings</h2></hgroup><article  id="main-readings">
+<p>Positive person with a positive test (PP): 0.01*1 = 0.01</p>
 
-<ul>
-<li><p>Please read the articles below. They should not be too hard to get through. Think about your own statistical philosophy and be prepared to talk about what statistical inference means to you.</p></li>
-<li><p><a href='http://www.ncbi.nlm.nih.gov/pubmed/24522584' title=''>2014 Nature commentary</a></p></li>
-<li><p><a href='http://pss.sagepub.com/content/early/2011/10/17/0956797611417632' title=''>Listening to music makes you younger</a></p></li>
-<li><p><a href='http://www.fharrell.com/2017/01/introduction.html' title=''>Frank Harrell&#39;s blog intro</a></p></li>
-</ul>
+<p>PN: 0.01*0 = 0</p>
 
-</article></slide><slide class=''><hgroup><h2>Additional readings</h2></hgroup><article  id="additional-readings">
+<p>NP: 0.99*0.05</p>
 
-<p>Some of these are very cool, and different ones will speak to different people.</p>
+<p>NN: 0.99*0.95</p>
 
-<ul>
-<li><p><a href='http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf' title=''>The garden of forking paths (Gelman)</a></p></li>
-<li><p><a href='http://www.annals.org.libaccess.lib.mcmaster.ca/content/130/12/1019.long' title=''>Standing statistics right side up</a> <em>Mac library authentication (MacID password) may be required</em></p></li>
-<li><a href='http://lalashan.mcmaster.ca/theobio/bio_708/images/2/29/Pigliucci.pdf' title=''>Reject that null hypothesis! (Pigliucci)</a></li>
-<li><p><a href='http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&amp;rep=rep1&amp;type=pdf' title=''>Fisher, Jeffreys and Neyman</a></p></li>
-<li><p><a href='http://www.jstor.org/pss/1558705' title=''>What is a statistical model?</a> by Peter McCullagh. Aimed at mathematicians and mathematical statisticians.</p></li>
-<li><p>Bad statistical practice article from <a href='http://www.nature.com/neuro/journal/v14/n9/full/nn.2886.html' title=''>a paper in Nature Neuroscience</a>, and related <a href='http://www.guardian.co.uk/commentisfree/2011/sep/09/bad-science-research-error' title=''>News article</a></p></li>
-<li><p>Gelman <a href='http://www.stat.columbia.edu/~gelman/research/published/signif4.pdf' title=''>The Difference Between “Significant” and “Not Significant” is not Itself Statistically Significant</a></p></li>
-<li><p><a href='http://dx.doi.org/10.1177/0049124108318973' title=''>Gerber and Malhotra on the dip in p-values just above p=0.05 in the sociological literature</a> (and <a href='https://scholar.google.ca/scholar?cites=2944013600336981085&amp;as_sdt=2005&amp;sciodt=0,5&amp;hl=en' title=''>Google scholar citations of their paper</a></p></li>
-</ul>
+<p>== What do the data tell us? ==</p>
 
-</article></slide><slide class=''><hgroup><h2>Assignment</h2></hgroup><article  id="assignment-1">
+<p>The data say that we have a positive test, so PP and NP are the only possibilities.</p>
 
-<ul>
-<li>Answer the <a href='http://lalashan.mcmaster.ca/theobio/bio_708/index.php/Statistical_philosophy/Lecture_notes#The_Bayesian_approach' title=''>&quot;Coin example&quot; question</a>. Get help where you need it, but write up the answer by yourself.</li>
-<li>Formulate a hypothesis about your data, and discuss how you would test it statistically.</li>
-</ul></article></slide>
+<p>The prior probability of being positive and having a positive test was: PP/(PP+NP+PN+NN) = PP.</p>
+
+<p>When the data come, I can throw out the things that didn&#39;t happen from the denominator</p>
+
+<p>The posterior probability of being positive and having a positive test is: NP/(PP+NP) = 0.0495/(0.01+0.0495) = 99/119</p>
+
+<p>The same answer.</p>
+
+<p>== What do you tell your friend ==</p>
+
+<p>You don&#39;t tell your friend &#39;&#39;anything&#39;&#39; until you find out why he or she was given a test in the first place. It is not the same situation as the first one.</p>
 
 
   <slide class="backdrop"></slide>

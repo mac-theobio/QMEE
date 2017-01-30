@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<p>= Intuitive answer =</p>
+<ul>
+<li><p>prior odds: 1/99 (against EBV)</p></li>
+<li><p>relative probability given the observation (positive test): 20/1</p></li>
+<li><p>posterior odds: 20/99</p></li>
+<li><p>posterior probability = 20/(99+20) = 20/119</p></li>
+</ul>
+<p>= Formal answer =</p>
+<p>== What are our a priori probabilities? ==</p>
+<p>Positive person with a positive test (PP): 0.01*1 = 0.01</p>
+<p>PN: 0.01*0 = 0</p>
+<p>NP: 0.99*0.05</p>
+<p>NN: 0.99*0.95</p>
+<p>== What do the data tell us? ==</p>
+<p>The data say that we have a positive test, so PP and NP are the only possibilities.</p>
+<p>The prior probability of being positive and having a positive test was: PP/(PP+NP+PN+NN) = PP.</p>
+<p>When the data come, I can throw out the things that didn’t happen from the denominator</p>
+<p>The posterior probability of being positive and having a positive test is: NP/(PP+NP) = 0.0495/(0.01+0.0495) = 99/119</p>
+<p>The same answer.</p>
+<p>== What do you tell your friend ==</p>
+<p>You don’t tell your friend ‘’anything’’ until you find out why he or she was given a test in the first place. It is not the same situation as the first one.</p>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
