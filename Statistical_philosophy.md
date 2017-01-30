@@ -38,11 +38,11 @@ Additional readings
 
 Some of these are very cool, and different ones will speak to different people.
 
-- [The garden of forking paths]()
+- [The garden of forking paths (Gelman)](http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf)
 
 - [Standing statistics right side up](http://www.annals.org.libaccess.lib.mcmaster.ca/content/130/12/1019.long) _Mac library authentication (MacID password) may be required_
 
--   [Reject that null hypothesis!](http://lalashan.mcmaster.ca/theobio/bio_708/images/2/29/Pigliucci.pdf)
+-   [Reject that null hypothesis! (Pigliucci)](http://lalashan.mcmaster.ca/theobio/bio_708/images/2/29/Pigliucci.pdf)
 -   [Fisher, Jeffreys and Neyman](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&rep=rep1&type=pdf)
 
 -   [What is a statistical model?](http://www.jstor.org/pss/1558705) by
@@ -53,7 +53,7 @@ Some of these are very cool, and different ones will speak to different people.
 -   Gelman [The Difference Between “Significant” and “Not Significant” is not
 Itself Statistically Significant](http://www.stat.columbia.edu/~gelman/research/published/signif4.pdf)
 
--   Gerber and Malhotra on [the dip in p-values just above p=0.05 in the
+-   [Gerber and Malhotra on the dip in p-values just above p=0.05 in the
     sociological literature](http://dx.doi.org/10.1177/0049124108318973)
     (and [Google scholar citations of their
     paper](https://scholar.google.ca/scholar?cites=2944013600336981085&as_sdt=2005&sciodt=0,5&hl=en)
