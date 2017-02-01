@@ -57,13 +57,3 @@ Itself Statistically Significant](http://www.stat.columbia.edu/~gelman/research/
     sociological literature](http://dx.doi.org/10.1177/0049124108318973)
     (and [Google scholar citations of their
     paper](https://scholar.google.ca/scholar?cites=2944013600336981085&as_sdt=2005&sciodt=0,5&hl=en)
-
-Assignment
-----------
-
--   Answer the ["Coin example"
-    question](http://lalashan.mcmaster.ca/theobio/bio_708/index.php/Statistical_philosophy/Lecture_notes#The_Bayesian_approach).
-    Get help where you need it, but write up the answer by yourself.
--   Formulate a hypothesis about your data, and discuss how you would
-    test it statistically.
-
