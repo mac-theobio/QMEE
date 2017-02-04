@@ -87,38 +87,283 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
+<p>&quot;Simple permutation tests in R&quot; date: &quot;`r format(Sys.time(), &#39;%H:%M %d %B %Y&#39;)`&quot; author: Ben Bolker output:</p>
 
-<p>Classical statistics was developed partly under the <a href='lamppost_theory.html' title=''>lamppost theory</a>: people did not used to have powerful computers, and therefore there were only certain kinds of statistics that they could do.</p>
+<p><code> html_document:</code><br/><code>   toc: true</code><br/><code>   toc_depth: 2</code></p>
 
-<p>Permutation tests provide a powerful way of testing statistical hypotheses, and <em>also of thinking about what your statistical tests mean</em>. Thinking about statistical tests in terms of permutations can help you think clearly about your tests even if you never actually use a permutation test.</p>
+<slide class=''><hgroup><h2></h2></hgroup><article >
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+<ol>
+<li><ol>
+<li>Example: counting ant colonies</li>
+</ol></li>
+</ol>
+
+<p>From Bio 708 class; data originally from Gotelli and Ellison *Primer of Ecology*:</p>
+
+<p>```{r define_data} forest &lt;- c(9, 6, 4, 6, 7, 10) field &lt;- c(12, 9, 12, 10) ants &lt;- data.frame(</p>
+
+<p><code> place=rep(c(&quot;field&quot;,&quot;forest&quot;),</code><br/><code>           c(length(field), length(forest))),</code><br/><code>   colonies=c(field,forest)</code></p>
+
+<p>) ```</p>
+
+<ol>
+<li><ol>
+<li>Visualization</li>
+</ol></li>
+</ol>
+
+<p>Look at the data (with `stat_sum()` to visualize overlapping data points; jittering is also a possibility, but `stat_sum()` is prettier). `aes(size=..n..)` tells `stat_sum()` to use the number of overlapping points, not the proportion of points within a category, as the summary statistic; `scale_size_area()` tells ggplot to scale the area of the points proportional to the size (`breaks=1:2` tells it what values to show in the legend). We don&#39;t really need the boxplot here, but shown for comparison (and to indicate that boxplots are just a bit silly for really small data sets; if you must show them, you should probably include the points as well, as shown here).</p>
+
+<p>```{r plot1,message=FALSE} library(&quot;ggplot2&quot;); theme_set(theme_bw()) ggplot(ants,aes(place,colonies))+</p>
+
+<p><code>   stat_sum(aes(size=..n..),colour=&quot;darkgray&quot;)+</code><br/><code>       scale_size_area(breaks=1:2,max_size=4)+</code><br/><code>           geom_boxplot(fill=NA)</code></p>
+
+<p>```</p>
+
+<ol>
+<li><ol>
+<li>Permutation tests</li>
+</ol></li>
+<li><ol>
+<li>Brute force</li>
+</ol></li>
+</ol>
+
+<p>There are always trade-offs between simplicity, transparency, length of code, computational efficiency &#8230;</p>
+
+<p>The simplest way to do this would be something like:</p>
+
+<p>```{r brute1} set.seed(101) ## for reproducibility res &lt;- numeric(1000) ## set aside space for results for (i in 1:1000) {</p>
+
+<p><code>   colonyboot &lt;- sample(c(field,forest)) ## scramble</code><br/><code>   ## pick out forest &amp; field samples</code><br/><code>   forestboot &lt;- colonyboot[1:length(forest)] </code><br/><code>   fieldboot &lt;- colonyboot[(length(forest)+1):length(colonyboot)]</code><br/><code>   ## compute &amp; store difference in means</code><br/><code>   res[i] &lt;- mean(fieldboot)-mean(forestboot)</code></p>
+
+<p>} obs &lt;- mean(field)-mean(forest) hist(res,col=&quot;gray&quot;,las=1,main=&quot;&quot;) abline(v=obs,col=&quot;red&quot;) ```</p>
+
+<p>Since there aren&#39;t actually that many possible outcomes, we could plot them this way: ```{r plot.table} par(las=1,bty=&quot;l&quot;) plot(prop.table(table(round(res,2))),</p>
+
+<p><code>    ylab=&quot;Proportion&quot;)</code></p>
+
+<p>points(obs,0,pch=16,cex=1.5,col=&quot;red&quot;) ```</p>
+
+<p>If we want to do a 2-tailed test, we have to decide whether we are doubling the observed value or counting the area in both tails.</p>
+
+<p>```{r brute2} 2*mean(res&gt;=obs) ## doubling mean(abs(res)&gt;=abs(obs)) ## count both tails: matches lmPerm ```</p>
+
+<ol>
+<li><ol>
+<li>Using a t test</li>
+</ol></li>
+</ol>
+
+<p>The standard parametric test to use here would be a $t$ test, which is also equivalent to a 1-way ANOVA as executed by `lm()` (except that for some reason they seem to use opposite signs for the effect size): ```{r test1} (tt &lt;- t.test(colonies~place,data=ants,var.equal=TRUE)) summary(lm(colonies~place,data=ants)) ## matches ```</p>
+
+<ol>
+<li><ol>
+<li>Using `lmPerm`</li>
+</ol></li>
+</ol>
+
+<p>```{r install_lmperm,eval=FALSE} library(&quot;devtools&quot;) install_version(&quot;lmPerm&quot;,version=&quot;1.1-2&quot;) ``` To install this package you will need compilation tools (for \[Windows\](<a href='http://cran.r-project.org/bin/windows/Rtools/' title=''>http://cran.r-project.org/bin/windows/Rtools/</a>) or \[MacOS\](<a href='http://r.research.att.com/tools/' title=''>http://r.research.att.com/tools/</a>); if you are on Linux you probably have them already).</p>
+
+<p>```{r lmperm} library(&quot;lmPerm&quot;) ## load the package summary(lmp(colonies~place,data=ants)) ```</p>
+
+<p>`lmp()` seems to automatically change the contrast settings from the default treatment contrast to sum-to-zero contrasts, so that the reported effect size is half what it was (3.75/2), because it is computing the difference between the (unweighted) average of the two groups and the first group (field).</p>
+
+<p>Oddly, it seems to report the unadjusted $F$-statistic and p-value for the full model &#8230;</p>
+
+<ol>
+<li><ol>
+<li>Using `coin`</li>
+</ol></li>
+</ol>
+
+<p>The `coin` package is big and complicated and powerful. For each of the tests it provides, it allows a choice of whether to use differences of ranks or raw differences, and whether to use (1) *asymptotic* p-values (like the classic nonparametric tests: Kruskal-Wallis, Mann-Whitney, etc.); (2) *approximate* p-values (taking many random samples), or (3) *exact* p-values (effectively, generating all possible combinations). ```{r coin} library(&quot;coin&quot;)</p>
+
+<ol>
+<li><ol>
+<li>default: asymptotic</li>
+</ol></li>
+</ol>
+
+<p>oneway_test(colonies~place,data=ants)</p>
+
+<ol>
+<li><ol>
+<li>exact distribution</li>
+</ol></li>
+</ol>
+
+<p>oneway_test(colonies~place,data=ants,distribution=&quot;exact&quot;)</p>
+
+<ol>
+<li><ol>
+<li>approximate (random-sampling/Monte Carlo)</li>
+</ol></li>
+</ol>
+
+<p>oneway_test(colonies~place,data=ants,distribution=approximate(B=9999)) ```</p>
+
+<ol>
+<li><ol>
+<li>More general approach</li>
+</ol></li>
+</ol>
+
+<p>(Should I break this out into a separate document?)</p>
+
+<p>I&#39;m going to do things in a *slightly* more complex way than JD did, to illustrate a more abstract but general approach.</p>
+
+<p>Get `gtools` package and generate the combinations, as in the original example: ```{r get_comb} library(gtools) ind_comb &lt;- combinations(nrow(ants), length(field)) ```</p>
+
+<p>Now write two functions. The first, `simfun()`, simulates a randomized data set given inputs (in this case, the input is a list of elements to be assigned to the &quot;field&quot; category). We take the `colonies` column from the original `ants` data set and arrange the field-assigned colony counts first, and the non-field-assigned colony counts second.</p>
+
+<p>```{r simfun} simfun &lt;- function(cc) {</p>
+
+<p><code> transform(ants,colonies=c(colonies[cc],colonies[-cc]))</code></p>
+
+<p>} ```</p>
+
+<p>The second function, `sumfun()`, takes a simulated data set and returns whatever summary statistic we want. In this case I decided to use the $t$ statistic as computed by R. (In many cases simple summary statistics can be computed more efficiently by doing it by hand, but it&#39;s often conceptually clearer to run *exactly the same test* that we would have used in the non-permutation analysis and extract the test statistic, which is usually stored as a list element called &quot;statistic&quot;, from it.)</p>
+
+<p>```{r sumfun} sumfun &lt;- function(dat) {</p>
+
+<p><code> t.test(colonies~place,data=dat,var.equal=TRUE)</code><a href='%22statistic%22.html' title=''><code>&quot;statistic&quot;</code></a></p>
+
+<p>} ```</p>
+
+<p>```{r get_permdist} ncomb &lt;- nrow(ind_comb) permdist &lt;- numeric(ncomb) for (i in 1:ncomb) {</p>
+
+<p><code>   permdist[i] &lt;- sumfun(simfun(ind_comb[i,]))</code></p>
+
+<p>} ``` (this could also be done using R&#39;s `apply()` function). What do we get, and how does it compare with the distribution we would expect from classical statistics, which is a $t$-distribution with `r tt$parameter` degrees of freedom?</p>
+
+<p>```{r stats_hist} obs_stat &lt;- tt<a href='%22statistic%22.html' title=''>&quot;statistic&quot;</a> hist(permdist,col=&quot;gray&quot;,breaks=30,freq=FALSE,main=&quot;&quot;) curve(dt(x,df=tt<a href='%22parameter%22.html' title=''>&quot;parameter&quot;</a>),add=TRUE,col=&quot;red&quot;) abline(v=obs_stat,col=&quot;blue&quot;) ```</p>
+
+<p>One way to get the $p$-value:</p>
+
+<p>```{r pval} (obs_pval &lt;- mean(abs(permdist)&gt;=abs(obs_stat))) ```</p>
 
 <ul>
-<li><a href='Permutations_Lecture_notes.html' title=''>Permutations_Lecture notes</a></li>
-<li><p><a href='permutation_examples.html' title=''>more permutation code examples</a>:</p></li>
-<li>R stuff
-
-<ul>
-<li><a href='http://cran.r-project.org/web/packages/coin/index.html' title=''>R&#39;s &quot;conditional inference&quot; (coin) package</a> &#8211; Very cool, and a little intimidating.</li>
-<li><a href='http://ucfagls.wordpress.com/2011/10/04/permute-a-package-for-generating-restricted-permutations/' title=''>Information about &quot;permute&quot; and &quot;vegan&quot; packages</a>. These seem to be more about generating permutations than doing permutation tests</li>
-<li><a href='http://cran.r-project.org/web/packages/gtools/index.html' title=''>gtools</a></li>
+<li>using `mean(permutations&gt;=obs))` is a trick to calculate the proportion: the logical statement returns a logical (`FALSE`/`TRUE`) vector, which then gets converted to a 0/1 vector when you ask R to take the mean, so this is equivalent to counting the number of true values and dividing by the length &#8230;</li>
+<li>I use `abs()` to get the two-tailed test (alternatively, I could double the one-tailed test $p$-value)</li>
+<li><ul>
+<li><ul>
+<li>note** that because the permutation distribution is not completely symmetric, this is not quite the same as the result JD got, which is based on doubling the area of the upper tail: the lower tail is a little bit &quot;skinnier&quot; than the upper tail, so we get a smaller $p$-value by adding together the areas of the two tails instead of doubling the area of the upper tail: `2*mean(permdist&gt;=obs_stat)` gives `r round(2*mean(permdist&gt;=obs_stat),3)`.</li>
 </ul></li>
-<li>Stuff from JD
-
-<ul>
-<li><a href='http://lalashan.mcmaster.ca/theobio/math/index.php/Permutation_tests' title=''>Counting and plotting permutations</a></li>
-<li><a href='http://lalashan.mcmaster.ca/ecostats/permmean.pdf' title=''>Confidence intervals for the mean of a symmetric variable</a></li>
 </ul></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Assignment</h2></hgroup><article  id="assignment">
+<p>This gives just the single $p$-value, which we can compare with the $p$-value we got from the classical test (`r round(tt$p.value,3)`)</p>
 
-<ul>
-<li>Formulate two different hypotheses about your data, and describe how you would test them with two different permutation tests. Challenge yourself to come up with conceptually different tests, if this is reasonable for your data set.</li>
-<li>Implement one or both of these tests in R. You can use permutation, or you can use a classic test if you explain clearly how it corresponds to a permutation test. Best would be to use both.</li>
-</ul></article></slide>
+<p>Quantile/p-value plot:</p>
+
+<p>```{r quantplot} par(las=1,bty=&quot;l&quot;) r &lt;- sort(ceiling(rank(permdist)))/length(permdist) pval &lt;- 2*pt(sort(abs(permdist),decreasing=TRUE),lower.tail=FALSE,</p>
+
+<p><code>                    df=tt$parameter)</code></p>
+
+<p>plot(r,pval,xlab=&quot;Permutation p-value&quot;,ylab=&quot;Nominal p-value&quot;,</p>
+
+<p><code>    type=&quot;s&quot;,log=&quot;xy&quot;)</code></p>
+
+<p>abline(a=0,b=1,col=&quot;gray&quot;) abline(h=tt$p.value,v=obs_pval,col=adjustcolor(&quot;red&quot;,alpha=0.5)) abline(h=0.05,col=adjustcolor(&quot;red&quot;,alpha=0.5),lty=2) ```</p>
+
+<p>Wherever the black line is below/to the right of the gray 1:1 line, the permutation p-value is greater (more conservative than) the corresponding p-value from the classical $t$-test. This is true for both the observed data (red lines) and for the $p=0.05$ cutoff (horizontal dashed line).</p>
+
+<ol>
+<li><ol>
+<li>Other approaches</li>
+</ol></li>
+<li><ol>
+<li>Brute-force resampling</li>
+</ol></li>
+</ol>
+
+<p>If we aren&#39;t concerned about generating the exact set of combinations, we can just randomize the order of the response variable (i.e. permute the values): R&#39;s `sample()` function does this by default (it has many other uses, including sampling with replacement for bootstrap analyses).</p>
+
+<p>We just define a new version of `simfun()`. Because we are picking a different value every time, we don&#39;t need to keep track of which sample we are on; `simfun()` doesn&#39;t need to take any arguments, and we can use R&#39;s `replicate()` function to generate as many permutation results as we want:</p>
+
+<p>```{r simfun2} simfun_rsamp &lt;- function() {</p>
+
+<p><code> transform(ants,colonies=sample(colonies))</code></p>
+
+<p>} set.seed(101) permdist_rsamp &lt;- replicate(2000,sumfun(simfun_rsamp())) ```</p>
+
+<p>The result isn&#39;t quite the same as the exact value derived above, but it&#39;s pretty close (close to the result we got before):</p>
+
+<p>```{r simfun2_res} mean(abs(permdist_rsamp)&gt;=abs(obs_stat)) ```</p>
+
+<ol>
+<li><ol>
+<li>Use difference between means as test statistic</li>
+</ol></li>
+</ol>
+
+<p>```{r meandiff} sumfun_diffmean &lt;- function(dat) {</p>
+
+<p><code> with(dat,</code><br/><code>   mean(colonies[place==&quot;field&quot;])-mean(colonies[place==&quot;forest&quot;]))</code></p>
+
+<p>} sumfun_diffmean(ants) ## test permdist_diffmean &lt;- apply(ind_comb,</p>
+
+<p><code>                   MARGIN=1,function(x) sumfun_diffmean(simfun(x)))</code></p>
+
+<p>mean(abs(permdist_diffmean)&gt;=abs(sumfun_diffmean(ants))) ```</p>
+
+<p>This gives exactly the same result as the original approach, because there is a one-to-one relationship between differences between means and $t$ statistics &#8230;</p>
+
+<ol>
+<li><ol>
+<li>Permutation tests of regression: reproductive skew data</li>
+</ol></li>
+</ol>
+
+<p>Some data from Holly Kindsvater on reproductive skew in fish (????):</p>
+
+<p>```{r skewdat} skewdat &lt;- read.csv(&quot;skewdat.csv&quot;) library(ggplot2) theme_set(theme_bw()) qplot(Size,skew,data=skewdat)+geom_smooth(method=&quot;lm&quot;) ```</p>
+
+<p>```{r skewlm} summary(lm(skew~Size,data=skewdat)) ``` Can we trust this regression? Let&#39;s try a permutation test.</p>
+
+<p>Since all the $x$ (`Size`) values are unique, there are a total of `r nrow(skewdat)`! (factorial) possible permutations, or `r 1e32*round(factorial(nrow(skewdat))*1e-32)`, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out &#8230;)</p>
+
+<p>```{r skew_funs} simfun_rsamp2 &lt;- function(respvar=&quot;skew&quot;,data=skewdat) {</p>
+
+<p><code> permdat &lt;- data</code><br/><code> permdat</code><a href='respvar.html' title=''><code>respvar</code></a><code> &lt;- sample(permdat</code><a href='respvar.html' title=''><code>respvar</code></a><code>)</code><br/><code> permdat</code></p>
+
+<p>} sumfun_skew &lt;- function(dat) {</p>
+
+<p><code> coef(lm(skew~Size,data=dat))[&quot;Size&quot;]</code></p>
+
+<p>} ```</p>
+
+<p>```{r skew_permute,cache=TRUE} set.seed(101) permdist_skew &lt;- replicate(8000,sumfun_skew(simfun_rsamp2())) (skew_pval &lt;- mean(abs(permdist_skew)&gt;=abs(sumfun_skew(skewdat)))) ``` The results are *very* close to the classical test result (before trying this with 8000 replicates, I tried a few times with 2000 replicates and found that the results varied between about 0.02 and 0.035 &#8211; maybe JD was right &#8230;)</p>
+
+<p>We could also use `lmPerm` for this:</p>
+
+<p>```{r lmPerm_regr} summary(lmp(skew~Size,data=skewdat)) ```</p>
+
+<p>Or `coin`:</p>
+
+<p>```{r coin_regr} independence_test(skew~Size,data=skewdat,teststat=&quot;scalar&quot;,</p>
+
+<p><code>                 distribution=&quot;asymptotic&quot;)</code></p>
+
+<p>independence_test(skew~Size,data=skewdat,teststat=&quot;scalar&quot;,</p>
+
+<p><code>                 distribution=approximate(B=9999))</code></p>
+
+<p>```</p>
+
+<p>Since the standard error of an estimated proportion is $\sqrt{p(1-p)/n}$, the *coefficient of variation* (ratio of the standard error to the mean estimate, $p$) is $\sqrt{(1-p)/(pn)}$. Thus for an observed $p$-value, if we want to get the coefficient of variation down to a specified level $c$ (say 5%, so the confidence intervals are approximately $\pm$ 10% of the estimated $p$-value) then we need to take $n$ large enough so that $c = \sqrt{(1-p)/(pn)}$, or $n \approx (1-p)/(p c^2)$; if $p$ is small then this is further approximated by $1/(p c^2)$ (e.g. for a $p$-value of 0.05 accurate within $c=0.05$, we need $1/(0.5 \cdot 0.5^2) = 1/(0.5^3) = 20^3 = 8000$ samples (slightly fewer since we have neglected the $1-p$ term). If we wanted a similarly accurate answer for our current answer, with a $p$-value about half as large, we would need twice as many samples.</p>
+
+<p>```{r pushwiki,eval=FALSE}</p>
+
+<ol>
+<li><ol>
+<li>push to wiki:</li>
+</ol></li>
+</ol>
+
+<p>options(MWUser=&quot;Bb&quot;) library(&quot;wwiki&quot;) pushWiki(&quot;permex2.rmd&quot;,page=&quot;permex2&quot;,wiki=&quot;bio_708&quot;) ``` permex2.html: permex2.rmd skewdat.csv </source-file></p></article></slide>
 
 
   <slide class="backdrop"></slide>

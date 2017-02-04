@@ -87,38 +87,193 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
+<p>Introduction</p>
 
-<p>Classical statistics was developed partly under the <a href='lamppost_theory.html' title=''>lamppost theory</a>: people did not used to have powerful computers, and therefore there were only certain kinds of statistics that they could do.</p>
+<p><code>           The key frequentist question is:</code></p>
 
-<p>Permutation tests provide a powerful way of testing statistical hypotheses, and <em>also of thinking about what your statistical tests mean</em>. Thinking about statistical tests in terms of permutations can help you think clearly about your tests even if you never actually use a permutation test.</p>
+<p><code>               could this effect be generated by chance (under the null</code><br/><code>               hypothesis)</code></p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+<p><code>           Permutation tests provide a natural, intuitive way to test a</code><br/><code>           wide range of such hypotheses:</code></p>
 
-<ul>
-<li><a href='Permutations_Lecture_notes.html' title=''>Permutations_Lecture notes</a></li>
-<li><p><a href='permutation_examples.html' title=''>more permutation code examples</a>:</p></li>
-<li>R stuff
+<p><code>               If we hypothesize that two things are interchangeable, what</code><br/><code>               happens if we interchange them?</code></p>
 
-<ul>
-<li><a href='http://cran.r-project.org/web/packages/coin/index.html' title=''>R&#39;s &quot;conditional inference&quot; (coin) package</a> &#8211; Very cool, and a little intimidating.</li>
-<li><a href='http://ucfagls.wordpress.com/2011/10/04/permute-a-package-for-generating-restricted-permutations/' title=''>Information about &quot;permute&quot; and &quot;vegan&quot; packages</a>. These seem to be more about generating permutations than doing permutation tests</li>
-<li><a href='http://cran.r-project.org/web/packages/gtools/index.html' title=''>gtools</a></li>
-</ul></li>
-<li>Stuff from JD
+<p>Examples</p>
 
-<ul>
-<li><a href='http://lalashan.mcmaster.ca/theobio/math/index.php/Permutation_tests' title=''>Counting and plotting permutations</a></li>
-<li><a href='http://lalashan.mcmaster.ca/ecostats/permmean.pdf' title=''>Confidence intervals for the mean of a symmetric variable</a></li>
-</ul></li>
-</ul>
+<p><code>   </code><a href='Counting_ant_colonies.html' title=''><code>Counting</code> <code>ant</code> <code>colonies</code></a></p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Assignment</h2></hgroup><article  id="assignment">
+<p><code>           We do an exhaustive survey of ant colonies in a forest habitat</code><br/><code>           and an old-field habitat.  This is how many colonies we find in</code><br/><code>           each survey plot:</code></p>
 
-<ul>
-<li>Formulate two different hypotheses about your data, and describe how you would test them with two different permutation tests. Challenge yourself to come up with conceptually different tests, if this is reasonable for your data set.</li>
-<li>Implement one or both of these tests in R. You can use permutation, or you can use a classic test if you explain clearly how it corresponds to a permutation test. Best would be to use both.</li>
-</ul></article></slide>
+<p><code>               Forest: 9, 6, 4, 6, 7, 10</code></p>
+
+<p><code>               Field: 12, 9, 12, 10</code></p>
+
+<p><code>           Field seems to have more ant colonies</code></p>
+
+<p><code>           Could this result be due to chance?</code></p>
+
+<p><code>       Permutation testing</code></p>
+
+<p><code>           Choose a statistic that reflects the effect you are trying to</code><br/><code>           measure</code></p>
+
+<p><code>               e.g., mean, median, geometric mean</code></p>
+
+<p><code>           Compared the observed value of the statistic with a null</code><br/><code>           distribution, generated by interchanging things that should be</code><br/><code>           interchangeable under your null hypothesis</code></p>
+
+<p><code>       Field and forest ants</code></p>
+
+<p><code>           Total of 210 possible permutations</code></p>
+
+<p><code>           5 have ``Field</code> <code>mean</code> <code>-</code> <code>Forest</code> <code>mean`` $$\ge 3.75$$</code></p>
+
+<p><code>           What is our P value?</code></p>
+
+<p><code>       Ties and tails</code></p>
+
+<p><code>           &quot;Ties&quot; (permutations with a statistic equal to the observed</code><br/><code>           statistic)  </code><em><code>count</code></em><code> against significance</code></p>
+
+<p><code>               Ties are evidence against our observation being unusual</code></p>
+
+<p><code>           The best way to do a two-tailed test is to calculate a</code><br/><code>           one-tailed P value for the observed effect, and then double</code><br/><code>           the P value</code></p>
+
+<p><code>               Classic tests assume everything is symmetric, so people</code><br/><code>               often don&#39;t need to think about this point.  And when they</code><br/><code>               do, they often get it wrong</code></p>
+
+<p><code>       How should we interpret our result?</code></p>
+
+<p><code>           We have assumed nothing about the distribution of ant nests</code></p>
+
+<p><code>           What is the best way to interpret our significant permutation</code><br/><code>           result?</code></p>
+
+<p><code>           The difference in means we observe (``Field</code> <code>mean`` &gt;</code><br/><code>           ``Forest</code> <code>mean``) is due to something real about the</code><br/><code>           systems (ie., not due to chance).</code></p>
+
+<p><code>               </code><em><code>Note:</code></em><code> if we want to conclude that the field mean is</code><br/><code>               </code><em><code>greater</code></em><code>, we need to assume something about distributions</code></p>
+
+<p><code>               </code><em><code>Note:</code></em><code> we only used one forest habitat and one old-field</code><br/><code>               habitat.  What does this mean about our conclusions?</code></p>
+
+<p><code>       Which statistic should we use?</code></p>
+
+<p><code>           We can use any statistic we want, and get a valid test</code></p>
+
+<p><code>               Means tend to have more power than medians</code></p>
+
+<p><code>               Transformations that make the data more normal also tend to</code><br/><code>               increase power</code></p>
+
+<p><code>                   Using the geometric mean is equivalent to what</code><br/><code>                   transformation?</code></p>
+
+<p><code>           We are not allowed to try different statistics until one</code><br/><code>           works.  Why not?</code></p>
+
+<p><code>   Ant colony distributions</code></p>
+
+<p><code>           Within each habitat, we can ask whether there is evidence that</code><br/><code>           ant nests are aggregated, or distributed regularly?</code></p>
+
+<p><code>               In other words, do they cluster, or avoid each other?  Or</code><br/><code>               can&#39;t we tell?</code></p>
+
+<p><code>           A permutation approach would test this by assigning nests</code><br/><code>           randomly to plots to generate a null distribution</code></p>
+
+<p><code>   Pond nutrients</code></p>
+
+<p><code>           We measure correlations between a species of algae and</code><br/><code>           nitrogen and phosphorous levels in natural ponds.  Thus, we</code><br/><code>           have a data frame showing N, P and A (for algae).</code></p>
+
+<p><code>           What kinds of tests could we do to see whether the algae are</code><br/><code>           correlated with nutrient levels?</code></p>
+
+<p>Methodology</p>
+
+<p><code>   Monte Carlo </code></p>
+
+<p><code>           In the distribution example, we would like to test each</code><br/><code>           possible random assignment of nests to plots</code></p>
+
+<p><code>           This is impossible (there are too many permutations)</code></p>
+
+<p><code>           We therefore do a few thousand samples at random</code></p>
+
+<p><code>               We can treat this as a valid frequentist test</code></p>
+
+<p><code>               Or we can use classic methods to evaluate our results and</code><br/><code>               see how confident we are about our P value</code></p>
+
+<p><code>   Correlations</code></p>
+
+<p><code>           With permutation tests, we can use any kind of prediction</code><br/><code>           model, any statistic of prediction and any null hypothesis</code></p>
+
+<p><code>               Interchange things that should be interchangeable under</code><br/><code>               null hypothesis</code></p>
+
+<p><code>               How likely is it that we would observe a prediction as good</code><br/><code>               or better as the one we have, under the null hypothesis</code><br/><code>               that $$x$$ is interchangeable?</code></p>
+
+<p><code>   Time and space</code></p>
+
+<p><code>           </code><a href='Wikipedia:Mantel_test.html' title=''><code>Mantel</code> <code>tests</code></a><code> are permutation tests</code></p>
+
+<p><code>               So is Fisher&#39;s exact test</code></p>
+
+<p><code>           </code><a href='http://www.pnas.org/content/104/18/7717.full' title=''><code>Rabies</code> <code>examples</code></a></p>
+
+<p><code>               </code><a href='Media:Weighted_Mantel.jpg.html' title=''><code>Picture</code></a></p>
+
+<p>More applications</p>
+
+<p><code>       Detailed models of evolution</code></p>
+
+<p><code>           Infer a tree and then ask what happens if we relabel</code><br/><code>           nucleotides at each site, or move mutations around the tree</code></p>
+
+<p><code>           Ask if there are differences between nucleotide preference in</code><br/><code>           flu evolution by &quot;relabeling&quot; nucleotides</code></p>
+
+<p><code>       Animal behavior</code></p>
+
+<p><code>           Observe behavior of different individual animals.  Evaluate</code><br/><code>           observed statistics of (for example) tendency of bachelors to</code><br/><code>           wander off from groups</code></p>
+
+<p><code>               Classic tests don&#39;t account for individual propensities</code></p>
+
+<p><code>               Switch whole &quot;timelines&quot; from one individual to another</code></p>
+
+<p>Confidence intervals</p>
+
+<p><code>           The strength of permutation tests is also a weakness</code></p>
+
+<p><code>           Without assumptions about distributions, it&#39;s not possible to</code><br/><code>           get confidence intervals</code></p>
+
+<p><code>           The field of getting confidence intervals from permutation</code><br/><code>           tests is still developing</code></p>
+
+<p><code>               Much can be done ...  but not without assumptions</code></p>
+
+<p><code>       Medians</code></p>
+
+<p><code>           Permutation tests are well suited to comparing medians (and</code><br/><code>           other quantiles), because these can be evaluated without</code><br/><code>           distributional assumptions</code></p>
+
+<p><code>               This approach is related to rank tests</code></p>
+
+<p><code>       Means</code></p>
+
+<p><code>           We can obtain confidence intervals for a single mean if we</code><br/><code>           assume that the data are drawn from a symmetric distribution</code></p>
+
+<p><code>               It may be good to transform first</code></p>
+
+<p><code>           We can obtain confidence intervals for the difference between</code><br/><code>           two means if we assume that the distributions are identical</code><br/><code>           except for a &#39;shift&#39;</code></p>
+
+<p><code>               It may be good to transform first</code></p>
+
+<p><code>       Correlations</code></p>
+
+<p><code>           We can obtain confidence intervals for regression coefficients</code><br/><code>           if we assume that the true relationship between the variables</code><br/><code>           is linear</code></p>
+
+<p><code>               It may be good to transform first</code></p>
+
+<p>Summary</p>
+
+<p><code>       Advantages:</code></p>
+
+<p><code>           General applicability</code></p>
+
+<p><code>           Conceptual clarity</code></p>
+
+<p><code>           Flexibility</code></p>
+
+<p><code>           Fewer assumptions</code></p>
+
+<p><code>       Disadvantages</code></p>
+
+<p><code>           Hard to implement</code></p>
+
+<p><code>           May take a lot of computer time</code></p>
+
+<p><code>           May be hard to obtain confidence intervals</code></p>
 
 
   <slide class="backdrop"></slide>
