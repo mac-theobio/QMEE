@@ -54,6 +54,10 @@ intro_%.mediawiki:
 Visualization_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Visualization/$*&action=raw"
 
+.PRECIOUS: Permutations_%.mediawiki
+Permutations_%.mediawiki:
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Permutations/$*&action=raw"
+
 intro_Lecture_notes.mediawiki:
 
 .PRECIOUS: %.mediawiki
@@ -75,7 +79,7 @@ Sources += $(wildcard *.pl)
 Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
 %.new: %.mw mdtrim.pl
 	$(PUSH)
-	cp -n $@ $*.md
+	cp $@ $*.md
 
 Data_management.tmk: Data_management.md tmk.pl
 %.tmk: %.md tmk.pl

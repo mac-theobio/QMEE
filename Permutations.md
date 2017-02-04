@@ -15,11 +15,10 @@ permutation test.
 Resources
 =========
 
--   [Permutations/Lecture notes](Permutations/Lecture_notes.html)
-
+-   [Permutations_Lecture notes](Permutations_Lecture_notes.html)
+-   [more permutation code examples](permutation_examples.html): 
 
 -   R stuff
-    -   [Permex2](Permex2.html): more permutation code examples
     -   [R's "conditional inference" (coin)
         package](http://cran.r-project.org/web/packages/coin/index.html)
         -- Very cool, and a little intimidating.
@@ -34,7 +33,7 @@ Resources
     -   [Counting and plotting
         permutations](http://lalashan.mcmaster.ca/theobio/math/index.php/Permutation_tests)
     -   [Confidence intervals for the mean of a symmetric
-        variable](http://lalashan.mcmaster.ca/ecostats/permmean.html)
+        variable](http://lalashan.mcmaster.ca/ecostats/permmean.pdf)
 
 Assignment
 ==========
