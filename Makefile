@@ -25,6 +25,7 @@ include stuff.mk
 ### Right now building "notes" html like regular html (with this upstream rule)
 ### Could cause problems with figures or (less likely) mathjax
 Sources += $(wildcard *.Rmd *.rmd)
+Sources += $(wildcard *.csv)
 
 intro_Lecture_notes.md: intro_Lecture_notes.rmd
 ### md for _made_ markdown; not to be repo-ed

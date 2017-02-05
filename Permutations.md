@@ -1,3 +1,8 @@
+---
+title: Permutations
+author: Jonathan Dushoff and Ben Bolker
+---
+
 Introduction
 ============
 
