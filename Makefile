@@ -30,7 +30,7 @@ Sources += $(wildcard *.csv)
 intro_Lecture_notes.md: intro_Lecture_notes.rmd
 ### md for _made_ markdown; not to be repo-ed
 %.md: %.rmd
-	echo 'knitr::knit("$<")' | R --vanilla 
+	echo 'knitr::knit("$<")' | R --vanilla
 
 intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
 %.io.html: %.rmd
@@ -38,7 +38,6 @@ intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
 
 pages/%.slides.html: %.md
 	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
-
 
 CA_homicide_pix.md: CA_homicide_pix.rmd
 pages/CA_homicide_pix.html: CA_homicide_pix.rmd
@@ -131,7 +130,8 @@ pages/figure:
 	$(mkdir)
 
 ## Update the _local copy_ of the site (open to open the main page as well)
-push_pages: pages/figure pages/qmee.css $(pages) $(slides) ;
+push_pages: pages/figure pages/qmee.css $(pages) $(slides) 
+	rsync figure/* pages/figure
 
 open_pages: 
 	$(MAKE) push_pages

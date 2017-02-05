@@ -126,10 +126,6 @@ oneway_test(colonies~place,data=ants,distribution=approximate(B=9999))
     
 ## More general approach
 
-(Should I break this out into a separate document?)
-
-I'm going to do things in a *slightly* more complex way than JD did, to illustrate a more abstract but general approach.
-
 Get `gtools` package and generate the combinations, as in the original example:
 ```{r get_comb}
 library(gtools)
