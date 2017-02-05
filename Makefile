@@ -4,7 +4,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: CA_homicide_pix.md 
+target pngtarget pdftarget vtarget acrtarget: push_pages 
 
 ##################################################################
 
@@ -106,7 +106,7 @@ local:
 ## Formatting
 
 Sources += qmee.css header.html footer.html
-mds = pandoc -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
+mds = pandoc --mathjax -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
 pages/%.html: %.md qmee.css header.html footer.html
 	$(mds)
 
