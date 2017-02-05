@@ -60,7 +60,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Simple permutation tests in R</h1>
 <h2 class="author">Ben Bolker</h2>
+<<<<<<< HEAD
 <h3 class="date">22:48 04 February 2017</h3>
+=======
+<h3 class="date">18:16 04 February 2017</h3>
+>>>>>>> f2094a97e5aa05c045b02298c1c0c8c4da12a7ea
 </div>
 <h2 id="example-counting-ant-colonies">Example: counting ant colonies</h2>
 <p>From Bio 708 class; data originally from Gotelli and Ellison <em>Primer of Ecology</em>:</p>
@@ -154,10 +158,33 @@ obs &lt;-<span class="st"> </span><span class="kw">mean</span>(field)-<span clas
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;devtools&quot;</span>)
 <span class="kw">install_version</span>(<span class="st">&quot;lmPerm&quot;</span>,<span class="dt">version=</span><span class="st">&quot;1.1-2&quot;</span>)</code></pre></div>
 <p>To install this package you will need compilation tools (for <a href="http://cran.r-project.org/bin/windows/Rtools/">Windows</a> or <a href="http://r.research.att.com/tools/">MacOS</a>; if you are on Linux you probably have them already).</p>
+<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)  ## load the package</code></pre></div>
 <pre><code>## Error in library(&quot;lmPerm&quot;): there is no package called &#39;lmPerm&#39;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
 <pre><code>## Error in summary(lmp(colonies ~ place, data = ants)): could not find function &quot;lmp&quot;</code></pre>
+=======
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)  ## load the package
+<span class="kw">summary</span>(<span class="kw">lmp</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
+<pre><code>## [1] &quot;Settings:  unique SS &quot;</code></pre>
+<pre><code>## 
+## Call:
+## lmp(formula = colonies ~ place, data = ants)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.000 -1.000 -0.375  1.250  3.000 
+## 
+## Coefficients:
+##        Estimate Pr(Exact)  
+## place1    1.875    0.0381 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.961 on 8 degrees of freedom
+## Multiple R-Squared: 0.5233,  Adjusted R-squared: 0.4637 
+## F-statistic:  8.78 on 1 and 8 DF,  p-value: 0.01806</code></pre>
+>>>>>>> f2094a97e5aa05c045b02298c1c0c8c4da12a7ea
 <p><code>lmp()</code> seems to automatically change the contrast settings from the default treatment contrast to sum-to-zero contrasts, so that the reported effect size is half what it was (3.75/2), because it is computing the difference between the (unweighted) average of the two groups and the first group (field).</p>
 <p>Oddly, it seems to report the unadjusted <span class="math inline"><em>F</em></span>-statistic and p-value for the full model …</p>
 <h2 id="using-coin">Using <code>coin</code></h2>
@@ -192,8 +219,18 @@ obs &lt;-<span class="st"> </span><span class="kw">mean</span>(field)-<span clas
 <p>(Should I break this out into a separate document?)</p>
 <p>I’m going to do things in a <em>slightly</em> more complex way than JD did, to illustrate a more abstract but general approach.</p>
 <p>Get <code>gtools</code> package and generate the combinations, as in the original example:</p>
+<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gtools)
 ind_comb &lt;-<span class="st"> </span><span class="kw">combinations</span>(<span class="kw">nrow</span>(ants), <span class="kw">length</span>(field))</code></pre></div>
+=======
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gtools)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gtools&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:lmPerm&#39;:
+## 
+##     permute</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_comb &lt;-<span class="st"> </span><span class="kw">combinations</span>(<span class="kw">nrow</span>(ants), <span class="kw">length</span>(field))</code></pre></div>
+>>>>>>> f2094a97e5aa05c045b02298c1c0c8c4da12a7ea
 <p>Now write two functions. The first, <code>simfun()</code>, simulates a randomized data set given inputs (in this case, the input is a list of elements to be assigned to the “field” category). We take the <code>colonies</code> column from the original <code>ants</code> data set and arrange the field-assigned colony counts first, and the non-field-assigned colony counts second.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simfun &lt;-<span class="st"> </span>function(cc) {
   <span class="kw">transform</span>(ants,<span class="dt">colonies=</span><span class="kw">c</span>(colonies[cc],colonies[-cc]))
@@ -310,7 +347,28 @@ permdist_skew &lt;-<span class="st"> </span><span class="kw">replicate</span>(<s
 <p>The results are <em>very</em> close to the classical test result (before trying this with 8000 replicates, I tried a few times with 2000 replicates and found that the results varied between about 0.02 and 0.035 – maybe JD was right …)</p>
 <p>We could also use <code>lmPerm</code> for this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(skew~Size,<span class="dt">data=</span>skewdat))</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## Error in summary(lmp(skew ~ Size, data = skewdat)): could not find function &quot;lmp&quot;</code></pre>
+=======
+<pre><code>## [1] &quot;Settings:  unique SS : numeric variables centered&quot;</code></pre>
+<pre><code>## 
+## Call:
+## lmp(formula = skew ~ Size, data = skewdat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.19909 -0.02180  0.01479  0.03348  0.10050 
+## 
+## Coefficients:
+##      Estimate Iter Pr(Prob)  
+## Size 0.004607 5000   0.0188 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.06164 on 29 degrees of freedom
+## Multiple R-Squared: 0.1605,  Adjusted R-squared: 0.1315 
+## F-statistic: 5.543 on 1 and 29 DF,  p-value: 0.02554</code></pre>
+>>>>>>> f2094a97e5aa05c045b02298c1c0c8c4da12a7ea
 <p>Or <code>coin</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">independence_test</span>(skew~Size,<span class="dt">data=</span>skewdat,<span class="dt">teststat=</span><span class="st">&quot;scalar&quot;</span>,
                   <span class="dt">distribution=</span><span class="st">&quot;asymptotic&quot;</span>)</code></pre></div>
@@ -326,7 +384,11 @@ permdist_skew &lt;-<span class="st"> </span><span class="kw">replicate</span>(<s
 ##  Approximative General Independence Test
 ## 
 ## data:  skew by Size
+<<<<<<< HEAD
 ## Z = 2.1941, p-value = 0.0234
+=======
+## Z = 2.1941, p-value = 0.026
+>>>>>>> f2094a97e5aa05c045b02298c1c0c8c4da12a7ea
 ## alternative hypothesis: two.sided</code></pre>
 <p>Since the standard error of an estimated proportion is <span class="math inline">$\sqrt{p(1-p)/n}$</span>, the <em>coefficient of variation</em> (ratio of the standard error to the mean estimate, <span class="math inline"><em>p</em></span>) is <span class="math inline">$\sqrt{(1-p)/(pn)}$</span>. Thus for an observed <span class="math inline"><em>p</em></span>-value, if we want to get the coefficient of variation down to a specified level <span class="math inline"><em>c</em></span> (say 5%, so the confidence intervals are approximately <span class="math inline">±</span> 10% of the estimated <span class="math inline"><em>p</em></span>-value) then we need to take <span class="math inline"><em>n</em></span> large enough so that <span class="math inline">$c = \sqrt{(1-p)/(pn)}$</span>, or <span class="math inline"><em>n</em> ≈ (1 − <em>p</em>)/(<em>p</em><em>c</em><sup>2</sup>)</span>; if <span class="math inline"><em>p</em></span> is small then this is further approximated by <span class="math inline">1/(<em>p</em><em>c</em><sup>2</sup>)</span> (e.g. for a <span class="math inline"><em>p</em></span>-value of 0.05 accurate within <span class="math inline"><em>c</em> = 0.05</span>, we need <span class="math inline">1/(0.5 ⋅ 0.5<sup>2</sup>)=1/(0.5<sup>3</sup>)=20<sup>3</sup> = 8000</span> samples (slightly fewer since we have neglected the <span class="math inline">1 − <em>p</em></span> term). If we wanted a similarly accurate answer for our current answer, with a <span class="math inline"><em>p</em></span>-value about half as large, we would need twice as many samples.</p>
 <div id="footer">
