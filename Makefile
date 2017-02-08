@@ -126,7 +126,11 @@ pages = $(pageroots:%=pages/%.html)
 slides = $(pages:%.html=%.slides.html)
 pages/%.css: %.css
 	$(copy)
-pages/figure:
+
+pages/figure: 
+	$(mkdir)
+
+figure:
 	$(mkdir)
 
 ## Update the _local copy_ of the site (open to open the main page as well)
