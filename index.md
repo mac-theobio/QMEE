@@ -4,7 +4,7 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Current
 
-* [Git issues](git_issues.html)
+* [MMV answer (on student repo)](https://github.com/mac-theobio/QMEE_2017/blob/master/course/mmv_answer.md)
 
 ## Course information
 
@@ -42,6 +42,9 @@ with the participants. If you have suggestions or requests, let us know.
 
 We may choose one or more additional [statistical topics](topics.html), or focus on programming and project design questions, or go into depth about one or more research projects.
 
+## Other 
+
+* [Git issues](git_issues.html)
 
 ## Faculty
 
