@@ -51,7 +51,7 @@ author: Jonathan Dushoff
 
 	* Ties are evidence against our observation being unusual
 
-* _Opinion:_ ~he best way to do a two-tailed test is to calculate a one-tailed P value for the observed effect, and then double the P value
+* _Opinion:_ The best way to do a two-tailed test is to calculate a one-tailed P value for the observed effect, and then double the P value
 
 	* Classic tests assume everything is symmetric, so people often don't need to think about this point.  _And when they do, they often get it wrong._
 
