@@ -1,7 +1,6 @@
 ##  Interpreting parameters of linear models
 
-```{r setup,echo=FALSE,message=FALSE}
-library(knitr)
+```{r echo=FALSE}
 knit_hooks$set(basefig=function(before, options, envir) {
                    if (before) {
                        par(bty="l",las=1)
@@ -212,3 +211,9 @@ Other refs
 * http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm
 * Crawley *Statistical Computing: An Introduction to Data Analysis
 using S-PLUS*, chapter 18
+
+```{r pushWiki,eval=FALSE}
+library("wwiki")
+options(MWUser="Bb")
+pushWiki("contrasts2.rmd",page="linear model parameters",wiki="bio_708")
+```
