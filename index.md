@@ -33,7 +33,6 @@ _This schedule is subject to change_
 
 -   [Permutations](Permutations.html)
 -   [Linear models](Linear_models.html)
--   [Bayesian statistics](Bayesian_statistics.html)
 
 ### Additional topics
 

@@ -1,9 +1,8 @@
-The [aardvark project](aardvark_project.html)
 
 Introduction
 ============
 
-Linear models are a kind of [ lamppost](lamppost_theory.html): a
+Linear models are a kind of [lamppost](lamppost_theory.html): a
 very powerful set of tools for solving certain kinds of problems, using
 certain kinds of assumptions.
 
@@ -47,7 +46,7 @@ Resources
 
 -   Discussion
     -   [Hurlbert's classic Pseudo-replication
-        paper](http://www.masterenbiodiversidad.org/docs/asig3/Hurlbert_1984_Pseudoreplication.pdf)
+        paper](http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf)
     -   [Exegeses on linear
         models](http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf) (advanced)
 
