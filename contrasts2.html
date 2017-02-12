@@ -58,6 +58,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 </header>
 <h2 id="interpreting-parameters-of-linear-models">Interpreting parameters of linear models</h2>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;knit_hooks&#39; not found</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;opts_chunk&#39; not found</code></pre>
 <ul>
 <li>Parameters of a linear model typically characterize <em>differences</em> in means; differences per unit of change for continuous predictors, differences between groups (or between group averages) for categorical predictors</li>
 <li>Interactions are <strong>differences between differences</strong></li>
@@ -101,7 +103,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>A quick look at the data: response is number of <em>Anolis grahami</em> lizards found on perches in particular conditions.</p>
 <pre><code>## Warning: attributes are not identical across measure variables; they will
 ## be dropped</code></pre>
-<p><img src="figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
+<div class="figure">
+<img src="figure/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" />
+<p class="caption">plot of chunk unnamed-chunk-5</p>
+</div>
 <p>For a moment we’re going to just look at the <code>time</code> variable. If we leave the factors as is (alphabetical) then <span class="math inline">\(\beta_1\)</span>=“early”, <span class="math inline">\(\beta_2\)</span>=“late”-“early”, <span class="math inline">\(\beta_3\)</span>=“midday”-“early”. At the very least, it probably makes sense to change the order of the levels:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lizards$time &lt;-<span class="st"> </span><span class="kw">factor</span>(lizards$time,<span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;early&quot;</span>,<span class="st">&quot;midday&quot;</span>,<span class="st">&quot;late&quot;</span>))</code></pre></div>
 <p>All this does (since we haven’t changed the baseline factor) is swap the definitions of <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>.</p>
@@ -131,7 +136,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## lightsunny    -19.32       5.73   -3.37  0.00321</code></pre>
 <p>Here’s a graphical interpretation of the parameters:</p>
 <pre><code>## Loading required package: grid</code></pre>
-<p><img src="figure/lizardcontrasts1-1.png" title="plot of chunk lizardcontrasts1" alt="plot of chunk lizardcontrasts1" style="display: block; margin: auto;" /> <span class="math inline">\(\beta_1\)</span> is the intercept (“early”,“sunny”); <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> are the differences from the baseline level (“early”) of the <em>first</em> variable (<code>time</code>) in the <em>baseline</em> level of the other parameter(s) (<code>light</code>=“shady”); <span class="math inline">\(\beta_4\)</span> is the difference from the baseline level (“sunny”) of the <em>second</em> variable (<code>light</code>) in the <em>baseline</em> level of <code>time</code> (“early”).</p>
+<p><img src="figure/lizardcontrasts1-1.png" alt="plot of chunk lizardcontrasts1" /> <span class="math inline">\(\beta_1\)</span> is the intercept (“early”,“sunny”); <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> are the differences from the baseline level (“early”) of the <em>first</em> variable (<code>time</code>) in the <em>baseline</em> level of the other parameter(s) (<code>light</code>=“shady”); <span class="math inline">\(\beta_4\)</span> is the difference from the baseline level (“sunny”) of the <em>second</em> variable (<code>light</code>) in the <em>baseline</em> level of <code>time</code> (“early”).</p>
 <p>Now let’s look at an interaction model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL2 &lt;-<span class="st"> </span><span class="kw">lm</span>(grahami~time*light,<span class="dt">data=</span>lizards))</code></pre></div>
 <pre><code>##                       Estimate Std. Error t value Pr(&gt;|t|)
@@ -141,7 +146,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## lightsunny              -11.75       7.60   -1.55  0.14061
 ## timemidday:lightsunny   -32.83      11.19   -2.93  0.00927
 ## timelate:lightsunny       6.50      10.75    0.60  0.55343</code></pre>
-<p><img src="figure/lizardcontrasts2-1.png" title="plot of chunk lizardcontrasts2" alt="plot of chunk lizardcontrasts2" style="display: block; margin: auto;" /> Parameters <span class="math inline">\(\beta_1\)</span> to <span class="math inline">\(\beta_4\)</span> have the same meanings as before. Now we also have <span class="math inline">\(\beta_5\)</span> and <span class="math inline">\(\beta_6\)</span>, labelled “timemidday:lightsunny” and “timelate:lightsunny”, which describe the difference between the expected mean value of these treatment combinations based on the additive model (which are <span class="math inline">\(\beta_1 + \beta_2 + \beta_4\)</span> and <span class="math inline">\(\beta_1 + \beta_3 + \beta_4\)</span> respectively) and their actual values.</p>
+<p><img src="figure/lizardcontrasts2-1.png" alt="plot of chunk lizardcontrasts2" /> Parameters <span class="math inline">\(\beta_1\)</span> to <span class="math inline">\(\beta_4\)</span> have the same meanings as before. Now we also have <span class="math inline">\(\beta_5\)</span> and <span class="math inline">\(\beta_6\)</span>, labelled “timemidday:lightsunny” and “timelate:lightsunny”, which describe the difference between the expected mean value of these treatment combinations based on the additive model (which are <span class="math inline">\(\beta_1 + \beta_2 + \beta_4\)</span> and <span class="math inline">\(\beta_1 + \beta_3 + \beta_4\)</span> respectively) and their actual values.</p>
 <p>Now re-do this for sum-to-zero contrasts … the fits are easy:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL1S &lt;-<span class="st"> </span><span class="kw">update</span>(lmTL1,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sum,<span class="dt">light=</span>contr.sum)))</code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
@@ -179,17 +184,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 
 ## other attached packages:
 ## [1] MASS_7.3-45       ggplot2_2.2.0     reshape2_1.4.2    coefplot2_0.1.3.2
-## [5] coda_0.19-1       effects_3.1-2     knitr_1.15.1     
+## [5] coda_0.19-1       effects_3.1-2    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.8      magrittr_1.5     splines_3.3.2    munsell_0.4.3   
-##  [5] colorspace_1.3-2 lattice_0.20-34  minqa_1.2.4      highr_0.6       
-##  [9] stringr_1.1.0    plyr_1.8.4       tools_3.3.2      nnet_7.3-12     
-## [13] nlme_3.1-129     gtable_0.2.0     digest_0.6.10    assertthat_0.1  
-## [17] lazyeval_0.2.0   lme4_1.1-12      tibble_1.2       Matrix_1.2-7.1  
-## [21] nloptr_1.0.4     evaluate_0.10    labeling_0.3     stringi_1.1.2   
-## [25] scales_0.4.1     reshape_0.8.6</code></pre>
+##  [1] Rcpp_0.12.8      knitr_1.15.1     magrittr_1.5     splines_3.3.2   
+##  [5] munsell_0.4.3    colorspace_1.3-2 lattice_0.20-34  minqa_1.2.4     
+##  [9] highr_0.6        stringr_1.1.0    plyr_1.8.4       tools_3.3.2     
+## [13] nnet_7.3-12      nlme_3.1-129     gtable_0.2.0     digest_0.6.10   
+## [17] assertthat_0.1   lazyeval_0.2.0   lme4_1.1-12      tibble_1.2      
+## [21] Matrix_1.2-7.1   nloptr_1.0.4     evaluate_0.10    labeling_0.3    
+## [25] stringi_1.1.2    scales_0.4.1     reshape_0.8.6</code></pre>
 <p>Other refs * http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html * <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html"><code>gmodels::fit.contrast()</code></a> (show parameter estimates based on re-fitting models with new contrasts), <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html"><code>rms::contrast.rms()</code></a> (ditto, for <code>rms</code>-based fits) * http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm * Crawley <em>Statistical Computing: An Introduction to Data Analysis using S-PLUS</em>, chapter 18</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;wwiki&quot;</span>)
+<span class="kw">options</span>(<span class="dt">MWUser=</span><span class="st">&quot;Bb&quot;</span>)
+<span class="kw">pushWiki</span>(<span class="st">&quot;contrasts2.rmd&quot;</span>,<span class="dt">page=</span><span class="st">&quot;linear model parameters&quot;</span>,<span class="dt">wiki=</span><span class="st">&quot;bio_708&quot;</span>)</code></pre></div>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
