@@ -11,7 +11,7 @@ Class materials
 
 -   [Lecture slides](Linear_models_Lecture_slides.html) [(Broken, see previous version)](http://lalashan.mcmaster.ca/theobio/bio_708/index.php/Linear_models/Lecture_slides)
 -   [Parameters](Linear_model_parameters.html)
--   [Testing](Linear_model_tests.html) [(Broken, see previous version)](http://lalashan.mcmaster.ca/theobio/bio_708/index.php/Linear_model_parameters/tests)
+-   [Testing](Linear_model_tests.html)
 
 Resources
 =========
