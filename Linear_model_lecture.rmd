@@ -222,7 +222,7 @@ residuals, however
 
 - `lm` fits a linear model
 - `summary` prints statistics associated with the *parameters* that were fitted
-- `arm::coefplot` and `dwplot` package are useful for *visualizing* these
+- `arm::coefplot` and `dotwhisker` package are useful for *visualizing* these
 - `anova` and `drop1` will attach P values to
 variables that have more than one parameter (even groups of
 variables, in the case of anova). `car::Anova` can also
