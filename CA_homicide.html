@@ -60,7 +60,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Canadian homicide rates</h1>
 <h2 class="author">Ben Bolker</h2>
-<h3 class="date">15:32 30 January 2017</h3>
+<h3 class="date">10:31 13 February 2017</h3>
 </div>
 <h2 id="read-data-in-wide-format-and-play-with-it">Read data in wide format and play with it</h2>
 <p>Data are originally from <a href="http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm">here</a> (it might be possible to <em>scrape</em> this data set using the <code>XML</code> package …).</p>
@@ -92,15 +92,18 @@ popdat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span clas
 ## 5             New Brunswick Atlantic
 ## 6                    Quebec     East</code></pre>
 <p>Let’s start by converting the data to long form (I’ve suppressed some warnings about “objects are masked”):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)
-<span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)</code></pre></div>
+<pre><code>## Error in library(&quot;tidyr&quot;): there is no package called &#39;tidyr&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)
 sdat &lt;-<span class="st"> </span>dat %&gt;%
 <span class="st">    </span><span class="kw">gather</span>(year,homicides,-Place,<span class="dt">convert=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## Error in function_list[[k]](value): could not find function &quot;gather&quot;</code></pre>
 <p>(we use <code>convert=TRUE</code> to convert the years back to numeric values)</p>
 <p>Now combine all three data sets (<code>full_join</code> will automatically match all columns with identical names across the data sets, but it’s better practice to specify the matching columns explicitly).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 &lt;-<span class="st"> </span>sdat %&gt;%
 <span class="st">    </span><span class="kw">full_join</span>(rdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>) %&gt;%
 <span class="st">    </span><span class="kw">full_join</span>(popdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>)</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat&#39; not found</code></pre>
 <p>If we just used the original data set (without the added stuff), it’s fairly easy to get summary statistics by dropping the first row (so that we have a data frame that is all numeric) and computing means of rows and columns:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dmat &lt;-<span class="st"> </span>dat[,-<span class="dv">1</span>]
 <span class="kw">rownames</span>(dmat) &lt;-<span class="st"> </span>dat[,<span class="dv">1</span>]
@@ -126,63 +129,36 @@ sdat &lt;-<span class="st"> </span>dat %&gt;%
 <p>If we want summary statistics from the full data set we can do</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(Place) %&gt;%
-<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))
-sdat2 %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 %&gt;%
 <span class="st">    </span><span class="kw">group_by</span>(year) %&gt;%
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</code></pre>
 <p>One more useful technique is reordering factors (representing categorical variables) in a sensible way. Right now the ‘places’ (provinces, territories, etc.) are ordered alphabetically, R’s default.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 &lt;-<span class="st"> </span>sdat2 %&gt;%
 <span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(Place,Pop_2011))</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat2&#39; not found</code></pre>
 <p>This will be useful in the future, but is different from the <strong>order the data frame is stored in</strong>, which we can modify via <code>arrange()</code> (use <code>desc(Pop_2011)</code> to arrange in descending order of population):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Pop_2011)) %&gt;%<span class="st"> </span>head</code></pre></div>
-<pre><code>##     Place year homicides Region Pop_2011
-## 1  Canada 2007      1.80    all 33476688
-## 2  Canada 2008      1.83    all 33476688
-## 3  Canada 2009      1.81    all 33476688
-## 4  Canada 2010      1.62    all 33476688
-## 5  Canada 2011      1.73    all 33476688
-## 6 Ontario 2007      1.58   East 12851821</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat3&#39; not found</code></pre>
 <p>I can also summarise by combinations of variables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">group_by</span>(year,Region) %&gt;%
 <span class="st">      </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
-<pre><code>## Source: local data frame [25 x 3]
-## Groups: year [?]
-## 
-##     year   Region      mean
-##    &lt;int&gt;   &lt;fctr&gt;     &lt;dbl&gt;
-## 1   2007      all  1.800000
-## 2   2007 Atlantic  0.762500
-## 3   2007     East  1.375000
-## 4   2007    North 11.036667
-## 5   2007     West  3.165000
-## 6   2008      all  1.830000
-## 7   2008 Atlantic  1.025000
-## 8   2008     East  1.275000
-## 9   2008    North  9.526667
-## 10  2008     West  3.292500
-## # ... with 15 more rows</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat3&#39; not found</code></pre>
 <p>What if I want the mean and standard error? R doesn’t have a built-in “standard error of the mean” function so I define one on the fly:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sem &lt;-<span class="st"> </span>function(x) { <span class="kw">sd</span>(x)/<span class="kw">sqrt</span>(<span class="kw">length</span>(x)) }
 region_avgs &lt;-<span class="st"> </span>sdat3 %&gt;%<span class="st"> </span><span class="kw">group_by</span>(year,Region) %&gt;%
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),
               <span class="dt">sem=</span><span class="kw">sem</span>(homicides))</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat3&#39; not found</code></pre>
 <p>What if I want to check the variables to see why they’re <code>NA</code>?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">filter</span>(year==<span class="dv">2007</span> &amp;<span class="st"> </span>Region==<span class="st">&quot;all&quot;</span>)</code></pre></div>
-<pre><code>##    Place year homicides Region Pop_2011
-## 1 Canada 2007       1.8    all 33476688</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;sdat3&#39; not found</code></pre>
 <p>Sometimes it’s useful to be able to go from long to wide format. <code>spread()</code> is the opposite of <code>gather()</code>: we specify a column in the current data set to spread out into new columns (<code>key</code>) and a column to use as the vales for the table (<code>value</code>)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region_avgs %&gt;%<span class="st"> </span><span class="kw">select</span>(-sem) %&gt;%
 <span class="st">    </span><span class="kw">spread</span>(<span class="dt">key=</span>Region,<span class="dt">value=</span>mean)</code></pre></div>
-<pre><code>## Source: local data frame [5 x 6]
-## Groups: year [5]
-## 
-##    year   all Atlantic  East     North   West
-## * &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
-## 1  2007  1.80   0.7625 1.375 11.036667 3.1650
-## 2  2008  1.83   1.0250 1.275  9.526667 3.2925
-## 3  2009  1.81   0.8500 1.240  9.710000 3.3550
-## 4  2010  1.62   1.0500 1.245  7.813333 2.7025
-## 5  2011  1.73   1.2150 1.260  9.293333 3.1525</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;region_avgs&#39; not found</code></pre>
 <p>In the long run it is generally easier to keep your data in long format and cast it to wide as necessary.</p>
 <h2 id="tidyverse-summary">tidyverse: summary</h2>
 <h3 id="advantages">advantages</h3>
