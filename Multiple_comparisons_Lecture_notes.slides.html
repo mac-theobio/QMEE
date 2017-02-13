@@ -89,52 +89,77 @@
 
 <slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
 
-<p>Linear models are a kind of <a href='lamppost_theory.html' title=''>lamppost</a>: a very powerful set of tools for solving certain kinds of problems, using certain kinds of assumptions.</p>
+<p>If we are performing a lot of tests, we want to control the probability of getting a false positive at a higher level than that of individual tests.</p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Class materials</h2></hgroup><article  id="class-materials">
+<p>We do this by defining <em>families</em> of tests.</p>
+
+<p>It&#39;s not always so clear what a family should be. By convention, a set of pairwise comparisons is defined as a family. Doing the same comparison on a large set of genes is usually defined as a family. Doing several related comparisons is often not defined as a family.</p>
+
+<p>What if we do a large linear model, keeping all the predictors?</p>
 
 <ul>
-<li><a href='Linear_model_lecture.html' title=''>Main lecture notes</a>
-
-<ul>
-<li><a href='Linear_model_lecture.slides.html' title=''>slide version</a></li>
-</ul></li>
-<li><a href='Linear_model_parameters.html' title=''>Parameters</a></li>
-<li><a href='Linear_model_tests.html' title=''>Testing</a></li>
+<li>People usually don&#39;t worry about multiple comparisons if they have one test per parameter, but it&#39;s not so clear why.</li>
+<li>If you have categorical variables, one test per parameter covers pre-planned contrasts, but not full pairwise comparisons</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Family-level error</h2></hgroup><article  id="family-level-error">
+
+<p>We want to define a <em>family</em> of tests, and perform them so that the probability of seeing any significance at all under the null hypothesis is $$&lt;\alpha$$.</p>
+
+</article></slide><slide class=''><hgroup><h2>Bonferroni</h2></hgroup><article  id="bonferroni">
+
+<p>The simplest approach. Divide the threshold $$\alpha$$ by $$T$$, the number of tests in the family.</p>
+
+<p>Equivalently, multiply each of the P values by $$T$$.</p>
+
+<p>This is very simple, and very conservative, because the total probability of an error under the null hypothesis is $$&lt;\alpha$$.</p>
 
 <ul>
-<li>Introductory
-
-<ul>
-<li><a href='http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R' title=''>The model section from the R intro book</a></li>
-<li><a href='http://plantecology.syr.edu/fridley/bio793/lm.html' title=''>Fridley examples and guidelines</a></li>
-<li><a href='http://data.princeton.edu/R/linearModels.html' title=''>Rodriguez introduction</a></li>
-<li><a href='http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf' title=''>Bolker book</a> (see Sec. 9.2)</li>
-<li><a href='http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf' title=''>Faraway linear models</a> book draft
-
-<ul>
-<li><a href='http://www.maths.bath.ac.uk/~jjf23/LMR/' title=''>Book home page</a></li>
-</ul></li>
-<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf' title=''>Hector et al</a> on ANOVA for unbalanced data (i.e. &quot;type III sums of squares&quot; revisited)</li>
-<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full' title=''>Schielzeth</a> (2010) on centering and scaling in linear models</li>
-<li><a href='http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2' title=''>Murtaugh</a> (2007) on averaging in analysis of nested designs</li>
-<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00021.x/full' title=''>O&#39;Hara and Kotze</a> (2010) on not log-transforming count data</li>
-<li><a href='http://www.esajournals.org/doi/full/10.1890/10-0340.1' title=''>&quot;The arcsine is asinine&quot;</a>: Warton and Hui on not arcsine-transforming proportion data</li>
-</ul></li>
-<li>Discussion
-
-<ul>
-<li><a href='http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf' title=''>Hurlbert&#39;s classic Pseudo-replication paper</a></li>
-<li><a href='http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf' title=''>Exegeses on linear models</a> (advanced)</li>
-</ul></li>
+<li>In fact, the expected <em>number</em> of errors under then null hypothesis is $$\alpha$$.</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Assignment</h2></hgroup><article  id="assignment">
+</article></slide><slide class=''><hgroup><h2>Holm</h2></hgroup><article  id="holm">
 
-<p>Make a linear model for one or more of your hypotheses. Do some regression plots, and discuss a possible transformation.</p></article></slide>
+<p>Sometimes called Bonferroni-Holm, by those who want to cash in on the credibility of Bonferroni.</p>
+
+<ul>
+<li>If the lowest P value is significant when multiplied by $$T$$, B-H multiplies the next lowest by $$T-1$$. And so on.</li>
+<li>This actually seems to maintain family-level error of $$\alpha$$ even in the worst case. Therefore, there is no reason to use Bonferroni.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Hochberg/Hommel</h2></hgroup><article  id="hochberghommel">
+
+<p>Two similar tests that effectively assume the P values in the family are independent.</p>
+
+<ul>
+<li>This means that they are conservative if there are <em>positive</em> associations between P values, but suspect when there are <em>negative</em> associations</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Tukey</h2></hgroup><article  id="tukey">
+
+<p>A particular family-level test meant to apply to levels of a single factor.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>False discovery rate approaches</h2></hgroup><article  id="false-discovery-rate-approaches">
+
+<p>FDR is a relatively new and fairly slick technique. It attempts to control the expected <em>proportion</em> of identified results which are false. FDR provides more power than family-level corrections, but is less conservative.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Implementation in R</h2></hgroup><article  id="implementation-in-r">
+
+<ul>
+<li><code>p.adjust()</code> takes a list of P values, and returns a list of adjusted P values
+
+<ul>
+<li>It can do Holm, Hochberg and BY (an FDR method), among others</li>
+<li><code>pairwise.t.test</code> calls <code>p.adjust</code> to compare a set of factor levels, for example</li>
+</ul></li>
+<li><p>TukeyHSD can be applied to <code>aov</code> objects. <code>aov</code> uses <code>lm</code>, but returns things in a slightly different way</p></li>
+<li><code>cld</code> in package multcomp produces &quot;compact letter displays&quot;.
+
+<ul>
+<li>$$1^a, 2^{ab}, 3^b, 4^c$$</li>
+<li>JD hasn&#39;t tried this yet</li>
+</ul></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
