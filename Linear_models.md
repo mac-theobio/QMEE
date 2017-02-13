@@ -1,3 +1,7 @@
+---
+title: Linear models
+author: Jonathan Dushoff and Ben Bolker
+---
 
 Introduction
 ============
