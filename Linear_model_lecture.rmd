@@ -148,7 +148,7 @@ assumptions, it is good to evaluate them
  
 ## Default plots in R
  
-	Example: http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics
+http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics
  
 ## Transformations
  
