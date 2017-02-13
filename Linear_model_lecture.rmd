@@ -164,8 +164,12 @@ assumptions, it is good to evaluate them
 - Normality is the **least important** of these assumptions
  
 ## Default plots in R
+
+Example needed
  
+<!--- 
 http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics
+-->
  
 ## Transformations
  
