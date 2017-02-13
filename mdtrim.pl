@@ -7,6 +7,7 @@ while (<>){
 	s|Introduction_to_R/|intro_|g;
 	s|Visualization/|Visualization_|g;
 	s|Permutations/|Permutations_|g;
+	s|Multiple_comparisons/|Multiple_comparisons_|g;
 	s/ "wikilink"/.html/g;
 	say;
 }

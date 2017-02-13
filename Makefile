@@ -54,6 +54,10 @@ intro_%.mediawiki:
 Visualization_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Visualization/$*&action=raw"
 
+.PRECIOUS: Multiple_comparisons_%.mediawiki
+Multiple_comparisons_%.mediawiki:
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Multiple_comparisons/$*&action=raw"
+
 .PRECIOUS: Permutations_%.mediawiki
 Permutations_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Permutations/$*&action=raw"

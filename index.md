@@ -34,6 +34,10 @@ _This schedule is subject to change_
 -   [Permutations](Permutations.html)
 -   [Linear models](Linear_models.html)
 
+### Extras
+
+-   [Multiple comparisons](Multiple_comparisons.html)
+
 ### Additional topics
 
 The last part of the schedule will be determined through discussions
