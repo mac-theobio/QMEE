@@ -9,7 +9,8 @@ certain kinds of assumptions.
 Class materials
 ===============
 
--   [Lecture slides](Linear_models_Lecture_slides.html) [(Broken, see previous version)](http://lalashan.mcmaster.ca/theobio/bio_708/index.php/Linear_models/Lecture_slides)
+-   [Main lecture notes](Linear_model_lecture.html)
+    -   [slide version](Linear_model_lecture.slides.html)
 -   [Parameters](Linear_model_parameters.html)
 -   [Testing](Linear_model_tests.html)
 
