@@ -238,17 +238,25 @@ drop1(lmTL2, test=&quot;F&quot;)</pre>
 
 <p>Multiple comparisons are tricky, and you probably don&#39;t need to do them. Unlike variable-level tests, they will depend on how you parameterize your model. Your results for a given multi-level variable can even depend on how you parameterize other variables.</p>
 
-<pre class = 'prettyprint lang-r'>library(multcomp)</pre>
+<pre class = 'prettyprint lang-r'>library(multcomp)
+print(mc &lt;- glht(lmTL1, linfct=mcp(time=&quot;Tukey&quot;)))</pre>
 
-<pre >## Error in library(multcomp): there is no package called &#39;multcomp&#39;</pre>
-
-<pre class = 'prettyprint lang-r'>print(mc &lt;- glht(lmTL1, linfct=mcp(time=&quot;Tukey&quot;)))</pre>
-
-<pre >## Error in print(mc &lt;- glht(lmTL1, linfct = mcp(time = &quot;Tukey&quot;))): could not find function &quot;glht&quot;</pre>
+<pre >## 
+##   General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Linear Hypotheses:
+##                     Estimate
+## midday - early == 0    13.14
+## late - early == 0      -9.50
+## late - midday == 0    -22.64</pre>
 
 <pre class = 'prettyprint lang-r'>cld(mc)</pre>
 
-<pre >## Error in eval(expr, envir, enclos): could not find function &quot;cld&quot;</pre></article></slide>
+<pre >##  early midday   late 
+##   &quot;ab&quot;    &quot;b&quot;    &quot;a&quot;</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

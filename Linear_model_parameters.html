@@ -130,17 +130,17 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 <hr />
 <p>or</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;dotwhisker&quot;</span>)</code></pre></div>
-<pre><code>## Error in library(&quot;dotwhisker&quot;): there is no package called &#39;dotwhisker&#39;</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Loading required package: gridExtra</code></pre>
+<pre><code>## Loading required package: gtable</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dwplot</span>(lm0)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;dwplot&quot;</code></pre>
+<p><img src="figure/dotwhisker-1.png" title="plot of chunk dotwhisker" alt="plot of chunk dotwhisker" style="display: block; margin: auto;" /></p>
 <h2 id="more-than-two-levels">More than two levels</h2>
 <p>Some data on lizard perching behaviour (<code>brglm</code> package; Schoener 1970 <em>Ecology</em> <strong>51</strong>:408-418). (Ignore the fact that these are proportions/GLM would be better …)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lizards &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/lizards.csv&quot;</span>)</code></pre></div>
 <p>Response is number of <em>Anolis grahami</em> lizards found on perches in particular conditions.</p>
 <hr />
-<pre><code>## Error in library(tidyr): there is no package called &#39;tidyr&#39;</code></pre>
-<pre><code>## Error in function_list[[k]](value): could not find function &quot;gather&quot;</code></pre>
-<pre><code>## Error in ggplot(mliz, aes(x = value, y = grahami)): object &#39;mliz&#39; not found</code></pre>
+<p><img src="figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" style="display: block; margin: auto;" /></p>
 <hr />
 <p>Start with the <code>time</code> variable.</p>
 <p>If we leave the factors alphabetical then <span class="math inline">\(\beta_1\)</span>=“early”, <span class="math inline">\(\beta_2\)</span>=“late”-“early”, <span class="math inline">\(\beta_3\)</span>=“midday”-“early”. Change the order of the levels:</p>
@@ -217,7 +217,7 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 <h2 id="more-graphics">More graphics</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dwplot</span>(<span class="kw">list</span>(<span class="dt">additive=</span>lmTL1,<span class="dt">interaction=</span>lmTL2))+
 <span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="dv">0</span>,<span class="dt">lty=</span><span class="dv">2</span>)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;dwplot&quot;</code></pre>
+<p><img src="figure/dwplot_liz1-1.png" title="plot of chunk dwplot_liz1" alt="plot of chunk dwplot_liz1" style="display: block; margin: auto;" /></p>
 <h2 id="effects-plot">Effects plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(lmTL2))</code></pre></div>
 <p><img src="figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" /></p>
@@ -240,19 +240,22 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] MASS_7.3-45      ggplot2_2.2.1    dplyr_0.5.0      lsmeans_2.25    
-## [5] estimability_1.2 effects_3.1-2    knitr_1.15.1    
+##  [1] MASS_7.3-45      dplyr_0.5.0      tidyr_0.6.1      dotwhisker_0.2.3
+##  [5] gtable_0.2.0     gridExtra_2.2.1  ggplot2_2.2.1    lsmeans_2.25    
+##  [9] estimability_1.2 effects_3.1-2    knitr_1.15.1    
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] Rcpp_0.12.9      nloptr_1.0.4     plyr_1.8.4       highr_0.6       
 ##  [5] tools_3.3.2      digest_0.6.11    lme4_1.1-12      evaluate_0.10   
-##  [9] tibble_1.2       nlme_3.1-129     gtable_0.2.0     lattice_0.20-34 
-## [13] Matrix_1.2-7.1   DBI_0.5-1        mvtnorm_1.0-5    coda_0.19-1     
-## [17] stringr_1.1.0    nnet_7.3-12      R6_2.2.0         survival_2.40-1 
-## [21] multcomp_1.4-6   TH.data_1.0-8    minqa_1.2.4      magrittr_1.5    
-## [25] scales_0.4.1     codetools_0.2-14 splines_3.3.2    assertthat_0.1  
-## [29] colorspace_1.3-2 xtable_1.8-2     labeling_0.3     sandwich_2.3-4  
-## [33] stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3    zoo_1.7-14</code></pre>
+##  [9] tibble_1.2       nlme_3.1-129     lattice_0.20-34  psych_1.6.12    
+## [13] Matrix_1.2-7.1   DBI_0.5-1        parallel_3.3.2   mvtnorm_1.0-5   
+## [17] coda_0.19-1      stringr_1.1.0    nnet_7.3-12      R6_2.2.0        
+## [21] survival_2.40-1  foreign_0.8-67   multcomp_1.4-6   TH.data_1.0-8   
+## [25] minqa_1.2.4      reshape2_1.4.2   magrittr_1.5     scales_0.4.1    
+## [29] codetools_0.2-14 splines_3.3.2    mnormt_1.5-5     assertthat_0.1  
+## [33] colorspace_1.3-2 xtable_1.8-2     labeling_0.3     sandwich_2.3-4  
+## [37] stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3    broom_0.4.1     
+## [41] zoo_1.7-14</code></pre>
 <p>Other refs - http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html - <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html"><code>gmodels::fit.contrast()</code></a> (show parameter estimates based on re-fitting models with new contrasts), <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html"><code>rms::contrast.rms()</code></a> (ditto, for <code>rms</code>-based fits) - http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm - Crawley <em>Statistical Computing: An Introduction to Data Analysis using S-PLUS</em>, chapter 18</p>
 <div id="footer">
 	<div style="text-align:center">

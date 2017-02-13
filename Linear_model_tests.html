@@ -184,12 +184,22 @@ lmtime &lt;-<span class="st"> </span><span class="kw">lm</span>(grahami~time, <s
 <h2 id="multiple-comparisons">Multiple comparisons</h2>
 <p>Some notes on the theory behind multiple comparisons.</p>
 <p>Multiple comparisons are tricky, and you probably don’t need to do them. Unlike variable-level tests, they will depend on how you parameterize your model. Your results for a given multi-level variable can even depend on how you parameterize other variables.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(multcomp)</code></pre></div>
-<pre><code>## Error in library(multcomp): there is no package called &#39;multcomp&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(mc &lt;-<span class="st"> </span><span class="kw">glht</span>(lmTL1, <span class="dt">linfct=</span><span class="kw">mcp</span>(<span class="dt">time=</span><span class="st">&quot;Tukey&quot;</span>)))</code></pre></div>
-<pre><code>## Error in print(mc &lt;- glht(lmTL1, linfct = mcp(time = &quot;Tukey&quot;))): could not find function &quot;glht&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(multcomp)
+<span class="kw">print</span>(mc &lt;-<span class="st"> </span><span class="kw">glht</span>(lmTL1, <span class="dt">linfct=</span><span class="kw">mcp</span>(<span class="dt">time=</span><span class="st">&quot;Tukey&quot;</span>)))</code></pre></div>
+<pre><code>## 
+##   General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Linear Hypotheses:
+##                     Estimate
+## midday - early == 0    13.14
+## late - early == 0      -9.50
+## late - midday == 0    -22.64</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cld</span>(mc)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;cld&quot;</code></pre>
+<pre><code>##  early midday   late 
+##   &quot;ab&quot;    &quot;b&quot;    &quot;a&quot;</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
