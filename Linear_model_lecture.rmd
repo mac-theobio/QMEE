@@ -17,9 +17,9 @@ to distinguish it from the *generalized* linear model (`glm`)
     - (Some) non-linear relationships
     - Non-normal response *families* (binomial, Poisson, ...)
  - *Mixed* models incorporate *random effects*
-   - Categories in data represent samples from a population
-   - e.g. species, sites, genes ...
-   - Traditionally used to account for experimental blocks
+    - Categories in data represent samples from a population
+    - e.g. species, sites, genes ...
+    - Traditionally used to account for experimental blocks
  
 # Basic theory
 
@@ -32,7 +32,8 @@ to distinguish it from the *generalized* linear model (`glm`)
      - In other words, the difference between our model *predictions*
        and our observations is Normal
      - *not* assuming the marginal distribution is Normal
-- Independence	 
+- Independence
+- (Predictor variables measured without error)
  
 ## Machinery
  
@@ -47,20 +48,21 @@ to distinguish it from the *generalized* linear model (`glm`)
 - Continuous predictor variable: estimate a straight line with one parameter 
      - Also implies one *input variable* -- we're not going to
 		talk much about those
-- Example $Y = a+bX$. $Y$ is the response, $X$ is the input variable ($b$ is the *slope* - expected change in $Y$ per unit change in $X$)
-- Categorical predictor variable with two categories: only takes one character
-     - model the difference in predicted value between levels, or
+- $Y = a+bX$: $Y$ is the response, $X$ is the input variable   
+($b$ is the *slope* - expected change in $Y$ per unit change in $X$)
+- Categorical predictor variable with two categories: only one parameter
+     - difference in predicted value between levels, or
     	code the categories as 0, 1 ... (*dummy variables*)
 - Parameters are (usually) easy to interpret
-- Often best to think in terms of *confidence intervals* for the parameter
+- Think in terms of *confidence intervals* for the parameter
  
 ## Multi-parameter variables
  
 - With more than two categories, there is more than one
 input variable (parameter) associated with a single predictor variable
     - Why can't we just code them, for example as 0, 1, 2?
-- Similarly, if we want a non-linear response to a predictor variable
-    - This can be done in a linear model! $Y = a + bX + cX^2$ is linear
+- Non-linear response to a predictor variable
+    - Might be able to use a linear model! $Y = a + bX + cX^2$ is linear
 in $a$ and $b$ (the unknowns)
     - **Don't** use simple polynomials: use either *orthogonal polynomials* (`poly` in R) or splines (`ns` in R, `mgcv` package)
 
@@ -84,8 +86,8 @@ of interactions is tricky (*principle of marginality*)
 - Your estimate of the effect of variable $B$ is no longer constant
 - You need to pick a fixed point, or average in some way
 - Example: $Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1*X_2$
-- The response to $X_1$ is $Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1$
-i.e., the response to $X_1$ *depends on} the value of $X_2$.
+- The response to $X_1$ is $Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1$  
+the response to $X_1$ *depends on* the value of $X_2$.
  
 ## An experimental example
  
@@ -102,26 +104,36 @@ change in the metabolism of the control rabbits through time
  
 ## Testing interactions
  
-- The ideal approach is to use an *interaction*:
+- Use an *interaction*:
 $$
 M = a + B_x X + B_t t + B_{xt} Xt
 $$
 - The interaction term $B_{xt}$ represents the *difference in the response* between the two groups.
-- It directly asks: did the treatment group change differently than the control group?
+- It asks: **did the treatment group change differently than the control group**?
  
 ## Interactions and parameters
  
 - In simple cases, the whole interaction term may use only
 one parameter
-- We can use CIs, and coefplots, and get a pretty good idea what's
+- We can use CIs, and coefficient plots, and get a pretty good idea what's
 going on
 - In more complicated cases, interaction terms may have many parameters 
 - These have all the interpretation problems of other multi-parameter
 variables, or more
- 
+- Think about "differences in differences"
+
+## Interactions: example
+
+- Bear road-crossing
+- Predictor variables: sex (categorical), road type (categorical: major/minor), road length (continuous)
+- Two-way interactions
+     - sex $\times$ road length: "are females more sensitive to amount of road than males?"
+	 - sex $\times$ road type: "do females vary behaviour between road type more than males?"
+	 - road type $\times$ road length: "does amount of road affect crossings differently for different road types?"
+
 ## Statistical philosophy
  
-- Don't accept the null hypothesis
+ - Don't accept the null hypothesis
     - Don't throw out predictors you wanted to test because
 		they're not significant
 	- Don't throw out interactions you wanted to test because
@@ -143,8 +155,8 @@ assumptions, it is good to evaluate them
     - Linearity (does your model fit well?)
 	- Normality (assuming no overall problems, do your
 		**residuals** look Normal?)
- 
-
+    - Independence is hard to test
+- Normality is the **least important** of these assumptions
  
 ## Default plots in R
  
@@ -200,7 +212,7 @@ residuals, however
 ## Basic tools
 
 - `lm` fits a linear model
-`summary` prints statistics associated with the *parameters* that were fitted
+- `summary` prints statistics associated with the *parameters* that were fitted
 - `arm::coefplot` and `dwplot` package are useful for *visualizing* these
 - `anova` and `drop1` will attach P values to
 variables that have more than one parameter (even groups of
@@ -208,8 +220,7 @@ variables, in the case of anova). `car::Anova` can also
 be useful
 - **BEWARE**: the standard ANOVA $P$ values are *sequential*
 (early variables *do not* control for the presence of later
-variables.  This is probably not what you want.
-- see `car::Anova`
+variables.  This is probably not what you want. (See `car::Anova`)
 
 ## Multiple comparisons
  
@@ -223,12 +234,9 @@ more generally.
 `anova` *compares* different model fits.  Sorry for the
 confusion.
  
-# Evaluation tools
-
 ## Plotting
 
-- `plot` can be applied to an `lm` object to
-give you a nice set of diagnostic tests.
+- `plot` can be applied to an `lm` object to give you a nice set of diagnostic tests.
 - `predict` can give predicted values, and standard errors.
 - `simulate` simulates values from the fitted model
 - Try `methods(class="lm")` to see all the possibilities ...
