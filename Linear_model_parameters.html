@@ -116,21 +116,17 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 <ul>
 <li>Use the <code>effects</code> package:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;effects&quot;</span>)</code></pre></div>
-<pre><code>## Error in library(&quot;effects&quot;): there is no package called &#39;effects&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
-<pre><code>## Error in summary(allEffects(lm1)): could not find function &quot;allEffects&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;effects&quot;</span>)
+<span class="kw">summary</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
 <ul>
 <li>Use the <code>lsmeans</code> package:</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lsmeans&quot;</span>)</code></pre></div>
-<pre><code>## Error in library(&quot;lsmeans&quot;): there is no package called &#39;lsmeans&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lsmeans</span>(lm1,<span class="dt">specs=</span>~place)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;lsmeans&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lsmeans&quot;</span>)
+<span class="kw">lsmeans</span>(lm1,<span class="dt">specs=</span>~place)</code></pre></div>
 <hr />
 <p>Graphical summaries:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
-<pre><code>## Error in plot(allEffects(lm1)): could not find function &quot;allEffects&quot;</code></pre>
+<p><img src="figure/alleffects-1.png" title="plot of chunk alleffects" alt="plot of chunk alleffects" style="display: block; margin: auto;" /></p>
 <hr />
 <p>or</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;dotwhisker&quot;</span>)</code></pre></div>
@@ -224,7 +220,7 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;dwplot&quot;</code></pre>
 <h2 id="effects-plot">Effects plot</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(lmTL2))</code></pre></div>
-<pre><code>## Error in plot(allEffects(lmTL2)): could not find function &quot;allEffects&quot;</code></pre>
+<p><img src="figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" style="display: block; margin: auto;" /></p>
 <p>Session info:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.3.2 (2016-10-31)
@@ -244,14 +240,19 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] MASS_7.3-45   ggplot2_2.2.1 dplyr_0.5.0   knitr_1.15.1 
+## [1] MASS_7.3-45      ggplot2_2.2.1    dplyr_0.5.0      lsmeans_2.25    
+## [5] estimability_1.2 effects_3.1-2    knitr_1.15.1    
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9      digest_0.6.11    assertthat_0.1   plyr_1.8.4      
-##  [5] R6_2.2.0         gtable_0.2.0     DBI_0.5-1        magrittr_1.5    
-##  [9] evaluate_0.10    scales_0.4.1     highr_0.6        stringi_1.1.2   
-## [13] lazyeval_0.2.0   labeling_0.3     tools_3.3.2      stringr_1.1.0   
-## [17] munsell_0.4.3    colorspace_1.3-2 tibble_1.2</code></pre>
+##  [1] Rcpp_0.12.9      nloptr_1.0.4     plyr_1.8.4       highr_0.6       
+##  [5] tools_3.3.2      digest_0.6.11    lme4_1.1-12      evaluate_0.10   
+##  [9] tibble_1.2       nlme_3.1-129     gtable_0.2.0     lattice_0.20-34 
+## [13] Matrix_1.2-7.1   DBI_0.5-1        mvtnorm_1.0-5    coda_0.19-1     
+## [17] stringr_1.1.0    nnet_7.3-12      R6_2.2.0         survival_2.40-1 
+## [21] multcomp_1.4-6   TH.data_1.0-8    minqa_1.2.4      magrittr_1.5    
+## [25] scales_0.4.1     codetools_0.2-14 splines_3.3.2    assertthat_0.1  
+## [29] colorspace_1.3-2 xtable_1.8-2     labeling_0.3     sandwich_2.3-4  
+## [33] stringi_1.1.2    lazyeval_0.2.0   munsell_0.4.3    zoo_1.7-14</code></pre>
 <p>Other refs - http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html - <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html"><code>gmodels::fit.contrast()</code></a> (show parameter estimates based on re-fitting models with new contrasts), <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html"><code>rms::contrast.rms()</code></a> (ditto, for <code>rms</code>-based fits) - http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm - Crawley <em>Statistical Computing: An Introduction to Data Analysis using S-PLUS</em>, chapter 18</p>
 <div id="footer">
 	<div style="text-align:center">
