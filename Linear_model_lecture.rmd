@@ -1,6 +1,6 @@
 ---
 title: Linear models lecture
-author: Jonathan Dushoff
+author: Jonathan Dushoff and Ben Bolker
 ---
 
 # Introduction
