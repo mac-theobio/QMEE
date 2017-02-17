@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Assignments</title>
+  <title></title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,6 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Assignments',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -88,20 +87,79 @@
           </hgroup>
   </slide>
 
-<p>For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we&#39;ve said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure.</p>
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
 
-<p>If your assignment will be late, please email us by Friday noon to let us know when you will hand it in. This should be before 2PM on Monday, unless we give permission for special circumstances.</p>
+<p>If we are performing a lot of tests, we want to control the probability of getting a false positive at a higher level than that of individual tests.</p>
 
-<p><em>Submit your assignment by email</em> to <a href='mailto:bio708qmee@gmail.com' title=''>bio708qmee@gmail.com</a>. Your assignment is not done until you do this. To submit an assignment:</p>
+<p>We do this by defining <em>families</em> of tests.</p>
+
+<p>It&#39;s not always so clear what a family should be. By convention, a set of pairwise comparisons is defined as a family. Doing the same comparison on a large set of genes is usually defined as a family. Doing several related comparisons is often not defined as a family.</p>
+
+<p>What if we do a large linear model, keeping all the predictors?</p>
 
 <ul>
-<li><p>Tell us the main file we should be looking at, including the <em>relative path</em> from the main repo directory, e.g, <code>dushoff/add.R</code> Other files that are relevant can simply be mentioned in the script:</p>
-
-<pre class = 'prettyprint lang-r'>read.csv(&quot;eggplant_survey.csv&quot;)
-## Plot the histotypes (see README.md)</pre></li>
-<li>Make sure that your script runs, from beginning to end, <em>without absolute path names</em> (just in case one of us doesn&#39;t have a directory called <code>E://From Oshawa Computer/Research Files/My Thesis/Data for 708/</code> already available)</li>
-<li><p>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don&#39;t have the packages you are using.</p></li>
+<li>People usually don&#39;t worry about multiple comparisons if they have one test per parameter, but it&#39;s not so clear why.</li>
+<li>If you have categorical variables, one test per parameter covers pre-planned contrasts, but not full pairwise comparisons</li>
 </ul>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Family-level error</h2></hgroup><article  id="family-level-error">
+
+<p>We want to define a <em>family</em> of tests, and perform them so that the probability of seeing any significance at all under the null hypothesis is $$&lt;\alpha$$.</p>
+
+</article></slide><slide class=''><hgroup><h2>Bonferroni</h2></hgroup><article  id="bonferroni">
+
+<p>The simplest approach. Divide the threshold $$\alpha$$ by $$T$$, the number of tests in the family.</p>
+
+<p>Equivalently, multiply each of the P values by $$T$$.</p>
+
+<p>This is very simple, and very conservative, because the total probability of an error under the null hypothesis is $$&lt;\alpha$$.</p>
+
+<ul>
+<li>In fact, the expected <em>number</em> of errors under then null hypothesis is $$\alpha$$.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Holm</h2></hgroup><article  id="holm">
+
+<p>Sometimes called Bonferroni-Holm, by those who want to cash in on the credibility of Bonferroni.</p>
+
+<ul>
+<li>If the lowest P value is significant when multiplied by $$T$$, B-H multiplies the next lowest by $$T-1$$. And so on.</li>
+<li>This actually seems to maintain family-level error of $$\alpha$$ even in the worst case. Therefore, there is no reason to use Bonferroni.</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Hochberg/Hommel</h2></hgroup><article  id="hochberghommel">
+
+<p>Two similar tests that effectively assume the P values in the family are independent.</p>
+
+<ul>
+<li>This means that they are conservative if there are <em>positive</em> associations between P values, but suspect when there are <em>negative</em> associations</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Tukey</h2></hgroup><article  id="tukey">
+
+<p>A particular family-level test meant to apply to levels of a single factor.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>False discovery rate approaches</h2></hgroup><article  id="false-discovery-rate-approaches">
+
+<p>FDR is a relatively new and fairly slick technique. It attempts to control the expected <em>proportion</em> of identified results which are false. FDR provides more power than family-level corrections, but is less conservative.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Implementation in R</h2></hgroup><article  id="implementation-in-r">
+
+<ul>
+<li><code>p.adjust()</code> takes a list of P values, and returns a list of adjusted P values
+
+<ul>
+<li>It can do Holm, Hochberg and BY (an FDR method), among others</li>
+<li><code>pairwise.t.test</code> calls <code>p.adjust</code> to compare a set of factor levels, for example</li>
+</ul></li>
+<li><p>TukeyHSD can be applied to <code>aov</code> objects. <code>aov</code> uses <code>lm</code>, but returns things in a slightly different way</p></li>
+<li><code>cld</code> in package multcomp produces &quot;compact letter displays&quot;.
+
+<ul>
+<li>$$1^a, 2^{ab}, 3^b, 4^c$$</li>
+<li>JD hasn&#39;t tried this yet</li>
+</ul></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

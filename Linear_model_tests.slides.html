@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Assignments</title>
+  <title>Linear model testing</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Assignments',
+                title: 'Linear model testing',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -88,20 +88,175 @@
           </hgroup>
   </slide>
 
-<p>For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we&#39;ve said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure.</p>
+<slide class=''><hgroup><h2>Variable-level P values</h2></hgroup><article  id="variable-level-p-values">
 
-<p>If your assignment will be late, please email us by Friday noon to let us know when you will hand it in. This should be before 2PM on Monday, unless we give permission for special circumstances.</p>
+<p>Your go-to test for getting variable-level P values is <code>anova</code></p>
 
-<p><em>Submit your assignment by email</em> to <a href='mailto:bio708qmee@gmail.com' title=''>bio708qmee@gmail.com</a>. Your assignment is not done until you do this. To submit an assignment:</p>
+<p><code>drop1</code> is a wrapper that allows you to do many simple anovas at once (one for each variable (or term) that R thinks it should drop).</p>
 
-<ul>
-<li><p>Tell us the main file we should be looking at, including the <em>relative path</em> from the main repo directory, e.g, <code>dushoff/add.R</code> Other files that are relevant can simply be mentioned in the script:</p>
+<p>When you are <em>estimating</em> variance (e.g., with a normal response variable) you should use an \(F\) test.</p>
 
-<pre class = 'prettyprint lang-r'>read.csv(&quot;eggplant_survey.csv&quot;)
-## Plot the histotypes (see README.md)</pre></li>
-<li>Make sure that your script runs, from beginning to end, <em>without absolute path names</em> (just in case one of us doesn&#39;t have a directory called <code>E://From Oshawa Computer/Research Files/My Thesis/Data for 708/</code> already available)</li>
-<li><p>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don&#39;t have the packages you are using.</p></li>
-</ul>
+<p>When you can <em>calculate</em> variance from your assumptions (e.g., with a Poisson or binomial), you should use a \(\chi^2\) test.</p>
+
+</article></slide><slide class=''><hgroup><h2>Simple model</h2></hgroup><article  id="simple-model">
+
+<pre class = 'prettyprint lang-r'>load(&quot;data/contrasts2.RData&quot;)
+print(summary(lmTL1))</pre>
+
+<pre >## 
+## Call:
+## lm(formula = grahami ~ time + light, data = lizards)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -19.4250 -11.6937   0.2125   6.6250  28.5750 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   27.288      5.631   4.846 0.000112 ***
+## timemidday    13.137      7.106   1.849 0.080099 .  
+## timelate      -9.500      6.853  -1.386 0.181743    
+## lightsunny   -19.325      5.734  -3.370 0.003213 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 13.71 on 19 degrees of freedom
+## Multiple R-squared:  0.5466, Adjusted R-squared:  0.475 
+## F-statistic: 7.634 on 3 and 19 DF,  p-value: 0.001513</pre>
+
+<pre class = 'prettyprint lang-r'>lmlight &lt;- lm(grahami~light, data=lizards)
+lmtime &lt;- lm(grahami~time, data=lizards)
+## Test time by comparing with light model (dropping time)
+anova(lmTL1, lmlight, test=&quot;F&quot;)</pre>
+
+<pre >## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time + light
+## Model 2: grahami ~ light
+##   Res.Df    RSS Df Sum of Sq      F  Pr(&gt;F)  
+## 1     19 3569.6                              
+## 2     21 5481.9 -2   -1912.3 5.0895 0.01698 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+<pre class = 'prettyprint lang-r'>## Test light (should be exactly the same test as in summary)
+anova(lmTL1, lmtime, test=&quot;F&quot;)</pre>
+
+<pre >## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time + light
+## Model 2: grahami ~ time
+##   Res.Df    RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     19 3569.6                                
+## 2     20 5703.6 -1     -2134 11.359 0.003213 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+<pre class = 'prettyprint lang-r'>## In this simple case, drop1 should do exactly the same thing we did above
+drop1(lmTL1, test=&quot;F&quot;)</pre>
+
+<pre >## Single term deletions
+## 
+## Model:
+## grahami ~ time + light
+##        Df Sum of Sq    RSS    AIC F value   Pr(&gt;F)   
+## &lt;none&gt;              3569.6 124.03                    
+## time    2    1912.3 5481.9 129.90  5.0895 0.016983 * 
+## light   1    2134.0 5703.6 132.81 11.3589 0.003213 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+</article></slide><slide class=''><hgroup><h2>Interaction model</h2></hgroup><article  id="interaction-model">
+
+<pre class = 'prettyprint lang-r'>print(summary(lmTL2))</pre>
+
+<pre >## 
+## Call:
+## lm(formula = grahami ~ time * light, data = lizards)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -30.250  -4.125   1.250   6.875  17.750 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)             23.500      5.375   4.372 0.000416 ***
+## timemidday              27.750      7.602   3.650 0.001980 ** 
+## timelate               -12.750      7.602  -1.677 0.111798    
+## lightsunny             -11.750      7.602  -1.546 0.140606    
+## timemidday:lightsunny  -32.833     11.190  -2.934 0.009266 ** 
+## timelate:lightsunny      6.500     10.751   0.605 0.553432    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.75 on 17 degrees of freedom
+## Multiple R-squared:  0.7504, Adjusted R-squared:  0.677 
+## F-statistic: 10.22 on 5 and 17 DF,  p-value: 0.0001179</pre>
+
+<pre class = 'prettyprint lang-r'>## Test time by comparing with light model (drop time AND interaction)
+anova(lmTL2, lmlight, test=&quot;F&quot;)</pre>
+
+<pre >## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time * light
+## Model 2: grahami ~ light
+##   Res.Df    RSS Df Sum of Sq     F   Pr(&gt;F)   
+## 1     17 1964.9                               
+## 2     21 5481.9 -4     -3517 7.607 0.001053 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+<pre class = 'prettyprint lang-r'>## Test light
+anova(lmTL2, lmtime, test=&quot;F&quot;)</pre>
+
+<pre >## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time * light
+## Model 2: grahami ~ time
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     17 1964.9                                  
+## 2     20 5703.6 -3   -3738.7 10.782 0.0003324 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+<pre class = 'prettyprint lang-r'>## drop1 now tests the whole interaction, also very useful
+drop1(lmTL2, test=&quot;F&quot;)</pre>
+
+<pre >## Single term deletions
+## 
+## Model:
+## grahami ~ time * light
+##            Df Sum of Sq    RSS    AIC F value   Pr(&gt;F)   
+## &lt;none&gt;                  1964.9 114.30                    
+## time:light  2    1604.7 3569.6 124.03  6.9416 0.006254 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+</article></slide><slide class=''><hgroup><h2>Multiple comparisons</h2></hgroup><article  id="multiple-comparisons">
+
+<p>Some notes on the theory behind multiple comparisons.</p>
+
+<p>Multiple comparisons are tricky, and you probably don&#39;t need to do them. Unlike variable-level tests, they will depend on how you parameterize your model. Your results for a given multi-level variable can even depend on how you parameterize other variables.</p>
+
+<pre class = 'prettyprint lang-r'>library(multcomp)
+print(mc &lt;- glht(lmTL1, linfct=mcp(time=&quot;Tukey&quot;)))</pre>
+
+<pre >## 
+##   General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Linear Hypotheses:
+##                     Estimate
+## midday - early == 0    13.14
+## late - early == 0      -9.50
+## late - midday == 0    -22.64</pre>
+
+<pre class = 'prettyprint lang-r'>cld(mc)</pre>
+
+<pre >##  early midday   late 
+##   &quot;ab&quot;    &quot;b&quot;    &quot;a&quot;</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

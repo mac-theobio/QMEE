@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Linear model testing</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Linear model testing</h1>
+</div>
+<h2 id="variable-level-p-values">Variable-level P values</h2>
+<p>Your go-to test for getting variable-level P values is <code>anova</code></p>
+<p><code>drop1</code> is a wrapper that allows you to do many simple anovas at once (one for each variable (or term) that R thinks it should drop).</p>
+<p>When you are <em>estimating</em> variance (e.g., with a normal response variable) you should use an <span class="math inline">\(F\)</span> test.</p>
+<p>When you can <em>calculate</em> variance from your assumptions (e.g., with a Poisson or binomial), you should use a <span class="math inline">\(\chi^2\)</span> test.</p>
+<h2 id="simple-model">Simple model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/contrasts2.RData&quot;</span>)
+<span class="kw">print</span>(<span class="kw">summary</span>(lmTL1))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = grahami ~ time + light, data = lizards)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -19.4250 -11.6937   0.2125   6.6250  28.5750 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   27.288      5.631   4.846 0.000112 ***
+## timemidday    13.137      7.106   1.849 0.080099 .  
+## timelate      -9.500      6.853  -1.386 0.181743    
+## lightsunny   -19.325      5.734  -3.370 0.003213 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 13.71 on 19 degrees of freedom
+## Multiple R-squared:  0.5466, Adjusted R-squared:  0.475 
+## F-statistic: 7.634 on 3 and 19 DF,  p-value: 0.001513</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lmlight &lt;-<span class="st"> </span><span class="kw">lm</span>(grahami~light, <span class="dt">data=</span>lizards)
+lmtime &lt;-<span class="st"> </span><span class="kw">lm</span>(grahami~time, <span class="dt">data=</span>lizards)
+## Test time by comparing with light model (dropping time)
+<span class="kw">anova</span>(lmTL1, lmlight, <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time + light
+## Model 2: grahami ~ light
+##   Res.Df    RSS Df Sum of Sq      F  Pr(&gt;F)  
+## 1     19 3569.6                              
+## 2     21 5481.9 -2   -1912.3 5.0895 0.01698 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Test light (should be exactly the same test as in summary)
+<span class="kw">anova</span>(lmTL1, lmtime, <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time + light
+## Model 2: grahami ~ time
+##   Res.Df    RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     19 3569.6                                
+## 2     20 5703.6 -1     -2134 11.359 0.003213 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## In this simple case, drop1 should do exactly the same thing we did above
+<span class="kw">drop1</span>(lmTL1, <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## grahami ~ time + light
+##        Df Sum of Sq    RSS    AIC F value   Pr(&gt;F)   
+## &lt;none&gt;              3569.6 124.03                    
+## time    2    1912.3 5481.9 129.90  5.0895 0.016983 * 
+## light   1    2134.0 5703.6 132.81 11.3589 0.003213 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<h2 id="interaction-model">Interaction model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">summary</span>(lmTL2))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = grahami ~ time * light, data = lizards)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -30.250  -4.125   1.250   6.875  17.750 
+## 
+## Coefficients:
+##                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)             23.500      5.375   4.372 0.000416 ***
+## timemidday              27.750      7.602   3.650 0.001980 ** 
+## timelate               -12.750      7.602  -1.677 0.111798    
+## lightsunny             -11.750      7.602  -1.546 0.140606    
+## timemidday:lightsunny  -32.833     11.190  -2.934 0.009266 ** 
+## timelate:lightsunny      6.500     10.751   0.605 0.553432    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 10.75 on 17 degrees of freedom
+## Multiple R-squared:  0.7504, Adjusted R-squared:  0.677 
+## F-statistic: 10.22 on 5 and 17 DF,  p-value: 0.0001179</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Test time by comparing with light model (drop time AND interaction)
+<span class="kw">anova</span>(lmTL2, lmlight, <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time * light
+## Model 2: grahami ~ light
+##   Res.Df    RSS Df Sum of Sq     F   Pr(&gt;F)   
+## 1     17 1964.9                               
+## 2     21 5481.9 -4     -3517 7.607 0.001053 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Test light
+<span class="kw">anova</span>(lmTL2, lmtime, <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: grahami ~ time * light
+## Model 2: grahami ~ time
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     17 1964.9                                  
+## 2     20 5703.6 -3   -3738.7 10.782 0.0003324 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## drop1 now tests the whole interaction, also very useful
+<span class="kw">drop1</span>(lmTL2, <span class="dt">test=</span><span class="st">&quot;F&quot;</span>)</code></pre></div>
+<pre><code>## Single term deletions
+## 
+## Model:
+## grahami ~ time * light
+##            Df Sum of Sq    RSS    AIC F value   Pr(&gt;F)   
+## &lt;none&gt;                  1964.9 114.30                    
+## time:light  2    1604.7 3569.6 124.03  6.9416 0.006254 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<h2 id="multiple-comparisons">Multiple comparisons</h2>
+<p>Some notes on the theory behind multiple comparisons.</p>
+<p>Multiple comparisons are tricky, and you probably don’t need to do them. Unlike variable-level tests, they will depend on how you parameterize your model. Your results for a given multi-level variable can even depend on how you parameterize other variables.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(multcomp)
+<span class="kw">print</span>(mc &lt;-<span class="st"> </span><span class="kw">glht</span>(lmTL1, <span class="dt">linfct=</span><span class="kw">mcp</span>(<span class="dt">time=</span><span class="st">&quot;Tukey&quot;</span>)))</code></pre></div>
+<pre><code>## 
+##   General Linear Hypotheses
+## 
+## Multiple Comparisons of Means: Tukey Contrasts
+## 
+## 
+## Linear Hypotheses:
+##                     Estimate
+## midday - early == 0    13.14
+## late - early == 0      -9.50
+## late - midday == 0    -22.64</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cld</span>(mc)</code></pre></div>
+<pre><code>##  early midday   late 
+##   &quot;ab&quot;    &quot;b&quot;    &quot;a&quot;</code></pre>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

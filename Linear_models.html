@@ -4,7 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title></title>
+  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
+  <title>Linear models</title>
   <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
 </head>
@@ -19,13 +20,23 @@
 	</div>
 </div>
 </header>
-<p>The <a href="aardvark_project.html">aardvark project</a></p>
+<div id="header">
+<h1 class="title">Linear models</h1>
+<h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
+</div>
 <h1 id="introduction">Introduction</h1>
 <p>Linear models are a kind of <a href="lamppost_theory.html">lamppost</a>: a very powerful set of tools for solving certain kinds of problems, using certain kinds of assumptions.</p>
+<h1 id="class-materials">Class materials</h1>
+<ul>
+<li><a href="Linear_model_lecture.html">Main lecture notes</a>
+<ul>
+<li><a href="Linear_model_lecture.slides.html">slide version</a></li>
+</ul></li>
+<li><a href="Linear_model_parameters.html">Parameters</a></li>
+<li><a href="Linear_model_tests.html">Testing</a></li>
+</ul>
 <h1 id="resources">Resources</h1>
 <ul>
-<li><a href="Linear_models/Lecture_slides.html">Linear models/Lecture slides</a></li>
-<li><p><a href="Linear_model_parameters.html">Linear model parameters</a></p></li>
 <li>Introductory
 <ul>
 <li><a href="http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R">The model section from the R intro book</a></li>
@@ -44,12 +55,13 @@
 </ul></li>
 <li>Discussion
 <ul>
-<li><a href="http://www.masterenbiodiversidad.org/docs/asig3/Hurlbert_1984_Pseudoreplication.pdf">Hurlbert’s classic Pseudo-replication paper</a></li>
+<li><a href="http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf">Hurlbert’s classic Pseudo-replication paper</a></li>
 <li><a href="http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf">Exegeses on linear models</a> (advanced)</li>
 </ul></li>
 </ul>
 <h1 id="assignment">Assignment</h1>
-<p>Make a linear model for one or more of your hypotheses. Do some regression plots, and discuss a possible transformation.</p>
+<p>Make a linear model for one or more of your hypotheses. Draw <em>and discuss</em> at least one of each of the following: * diagnostic plot * inferential plot (e.g., a coefficient plot, or something from <code>lsmeans</code> or <code>effects</code>)</p>
+<p>The assignment is due by Wed. 22 Feb noon.</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
