@@ -4,7 +4,8 @@ Import flow
 Do{
 * Make a .tmk
 * Check for new super-pages (pages with subpages)
-* Make patterns for the super-pages in a perl script and the Makefile
+* Make patterns for the super-pages in mdtrim.pl and Makefile
+* touch tmk.pl
 } While super-pages have not been resolved
 
 * Execute the make statement from the .tmk

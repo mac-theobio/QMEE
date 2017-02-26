@@ -54,6 +54,10 @@ intro_%.mediawiki:
 Visualization_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Visualization/$*&action=raw"
 
+.PRECIOUS: Bayesian_statistics_%.mediawiki
+Bayesian_statistics_%.mediawiki:
+	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Bayesian_statistics/$*&action=raw"
+
 .PRECIOUS: Multiple_comparisons_%.mediawiki
 Multiple_comparisons_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Multiple_comparisons/$*&action=raw"
@@ -85,7 +89,6 @@ Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
 	$(PUSH)
 	cp $@ $*.md
 
-Data_management.tmk: Data_management.md tmk.pl
 %.tmk: %.md tmk.pl
 	$(PUSH)
 

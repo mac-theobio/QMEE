@@ -4,8 +4,6 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Current
 
-* [MMV answer (on student repo)](https://github.com/mac-theobio/QMEE_2017/blob/master/course/mmv_answer.md)
-
 ## Course information
 
 * The course meets in LSB-130A:
@@ -33,6 +31,7 @@ _This schedule is subject to change_
 
 -   [Permutations](Permutations.html)
 -   [Linear models](Linear_models.html)
+-   [Bayesian statistics](Bayesian_statistics.html)
 
 ### Extras
 
