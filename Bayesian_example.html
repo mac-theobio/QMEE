@@ -21,6 +21,13 @@
 </div>
 </header>
 <h1 id="generate-fake-data">Generate fake data</h1>
+<pre><code>##        y                 a                 b                 c          
+##  Min.   :-0.2204   Min.   :0.04418   Min.   :0.03454   Min.   :0.02538  
+##  1st Qu.: 1.3212   1st Qu.:0.21733   1st Qu.:0.18682   1st Qu.:0.30197  
+##  Median : 3.2696   Median :0.52227   Median :0.54248   Median :0.59167  
+##  Mean   : 3.0955   Mean   :0.51398   Mean   :0.48042   Mean   :0.53889  
+##  3rd Qu.: 4.4842   3rd Qu.:0.73486   3rd Qu.:0.77407   3rd Qu.:0.80773  
+##  Max.   : 6.5282   Max.   :0.93434   Max.   :0.99014   Max.   :0.97959</code></pre>
 <h1 id="do-a-linear-model">Do a linear model</h1>
 <pre><code>## 
 ## Call:
@@ -80,41 +87,64 @@
 <p>Finally, BUGS/JAGS thinks in terms of “precision” <span class="math display">\[\tau=1/\sigma^2\]</span>, which is confusing, but you can get used to it. It’s best to start by guessing what you think a “large” standard deviation would be, then taking <span class="math display">\[1/\sigma^2\]</span> to get the relevant value of <span class="math display">\[\tau\]</span>. A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of <span class="math display">\[10^{-6}\]</span>. The normal priors below have low precision, so they have high variance.</p>
 <h2 id="rjags">rjags</h2>
 <h2 id="r2jags">R2jags</h2>
-<pre><code>## Error in library(&quot;R2jags&quot;): there is no package called &#39;R2jags&#39;</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;jags&quot;</code></pre>
-<ul>
-<li>You can use <code>inits=NULL</code> to have JAGS pick the initial values randomly from the priors. For more complex models you might want to pick starting values for the chains yourself (see the <code>?jags</code> documentation).</li>
-</ul>
-<h3 id="examine-the-chains-and-output">Examine the chains and output</h3>
-<pre><code>## Error in library(&quot;R2jags&quot;): there is no package called &#39;R2jags&#39;</code></pre>
+<pre><code>## Loading required package: rjags</code></pre>
+<pre><code>## Loading required package: coda</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;coda&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:arm&#39;:
 ## 
 ##     traceplot</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): object &#39;jags1&#39; not found</code></pre>
-<pre><code>## Error in as.mcmc.bugs(bb): object &#39;bb&#39; not found</code></pre>
-<pre><code>## Error in plot(jags1): object &#39;jags1&#39; not found</code></pre>
+<pre><code>## Linked to JAGS 4.2.0</code></pre>
+<pre><code>## Loaded modules: basemod,bugs</code></pre>
+<pre><code>## 
+## Attaching package: &#39;R2jags&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:coda&#39;:
+## 
+##     traceplot</code></pre>
+<pre><code>## The following object is masked from &#39;package:arm&#39;:
+## 
+##     traceplot</code></pre>
+<pre><code>## module glm loaded</code></pre>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 40
+##    Unobserved stochastic nodes: 5
+##    Total graph size: 336
+## 
+## Initializing model</code></pre>
+<ul>
+<li>You can use <code>inits=NULL</code> to have JAGS pick the initial values randomly from the priors. For more complex models you might want to pick starting values for the chains yourself (see the <code>?jags</code> documentation).</li>
+</ul>
+<h3 id="examine-the-chains-and-output">Examine the chains and output</h3>
+<div class="figure">
+<img src="figure/coda2.R-1.png" alt="plot of chunk coda2.R" />
+<p class="caption">plot of chunk coda2.R</p>
+</div>
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;xyplot&quot;</code></pre>
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;densityplot&quot;</code></pre>
-<pre><code>## Error in coefplot2(jags1): object &#39;jags1&#39; not found</code></pre>
+<div class="figure">
+<img src="figure/coda2.R-2.png" alt="plot of chunk coda2.R" />
+<p class="caption">plot of chunk coda2.R</p>
+</div>
 <p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
 <h2 id="further-notes">Further notes</h2>
 <h3 id="categorical-variables">Categorical variables</h3>
 <p>Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above. There are two basic strategies:</p>
-<h1 id="pass-the-categorical-variable-as-a-vector-of-numeric-codes-i.e.pass-as.numericf-rather-than-f-to-jags-in-your-data-list-and-make-your-parameters-a-simple-vector-of-the-means-corresponding-to-each-level-e.g.you-could-have-a-vector-of-parameters-catparam-and-specify-the-predicted-value-as-predi-catparamfi">pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code></h1>
-<h1 id="construct-a-design-matrix-using-the-model.matrix-function-in-r-and-pass-the-whole-model-matrix-xto-jags.-then-to-get-the-predicted-value-for-each-observation-just-add-up-the-relevant-columns-of-the-model-matrix-e.g.-predi-beta1xi1beta2xi2beta3xi3.-you-can-also-use-the-built-in-inprod-inner-product-function-predi-inprodxibeta">construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code></h1>
+<ul>
+<li>pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code></li>
+<li>construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code></li>
+</ul>
 <p>The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using <code>lm</code>).</p>
 <h3 id="built-in-bayesian-modeling-techniques">Built-in Bayesian modeling techniques</h3>
 <ul>
 <li><code>bayesglm</code> from the <code>arm</code> package</li>
 </ul>
-<pre><code>## Error in do.call(&quot;rbind&quot;, x): object &#39;mm&#39; not found</code></pre>
-<pre><code>## Error in colMeans(mmL): object &#39;mmL&#39; not found</code></pre>
-<pre><code>## Error in mean((mmL[, &quot;mb&quot;] &gt; mmL[, &quot;ma&quot;]) &amp; (mmL[, &quot;mb&quot;] &gt; mmL[, &quot;mc&quot;])): object &#39;mmL&#39; not found</code></pre>
-<pre><code>## Error in eval(expr, envir, enclos): object &#39;mmL&#39; not found</code></pre>
-<pre><code>## Error in apply(meanschain, 1, which.max): object &#39;meanschain&#39; not found</code></pre>
-<pre><code>## Error in mean(maxval == 2): object &#39;maxval&#39; not found</code></pre>
+<pre><code>##    deviance         int          ma          mb          mc 
+## 114.5106127  -0.3329600   0.6928561   5.0825190   1.1757262</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 1</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>

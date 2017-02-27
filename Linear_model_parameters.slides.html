@@ -242,16 +242,8 @@ lsmeans(lm1,specs=~place)</pre>
 
 <p>There are other options for contrasts such as <code>MASS::contr.sdif()</code>, which gives the successive differences between levels.</p>
 
-<pre class = 'prettyprint lang-r'>library(&quot;MASS&quot;)</pre>
-
-<pre >## 
-## Attaching package: &#39;MASS&#39;</pre>
-
-<pre >## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     select</pre>
-
-<pre class = 'prettyprint lang-r'>pr(lm(grahami~time,data=lizards,contrasts=list(time=contr.sdif)))</pre>
+<pre class = 'prettyprint lang-r'>library(&quot;MASS&quot;)
+pr(lm(grahami~time,data=lizards,contrasts=list(time=contr.sdif)))</pre>
 
 <pre >##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    19.30       3.53    5.47  2.4e-05

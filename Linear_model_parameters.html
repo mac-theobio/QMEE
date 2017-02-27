@@ -159,13 +159,8 @@ pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span
 <p>There are other ways to change the contrasts (i.e., use the <code>contrasts()</code> function to change the contrasts for a particular variable permanently, or use <code>options(contrasts=c(&quot;contr.sum&quot;,&quot;contr.poly&quot;)))</code> to change the contrasts for <em>all</em> variables), but this way may be the most transparent.</p>
 <hr />
 <p>There are other options for contrasts such as <code>MASS::contr.sdif()</code>, which gives the successive differences between levels.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)</code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;MASS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     select</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(<span class="kw">lm</span>(grahami~time,<span class="dt">data=</span>lizards,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sdif)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)
+<span class="kw">pr</span>(<span class="kw">lm</span>(grahami~time,<span class="dt">data=</span>lizards,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sdif)))</code></pre></div>
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    19.30       3.53    5.47  2.4e-05
 ## time2-1        14.52       8.74    1.66    0.112
