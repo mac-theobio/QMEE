@@ -129,13 +129,13 @@ title: Bayesian approaches
 
 * For each rate, our likelihood of observing $N$ events in time $T$ if the true rate is $r$ is a Poisson distribution with mean $rT$:
 
-	* $\frac{(rT)\^N \exp(-rT)}{N!}$
+	* $\frac{(rT)^N \exp(-rT)}{N!}$
 
 * We choose an improper, uniform prior over $\log r$,
 	 equivalent to $\pi(r) = 1/r$.
 
 * The posterior distribution is then proportional to:
-	* $(rT)\^{N-1} \exp(-rT)$, which gives a Gamma distribution
+	* $(rT)^{N-1} \exp(-rT)$, which gives a Gamma distribution
 	     with mean $N/T$ (the observed rate), and CV $1/\sqrt{N}$.
 
 
@@ -148,14 +148,11 @@ how.
 
 * Bayesian methods are very flexible
 
-
 * We can write down reasonable priors, and likelihoods, to cover a
 	wide variety of assumptions and situations
 
-
 * Unfortunately, we usually can't *integrate* -- calculate the
 	denominator of Bayes' formula
-
 
 * Instead we use *Markov chain Monte Carlo* methods to sample randomly
 	from the posterior distribution
