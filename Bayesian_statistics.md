@@ -29,10 +29,8 @@ Resources
 -   Introductory
     -   [Standing statistics right side
         up](http://www.annals.org.libaccess.lib.mcmaster.ca/content/130/12/1019.long)
-    -   [Notes from
-        UF](http://www.biology.ufl.edu/ip/2009Fall/notes/ip-bayes-etc.html)
-    -   [Fisher, Jeffreys and
-        Neyman](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&rep=rep1&type=pdf)
+    -   [Frameworks for statistical inference and estimation (Notes from UF)](https://web.archive.org/web/20100616211430/http://www.biology.ufl.edu/ip/2009Fall/notes/ip-bayes-etc.html)
+    -   [Fisher, Jeffreys and Neyman](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&rep=rep1&type=pdf)
 
 
 -   Discussion
