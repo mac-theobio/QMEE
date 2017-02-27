@@ -68,7 +68,5 @@ Resources
 Assignment
 ----------
 
-Install JAGS (optionally install rjags or R2jags). Fit a Bayesian model
-that has something to do with your data. It can be as simple as you
-like. Discuss your prior assumptions, and compare your simple fit to an
-analogous frequentist fit.
+Install JAGS (and either rjags or R2jags). Use jags to manually a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
+
