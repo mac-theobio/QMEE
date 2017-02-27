@@ -69,7 +69,7 @@ plot(jags1)             ## large-format graph
 ## plot(mm)                ## trace + density plots, same as above
 xyplot(mm,layout=c(2,3))  ## prettier trace plot
 densityplot(mm,layout=c(2,3)) ## prettier density plot
-dwplot(jags1)              ## estimate + credible interval plot
+print(dwplot(jags1))              ## estimate + credible interval plot
 ```
 
 The `lump.mcmc.list` function from the `emdbook` package can be useful for converting a set of MCMC chains into a single long chain.
