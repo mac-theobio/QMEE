@@ -124,18 +124,12 @@
 </div>
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;xyplot&quot;</code></pre>
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;densityplot&quot;</code></pre>
-<div class="figure">
-<img src="figure/coda2.R-2.png" alt="plot of chunk coda2.R" />
-<p class="caption">plot of chunk coda2.R</p>
-</div>
+<pre><code>## Error in (function (classes, fdef, mtable) : unable to find an inherited method for function &#39;coefplot&#39; for signature &#39;&quot;rjags&quot;&#39;</code></pre>
 <p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
 <h2 id="further-notes">Further notes</h2>
 <h3 id="categorical-variables">Categorical variables</h3>
 <p>Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above. There are two basic strategies:</p>
-<ul>
-<li>pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code></li>
-<li>construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code></li>
-</ul>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD * pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code> * construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code> ======= - pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code> - construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code> &gt;&gt;&gt;&gt;&gt;&gt;&gt; 2de5c5d150922a6f3e45b46baee02fa1da71e1c4</p>
 <p>The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using <code>lm</code>).</p>
 <h3 id="built-in-bayesian-modeling-techniques">Built-in Bayesian modeling techniques</h3>
 <ul>
