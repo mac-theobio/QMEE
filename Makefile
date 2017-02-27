@@ -4,7 +4,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_pages 
+target pngtarget pdftarget vtarget acrtarget: push_pages
 
 ##################################################################
 
@@ -41,6 +41,19 @@ pages/%.slides.html: %.md
 
 CA_homicide_pix.md: CA_homicide_pix.rmd
 pages/CA_homicide_pix.html: CA_homicide_pix.rmd
+
+######################################################################
+
+## Orphaned
+
+# gammaPrior.rmd. I cannot figure out how things work with the standard improper prior. It should give a posterior surface with the same shape as the likelihood surface on the log scale -- but doesn't seem to. Probably just too fast and loose with the calcs.
+
+######################################################################
+
+## Real WW transformation?
+
+Bayesian_example.rmd: Bayesian_regression_example.mediawiki wwrmd.pl
+	$(PUSH)
 
 ######################################################################
 
