@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Linear models</title>
+  <title></title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,6 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Linear models',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -29,14 +28,6 @@
 
       // Author information
       presenters: [
-            {
-        name:  'Jonathan Dushoff and Ben Bolker' ,
-        company: '',
-        gplus: '',
-        twitter: '',
-        www: '',
-        github: ''
-      },
             ]
     };
   </script>
@@ -96,56 +87,145 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
+<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Generate fake data</h2></hgroup><article  id="generate-fake-data">
 
-<p>Linear models are a kind of <a href='lamppost_theory.html' title=''>lamppost</a>: a very powerful set of tools for solving certain kinds of problems, using certain kinds of assumptions.</p>
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Do a linear model</h2></hgroup><article  id="do-a-linear-model">
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Class materials</h2></hgroup><article  id="class-materials">
+<pre >## 
+## Call:
+## lm(formula = y ~ a + b + c, data = dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.11619 -0.46816  0.06305  0.56538  2.05915 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.3336     0.4456  -0.749   0.4590    
+## a             0.6909     0.6129   1.127   0.2671    
+## b             5.0782     0.5332   9.523 2.25e-11 ***
+## c             1.1771     0.5353   2.199   0.0344 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9981 on 36 degrees of freedom
+## Multiple R-squared:  0.7574, Adjusted R-squared:  0.7371 
+## F-statistic: 37.46 on 3 and 36 DF,  p-value: 3.645e-11</pre>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Bayesian analysis</h2></hgroup><article  id="bayesian-analysis">
+
+</article></slide><slide class=''><hgroup><h2>With bayesglm</h2></hgroup><article  id="with-bayesglm">
+
+<pre >## Loading required package: MASS</pre>
+
+<pre >## Loading required package: Matrix</pre>
+
+<pre >## Loading required package: lme4</pre>
+
+<pre >## 
+## arm (Version 1.9-3, built: 2016-11-21)</pre>
+
+<pre >## Working directory is /home/dushoff/git/QMEE</pre>
+
+<pre >## 
+## Call:
+## bayesglm(formula = y ~ a + b + c, data = dat)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.11859  -0.46488   0.06545   0.57159   2.05432  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.3209     0.4448  -0.721   0.4753    
+## a             0.6943     0.6104   1.137   0.2629    
+## b             5.0555     0.5319   9.505 2.37e-11 ***
+## c             1.1704     0.5337   2.193   0.0348 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.9962802)
+## 
+##     Null deviance: 147.805  on 39  degrees of freedom
+## Residual deviance:  35.866  on 36  degrees of freedom
+## AIC: 119.15
+## 
+## Number of Fisher Scoring iterations: 9</pre>
+
+</article></slide><slide class=''><hgroup><h2>With BUGS/JAGS</h2></hgroup><article  id="with-bugsjags">
+
+<p>We need priors for the four regression parameters, and for the error variance. The BUGS/JAGS framework does not let us use improper priors, so we have to pick things that we think are &quot;wide&quot; enough.</p>
+
+<p>For the error variance, we also have to pick something that&#39;s always positive.</p>
+
+<p>Finally, BUGS/JAGS thinks in terms of &quot;precision&quot; \[\tau=1/\sigma^2\], which is confusing, but you can get used to it. It&#39;s best to start by guessing what you think a &quot;large&quot; standard deviation would be, then taking \[1/\sigma^2\] to get the relevant value of \[\tau\]. A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of \[10^{-6}\]. The normal priors below have low precision, so they have high variance.</p>
+
+</article></slide><slide class=''><hgroup><h2>rjags</h2></hgroup><article  id="rjags">
+
+</article></slide><slide class=''><hgroup><h2>R2jags</h2></hgroup><article  id="r2jags">
+
+<pre >## Error in library(&quot;R2jags&quot;): there is no package called &#39;R2jags&#39;</pre>
+
+<pre >## Error in eval(expr, envir, enclos): could not find function &quot;jags&quot;</pre>
 
 <ul>
-<li><a href='Linear_model_lecture.html' title=''>Main lecture notes</a>
-
-<ul>
-<li><a href='Linear_model_lecture.slides.html' title=''>slide version</a></li>
-</ul></li>
-<li><a href='Linear_model_parameters.html' title=''>Parameters</a></li>
-<li><a href='Linear_model_tests.html' title=''>Testing</a></li>
+<li>You can use <code>inits=NULL</code> to have JAGS pick the initial values randomly from the priors. For more complex models you might want to pick starting values for the chains yourself (see the <code>?jags</code> documentation).</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+<h3>Examine the chains and output</h3>
+
+<pre >## Error in library(&quot;R2jags&quot;): there is no package called &#39;R2jags&#39;</pre>
+
+<pre >## 
+## Attaching package: &#39;coda&#39;</pre>
+
+<pre >## The following object is masked from &#39;package:arm&#39;:
+## 
+##     traceplot</pre>
+
+<pre >## Error in eval(expr, envir, enclos): object &#39;jags1&#39; not found</pre>
+
+<pre >## Error in as.mcmc.bugs(bb): object &#39;bb&#39; not found</pre>
+
+<pre >## Error in plot(jags1): object &#39;jags1&#39; not found</pre>
+
+<pre >## Error in eval(expr, envir, enclos): could not find function &quot;xyplot&quot;</pre>
+
+<pre >## Error in eval(expr, envir, enclos): could not find function &quot;densityplot&quot;</pre>
+
+<pre >## Error in coefplot2(jags1): object &#39;jags1&#39; not found</pre>
+
+<p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
+
+</article></slide><slide class=''><hgroup><h2>Further notes</h2></hgroup><article  id="further-notes">
+
+<h3>Categorical variables</h3>
+
+<p>Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above. There are two basic strategies:</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code></h2></hgroup><article  id="pass-the-categorical-variable-as-a-vector-of-numeric-codes-i.e.-pass-as.numericf-rather-than-f-to-jags-in-your-data-list-and-make-your-parameters-a-simple-vector-of-the-means-corresponding-to-each-level-e.g.-you-could-have-a-vector-of-parameters-catparam-and-specify-the-predicted-value-as-predi-catparamfi">
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code></h2></hgroup><article  id="construct-a-design-matrix-using-the-model.matrix-function-in-r-and-pass-the-whole-model-matrix-xto-jags.-then-to-get-the-predicted-value-for-each-observation-just-add-up-the-relevant-columns-of-the-model-matrix-e.g.-predi-beta1xi1beta2xi2beta3xi3.-you-can-also-use-the-built-in-inprod-inner-product-function-predi-inprodxibeta">
+
+<p>The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using <code>lm</code>).</p>
+
+<h3>Built-in Bayesian modeling techniques</h3>
 
 <ul>
-<li>Introductory
-
-<ul>
-<li><a href='http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R' title=''>The model section from the R intro book</a></li>
-<li><a href='http://plantecology.syr.edu/fridley/bio793/lm.html' title=''>Fridley examples and guidelines</a></li>
-<li><a href='http://data.princeton.edu/R/linearModels.html' title=''>Rodriguez introduction</a></li>
-<li><a href='http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf' title=''>Bolker book</a> (see Sec. 9.2)</li>
-<li><a href='http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf' title=''>Faraway linear models</a> book draft
-
-<ul>
-<li><a href='http://www.maths.bath.ac.uk/~jjf23/LMR/' title=''>Book home page</a></li>
-</ul></li>
-<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf' title=''>Hector et al</a> on ANOVA for unbalanced data (i.e. &quot;type III sums of squares&quot; revisited)</li>
-<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full' title=''>Schielzeth</a> (2010) on centering and scaling in linear models</li>
-<li><a href='http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2' title=''>Murtaugh</a> (2007) on averaging in analysis of nested designs</li>
-<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00021.x/full' title=''>O&#39;Hara and Kotze</a> (2010) on not log-transforming count data</li>
-<li><a href='http://www.esajournals.org/doi/full/10.1890/10-0340.1' title=''>&quot;The arcsine is asinine&quot;</a>: Warton and Hui on not arcsine-transforming proportion data</li>
-</ul></li>
-<li>Discussion
-
-<ul>
-<li><a href='http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf' title=''>Hurlbert&#39;s classic Pseudo-replication paper</a></li>
-<li><a href='http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf' title=''>Exegeses on linear models</a> (advanced)</li>
-</ul></li>
+<li><code>bayesglm</code> from the <code>arm</code> package</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Assignment</h2></hgroup><article  id="assignment">
+<pre >## Error in do.call(&quot;rbind&quot;, x): object &#39;mm&#39; not found</pre>
 
-<p>Make a linear model for one or more of your hypotheses. Draw <em>and discuss</em> at least one of each of the following: * diagnostic plot * inferential plot (e.g., a coefficient plot, or something from <code>lsmeans</code> or <code>effects</code>)</p>
+<pre >## Error in colMeans(mmL): object &#39;mmL&#39; not found</pre>
 
-<p>The assignment is due by Wed. 22 Feb noon.</p></article></slide>
+<pre >## Error in mean((mmL[, &quot;mb&quot;] &gt; mmL[, &quot;ma&quot;]) &amp; (mmL[, &quot;mb&quot;] &gt; mmL[, &quot;mc&quot;])): object &#39;mmL&#39; not found</pre>
+
+<pre >## Error in eval(expr, envir, enclos): object &#39;mmL&#39; not found</pre>
+
+<pre >## Error in apply(meanschain, 1, which.max): object &#39;meanschain&#39; not found</pre>
+
+<pre >## Error in mean(maxval == 2): object &#39;maxval&#39; not found</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

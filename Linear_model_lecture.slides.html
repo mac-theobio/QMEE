@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Linear models lecture</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,6 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
+                title: 'Linear models lecture',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -28,6 +29,14 @@
 
       // Author information
       presenters: [
+            {
+        name:  'Jonathan Dushoff and Ben Bolker' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
             ]
     };
   </script>
@@ -110,10 +119,13 @@
 <li>(Some) non-linear relationships</li>
 <li>Non-normal response <em>families</em> (binomial, Poisson, &#8230;)</li>
 </ul></li>
-<li><em>Mixed</em> models incorporate <em>random effects</em></li>
+<li><em>Mixed</em> models incorporate <em>random effects</em>
+
+<ul>
 <li>Categories in data represent samples from a population</li>
 <li>e.g. species, sites, genes &#8230;</li>
 <li>Traditionally used to account for experimental blocks</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Basic theory</h2></hgroup><article  id="basic-theory">
@@ -134,6 +146,7 @@
 <li><em>not</em> assuming the marginal distribution is Normal</li>
 </ul></li>
 <li>Independence</li>
+<li>(Predictor variables measured without error)</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Machinery</h2></hgroup><article  id="machinery">
@@ -154,14 +167,14 @@
 <ul>
 <li>Also implies one <em>input variable</em> &#8211; we&#39;re not going to talk much about those</li>
 </ul></li>
-<li>Example \(Y = a+bX\). \(Y\) is the response, \(X\) is the input variable (\(b\) is the <em>slope</em> - expected change in \(Y\) per unit change in \(X\))</li>
-<li>Categorical predictor variable with two categories: only takes one character
+<li>\(Y = a+bX\): \(Y\) is the response, \(X\) is the input variable<br/>(\(b\) is the <em>slope</em> - expected change in \(Y\) per unit change in \(X\))</li>
+<li>Categorical predictor variable with two categories: only one parameter
 
 <ul>
-<li>model the difference in predicted value between levels, or code the categories as 0, 1 &#8230; (<em>dummy variables</em>)</li>
+<li>difference in predicted value between levels, or code the categories as 0, 1 &#8230; (<em>dummy variables</em>)</li>
 </ul></li>
 <li>Parameters are (usually) easy to interpret</li>
-<li>Often best to think in terms of <em>confidence intervals</em> for the parameter</li>
+<li>Think in terms of <em>confidence intervals</em> for the parameter</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Multi-parameter variables</h2></hgroup><article  id="multi-parameter-variables">
@@ -172,10 +185,10 @@
 <ul>
 <li>Why can&#39;t we just code them, for example as 0, 1, 2?</li>
 </ul></li>
-<li>Similarly, if we want a non-linear response to a predictor variable
+<li>Non-linear response to a predictor variable
 
 <ul>
-<li>This can be done in a linear model! \(Y = a + bX + cX^2\) is linear in \(a\) and \(b\) (the unknowns)</li>
+<li>Might be able to use a linear model! \(Y = a + bX + cX^2\) is linear in \(a\) and \(b\) (the unknowns)</li>
 <li><strong>Don&#39;t</strong> use simple polynomials: use either <em>orthogonal polynomials</em> (<code>poly</code> in R) or splines (<code>ns</code> in R, <code>mgcv</code> package)</li>
 </ul></li>
 </ul>
@@ -199,7 +212,7 @@
 <li>Your estimate of the effect of variable \(B\) is no longer constant</li>
 <li>You need to pick a fixed point, or average in some way</li>
 <li>Example: \(Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1*X_2\)</li>
-<li>The response to \(X_1\) is \(Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1\) i.e., the response to \(X_1\) *depends on} the value of \(X_2\).</li>
+<li>The response to \(X_1\) is \(Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1\)<br/>the response to \(X_1\) <em>depends on</em> the value of \(X_2\).</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>An experimental example</h2></hgroup><article  id="an-experimental-example">
@@ -221,20 +234,35 @@
 </article></slide><slide class=''><hgroup><h2>Testing interactions</h2></hgroup><article  id="testing-interactions">
 
 <ul>
-<li>The ideal approach is to use an <em>interaction</em>: \[
+<li>Use an <em>interaction</em>: \[
 M = a + B_x X + B_t t + B_{xt} Xt
 \]</li>
 <li>The interaction term \(B_{xt}\) represents the <em>difference in the response</em> between the two groups.</li>
-<li>It directly asks: did the treatment group change differently than the control group?</li>
+<li>It asks: <strong>did the treatment group change differently than the control group</strong>?</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Interactions and parameters</h2></hgroup><article  id="interactions-and-parameters">
 
 <ul>
 <li>In simple cases, the whole interaction term may use only one parameter</li>
-<li>We can use CIs, and coefplots, and get a pretty good idea what&#39;s going on</li>
+<li>We can use CIs, and coefficient plots, and get a pretty good idea what&#39;s going on</li>
 <li>In more complicated cases, interaction terms may have many parameters</li>
 <li>These have all the interpretation problems of other multi-parameter variables, or more</li>
+<li>Think about &quot;differences in differences&quot;</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Interactions: example</h2></hgroup><article  id="interactions-example">
+
+<ul>
+<li>Bear road-crossing</li>
+<li>Predictor variables: sex (categorical), road type (categorical: major/minor), road length (continuous)</li>
+<li>Two-way interactions
+
+<ul>
+<li>sex \(\times\) road length: &quot;are females more sensitive to amount of road than males?&quot;</li>
+<li>sex \(\times\) road type: &quot;do females vary behaviour between road type more than males?&quot;</li>
+<li>road type \(\times\) road length: &quot;does amount of road affect crossings differently for different road types?&quot;</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Statistical philosophy</h2></hgroup><article  id="statistical-philosophy">
@@ -264,12 +292,18 @@ M = a + B_x X + B_t t + B_{xt} Xt
 <li><em>Heteroscedasticity</em> (does variance change across the data set, e.g. increasing variance with increasing mean?)</li>
 <li>Linearity (does your model fit well?)</li>
 <li>Normality (assuming no overall problems, do your <strong>residuals</strong> look Normal?)</li>
+<li>Independence is hard to test</li>
 </ul></li>
+<li>Normality is the <strong>least important</strong> of these assumptions</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Default plots in R</h2></hgroup><article  id="default-plots-in-r">
 
-<p><a href='http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics' title=''>http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics</a></p>
+<p>Example needed</p>
+
+<!--- 
+http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics
+-->
 
 </article></slide><slide class=''><hgroup><h2>Transformations</h2></hgroup><article  id="transformations">
 
@@ -325,11 +359,11 @@ M = a + B_x X + B_t t + B_{xt} Xt
 </article></slide><slide class=''><hgroup><h2>Basic tools</h2></hgroup><article  id="basic-tools">
 
 <ul>
-<li><code>lm</code> fits a linear model <code>summary</code> prints statistics associated with the <em>parameters</em> that were fitted</li>
-<li><code>arm::coefplot</code> and <code>dwplot</code> package are useful for <em>visualizing</em> these</li>
+<li><code>lm</code> fits a linear model</li>
+<li><code>summary</code> prints statistics associated with the <em>parameters</em> that were fitted</li>
+<li><code>arm::coefplot</code> and <code>dotwhisker</code> package are useful for <em>visualizing</em> these</li>
 <li><code>anova</code> and <code>drop1</code> will attach P values to variables that have more than one parameter (even groups of variables, in the case of anova). <code>car::Anova</code> can also be useful</li>
-<li><strong>BEWARE</strong>: the standard ANOVA \(P\) values are <em>sequential</em> (early variables <em>do not</em> control for the presence of later variables. This is probably not what you want.</li>
-<li>see <code>car::Anova</code></li>
+<li><strong>BEWARE</strong>: the standard ANOVA \(P\) values are <em>sequential</em> (early variables <em>do not</em> control for the presence of later variables. This is probably not what you want. (See <code>car::Anova</code>)</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Multiple comparisons</h2></hgroup><article  id="multiple-comparisons">
@@ -340,8 +374,6 @@ M = a + B_x X + B_t t + B_{xt} Xt
 <li><code>TukeyHSD</code> does multiple comparison tests on objects produced by <code>aov</code>. Use <code>glht</code> in the <code>multcomp</code> package more generally.</li>
 <li>Note: <code>aov</code> is just another way of calling <code>lm</code>, whereas <code>anova</code> <em>compares</em> different model fits. Sorry for the confusion.</li>
 </ul>
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Evaluation tools</h2></hgroup><article  id="evaluation-tools">
 
 </article></slide><slide class=''><hgroup><h2>Plotting</h2></hgroup><article  id="plotting">
 
