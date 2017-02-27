@@ -42,7 +42,7 @@ Finally, BUGS/JAGS thinks in terms of "precision" $\tau=1/\sigma^2$, which is co
 
 ## R2jags
 
-``` {r bayes_r2jags.R, echo=FALSE}
+``` {r bayes_r2jags.R, echo=FALSE, message=FALSE}
 library("R2jags")
 jags1 <- jags(model.file='bayes.bug',
               parameters=c("ma","mb","mc","int"),
@@ -55,7 +55,7 @@ jags1 <- jags(model.file='bayes.bug',
 
 ### Examine the chains and output
 
-``` {r coda2.R, echo=FALSE}
+``` {r coda2.R, echo=TRUE}
 library(R2jags)
 library(coda)
 library(emdbook)    ## for lump.mcmc.list() and as.mcmc.bugs()
