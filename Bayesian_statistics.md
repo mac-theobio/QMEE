@@ -59,8 +59,7 @@ Resources
         and
         [R2jags](http://cran.r-project.org/web/packages/R2jags/index.html)
         packages: interfaces between R and JAGS
-    -   [Some tips on JAGS and
-        rjags](http://www.johnmyleswhite.com/notebook/2010/08/20/using-jags-in-r-with-the-rjags-package/)
+    -   [Some tips on JAGS and rjags](http://www.johnmyleswhite.com/notebook/2010/08/20/using-jags-in-r-with-the-rjags-package/)
     -   [Coda](http://cran.r-project.org/web/packages/coda/index.html)
         (COnvergence DiAgnostics) is an R package for analyzing
         MCMC fits.
