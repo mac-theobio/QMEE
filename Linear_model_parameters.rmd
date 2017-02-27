@@ -95,7 +95,7 @@ plot(allEffects(lm1))
 -------
 
 or
-```{r dotwhisker}
+```{r dotwhisker,mesage=FALSE}
 library("dotwhisker")
 dwplot(lm0)
 ```
@@ -162,7 +162,7 @@ There are other ways to change the contrasts (i.e., use the `contrasts()` functi
 
 There are other options for contrasts such as `MASS::contr.sdif()`,
 which gives the successive differences between levels.
-```{r lizardsdif}
+```{r lizardsdif,message=FALSE}
 library("MASS")
 pr(lm(grahami~time,data=lizards,contrasts=list(time=contr.sdif)))
 ```
