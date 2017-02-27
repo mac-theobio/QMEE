@@ -127,12 +127,12 @@
 <li><p>We count events over a period of time, and would like credible intervals (or a whole posterior distribution) for the underlying rate (assuming events are independent).</p></li>
 <li><p>For each rate, our likelihood of observing <span class="math inline">\(N\)</span> events in time <span class="math inline">\(T\)</span> if the true rate is <span class="math inline">\(r\)</span> is a Poisson distribution with mean <span class="math inline">\(rT\)</span>:</p>
 <ul>
-<li><span class="math inline">\(\frac{(rT)\^N \exp(-rT)}{N!}\)</span></li>
+<li><span class="math inline">\(\frac{(rT)^N \exp(-rT)}{N!}\)</span></li>
 </ul></li>
 <li><p>We choose an improper, uniform prior over <span class="math inline">\(\log r\)</span>, equivalent to <span class="math inline">\(\pi(r) = 1/r\)</span>.</p></li>
 <li>The posterior distribution is then proportional to:
 <ul>
-<li><span class="math inline">\((rT)\^{N-1} \exp(-rT)\)</span>, which gives a Gamma distribution with mean <span class="math inline">\(N/T\)</span> (the observed rate), and CV <span class="math inline">\(1/\sqrt{N}\)</span>.</li>
+<li><span class="math inline">\((rT)^{N-1} \exp(-rT)\)</span>, which gives a Gamma distribution with mean <span class="math inline">\(N/T\)</span> (the observed rate), and CV <span class="math inline">\(1/\sqrt{N}\)</span>.</li>
 </ul></li>
 </ul>
 <p>This example is in the category of “easy problems”; the math is a bit hard (Calc II level), but no harder than the equivalent math for a frequentist approach, and the actual procedure is easy once you know how.</p>
