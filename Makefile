@@ -52,7 +52,9 @@ pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
 ## Real WW transformation?
 
-Bayesian_example.rmd: Bayesian_regression_example.mediawiki wwrmd.pl
+Sources += bayes.bug
+
+test.rmd: Bayesian_regression_example.mediawiki wwrmd.pl
 	$(PUSH)
 
 ######################################################################
