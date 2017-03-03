@@ -3,21 +3,21 @@
 * definition: '''family''' + '''link function'''
 
 * family: what kind of data do I have? (from '''first principles''') (in particular, specifies the relationship between the mean and variance)
-** binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (''logistic regression'')
-** Poisson (independent counts, no set maximum, or far from the maximum)
-** other (Normal, Gamma)
+	* binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (''logistic regression'')
+	* Poisson (independent counts, no set maximum, or far from the maximum)
+	* other (Normal, Gamma)
 
 * link function: on what scale are the data linear?
-** there is typically a "canonical" answer (sensible + nice math)
-** Poisson=log; binomial=logit
-*** ''inverse-link'': exponential; logistic (respectively)
-** further discussion of logit scale (picture below)
-** rules of thumb
+	* there is typically a "canonical" answer (sensible + nice math)
+	* Poisson=log; binomial=logit
+		* ''inverse-link'': exponential; logistic (respectively)
+	* further discussion of logit scale (picture below)
+	* rules of thumb
 
 * GLMs construct a "linear predictor" $x$ that (roughly) fits the data on the link scale
-** The fit does not apply the link function to the responses, but instead applies the ''inverse'' link function to the linear predictor
-** e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
-** This is good, because the observed value of $y$ might be zero
+	* The fit does not apply the link function to the responses, but instead applies the ''inverse'' link function to the linear predictor
+	* e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
+	* This is good, because the observed value of $y$ might be zero
 
 
 * model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale
@@ -35,16 +35,16 @@
 * residuals are ''Pearson residuals'' by default (scaled by expected variance); predicted values are on the link scale (e.g. log/logit) by default
 
 * OVERDISPERSION
-** too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
-** quasi-likelihood models
-** negative binomial etc.
-** NB=Poisson; binomial=beta-binomial
+	* too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
+	* quasi-likelihood models
+	* negative binomial etc.
+	* NB=Poisson; binomial=beta-binomial
 
 ### inference
 
 * Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
-** Approximate, can be way off if parameters have extreme values
-** Asymptotic (finite-size correction is hard)
+	* Approximate, can be way off if parameters have extreme values
+	* Asymptotic (finite-size correction is hard)
 
 * likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 
