@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h3 id="basics">Basics</h3>
+<ul>
+<li><p>definition: ‘’’family’‘’ +’‘’link function’’’</p></li>
+<li><p>family: what kind of data do I have? (from ‘’’first principles’‘’) (in particular, specifies the relationship between the mean and variance) ** binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (’‘logistic regression’’) ** Poisson (independent counts, no set maximum, or far from the maximum) ** other (Normal, Gamma)</p></li>
+<li><p>link function: on what scale are the data linear? ** there is typically a “canonical” answer (sensible + nice math) ** Poisson=log; binomial=logit *** ‘’inverse-link’’: exponential; logistic (respectively) ** further discussion of logit scale (picture below) ** rules of thumb</p></li>
+<li><p>GLMs construct a “linear predictor” <span class="math inline">\(x\)</span> that (roughly) fits the data on the link scale ** The fit does not apply the link function to the responses, but instead applies the ‘’inverse’’ link function to the linear predictor ** e.g., instead of <span class="math inline">\(\log(y) \sim x\)</span>, we analyze <span class="math inline">\(y \sim \mathrm{Poisson}(\exp(x))\)</span> ** This is good, because the observed value of <span class="math inline">\(y\)</span> might be zero</p></li>
+<li><p>model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale</p></li>
+</ul>
+<div class="figure">
+<img src="figure/logit-pic.R-1.png" alt="plot of chunk logit-pic.R" />
+<p class="caption">plot of chunk logit-pic.R</p>
+</div>
+<h3 id="diagnostics">diagnostics</h3>
+<ul>
+<li><p>a little harder than linear models: <code>plot</code> is still somewhat useful</p></li>
+<li><p>binary data especially hard</p></li>
+<li><p>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=response))</code>)</p></li>
+<li><p>residuals are ‘’Pearson residuals’’ by default (scaled by expected variance); predicted values are on the link scale (e.g. log/logit) by default</p></li>
+<li><p>OVERDISPERSION ** too much variance: (residual deviance)/(residual df) should be <span class="math inline">\(\approx 1\)</span>. (If the ratio is &gt;1.2, worry a little bit; if the ratio is greater than <span class="math inline">\(\approx 3\)</span>, something else might be wrong with your model.) ** quasi-likelihood models ** negative binomial etc. ** NB=Poisson; binomial=beta-binomial</p></li>
+</ul>
+<h3 id="inference">inference</h3>
+<ul>
+<li><p>Wald <span class="math inline">\(Z\)</span> tests (i.e., results of <code>summary()</code>), confidence intervals ** Approximate, can be way off if parameters have extreme values ** Asymptotic (finite-size correction is hard)</p></li>
+<li><p>likelihood ratio tests (equivalent to <span class="math inline">\(F\)</span> tests); <code>drop1(model,test=&quot;Chisq&quot;)</code>, <code>anova(model1,model2)</code>), profile confidence intervals (<code>MASS::confint.glm</code>)</p></li>
+<li><p>AIC</p></li>
+</ul>
+<h3 id="model-procedures">Model procedures</h3>
+<ul>
+<li><p>formula similar to <code>lm</code> (but specifies relationship on linear predictor scale)</p></li>
+<li><p>specify family and link</p></li>
+<li><p>always do Poisson, binomial regression on ‘’counts’’, never proportions (although you can specify response as a proportion if you also give <span class="math inline">\(N\)</span> as the <code>weights</code> argument</p></li>
+<li><p>Use offsets to address unequal sampling</p></li>
+<li><p>always check for overdispersion ‘’unless’’ (1) already using quasilikelihood or (2) using binary data</p></li>
+<li><p>if you want to quote values on the original scale, confidence intervals need to be back-transformed; never back-transform standard errors alone</p></li>
+</ul>
+<h3 id="other-things-worth-mentioning">Other things worth mentioning</h3>
+<ul>
+<li>ordinal data</li>
+<li>complete separation</li>
+<li>non-standard link functions</li>
+<li>visualization (hard because of overlaps: <code>stat_sum</code>, <code>position=&quot;jitter&quot;</code>, <code>geom_dotplot</code> ([http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))</li>
+</ul>
+<pre><code>## Error: Unknown parameters: family</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = cases ~ date, family = quasipoisson(link = &quot;log&quot;), 
+##     data = aids)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -4.7046  -0.7978   0.1218   0.6849   2.1217  
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -1.023e+03  6.806e+01  -15.03 1.25e-11 ***
+## date         5.168e-01  3.425e-02   15.09 1.16e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 2.354647)
+## 
+##     Null deviance: 677.26  on 19  degrees of freedom
+## Residual deviance:  53.02  on 18  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p><img src="figure/aids_model_1.R-1.png" alt="plot of chunk aids_model_1.R" /><img src="figure/aids_model_1.R-2.png" alt="plot of chunk aids_model_1.R" /></p>
+<pre><code>## 
+## Call:
+## glm(formula = cases ~ poly(date, 2), family = quasipoisson(link = &quot;log&quot;), 
+##     data = aids)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.3290  -0.9071  -0.0761   0.8985   2.3209  
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)     3.86859    0.05004  77.311  &lt; 2e-16 ***
+## poly(date, 2)1  3.82934    0.25162  15.219 2.46e-11 ***
+## poly(date, 2)2 -0.68335    0.19716  -3.466  0.00295 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 1.657309)
+## 
+##     Null deviance: 677.264  on 19  degrees of freedom
+## Residual deviance:  31.992  on 17  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: cases ~ date
+## Model 2: cases ~ poly(date, 2)
+##   Resid. Df Resid. Dev Df Deviance      F   Pr(&gt;F)   
+## 1        18     53.020                               
+## 2        17     31.992  1   21.028 12.688 0.002399 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><img src="figure/aids_model_2.R-1.png" alt="plot of chunk aids_model_2.R" /><img src="figure/aids_model_2.R-2.png" alt="plot of chunk aids_model_2.R" /></p>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
