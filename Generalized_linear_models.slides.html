@@ -91,9 +91,32 @@
 
 <ul>
 <li><p>definition: &#39;&#39;&#39;family&#39;&#39;&#39; + &#39;&#39;&#39;link function&#39;&#39;&#39;</p></li>
-<li><p>family: what kind of data do I have? (from &#39;&#39;&#39;first principles&#39;&#39;&#39;) (in particular, specifies the relationship between the mean and variance) ** binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (&#39;&#39;logistic regression&#39;&#39;) ** Poisson (independent counts, no set maximum, or far from the maximum) ** other (Normal, Gamma)</p></li>
-<li><p>link function: on what scale are the data linear? ** there is typically a &quot;canonical&quot; answer (sensible + nice math) ** Poisson=log; binomial=logit *** &#39;&#39;inverse-link&#39;&#39;: exponential; logistic (respectively) ** further discussion of logit scale (picture below) ** rules of thumb</p></li>
-<li><p>GLMs construct a &quot;linear predictor&quot; \(x\) that (roughly) fits the data on the link scale ** The fit does not apply the link function to the responses, but instead applies the &#39;&#39;inverse&#39;&#39; link function to the linear predictor ** e.g., instead of \(\log(y) \sim x\), we analyze \(y \sim \mathrm{Poisson}(\exp(x))\) ** This is good, because the observed value of \(y\) might be zero</p></li>
+<li>family: what kind of data do I have? (from &#39;&#39;&#39;first principles&#39;&#39;&#39;) (in particular, specifies the relationship between the mean and variance)
+
+<ul>
+<li>binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (&#39;&#39;logistic regression&#39;&#39;)</li>
+<li>Poisson (independent counts, no set maximum, or far from the maximum)</li>
+<li>other (Normal, Gamma)</li>
+</ul></li>
+<li>link function: on what scale are the data linear?
+
+<ul>
+<li>there is typically a &quot;canonical&quot; answer (sensible + nice math)</li>
+<li>Poisson=log; binomial=logit
+
+<ul>
+<li>&#39;&#39;inverse-link&#39;&#39;: exponential; logistic (respectively)</li>
+</ul></li>
+<li>further discussion of logit scale (picture below)</li>
+<li>rules of thumb</li>
+</ul></li>
+<li>GLMs construct a &quot;linear predictor&quot; \(x\) that (roughly) fits the data on the link scale
+
+<ul>
+<li>The fit does not apply the link function to the responses, but instead applies the &#39;&#39;inverse&#39;&#39; link function to the linear predictor</li>
+<li>e.g., instead of \(\log(y) \sim x\), we analyze \(y \sim \mathrm{Poisson}(\exp(x))\)</li>
+<li>This is good, because the observed value of \(y\) might be zero</li>
+</ul></li>
 <li><p>model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale</p></li>
 </ul>
 
@@ -106,13 +129,25 @@
 <li><p>binary data especially hard</p></li>
 <li><p>goodness of fit tests, \(R^2\) etc. hard (can always compute <code>cor(observed,predict(model, type=response))</code>)</p></li>
 <li><p>residuals are &#39;&#39;Pearson residuals&#39;&#39; by default (scaled by expected variance); predicted values are on the link scale (e.g. log/logit) by default</p></li>
-<li><p>OVERDISPERSION ** too much variance: (residual deviance)/(residual df) should be \(\approx 1\). (If the ratio is &gt;1.2, worry a little bit; if the ratio is greater than \(\approx 3\), something else might be wrong with your model.) ** quasi-likelihood models ** negative binomial etc. ** NB=Poisson; binomial=beta-binomial</p></li>
+<li>OVERDISPERSION
+
+<ul>
+<li>too much variance: (residual deviance)/(residual df) should be \(\approx 1\). (If the ratio is &gt;1.2, worry a little bit; if the ratio is greater than \(\approx 3\), something else might be wrong with your model.)</li>
+<li>quasi-likelihood models</li>
+<li>negative binomial etc.</li>
+<li>NB=Poisson; binomial=beta-binomial</li>
+</ul></li>
 </ul>
 
 <h3>inference</h3>
 
 <ul>
-<li><p>Wald \(Z\) tests (i.e., results of <code>summary()</code>), confidence intervals ** Approximate, can be way off if parameters have extreme values ** Asymptotic (finite-size correction is hard)</p></li>
+<li>Wald \(Z\) tests (i.e., results of <code>summary()</code>), confidence intervals
+
+<ul>
+<li>Approximate, can be way off if parameters have extreme values</li>
+<li>Asymptotic (finite-size correction is hard)</li>
+</ul></li>
 <li><p>likelihood ratio tests (equivalent to \(F\) tests); <code>drop1(model,test=&quot;Chisq&quot;)</code>, <code>anova(model1,model2)</code>), profile confidence intervals (<code>MASS::confint.glm</code>)</p></li>
 <li><p>AIC</p></li>
 </ul>
