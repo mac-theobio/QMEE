@@ -1,0 +1,114 @@
+
+### Basics
+* definition: '''family''' + '''link function'''
+
+* family: what kind of data do I have? (from '''first principles''') (in particular, specifies the relationship between the mean and variance)
+** binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (''logistic regression'')
+** Poisson (independent counts, no set maximum, or far from the maximum)
+** other (Normal, Gamma)
+
+* link function: on what scale are the data linear?
+** there is typically a "canonical" answer (sensible + nice math)
+** Poisson=log; binomial=logit
+*** ''inverse-link'': exponential; logistic (respectively)
+** further discussion of logit scale (picture below)
+** rules of thumb
+
+* GLMs construct a "linear predictor" $x$ that (roughly) fits the data on the link scale
+** The fit does not apply the link function to the responses, but instead applies the ''inverse'' link function to the linear predictor
+** e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
+** This is good, because the observed value of $y$ might be zero
+
+
+* model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale
+
+``` {r logit-pic.R, echo=FALSE}
+par(las=1,bty="l")
+par(mfrow=c(1,2))
+curve(plogis(x),from=-4,to=4,xlab="x (log-odds)",ylab="logistic(x)\n(probability)")
+curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(x)")
+```
+
+### diagnostics
+
+* a little harder than linear models: `plot` is still somewhat useful
+
+* binary data especially hard
+
+* goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type=response))`)
+
+* residuals are ''Pearson residuals'' by default (scaled by expected variance); predicted values are on the link scale (e.g. log/logit) by default
+
+* OVERDISPERSION
+** too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
+** quasi-likelihood models
+** negative binomial etc.
+** NB=Poisson; binomial=beta-binomial
+
+### inference
+
+* Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
+** Approximate, can be way off if parameters have extreme values
+** Asymptotic (finite-size correction is hard)
+
+* likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
+
+* AIC
+
+### Model procedures
+
+* formula similar to `lm` (but specifies relationship on linear predictor scale)
+
+* specify family and link
+
+* always do Poisson, binomial regression on ''counts'', never proportions (although you can specify response as a proportion if you also give $N$ as the `weights` argument
+
+* Use offsets to address unequal sampling
+
+* always check for overdispersion ''unless'' (1) already using quasilikelihood or (2) using binary data
+
+* if you want to quote values on the original scale, confidence intervals need to be back-transformed; never back-transform standard errors alone
+
+### Other things worth mentioning
+
+* ordinal data
+* complete separation
+* non-standard link functions
+* visualization (hard because of overlaps: `stat_sum`, `position="jitter"`, `geom_dotplot`
+([http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
+
+``` {r aids_ex_1.R, echo=FALSE}
+aids <- read.csv("aids.csv")
+## construct a useful date variable
+aids <- transform(aids,
+                  date=year+(quarter-1)/4)
+library("ggplot2")
+theme_set(theme_bw())
+qplot(date,cases,data=aids)+
+    geom_smooth(method="glm",family="quasipoisson",formula=y~poly(x,2))+
+    geom_smooth(method="glm",family="quasipoisson",colour="red")
+```
+
+
+
+``` {r aids_model_1.R, echo=FALSE}
+# log is the default link, but it doesn't hurt to help yourself remember
+g1 <- glm(cases~date,aids,family=quasipoisson(link="log"))
+summary(g1)
+op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
+plot(g1) ## ugh
+par(op)  ## restore parameter settings
+acf(residuals(g1)) ## check autocorrelation
+```
+
+
+``` {r aids_model_2.R, echo=FALSE}
+g2 <- update(g1,.~poly(date,2))
+summary(g2)
+anova(g1,g2,test="F")
+op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
+plot(g2) ## ugh
+par(op)  ## restore parameter settings
+acf(residuals(g2)) ## check autocorrelation
+```
+

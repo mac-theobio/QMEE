@@ -4,7 +4,11 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_pages
+target pngtarget pdftarget vtarget acrtarget: push_pages 
+
+push_pages: Generalized_linear_models.rmd
+
+open_pages:
 
 ##################################################################
 
@@ -54,7 +58,10 @@ pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
 Sources += bayes.bug
 
-test.rmd: Bayesian_regression_example.mediawiki wwrmd.pl
+Generalized_linear_models.rmd:
+Generalized_linear_models.autormd:
+
+%.autormd: %.mediawiki wwrmd.pl
 	$(PUSH)
 
 ######################################################################
