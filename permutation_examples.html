@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ben Bolker" />
+  <title>Simple permutation tests in R</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Simple permutation tests in R</h1>
+<h2 class="author">Ben Bolker</h2>
+<h3 class="date">18:20 04 March 2017</h3>
+</div>
+<h2 id="example-counting-ant-colonies">Example: counting ant colonies</h2>
+<p>From Bio 708 class; data originally from Gotelli and Ellison <em>Primer of Ecology</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">forest &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">9</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">10</span>)
+field  &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">12</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">10</span>)
+ants &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">place=</span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;field&quot;</span>,<span class="st">&quot;forest&quot;</span>),
+            <span class="kw">c</span>(<span class="kw">length</span>(field), <span class="kw">length</span>(forest))),
+    <span class="dt">colonies=</span><span class="kw">c</span>(field,forest)
+)</code></pre></div>
+<h3 id="visualization">Visualization</h3>
+<p>Look at the data (with <code>stat_sum()</code> to visualize overlapping data points; jittering is also a possibility, but <code>stat_sum()</code> is prettier). <code>aes(size=..n..)</code> tells <code>stat_sum()</code> to use the number of overlapping points, not the proportion of points within a category, as the summary statistic; <code>scale_size_area()</code> tells ggplot to scale the area of the points proportional to the size (<code>breaks=1:2</code> tells it what values to show in the legend). We don’t really need the boxplot here, but shown for comparison (and to indicate that boxplots are just a bit silly for really small data sets; if you must show them, you should probably include the points as well, as shown here).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
+<span class="kw">ggplot</span>(ants,<span class="kw">aes</span>(place,colonies))+
+<span class="st">    </span><span class="kw">stat_sum</span>(<span class="kw">aes</span>(<span class="dt">size=</span>..n..),<span class="dt">colour=</span><span class="st">&quot;darkgray&quot;</span>)+
+<span class="st">        </span><span class="kw">scale_size_area</span>(<span class="dt">breaks=</span><span class="dv">1</span>:<span class="dv">2</span>,<span class="dt">max_size=</span><span class="dv">4</span>)+
+<span class="st">            </span><span class="kw">geom_boxplot</span>(<span class="dt">fill=</span><span class="ot">NA</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/antPlot-1.png" alt="plot of chunk antPlot" />
+<p class="caption">plot of chunk antPlot</p>
+</div>
+<h2 id="permutation-tests">Permutation tests</h2>
+<h3 id="brute-force">Brute force</h3>
+<p>There are always trade-offs between simplicity, transparency, length of code, computational efficiency …</p>
+<p>The simplest way to do this would be something like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">101</span>) ## for reproducibility
+res &lt;-<span class="st"> </span><span class="kw">numeric</span>(<span class="dv">1000</span>) ## set aside space for results
+for (i in <span class="dv">1</span>:<span class="dv">1000</span>) {
+    colonyboot &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(field,forest)) ## scramble
+    ## pick out forest &amp; field samples
+    forestboot &lt;-<span class="st"> </span>colonyboot[<span class="dv">1</span>:<span class="kw">length</span>(forest)] 
+    fieldboot &lt;-<span class="st"> </span>colonyboot[(<span class="kw">length</span>(forest)+<span class="dv">1</span>):<span class="kw">length</span>(colonyboot)]
+    ## compute &amp; store difference in means
+    res[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(fieldboot)-<span class="kw">mean</span>(forestboot)
+}
+obs &lt;-<span class="st"> </span><span class="kw">mean</span>(field)-<span class="kw">mean</span>(forest)
+<span class="kw">hist</span>(res,<span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">v=</span>obs,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/brute1-1.png" alt="plot of chunk brute1" />
+<p class="caption">plot of chunk brute1</p>
+</div>
+<p>Since there aren’t actually that many possible outcomes, we could plot them this way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">bty=</span><span class="st">&quot;l&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(<span class="kw">round</span>(res,<span class="dv">2</span>))),
+     <span class="dt">ylab=</span><span class="st">&quot;Proportion&quot;</span>)
+<span class="kw">points</span>(obs,<span class="dv">0</span>,<span class="dt">pch=</span><span class="dv">16</span>,<span class="dt">cex=</span><span class="fl">1.5</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/plot.ant.table-1.png" alt="plot of chunk plot.ant.table" />
+<p class="caption">plot of chunk plot.ant.table</p>
+</div>
+<p>If we want to do a 2-tailed test, we have to decide whether we are doubling the observed value or counting the area in both tails.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span>*<span class="kw">mean</span>(res&gt;=obs)          ## doubling</code></pre></div>
+<pre><code>## [1] 0.04</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">abs</span>(res)&gt;=<span class="kw">abs</span>(obs))  ## count both tails: matches lmPerm</code></pre></div>
+<pre><code>## [1] 0.042</code></pre>
+<h2 id="using-a-t-test">Using a t test</h2>
+<p>The standard parametric test to use here would be a <span class="math inline">\(t\)</span> test, which is also equivalent to a 1-way ANOVA as executed by <code>lm()</code> (except that for some reason they seem to use opposite signs for the effect size):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(tt &lt;-<span class="st"> </span><span class="kw">t.test</span>(colonies~place,<span class="dt">data=</span>ants,<span class="dt">var.equal=</span><span class="ot">TRUE</span>))</code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  colonies by place
+## t = 2.9632, df = 8, p-value = 0.01806
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.8316859 6.6683141
+## sample estimates:
+##  mean in group field mean in group forest 
+##                10.75                 7.00</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(colonies~place,<span class="dt">data=</span>ants))  ## matches</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = colonies ~ place, data = ants)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.000 -1.000 -0.375  1.250  3.000 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  10.7500     0.9803  10.966 4.25e-06 ***
+## placeforest  -3.7500     1.2655  -2.963   0.0181 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.961 on 8 degrees of freedom
+## Multiple R-squared:  0.5233, Adjusted R-squared:  0.4637 
+## F-statistic:  8.78 on 1 and 8 DF,  p-value: 0.01806</code></pre>
+<h2 id="using-lmperm">Using <code>lmPerm</code></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;devtools&quot;</span>)
+<span class="kw">install_version</span>(<span class="st">&quot;lmPerm&quot;</span>,<span class="dt">version=</span><span class="st">&quot;1.1-2&quot;</span>)</code></pre></div>
+<p>To install this package you will need compilation tools (for <a href="http://cran.r-project.org/bin/windows/Rtools/">Windows</a> or <a href="http://r.research.att.com/tools/">MacOS</a>; if you are on Linux you probably have them already).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)  ## load the package
+<span class="kw">summary</span>(<span class="kw">lmp</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
+<pre><code>## [1] &quot;Settings:  unique SS &quot;</code></pre>
+<pre><code>## 
+## Call:
+## lmp(formula = colonies ~ place, data = ants)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.000 -1.000 -0.375  1.250  3.000 
+## 
+## Coefficients:
+##        Estimate Pr(Exact)  
+## place1    1.875    0.0381 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.961 on 8 degrees of freedom
+## Multiple R-Squared: 0.5233,  Adjusted R-squared: 0.4637 
+## F-statistic:  8.78 on 1 and 8 DF,  p-value: 0.01806</code></pre>
+<p><code>lmp()</code> seems to automatically change the contrast settings from the default treatment contrast to sum-to-zero contrasts, so that the reported effect size is half what it was (3.75/2), because it is computing the difference between the (unweighted) average of the two groups and the first group (field).</p>
+<p>Oddly, it seems to report the unadjusted <span class="math inline">\(F\)</span>-statistic and p-value for the full model …</p>
+<h2 id="using-coin">Using <code>coin</code></h2>
+<p>The <code>coin</code> package is big and complicated and powerful. For each of the tests it provides, it allows a choice of whether to use differences of ranks or raw differences, and whether to use (1) <em>asymptotic</em> p-values (like the classic nonparametric tests: Kruskal-Wallis, Mann-Whitney, etc.); (2) <em>approximate</em> p-values (taking many random samples), or (3) <em>exact</em> p-values (effectively, generating all possible combinations).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;coin&quot;</span>)</code></pre></div>
+<pre><code>## Loading required package: survival</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## default: asymptotic
+<span class="kw">oneway_test</span>(colonies~place,<span class="dt">data=</span>ants)</code></pre></div>
+<pre><code>## 
+##  Asymptotic Two-Sample Fisher-Pitman Permutation Test
+## 
+## data:  colonies by place (field, forest)
+## Z = 2.1701, p-value = 0.03
+## alternative hypothesis: true mu is not equal to 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## exact distribution
+<span class="kw">oneway_test</span>(colonies~place,<span class="dt">data=</span>ants,<span class="dt">distribution=</span><span class="st">&quot;exact&quot;</span>)</code></pre></div>
+<pre><code>## 
+##  Exact Two-Sample Fisher-Pitman Permutation Test
+## 
+## data:  colonies by place (field, forest)
+## Z = 2.1701, p-value = 0.0381
+## alternative hypothesis: true mu is not equal to 0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## approximate (random-sampling/Monte Carlo)
+<span class="kw">oneway_test</span>(colonies~place,<span class="dt">data=</span>ants,<span class="dt">distribution=</span><span class="kw">approximate</span>(<span class="dt">B=</span><span class="dv">9999</span>))</code></pre></div>
+<pre><code>## 
+##  Approximative Two-Sample Fisher-Pitman Permutation Test
+## 
+## data:  colonies by place (field, forest)
+## Z = 2.1701, p-value = 0.0371
+## alternative hypothesis: true mu is not equal to 0</code></pre>
+<h2 id="more-general-approach">More general approach</h2>
+<p>Get <code>gtools</code> package and generate the combinations, as in the original example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gtools)</code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;gtools&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:lmPerm&#39;:
+## 
+##     permute</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_comb &lt;-<span class="st"> </span><span class="kw">combinations</span>(<span class="kw">nrow</span>(ants), <span class="kw">length</span>(field))</code></pre></div>
+<p>Now write two functions. The first, <code>simfun()</code>, simulates a randomized data set given inputs (in this case, the input is a list of elements to be assigned to the “field” category). We take the <code>colonies</code> column from the original <code>ants</code> data set and arrange the field-assigned colony counts first, and the non-field-assigned colony counts second.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simfun &lt;-<span class="st"> </span>function(cc) {
+  <span class="kw">transform</span>(ants,<span class="dt">colonies=</span><span class="kw">c</span>(colonies[cc],colonies[-cc]))
+}</code></pre></div>
+<p>The second function, <code>sumfun()</code>, takes a simulated data set and returns whatever summary statistic we want. In this case I decided to use the <span class="math inline">\(t\)</span> statistic as computed by R. (In many cases simple summary statistics can be computed more efficiently by doing it by hand, but it’s often conceptually clearer to run <em>exactly the same test</em> that we would have used in the non-permutation analysis and extract the test statistic, which is usually stored as a list element called “statistic”, from it.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sumfun &lt;-<span class="st"> </span>function(dat) {
+  <span class="kw">t.test</span>(colonies~place,<span class="dt">data=</span>dat,<span class="dt">var.equal=</span><span class="ot">TRUE</span>)[[<span class="st">&quot;statistic&quot;</span>]]
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ncomb &lt;-<span class="st"> </span><span class="kw">nrow</span>(ind_comb)
+permdist &lt;-<span class="st"> </span><span class="kw">numeric</span>(ncomb)
+for (i in <span class="dv">1</span>:ncomb) {
+    permdist[i] &lt;-<span class="st"> </span><span class="kw">sumfun</span>(<span class="kw">simfun</span>(ind_comb[i,]))
+}</code></pre></div>
+<p>(this could also be done using R’s <code>apply()</code> function). What do we get, and how does it compare with the distribution we would expect from classical statistics, which is a <span class="math inline">\(t\)</span>-distribution with 8 degrees of freedom?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs_stat &lt;-<span class="st"> </span>tt[[<span class="st">&quot;statistic&quot;</span>]]
+<span class="kw">hist</span>(permdist,<span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">breaks=</span><span class="dv">30</span>,<span class="dt">freq=</span><span class="ot">FALSE</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>)
+<span class="kw">curve</span>(<span class="kw">dt</span>(x,<span class="dt">df=</span>tt[[<span class="st">&quot;parameter&quot;</span>]]),<span class="dt">add=</span><span class="ot">TRUE</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">v=</span>obs_stat,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/stats_hist-1.png" alt="plot of chunk stats_hist" />
+<p class="caption">plot of chunk stats_hist</p>
+</div>
+<p>One way to get the <span class="math inline">\(p\)</span>-value:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(obs_pval &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(permdist)&gt;=<span class="kw">abs</span>(obs_stat)))</code></pre></div>
+<pre><code>## [1] 0.03809524</code></pre>
+<ul>
+<li>using <code>mean(permutations&gt;=obs))</code> is a trick to calculate the proportion: the logical statement returns a logical (<code>FALSE</code>/<code>TRUE</code>) vector, which then gets converted to a 0/1 vector when you ask R to take the mean, so this is equivalent to counting the number of true values and dividing by the length …</li>
+<li>I use <code>abs()</code> to get the two-tailed test (alternatively, I could double the one-tailed test <span class="math inline">\(p\)</span>-value)</li>
+<li><strong>note</strong> that because the permutation distribution is not completely symmetric, this is not quite the same as the result JD got, which is based on doubling the area of the upper tail: the lower tail is a little bit “skinnier” than the upper tail, so we get a smaller <span class="math inline">\(p\)</span>-value by adding together the areas of the two tails instead of doubling the area of the upper tail: <code>2*mean(permdist&gt;=obs_stat)</code> gives 0.048.</li>
+</ul>
+<p>This gives just the single <span class="math inline">\(p\)</span>-value, which we can compare with the <span class="math inline">\(p\)</span>-value we got from the classical test (0.018)</p>
+<p>Quantile/p-value plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">bty=</span><span class="st">&quot;l&quot;</span>)
+r &lt;-<span class="st"> </span><span class="kw">sort</span>(<span class="kw">ceiling</span>(<span class="kw">rank</span>(permdist)))/<span class="kw">length</span>(permdist)
+pval &lt;-<span class="st"> </span><span class="dv">2</span>*<span class="kw">pt</span>(<span class="kw">sort</span>(<span class="kw">abs</span>(permdist),<span class="dt">decreasing=</span><span class="ot">TRUE</span>),<span class="dt">lower.tail=</span><span class="ot">FALSE</span>,
+                     <span class="dt">df=</span>tt$parameter)
+<span class="kw">plot</span>(r,pval,<span class="dt">xlab=</span><span class="st">&quot;Permutation p-value&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Nominal p-value&quot;</span>,
+     <span class="dt">type=</span><span class="st">&quot;s&quot;</span>,<span class="dt">log=</span><span class="st">&quot;xy&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">a=</span><span class="dv">0</span>,<span class="dt">b=</span><span class="dv">1</span>,<span class="dt">col=</span><span class="st">&quot;gray&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">h=</span>tt$p.value,<span class="dt">v=</span>obs_pval,<span class="dt">col=</span><span class="kw">adjustcolor</span>(<span class="st">&quot;red&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.5</span>))
+<span class="kw">abline</span>(<span class="dt">h=</span><span class="fl">0.05</span>,<span class="dt">col=</span><span class="kw">adjustcolor</span>(<span class="st">&quot;red&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.5</span>),<span class="dt">lty=</span><span class="dv">2</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/quantplot-1.png" alt="plot of chunk quantplot" />
+<p class="caption">plot of chunk quantplot</p>
+</div>
+<p>Wherever the black line is below/to the right of the gray 1:1 line, the permutation p-value is greater (more conservative than) the corresponding p-value from the classical <span class="math inline">\(t\)</span>-test. This is true for both the observed data (red lines) and for the <span class="math inline">\(p=0.05\)</span> cutoff (horizontal dashed line).</p>
+<h3 id="other-approaches">Other approaches</h3>
+<h3 id="brute-force-resampling">Brute-force resampling</h3>
+<p>If we aren’t concerned about generating the exact set of combinations, we can just randomize the order of the response variable (i.e. permute the values): R’s <code>sample()</code> function does this by default (it has many other uses, including sampling with replacement for bootstrap analyses).</p>
+<p>We just define a new version of <code>simfun()</code>. Because we are picking a different value every time, we don’t need to keep track of which sample we are on; <code>simfun()</code> doesn’t need to take any arguments, and we can use R’s <code>replicate()</code> function to generate as many permutation results as we want:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simfun_rsamp &lt;-<span class="st"> </span>function() {
+  <span class="kw">transform</span>(ants,<span class="dt">colonies=</span><span class="kw">sample</span>(colonies))
+}
+<span class="kw">set.seed</span>(<span class="dv">101</span>)
+permdist_rsamp &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">2000</span>,<span class="kw">sumfun</span>(<span class="kw">simfun_rsamp</span>()))</code></pre></div>
+<p>The result isn’t quite the same as the exact value derived above, but it’s pretty close (close to the result we got before):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">abs</span>(permdist_rsamp)&gt;=<span class="kw">abs</span>(obs_stat))</code></pre></div>
+<pre><code>## [1] 0.0425</code></pre>
+<h3 id="use-difference-between-means-as-test-statistic">Use difference between means as test statistic</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sumfun_diffmean &lt;-<span class="st"> </span>function(dat) {
+  <span class="kw">with</span>(dat,
+    <span class="kw">mean</span>(colonies[place==<span class="st">&quot;field&quot;</span>])-<span class="kw">mean</span>(colonies[place==<span class="st">&quot;forest&quot;</span>]))
+}
+<span class="kw">sumfun_diffmean</span>(ants)  ## test</code></pre></div>
+<pre><code>## [1] 3.75</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">permdist_diffmean &lt;-<span class="st"> </span><span class="kw">apply</span>(ind_comb,
+                    <span class="dt">MARGIN=</span><span class="dv">1</span>,function(x) <span class="kw">sumfun_diffmean</span>(<span class="kw">simfun</span>(x)))
+<span class="kw">mean</span>(<span class="kw">abs</span>(permdist_diffmean)&gt;=<span class="kw">abs</span>(<span class="kw">sumfun_diffmean</span>(ants)))</code></pre></div>
+<pre><code>## [1] 0.03809524</code></pre>
+<p>This gives exactly the same result as the original approach, because there is a one-to-one relationship between differences between means and <span class="math inline">\(t\)</span> statistics …</p>
+<h2 id="permutation-tests-of-regression-reproductive-skew-data">Permutation tests of regression: reproductive skew data</h2>
+<p>Some data from Holly Kindsvater on reproductive skew in fish (????):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">skewdat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;skewdat.csv&quot;</span>)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
+<span class="kw">qplot</span>(Size,skew,<span class="dt">data=</span>skewdat)+<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/skewdat-1.png" alt="plot of chunk skewdat" />
+<p class="caption">plot of chunk skewdat</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(skew~Size,<span class="dt">data=</span>skewdat))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = skew ~ Size, data = skewdat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.19909 -0.02180  0.01480  0.03348  0.10050 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept) -0.266029   0.091030  -2.922  0.00667 **
+## Size         0.004607   0.001957   2.354  0.02554 * 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.06164 on 29 degrees of freedom
+## Multiple R-squared:  0.1605, Adjusted R-squared:  0.1315 
+## F-statistic: 5.543 on 1 and 29 DF,  p-value: 0.02554</code></pre>
+<p>Can we trust this regression? Let’s try a permutation test.</p>
+<p>Since all the <span class="math inline">\(x\)</span> (<code>Size</code>) values are unique, there are a total of 31! (factorial) possible permutations, or 8.2 × 10<sup>33</sup>, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out …)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simfun_rsamp2 &lt;-<span class="st"> </span>function(<span class="dt">respvar=</span><span class="st">&quot;skew&quot;</span>,<span class="dt">data=</span>skewdat) {
+  permdat &lt;-<span class="st"> </span>data
+  permdat[[respvar]] &lt;-<span class="st"> </span><span class="kw">sample</span>(permdat[[respvar]])
+  permdat
+}
+sumfun_skew &lt;-<span class="st"> </span>function(dat) {
+  <span class="kw">coef</span>(<span class="kw">lm</span>(skew~Size,<span class="dt">data=</span>dat))[<span class="st">&quot;Size&quot;</span>]
+}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">101</span>)
+permdist_skew &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">8000</span>,<span class="kw">sumfun_skew</span>(<span class="kw">simfun_rsamp2</span>()))
+(skew_pval &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(permdist_skew)&gt;=<span class="kw">abs</span>(<span class="kw">sumfun_skew</span>(skewdat))))</code></pre></div>
+<pre><code>## [1] 0.023875</code></pre>
+<p>The results are <em>very</em> close to the classical test result (before trying this with 8000 replicates, I tried a few times with 2000 replicates and found that the results varied between about 0.02 and 0.035 – maybe JD was right …)</p>
+<p>We could also use <code>lmPerm</code> for this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(skew~Size,<span class="dt">data=</span>skewdat))</code></pre></div>
+<pre><code>## [1] &quot;Settings:  unique SS : numeric variables centered&quot;</code></pre>
+<pre><code>## 
+## Call:
+## lmp(formula = skew ~ Size, data = skewdat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.19909 -0.02180  0.01479  0.03348  0.10050 
+## 
+## Coefficients:
+##      Estimate Iter Pr(Prob)  
+## Size 0.004607 5000   0.0188 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.06164 on 29 degrees of freedom
+## Multiple R-Squared: 0.1605,  Adjusted R-squared: 0.1315 
+## F-statistic: 5.543 on 1 and 29 DF,  p-value: 0.02554</code></pre>
+<p>Or <code>coin</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">independence_test</span>(skew~Size,<span class="dt">data=</span>skewdat,<span class="dt">teststat=</span><span class="st">&quot;scalar&quot;</span>,
+                  <span class="dt">distribution=</span><span class="st">&quot;asymptotic&quot;</span>)</code></pre></div>
+<pre><code>## 
+##  Asymptotic General Independence Test
+## 
+## data:  skew by Size
+## Z = 2.1941, p-value = 0.02823
+## alternative hypothesis: two.sided</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">independence_test</span>(skew~Size,<span class="dt">data=</span>skewdat,<span class="dt">teststat=</span><span class="st">&quot;scalar&quot;</span>,
+                  <span class="dt">distribution=</span><span class="kw">approximate</span>(<span class="dt">B=</span><span class="dv">9999</span>))</code></pre></div>
+<pre><code>## 
+##  Approximative General Independence Test
+## 
+## data:  skew by Size
+## Z = 2.1941, p-value = 0.026
+## alternative hypothesis: two.sided</code></pre>
+<p>Since the standard error of an estimated proportion is <span class="math inline">\(\sqrt{p(1-p)/n}\)</span>, the <em>coefficient of variation</em> (ratio of the standard error to the mean estimate, <span class="math inline">\(p\)</span>) is <span class="math inline">\(\sqrt{(1-p)/(pn)}\)</span>. Thus for an observed <span class="math inline">\(p\)</span>-value, if we want to get the coefficient of variation down to a specified level <span class="math inline">\(c\)</span> (say 5%, so the confidence intervals are approximately <span class="math inline">\(\pm\)</span> 10% of the estimated <span class="math inline">\(p\)</span>-value) then we need to take <span class="math inline">\(n\)</span> large enough so that <span class="math inline">\(c = \sqrt{(1-p)/(pn)}\)</span>, or <span class="math inline">\(n \approx (1-p)/(p c^2)\)</span>; if <span class="math inline">\(p\)</span> is small then this is further approximated by <span class="math inline">\(1/(p c^2)\)</span> (e.g. for a <span class="math inline">\(p\)</span>-value of 0.05 accurate within <span class="math inline">\(c=0.05\)</span>, we need <span class="math inline">\(1/(0.5 \cdot 0.5^2) = 1/(0.5^3) = 20^3 = 8000\)</span> samples (slightly fewer since we have neglected the <span class="math inline">\(1-p\)</span> term). If we wanted a similarly accurate answer for our current answer, with a <span class="math inline">\(p\)</span>-value about half as large, we would need twice as many samples.</p>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

@@ -19,69 +19,56 @@
 	</div>
 </div>
 </header>
-<h2 id="immediate">immediate</h2>
+<h1 id="todo">TODO</h1>
+<p>Garden of forking</p>
+<p>Find and link assignment guidelines</p>
+<h2 id="content">Content</h2>
+<h2 id="github">Github</h2>
 <ul>
-<li>BB will send an email before lunch</li>
-<li>JD will prepare to live code tomorrow in Rstudio!</li>
-<li><p>JD will make some version of notes io available on site</p></li>
-<li><p>https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</p></li>
+<li>Tell them:
+<ul>
+<li>to not “amend”</li>
+<li>include the commit ID which pops up next to the word “master” when you commit.</li>
+<li>to not stage files that are stupid, and to not stage files that are not in their own directory</li>
+</ul></li>
+<li>Ongoing problems</li>
+<li>spawning “sh”</li>
+<li>somebody says they can’t click</li>
 </ul>
-<h2 id="for-next-week">For next week</h2>
+<h2 id="assignments">Assignments</h2>
 <ul>
-<li>Lecture may need quite a bit of work to be tidier, and less wiki-ish</li>
+<li>read &amp; respond to student assignments (how are we coordinating this?)</li>
+<li>JD will do a task script</li>
 </ul>
-<h2 id="infrastructure">infrastructure</h2>
+<h2 id="jd">JD</h2>
 <ul>
-<li>reorganize directories?</li>
-<li>work out markup details for other formats (ioslides etc.)</li>
-<li>work out make/push rules for other formats (ioslides etc.)</li>
-<li>what are we doing about student assignments etc. (GH repos? Dropbox?)</li>
+<li>QMEE_private repo on bitbucket to bbolker</li>
 </ul>
-<h2 id="content">content</h2>
+<h2 id="notes">Notes</h2>
 <ul>
-<li>Make course more tidy.</li>
+<li><code>which</code> doesn’t always work on Windows, even if git does!</li>
+<li><p><code>where</code> sometimes works where <code>which</code> doesn’t</p></li>
+<li><p>parentheses for spanning and print for printing in tidyverse intro</p></li>
 </ul>
-<h2 id="presentation">presentation</h2>
+<h2 id="admin">Admin</h2>
+<p id="section"></p>
+<h2 id="optionalprettification">Optional/prettification</h2>
 <ul>
-<li>talk about live-coding</li>
-<li>other ways of increasing interaction?</li>
-<li>Post-it notes?</li>
-</ul>
-<h2 id="weekly-schedule">Weekly schedule</h2>
-<ul>
-<li>Lecture on Monday</li>
-<li>Break at 11:20 sharp for the sake of Dushoff and/or Flett</li>
-<li>Assignments due Friday returned by Tuesday</li>
-<li>We are allowed to be vague about assignment on Monday as long as we are clear by Wednesday</li>
-</ul>
-<h2 id="qmee">QMEE</h2>
-<ul>
-<li>Do we get those emails? Do we have control of the account?</li>
-</ul>
-<h2 id="managing-projects">Managing projects</h2>
-<ul>
-<li>We could ask for a course github organization</li>
-<li>If not, we should spend <em>one</em> of our own privates</li>
-<li>People who don’t want to share with the course should set up their own github or bitbucket</li>
-<li>Revisit in a couple weeks</li>
-<li>Should we have a version-control Wednesday?</li>
-<li>Use Jenny Bryan as a resource (Statistics 545)</li>
-<li>Use rstudio as the interface ☹</li>
-</ul>
-<h2 id="class-info">Class info</h2>
-<ul>
-<li>Roster is on google docs</li>
-<li>Email list not really set up</li>
-</ul>
-<h2 id="presentation-authoring-workflow">Presentation authoring Workflow</h2>
-<ul>
-<li>Can IO break intelligently (or at least warn)?</li>
+<li>put stuff in subdirectories</li>
+<li>render HTML with rmarkdown::render rather than pandoc, to get self-contained HTMLs</li>
+<li>don’t make HTML/slides from all <code>.md</code> files (e.g. <code>TODO.md</code>)</li>
+<li><p>Add code in an appropriate place (possibly a header/footer file?) to <a href="http://stackoverflow.com/questions/33287556/rmarkdown-ioslides-allowframebreaks-alternative">make ioslides use scroll bars</a> but not break: specifically (from that link) we need to incorporate</p>
+<pre><code>&lt;style&gt;
+slides &gt; slide { overflow: scroll; }
+&lt;/style&gt;</code></pre>
+at an appropriate point in the slide files themselves, or in a CSS file they refer to</li>
+<li><p>Prettify CSS? https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html</p></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-		<a href="mailto:bio708qmee@gmail.com)">Email the profs</a>
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 		<a href="logo.html">Logo information</a>
 	</div>

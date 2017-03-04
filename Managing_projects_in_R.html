@@ -96,11 +96,28 @@
 <p>If you are following the pipeline philosophy, it will be useful to make scripts that do discrete tasks, and depend on each others’ outputs.</p>
 <p>You can do this by using the R commands <code>load</code> and <code>save</code>: if you have an R script that you are happy with and is producing some nice variables, you can write <code>save(var1,</code> <code>var2,</code> <code>vars,</code> <code>file=&quot;happy.RData&quot;</code>, at the end of that script, and then <code>load(&quot;happy.RData&quot;)</code> at the beginning of some other scripts.</p>
 <p><em>How should you get more information about these commands?</em></p>
+<h1 id="co-ordination-tools">Co-ordination tools</h1>
+<p>You should try to have a pipeline-driven project where as many steps as possible are clearly documented and easily replicable.</p>
+<p>There are many, many techniques for this, and we will try not to get too deeply into it in the course (unless it’s a Requested Topic).</p>
+<p>Some of the tools that we like include:</p>
+<h3 id="r-markdown">R markdown</h3>
+<p>R markdown is a format that allows you to incorporate R code into your documents. This allows you to develop and document your project at the same time, and to allow your documentation to evolve directly into a document that can be submitted to a supervisory committee or a journal.</p>
+<p>RStudio makes a great platform for composing R markdown files, and there’s really good documentation on this format at the <a href="http://rmarkdown.rstudio.com/">RStudio web site</a>. To recap some of the most important features of R Markdown:</p>
+<ul>
+<li>relatively natural/easy formatting rules</li>
+<li>flexible output: HTML, PDF (even MS Word)</li>
+<li>automatically incorporate figures</li>
+<li>incorporate LaTeX equations</li>
+<li>caching for long computations</li>
+</ul>
+<h3 id="make">Make</h3>
+<p><a href="Wikipedia:Make_(software).html">make</a> is a system for controlling how files are made from other files. It is useful for making your project self-documenting: you write down the steps of your pipeline in a permanent fashion, in order to make them work.</p>
+<p>The <a href="http://www.gnu.org/software/make/manual/make.html">gnu make documentation</a> is very useful, but not necessarily easy to attack.</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-		<a href="mailto:bio708qmee@gmail.com)">Email the profs</a>
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
 		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 		<a href="logo.html">Logo information</a>
 	</div>

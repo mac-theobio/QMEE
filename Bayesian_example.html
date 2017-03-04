@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h1 id="generate-fake-data">Generate fake data</h1>
+<pre><code>##        y                 a                 b                 c          
+##  Min.   :-0.2204   Min.   :0.04418   Min.   :0.03454   Min.   :0.02538  
+##  1st Qu.: 1.3212   1st Qu.:0.21733   1st Qu.:0.18682   1st Qu.:0.30197  
+##  Median : 3.2696   Median :0.52227   Median :0.54248   Median :0.59167  
+##  Mean   : 3.0955   Mean   :0.51398   Mean   :0.48042   Mean   :0.53889  
+##  3rd Qu.: 4.4842   3rd Qu.:0.73486   3rd Qu.:0.77407   3rd Qu.:0.80773  
+##  Max.   : 6.5282   Max.   :0.93434   Max.   :0.99014   Max.   :0.97959</code></pre>
+<h1 id="do-a-linear-model">Do a linear model</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(y~a+b+c,<span class="dt">data=</span>dat))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ a + b + c, data = dat)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.11619 -0.46816  0.06305  0.56538  2.05915 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.3336     0.4456  -0.749   0.4590    
+## a             0.6909     0.6129   1.127   0.2671    
+## b             5.0782     0.5332   9.523 2.25e-11 ***
+## c             1.1771     0.5353   2.199   0.0344 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9981 on 36 degrees of freedom
+## Multiple R-squared:  0.7574, Adjusted R-squared:  0.7371 
+## F-statistic: 37.46 on 3 and 36 DF,  p-value: 3.645e-11</code></pre>
+<h1 id="bayesian-analysis">Bayesian analysis</h1>
+<h2 id="with-bayesglm">With bayesglm</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;arm&quot;</span>)
+<span class="kw">summary</span>(<span class="kw">bayesglm</span>(y~a+b+c,<span class="dt">data=</span>dat))</code></pre></div>
+<pre><code>## 
+## Call:
+## bayesglm(formula = y ~ a + b + c, data = dat)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.11859  -0.46488   0.06545   0.57159   2.05432  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.3209     0.4448  -0.721   0.4753    
+## a             0.6943     0.6104   1.137   0.2629    
+## b             5.0555     0.5319   9.505 2.37e-11 ***
+## c             1.1704     0.5337   2.193   0.0348 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for gaussian family taken to be 0.9962802)
+## 
+##     Null deviance: 147.805  on 39  degrees of freedom
+## Residual deviance:  35.866  on 36  degrees of freedom
+## AIC: 119.15
+## 
+## Number of Fisher Scoring iterations: 9</code></pre>
+<h2 id="with-bugsjags">With BUGS/JAGS</h2>
+<p>We need priors for the four regression parameters, and for the error variance. The BUGS/JAGS framework does not let us use improper priors, so we have to pick things that we think are “wide” enough.</p>
+<p>For the error variance, we also have to pick something that’s always positive.</p>
+<p>Finally, BUGS/JAGS thinks in terms of “precision” <span class="math inline">\(\tau=1/\sigma^2\)</span>, which is confusing, but you can get used to it. It’s best to start by guessing what you think a “large” standard deviation would be, then taking <span class="math inline">\(1/\sigma^2\)</span> to get the relevant value of <span class="math inline">\(\tau.\)</span> A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of <span class="math inline">\(10^{-6}\)</span>. The normal priors below have low precision, so they have high variance.</p>
+<h2 id="rjags">rjags</h2>
+<h2 id="r2jags">R2jags</h2>
+<pre><code>## Compiling model graph
+##    Resolving undeclared variables
+##    Allocating nodes
+## Graph information:
+##    Observed stochastic nodes: 40
+##    Unobserved stochastic nodes: 5
+##    Total graph size: 336
+## 
+## Initializing model</code></pre>
+<ul>
+<li>You can use <code>inits=NULL</code> to have JAGS pick the initial values randomly from the priors. For more complex models you might want to pick starting values for the chains yourself (see the <code>?jags</code> documentation).</li>
+</ul>
+<h3 id="examine-the-chains-and-output">Examine the chains and output</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(R2jags)
+<span class="kw">library</span>(coda)
+<span class="kw">library</span>(emdbook)    ## for lump.mcmc.list() and as.mcmc.bugs()
+<span class="kw">library</span>(arm)        ## for coefplot
+<span class="kw">library</span>(lattice)
+<span class="kw">library</span>(dotwhisker)</code></pre></div>
+<pre><code>## Error in library(dotwhisker): there is no package called &#39;dotwhisker&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
+bb &lt;-<span class="st"> </span>jags1$BUGSoutput  ## extract the &quot;BUGS output&quot; component
+mm &lt;-<span class="st"> </span><span class="kw">as.mcmc.bugs</span>(bb)  ## convert it to an &quot;mcmc&quot; object that coda can handle
+<span class="kw">plot</span>(jags1)             ## large-format graph</code></pre></div>
+<div class="figure">
+<img src="figure/coda2.R-1.png" alt="plot of chunk coda2.R" />
+<p class="caption">plot of chunk coda2.R</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot(mm)                ## trace + density plots, same as above
+<span class="kw">xyplot</span>(mm,<span class="dt">layout=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))  ## prettier trace plot</code></pre></div>
+<div class="figure">
+<img src="figure/coda2.R-2.png" alt="plot of chunk coda2.R" />
+<p class="caption">plot of chunk coda2.R</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(mm,<span class="dt">layout=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)) ## prettier density plot</code></pre></div>
+<div class="figure">
+<img src="figure/coda2.R-3.png" alt="plot of chunk coda2.R" />
+<p class="caption">plot of chunk coda2.R</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">dwplot</span>(jags1))              ## estimate + credible interval plot</code></pre></div>
+<pre><code>## Error in print(dwplot(jags1)): could not find function &quot;dwplot&quot;</code></pre>
+<p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
+<h2 id="further-notes">Further notes</h2>
+<h3 id="categorical-variables">Categorical variables</h3>
+<p>Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above. There are two basic strategies:</p>
+<ul>
+<li>pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i] = catparam[f[i]]</code></li>
+<li>construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i] = inprod(X[i,],beta)</code></li>
+</ul>
+<p>The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using <code>lm</code>).</p>
+<h3 id="built-in-bayesian-modeling-techniques">Built-in Bayesian modeling techniques</h3>
+<ul>
+<li><code>bayesglm</code> from the <code>arm</code> package</li>
+</ul>
+<pre><code>##    deviance         int          ma          mb          mc 
+## 114.5106127  -0.3329600   0.6928561   5.0825190   1.1757262</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 1</code></pre>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

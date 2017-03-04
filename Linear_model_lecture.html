@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
+  <title>Linear models lecture</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Linear models lecture</h1>
+<h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
+</div>
+<h1 id="introduction">Introduction</h1>
+<h2 id="history">History</h2>
+<ul>
+<li>ANOVA, ANCOVA, regression, <span class="math inline">\(t\)</span> test are all variations of the same animal, the <em>general</em> linear model</li>
+<li>Many people (including the R project) call it a linear model (<code>lm</code>) to distinguish it from the <em>generalized</em> linear model (<code>glm</code>)</li>
+<li>Unfortunately SAS calls it <code>PROC GLM</code></li>
+</ul>
+<h2 id="part-of-the-statistical-universe">(part of) the statistical universe</h2>
+<div class="figure">
+<img src="models-glmm.png" />
+
+</div>
+<h2 id="extended-linear-models">Extended linear models</h2>
+<ul>
+<li><em>Generalized</em> linear models can incorporate:
+<ul>
+<li>(Some) non-linear relationships</li>
+<li>Non-normal response <em>families</em> (binomial, Poisson, …)</li>
+</ul></li>
+<li><em>Mixed</em> models incorporate <em>random effects</em>
+<ul>
+<li>Categories in data represent samples from a population</li>
+<li>e.g. species, sites, genes …</li>
+<li>Traditionally used to account for experimental blocks</li>
+</ul></li>
+</ul>
+<h1 id="basic-theory">Basic theory</h1>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li><em>Response variables</em> are linear functions of <em>input variables</em>, in turn based on <em>predictor variables</em>
+<ul>
+<li>Can have one or more input variables per predictor variable</li>
+<li>Each input variable is associated with an estimated parameter (more about this later)</li>
+</ul></li>
+<li><em>Errors</em> or <em>residuals</em> are Normally distributed
+<ul>
+<li>In other words, the difference between our model <em>predictions</em> and our observations is Normal</li>
+<li><em>not</em> assuming the marginal distribution is Normal</li>
+</ul></li>
+<li>Independence</li>
+<li>(Predictor variables measured without error)</li>
+</ul>
+<h2 id="machinery">Machinery</h2>
+<ul>
+<li>Leads naturally to a <em>least squares</em> fit - we get parameters that minimize the squared differences between predictions and observations</li>
+<li>Least squares fits have a lot of nice properties, including partitioning, and finding the middle</li>
+<li>Solution is a simple (!) matrix equation</li>
+<li>Sensitive to some departures from the assumptions - anomalous events tend to have a larger effect than they should</li>
+<li>Alternatives</li>
+</ul>
+<h2 id="one-parameter-variables">One-parameter variables</h2>
+<ul>
+<li>Continuous predictor variable: estimate a straight line with one parameter
+<ul>
+<li>Also implies one <em>input variable</em> – we’re not going to talk much about those</li>
+</ul></li>
+<li><span class="math inline">\(Y = a+bX\)</span>: <span class="math inline">\(Y\)</span> is the response, <span class="math inline">\(X\)</span> is the input variable<br />
+(<span class="math inline">\(b\)</span> is the <em>slope</em> - expected change in <span class="math inline">\(Y\)</span> per unit change in <span class="math inline">\(X\)</span>)</li>
+<li>Categorical predictor variable with two categories: only one parameter
+<ul>
+<li>difference in predicted value between levels, or code the categories as 0, 1 … (<em>dummy variables</em>)</li>
+</ul></li>
+<li>Parameters are (usually) easy to interpret</li>
+<li>Think in terms of <em>confidence intervals</em> for the parameter</li>
+</ul>
+<h2 id="multi-parameter-variables">Multi-parameter variables</h2>
+<ul>
+<li>With more than two categories, there is more than one input variable (parameter) associated with a single predictor variable
+<ul>
+<li>Why can’t we just code them, for example as 0, 1, 2?</li>
+</ul></li>
+<li>Non-linear response to a predictor variable
+<ul>
+<li>Might be able to use a linear model! <span class="math inline">\(Y = a + bX + cX^2\)</span> is linear in <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> (the unknowns)</li>
+<li><strong>Don’t</strong> use simple polynomials: use either <em>orthogonal polynomials</em> (<code>poly</code> in R) or splines (<code>ns</code> in R, <code>mgcv</code> package)</li>
+</ul></li>
+</ul>
+<h2 id="interpreting-multi-parameter-variables-is-hard">Interpreting multi-parameter variables is hard</h2>
+<ul>
+<li>We can (and should) get a <span class="math inline">\(p\)</span> value for the variable as a whole</li>
+<li>But we can only get CIs on the parameters — and there are different ways to parameterize (<em>contrasts</em>)</li>
+<li>Think clearly about the <em>scientific</em> questions you have for this variable</li>
+<li>If you’re just trying to control for it, just put it in and then ignore it!</li>
+<li>If you do have a clear scientific question, you should be able to construct <em>contrasts</em> in such a way that you can test it.</li>
+<li>If you must, do pairwise comparisons, test each pair of variables for differences and make an <code>aabbc</code> list</li>
+</ul>
+<h2 id="interactions">Interactions</h2>
+<ul>
+<li>Interactions allow the value of one predictor to affect the relationship between another predictor and the response variable</li>
+<li>Interpreting <em>main effects</em> in the presence of interactions is tricky (<em>principle of marginality</em>)</li>
+<li>Your estimate of the effect of variable <span class="math inline">\(B\)</span> is no longer constant</li>
+<li>You need to pick a fixed point, or average in some way</li>
+<li>Example: <span class="math inline">\(Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1*X_2\)</span></li>
+<li>The response to <span class="math inline">\(X_1\)</span> is <span class="math inline">\(Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1\)</span><br />
+the response to <span class="math inline">\(X_1\)</span> <em>depends on</em> the value of <span class="math inline">\(X_2\)</span>.</li>
+</ul>
+<h2 id="an-experimental-example">An experimental example</h2>
+<ul>
+<li>You want to know whether a drug treatment changes the metabolism of some rabbits</li>
+<li>You’re using adult, prime-aged rabbits and keeping them under controlled conditions, so you don’t expect their metabolism to change <em>without</em> the drug.
+<ul>
+<li>Not good enough!</li>
+</ul></li>
+<li>You also introduce some control rabbits and treat them exactly the same, including giving them fake pills. You find no significant change in the metabolism of the control rabbits through time
+<ul>
+<li>Still not good enough! Why?</li>
+</ul></li>
+</ul>
+<h2 id="testing-interactions">Testing interactions</h2>
+<ul>
+<li>Use an <em>interaction</em>: <span class="math display">\[
+M = a + B_x X + B_t t + B_{xt} Xt
+\]</span></li>
+<li>The interaction term <span class="math inline">\(B_{xt}\)</span> represents the <em>difference in the response</em> between the two groups.</li>
+<li>It asks: <strong>did the treatment group change differently than the control group</strong>?</li>
+</ul>
+<h2 id="interactions-and-parameters">Interactions and parameters</h2>
+<ul>
+<li>In simple cases, the whole interaction term may use only one parameter</li>
+<li>We can use CIs, and coefficient plots, and get a pretty good idea what’s going on</li>
+<li>In more complicated cases, interaction terms may have many parameters</li>
+<li>These have all the interpretation problems of other multi-parameter variables, or more</li>
+<li>Think about “differences in differences”</li>
+</ul>
+<h2 id="interactions-example">Interactions: example</h2>
+<ul>
+<li>Bear road-crossing</li>
+<li>Predictor variables: sex (categorical), road type (categorical: major/minor), road length (continuous)</li>
+<li>Two-way interactions
+<ul>
+<li>sex <span class="math inline">\(\times\)</span> road length: “are females more sensitive to amount of road than males?”</li>
+<li>sex <span class="math inline">\(\times\)</span> road type: “do females vary behaviour between road type more than males?”</li>
+<li>road type <span class="math inline">\(\times\)</span> road length: “does amount of road affect crossings differently for different road types?”</li>
+</ul></li>
+</ul>
+<h2 id="statistical-philosophy">Statistical philosophy</h2>
+<ul>
+<li>Don’t accept the null hypothesis
+<ul>
+<li>Don’t throw out predictors you wanted to test because they’re not significant</li>
+<li>Don’t throw out interactions you wanted to test because they’re not significant</li>
+</ul></li>
+<li>This may make your life harder, but it’s worth it for the karma
+<ul>
+<li>There are techniques to deal with multiple predictors (e.g., lasso regression)</li>
+<li>There are ways to estimate main effects in the presence of interactions (“sum-to-zero contrasts” or “orthogonal interactions”)</li>
+</ul></li>
+</ul>
+<h2 id="diagnostics">Diagnostics</h2>
+<ul>
+<li>Because the linear model is sensitive (sometimes!) to assumptions, it is good to evaluate them</li>
+<li>Concerns:
+<ul>
+<li><em>Heteroscedasticity</em> (does variance change across the data set, e.g. increasing variance with increasing mean?)</li>
+<li>Linearity (does your model fit well?)</li>
+<li>Normality (assuming no overall problems, do your <strong>residuals</strong> look Normal?)</li>
+<li>Independence is hard to test</li>
+</ul></li>
+<li>Normality is the <strong>least important</strong> of these assumptions</li>
+</ul>
+<h2 id="default-plots-in-r">Default plots in R</h2>
+<p>Example needed</p>
+<!--- 
+http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics
+-->
+<h2 id="transformations">Transformations</h2>
+<ul>
+<li>One way to deal with problems in model assumptions is by transforming one or more of your variables</li>
+<li>Transformations are not cheating: a transformed scale may be as natural (or more natural) a way to think about your data as your original scale</li>
+<li>The linear scale (no transformation) often has direct meaning, if you are adding things up or scaling them (as in our ant example)</li>
+<li>The log scale is often the best scale for thinking about physical quantities: 1:10 as 10:?</li>
+<li>The <em>log odds</em>, or <em>logit</em>, scale is often the best scale for thinking about probabilities: 1%:10% as 10%:?</li>
+</ul>
+<h2 id="transformation-tradeoffs">Transformation tradeoffs</h2>
+<ul>
+<li>A transformation may help you meet model assumptions
+<ul>
+<li>Homoscedasticity</li>
+<li>Linearity</li>
+<li>Normality</li>
+</ul></li>
+<li>But there is no guarantee that you can fix them all</li>
+<li>Piles of zeros are hard too (consider GLMs)</li>
+</ul>
+<h2 id="transformations-to-consider">Transformations to consider</h2>
+<ul>
+<li>log-lin, lin-log and log-log for various sorts of exponential and power relationships</li>
+<li>Box-Cox and Yeo-Johnson (see example page)</li>
+<li>Avoid classical ‘transform then linear model’ recommendations for
+<ul>
+<li>probability data (logistic, arcsin or arcsin-square root) or count data (log, log(1+x) or square root)</li>
+<li>Generally better to respect the structure of these data with a GLM</li>
+</ul></li>
+</ul>
+<h2 id="deciding-whether-to-transform">Deciding whether to transform</h2>
+<ul>
+<li>It’s <strong>not OK</strong> to pick transformations based on trying different ones and looking at P values</li>
+<li>It’s probably OK to decide based on a measure of Normality of residuals, however
+<ul>
+<li><em>Box-Cox transformation</em> tries out transformations of the form <span class="math inline">\((y^\lambda-1)/\lambda\)</span> (<span class="math inline">\(\lambda=0\)</span> corresponds to log-transformation)</li>
+<li><em>additivity and variance stabilizing transformations</em> (Tibshirani) are a fancier way to transform</li>
+</ul></li>
+</ul>
+<h1 id="tools-for-fitting-and-inference">Tools for fitting and inference</h1>
+<h2 id="basic-tools">Basic tools</h2>
+<ul>
+<li><code>lm</code> fits a linear model</li>
+<li><code>summary</code> prints statistics associated with the <em>parameters</em> that were fitted</li>
+<li><code>arm::coefplot</code> and <code>dotwhisker</code> package are useful for <em>visualizing</em> these</li>
+<li><code>anova</code> and <code>drop1</code> will attach P values to variables that have more than one parameter (even groups of variables, in the case of anova). <code>car::Anova</code> can also be useful</li>
+<li><strong>BEWARE</strong>: the standard ANOVA <span class="math inline">\(P\)</span> values are <em>sequential</em> (early variables <em>do not</em> control for the presence of later variables. This is probably not what you want. (See <code>car::Anova</code>)</li>
+</ul>
+<h2 id="multiple-comparisons">Multiple comparisons</h2>
+<ul>
+<li>One standard of practice is to take a variable-level P value and then evaluate patterns in the response to significant variables</li>
+<li>Straightforward, but maybe not conservative</li>
+<li><code>TukeyHSD</code> does multiple comparison tests on objects produced by <code>aov</code>. Use <code>glht</code> in the <code>multcomp</code> package more generally.</li>
+<li>Note: <code>aov</code> is just another way of calling <code>lm</code>, whereas <code>anova</code> <em>compares</em> different model fits. Sorry for the confusion.</li>
+</ul>
+<h2 id="plotting">Plotting</h2>
+<ul>
+<li><code>plot</code> can be applied to an <code>lm</code> object to give you a nice set of diagnostic tests.</li>
+<li><code>predict</code> can give predicted values, and standard errors.</li>
+<li><code>simulate</code> simulates values from the fitted model</li>
+<li>Try <code>methods(class=&quot;lm&quot;)</code> to see all the possibilities …</li>
+<li>In <code>ggplot</code>, <code>geom_smooth(method=&quot;lm&quot;)</code> fits a linear model to each group of data (i.e. each group that you have identified by plotting it in a different colour, within a different facet, etc.</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

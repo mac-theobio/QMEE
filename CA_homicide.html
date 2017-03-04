@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ben Bolker" />
+  <title>Canadian homicide rates</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Canadian homicide rates</h1>
+<h2 class="author">Ben Bolker</h2>
+<h3 class="date">18:20 04 March 2017</h3>
+</div>
+<h2 id="read-data-in-wide-format-and-play-with-it">Read data in wide format and play with it</h2>
+<p>Data are originally from <a href="http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm">here</a> (it might be possible to <em>scrape</em> this data set using the <code>XML</code> package …).</p>
+<p>I also got <a href="http://en.wikipedia.org/wiki/List_of_Canadian_provinces_and_territories_by_population">data on population size in 2011 from Wikipedia</a> .</p>
+<p>Read data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/CA_homicide.csv&quot;</span>,<span class="dt">check.names=</span><span class="ot">FALSE</span>)
+popdat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/CA_popdat.csv&quot;</span>)</code></pre></div>
+<p>We use <code>check.names=FALSE</code> to stop R from trying to sanitize the column names: this is reasonable if we plan to convert to long form and want to preserve the values (years, in this case).</p>
+<p>These data are in wide format:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(dat)</code></pre></div>
+<pre><code>##                       Place 2007 2008 2009 2010 2011
+## 1                    Canada 1.80 1.83 1.81 1.62 1.73
+## 2 Newfoundland and Labrador 0.59 0.99 0.20 0.78 0.78
+## 3      Prince Edward Island 0.00 1.43 0.00 0.00 0.69
+## 4               Nova Scotia 1.39 1.28 1.60 2.22 2.33
+## 5             New Brunswick 1.07 0.40 1.60 1.20 1.06
+## 6                    Quebec 1.17 1.19 1.12 1.06 1.32</code></pre>
+<p>What if we want combine other information?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(rdat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Place=</span>dat$Place,
+      <span class="dt">Region=</span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span>,<span class="kw">rep</span>(<span class="st">&quot;Atlantic&quot;</span>,<span class="dv">4</span>),
+             <span class="kw">rep</span>(<span class="st">&quot;East&quot;</span>,<span class="dv">2</span>),
+             <span class="kw">rep</span>(<span class="st">&quot;West&quot;</span>,<span class="dv">4</span>),
+             <span class="kw">rep</span>(<span class="st">&quot;North&quot;</span>,<span class="dv">3</span>))))</code></pre></div>
+<pre><code>##                       Place   Region
+## 1                    Canada      all
+## 2 Newfoundland and Labrador Atlantic
+## 3      Prince Edward Island Atlantic
+## 4               Nova Scotia Atlantic
+## 5             New Brunswick Atlantic
+## 6                    Quebec     East</code></pre>
+<p>Let’s start by converting the data to long form (I’ve suppressed some warnings about “objects are masked”):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;tidyr&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;dplyr&quot;</span>)
+sdat &lt;-<span class="st"> </span>dat %&gt;%
+<span class="st">    </span><span class="kw">gather</span>(year,homicides,-Place,<span class="dt">convert=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>(we use <code>convert=TRUE</code> to convert the years back to numeric values)</p>
+<p>Now combine all three data sets (<code>full_join</code> will automatically match all columns with identical names across the data sets, but it’s better practice to specify the matching columns explicitly).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 &lt;-<span class="st"> </span>sdat %&gt;%
+<span class="st">    </span><span class="kw">full_join</span>(rdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">full_join</span>(popdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>)</code></pre></div>
+<p>If we just used the original data set (without the added stuff), it’s fairly easy to get summary statistics by dropping the first row (so that we have a data frame that is all numeric) and computing means of rows and columns:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dmat &lt;-<span class="st"> </span>dat[,-<span class="dv">1</span>]
+<span class="kw">rownames</span>(dmat) &lt;-<span class="st"> </span>dat[,<span class="dv">1</span>]
+<span class="kw">rowMeans</span>(dmat)  ## means by place</code></pre></div>
+<pre><code>##                    Canada Newfoundland and Labrador 
+##                     1.758                     0.668 
+##      Prince Edward Island               Nova Scotia 
+##                     0.424                     1.764 
+##             New Brunswick                    Quebec 
+##                     1.066                     1.172 
+##                   Ontario                  Manitoba 
+##                     1.386                     4.432 
+##              Saskatchewan                   Alberta 
+##                     3.262                     2.622 
+##          British Columbia                     Yukon 
+##                     2.218                     4.806 
+##     Northwest Territories                   Nunavut 
+##                     5.038                    18.584</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colMeans</span>(dmat)  ## means by year</code></pre></div>
+<pre><code>##     2007     2008     2009     2010     2011 
+## 3.812143 3.587857 3.588571 3.040000 3.542857</code></pre>
+<p>(Don’t forget the <code>na.rm</code> argument, unnecessary in this case, that can be provided to most R summary functions to get them to ignore <code>NA</code> values.)</p>
+<p>If we want summary statistics from the full data set we can do</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(Place) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))
+sdat2 %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(year) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
+<p>One more useful technique is reordering factors (representing categorical variables) in a sensible way. Right now the ‘places’ (provinces, territories, etc.) are ordered alphabetically, R’s default.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 &lt;-<span class="st"> </span>sdat2 %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(Place,Pop_2011))</code></pre></div>
+<p>This will be useful in the future, but is different from the <strong>order the data frame is stored in</strong>, which we can modify via <code>arrange()</code> (use <code>desc(Pop_2011)</code> to arrange in descending order of population):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Pop_2011)) %&gt;%<span class="st"> </span>head</code></pre></div>
+<pre><code>##     Place year homicides Region Pop_2011
+## 1  Canada 2007      1.80    all 33476688
+## 2  Canada 2008      1.83    all 33476688
+## 3  Canada 2009      1.81    all 33476688
+## 4  Canada 2010      1.62    all 33476688
+## 5  Canada 2011      1.73    all 33476688
+## 6 Ontario 2007      1.58   East 12851821</code></pre>
+<p>I can also summarise by combinations of variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">group_by</span>(year,Region) %&gt;%
+<span class="st">      </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
+<pre><code>## Source: local data frame [25 x 3]
+## Groups: year [?]
+## 
+##     year   Region      mean
+##    &lt;int&gt;   &lt;fctr&gt;     &lt;dbl&gt;
+## 1   2007      all  1.800000
+## 2   2007 Atlantic  0.762500
+## 3   2007     East  1.375000
+## 4   2007    North 11.036667
+## 5   2007     West  3.165000
+## 6   2008      all  1.830000
+## 7   2008 Atlantic  1.025000
+## 8   2008     East  1.275000
+## 9   2008    North  9.526667
+## 10  2008     West  3.292500
+## # ... with 15 more rows</code></pre>
+<p>What if I want the mean and standard error? R doesn’t have a built-in “standard error of the mean” function so I define one on the fly:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sem &lt;-<span class="st"> </span>function(x) { <span class="kw">sd</span>(x)/<span class="kw">sqrt</span>(<span class="kw">length</span>(x)) }
+region_avgs &lt;-<span class="st"> </span>sdat3 %&gt;%<span class="st"> </span><span class="kw">group_by</span>(year,Region) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),
+              <span class="dt">sem=</span><span class="kw">sem</span>(homicides))</code></pre></div>
+<p>What if I want to check the variables to see why they’re <code>NA</code>?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">filter</span>(year==<span class="dv">2007</span> &amp;<span class="st"> </span>Region==<span class="st">&quot;all&quot;</span>)</code></pre></div>
+<pre><code>##    Place year homicides Region Pop_2011
+## 1 Canada 2007       1.8    all 33476688</code></pre>
+<p>Sometimes it’s useful to be able to go from long to wide format. <code>spread()</code> is the opposite of <code>gather()</code>: we specify a column in the current data set to spread out into new columns (<code>key</code>) and a column to use as the vales for the table (<code>value</code>)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region_avgs %&gt;%<span class="st"> </span><span class="kw">select</span>(-sem) %&gt;%
+<span class="st">    </span><span class="kw">spread</span>(<span class="dt">key=</span>Region,<span class="dt">value=</span>mean)</code></pre></div>
+<pre><code>## Source: local data frame [5 x 6]
+## Groups: year [5]
+## 
+##    year   all Atlantic  East     North   West
+## * &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+## 1  2007  1.80   0.7625 1.375 11.036667 3.1650
+## 2  2008  1.83   1.0250 1.275  9.526667 3.2925
+## 3  2009  1.81   0.8500 1.240  9.710000 3.3550
+## 4  2010  1.62   1.0500 1.245  7.813333 2.7025
+## 5  2011  1.73   1.2150 1.260  9.293333 3.1525</code></pre>
+<p>In the long run it is generally easier to keep your data in long format and cast it to wide as necessary.</p>
+<h2 id="tidyverse-summary">tidyverse: summary</h2>
+<h3 id="advantages">advantages</h3>
+<ul>
+<li>consistency among verbs</li>
+<li>piping format may be easier to read</li>
+<li>generally fast</li>
+<li>be like the cool kids</li>
+</ul>
+<h3 id="disadvantages">disadvantages</h3>
+<ul>
+<li><em>non-standard evaluation</em> can be tricky/dangerous</li>
+<li>package-loading overhead</li>
+<li>annoy the old farts</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

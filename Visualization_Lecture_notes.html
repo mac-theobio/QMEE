@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
+  <title>Data Visualization in R</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Data Visualization in R</h1>
+<h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
+<h3 class="date">12:57 22 January 2017</h3>
+</div>
+<h1 id="ideas">Ideas</h1>
+<hr />
+<ul>
+<li>Exploratory vs. diagnostic vs. presentation</li>
+<li><a href="http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555">Cleveland hierarchy</a>: position, length, angle, area, volume, colour</li>
+<li><a href="http://en.wikipedia.org/wiki/Edward_tufte">Edward Tufte</a>: chartjunk, data- and non-data-ink, small multiples, “information at the point of need”/direct labeling, …</li>
+<li>graphics nazis: <a href="http://emdbolker.wikidot.com/blog:dynamite">dynamite plots</a>, <a href="http://www.qualia.hr/pie-chart-controversy/">pie charts</a>, <a href="http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf">dual-axes plots</a> …</li>
+<li>Extending the pipeline: R vs <a href="http://glx.sourceforge.net/">GLE</a> vs. <a href="https://d3js.org/">D3.js</a> vs. <a href="https://plot.ly/">plot.ly</a> vs. …</li>
+<li>Telling a story vs. letting the data speak</li>
+<li>Showing the data vs. representing the statistical model accurately</li>
+<li>Dynamic graphics</li>
+</ul>
+<h1 id="r">R</h1>
+<h2 id="base-graphics">Base graphics</h2>
+<ul>
+<li>advantages: speed, simplicity, breadth</li>
+<li>disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation</li>
+<li>basic commands:
+<ul>
+<li><code>plot()</code>, <code>lines()</code> and <code>points()</code> and <code>text()</code> (add stuff to an existing plot)</li>
+<li><code>legend()</code>, <code>axis()</code> (for decoration), <code>par()</code> (for all kinds of graphics parameters)</li>
+<li>other kinds of graphs: <code>matplot()</code> for multi-series plots, <code>boxplot()</code> for box plots, <code>hist()</code> for histograms, <code>contour()</code> and <code>image()</code>, <code>pairs</code>, …</li>
+<li><code>par(mfrow)</code>, <code>layout()</code> for multiple plots on a page</li>
+<li>useful packages: <code>car</code> (for <code>scatterplot()</code>, <code>scatterplotMatrix()</code>), <code>plotrix</code> (miscellaneous “plot tricks”)</li>
+</ul></li>
+</ul>
+<h2 id="lattice-graphics">Lattice graphics</h2>
+<ul>
+<li>alternative, higher-level graphing interface</li>
+<li><code>xyplot</code> (with <code>type=</code> one or more of [<code>&quot;p&quot;</code>, <code>&quot;l&quot;</code>, <code>&quot;r&quot;</code>,<code>&quot;smooth&quot;</code>, <code>&quot;a&quot;</code> …]), <code>bwplot</code></li>
+<li>Disadvantages: tricky to customize</li>
+<li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
+</ul>
+<h2 id="ggplot"><a href="http://ggplot2.org">ggplot</a></h2>
+<p>Grammar of graphics: create pictures based on <em>logical</em> specifications of what you want to show.</p>
+<p>The library is called ggplot2; there is no ggplot1.</p>
+<ul>
+<li><strong>data</strong>
+<ul>
+<li>You are going to want your data in “long” form (probably done with tidyr)</li>
+</ul></li>
+<li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour …)</li>
+<li><strong>geoms</strong>:
+<ul>
+<li>simple: <code>geom_point</code>, <code>geom_line</code></li>
+</ul></li>
+<li><p>Data and aesthetic mappings set up a plot, but ggplot won’t print it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">base &lt;-<span class="st"> </span><span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))</code></pre></div></li>
+<li><p>To make an actual picture, you need a <code>geom</code></p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(base +<span class="st"> </span><span class="kw">geom_point</span>())</code></pre></div>
+<p>equivalent to:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))
+    +<span class="st"> </span><span class="kw">geom_point</span>()
+)</code></pre></div>
+<ul>
+<li>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></li>
+</ul>
+<h2 id="more-on-ggplot">more on ggplot</h2>
+<ul>
+<li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
+<li><strong>facets</strong>: <code>facet_wrap</code> (free-form wrapping of subplots), <code>facet_grid</code> (two-D grid of subplots)</li>
+<li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
+<li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
+<li>disadvantages: slow, magical, tricky to customize</li>
+<li>general graphical strategy:
+<ul>
+<li>primary response as y axis</li>
+<li>an important predictor as x axis
+<ul>
+<li>most important, or most “axis-like” (many values, or continuous)</li>
+</ul></li>
+<li>other important predictors as:
+<ul>
+<li>color; shape; facets</li>
+<li>roughly in that order</li>
+</ul></li>
+<li>Adding predictors:
+<ul>
+<li>use friendly colors</li>
+<li>all of these are easier with smallish numbers of categories</li>
+<li>avoid forcing things into arbitrary categories</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="challenges">challenges:</h2>
+<ul>
+<li>more than one continuous predictor
+<ul>
+<li>use categories when necessary</li>
+<li>color ramps don’t necessary need to be categorized; use a simple, logical progression if you have more than 7 colors</li>
+</ul></li>
+<li>multivariate responses</li>
+<li>high-dimensional data generally</li>
+<li>factors with lots of (unordered) levels</li>
+<li>spatial data</li>
+<li>phylogenetic trees + tip data</li>
+<li>huge data sets (hexagonal binning, summaries)</li>
+</ul>
+<p>ggplot2 <a href="https://www.ggplot2-exts.org">extensions</a> can help</p>
+<h2 id="bits-and-pieces">Bits and pieces</h2>
+<ul>
+<li><a href="http://wiki.stdout.org/rcookbook/Graphs/">Cookbook for R: Graphs</a>, <a href="http://www.r-graph-gallery.com">R Graph Gallery</a>, <a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook</a> ($$)</li>
+<li>Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations</li>
+<li>Andrew Gelman’s blog: Infovis vs. statistical graphics</li>
+<li><a href="http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/">Paul Krugman on axes starting from zero</a></li>
+<li>Beyond 2D: <code>googleVis</code>, <code>Rggobi</code>, <code>rgl</code>, <code>Mondrian</code>, …</li>
+<li>http://accidental-art.tumblr.com/</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
