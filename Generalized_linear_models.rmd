@@ -56,7 +56,7 @@ if (!file.exists(fn)) {
 } else load(fn)
 ```       
 
-```{r gscrapepix}
+```{r gscrapepix,message=FALSE}
 d <- data.frame(n=names(gscrape),v=gscrape)
 d$n <- reorder(d$n,d$v)
 ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
@@ -79,19 +79,19 @@ ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
 
 ## Machinery
 
-- GLMs construct a "linear predictor" $x$ that (roughly) fits the data on the link scale
-- The fit does not apply the link function to the responses, but instead applies the *inverse* link function to the linear predictor
+- "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ that (roughly) fits the data on the link scale
+- Fit doesn't apply link function to the responses: instead applies *inverse* link function to the linear predictor 
     - e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
 - This is good, because the observed value of $y$ might be zero
-    - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C):
-	$\beta=\{1,1\}$. If $T=15$, counts are from a Poisson distribution with a mean of $\exp(1-5) = \exp(-4)} = `r round(exp(-4),3)`.
-- model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale
+    - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)
+	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=-4=`r round(exp(-4),3)`)$
+- model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale
 
 ## Logit/logistic function
 
 ``` {r logit-pic.R, echo=FALSE,fig.width=10}
 par(las=1,bty="l")
-par(mfrow=c(1,2))
+par(mfrow=c(1,2),oma=c(0,3,0,0),xpd=NA)
 curve(plogis(x),from=-4,to=4,xlab="x (log-odds)",ylab="logistic(x)\n(probability)")
 curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(x)")
 ```
@@ -119,7 +119,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC
 
-### Model procedures
+## Model procedures
 
 - formula similar to `lm` (but specifies relationship on linear predictor scale)
 - specify family; maybe specify link
@@ -128,39 +128,74 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
 - if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
 
-### Other things worth mentioning
+## Other things worth mentioning
 
 - ordinal data
 - complete separation
 - non-standard link functions
-- visualization (hard because of overlaps: `stat_sum`, `position="jitter"`, `geom_dotplot`
-([http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
+- visualization (hard because of overlaps: try `stat_sum`, `position="jitter"`, `geom_dotplot`,
+([beeswarm plot](http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
 
-``` {r aids_ex_1.R}
+# Example
+
+## AIDS data
+
+```{r nowecho,echo=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+Data on AIDS diagnoses from Australia (Dobson and Barnett p. 69)
+
+```{r aids_ex_1.R}
 aids <- read.csv("aids.csv")
 ## construct a useful date variable
 aids <- transform(aids, date=year+(quarter-1)/4)
-print(ggplot(aids,aes(date,cases))+
-    geom_smooth(method="glm",
-                method.args=list(family="quasipoisson"),
-                formula=y~poly(x,2))+
-    geom_smooth(method="glm",
+print(gg0 <- ggplot(aids,aes(date,cases))+geom_point())
+```
+
+## Easy GLMs with ggplot
+
+```{r ggplot1}
+print(gg1 <- gg0 +
+      geom_smooth(method="glm",
                 method.args=list(family="quasipoisson"),
                 colour="red"))
 ```
 
+## Equivalent code
+
 ```{r aids_model_1.R}
-# log is the default link, but it doesn't hurt to help yourself remember
 g1 <- glm(cases~date,aids,family=quasipoisson(link="log"))
 summary(g1)
 ```
 
-```{r diagplot}
+## Diagnostics
+
+```{r diagplot,echo=FALSE}
 op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
 plot(g1) ## ugh
 par(op)  ## restore parameter settings
+```
+
+```{r acf1}
 acf(residuals(g1)) ## check autocorrelation
 ```
+
+## ggplot: check out quadratic model
+
+```{r ggplot2}
+print(gg2 <- gg1+geom_smooth(method="glm",
+            method.args=list(family="quasipoisson"),
+            formula=y~poly(x,2)))
+```
+
+## on log scale
+
+```{r ggplot3}
+print(gg2+scale_y_log10())
+```
+
+## improved model
 
 ``` {r aids_model_2.R}
 g2 <- update(g1,.~poly(date,2))
@@ -168,9 +203,18 @@ summary(g2)
 anova(g1,g2,test="F") ## for quasi-models specifically
 ```
 
+## new diagnostics
+
 ```{r aids_test}
 op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
 plot(g2) ## ugh
 par(op)  ## restore parameter settings
+```
+
+## autocorrelation function
+
+```{r acf2}
 acf(residuals(g2)) ## check autocorrelation
 ```
+
+
