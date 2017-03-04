@@ -1,6 +1,6 @@
 ---
 title: "Data Vis example: homicide data"
-date: "18:27 27 January 2017"
+date: "18:25 04 March 2017"
 ---
 
 Load data from previous computations:
@@ -150,12 +150,6 @@ direct.label(p1L)+
 ```
 
 ```
-## Warning: Transformation introduced infinite values in continuous y-axis
-
-## Warning: Transformation introduced infinite values in continuous y-axis
-
-## Warning: Transformation introduced infinite values in continuous y-axis
+## Error in switch(geom, density = "top.bumptwice", line = {: EXPR must be a length 1 vector
 ```
-
-![plot of chunk directlabels](figure/directlabels-1.png)
 
