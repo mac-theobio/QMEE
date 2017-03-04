@@ -1,114 +1,176 @@
+---
+title: "Generalized linear models"
+---
 
-### Basics
-* definition: '''family''' + '''link function'''
+```{r pkgs,message=FALSE,echo=FALSE}
+library(ggplot2); theme_set(theme_bw())
+knitr::opts_chunk$set(echo=FALSE)
+```
 
-* family: what kind of data do I have? (from '''first principles''') (in particular, specifies the relationship between the mean and variance)
-	* binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (''logistic regression'')
-	* Poisson (independent counts, no set maximum, or far from the maximum)
-	* other (Normal, Gamma)
+# Basics
 
-* link function: on what scale are the data linear?
-	* there is typically a "canonical" answer (sensible + nice math)
-	* Poisson=log; binomial=logit
-		* ''inverse-link'': exponential; logistic (respectively)
-	* further discussion of logit scale (picture below)
-	* rules of thumb
+## Basics
 
-* GLMs construct a "linear predictor" $x$ that (roughly) fits the data on the link scale
-	* The fit does not apply the link function to the responses, but instead applies the ''inverse'' link function to the linear predictor
-	* e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
-	* This is good, because the observed value of $y$ might be zero
+- in R: `glm()`, model specification as before:
+`glm(y~f1+x1+f2+x2, data=..., ...)`
+- definition: *family* + *link function*
 
+## Family
 
-* model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale
+- family: what kind of data do I have?
+    - from **first principles**: family specifies the relationship between the mean and variance
+	- binomial: proportions, out of a total number of counts; includes binary (Bernoulli) ("logistic regression")
+	- Poisson (independent counts, no set maximum, or far from the maximum)
+	- other (Normal (`"gaussian"`), Gamma)
+- default family for `glm` is Gaussian
 
-``` {r logit-pic.R, echo=FALSE}
+## Most GLMs are logistic
+
+```{r echo=FALSE}
+sscrape <- function(string="logistic+regression") {
+    require("stringr")
+    sstring0 <- "http://scholar.google.ca/scholar?as_q=&num=10&btnG=Search+Scholar&as_epq=STRING&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=&as_ylo=&as_yhi=&as_sdt=1.&as_sdtp=on&as_sdts=5&hl=en"
+    sstring <- sub("STRING",string,sstring0)
+    rr <- suppressWarnings(readLines(url(sstring)))
+    ## rr2 <- rr[grep("[Rr]esults",rr)[1]]
+    rr2 <- rr
+    rstr <- gsub(",","",
+                 gsub("</b>.+$","",
+                      gsub("^.+[Rr]esults.+of about <b>","",rr2)))
+    rstr <- na.omit(str_extract(rr2,"About [0-9,]+ results"))
+    rnum <- as.numeric(gsub(",","",str_extract(rstr,"[0-9,]+")))
+    attr(rnum,"scrape_time") <- Sys.time()
+    return(rnum)
+}
+``` 
+
+```{r gscrapedata}
+fn <- "gscrape.RData"
+## could use a caching solution for Sweave (cacheSweave, weaver package,
+##  pgfSweave ... but they're all slightly wonky with keep.source at
+##  the moment
+if (!file.exists(fn)) {
+  gscrape <- sapply(c("generalized+linear+model",
+                      "logistic+regression","Poisson+regression","binomial+regression"),sscrape)
+  save("gscrape",file=fn)
+} else load(fn)
+```       
+
+```{r gscrapepix}
+d <- data.frame(n=names(gscrape),v=gscrape)
+d$n <- reorder(d$n,d$v)
+ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
+    xlim(0.5e4,2e6)+
+    scale_x_log10(limits=c(1e4,2e6))+
+    geom_text(aes(label=v),colour="red",vjust=2)+
+    labs(y="",x="Google Scholar hits")
+```
+
+## Link functions
+
+- on what scale are the data linear?
+- link function goes from 'data scale' (bounded) to 'effect scale' (unbounded)
+    - Poisson=log; binomial=logit
+- *inverse link* function goes from parameter scale to effect scale
+    - Poisson=exponential; binomial=logistic
+- each family has a "canonical" link (sensible + nice math)
+    - usually OK to use canonical link (except: Gamma/log)
+    - probit vs. logit link for binomial family; mostly cultural
+
+## Machinery
+
+- GLMs construct a "linear predictor" $x$ that (roughly) fits the data on the link scale
+- The fit does not apply the link function to the responses, but instead applies the *inverse* link function to the linear predictor
+    - e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
+- This is good, because the observed value of $y$ might be zero
+    - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C):
+	$\beta=\{1,1\}$. If $T=15$, counts are from a Poisson distribution with a mean of $\exp(1-5) = \exp(-4)} = `r round(exp(-4),3)`.
+- model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale
+
+## Logit/logistic function
+
+``` {r logit-pic.R, echo=FALSE,fig.width=10}
 par(las=1,bty="l")
 par(mfrow=c(1,2))
 curve(plogis(x),from=-4,to=4,xlab="x (log-odds)",ylab="logistic(x)\n(probability)")
 curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(x)")
 ```
 
-### diagnostics
+## diagnostics
 
-* a little harder than linear models: `plot` is still somewhat useful
+- a little harder than linear models: `plot` is still somewhat useful
+- binary data especially hard (e.g. `arm::binnedplot`)
+- goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type=response))`)
+- residuals are *Pearson residuals* by default ($(\textrm{obs}-\textrm{exp})/V(\textrm{exp})$); predicted values are on the effect scale (e.g. log/logit) by default (use `type="response"` to get data-scale predictions)
 
-* binary data especially hard
 
-* goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type=response))`)
+## Overdispersion
 
-* residuals are ''Pearson residuals'' by default (scaled by expected variance); predicted values are on the link scale (e.g. log/logit) by default
+- too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
+- quasi-likelihood models
+- negative binomial etc.
+- Poisson $\to$ negative binomial (`MASS::glm.nb`); binomial $\to$ beta-binomial (`glmmTMB` package)
 
-* OVERDISPERSION
-	* too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
-	* quasi-likelihood models
-	* negative binomial etc.
-	* NB=Poisson; binomial=beta-binomial
+## inference
 
-### inference
-
-* Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
-	* Approximate, can be way off if parameters have extreme values
-	* Asymptotic (finite-size correction is hard)
-
-* likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
-
-* AIC
+- Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
+	- approximate, can be way off if parameters have extreme values (*Hauck-Donner effect*, complete separation)
+	- asymptotic (finite-size correction is hard)
+- likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
+- AIC
 
 ### Model procedures
 
-* formula similar to `lm` (but specifies relationship on linear predictor scale)
-
-* specify family and link
-
-* always do Poisson, binomial regression on ''counts'', never proportions (although you can specify response as a proportion if you also give $N$ as the `weights` argument
-
-* Use offsets to address unequal sampling
-
-* always check for overdispersion ''unless'' (1) already using quasilikelihood or (2) using binary data
-
-* if you want to quote values on the original scale, confidence intervals need to be back-transformed; never back-transform standard errors alone
+- formula similar to `lm` (but specifies relationship on linear predictor scale)
+- specify family; maybe specify link
+- always do Poisson, binomial regression on *counts*, never proportions (although you can specify response as a proportion if you also give $N$ as the `weights` argument
+- Use *offsets* to address unequal sampling
+- **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
+- if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
 
 ### Other things worth mentioning
 
-* ordinal data
-* complete separation
-* non-standard link functions
-* visualization (hard because of overlaps: `stat_sum`, `position="jitter"`, `geom_dotplot`
+- ordinal data
+- complete separation
+- non-standard link functions
+- visualization (hard because of overlaps: `stat_sum`, `position="jitter"`, `geom_dotplot`
 ([http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
 
-``` {r aids_ex_1.R, echo=FALSE}
+``` {r aids_ex_1.R}
 aids <- read.csv("aids.csv")
 ## construct a useful date variable
-aids <- transform(aids,
-                  date=year+(quarter-1)/4)
-library("ggplot2")
-theme_set(theme_bw())
-qplot(date,cases,data=aids)+
-    geom_smooth(method="glm",family="quasipoisson",formula=y~poly(x,2))+
-    geom_smooth(method="glm",family="quasipoisson",colour="red")
+aids <- transform(aids, date=year+(quarter-1)/4)
+print(ggplot(aids,aes(date,cases))+
+    geom_smooth(method="glm",
+                method.args=list(family="quasipoisson"),
+                formula=y~poly(x,2))+
+    geom_smooth(method="glm",
+                method.args=list(family="quasipoisson"),
+                colour="red"))
 ```
 
-
-
-``` {r aids_model_1.R, echo=FALSE}
+```{r aids_model_1.R}
 # log is the default link, but it doesn't hurt to help yourself remember
 g1 <- glm(cases~date,aids,family=quasipoisson(link="log"))
 summary(g1)
+```
+
+```{r diagplot}
 op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
 plot(g1) ## ugh
 par(op)  ## restore parameter settings
 acf(residuals(g1)) ## check autocorrelation
 ```
 
-
-``` {r aids_model_2.R, echo=FALSE}
+``` {r aids_model_2.R}
 g2 <- update(g1,.~poly(date,2))
 summary(g2)
-anova(g1,g2,test="F")
+anova(g1,g2,test="F") ## for quasi-models specifically
+```
+
+```{r aids_test}
 op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
 plot(g2) ## ugh
 par(op)  ## restore parameter settings
 acf(residuals(g2)) ## check autocorrelation
 ```
-
