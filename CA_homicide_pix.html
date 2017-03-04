@@ -58,7 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: homicide data</h1>
-<h3 class="date">18:27 27 January 2017</h3>
+<h3 class="date">18:25 04 March 2017</h3>
 </div>
 <p>Load data from previous computations:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/CA_homicide.RData&quot;</span>)</code></pre></div>
@@ -147,15 +147,7 @@ mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(directlabels)
 <span class="kw">direct.label</span>(p1L)+
 <span class="st">  </span><span class="kw">expand_limits</span>(<span class="dt">x=</span><span class="dv">2004</span>,<span class="dt">y=</span><span class="fl">0.1</span>)</code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis
-
-## Warning: Transformation introduced infinite values in continuous y-axis
-
-## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
-<div class="figure">
-<img src="figure/directlabels-1.png" alt="plot of chunk directlabels" />
-<p class="caption">plot of chunk directlabels</p>
-</div>
+<pre><code>## Error in switch(geom, density = &quot;top.bumptwice&quot;, line = {: EXPR must be a length 1 vector</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
