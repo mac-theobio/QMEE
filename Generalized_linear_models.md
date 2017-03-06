@@ -1,7 +1,7 @@
 ---
 title: "Generalized linear models"
 author: Ben Bolker and Jonathan Dushoff
-date: "20:59 05 March 2017"
+date: "20:57 05 March 2017"
 ---
 
 
@@ -81,13 +81,14 @@ date: "20:59 05 March 2017"
 - as with linear models (change in response/change in input)
 - but on *effect* scale
     - log link: proportional for small $\beta$, changes
-	     - e.g. $\beta=1.01$ = "1% change/change in input"
-		 - $\beta=3 \to \exp(3)$
-= "20-fold change/change in input"
+	     - e.g. $\beta=0.01 \to$ "1% change/unit change in input"
+		 - $\beta=3 \to$ "$(e^3)$=20-fold change/change in input"
     - logit link: **depends on baseline prob**
 	     - low baseline prob: like log link
 		 - high baseline prob: prop. change in (1-prob)
 		 - medium prob: absolute change $\approx \beta/4$
+		 - e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
+		      - `plogis(1)=` 0.73
 
 ## inference
 
@@ -189,7 +190,7 @@ summary(g1)
 ## Number of Fisher Scoring iterations: 4
 ```
 
-## Diagnostics
+## Diagnostics (`plot(g1)`)
 
 ![plot of chunk diagplot](figure/diagplot-1.png)
 
@@ -272,17 +273,7 @@ anova(g1,g2,test="F") ## for quasi-models specifically
 
 ## new diagnostics
 
-
-```r
-op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
-plot(g2) ## ugh
-```
-
 ![plot of chunk aids_test](figure/aids_test-1.png)
-
-```r
-par(op)  ## restore parameter settings
-```
 
 ## autocorrelation function
 
