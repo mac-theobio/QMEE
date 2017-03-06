@@ -99,15 +99,15 @@
 
 <ul>
 <li>Clone this repo</li>
-<li>you need JD&#39;s <code>makestuff</code> machinery
-
-<ul>
-<li>Clone <code>https://github.com/dushoff/makestuff.git</code> into <code>$HOME/git</code> (or anywhere, as long as it matches what&#39;s in the <code>$gitroot</code> variable in <code>local.mk</code></li>
-</ul></li>
 <li>Examine standard.local</li>
 <li>Either</li>
 <li>type <code>ln standard.local local.mk</code></li>
 <li>create <code>&lt;yourname&gt;.local</code> and link that</li>
+<li>you need JD&#39;s <code>makestuff</code> machinery
+
+<ul>
+<li>Clone <code>https://github.com/dushoff/makestuff.git</code> into <code>$HOME/git</code> (or anywhere, as long as it matches what&#39;s in the <code>$gitroot</code> variable in <code>local.mk</code> (unless it&#39;s already where you want it and you have gitroot pointed there through local.mk).</li>
+</ul></li>
 <li>Type <code>make pages</code></li>
 </ul>
 
@@ -118,6 +118,7 @@
 <li><p><open> index.html shows you the local version</p></li>
 <li>From main directory</li>
 <li><code>make push_pages</code> to update the pages/ directory.</li>
+<li><code>make open_pages</code> to update the pages/ directory and open the index document</li>
 <li><code>make sync</code> to sync <em>your work</em></li>
 <li><code>make push_site</code> to update the pages/ directory and sync <em>the site</em>.</li>
 <li><p><code>make push_all</code> to update the pages/, sync the site and sync the repo..</p></li>
