@@ -61,7 +61,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Generalized linear models</h1>
 <h2 class="author">Ben Bolker and Jonathan Dushoff</h2>
-<h3 class="date">20:59 05 March 2017</h3>
+<h3 class="date">20:57 05 March 2017</h3>
 </div>
 <h1 id="basics">Basics</h1>
 <h2 id="basics-1">Basics</h2>
@@ -151,14 +151,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>log link: proportional for small <span class="math inline">\(\beta\)</span>, changes
 <ul>
-<li>e.g. <span class="math inline">\(\beta=1.01\)</span> = “1% change/change in input”</li>
-<li><span class="math inline">\(\beta=3 \to \exp(3)\)</span> = “20-fold change/change in input”</li>
+<li>e.g. <span class="math inline">\(\beta=0.01 \to\)</span> “1% change/unit change in input”</li>
+<li><span class="math inline">\(\beta=3 \to\)</span> “<span class="math inline">\((e^3)\)</span>=20-fold change/change in input”</li>
 </ul></li>
 <li>logit link: <strong>depends on baseline prob</strong>
 <ul>
 <li>low baseline prob: like log link</li>
 <li>high baseline prob: prop. change in (1-prob)</li>
 <li>medium prob: absolute change <span class="math inline">\(\approx \beta/4\)</span></li>
+<li>e.g. <span class="math inline">\(\beta_0=0\)</span>, <span class="math inline">\(\beta_1=1\)</span>; estimated <span class="math inline">\(\Delta\)</span> prob <span class="math inline">\(\approx\)</span> 0.25
+<ul>
+<li><code>plogis(1)=</code> 0.73</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -245,7 +249,7 @@ aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span
 ## AIC: NA
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<h2 id="diagnostics-1">Diagnostics</h2>
+<h2 id="diagnostics-plotg1">Diagnostics (<code>plot(g1)</code>)</h2>
 <div class="figure">
 <img src="figure/diagplot-1.png" alt="plot of chunk diagplot" />
 <p class="caption">plot of chunk diagplot</p>
@@ -306,13 +310,10 @@ aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <h2 id="new-diagnostics">new diagnostics</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">op &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) ## set 2x2 grid of plots
-<span class="kw">plot</span>(g2) ## ugh</code></pre></div>
 <div class="figure">
 <img src="figure/aids_test-1.png" alt="plot of chunk aids_test" />
 <p class="caption">plot of chunk aids_test</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(op)  ## restore parameter settings</code></pre></div>
 <h2 id="autocorrelation-function">autocorrelation function</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">acf</span>(<span class="kw">residuals</span>(g2)) ## check autocorrelation</code></pre></div>
 <div class="figure">
