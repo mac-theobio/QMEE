@@ -10,7 +10,7 @@ If you want to work on this repository, you will have to take some extra steps. 
 
 * Clone this repo
 * you need JD's `makestuff` machinery
-    * Clone https://github.com/dushoff/makestuff.git into $HOME/git (or anywhere, as long as it matches what's in the `$gitroot` variable in `local.mk`
+    * Clone `https://github.com/dushoff/makestuff.git` into `$HOME/git` (or anywhere, as long as it matches what's in the `$gitroot` variable in `local.mk`
 * Examine standard.local
 * Either
   * type `ln standard.local local.mk`
