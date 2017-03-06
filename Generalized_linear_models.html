@@ -4,6 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ben Bolker and Jonathan Dushoff" />
   <title>Generalized linear models</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -59,6 +60,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Generalized linear models</h1>
+<h2 class="author">Ben Bolker and Jonathan Dushoff</h2>
+<h3 class="date">20:55 05 March 2017</h3>
 </div>
 <h1 id="basics">Basics</h1>
 <h2 id="basics-1">Basics</h2>
@@ -89,7 +92,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Poisson=log; binomial=logit</li>
 </ul></li>
-<li><em>inverse link</em> function goes from parameter scale to effect scale
+<li><em>inverse link</em> function goes from effect scale to data scale
 <ul>
 <li>Poisson=exponential; binomial=logistic</li>
 </ul></li>
@@ -113,7 +116,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li>model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale</li>
 </ul>
-<h2 id="logitlogistic-function">Logit/logistic function</h2>
+<h2 id="logitlogistic-function">logit/logistic function</h2>
 <div class="figure">
 <img src="figure/logit-pic.R-1.png" alt="plot of chunk logit-pic.R" />
 <p class="caption">plot of chunk logit-pic.R</p>
@@ -125,19 +128,46 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=response))</code>)</li>
 <li>residuals are <em>Pearson residuals</em> by default (<span class="math inline">\((\textrm{obs}-\textrm{exp})/V(\textrm{exp})\)</span>); predicted values are on the effect scale (e.g. log/logit) by default (use <code>type=&quot;response&quot;</code> to get data-scale predictions)</li>
 </ul>
-<h2 id="overdispersion">Overdispersion</h2>
+<h2 id="overdispersion">overdispersion</h2>
 <ul>
 <li>too much variance: (residual deviance)/(residual df) should be <span class="math inline">\(\approx 1\)</span>. (If the ratio is &gt;1.2, worry a little bit; if the ratio is greater than <span class="math inline">\(\approx 3\)</span>, something else might be wrong with your model.)</li>
-<li>quasi-likelihood models</li>
+<li>quasi-likelihood models (e.g. <code>family=quasipoisson</code>); fit, then adjust CIs/p-values</li>
 <li>negative binomial etc.</li>
-<li>Poisson <span class="math inline">\(\to\)</span> negative binomial (<code>MASS::glm.nb</code>); binomial <span class="math inline">\(\to\)</span> beta-binomial (<code>glmmTMB</code> package)</li>
+<li>alternatives:
+<ul>
+<li>Poisson <span class="math inline">\(\to\)</span> negative binomial (<code>MASS::glm.nb</code>)</li>
+<li>binomial <span class="math inline">\(\to\)</span> beta-binomial (<code>glmmTMB</code> package)</li>
+</ul></li>
+<li>overdispersion <strong>not</strong> relevant for
+<ul>
+<li>binary responses</li>
+<li>families with estimated scale parameters (gaussian, Gamma, …)</li>
+</ul></li>
+</ul>
+<h2 id="parameter-interpretation">parameter interpretation</h2>
+<ul>
+<li>as with linear models (change in response/change in input)</li>
+<li>but on <em>effect</em> scale
+<ul>
+<li>log link: proportional for small <span class="math inline">\(\beta\)</span>, changes
+<ul>
+<li>e.g. <span class="math inline">\(\beta=1.01\)</span> = “1% change/change in input”</li>
+<li><span class="math inline">\(\beta=3 \to \exp(3)\)</span> = “20-fold change/change in input”</li>
+</ul></li>
+<li>logit link: <strong>depends on baseline prob</strong>
+<ul>
+<li>low baseline prob: like log link</li>
+<li>high baseline prob: prop. change in (1-prob)</li>
+<li>medium prob: absolute change <span class="math inline">\(\approx \beta/4\)</span></li>
+</ul></li>
+</ul></li>
 </ul>
 <h2 id="inference">inference</h2>
 <ul>
 <li>Wald <span class="math inline">\(Z\)</span> tests (i.e., results of <code>summary()</code>), confidence intervals
 <ul>
 <li>approximate, can be way off if parameters have extreme values (<em>Hauck-Donner effect</em>, complete separation)</li>
-<li>asymptotic (finite-size correction is hard)</li>
+<li>asymptotic (finite-size correction is hard, usually ignored)</li>
 </ul></li>
 <li>likelihood ratio tests (equivalent to <span class="math inline">\(F\)</span> tests); <code>drop1(model,test=&quot;Chisq&quot;)</code>, <code>anova(model1,model2)</code>), profile confidence intervals (<code>MASS::confint.glm</code>)</li>
 <li>AIC</li>
@@ -151,18 +181,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><strong>always check for overdispersion</strong> <em>unless</em> (1) already using quasilikelihood or (2) using binary data</li>
 <li>if you want to quote values on the original scale, confidence intervals need to be back-transformed; <em>never back-transform standard errors alone</em></li>
 </ul>
-<h2 id="other-things-worth-mentioning">Other things worth mentioning</h2>
+<h2 id="advanced-topics">Advanced topics</h2>
 <ul>
-<li>ordinal data</li>
 <li>complete separation</li>
+<li>ordinal data</li>
+<li>zero-inflation</li>
 <li>non-standard link functions</li>
 <li>visualization (hard because of overlaps: try <code>stat_sum</code>, <code>position=&quot;jitter&quot;</code>, <code>geom_dotplot</code>, (<a href="http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points%20beeswarm%20plot%5D">beeswarm plot</a>)</li>
+<li>see also: GLM extensions talk (<a href="https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd">source</a>, <a href="https://cdn.rawgit.com/bbolker/iiscvisit/master/workshops/glm_extensions.html">html</a>)</li>
+</ul>
+<h2 id="commonest-glm-problems">Common(est?) <code>glm()</code> problems</h2>
+<ul>
+<li>neglecting overdispersion</li>
+<li>binomial/Poisson models with non-integer data</li>
+<li>equating negative binomial with binomial rather than Poisson</li>
+<li>failing to specify <code>family</code> (<span class="math inline">\(\to\)</span> linear model); using <code>glm()</code> for linear models (unnecessary)</li>
+<li>predictions on effect scale</li>
+<li>using <span class="math inline">\((k,N)\)</span> rather than <span class="math inline">\((k,N-k)\)</span> in binomial models</li>
+<li>worrying about overdispersion unnecessarily (binary/Gamma)</li>
+<li>back-transforming SEs rather than CIs</li>
+<li>ignoring random effects</li>
+<li>Poisson for <em>underdispersed</em> responses</li>
 </ul>
 <h1 id="example">Example</h1>
-<h2 id="aids-data">AIDS data</h2>
-<p>Data on AIDS diagnoses from Australia (Dobson and Barnett p. 69)</p>
+<h2 id="aids-australia-dobson-barnett">AIDS (Australia: Dobson &amp; Barnett)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aids &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;aids.csv&quot;</span>)
-## construct a useful date variable
 aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span class="dt">date=</span>year+(quarter<span class="dv">-1</span>)/<span class="dv">4</span>)
 <span class="kw">print</span>(gg0 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(aids,<span class="kw">aes</span>(date,cases))+<span class="kw">geom_point</span>())</code></pre></div>
 <div class="figure">
@@ -170,10 +213,8 @@ aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span
 <p class="caption">plot of chunk aids_ex_1.R</p>
 </div>
 <h2 id="easy-glms-with-ggplot">Easy GLMs with ggplot</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg1 &lt;-<span class="st"> </span>gg0 +
-<span class="st">      </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,
-                <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>),
-                <span class="dt">colour=</span><span class="st">&quot;red&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg1 &lt;-<span class="st"> </span>gg0 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;red&quot;</span>,
+          <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>)))</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot1-1.png" alt="plot of chunk ggplot1" />
 <p class="caption">plot of chunk ggplot1</p>
@@ -215,9 +256,8 @@ aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span
 <p class="caption">plot of chunk acf1</p>
 </div>
 <h2 id="ggplot-check-out-quadratic-model">ggplot: check out quadratic model</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2 &lt;-<span class="st"> </span>gg1+<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,
-            <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>),
-            <span class="dt">formula=</span>y~<span class="kw">poly</span>(x,<span class="dv">2</span>)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2 &lt;-<span class="st"> </span>gg1+<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">formula=</span>y~<span class="kw">poly</span>(x,<span class="dv">2</span>),
+            <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>)))</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot2-1.png" alt="plot of chunk ggplot2" />
 <p class="caption">plot of chunk ggplot2</p>
