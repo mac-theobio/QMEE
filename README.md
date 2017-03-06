@@ -2,13 +2,11 @@
 
 The web site for Biology 708. The user-friendly view is [here](https://mac-theobio.github.io/QMEE/index.html).
 
-
 ##  Installing the backend
 
 You can view any of the files for the course on this web site as well as in the user-friendly view.
 
 If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away ...)
-
 
 * Clone this repo
 * you need JD's `makestuff` machinery
@@ -16,7 +14,7 @@ If you want to work on this repository, you will have to take some extra steps. 
 * Examine standard.local
 * Either
   * type `ln standard.local local.mk`
-  * create `bb.local` and link that
+  * create `<yourname>.local` and link that
 * Type `make pages`
 
 Then:
@@ -28,4 +26,5 @@ Then:
 * `make push_pages` to update the pages/ directory. 
 * `make sync` to sync _your work_
 * `make push_site` to update the pages/ directory and sync _the site_.
+* `make push_all` to update the pages/, sync the site and sync the repo..
 
