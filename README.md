@@ -9,12 +9,12 @@ You can view any of the files for the course on this web site as well as in the 
 If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away ...)
 
 * Clone this repo
-* you need JD's `makestuff` machinery
-    * Clone `https://github.com/dushoff/makestuff.git` into `$HOME/git` (or anywhere, as long as it matches what's in the `$gitroot` variable in `local.mk`
 * Examine standard.local
 * Either
   * type `ln standard.local local.mk`
   * create `<yourname>.local` and link that
+* you need JD's `makestuff` machinery
+    * Clone `https://github.com/dushoff/makestuff.git` into `$HOME/git` (or anywhere, as long as it matches what's in the `$gitroot` variable in `local.mk` (unless it's already where you want it and you have gitroot pointed there through local.mk).
 * Type `make pages`
 
 Then:
@@ -24,6 +24,7 @@ Then:
 
 * From main directory
 * `make push_pages` to update the pages/ directory. 
+* `make open_pages` to update the pages/ directory and open the index document 
 * `make sync` to sync _your work_
 * `make push_site` to update the pages/ directory and sync _the site_.
 * `make push_all` to update the pages/, sync the site and sync the repo..
