@@ -1,7 +1,7 @@
 ---
 title: "Generalized linear models"
 author: Ben Bolker and Jonathan Dushoff
-date: "20:55 05 March 2017"
+date: "20:59 05 March 2017"
 ---
 
 
