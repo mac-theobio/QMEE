@@ -1,5 +1,7 @@
 ---
 title: "Generalized linear models"
+author: Ben Bolker and Jonathan Dushoff
+date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 ---
 
 ```{r pkgs,message=FALSE,echo=FALSE}
@@ -71,7 +73,7 @@ ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
 - on what scale are the data linear?
 - link function goes from 'data scale' (bounded) to 'effect scale' (unbounded)
     - Poisson=log; binomial=logit
-- *inverse link* function goes from parameter scale to effect scale
+- *inverse link* function goes from effect scale to data scale
     - Poisson=exponential; binomial=logistic
 - each family has a "canonical" link (sensible + nice math)
     - usually OK to use canonical link (except: Gamma/log)
@@ -87,7 +89,7 @@ ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
 	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=-4=`r round(exp(-4),3)`)$
 - model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale
 
-## Logit/logistic function
+## logit/logistic function
 
 ``` {r logit-pic.R, echo=FALSE,fig.width=10}
 par(las=1,bty="l")
@@ -104,18 +106,36 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - residuals are *Pearson residuals* by default ($(\textrm{obs}-\textrm{exp})/V(\textrm{exp})$); predicted values are on the effect scale (e.g. log/logit) by default (use `type="response"` to get data-scale predictions)
 
 
-## Overdispersion
+## overdispersion
 
 - too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
-- quasi-likelihood models
+- quasi-likelihood models (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
 - negative binomial etc.
-- Poisson $\to$ negative binomial (`MASS::glm.nb`); binomial $\to$ beta-binomial (`glmmTMB` package)
+- alternatives:
+    - Poisson $\to$ negative binomial (`MASS::glm.nb`)
+	- binomial $\to$ beta-binomial (`glmmTMB` package)
+- overdispersion **not** relevant for
+    - binary responses
+	- families with estimated scale parameters (gaussian, Gamma, ...)
+
+## parameter interpretation
+
+- as with linear models (change in response/change in input)
+- but on *effect* scale
+    - log link: proportional for small $\beta$, changes
+	     - e.g. $\beta=1.01$ = "1% change/change in input"
+		 - $\beta=3 \to \exp(3)$
+= "`r round(exp(3))`-fold change/change in input"
+    - logit link: **depends on baseline prob**
+	     - low baseline prob: like log link
+		 - high baseline prob: prop. change in (1-prob)
+		 - medium prob: absolute change $\approx \beta/4$
 
 ## inference
 
 - Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
 	- approximate, can be way off if parameters have extreme values (*Hauck-Donner effect*, complete separation)
-	- asymptotic (finite-size correction is hard)
+	- asymptotic (finite-size correction is hard, usually ignored)
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC
 
@@ -128,38 +148,49 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
 - if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
 
-## Other things worth mentioning
+## Advanced topics
 
-- ordinal data
 - complete separation
+- ordinal data
+- zero-inflation
 - non-standard link functions
 - visualization (hard because of overlaps: try `stat_sum`, `position="jitter"`, `geom_dotplot`,
 ([beeswarm plot](http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
+- see also: GLM extensions talk ([source](https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd), [html](https://cdn.rawgit.com/bbolker/iiscvisit/master/workshops/glm_extensions.html))
+
+## Common(est?) `glm()` problems
+
+- neglecting overdispersion
+- binomial/Poisson models with non-integer data
+- equating negative binomial with binomial rather than Poisson
+- failing to specify `family` ($\to$ linear model);
+using `glm()` for linear models (unnecessary)
+- predictions on effect scale
+- using $(k,N)$ rather than $(k,N-k)$ in binomial models
+- worrying about overdispersion unnecessarily (binary/Gamma)
+- back-transforming SEs rather than CIs
+- ignoring random effects
+- Poisson for *underdispersed* responses
 
 # Example
 
-## AIDS data
+## AIDS (Australia: Dobson & Barnett)
 
 ```{r nowecho,echo=FALSE}
 knitr::opts_chunk$set(echo=TRUE)
 ```
 
-Data on AIDS diagnoses from Australia (Dobson and Barnett p. 69)
-
-```{r aids_ex_1.R}
+```{r aids_ex_1.R,fig.width=10,fig.height=5}
 aids <- read.csv("aids.csv")
-## construct a useful date variable
 aids <- transform(aids, date=year+(quarter-1)/4)
 print(gg0 <- ggplot(aids,aes(date,cases))+geom_point())
 ```
 
 ## Easy GLMs with ggplot
 
-```{r ggplot1}
-print(gg1 <- gg0 +
-      geom_smooth(method="glm",
-                method.args=list(family="quasipoisson"),
-                colour="red"))
+```{r ggplot1,fig.width=10,fig.height=5}
+print(gg1 <- gg0 + geom_smooth(method="glm",colour="red",
+          method.args=list(family="quasipoisson")))
 ```
 
 ## Equivalent code
@@ -183,15 +214,14 @@ acf(residuals(g1)) ## check autocorrelation
 
 ## ggplot: check out quadratic model
 
-```{r ggplot2}
-print(gg2 <- gg1+geom_smooth(method="glm",
-            method.args=list(family="quasipoisson"),
-            formula=y~poly(x,2)))
+```{r ggplot2,fig.width=10,fig.height=5}
+print(gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
+            method.args=list(family="quasipoisson")))
 ```
 
 ## on log scale
 
-```{r ggplot3}
+```{r ggplot3,fig.width=10,fig.height=5}
 print(gg2+scale_y_log10())
 ```
 
