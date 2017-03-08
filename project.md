@@ -46,7 +46,7 @@ It is OK to adapt existing text from your assignments, but both partners should 
 
 * Add your data to the project
 
-* Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R)
+* Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R) (this is in the private repo; you can use the link if you are logged in to github, or you can view it locally in the course repo).
 
 * Start cleaning, coding and analyzing!
 	* Again, it's OK to reuse stuff, but you should go over it together before moving on.
