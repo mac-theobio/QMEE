@@ -140,8 +140,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(arm)        ## for coefplot
 <span class="kw">library</span>(lattice)
 <span class="kw">library</span>(dotwhisker)</code></pre></div>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## Loading required package: gtable</code></pre>
+<pre><code>## Error in library(dotwhisker): there is no package called &#39;dotwhisker&#39;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
 bb &lt;-<span class="st"> </span>jags1$BUGSoutput  ## extract the &quot;BUGS output&quot; component
 mm &lt;-<span class="st"> </span><span class="kw">as.mcmc.bugs</span>(bb)  ## convert it to an &quot;mcmc&quot; object that coda can handle
@@ -162,10 +161,7 @@ mm &lt;-<span class="st"> </span><span class="kw">as.mcmc.bugs</span>(bb)  ## co
 <p class="caption">plot of chunk coda2.R</p>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">dwplot</span>(jags1))              ## estimate + credible interval plot</code></pre></div>
-<div class="figure">
-<img src="figure/coda2.R-4.png" alt="plot of chunk coda2.R" />
-<p class="caption">plot of chunk coda2.R</p>
-</div>
+<pre><code>## Error in print(dwplot(jags1)): could not find function &quot;dwplot&quot;</code></pre>
 <p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
 <h2 id="further-notes">Further notes</h2>
 <h3 id="categorical-variables">Categorical variables</h3>

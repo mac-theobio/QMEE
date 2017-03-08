@@ -44,11 +44,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
-<<<<<<< HEAD
   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-=======
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
->>>>>>> 789c18ea1b39a0f67d719f5799c030a07ec8f68b
 </head>
 <body>
 <header class="site-header">
@@ -93,28 +89,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Use the <code>effects</code> package:</li>
 </ul>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;effects&quot;</span>)
 <span class="kw">summary</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
 <p>You can (and should) look at graphical summaries of your results via</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
 <p>or</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;coefplot2&quot;</span>)
-<span class="kw">coefplot2</span>(lm0,<span class="dt">intercept=</span><span class="ot">TRUE</span>)</code></pre></div>
-=======
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;effects&quot;</span>)</code></pre></div>
-<pre><code>## Error in library(&quot;effects&quot;): there is no package called &#39;effects&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
-<pre><code>## Error in summary(allEffects(lm1)): could not find function &quot;allEffects&quot;</code></pre>
-<p>You can (and should) look at graphical summaries of your results via</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
-<pre><code>## Error in plot(allEffects(lm1)): could not find function &quot;allEffects&quot;</code></pre>
-<p>or</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;coefplot2&quot;</span>)</code></pre></div>
 <pre><code>## Error in library(&quot;coefplot2&quot;): there is no package called &#39;coefplot2&#39;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coefplot2</span>(lm0,<span class="dt">intercept=</span><span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;coefplot2&quot;</code></pre>
->>>>>>> 789c18ea1b39a0f67d719f5799c030a07ec8f68b
 <p>(or <code>coefplot2(lm1)</code>).</p>
 <p>When you use the <code>colonies~place-1</code> formula, the meanings of the parameters change: <span class="math inline">\(\beta_1\)</span> is the same (mean of “field”), but <span class="math inline">\(\beta_2\)</span> is ‘mean of “field”’ rather than (“(field)-(forest)”).</p>
 <p>Things get slightly more interesting/complicated when we have more than two levels of a categorical variable. I’ll look at some data on lizard perching behaviour, from the <code>brglm</code> package (and before that from McCullagh and Nelder <em>Generalized Linear Models</em> 1989, ultimately from Schoener 1970 <em>Ecology</em> <strong>51</strong>:408-418). I’m going to ignore the fact that these data might best be fitted with generalized linear models.</p>
@@ -171,11 +154,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    18.84       2.87    6.57  2.7e-06
 ## time1          -1.21       4.01   -0.30   0.7654
-<<<<<<< HEAD
 ## time2          11.93       4.15    2.87   0.0097
-=======
-## time2          11.92       4.15    2.87   0.0097
->>>>>>> 789c18ea1b39a0f67d719f5799c030a07ec8f68b
 ## light1          9.66       2.87    3.37   0.0032</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL2S &lt;-<span class="st"> </span><span class="kw">update</span>(lmTL2,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sum,<span class="dt">light=</span>contr.sum)))</code></pre></div>
 <pre><code>##              Estimate Std. Error t value Pr(&gt;|t|)
@@ -189,15 +168,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The pictures will be a pain – maybe draw by hand?</p>
 <p>Session info:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<<<<<<< HEAD
 <pre><code>## R version 3.3.1 (2016-06-21)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 16.04.2 LTS
-=======
-<pre><code>## R version 3.3.2 (2016-10-31)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.10
->>>>>>> 789c18ea1b39a0f67d719f5799c030a07ec8f68b
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_CA.UTF-8       LC_NUMERIC=C              
@@ -212,28 +185,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## [8] base     
 ## 
 ## other attached packages:
-<<<<<<< HEAD
-## [1] MASS_7.3-45       ggplot2_2.2.1     reshape2_1.4.1    coefplot2_0.1.3.2
-## [5] coda_0.18-1       effects_3.1-2    
+## [1] MASS_7.3-40    ggplot2_2.2.0  reshape2_1.4.2 effects_3.0-3 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9      knitr_1.15.1     magrittr_1.5     splines_3.3.1   
-##  [5] munsell_0.4.3    colorspace_1.2-6 lattice_0.20-33  minqa_1.2.4     
-##  [9] highr_0.6        stringr_1.1.0    plyr_1.8.3       tools_3.3.1     
+##  [1] Rcpp_0.12.8      knitr_1.15.1     magrittr_1.5     splines_3.3.1   
+##  [5] munsell_0.4.3    colorspace_1.3-2 lattice_0.20-31  minqa_1.2.4     
+##  [9] highr_0.6        stringr_1.1.0    plyr_1.8.4       tools_3.3.1     
 ## [13] nnet_7.3-12      nlme_3.1-128     gtable_0.2.0     digest_0.6.10   
-## [17] assertthat_0.1   lazyeval_0.2.0   lme4_1.1-13      tibble_1.1      
-## [21] Matrix_1.2-6     nloptr_1.0.4     evaluate_0.10    labeling_0.3    
-## [25] stringi_1.1.2    scales_0.4.1     reshape_0.8.5</code></pre>
-=======
-## [1] MASS_7.3-45    ggplot2_2.2.1  reshape2_1.4.2
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.9      digest_0.6.11    assertthat_0.1   plyr_1.8.4      
-##  [5] gtable_0.2.0     magrittr_1.5     evaluate_0.10    scales_0.4.1    
-##  [9] highr_0.6        stringi_1.1.2    lazyeval_0.2.0   labeling_0.3    
-## [13] tools_3.3.2      stringr_1.1.0    munsell_0.4.3    colorspace_1.3-2
-## [17] knitr_1.15.1     tibble_1.2</code></pre>
->>>>>>> 789c18ea1b39a0f67d719f5799c030a07ec8f68b
+## [17] lme4_1.1-7       lazyeval_0.2.0   assertthat_0.1   tibble_1.2      
+## [21] Matrix_1.2-0     nloptr_1.0.4     evaluate_0.10    labeling_0.3    
+## [25] stringi_1.1.2    scales_0.4.1</code></pre>
 <p>Other refs * http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html * <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html"><code>gmodels::fit.contrast()</code></a> (show parameter estimates based on re-fitting models with new contrasts), <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html"><code>rms::contrast.rms()</code></a> (ditto, for <code>rms</code>-based fits) * http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm * Crawley <em>Statistical Computing: An Introduction to Data Analysis using S-PLUS</em>, chapter 18</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;wwiki&quot;</span>)
 <span class="kw">options</span>(<span class="dt">MWUser=</span><span class="st">&quot;Bb&quot;</span>)
