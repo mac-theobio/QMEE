@@ -8,7 +8,7 @@ Your final project is due on Thursday 20 April at noon. You should discuss and p
 
 We have divided you into groups as follows. The star indicates the person whose data we suggest using for the project.
 
-* Pesevski, Maria*; Forsythe, Adrian
+* Pesevski, Maria*; Yang, Kai
 
 * Barker, Jordan James*; Werba, Jo Avital
 
@@ -22,7 +22,7 @@ We have divided you into groups as follows. The star indicates the person whose 
 
 * Shephard, Alex Mulligan*; Dai, Fei
 
-* Baxter, Carling Manza*; Yang, Kai
+* Baxter, Carling Manza*; Forsythe, Adrian
 
 * You, Man*; Lin, Xiao Yue
 
