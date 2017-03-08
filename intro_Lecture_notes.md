@@ -43,7 +43,7 @@ R works as a calculator.
 2+2
 2439*41
 259*3861
-2+sqrt(93)
+2+sqrt(92)
 ```
 
 What about:
