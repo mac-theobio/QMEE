@@ -60,7 +60,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Data Visualization in R</h1>
 <h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
-<h3 class="date">12:57 22 January 2017</h3>
+<h3 class="date">18:25 04 March 2017</h3>
 </div>
 <h1 id="ideas">Ideas</h1>
 <hr />
@@ -95,65 +95,36 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Disadvantages: tricky to customize</li>
 <li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
 </ul>
-<h2 id="ggplot"><a href="http://ggplot2.org">ggplot</a></h2>
-<p>Grammar of graphics: create pictures based on <em>logical</em> specifications of what you want to show.</p>
-<p>The library is called ggplot2; there is no ggplot1.</p>
+<h2 id="ggplot2"><a href="http://ggplot2.org">ggplot(2)</a></h2>
 <ul>
-<li><strong>data</strong>
-<ul>
-<li>You are going to want your data in “long” form (probably done with tidyr)</li>
-</ul></li>
+<li><strong>data</strong></li>
 <li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour …)</li>
-<li><strong>geoms</strong>:
-<ul>
+<li>first two show up as (e.g.) <code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
+<li><strong>geoms</strong>:</li>
 <li>simple: <code>geom_point</code>, <code>geom_line</code></li>
-</ul></li>
-<li><p>Data and aesthetic mappings set up a plot, but ggplot won’t print it:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">base &lt;-<span class="st"> </span><span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))</code></pre></div></li>
-<li><p>To make an actual picture, you need a <code>geom</code></p></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(base +<span class="st"> </span><span class="kw">geom_point</span>())</code></pre></div>
-<p>equivalent to:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))
-    +<span class="st"> </span><span class="kw">geom_point</span>()
-)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="kw">ggplot</span>(my_data,<span class="kw">aes</span>(<span class="dt">x=</span>age,<span class="dt">y=</span>rootgrowth,<span class="dt">colour=</span>phosphate))+<span class="kw">geom_point</span>())</code></pre></div>
 <ul>
 <li>more complex: <code>geom_boxplot</code>, <code>geom_smooth</code></li>
 </ul>
-<h2 id="more-on-ggplot">more on ggplot</h2>
+<h2 id="more-on-ggplot2">more on ggplot2</h2>
 <ul>
 <li>geoms are <strong>added</strong> to an existing data/mapping combination</li>
 <li><strong>facets</strong>: <code>facet_wrap</code> (free-form wrapping of subplots), <code>facet_grid</code> (two-D grid of subplots)</li>
 <li>also: scales, coordinate transformations, statistical summaries, position adjustments</li>
 <li>advantages: pretty defaults (mostly), flexible, easy to overlay model predictions etc.</li>
 <li>disadvantages: slow, magical, tricky to customize</li>
-<li>general graphical strategy:
+<li>general strategy for using ggplot or lattice:
 <ul>
 <li>primary response as y axis</li>
-<li>an important predictor as x axis
-<ul>
-<li>most important, or most “axis-like” (many values, or continuous)</li>
-</ul></li>
-<li>other important predictors as:
-<ul>
-<li>color; shape; facets</li>
-<li>roughly in that order</li>
-</ul></li>
-<li>Adding predictors:
-<ul>
-<li>use friendly colors</li>
-<li>all of these are easier with smallish numbers of categories</li>
-<li>avoid forcing things into arbitrary categories</li>
-</ul></li>
+<li>most important predictor as x axis (or substitute most important continuous or many-category predictor)</li>
+<li>next (categorical) predictors as groupings (preferably colour/shape) within facets</li>
+<li>next (categorical) predictors as facets</li>
 </ul></li>
 </ul>
 <h2 id="challenges">challenges:</h2>
 <ul>
-<li>more than one continuous predictor
-<ul>
-<li>use categories when necessary</li>
-<li>color ramps don’t necessary need to be categorized; use a simple, logical progression if you have more than 7 colors</li>
-</ul></li>
+<li>more than one continuous predictor (can discretize continuous predictors, but loses information)</li>
 <li>multivariate responses</li>
 <li>high-dimensional data generally</li>
 <li>factors with lots of (unordered) levels</li>
@@ -164,12 +135,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>ggplot2 <a href="https://www.ggplot2-exts.org">extensions</a> can help</p>
 <h2 id="bits-and-pieces">Bits and pieces</h2>
 <ul>
-<li><a href="http://wiki.stdout.org/rcookbook/Graphs/">Cookbook for R: Graphs</a>, <a href="http://www.r-graph-gallery.com">R Graph Gallery</a>, <a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook</a> ($$)</li>
+<li><a href="http://wiki.stdout.org/rcookbook/Graphs/">Cookbook for R: Graphs</a>, <a href="http://gallery.r-enthusiasts.com/">R Graph Gallery</a>, <a href="http://shop.oreilly.com/product/0636920023135.do">R Graphics Cookbook</a> ($$)</li>
 <li>Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations</li>
 <li>Andrew Gelman’s blog: Infovis vs. statistical graphics</li>
 <li><a href="http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/">Paul Krugman on axes starting from zero</a></li>
 <li>Beyond 2D: <code>googleVis</code>, <code>Rggobi</code>, <code>rgl</code>, <code>Mondrian</code>, …</li>
-<li>http://accidental-art.tumblr.com/</li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

@@ -4,8 +4,46 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title></title>
+  <meta name="author" content="Ben Bolker and Jonathan Dushoff" />
+  <title>Generalized linear models</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 </head>
@@ -20,78 +58,174 @@
 	</div>
 </div>
 </header>
-<h3 id="basics">Basics</h3>
+<div id="header">
+<h1 class="title">Generalized linear models</h1>
+<h2 class="author">Ben Bolker and Jonathan Dushoff</h2>
+<h3 class="date">20:57 05 March 2017</h3>
+</div>
+<h1 id="basics">Basics</h1>
+<h2 id="basics-1">Basics</h2>
 <ul>
-<li><p>definition: ‘’’family’‘’ +’‘’link function’’’</p></li>
-<li>family: what kind of data do I have? (from ‘’’first principles’’’) (in particular, specifies the relationship between the mean and variance)
-<ul>
-<li>binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (‘’logistic regression’’)</li>
-<li>Poisson (independent counts, no set maximum, or far from the maximum)</li>
-<li>other (Normal, Gamma)</li>
-</ul></li>
-<li>link function: on what scale are the data linear?
-<ul>
-<li>there is typically a “canonical” answer (sensible + nice math)</li>
-<li>Poisson=log; binomial=logit
-<ul>
-<li>‘’inverse-link’’: exponential; logistic (respectively)</li>
-</ul></li>
-<li>further discussion of logit scale (picture below)</li>
-<li>rules of thumb</li>
-</ul></li>
-<li>GLMs construct a “linear predictor” <span class="math inline">\(x\)</span> that (roughly) fits the data on the link scale
-<ul>
-<li>The fit does not apply the link function to the responses, but instead applies the ‘’inverse’’ link function to the linear predictor</li>
-<li>e.g., instead of <span class="math inline">\(\log(y) \sim x\)</span>, we analyze <span class="math inline">\(y \sim \mathrm{Poisson}(\exp(x))\)</span></li>
-<li>This is good, because the observed value of <span class="math inline">\(y\)</span> might be zero</li>
-</ul></li>
-<li><p>model setup: same as linear models (categorical, continuous) but now we are fitting on the linear predictor (link) scale</p></li>
+<li>in R: <code>glm()</code>, model specification as before: <code>glm(y~f1+x1+f2+x2, data=..., ...)</code></li>
+<li>definition: <em>family</em> + <em>link function</em></li>
 </ul>
+<h2 id="family">Family</h2>
+<ul>
+<li>family: what kind of data do I have?
+<ul>
+<li>from <strong>first principles</strong>: family specifies the relationship between the mean and variance</li>
+<li>binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (“logistic regression”)</li>
+<li>Poisson (independent counts, no set maximum, or far from the maximum)</li>
+<li>other (Normal (<code>&quot;gaussian&quot;</code>), Gamma)</li>
+</ul></li>
+<li>default family for <code>glm</code> is Gaussian</li>
+</ul>
+<h2 id="most-glms-are-logistic">Most GLMs are logistic</h2>
+<div class="figure">
+<img src="figure/gscrapepix-1.png" alt="plot of chunk gscrapepix" />
+<p class="caption">plot of chunk gscrapepix</p>
+</div>
+<h2 id="link-functions">Link functions</h2>
+<ul>
+<li>on what scale are the data linear?</li>
+<li>link function goes from ‘data scale’ (bounded) to ‘effect scale’ (unbounded)
+<ul>
+<li>Poisson=log; binomial=logit</li>
+</ul></li>
+<li><em>inverse link</em> function goes from effect scale to data scale
+<ul>
+<li>Poisson=exponential; binomial=logistic</li>
+</ul></li>
+<li>each family has a “canonical” link (sensible + nice math)
+<ul>
+<li>usually OK to use canonical link (except: Gamma/log)</li>
+<li>probit vs. logit link for binomial family; mostly cultural</li>
+</ul></li>
+</ul>
+<h2 id="machinery">Machinery</h2>
+<ul>
+<li>“linear predictor” <span class="math inline">\(\eta = \beta_0 + \beta_1 x_1 + \ldots\)</span> that (roughly) fits the data on the link scale</li>
+<li>Fit doesn’t apply link function to the responses: instead applies <em>inverse</em> link function to the linear predictor
+<ul>
+<li>e.g., instead of <span class="math inline">\(\log(y) \sim x\)</span>, we analyze <span class="math inline">\(y \sim \mathrm{Poisson}(\exp(x))\)</span></li>
+</ul></li>
+<li>This is good, because the observed value of <span class="math inline">\(y\)</span> might be zero
+<ul>
+<li>e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)</li>
+<li>with <span class="math inline">\(\beta=\{1,1\}\)</span>, <span class="math inline">\(T=15\)</span>, <span class="math inline">\(\textrm{counts} \sim \textrm{Poisson}(\lambda=-4=0.018)\)</span></li>
+</ul></li>
+<li>model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale</li>
+</ul>
+<h2 id="logitlogistic-function">logit/logistic function</h2>
 <div class="figure">
 <img src="figure/logit-pic.R-1.png" alt="plot of chunk logit-pic.R" />
 <p class="caption">plot of chunk logit-pic.R</p>
 </div>
-<h3 id="diagnostics">diagnostics</h3>
+<h2 id="diagnostics">diagnostics</h2>
 <ul>
-<li><p>a little harder than linear models: <code>plot</code> is still somewhat useful</p></li>
-<li><p>binary data especially hard</p></li>
-<li><p>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=response))</code>)</p></li>
-<li><p>residuals are ‘’Pearson residuals’’ by default (scaled by expected variance); predicted values are on the link scale (e.g. log/logit) by default</p></li>
-<li>OVERDISPERSION
+<li>a little harder than linear models: <code>plot</code> is still somewhat useful</li>
+<li>binary data especially hard (e.g. <code>arm::binnedplot</code>)</li>
+<li>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=response))</code>)</li>
+<li>residuals are <em>Pearson residuals</em> by default (<span class="math inline">\((\textrm{obs}-\textrm{exp})/V(\textrm{exp})\)</span>); predicted values are on the effect scale (e.g. log/logit) by default (use <code>type=&quot;response&quot;</code> to get data-scale predictions)</li>
+</ul>
+<h2 id="overdispersion">overdispersion</h2>
 <ul>
 <li>too much variance: (residual deviance)/(residual df) should be <span class="math inline">\(\approx 1\)</span>. (If the ratio is &gt;1.2, worry a little bit; if the ratio is greater than <span class="math inline">\(\approx 3\)</span>, something else might be wrong with your model.)</li>
-<li>quasi-likelihood models</li>
+<li>quasi-likelihood models (e.g. <code>family=quasipoisson</code>); fit, then adjust CIs/p-values</li>
 <li>negative binomial etc.</li>
-<li>NB=Poisson; binomial=beta-binomial</li>
+<li>alternatives:
+<ul>
+<li>Poisson <span class="math inline">\(\to\)</span> negative binomial (<code>MASS::glm.nb</code>)</li>
+<li>binomial <span class="math inline">\(\to\)</span> beta-binomial (<code>glmmTMB</code> package)</li>
+</ul></li>
+<li>overdispersion <strong>not</strong> relevant for
+<ul>
+<li>binary responses</li>
+<li>families with estimated scale parameters (gaussian, Gamma, …)</li>
 </ul></li>
 </ul>
-<h3 id="inference">inference</h3>
+<h2 id="parameter-interpretation">parameter interpretation</h2>
+<ul>
+<li>as with linear models (change in response/change in input)</li>
+<li>but on <em>effect</em> scale
+<ul>
+<li>log link: proportional for small <span class="math inline">\(\beta\)</span>, changes
+<ul>
+<li>e.g. <span class="math inline">\(\beta=0.01 \to\)</span> “1% change/unit change in input”</li>
+<li><span class="math inline">\(\beta=3 \to\)</span> “<span class="math inline">\((e^3)\)</span>=20-fold change/change in input”</li>
+</ul></li>
+<li>logit link: <strong>depends on baseline prob</strong>
+<ul>
+<li>low baseline prob: like log link</li>
+<li>high baseline prob: prop. change in (1-prob)</li>
+<li>medium prob: absolute change <span class="math inline">\(\approx \beta/4\)</span></li>
+<li>e.g. <span class="math inline">\(\beta_0=0\)</span>, <span class="math inline">\(\beta_1=1\)</span>; estimated <span class="math inline">\(\Delta\)</span> prob <span class="math inline">\(\approx\)</span> 0.25
+<ul>
+<li><code>plogis(1)=</code> 0.73</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="inference">inference</h2>
 <ul>
 <li>Wald <span class="math inline">\(Z\)</span> tests (i.e., results of <code>summary()</code>), confidence intervals
 <ul>
-<li>Approximate, can be way off if parameters have extreme values</li>
-<li>Asymptotic (finite-size correction is hard)</li>
+<li>approximate, can be way off if parameters have extreme values (<em>Hauck-Donner effect</em>, complete separation)</li>
+<li>asymptotic (finite-size correction is hard, usually ignored)</li>
 </ul></li>
-<li><p>likelihood ratio tests (equivalent to <span class="math inline">\(F\)</span> tests); <code>drop1(model,test=&quot;Chisq&quot;)</code>, <code>anova(model1,model2)</code>), profile confidence intervals (<code>MASS::confint.glm</code>)</p></li>
-<li><p>AIC</p></li>
+<li>likelihood ratio tests (equivalent to <span class="math inline">\(F\)</span> tests); <code>drop1(model,test=&quot;Chisq&quot;)</code>, <code>anova(model1,model2)</code>), profile confidence intervals (<code>MASS::confint.glm</code>)</li>
+<li>AIC</li>
 </ul>
-<h3 id="model-procedures">Model procedures</h3>
+<h2 id="model-procedures">Model procedures</h2>
 <ul>
-<li><p>formula similar to <code>lm</code> (but specifies relationship on linear predictor scale)</p></li>
-<li><p>specify family and link</p></li>
-<li><p>always do Poisson, binomial regression on ‘’counts’’, never proportions (although you can specify response as a proportion if you also give <span class="math inline">\(N\)</span> as the <code>weights</code> argument</p></li>
-<li><p>Use offsets to address unequal sampling</p></li>
-<li><p>always check for overdispersion ‘’unless’’ (1) already using quasilikelihood or (2) using binary data</p></li>
-<li><p>if you want to quote values on the original scale, confidence intervals need to be back-transformed; never back-transform standard errors alone</p></li>
+<li>formula similar to <code>lm</code> (but specifies relationship on linear predictor scale)</li>
+<li>specify family; maybe specify link</li>
+<li>always do Poisson, binomial regression on <em>counts</em>, never proportions (although you can specify response as a proportion if you also give <span class="math inline">\(N\)</span> as the <code>weights</code> argument</li>
+<li>Use <em>offsets</em> to address unequal sampling</li>
+<li><strong>always check for overdispersion</strong> <em>unless</em> (1) already using quasilikelihood or (2) using binary data</li>
+<li>if you want to quote values on the original scale, confidence intervals need to be back-transformed; <em>never back-transform standard errors alone</em></li>
 </ul>
-<h3 id="other-things-worth-mentioning">Other things worth mentioning</h3>
+<h2 id="advanced-topics">Advanced topics</h2>
 <ul>
-<li>ordinal data</li>
 <li>complete separation</li>
+<li>ordinal data</li>
+<li>zero-inflation</li>
 <li>non-standard link functions</li>
-<li>visualization (hard because of overlaps: <code>stat_sum</code>, <code>position=&quot;jitter&quot;</code>, <code>geom_dotplot</code> ([http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))</li>
+<li>visualization (hard because of overlaps: try <code>stat_sum</code>, <code>position=&quot;jitter&quot;</code>, <code>geom_dotplot</code>, (<a href="http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points%20beeswarm%20plot%5D">beeswarm plot</a>)</li>
+<li>see also: GLM extensions talk (<a href="https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd">source</a>, <a href="https://cdn.rawgit.com/bbolker/iiscvisit/master/workshops/glm_extensions.html">html</a>)</li>
 </ul>
-<pre><code>## Error: Unknown parameters: family</code></pre>
+<h2 id="commonest-glm-problems">Common(est?) <code>glm()</code> problems</h2>
+<ul>
+<li>neglecting overdispersion</li>
+<li>binomial/Poisson models with non-integer data</li>
+<li>equating negative binomial with binomial rather than Poisson</li>
+<li>failing to specify <code>family</code> (<span class="math inline">\(\to\)</span> linear model); using <code>glm()</code> for linear models (unnecessary)</li>
+<li>predictions on effect scale</li>
+<li>using <span class="math inline">\((k,N)\)</span> rather than <span class="math inline">\((k,N-k)\)</span> in binomial models</li>
+<li>worrying about overdispersion unnecessarily (binary/Gamma)</li>
+<li>back-transforming SEs rather than CIs</li>
+<li>ignoring random effects</li>
+<li>Poisson for <em>underdispersed</em> responses</li>
+</ul>
+<h1 id="example">Example</h1>
+<h2 id="aids-australia-dobson-barnett">AIDS (Australia: Dobson &amp; Barnett)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aids &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;aids.csv&quot;</span>)
+aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span class="dt">date=</span>year+(quarter<span class="dv">-1</span>)/<span class="dv">4</span>)
+<span class="kw">print</span>(gg0 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(aids,<span class="kw">aes</span>(date,cases))+<span class="kw">geom_point</span>())</code></pre></div>
+<div class="figure">
+<img src="figure/aids_ex_1.R-1.png" alt="plot of chunk aids_ex_1.R" />
+<p class="caption">plot of chunk aids_ex_1.R</p>
+</div>
+<h2 id="easy-glms-with-ggplot">Easy GLMs with ggplot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg1 &lt;-<span class="st"> </span>gg0 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;red&quot;</span>,
+          <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>)))</code></pre></div>
+<div class="figure">
+<img src="figure/ggplot1-1.png" alt="plot of chunk ggplot1" />
+<p class="caption">plot of chunk ggplot1</p>
+</div>
+<h2 id="equivalent-code">Equivalent code</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g1 &lt;-<span class="st"> </span><span class="kw">glm</span>(cases~date,aids,<span class="dt">family=</span><span class="kw">quasipoisson</span>(<span class="dt">link=</span><span class="st">&quot;log&quot;</span>))
+<span class="kw">summary</span>(g1)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = cases ~ date, family = quasipoisson(link = &quot;log&quot;), 
@@ -115,7 +249,32 @@
 ## AIC: NA
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p><img src="figure/aids_model_1.R-1.png" alt="plot of chunk aids_model_1.R" /><img src="figure/aids_model_1.R-2.png" alt="plot of chunk aids_model_1.R" /></p>
+<h2 id="diagnostics-plotg1">Diagnostics (<code>plot(g1)</code>)</h2>
+<div class="figure">
+<img src="figure/diagplot-1.png" alt="plot of chunk diagplot" />
+<p class="caption">plot of chunk diagplot</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">acf</span>(<span class="kw">residuals</span>(g1)) ## check autocorrelation</code></pre></div>
+<div class="figure">
+<img src="figure/acf1-1.png" alt="plot of chunk acf1" />
+<p class="caption">plot of chunk acf1</p>
+</div>
+<h2 id="ggplot-check-out-quadratic-model">ggplot: check out quadratic model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2 &lt;-<span class="st"> </span>gg1+<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">formula=</span>y~<span class="kw">poly</span>(x,<span class="dv">2</span>),
+            <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>)))</code></pre></div>
+<div class="figure">
+<img src="figure/ggplot2-1.png" alt="plot of chunk ggplot2" />
+<p class="caption">plot of chunk ggplot2</p>
+</div>
+<h2 id="on-log-scale">on log scale</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2+<span class="kw">scale_y_log10</span>())</code></pre></div>
+<div class="figure">
+<img src="figure/ggplot3-1.png" alt="plot of chunk ggplot3" />
+<p class="caption">plot of chunk ggplot3</p>
+</div>
+<h2 id="improved-model">improved model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g2 &lt;-<span class="st"> </span><span class="kw">update</span>(g1,.~<span class="kw">poly</span>(date,<span class="dv">2</span>))
+<span class="kw">summary</span>(g2)</code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = cases ~ poly(date, 2), family = quasipoisson(link = &quot;log&quot;), 
@@ -140,6 +299,7 @@
 ## AIC: NA
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(g1,g2,<span class="dt">test=</span><span class="st">&quot;F&quot;</span>) ## for quasi-models specifically</code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
 ## Model 1: cases ~ date
@@ -149,7 +309,17 @@
 ## 2        17     31.992  1   21.028 12.688 0.002399 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p><img src="figure/aids_model_2.R-1.png" alt="plot of chunk aids_model_2.R" /><img src="figure/aids_model_2.R-2.png" alt="plot of chunk aids_model_2.R" /></p>
+<h2 id="new-diagnostics">new diagnostics</h2>
+<div class="figure">
+<img src="figure/aids_test-1.png" alt="plot of chunk aids_test" />
+<p class="caption">plot of chunk aids_test</p>
+</div>
+<h2 id="autocorrelation-function">autocorrelation function</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">acf</span>(<span class="kw">residuals</span>(g2)) ## check autocorrelation</code></pre></div>
+<div class="figure">
+<img src="figure/acf2-1.png" alt="plot of chunk acf2" />
+<p class="caption">plot of chunk acf2</p>
+</div>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
