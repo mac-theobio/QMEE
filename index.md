@@ -4,6 +4,8 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Current
 
+* [Final project](project.html)
+
 ## Course information
 
 * The course meets in LSB-130A:
