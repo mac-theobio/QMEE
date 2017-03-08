@@ -62,7 +62,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <td>title: “Reshaping data with <code>tidyr</code>”</td>
 </tr>
 <tr class="even">
-<td>date: “10:31 13 February 2017”</td>
+<td>date: “18:25 04 March 2017”</td>
 </tr>
 <tr class="odd">
 <td>author: Ben Bolker</td>
@@ -70,27 +70,26 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tbody>
 </table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyr)</code></pre></div>
-<pre><code>## Error in library(tidyr): there is no package called &#39;tidyr&#39;</code></pre>
 <p>Look at some example data that comes with the package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">smiths</code></pre></div>
 <pre><code>## Error in eval(expr, envir, enclos): object &#39;smiths&#39; not found</code></pre>
 <p>The default <code>gather()</code> operation squashes everything too far, including the subject name and time in the value column …</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gather</span>(smiths)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;gather&quot;</code></pre>
+<pre><code>## Error in is.data.frame(x): object &#39;smiths&#39; not found</code></pre>
 <p>We can specify that we only want to gather the <code>age</code> and <code>weight</code> variables (however, we have to specify the name of key and value columns explicitly).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(smelt &lt;-<span class="st"> </span><span class="kw">gather</span>(smiths, <span class="dt">key=</span><span class="st">&quot;var&quot;</span>, <span class="dt">value=</span><span class="st">&quot;value&quot;</span>,
        <span class="kw">c</span>(age,weight)))</code></pre></div>
-<pre><code>## Error in print(smelt &lt;- gather(smiths, key = &quot;var&quot;, value = &quot;value&quot;, c(age, : could not find function &quot;gather&quot;</code></pre>
+<pre><code>## Error in is.data.frame(x): object &#39;smiths&#39; not found</code></pre>
 <p>Alternatively we could specify that we want to gather everything <em>but</em> the subject name and time variable:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">gather</span>(smiths, <span class="dt">key=</span><span class="st">&quot;var&quot;</span>, <span class="dt">value=</span><span class="st">&quot;value&quot;</span>,
        -<span class="kw">c</span>(subject,time))</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;gather&quot;</code></pre>
+<pre><code>## Error in is.data.frame(x): object &#39;smiths&#39; not found</code></pre>
 <p>Make a column for each subject (= a row for each measurement)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(smelt, <span class="dt">key=</span>subject, value)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;spread&quot;</code></pre>
+<pre><code>## Error in match(x, table, nomatch = 0L): object &#39;smelt&#39; not found</code></pre>
 <p>Make a column for each value (= a row for each person):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">spread</span>(smelt, <span class="dt">key=</span>var, value)</code></pre></div>
-<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;spread&quot;</code></pre>
+<pre><code>## Error in match(x, table, nomatch = 0L): object &#39;smelt&#39; not found</code></pre>
 <p>Take the mean for each variable:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 smelt %&gt;%<span class="st"> </span><span class="kw">group_by</span>(var) %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(value))</code></pre></div>
