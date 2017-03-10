@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h1 id="intro">Intro</h1>
+<p>Mixed models are models which combine “random” and “fixed” effects.</p>
+<ul>
+<li>Fixed effects are effects whose parameters we wish to estimate
+<ul>
+<li>The slope of a phosphorous response</li>
+<li>The difference in shield thickness between males and females</li>
+</ul></li>
+<li>Random effects are effects that we wish to account for without estimating individually
+<ul>
+<li>Neuron identity</li>
+<li>Village of residence</li>
+</ul></li>
+</ul>
+<p>Here, we will talk about the “modern” approach to mixed models, which involves explicitly estimating “random” parameters and their variances (see below). This is computationally more difficult, but more flexible and conceptually more unified than, the <a href="Mixed_models_Classic_approach.html">classic ANOVA approach</a> to mixed models.</p>
+<h2 id="example">Example</h2>
+<p>Testing the effects of acid rain on spruce tree growth.</p>
+<p>We have a complex manipulation (what kind of air the trees are exposed to). As a result:</p>
+<ul>
+<li>We have a small number of trees</li>
+<li><p>We take a lot of samples from each tree</p></li>
+<li>“Treatment” is a fixed effect
+<ul>
+<li>We want to estimate the difference in growth with clean air and dirty air</li>
+</ul></li>
+<li>“Tree” is a random effect
+<ul>
+<li>We want to know what about the <em>distribution</em> of tree effects (so we can control for it); we are not specifically interested in the difference in growth between tree 3 and tree 7</li>
+</ul></li>
+</ul>
+<h1 id="random-effects">Random effects</h1>
+<p>Random effects are typically based on unordered factors</p>
+<ul>
+<li>the levels of the factor are conceptualized as random samples from a larger population</li>
+<li>the effect of each level is therefore a random variable</li>
+<li>the essential parameters we estimate are not the effect of each level, but the mean and variance of the <em>distribution</em>.</li>
+</ul>
+<h2 id="is-this-a-random-effect">Is this a random effect?</h2>
+<p>Basically, treating something as a random effect means treating the levels as interchangeable from the point of view of your scientific hypothesis.</p>
+<p>There is sometimes controversy about when it is appropriate to model a predictor using random effects. Here are some criteria:</p>
+<p><strong>philosophical</strong> questions</p>
+<ul>
+<li>are the levels chosen from a larger population?</li>
+<li>are the levels chosen randomly?</li>
+<li>are the levels a non-exhaustive sample of possible levels?</li>
+<li>do you want to be able to make predictions about new (unobserved) levels?</li>
+<li>are you uninterested in testing hypotheses about specific levels, or</li>
+<li>are you more interested in the distribution of levels/variability among levels?</li>
+</ul>
+<p><strong>inference</strong> The choice to make something a random effect often has more effect on your inferences about <em>other</em> variables than on your inferences about the focal variable</p>
+<ul>
+<li>Inferring using a fixed effect means we are inferring across the group we have measured</li>
+<li>Inferring using a random effect means we are inferring across a <em>population represented by</em> the group we have measured</li>
+</ul>
+<p><strong>practical</strong> questions</p>
+<ul>
+<li>have you measured a sufficient number of levels to estimate a variance (&gt;5, preferably &gt;10)?
+<ul>
+<li>if not, you may need to use “old-fashioned” methods</li>
+</ul></li>
+<li>do you have small or variable amounts of information available per level, but many levels?</li>
+<li>do you want to estimate the parameters with <em>shrinkage</em>?</li>
+</ul>
+<h3 id="example-flu-years">Example: flu years</h3>
+<h1 id="fitting">Fitting</h1>
+<p>Modern mixed-model packages (see below) can fit a wide variety of models. You just need to specify which effects are random</p>
+<ul>
+<li>Works with unbalanced designs</li>
+<li>Sometimes with crossed random effects</li>
+<li>The model cannot be too complicated for the amount of data (in particular, the number of levels)</li>
+</ul>
+<h2 id="too-few-levels">Too few levels</h2>
+<p>If you have something that should be a random-effect predictor, but you don’t have enough levels, you can’t fit a mixed model</p>
+<p>It’s OK to treat your random effect as a fixed effect, as long as this is properly reflected in your scientific conclusions.</p>
+<ul>
+<li>The scope of your analysis covers only the sampled levels, not the population they were sampled from</li>
+</ul>
+<h2 id="r-side-effects">R-side effects</h2>
+<p>Some effects can be modeled effectively with MMMs (modern mixed models) on the “residual (R) side”.</p>
+<p>These effects are used to explain the residuals from the main model:</p>
+<ul>
+<li>Heteroscedasticity, spatial correlations, temporal correlations</li>
+</ul>
+<h1 id="how-it-works">How it works</h1>
+<p>Typically based on <em>marginal likelihood</em>: probability of drawing Balance (dispersion of RE around 0) with (dispersion of data conditional on RE)</p>
+<p><strong>Shrinkage</strong>: estimated values get ``shrunk’’ toward the overall mean, especially in small-sample/extreme units</p>
+<p>How do we do it?</p>
+<p>Different for linear mixed models (LMMs: normally distributed response) and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)</p>
+<ul>
+<li>LMMs: REML vs ML
+<ul>
+<li>analogy: n-1 in estimation of variance</li>
+<li>analogy: paired t-test</li>
+<li>what do I do when I have more than 2 treatment levels per block?</li>
+</ul></li>
+<li>GLMMs: PQL, Laplace, Gauss-Hermite</li>
+<li>Bayesian approach: put a combined prior on the parameters</li>
+</ul>
+<h2 id="practical-details-in-r">Practical details in R</h2>
+<ul>
+<li>aov + Error() term: classical designs</li>
+<li>lme (nlme package): older, better documented, more stable, does R-side models, complex variance structures, gives denominator df/p values</li>
+<li>(g)lmer (lme4 package): newer, faster, does crossed random effects, GLMMs</li>
+<li>many other special-purpose packages</li>
+</ul>
+<p><a href="Mixed_models_examples.html">examples</a></p>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

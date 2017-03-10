@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title>Additional topics</title>
+  <title></title>
   <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
 </head>
@@ -19,22 +19,18 @@
 	</div>
 </div>
 </header>
-<div id="header">
-<h1 class="title">Additional topics</h1>
-</div>
-<p><em>We will probably choose ~4 of these, based on student requests</em></p>
+<p>The classic approach to mixed models involves fitting regular linear models, but interpreting the “sums of squares” differently.</p>
 <ul>
-<li><a href="Generalized_linear_models" title="wikilink">Generalized linear models</a></li>
-<li><a href="Mixed_models" title="wikilink">Mixed models</a></li>
-<li><a href="Penalized_approaches" title="wikilink">Penalized approaches</a></li>
-<li>[Imputing missing data]</li>
-<li><a href="Phylogenies" class="uri" title="wikilink">Phylogenies</a></li>
-<li><a href="Model_diagnostics" title="wikilink">Model diagnostics</a></li>
-<li><a href="Evolutionary_analysis" title="wikilink">Evolutionary analysis</a></li>
-<li><a href="Linear_model_parameters" title="wikilink">Linear model parameters</a></li>
-<li><a href="Information-theoretic_approaches" title="wikilink">Information-theoretic approaches</a></li>
-<li><a href="Transcriptomes" class="uri" title="wikilink">Transcriptomes</a></li>
-<li><a href="Metagenomics" class="uri" title="wikilink">Metagenomics</a></li>
+<li>Decompose sums of squares</li>
+<li>Decide which error terms to put in the denominator, which in the numerator, how many degrees of freedom</li>
+<li>For simplest cases (e.g. one-way ANOVA), the answer is the same either way</li>
+<li>Bestiary of experimental designs: nested, randomized block, split-plot (Gotelli and Ellison, Quinn and Keough)</li>
+<li>For simple nested designs, you often can (and should) simplify your model by simply <em>aggregating</em> at the bottom level (Murtaugh 2007)
+<ul>
+<li>… doesn’t work for randomized block and other more complicated designs</li>
+</ul></li>
+<li>works (although perhaps with very low power) for any sample size</li>
+<li>gives negative variance estimates in some situations (e.g. population genetics)</li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
