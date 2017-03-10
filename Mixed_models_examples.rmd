@@ -1,0 +1,60 @@
+[http://zoonek2.free.fr/UNIX/48_R/14.html Examples from Vincent Zoonekynd]
+
+Formulae:
+<pre>
+y ~ x                       No random effects
+y ~ x + (1|g)               The intercept is a random effect
+y ~ x + (1|site/block)      Nested random effects (block within site)
+y ~ x + (1|site) + (1|year) Crossed random effects
+y ~ x + (1|site:block)      Interaction (only block within site)
+y ~ x + (x|g)               Intercept and slope are random effects
+y ~ (x|g)                   Zero slope on average (weird!)
+y ~ x + (1|g)+(0+x|g)       Independent slope and intercept
+</pre>
+
+``` {r mmex1.R, echo=FALSE}
+library(lme4)
+library(ggplot2)
+data(sleepstudy)
+theme_update(theme_bw())
+q0 <- qplot(Days, Reaction, colour = Subject,
+       data = sleepstudy,
+       geom="line")
+print(q0)
+q1 <- qplot(Days, Reaction, colour = Subject,
+       data = sleepstudy,
+       geom="point")
+```
+
+
+
+``` {r mmex2.R, echo=FALSE}
+library(nlme)
+lm1 <- lmList(Reaction~Days|Subject,data=sleepstudy)
+lm2 <- lme(Reaction~Days,random=~1|Subject,data=sleepstudy)
+lm3 <- lme(Reaction~Days,random=~Days|Subject,data=sleepstudy)
+## predictions
+pp <- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
+pp1 <- cbind(pp,Reaction=predict(lm1,newdata=pp))
+pp2 <- cbind(pp,Reaction=predict(lm2,newdata=pp))
+pp3 <- cbind(pp,Reaction=predict(lm3,newdata=pp))
+summary(lm3)
+```
+
+
+
+``` {r mmex3.R, echo=FALSE}
+library(ggplot2)
+theme_update(theme_bw())
+print(q1+geom_line(data=pp2))
+q1+geom_line(data=pp3)
+q1+geom_line(data=pp1,lty=2)+geom_line(data=pp3)
+```
+
+
+
+``` {r mmex4.R, echo=FALSE}
+library(lme4)
+lm4 <- lmer(Reaction~Days+(Days|Subject),data=sleepstudy)
+summary(lm4)
+```
