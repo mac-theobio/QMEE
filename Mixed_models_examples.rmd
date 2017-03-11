@@ -1,40 +1,53 @@
+---
+title: "Mixed model examples"
+---
 
-[http://zoonek2.free.fr/UNIX/48_R/14.html Examples from Vincent Zoonekynd]
+## Examples
 
-Formulae:
-<pre>
-y ~ x                       No random effects
-y ~ x + (1|g)               The intercept is a random effect
+- Most examples here taken from [Vincent Zoonekynd's page](http://zoonek2.free.fr/UNIX/48_R/14.html)
+- See also [supplementary material from Bolker book chapter](http://bbolker.github.io/mixedmodels-misc/ecostats_chap.html) (source code [here](https://github.com/bbolker/mixedmodels-misc/blob/master/ecostats_chap.rmd))
+
+## Formulae
+
+Formula  |                  Meaning
+-------------------------|------------------------------------
+y ~ x                    |     No random effects
+y ~ x + (1|g)            |   The intercept is a random effect
+
+```
 y ~ x + (1|site/block)      Nested random effects (block within site)
 y ~ x + (1|site) + (1|year) Crossed random effects
 y ~ x + (1|site:block)      Interaction (only block within site)
 y ~ x + (x|g)               Intercept and slope are random effects
 y ~ (x|g)                   Zero slope on average (weird!)
 y ~ x + (1|g)+(0+x|g)       Independent slope and intercept
-</pre>
-
-``` {r mmex1.R, echo=FALSE}
-library(lme4)
-library(ggplot2)
-data(sleepstudy)
-theme_update(theme_bw())
-q0 <- qplot(Days, Reaction, colour = Subject,
-       data = sleepstudy,
-       geom="line")
-print(q0)
-q1 <- qplot(Days, Reaction, colour = Subject,
-       data = sleepstudy,
-       geom="point")
 ```
 
+## Basic look at the data
 
+- Sometimes called a *spaghetti plot*
+- Alternative: use `+facet_wrap(~Subject)`
 
-``` {r mmex2.R, echo=FALSE}
+```{r mmex1}
+library(lme4)
+library(ggplot2); theme_set(theme_bw())
+q0 <- (ggplot(sleepstudy, aes(Days, Reaction, colour = Subject))
+    + geom_point())  ## points only, use later
+print(q0+geom_line())
+```
+
+## Basic model fits
+
+``` {r mmex2,message=FALSE}
 library(nlme)
-lm1 <- lmList(Reaction~Days|Subject,data=sleepstudy)
-lm2 <- lme(Reaction~Days,random=~1|Subject,data=sleepstudy)
-lm3 <- lme(Reaction~Days,random=~Days|Subject,data=sleepstudy)
-## predictions
+lm1 <- lmList(Reaction~Days|Subject,data=sleepstudy) ## per-group fit (fixed)
+lm2 <- lme(Reaction~Days,random=~1|Subject,data=sleepstudy) ## rand intercept
+lm3 <- lme(Reaction~Days,random=~Days|Subject,data=sleepstudy) ## rand slopes
+```
+
+## Compute predictions
+
+```{r preds}
 pp <- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
 pp1 <- cbind(pp,Reaction=predict(lm1,newdata=pp))
 pp2 <- cbind(pp,Reaction=predict(lm2,newdata=pp))
@@ -42,19 +55,18 @@ pp3 <- cbind(pp,Reaction=predict(lm3,newdata=pp))
 summary(lm3)
 ```
 
+## plot predictions
 
-
-``` {r mmex3.R, echo=FALSE}
-library(ggplot2)
-theme_update(theme_bw())
-print(q1+geom_line(data=pp2))
-q1+geom_line(data=pp3)
-q1+geom_line(data=pp1,lty=2)+geom_line(data=pp3)
+``` {r mmex3, echo=FALSE}
+print(q0
+      + geom_line(data=pp2)
+      + geom_line(data=pp3)
+      + geom_line(data=pp1,lty=2))
 ```
 
+## the same thing with lme4::lmer
 
-
-``` {r mmex4.R, echo=FALSE}
+``` {r mmex4, echo=FALSE}
 library(lme4)
 lm4 <- lmer(Reaction~Days+(Days|Subject),data=sleepstudy)
 summary(lm4)
