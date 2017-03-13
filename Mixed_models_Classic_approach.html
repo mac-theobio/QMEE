@@ -25,12 +25,18 @@
 <li>Decide which error terms to put in the denominator, which in the numerator, how many degrees of freedom</li>
 <li>For simplest cases (e.g. one-way ANOVA), the answer is the same either way</li>
 <li>Bestiary of experimental designs: nested, randomized block, split-plot (Gotelli and Ellison, Quinn and Keough)</li>
+<li>Classic approaches will <em>not</em> work well if you have
+<ul>
+<li>strongly unbalanced designs</li>
+<li>responses that you’d rather treat with a GLM(M) (e.g., binary responses)</li>
+</ul></li>
 <li>For simple nested designs, you often can (and should) simplify your model by simply <em>aggregating</em> at the bottom level (Murtaugh 2007)
 <ul>
 <li>… doesn’t work for randomized block and other more complicated designs</li>
+<li>works easily if perfectly balanced (equal samples per group); if not, have to deal with <em>weighting</em> according to sample size</li>
 </ul></li>
 <li>works (although perhaps with very low power) for any sample size</li>
-<li>gives negative variance estimates in some situations (e.g. population genetics)</li>
+<li>sometimes gives negative variance estimates in complex situations (e.g. population genetics)</li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

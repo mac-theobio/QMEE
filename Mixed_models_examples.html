@@ -4,8 +4,45 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title></title>
+  <title>Mixed model examples</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
 </head>
 <body>
@@ -19,25 +56,70 @@
 	</div>
 </div>
 </header>
-<p>[http://zoonek2.free.fr/UNIX/48_R/14.html Examples from Vincent Zoonekynd]</p>
-Formulae:
-<pre>y ~ x                       No random effectsy ~ x + (1|g)               The intercept is a random effecty ~ x + (1|site/block)      Nested random effects (block within site)y ~ x + (1|site) + (1|year) Crossed random effectsy ~ x + (1|site:block)      Interaction (only block within site)y ~ x + (x|g)               Intercept and slope are random effectsy ~ (x|g)                   Zero slope on average (weird!)y ~ x + (1|g)+(0+x|g)       Independent slope and intercept</pre>
+<div id="header">
+<h1 class="title">Mixed model examples</h1>
+</div>
+<h2 id="examples">Examples</h2>
+<ul>
+<li>Most examples here taken from <a href="http://zoonek2.free.fr/UNIX/48_R/14.html">Vincent Zoonekynd’s page</a></li>
+<li>See also <a href="http://bbolker.github.io/mixedmodels-misc/ecostats_chap.html">supplementary material from Bolker book chapter</a> (source code <a href="https://github.com/bbolker/mixedmodels-misc/blob/master/ecostats_chap.rmd">here</a>)</li>
+</ul>
+<h2 id="formulae">Formulae</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>y ~ x</td>
+<td>No random effects</td>
+</tr>
+<tr class="even">
+<td>y ~ x + (1</td>
+<td>g)</td>
+</tr>
+</tbody>
+</table>
+<pre><code>y ~ x + (1|site/block)      Nested random effects (block within site)
+y ~ x + (1|site) + (1|year) Crossed random effects
+y ~ x + (1|site:block)      Interaction (only block within site)
+y ~ x + (x|g)               Intercept and slope are random effects
+y ~ (x|g)                   Zero slope on average (weird!)
+y ~ x + (1|g)+(0+x|g)       Independent slope and intercept</code></pre>
+<h2 id="basic-look-at-the-data">Basic look at the data</h2>
+<ul>
+<li>Sometimes called a <em>spaghetti plot</em></li>
+<li>Alternative: use <code>+facet_wrap(~Subject)</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lme4)</code></pre></div>
 <pre><code>## Loading required package: Matrix</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;lme4&#39;</code></pre>
 <pre><code>## The following object is masked from &#39;package:stats&#39;:
 ## 
 ##     sigma</code></pre>
-<pre><code>## Error in (function (el, elname) : Element line must be a element_line object.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
+q0 &lt;-<span class="st"> </span>(<span class="kw">ggplot</span>(sleepstudy, <span class="kw">aes</span>(Days, Reaction, <span class="dt">colour =</span> Subject))
+    +<span class="st"> </span><span class="kw">geom_point</span>())  ## points only, use later
+<span class="kw">print</span>(q0+<span class="kw">geom_line</span>())</code></pre></div>
 <div class="figure">
-<img src="figure/mmex1.R-1.png" alt="plot of chunk mmex1.R" />
-<p class="caption">plot of chunk mmex1.R</p>
+<img src="figure/mmex1-1.png" alt="plot of chunk mmex1" />
+<p class="caption">plot of chunk mmex1</p>
 </div>
-<pre><code>## 
-## Attaching package: &#39;nlme&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:lme4&#39;:
-## 
-##     lmList</code></pre>
+<h2 id="basic-model-fits">Basic model fits</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nlme)
+lm1 &lt;-<span class="st"> </span><span class="kw">lmList</span>(Reaction~Days|Subject,<span class="dt">data=</span>sleepstudy) ## per-group fit (fixed)
+lm2 &lt;-<span class="st"> </span><span class="kw">lme</span>(Reaction~Days,<span class="dt">random=</span>~<span class="dv">1</span>|Subject,<span class="dt">data=</span>sleepstudy) ## rand intercept
+lm3 &lt;-<span class="st"> </span><span class="kw">lme</span>(Reaction~Days,<span class="dt">random=</span>~Days|Subject,<span class="dt">data=</span>sleepstudy) ## rand slopes</code></pre></div>
+<h2 id="compute-predictions">Compute predictions</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pp &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">Days=</span><span class="dv">0</span>:<span class="dv">9</span>,<span class="dt">Subject=</span><span class="kw">levels</span>(sleepstudy$Subject))
+pp1 &lt;-<span class="st"> </span><span class="kw">cbind</span>(pp,<span class="dt">Reaction=</span><span class="kw">predict</span>(lm1,<span class="dt">newdata=</span>pp))
+pp2 &lt;-<span class="st"> </span><span class="kw">cbind</span>(pp,<span class="dt">Reaction=</span><span class="kw">predict</span>(lm2,<span class="dt">newdata=</span>pp))
+pp3 &lt;-<span class="st"> </span><span class="kw">cbind</span>(pp,<span class="dt">Reaction=</span><span class="kw">predict</span>(lm3,<span class="dt">newdata=</span>pp))
+<span class="kw">summary</span>(lm3)</code></pre></div>
 <pre><code>## Linear mixed-effects model fit by REML
 ##  Data: sleepstudy 
 ##        AIC      BIC    logLik
@@ -65,8 +147,12 @@ Formulae:
 ## 
 ## Number of Observations: 180
 ## Number of Groups: 18</code></pre>
-<pre><code>## Error in (function (el, elname) : Element line must be a element_line object.</code></pre>
-<p><img src="figure/mmex3.R-1.png" alt="plot of chunk mmex3.R" /><img src="figure/mmex3.R-2.png" alt="plot of chunk mmex3.R" /><img src="figure/mmex3.R-3.png" alt="plot of chunk mmex3.R" /></p>
+<h2 id="plot-predictions">plot predictions</h2>
+<div class="figure">
+<img src="figure/mmex3-1.png" alt="plot of chunk mmex3" />
+<p class="caption">plot of chunk mmex3</p>
+</div>
+<h2 id="the-same-thing-with-lme4lmer">the same thing with lme4::lmer</h2>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: Reaction ~ Days + (Days | Subject)
 ##    Data: sleepstudy
