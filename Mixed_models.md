@@ -3,6 +3,12 @@ title: "Mixed models"
 author: Jonathan Dushoff and Ben Bolker
 ---
 
+## Resources
+
+* [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models.
+
+* [Bolker chapter from Fox et al.](https://github.com/mac-theobio/QMEE_2017/blob/master/papers/14-Fox-Chap13_ed.pdf) (on private repo, you need to be signed in)
+
 
 ## Intro
 
@@ -17,14 +23,16 @@ Mixed models are models which combine "random" and "fixed" effects.
     -   Neuron identity
     -   Village of residence
 
-Here, we will talk about the "modern" approach to mixed models, which
-involves explicitly estimating "random" parameters and their variances
-(see below). This is computationally more difficult, but more flexible
-and conceptually more unified than, the [ classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models.
+## Modern and classic approaches
 
-Synonyms (approximate): *repeated measures*, *multilevel*, *hierarchical* models
+"Modern" approach to mixed models involves explicitly estimating "random" parameters and their variances (see below).
 
-[Bolker chapter from Fox et al.](https://github.com/mac-theobio/QMEE_2017/blob/master/papers/14-Fox-Chap13_ed.pdf) (on private repo, you need to be signed in)
+Compared to the [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models, the modern approach is:
+
+* conceptually clear
+* flexible
+* powerful
+* computationally difficult
 
 ## Example
 
@@ -41,7 +49,7 @@ to). As a result:
 -   "Tree" is a random effect
     -   We want to know what about the *distribution* of tree effects
         (so we can control for it); we are not specifically interested
-        in the difference in growth between tree 3 and tree 7
+        in the difference in growth between tree 3 and tree 5
 
 ## Random effects
 
@@ -55,23 +63,29 @@ Random effects are typically based on unordered factors
 
 ## Is this a random effect?
 
-Basically, treating something as a random effect means treating the
-levels as interchangeable from the point of view of your scientific
-hypothesis.
+Treating something as a random effect means treating the levels as interchangeable from the point of view of your scientific hypothesis.
 
-There is sometimes controversy about when it is appropriate to model a
-predictor using random effects. Here are some criteria ...
+There is sometimes controversy about when it is appropriate to model a predictor using random effects. Here are some criteria ...
 
 ## philosophical questions
 
 -   are the levels chosen from a larger population?
 -   are the levels chosen randomly?
 -   are the levels a non-exhaustive sample of possible levels?
--   do you want to be able to make predictions about new (unobserved)
-    levels?
--   are you uninterested in testing hypotheses about specific levels, or
--   are you more interested in the distribution of levels/variability
-    among levels?
+-   do you want to be able to make predictions about new (unobserved) levels?
+	 - or inferences that include them?
+-   are you interested in the distribution of levels/variability among levels?
+-   are you _uninterested_ in testing hypotheses about specific levels?
+
+## Types of analysis
+
+There are several terms of art that are often used as synonyms for mixed models
+
+* repeated measures
+	* individual identity would typically be associated with a random effect
+
+* multilevel or hierarchical models
+	* each identifiable level could have its own random effect: e.g., country, village, household
 
 ## inferential questions
 
@@ -80,20 +94,43 @@ more effect on your inferences about *other* variables than on your
 inferences about the focal variable
 
 -   Inferring using a fixed effect means we are inferring across the
-    group we have measured
+    group of levels we have measured (only)
 -   Inferring using a random effect means we are inferring across a
-    *population represented by* the group we have measured
+    *population represented by* the group of levels we have measured
 
-## practical questions
+## Examples
 
--   have you measured a sufficient number of levels to estimate a
+We measure effects of an influenza vaccination experiment for several years
+
+* Year as a fixed effect: did vaccination "help" on average over these years (with a particular set of flu strains, etc.
+* Year as random effect: will vaccination "help" on average over a wider set of years (assuming observed years are representative)
+
+Spruce trees
+
+* May not have enough data to do a random effects analysis
+* Our _statistical_ inference is then limited to the areas we studied
+* Whether we can broaden our _scientific_ inference is a science question (not stats)
+
+## Practical questions
+
+- Modern methods
+	* have you measured a sufficient number of levels to estimate a
     variance (>5, preferably >10)?
-    -   if not, you may need to use "old-fashioned" methods
--   do you have small or variable amounts of information available per
-    level, but many levels?
--   do you want to estimate the parameters with *shrinkage*?
+	* May need more for more complicated models
 
-### Example: flu years
+- Classic methods
+	* Do you have a balanced design?
+
+- Otherwise
+	* Limit your inference
+	* Try an even more advanced approach (usually Bayesian)
+
+## Interactions
+
+* Are only intercepts affected by random factors, or also responses?
+	* e.g., spruce trees 
+
+* Interactions are often conceptually appealing, but computationally challenging
 
 ## Fitting
 
@@ -102,8 +139,8 @@ models. You just need to specify which effects are random.
 
 -   Works with unbalanced designs
 -   Works with crossed random effects
--   The model cannot be too complicated for the amount of data (in
-    particular, the number of levels)
+-   May require a lot of data (and sometimes a lot of levels) for a reliable fit 
+	* Depends on model complexity
 
 ## Too few levels
 
@@ -121,9 +158,20 @@ is properly reflected in your scientific conclusions.
 Some effects can be modeled effectively with MMMs (modern mixed models)
 on the "residual (R) side".
 
-These effects are used to explain the residuals from the main model:
+Standard random effects
 
--   Heteroscedasticity, spatial correlations, temporal correlations
+* Discrete groups: any relation is binary
+	* You and I are in the same country, but not the same village
+
+R-side effects
+
+* Arbitrary variance-covariance structure (time, space, etc.)
+	* I am very close to Ben, and sort of close to Morgan
+* Can also allow for heteroscedasticity
+
+## How it works
+
+It's complicated!
 
 ## How it works
 
@@ -148,7 +196,7 @@ and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)
 
 ## Practical details in R
 
--   `aov + Error()` term: classical designs
+-   `aov + Error()` term: _classical_ designs
 -   `lme` (`nlme` package): older, better documented, more stable, does
     R-side models, complex variance structures, gives denominator df/$p$
     values
