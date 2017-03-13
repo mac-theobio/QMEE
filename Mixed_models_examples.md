@@ -1,18 +1,37 @@
+---
+title: "Mixed model examples"
+---
 
-[http://zoonek2.free.fr/UNIX/48_R/14.html Examples from Vincent Zoonekynd]
+## Examples
 
-Formulae:
-<pre>
-y ~ x                       No random effects
-y ~ x + (1|g)               The intercept is a random effect
+- Most examples here taken from [Vincent Zoonekynd's page](http://zoonek2.free.fr/UNIX/48_R/14.html)
+- See also [supplementary material from Bolker book chapter](http://bbolker.github.io/mixedmodels-misc/ecostats_chap.html) (source code [here](https://github.com/bbolker/mixedmodels-misc/blob/master/ecostats_chap.rmd))
+
+## Formulae
+
+Formula  |                  Meaning
+-------------------------|------------------------------------
+y ~ x                    |     No random effects
+y ~ x + (1|g)            |   The intercept is a random effect
+
+```
 y ~ x + (1|site/block)      Nested random effects (block within site)
 y ~ x + (1|site) + (1|year) Crossed random effects
 y ~ x + (1|site:block)      Interaction (only block within site)
 y ~ x + (x|g)               Intercept and slope are random effects
 y ~ (x|g)                   Zero slope on average (weird!)
 y ~ x + (1|g)+(0+x|g)       Independent slope and intercept
-</pre>
+```
 
+## Basic look at the data
+
+- Sometimes called a *spaghetti plot*
+- Alternative: use `+facet_wrap(~Subject)`
+
+
+```r
+library(lme4)
+```
 
 ```
 ## Loading required package: Matrix
@@ -29,24 +48,34 @@ y ~ x + (1|g)+(0+x|g)       Independent slope and intercept
 ##     sigma
 ```
 
-```
-## Error in (function (el, elname) : Element line must be a element_line object.
-```
-
-![plot of chunk mmex1.R](figure/mmex1.R-1.png)
-
-
-
-
-```
-## 
-## Attaching package: 'nlme'
+```r
+library(ggplot2); theme_set(theme_bw())
+q0 <- (ggplot(sleepstudy, aes(Days, Reaction, colour = Subject))
+    + geom_point())  ## points only, use later
+print(q0+geom_line())
 ```
 
+![plot of chunk mmex1](figure/mmex1-1.png)
+
+## Basic model fits
+
+
+```r
+library(nlme)
+lm1 <- lmList(Reaction~Days|Subject,data=sleepstudy) ## per-group fit (fixed)
+lm2 <- lme(Reaction~Days,random=~1|Subject,data=sleepstudy) ## rand intercept
+lm3 <- lme(Reaction~Days,random=~Days|Subject,data=sleepstudy) ## rand slopes
 ```
-## The following object is masked from 'package:lme4':
-## 
-##     lmList
+
+## Compute predictions
+
+
+```r
+pp <- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
+pp1 <- cbind(pp,Reaction=predict(lm1,newdata=pp))
+pp2 <- cbind(pp,Reaction=predict(lm2,newdata=pp))
+pp3 <- cbind(pp,Reaction=predict(lm3,newdata=pp))
+summary(lm3)
 ```
 
 ```
@@ -79,16 +108,11 @@ y ~ x + (1|g)+(0+x|g)       Independent slope and intercept
 ## Number of Groups: 18
 ```
 
+## plot predictions
 
+![plot of chunk mmex3](figure/mmex3-1.png)
 
-
-```
-## Error in (function (el, elname) : Element line must be a element_line object.
-```
-
-![plot of chunk mmex3.R](figure/mmex3.R-1.png)![plot of chunk mmex3.R](figure/mmex3.R-2.png)![plot of chunk mmex3.R](figure/mmex3.R-3.png)
-
-
+## the same thing with lme4::lmer
 
 
 ```
