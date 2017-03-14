@@ -7,11 +7,6 @@
   <title></title>
   <style type="text/css">code{white-space: pre;}</style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
-<<<<<<< HEAD
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-=======
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
->>>>>>> refs/remotes/origin/gh-pages
 </head>
 <body>
 <header class="site-header">
@@ -31,14 +26,14 @@
 <p>If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away …)</p>
 <ul>
 <li>Clone this repo</li>
-<li>you need JD’s <code>makestuff</code> machinery
-<ul>
-<li>Clone https://github.com/dushoff/makestuff.git into <span class="math inline">\(HOME/git (or anywhere, as long as it matches what&#39;s in the `\)</span>gitroot<code>variable in</code>local.mk`</li>
-</ul></li>
 <li>Examine standard.local</li>
 <li>Either</li>
 <li>type <code>ln standard.local local.mk</code></li>
-<li>create <code>bb.local</code> and link that</li>
+<li>create <code>&lt;yourname&gt;.local</code> and link that</li>
+<li>you need JD’s <code>makestuff</code> machinery
+<ul>
+<li>Clone <code>https://github.com/dushoff/makestuff.git</code> into <code>$HOME/git</code> (or anywhere, as long as it matches what’s in the <code>$gitroot</code> variable in <code>local.mk</code> (unless it’s already where you want it and you have gitroot pointed there through local.mk).</li>
+</ul></li>
 <li>Type <code>make pages</code></li>
 </ul>
 <p>Then:</p>
@@ -47,8 +42,10 @@
 <li><p><open> index.html shows you the local version</p></li>
 <li>From main directory</li>
 <li><code>make push_pages</code> to update the pages/ directory.</li>
+<li><code>make open_pages</code> to update the pages/ directory and open the index document</li>
 <li><code>make sync</code> to sync <em>your work</em></li>
-<li><p><code>make push_site</code> to update the pages/ directory and sync <em>the site</em>.</p></li>
+<li><code>make push_site</code> to update the pages/ directory and sync <em>the site</em>.</li>
+<li><p><code>make push_all</code> to update the pages/, sync the site and sync the repo..</p></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

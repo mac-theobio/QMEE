@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Mixed model examples</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,6 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
+                title: 'Mixed model examples',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -87,42 +88,137 @@
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Biology 708</h2></hgroup><article  id="biology-708">
-
-<p>The web site for Biology 708. The user-friendly view is <a href='https://mac-theobio.github.io/QMEE/index.html' title=''>here</a>.</p>
-
-</article></slide><slide class=''><hgroup><h2>Installing the backend</h2></hgroup><article  id="installing-the-backend">
-
-<p>You can view any of the files for the course on this web site as well as in the user-friendly view.</p>
-
-<p>If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away &#8230;)</p>
+<slide class=''><hgroup><h2>Examples</h2></hgroup><article  id="examples">
 
 <ul>
-<li>Clone this repo</li>
-<li>Examine standard.local</li>
-<li>Either</li>
-<li>type <code>ln standard.local local.mk</code></li>
-<li>create <code>&lt;yourname&gt;.local</code> and link that</li>
-<li>you need JD&#39;s <code>makestuff</code> machinery
-
-<ul>
-<li>Clone <code>https://github.com/dushoff/makestuff.git</code> into <code>$HOME/git</code> (or anywhere, as long as it matches what&#39;s in the <code>$gitroot</code> variable in <code>local.mk</code> (unless it&#39;s already where you want it and you have gitroot pointed there through local.mk).</li>
-</ul></li>
-<li>Type <code>make pages</code></li>
+<li>Most examples here taken from <a href='http://zoonek2.free.fr/UNIX/48_R/14.html' title=''>Vincent Zoonekynd&#39;s page</a></li>
+<li>See also <a href='http://bbolker.github.io/mixedmodels-misc/ecostats_chap.html' title=''>supplementary material from Bolker book chapter</a> (source code <a href='https://github.com/bbolker/mixedmodels-misc/blob/master/ecostats_chap.rmd' title=''>here</a>)</li>
 </ul>
 
-<p>Then:</p>
+</article></slide><slide class=''><hgroup><h2>Formulae</h2></hgroup><article  id="formulae">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="left">Formula</th>
+<th align="left">Meaning</th>
+</tr>
+<tr class="odd">
+<td align="left">y ~ x</td>
+<td align="left">No random effects</td>
+</tr>
+<tr class="even">
+<td align="left">y ~ x + (1</td>
+<td align="left">g)</td>
+<td align="left">The intercept is a random effect</td>
+</tr>
+</table>
+
+<pre >y ~ x + (1|site/block)      Nested random effects (block within site)
+y ~ x + (1|site) + (1|year) Crossed random effects
+y ~ x + (1|site:block)      Interaction (only block within site)
+y ~ x + (x|g)               Intercept and slope are random effects
+y ~ (x|g)                   Zero slope on average (weird!)
+y ~ x + (1|g)+(0+x|g)       Independent slope and intercept</pre>
+
+</article></slide><slide class=''><hgroup><h2>Basic look at the data</h2></hgroup><article  id="basic-look-at-the-data">
 
 <ul>
-<li>From <code>pages</code> directory</li>
-<li><p><open> index.html shows you the local version</p></li>
-<li>From main directory</li>
-<li><code>make push_pages</code> to update the pages/ directory.</li>
-<li><code>make open_pages</code> to update the pages/ directory and open the index document</li>
-<li><code>make sync</code> to sync <em>your work</em></li>
-<li><code>make push_site</code> to update the pages/ directory and sync <em>the site</em>.</li>
-<li><p><code>make push_all</code> to update the pages/, sync the site and sync the repo..</p></li>
-</ul></article></slide>
+<li>Sometimes called a <em>spaghetti plot</em></li>
+<li>Alternative: use <code>+facet_wrap(~Subject)</code></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>library(lme4)</pre>
+
+<pre >## Loading required package: Matrix</pre>
+
+<pre >## 
+## Attaching package: &#39;lme4&#39;</pre>
+
+<pre >## The following object is masked from &#39;package:stats&#39;:
+## 
+##     sigma</pre>
+
+<pre class = 'prettyprint lang-r'>library(ggplot2); theme_set(theme_bw())
+q0 &lt;- (ggplot(sleepstudy, aes(Days, Reaction, colour = Subject))
+    + geom_point())  ## points only, use later
+print(q0+geom_line())</pre>
+
+<img src='figure/mmex1-1.png' title='fig:'/><p class='caption'>plot of chunk mmex1</p>
+
+</article></slide><slide class=''><hgroup><h2>Basic model fits</h2></hgroup><article  id="basic-model-fits">
+
+<pre class = 'prettyprint lang-r'>library(nlme)
+lm1 &lt;- lmList(Reaction~Days|Subject,data=sleepstudy) ## per-group fit (fixed)
+lm2 &lt;- lme(Reaction~Days,random=~1|Subject,data=sleepstudy) ## rand intercept
+lm3 &lt;- lme(Reaction~Days,random=~Days|Subject,data=sleepstudy) ## rand slopes</pre>
+
+</article></slide><slide class=''><hgroup><h2>Compute predictions</h2></hgroup><article  id="compute-predictions">
+
+<pre class = 'prettyprint lang-r'>pp &lt;- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
+pp1 &lt;- cbind(pp,Reaction=predict(lm1,newdata=pp))
+pp2 &lt;- cbind(pp,Reaction=predict(lm2,newdata=pp))
+pp3 &lt;- cbind(pp,Reaction=predict(lm3,newdata=pp))
+summary(lm3)</pre>
+
+<pre >## Linear mixed-effects model fit by REML
+##  Data: sleepstudy 
+##        AIC      BIC    logLik
+##   1755.628 1774.719 -871.8141
+## 
+## Random effects:
+##  Formula: ~Days | Subject
+##  Structure: General positive-definite, Log-Cholesky parametrization
+##             StdDev    Corr  
+## (Intercept) 24.740241 (Intr)
+## Days         5.922103 0.066 
+## Residual    25.591843       
+## 
+## Fixed effects: Reaction ~ Days 
+##                 Value Std.Error  DF  t-value p-value
+## (Intercept) 251.40510  6.824516 161 36.83853       0
+## Days         10.46729  1.545783 161  6.77151       0
+##  Correlation: 
+##      (Intr)
+## Days -0.138
+## 
+## Standardized Within-Group Residuals:
+##         Min          Q1         Med          Q3         Max 
+## -3.95355735 -0.46339976  0.02311783  0.46339621  5.17925089 
+## 
+## Number of Observations: 180
+## Number of Groups: 18</pre>
+
+</article></slide><slide class=''><hgroup><h2>plot predictions</h2></hgroup><article  id="plot-predictions">
+
+<img src='figure/mmex3-1.png' title='fig:'/><p class='caption'>plot of chunk mmex3</p>
+
+</article></slide><slide class=''><hgroup><h2>the same thing with lme4::lmer</h2></hgroup><article  id="the-same-thing-with-lme4lmer">
+
+<pre >## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: Reaction ~ Days + (Days | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1743.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9536 -0.4634  0.0231  0.4634  5.1793 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  Subject  (Intercept) 612.09   24.740       
+##           Days         35.07    5.922   0.07
+##  Residual             654.94   25.592       
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  251.405      6.825   36.84
+## Days          10.467      1.546    6.77
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.138</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

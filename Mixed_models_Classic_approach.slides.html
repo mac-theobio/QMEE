@@ -87,42 +87,28 @@
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Biology 708</h2></hgroup><article  id="biology-708">
-
-<p>The web site for Biology 708. The user-friendly view is <a href='https://mac-theobio.github.io/QMEE/index.html' title=''>here</a>.</p>
-
-</article></slide><slide class=''><hgroup><h2>Installing the backend</h2></hgroup><article  id="installing-the-backend">
-
-<p>You can view any of the files for the course on this web site as well as in the user-friendly view.</p>
-
-<p>If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away &#8230;)</p>
+<p>The classic approach to mixed models involves fitting regular linear models, but interpreting the &quot;sums of squares&quot; differently.</p>
 
 <ul>
-<li>Clone this repo</li>
-<li>Examine standard.local</li>
-<li>Either</li>
-<li>type <code>ln standard.local local.mk</code></li>
-<li>create <code>&lt;yourname&gt;.local</code> and link that</li>
-<li>you need JD&#39;s <code>makestuff</code> machinery
+<li>Decompose sums of squares</li>
+<li>Decide which error terms to put in the denominator, which in the numerator, how many degrees of freedom</li>
+<li>For simplest cases (e.g. one-way ANOVA), the answer is the same either way</li>
+<li>Bestiary of experimental designs: nested, randomized block, split-plot (Gotelli and Ellison, Quinn and Keough)</li>
+<li>Classic approaches will <em>not</em> work well if you have
 
 <ul>
-<li>Clone <code>https://github.com/dushoff/makestuff.git</code> into <code>$HOME/git</code> (or anywhere, as long as it matches what&#39;s in the <code>$gitroot</code> variable in <code>local.mk</code> (unless it&#39;s already where you want it and you have gitroot pointed there through local.mk).</li>
+<li>strongly unbalanced designs</li>
+<li>responses that you&#39;d rather treat with a GLM(M) (e.g., binary responses)</li>
 </ul></li>
-<li>Type <code>make pages</code></li>
-</ul>
-
-<p>Then:</p>
+<li>For simple nested designs, you often can (and should) simplify your model by simply <em>aggregating</em> at the bottom level (Murtaugh 2007)
 
 <ul>
-<li>From <code>pages</code> directory</li>
-<li><p><open> index.html shows you the local version</p></li>
-<li>From main directory</li>
-<li><code>make push_pages</code> to update the pages/ directory.</li>
-<li><code>make open_pages</code> to update the pages/ directory and open the index document</li>
-<li><code>make sync</code> to sync <em>your work</em></li>
-<li><code>make push_site</code> to update the pages/ directory and sync <em>the site</em>.</li>
-<li><p><code>make push_all</code> to update the pages/, sync the site and sync the repo..</p></li>
-</ul></article></slide>
+<li>&#8230; doesn&#39;t work for randomized block and other more complicated designs</li>
+<li>works easily if perfectly balanced (equal samples per group); if not, have to deal with <em>weighting</em> according to sample size</li>
+</ul></li>
+<li>works (although perhaps with very low power) for any sample size</li>
+<li>sometimes gives negative variance estimates in complex situations (e.g. population genetics)</li>
+</ul>
 
 
   <slide class="backdrop"></slide>
