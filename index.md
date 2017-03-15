@@ -37,8 +37,13 @@ _This schedule is subject to change_
 
 ### Additional topics
 
+_We will cover 3-5 of these, depending on how projects are going_
+
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
+- [Multivariate responses] (Multivariate_responses.html)
+- [Linear model parameters] (parameters.html)
+- [Penalized regression] (penalized.html)
 
 <!--- restore for next time; also, build a better list of options
 The last part of the schedule will be determined through discussions
