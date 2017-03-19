@@ -54,6 +54,7 @@ _This schedule is subject to change_
 ### Additional topics
 
 - [Generalized linear models](Generalized_linear_models.html)
+- [Mixed models](Mixed_models.html)
 
 <!--- restore for next time; also, build a better list of options
 The last part of the schedule will be determined through discussions

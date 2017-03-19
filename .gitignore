@@ -29,3 +29,6 @@ subclone_dir/
 pages/
 QMEE_2017/
 
+cache/
+figure/
+qmee_private/

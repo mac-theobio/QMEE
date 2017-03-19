@@ -2,7 +2,8 @@ Import flow
 -----------
 
 Do{
-* Make a .tmk
+* Make .new
+* Make .tmk
 * Check for new super-pages (pages with subpages)
 * Make patterns for the super-pages in mdtrim.pl and Makefile
 * touch tmk.pl
