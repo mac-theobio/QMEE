@@ -214,10 +214,14 @@ Anova(mlm_fit1)
 
 What we would like to start to think about is effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or *length* of the vector for coefficients associated with the response. This is sometimes known as the *L2 norm* of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:
 
-$|| \mathbf{x} || = \sqrt{\mathbf{x'} \cdot \mathbf{x}}$
+$$
+|| \mathbf{x} || = \sqrt{\mathbf{x'} \cdot \mathbf{x}}
+$$
 
 This is equivalent to:
-$ = \sqrt{x^{2}_{1} + x^{2}_{2} + \cdots + x^{2}_{n}  }$
+$$
+|| \mathbf{x} || = \sqrt{x^{2}_{1} + x^{2}_{2} + \cdots + x^{2}_{n}  }
+$$
 
 Which you may recognize from the Pythagorean theorem. 
 
