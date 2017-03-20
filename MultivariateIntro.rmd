@@ -32,8 +32,10 @@ the `car` package has some useful functions for helping to make inferences for [
 
 We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages [here](https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd). We wrote most of them for a paper analyzing multivariate shape of Drosophila wings across altitudinal and latitudinal gradients. [Check here](http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full) for the paper and [here](http://datadryad.org/resource/doi:10.5061/dryad.r43k1) for the full data and scripts. Lots of cool multivariate examples.
 
+* [R script to source](MLM_Dworkin.R)
+
 ```{r get_funs}
-source("./BIO708_MLM_Dworkin.R")
+source("./MLM_Dworkin.R")
 ls()
 ```
 

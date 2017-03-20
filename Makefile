@@ -153,7 +153,12 @@ rmd = $(wildcard *.rmd)
 pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
 pages = $(pageroots:%=pages/%.html)
 slides = $(pages:%.html=%.slides.html)
+scripts = $(wildcard *.R)
+pscripts = $(scripts:%=pages/%)
 pages/%.css: %.css
+	$(copy)
+
+pages/%.R: %.R
 	$(copy)
 
 pages/figure: 
@@ -163,7 +168,7 @@ figure:
 	$(mkdir)
 
 ## Update the _local copy_ of the site (open to open the main page as well)
-push_pages: pages/figure pages/qmee.css $(pages) $(slides) 
+push_pages: pages/figure pages/qmee.css $(pages) $(slides) $(pscripts)
 	rsync figure/* pages/figure
 
 open_pages: 
