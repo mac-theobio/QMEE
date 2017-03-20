@@ -49,3 +49,12 @@ slides > slide { overflow: scroll; }
 ```
 at an appropriate point in the slide files themselves, or in a CSS file they refer to
 - Prettify CSS? https://www.stat.ubc.ca/~jenny/STAT545A/topic10_tablesCSS.html
+
+######################################################################
+
+Consolidating: 
+
+* Import the rest of the wiki stuff that looks useful.
+* Clean up and consolidate the structure here
+	* Don't call .md from .Rmd the same extension as edited .md
+	* How to specify what gets made on the pages side?

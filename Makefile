@@ -76,10 +76,6 @@ intro_%.mediawiki:
 Visualization_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Visualization/$*&action=raw"
 
-.PRECIOUS: Mixed_models_%.mediawiki
-Mixed_models_%.mediawiki:
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Mixed_models/$*&action=raw"
-
 .PRECIOUS: Bayesian_statistics_%.mediawiki
 Bayesian_statistics_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Bayesian_statistics/$*&action=raw"

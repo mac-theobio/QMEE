@@ -4,7 +4,23 @@ title: Quantitative Methods in Ecology and Evolution
 
 ## Current
 
-* [Final project](project.html)
+_For this week_:
+
+* Respond to comments, and clarify your group Readme
+* Move your data to your new repo directory
+* Make a master script (either .Rmd or .R) that you will build on to give your project a clear flow.
+	*  You can look at [the example from class (you will need to be logged in to github to see this)](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R)
+	* You can also find this script (and the one or two associated scripts that actually exist) in the course private repo, under dushoff/
+* _Import_ your data-cleaning procedure to the new repo directory
+	* Don't just copy-paste, use this as an opportunity to rethink and rewrite
+* Make a script called by master.R (or a section of your .Rmd) that makes one or two pictures that illustrate relevant aspects of your data.
+	* This is to help the instructors figure out what's going on and help you.
+
+_Submission_:
+
+* Email us to tell us when it's time to look
+* _Tell us_ if you can't submit by Friday at noon
+* _Ask us_ if you can't submit by Tue at 9:30
 
 ## Course information
 
