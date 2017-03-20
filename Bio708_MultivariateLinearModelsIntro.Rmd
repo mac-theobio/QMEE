@@ -277,9 +277,11 @@ Before we get too complicated with our model, I also want to show you a distance
 
 They have a number of functions in the geomorph package, but for most needs, I suggest starting with `procD.lm`
 
-```{r mlm2}
+```{r mlm2,results="hide",cache=TRUE}
 mlm_fit2 <- procD.lm(f1 = dll_data[, 9:12] ~ genotype, data = dll_data, iter = 2000 )
+```
 
+```{r mlm2_sum}
 summary(mlm_fit2)
 ```
 
