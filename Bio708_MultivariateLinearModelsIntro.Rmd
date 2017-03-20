@@ -308,9 +308,13 @@ mlm_fit4 <- lm(as.matrix(dll_data[,9:12]) ~ temp + genotype, data = dll_data)
 mlm_fit5 <- lm(as.matrix(dll_data[,9:12]) ~ temp*genotype, data = dll_data)
 
 Anova(mlm_fit5)
+```
 
+```{r mlm_45_procD,results="hide"}
 mlm_fit4_dist <- procD.lm(dll_data[,9:12] ~ genotype*temp,
                           data = dll_data, iter = 2000)
+```
+```{r mlm_45_procD_sum}
 summary(mlm_fit4_dist)
 ```
 
