@@ -44,7 +44,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -154,7 +154,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
 ## (Intercept)    18.84       2.87    6.57  2.7e-06
 ## time1          -1.21       4.01   -0.30   0.7654
-## time2          11.93       4.15    2.87   0.0097
+## time2          11.92       4.15    2.87   0.0097
 ## light1          9.66       2.87    3.37   0.0032</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL2S &lt;-<span class="st"> </span><span class="kw">update</span>(lmTL2,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sum,<span class="dt">light=</span>contr.sum)))</code></pre></div>
 <pre><code>##              Estimate Std. Error t value Pr(&gt;|t|)
@@ -168,9 +168,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The pictures will be a pain – maybe draw by hand?</p>
 <p>Session info:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
-<pre><code>## R version 3.3.1 (2016-06-21)
+<pre><code>## R version 3.3.2 (2016-10-31)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 16.04.2 LTS
+## Running under: Ubuntu 16.10
 ## 
 ## locale:
 ##  [1] LC_CTYPE=en_CA.UTF-8       LC_NUMERIC=C              
@@ -185,15 +185,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] MASS_7.3-40    ggplot2_2.2.0  reshape2_1.4.2 effects_3.0-3 
+## [1] MASS_7.3-45    ggplot2_2.2.1  reshape2_1.4.2 effects_3.1-2 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.8      knitr_1.15.1     magrittr_1.5     splines_3.3.1   
-##  [5] munsell_0.4.3    colorspace_1.3-2 lattice_0.20-31  minqa_1.2.4     
-##  [9] highr_0.6        stringr_1.1.0    plyr_1.8.4       tools_3.3.1     
-## [13] nnet_7.3-12      nlme_3.1-128     gtable_0.2.0     digest_0.6.10   
-## [17] lme4_1.1-7       lazyeval_0.2.0   assertthat_0.1   tibble_1.2      
-## [21] Matrix_1.2-0     nloptr_1.0.4     evaluate_0.10    labeling_0.3    
+##  [1] Rcpp_0.12.9      knitr_1.15.1     magrittr_1.5     splines_3.3.2   
+##  [5] munsell_0.4.3    colorspace_1.3-2 lattice_0.20-34  minqa_1.2.4     
+##  [9] highr_0.6        stringr_1.1.0    plyr_1.8.4       tools_3.3.2     
+## [13] nnet_7.3-12      nlme_3.1-129     gtable_0.2.0     digest_0.6.11   
+## [17] lme4_1.1-12      lazyeval_0.2.0   assertthat_0.1   tibble_1.2      
+## [21] Matrix_1.2-7.1   nloptr_1.0.4     evaluate_0.10    labeling_0.3    
 ## [25] stringi_1.1.2    scales_0.4.1</code></pre>
 <p>Other refs * http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html * <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html"><code>gmodels::fit.contrast()</code></a> (show parameter estimates based on re-fitting models with new contrasts), <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html"><code>rms::contrast.rms()</code></a> (ditto, for <code>rms</code>-based fits) * http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm * Crawley <em>Statistical Computing: An Introduction to Data Analysis using S-PLUS</em>, chapter 18</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;wwiki&quot;</span>)

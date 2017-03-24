@@ -46,7 +46,11 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
+<<<<<<< HEAD
   <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+=======
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+>>>>>>> 359f8c61c41f476f7a57c731dcfb201f33fe012e
 </head>
 <body>
 <header class="site-header">
@@ -71,7 +75,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="co"># install.packages(&quot;geomorph&quot;)</span>
 <span class="kw">library</span>(car)
 <span class="kw">library</span>(geomorph)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## Error in library(geomorph): there is no package called &#39;geomorph&#39;</code></pre>
+=======
+<pre><code>## Loading required package: rgl</code></pre>
+<pre><code>## Loading required package: ape</code></pre>
+>>>>>>> 359f8c61c41f476f7a57c731dcfb201f33fe012e
 <p>the <code>car</code> package has some useful functions for helping to make inferences for <a href="https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf">multivariate linear models</a>. the <code>geomorph</code> package is a specialized package for biological shape analysis (geometric morphometrics), but since this data is inherently multidimensional, there are many useful functions. Check the <a href="https://github.com/geomorphR/geomorph/wiki">wiki</a> out. Other useful packages include the <a href="https://cran.r-project.org/web/packages/vegan/vegan.pdf">vegan</a> package, including the distance based multivariate analysis of variance using the <code>adonis</code> function in it. geomorph’s linear model is a refinement of this.</p>
 <h2 id="source-in-some-custom-functions">Source in some custom functions</h2>
 <p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href="https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd">here</a>. We wrote most of them for a paper analyzing multivariate shape of Drosophila wings across altitudinal and latitudinal gradients. <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full">Check here</a> for the paper and <a href="http://datadryad.org/resource/doi:10.5061/dryad.r43k1">here</a> for the full data and scripts. Lots of cool multivariate examples.</p>
@@ -413,9 +422,32 @@ mlm_fit5 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="k
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit4_dist &lt;-<span class="st"> </span><span class="kw">procD.lm</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>] ~<span class="st"> </span>genotype*temp,
                           <span class="dt">data =</span> dll_data, <span class="dt">iter =</span> <span class="dv">2000</span>)</code></pre></div>
+<<<<<<< HEAD
 <pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;procD.lm&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit4_dist)</code></pre></div>
 <pre><code>## Error in summary(mlm_fit4_dist): object &#39;mlm_fit4_dist&#39; not found</code></pre>
+=======
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit4_dist)</code></pre></div>
+<pre><code>## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
+##     data = dll_data) 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##                 Df   SS   MS    Rsq     F    Z Pr(&gt;F)    
+## genotype         1  143  143 0.0186  44.2 22.9  5e-04 ***
+## temp             1 1136 1136 0.1481 351.2 43.8  5e-04 ***
+## genotype:temp    1  200  200 0.0260  61.8 32.2  5e-04 ***
+## Residuals     1914 6190    3                             
+## Total         1917 7668                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+>>>>>>> 359f8c61c41f476f7a57c731dcfb201f33fe012e
 <p>We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">2</span>,])</code></pre></div>
 <pre><code>##      [,1]

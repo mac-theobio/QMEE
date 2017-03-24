@@ -44,7 +44,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -89,79 +89,48 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## F-statistic: 37.46 on 3 and 36 DF,  p-value: 3.645e-11</code></pre>
 <h1 id="bayesian-analysis">Bayesian analysis</h1>
 <h2 id="with-bayesglm">With bayesglm</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;arm&quot;</span>)
-<span class="kw">summary</span>(<span class="kw">bayesglm</span>(y~a+b+c,<span class="dt">data=</span>dat))</code></pre></div>
-<pre><code>## 
-## Call:
-## bayesglm(formula = y ~ a + b + c, data = dat)
-## 
-## Deviance Residuals: 
-##      Min        1Q    Median        3Q       Max  
-## -2.11859  -0.46488   0.06545   0.57159   2.05432  
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  -0.3209     0.4448  -0.721   0.4753    
-## a             0.6943     0.6104   1.137   0.2629    
-## b             5.0555     0.5319   9.505 2.37e-11 ***
-## c             1.1704     0.5337   2.193   0.0348 *  
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for gaussian family taken to be 0.9962802)
-## 
-##     Null deviance: 147.805  on 39  degrees of freedom
-## Residual deviance:  35.866  on 36  degrees of freedom
-## AIC: 119.15
-## 
-## Number of Fisher Scoring iterations: 9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;arm&quot;</span>)</code></pre></div>
+<pre><code>## Error in library(&quot;arm&quot;): there is no package called &#39;arm&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">bayesglm</span>(y~a+b+c,<span class="dt">data=</span>dat))</code></pre></div>
+<pre><code>## Error in summary(bayesglm(y ~ a + b + c, data = dat)): could not find function &quot;bayesglm&quot;</code></pre>
 <h2 id="with-bugsjags">With BUGS/JAGS</h2>
 <p>We need priors for the four regression parameters, and for the error variance. The BUGS/JAGS framework does not let us use improper priors, so we have to pick things that we think are “wide” enough.</p>
 <p>For the error variance, we also have to pick something that’s always positive.</p>
 <p>Finally, BUGS/JAGS thinks in terms of “precision” <span class="math inline">\(\tau=1/\sigma^2\)</span>, which is confusing, but you can get used to it. It’s best to start by guessing what you think a “large” standard deviation would be, then taking <span class="math inline">\(1/\sigma^2\)</span> to get the relevant value of <span class="math inline">\(\tau.\)</span> A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of <span class="math inline">\(10^{-6}\)</span>. The normal priors below have low precision, so they have high variance.</p>
 <h2 id="rjags">rjags</h2>
 <h2 id="r2jags">R2jags</h2>
-<pre><code>## Compiling model graph
-##    Resolving undeclared variables
-##    Allocating nodes
-## Graph information:
-##    Observed stochastic nodes: 40
-##    Unobserved stochastic nodes: 5
-##    Total graph size: 336
-## 
-## Initializing model</code></pre>
+<pre><code>## Error in library(&quot;R2jags&quot;): there is no package called &#39;R2jags&#39;</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;jags&quot;</code></pre>
 <ul>
 <li>You can use <code>inits=NULL</code> to have JAGS pick the initial values randomly from the priors. For more complex models you might want to pick starting values for the chains yourself (see the <code>?jags</code> documentation).</li>
 </ul>
 <h3 id="examine-the-chains-and-output">Examine the chains and output</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(R2jags)
-<span class="kw">library</span>(coda)
-<span class="kw">library</span>(emdbook)    ## for lump.mcmc.list() and as.mcmc.bugs()
-<span class="kw">library</span>(arm)        ## for coefplot
-<span class="kw">library</span>(lattice)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(R2jags)</code></pre></div>
+<pre><code>## Error in library(R2jags): there is no package called &#39;R2jags&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(coda)
+<span class="kw">library</span>(emdbook)    ## for lump.mcmc.list() and as.mcmc.bugs()</code></pre></div>
+<pre><code>## Error in library(emdbook): there is no package called &#39;emdbook&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(arm)        ## for coefplot</code></pre></div>
+<pre><code>## Error in library(arm): there is no package called &#39;arm&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lattice)
 <span class="kw">library</span>(dotwhisker)</code></pre></div>
-<pre><code>## Error in library(dotwhisker): there is no package called &#39;dotwhisker&#39;</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Loading required package: gridExtra</code></pre>
+<pre><code>## Loading required package: gtable</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
-bb &lt;-<span class="st"> </span>jags1$BUGSoutput  ## extract the &quot;BUGS output&quot; component
-mm &lt;-<span class="st"> </span><span class="kw">as.mcmc.bugs</span>(bb)  ## convert it to an &quot;mcmc&quot; object that coda can handle
-<span class="kw">plot</span>(jags1)             ## large-format graph</code></pre></div>
-<div class="figure">
-<img src="figure/coda2.R-1.png" alt="plot of chunk coda2.R" />
-<p class="caption">plot of chunk coda2.R</p>
-</div>
+bb &lt;-<span class="st"> </span>jags1$BUGSoutput  ## extract the &quot;BUGS output&quot; component</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;jags1&#39; not found</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mm &lt;-<span class="st"> </span><span class="kw">as.mcmc.bugs</span>(bb)  ## convert it to an &quot;mcmc&quot; object that coda can handle</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;as.mcmc.bugs&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(jags1)             ## large-format graph</code></pre></div>
+<pre><code>## Error in plot(jags1): object &#39;jags1&#39; not found</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## plot(mm)                ## trace + density plots, same as above
 <span class="kw">xyplot</span>(mm,<span class="dt">layout=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))  ## prettier trace plot</code></pre></div>
-<div class="figure">
-<img src="figure/coda2.R-2.png" alt="plot of chunk coda2.R" />
-<p class="caption">plot of chunk coda2.R</p>
-</div>
+<pre><code>## Error in xyplot(mm, layout = c(2, 3)): object &#39;mm&#39; not found</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">densityplot</span>(mm,<span class="dt">layout=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)) ## prettier density plot</code></pre></div>
-<div class="figure">
-<img src="figure/coda2.R-3.png" alt="plot of chunk coda2.R" />
-<p class="caption">plot of chunk coda2.R</p>
-</div>
+<pre><code>## Error in densityplot(mm, layout = c(2, 3)): object &#39;mm&#39; not found</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">dwplot</span>(jags1))              ## estimate + credible interval plot</code></pre></div>
-<pre><code>## Error in print(dwplot(jags1)): could not find function &quot;dwplot&quot;</code></pre>
+<pre><code>## Error in is.data.frame(x): object &#39;jags1&#39; not found</code></pre>
 <p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
 <h2 id="further-notes">Further notes</h2>
 <h3 id="categorical-variables">Categorical variables</h3>
@@ -175,10 +144,13 @@ mm &lt;-<span class="st"> </span><span class="kw">as.mcmc.bugs</span>(bb)  ## co
 <ul>
 <li><code>bayesglm</code> from the <code>arm</code> package</li>
 </ul>
-<pre><code>##    deviance         int          ma          mb          mc 
-## 114.5106127  -0.3329600   0.6928561   5.0825190   1.1757262</code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## Error in library(&quot;emdbook&quot;): there is no package called &#39;emdbook&#39;</code></pre>
+<pre><code>## Error in loadNamespace(name): there is no package called &#39;emdbook&#39;</code></pre>
+<pre><code>## Error in is.data.frame(x): object &#39;mmL&#39; not found</code></pre>
+<pre><code>## Error in mean((mmL[, &quot;mb&quot;] &gt; mmL[, &quot;ma&quot;]) &amp; (mmL[, &quot;mb&quot;] &gt; mmL[, &quot;mc&quot;])): object &#39;mmL&#39; not found</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;mmL&#39; not found</code></pre>
+<pre><code>## Error in apply(meanschain, 1, which.max): object &#39;meanschain&#39; not found</code></pre>
+<pre><code>## Error in mean(maxval == 2): object &#39;maxval&#39; not found</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
