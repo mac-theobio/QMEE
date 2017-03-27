@@ -67,6 +67,7 @@ _We will cover 3-5 of these, depending on how projects are going_
 - [Multivariate responses](Multivariate_responses.html)
 
 _Probably not_
+
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 
