@@ -65,6 +65,8 @@ _We will cover 3-5 of these, depending on how projects are going_
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
 - [Multivariate responses](Multivariate_responses.html)
+
+_Probably not_
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 
