@@ -4,9 +4,49 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <title></title>
+  <meta name="author" content="Ian Dworkin" />
+  <meta name="date" content="2017-03-17" />
+  <title>VerySimpleIntroductionToMultivariateLinearModels</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -19,7 +59,393 @@
 	</div>
 </div>
 </header>
+<div id="header">
+<h1 class="title">VerySimpleIntroductionToMultivariateLinearModels</h1>
+<h2 class="author">Ian Dworkin</h2>
+<h3 class="date">March 17, 2017</h3>
+</div>
+<p>In today’s class we are introducing how to model data when you have multiple continuous response variables. This can be done with a relatively simple extension of the linear models you learned previously (regression, ANOVA, ANCOVA style models).</p>
+<h2 id="packages">Packages</h2>
+<p>You may also need to install the following packages. If you do not have them remove the ‘#’ to uncomment the lines.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;car&quot;)</span>
+<span class="co"># install.packages(&quot;geomorph&quot;)</span>
+<span class="kw">library</span>(car)
+<span class="kw">library</span>(geomorph)</code></pre></div>
+<pre><code>## Error in library(geomorph): there is no package called &#39;geomorph&#39;</code></pre>
+<p>the <code>car</code> package has some useful functions for helping to make inferences for <a href="https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf">multivariate linear models</a>. the <code>geomorph</code> package is a specialized package for biological shape analysis (geometric morphometrics), but since this data is inherently multidimensional, there are many useful functions. Check the <a href="https://github.com/geomorphR/geomorph/wiki">wiki</a> out. Other useful packages include the <a href="https://cran.r-project.org/web/packages/vegan/vegan.pdf">vegan</a> package, including the distance based multivariate analysis of variance using the <code>adonis</code> function in it. geomorph’s linear model is a refinement of this.</p>
+<h2 id="source-in-some-custom-functions">Source in some custom functions</h2>
+<p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href="https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd">here</a>. We wrote most of them for a paper analyzing multivariate shape of Drosophila wings across altitudinal and latitudinal gradients. <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full">Check here</a> for the paper and <a href="http://datadryad.org/resource/doi:10.5061/dryad.r43k1">here</a> for the full data and scripts. Lots of cool multivariate examples.</p>
+<ul>
+<li><a href="MLM_Dworkin.R">R script to source</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;./MLM_Dworkin.R&quot;</span>)
+<span class="kw">ls</span>()</code></pre></div>
+<pre><code>## [1] &quot;ang.vec.abs&quot; &quot;PD&quot;          &quot;shapePRsq&quot;   &quot;shapeRsq&quot;    &quot;ShapeScore&quot;</code></pre>
+<h2 id="data">Data</h2>
+<p>We will use an old <em>Drosophila melanogaster</em> data set from my PhD work. The associated paper can be found <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1525-142X.2005.05010.x/abstract">here</a>. This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study I measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>Before we go on, how should we look at the data to make sure it imported correctly, and the structure (and other information) about the object we have just created?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(dll_data)</code></pre></div>
+<pre><code>##    replicate         line      genotype        temp          femur     
+##  Min.   :1.00   line-7 : 132   Dll: 871   Min.   :25.0   Min.   :0.21  
+##  1st Qu.:1.00   line-18: 121   wt :1102   1st Qu.:25.0   1st Qu.:0.53  
+##  Median :1.00   line-4 : 112              Median :25.0   Median :0.55  
+##  Mean   :1.18   line-8 : 110              Mean   :27.4   Mean   :0.55  
+##  3rd Qu.:1.00   line-2 : 104              3rd Qu.:30.0   3rd Qu.:0.57  
+##  Max.   :2.00   line-11: 100              Max.   :30.0   Max.   :0.70  
+##                 (Other):1294                             NA&#39;s   :24    
+##      tibia          tarsus          SCT      
+##  Min.   :0.34   Min.   :0.11   Min.   : 6.0  
+##  1st Qu.:0.46   1st Qu.:0.18   1st Qu.:10.0  
+##  Median :0.48   Median :0.19   Median :11.0  
+##  Mean   :0.48   Mean   :0.19   Mean   :11.2  
+##  3rd Qu.:0.50   3rd Qu.:0.20   3rd Qu.:12.0  
+##  Max.   :0.61   Max.   :0.26   Max.   :32.0  
+##  NA&#39;s   :19     NA&#39;s   :17     NA&#39;s   :25</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(dll_data)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1973 obs. of  8 variables:
+##  $ replicate: int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ line     : Factor w/ 27 levels &quot;line-1&quot;,&quot;line-11&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ genotype : Factor w/ 2 levels &quot;Dll&quot;,&quot;wt&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ temp     : int  25 25 25 25 25 25 25 25 25 25 ...
+##  $ femur    : num  0.59 0.55 0.588 0.588 0.596 ...
+##  $ tibia    : num  0.499 0.501 0.488 0.515 0.502 ...
+##  $ tarsus   : num  0.219 0.214 0.211 0.211 0.207 ...
+##  $ SCT      : int  9 13 11 NA 12 14 11 12 10 12 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(dll_data)</code></pre></div>
+<pre><code>## [1] 1973    8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(dll_data)</code></pre></div>
+<pre><code>##   replicate   line genotype temp femur tibia tarsus SCT
+## 1         1 line-1      Dll   25 0.590 0.499  0.219   9
+## 2         1 line-1      Dll   25 0.550 0.501  0.214  13
+## 3         1 line-1      Dll   25 0.588 0.488  0.211  11
+## 4         1 line-1      Dll   25 0.588 0.515  0.211  NA
+## 5         1 line-1      Dll   25 0.596 0.502  0.207  12
+## 6         1 line-1      Dll   25 0.577 0.499  0.207  14</code></pre>
+<h2 id="cleaning-data">Cleaning data</h2>
+<h3 id="removing-missing-data">removing missing data</h3>
+<p>Sometimes your data set has missing data, i.e. for some reason you could not measure one of your variables on a particular object. How you decide to deal with missing data can be a big topic, but for the moment we are going to assume you want to delete rows that contain missing data.</p>
+<p>First let’s check if there is any missing data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anyNA</span>(dll_data)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>For the moment we are just going to remove rows containing any missing data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data &lt;-<span class="st"> </span><span class="kw">na.omit</span>(dll_data)
+<span class="kw">dim</span>(dll_data)</code></pre></div>
+<pre><code>## [1] 1918    8</code></pre>
+<p>For ease of interpretation, let’s also make the wild-type level of genotype (<code>wt</code>) the base level.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data$genotype &lt;-<span class="st"> </span><span class="kw">relevel</span>(dll_data$genotype, <span class="st">&quot;wt&quot;</span>)
+<span class="kw">levels</span>(dll_data$genotype)</code></pre></div>
+<pre><code>## [1] &quot;wt&quot;  &quot;Dll&quot;</code></pre>
+<p>We will also make temperature (<code>temp</code>) a factor (it only has two levels so it does not matter that much).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data$temp &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dll_data$temp)</code></pre></div>
+<p>Our response variables for this study are <code>femur</code>, <code>tibia</code>, <code>tarsus</code> and <code>SCT</code>. Let’s check out some basic summary stats for them</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(dll_data)</code></pre></div>
+<pre><code>##    replicate         line      genotype   temp          femur      
+##  Min.   :1.00   line-7 : 127   wt :1077   25:1006   Min.   :0.423  
+##  1st Qu.:1.00   line-18: 119   Dll: 841   30: 912   1st Qu.:0.530  
+##  Median :1.00   line-4 : 110                        Median :0.549  
+##  Mean   :1.18   line-8 : 108                        Mean   :0.546  
+##  3rd Qu.:1.00   line-2 : 100                        3rd Qu.:0.565  
+##  Max.   :2.00   line-11:  97                        Max.   :0.698  
+##                 (Other):1257                                       
+##      tibia           tarsus           SCT      
+##  Min.   :0.342   Min.   :0.106   Min.   : 6.0  
+##  1st Qu.:0.465   1st Qu.:0.175   1st Qu.:10.0  
+##  Median :0.484   Median :0.188   Median :11.0  
+##  Mean   :0.482   Mean   :0.188   Mean   :11.1  
+##  3rd Qu.:0.501   3rd Qu.:0.200   3rd Qu.:12.0  
+##  Max.   :0.609   Max.   :0.258   Max.   :22.0  
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">5</span>:<span class="dv">8</span>], <span class="dv">2</span>, sd)</code></pre></div>
+<pre><code>##  femur  tibia tarsus    SCT 
+## 0.0279 0.0280 0.0179 1.6270</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">5</span>:<span class="dv">8</span>], <span class="dv">2</span>, mean)</code></pre></div>
+<pre><code>##  femur  tibia tarsus    SCT 
+##  0.546  0.482  0.188 11.132</code></pre>
+<p>While the three length measurements are on approximately the same scale (and all measured in mm), SCT is count data. So we will probably want to scale each of these to help make comparisons a bit clearer. Before we do that though. Let’s ask how these variables co-vary with one another (across the whole data set). In general we prefer working with the variances and covariances, but it is easier to interpret the correlations among variables. We can easily look at both.</p>
+<p>The phenotypic variance-covariance matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cov</span>(dll_data[ ,<span class="dv">5</span>:<span class="dv">8</span>])</code></pre></div>
+<pre><code>##           femur    tibia   tarsus     SCT
+## femur  0.000781 0.000557 0.000285 0.00935
+## tibia  0.000557 0.000785 0.000249 0.01080
+## tarsus 0.000285 0.000249 0.000319 0.00860
+## SCT    0.009349 0.010796 0.008597 2.64703</code></pre>
+<p>The phenotypic correlation matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(dll_data[, <span class="dv">5</span>:<span class="dv">8</span>])</code></pre></div>
+<pre><code>##        femur tibia tarsus   SCT
+## femur  1.000 0.712  0.571 0.206
+## tibia  0.712 1.000  0.497 0.237
+## tarsus 0.571 0.497  1.000 0.296
+## SCT    0.206 0.237  0.296 1.000</code></pre>
+<p>Let’s visualize this as well.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairs</span>(dll_data[, <span class="dv">5</span>:<span class="dv">8</span>],<span class="dt">pch=</span><span class="st">&quot;.&quot;</span>,<span class="dt">gap=</span><span class="dv">0</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/pairs-1.png" alt="plot of chunk pairs" />
+<p class="caption">plot of chunk pairs</p>
+</div>
+<p>We could do some more plotting to take a look (from the <code>car</code> package). However, there is so much overlap in the data among treatment variables, that it can be hard to see what is going on</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">scatterplotMatrix</span>( ~<span class="st"> </span>femur +<span class="st"> </span>tibia +<span class="st"> </span>tarsus +<span class="st"> </span>SCT |<span class="st"> </span>temp, 
+                  <span class="dt">ellipse =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> dll_data,
+                  <span class="dt">transform =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="figure/smatrix-1.png" alt="plot of chunk smatrix" /> Not surprising since we have three length measures, but we see a moderate degree of correlation among these traits, likely reflecting a common factor (overall size). However, they are certainly not perfectly correlated with one another.</p>
+<p>In general, when we are dealing with a set of multivariate response variables, this is the situation we want to be in. That is, if there is some correlation between our variables, it is not too high. If it was, I would probably consider using Principal Components Analysis or another dimensional reduction technique to get a few axes of variation that account for most of the variation. We could also check to see if the covariance matrix was not of full rank (i.e. for a covariance matrix for 4 variables, do we really have 4 “independent axes”). One quick check (which directly relates to PCA) is to examine the eigenvalues of the covariance matrix, and make sure the final ones are not really small.</p>
+<p>We can extract the eigenvalues.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">svd</span>(<span class="kw">cov</span>(dll_data[, <span class="dv">5</span>:<span class="dv">8</span>]))$d</code></pre></div>
+<pre><code>## [1] 2.647138 0.001366 0.000239 0.000175</code></pre>
+<p>The final eigenvalue is not vanishingly small (which is all we need to worry about for the moment).</p>
+<h2 id="should-we-scale-the-response-variables">Should we scale the response variables?</h2>
+<p>Like I mentioned earlier, we need to consider whether we should put all response variables on a common scale. This certainly can aid in comparisons with our vector of coefficients. However, if all of your data is already on a pretty similar scale, it may not matter much. In this case, because of SCT I think it is probably worthwhile.</p>
+<p>For length measures it is common to instead to just log transform variables. This is something that can be helpful (but unnecessary with the current data). However, I will scale them here so you can get a sense of it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data$femur_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data$femur)
+dll_data$tibia_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data$tibia)
+dll_data$tarsus_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data$tarsus)
+dll_data$SCT_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data$SCT)</code></pre></div>
+<p>The variables now all have a mean of zero and a standard deviation of 1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>], <span class="dv">2</span>, sd)</code></pre></div>
+<pre><code>##  femur_s  tibia_s tarsus_s    SCT_s 
+##        1        1        1        1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>], <span class="dv">2</span>, mean)  ## very small ~ 0</code></pre></div>
+<pre><code>##  femur_s  tibia_s tarsus_s    SCT_s 
+## 2.95e-16 9.07e-16 1.19e-16 4.51e-16</code></pre>
+<p>And our co-variance matrix and correlation matrix should be identical.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cov</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>])</code></pre></div>
+<pre><code>##          femur_s tibia_s tarsus_s SCT_s
+## femur_s    1.000   0.712    0.571 0.206
+## tibia_s    0.712   1.000    0.497 0.237
+## tarsus_s   0.571   0.497    1.000 0.296
+## SCT_s      0.206   0.237    0.296 1.000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>])</code></pre></div>
+<pre><code>##          femur_s tibia_s tarsus_s SCT_s
+## femur_s    1.000   0.712    0.571 0.206
+## tibia_s    0.712   1.000    0.497 0.237
+## tarsus_s   0.571   0.497    1.000 0.296
+## SCT_s      0.206   0.237    0.296 1.000</code></pre>
+<h2 id="multivariate-linear-models-lets-begin">Multivariate linear models, let’s begin …</h2>
+<p>The multivariate general linear model is:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \mathbf{XB} + \mathbf{E}
+\]</span></p>
+<p>Which you may recognize as being very similar to your univariate linear model. Indeed it is fundamentally the same. However instead of each observation having a single value for its response <span class="math inline">\(y_i\)</span> for an individual <span class="math inline">\(i\)</span>, we are now in a situation where each individual has a response <strong>vector</strong>, which we denote as <span class="math inline">\(\mathbf{y}_i\)</span>. The vector for that observation is shown in bold as a common way to represent a vector of observations. Since you are using R you are actually already pretty familiar with this idea. i.e. if we stored <code>y &lt;- 1</code> or <code>y &lt;- c(1,2,3)</code> we could recall this vector the same way. The same is true in matrix notation.</p>
+<p>However, you see that instead of a lowercase bold <span class="math inline">\(\mathbf{y_i}\)</span>, I have instead represented this as an uppercase <span class="math inline">\(\mathbf{Y}\)</span>. This is matrix notation to denote a matrix of values. In this case it is meant to represent the <span class="math inline">\(( n x m)\)</span> matrix, for the <span class="math inline">\(n\)</span> observations in rows, and the <span class="math inline">\(m\)</span> response variables we have, which in this case is 4 (femur, tibia, tarsus, SCT). It is standard matrix notation to always talk about 2 dimensional matrices in rows by columns.</p>
+<p>How about the right hand side of the equation? Our <span class="math inline">\(\mathbf{X}\)</span> is the design matrix (or model matrix). We will come back to that in a second. Our <span class="math inline">\(\mathbf{B}\)</span> matrix is the matrix of regression coefficients from our model. If you were fitting a simple linear regression, you are used to estimating a slope <span class="math inline">\((\beta)\)</span> for the model <span class="math inline">\(y = \alpha + \beta x + \epsilon\)</span>.</p>
+<p>Even for a simple multivariate linear model (with only a single quantitative predictor variable), we will still estimate a coefficient for each response variable (i.e. a vector. As we add more predictors, this generalizes to a matrix of coefficients. Finally the <span class="math inline">\(\mathbf{E}\)</span> is just a generalization of the residual variation unaccounted for by the model. i.e. it is the same idea as <span class="math inline">\(\epsilon\)</span> for a simple linear model, but we have a vector <span class="math inline">\(\mathbf{e_i}\)</span> of residuals for each observation (<span class="math inline">\(i\)</span>) instead of a single value.</p>
+<p>However, otherwise the same ideas really apply. We use some approach to estimate the slopes. Just like for a single response, the MLE and LS estimators are equivalent under most conditions and can be found with:</p>
+<p><span class="math display">\[
+\hat{\mathbf{B}} = (\mathbf{X&#39;X})^{-1} \mathbf{X&#39;Y}
+\]</span></p>
+<p>Let’s give it a whirl. We will start with a really simple model with a single predictor with two levels (genotype). Importantly <strong>you do need to let R know that your response variables are numeric</strong>. Otherwise the call is a standard call to <code>lm</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as.matrix</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>]) ~<span class="st"> </span>genotype, <span class="dt">data =</span> dll_data)
+<span class="kw">class</span>(mlm_fit1)</code></pre></div>
+<pre><code>## [1] &quot;mlm&quot; &quot;lm&quot;</code></pre>
+<p>So what do we get from this? Summary does not give us what we want. Instead it provides the linear model for each response variable in turn. So not so helpful.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit1)</code></pre></div>
+<pre><code>## Response femur_s :
+## 
+## Call:
+## lm(formula = femur_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.356 -0.610  0.097  0.703  5.500 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.0690     0.0304   -2.27  0.02335 *  
+## genotypeDll   0.1573     0.0459    3.43  0.00062 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.997 on 1916 degrees of freedom
+## Multiple R-squared:  0.00609,    Adjusted R-squared:  0.00557 
+## F-statistic: 11.7 on 1 and 1916 DF,  p-value: 0.000622
+## 
+## 
+## Response tibia_s :
+## 
+## Call:
+## lm(formula = tibia_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.246 -0.608  0.058  0.676  4.676 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.1719     0.0299   -5.75    1e-08 ***
+## genotypeDll   0.3921     0.0451    8.69   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.981 on 1916 degrees of freedom
+## Multiple R-squared:  0.0379, Adjusted R-squared:  0.0374 
+## F-statistic: 75.4 on 1 and 1916 DF,  p-value: &lt;2e-16
+## 
+## 
+## Response tarsus_s :
+## 
+## Call:
+## lm(formula = tarsus_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.472 -0.652  0.008  0.634  4.024 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   0.0624     0.0304    2.05    0.040 * 
+## genotypeDll  -0.1423     0.0459   -3.10    0.002 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.998 on 1916 degrees of freedom
+## Multiple R-squared:  0.00499,    Adjusted R-squared:  0.00447 
+## F-statistic:  9.6 on 1 and 1916 DF,  p-value: 0.00197
+## 
+## 
+## Response SCT_s :
+## 
+## Call:
+## lm(formula = SCT_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.336 -0.555  0.060  0.675  6.499 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.1413     0.0301   -4.70  2.8e-06 ***
+## genotypeDll   0.3223     0.0454    7.09  1.8e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.987 on 1916 degrees of freedom
+## Multiple R-squared:  0.0256, Adjusted R-squared:  0.0251 
+## F-statistic: 50.3 on 1 and 1916 DF,  p-value: 1.83e-12</code></pre>
+<p>Instead we need to let R know we want this as a single multivariate linear model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">manova</span>(mlm_fit1))</code></pre></div>
+<pre><code>##             Df Pillai approx F num Df den Df Pr(&gt;F)    
+## genotype     1  0.102       54      4   1913 &lt;2e-16 ***
+## Residuals 1916                                         
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Unfortunately, by default this spits out a minimal amount of useful information. While the object contains a few additional bits of information that are useful, mostly this is all about getting a p-value. Before we go on to something more useful, let’s talk about what is going on with this output.</p>
+<p>While we have just estimated a single predictor variable (<code>genotype</code>) you can see we are not using just one degree of freedom, but 4 (<code>num Df</code>). This is because we have 4 response variables that we are estimating. This is the first (and one of the most important) things to keep in mind with a multivariate linear model. We will be estimating a lot more parameters, so we need to keep in mind how much we can estimate in a model. As we will see below, this is why distance based approaches (like in adonis/vegan and geomorph) are often used.</p>
+<p>The other two things to note is this “Pillai” statistic and the approximate F statistic. It turns out that with the matrices that are used for inference (<span class="math inline">\(\mathbf{H}\)</span> the <em>hypothesis matrix</em>) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of <span class="math inline">\(\mathbf{HE^{-1}}\)</span> where <span class="math inline">\(\mathbf{E}\)</span> is the matrix of residuals. There are four commonly used test statistics that are derived from the eigenvalues of this matrix. I don’t want to get into this here, but do check out inferences for <a href="https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf">multivariate linear models</a> for more information, and how it is used in <code>car</code>. While this defaults to Pillai’s trace, many in biology seem to use Wilks’s <span class="math inline">\(\lambda\)</span>. Most of the time these give pretty similar results. You can easily change it, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">manova</span>(mlm_fit1), <span class="dt">test =</span> <span class="st">&quot;Wilks&quot;</span>)</code></pre></div>
+<pre><code>##             Df Wilks approx F num Df den Df Pr(&gt;F)    
+## genotype     1 0.899       54      4   1913 &lt;2e-16 ***
+## Residuals 1916                                        
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>In each case a test statistic, an approximation of the F statistic and a p-value. It is worth seeing how the <code>car</code> package handles this. For the moment this appears the same.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(mlm_fit1)</code></pre></div>
+<pre><code>## 
+## Type II MANOVA Tests: Pillai test statistic
+##          Df test stat approx F num Df den Df Pr(&gt;F)    
+## genotype  1     0.102       54      4   1913 &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<h3 id="how-about-measures-of-effect-size">How about measures of effect size?</h3>
+<p>What we would like to start to think about is effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or <em>length</em> of the vector for coefficients associated with the response. This is sometimes known as the <em>L2 norm</em> of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:</p>
+<p><span class="math display">\[
+|| \mathbf{x} || = \sqrt{\mathbf{x&#39;} \cdot \mathbf{x}}
+\]</span></p>
+<p>This is equivalent to: <span class="math display">\[
+|| \mathbf{x} || = \sqrt{x^{2}_{1} + x^{2}_{2} + \cdots + x^{2}_{n}  }
+\]</span></p>
+<p>Which you may recognize from the Pythagorean theorem.</p>
+<p>For our model we can examine the coefficients easily</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(mlm_fit1)</code></pre></div>
+<pre><code>##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="kw">t</span>(<span class="kw">coef</span>(mlm_fit1)[<span class="dv">2</span>,]) %*%<span class="st"> </span><span class="kw">coef</span>(mlm_fit1)[<span class="dv">2</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 0.55</code></pre>
+<p>However, this gets annoying to write out each time. So one of the functions in the source file does this for you. <code>PD()</code> (for Procrustes Distance) computes the Euclidean Distance between two vectors, but also can compute the length of the vector we want.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit1)[<span class="dv">2</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 0.55</code></pre>
+<p>Unfortunately in many fields of biology interpreting this magnitude of effect can be tricky. I will show you one example from <a href="http://biorxiv.org/content/early/2014/05/19/005322">this paper</a> to give you some ideas. To make sense of it, and what your expectations are under the null, we generated permutations of the data and computed the length of those vectors to generate a distribution. In some fields (like geometric morphometrics), this measure is used quite commonly so we have an easier time with biological interpretation and comparison. To generate confidence intervals on this we generally utilize non-parametric bootstrapping.</p>
+<h2 id="how-about-coefficient-of-determination">How about coefficient of determination?</h2>
+<p>We might also like to understand how much variation (of all of the variation) that the model accounts for. As this is multivariate data, there are actually multiple ways of doing this (based on both the trace of the matrix and some based on the determinant). So there is no single <span class="math inline">\(R^2\)</span> measure. However, there is a relatively simple one that we like to employ, recognizing that it does not capture everything. Essentially we take the trace (sum of the elements on the diagonal) of the variance covariance matrix for the observed data as a measure of total variation in the data. We then ask how much of the variation in the trace of the matrix is accounted for by the trace of the fitted values. i.e:</p>
+<p><span class="math inline">\(\frac{Tr(\mathbf{V}_{\hat{Y}})}{Tr(\mathbf{V}_{Y})}\)</span></p>
+<p>Where <span class="math inline">\(Tr(\mathbf{V}_{\hat{Y}})\)</span> is the trace for the matrix of fitted values, and <span class="math inline">\(Tr(\mathbf{V}_{Y})\)</span> is the trace for the observed.</p>
+<p>Since we have scaled all of our observations in our response, then we know that the trace needs to be equal to the number of variables we are using in our response (4 in this case). Let’s check</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>])))</code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<p>How about for our fitted values?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(mlm_fit1$fitted)))</code></pre></div>
+<pre><code>## [1] 0.0746</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(mlm_fit1$fitted)))/<span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>])))</code></pre></div>
+<pre><code>## [1] 0.0186</code></pre>
+<p>So we can account for just under 2% of the variation (based on this measure) in all of our response variables, using genotype as the sole predictor.</p>
+<p>Once again, the above code is annoying to write, so we have written a nice function for you, <code>shapeRsq</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapeRsq</span>(mlm_fit1)</code></pre></div>
+<pre><code>## [1] 0.0186</code></pre>
+<h2 id="distance-based-approaches">Distance based approaches</h2>
+<p>Before we get too complicated with our model, I also want to show you a distance based approach, as implemented in geomorph. This is useful because we are computing distances (essentially Euclidean distances) between observations (although not the raw distances, but based on the mean estimates within and between treatment levels). This means we are ultimately estimating far fewer coefficients, so can be very helpful when we have large numbers of response traits relative to number of observations.</p>
+<p>They have a number of functions in the geomorph package, but for most needs, I suggest starting with <code>procD.lm</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit2 &lt;-<span class="st"> </span><span class="kw">procD.lm</span>(<span class="dt">f1 =</span> dll_data[, <span class="dv">9</span>:<span class="dv">12</span>] ~<span class="st"> </span>genotype, <span class="dt">data =</span> dll_data, <span class="dt">iter =</span> <span class="dv">2000</span> )</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;procD.lm&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit2)</code></pre></div>
+<pre><code>## Error in summary(mlm_fit2): object &#39;mlm_fit2&#39; not found</code></pre>
+<p>Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one.)</p>
+<p>Note that it actually provides the same estimated coefficients, as these are typically used to compare Procrustes Distance (Euclidean Distance) as a measure of effect size</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(mlm_fit2)</code></pre></div>
+<pre><code>## Error in coef(mlm_fit2): object &#39;mlm_fit2&#39; not found</code></pre>
+<p>The ’advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.</p>
+<h2 id="does-the-data-conform-to-the-assumptions-of-a-multivariate-linear-model">Does the data conform to the assumptions of a multivariate linear model?</h2>
+<p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <a href="https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd">this paper</a> we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
+<h2 id="more-complicated-models">More complicated models</h2>
+<p>Let’s add some complexity to the model. We have additional predictors, temp (rearing temperature) and line (different wild type strains.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit4 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as.matrix</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>]) ~<span class="st"> </span>temp +<span class="st"> </span>genotype, <span class="dt">data =</span> dll_data)
+mlm_fit5 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as.matrix</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>]) ~<span class="st"> </span>temp*genotype, <span class="dt">data =</span> dll_data)
 
+<span class="kw">Anova</span>(mlm_fit5)</code></pre></div>
+<pre><code>## 
+## Type II MANOVA Tests: Pillai test statistic
+##               Df test stat approx F num Df den Df Pr(&gt;F)    
+## temp           1    0.3077    212.3      4   1911 &lt;2e-16 ***
+## genotype       1    0.1042     55.6      4   1911 &lt;2e-16 ***
+## temp:genotype  1    0.0761     39.3      4   1911 &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit4_dist &lt;-<span class="st"> </span><span class="kw">procD.lm</span>(dll_data[,<span class="dv">9</span>:<span class="dv">12</span>] ~<span class="st"> </span>genotype*temp,
+                          <span class="dt">data =</span> dll_data, <span class="dt">iter =</span> <span class="dv">2000</span>)</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;procD.lm&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit4_dist)</code></pre></div>
+<pre><code>## Error in summary(mlm_fit4_dist): object &#39;mlm_fit4_dist&#39; not found</code></pre>
+<p>We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">2</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 1.06</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">3</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 1.16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">4</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,]  1.3</code></pre>
+<p>How about variance accounted for? We have a slightly more advanced version for this. However, with interaction terms, this can be difficult to interpret (and we tend to only use it for main effects)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapeRsq</span>(mlm_fit4)</code></pre></div>
+<pre><code>## [1] 0.167</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapePRsq</span>(mlm_fit4)</code></pre></div>
+<pre><code>## $Rsquared
+## [1] 0.167
+## 
+## $partials
+##   variable.name        partial.Rsq
+## 1          temp  0.150926579344358
+## 2      genotype 0.0257889597702598</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapePRsq</span>(mlm_fit5)</code></pre></div>
+<pre><code>## $Rsquared
+## [1] 0.193
+## 
+## $partials
+##   variable.name         partial.Rsq
+## 1          temp 1.3753888557632e-16
+## 2      genotype                   0
+## 3 temp:genotype  0.0312535650989144</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>

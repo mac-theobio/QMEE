@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Ian Dworkin and Ben Bolker" />
+  <meta name="date" content="2017-03-17" />
+  <title>Multivariate modeling via mixed models</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Multivariate modeling via mixed models</h1>
+<h2 class="author">Ian Dworkin and Ben Bolker</h2>
+<h3 class="date">March 17, 2017</h3>
+</div>
+<p>This lecture follows on from last Wednesday’s: rather than fitting several linear models (each for a different response variable) simultaneously, we’re going to use a <em>mixed model</em> to fit multivariate data.</p>
+<p>Useful packages:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(MCMCglmm)
+<span class="kw">library</span>(lme4)
+<span class="kw">library</span>(brms)
+<span class="kw">library</span>(tidyr)
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(corrplot)
+<span class="kw">library</span>(broom)
+## need BMB&#39;s version from github:
+##  devtools::install_github(&quot;bbolker/broom&quot;)
+<span class="kw">library</span>(dotwhisker)
+<span class="kw">library</span>(ggplot2); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</code></pre></div>
+<p>Get data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_url &lt;-<span class="st"> &quot;http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv&quot;</span>
+if (!<span class="kw">file.exists</span>(<span class="st">&quot;dll.csv&quot;</span>)) {
+    <span class="kw">download.file</span>(data_url,<span class="dt">dest=</span><span class="st">&quot;dll.csv&quot;</span>)
+}
+dll_data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;dll.csv&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## make temp a factor (25 vs 30 degrees)
+dll_data$temp &lt;-<span class="st"> </span><span class="kw">factor</span>(dll_data$temp)
+## scale relevant variables (fancier but less repetition than previously)
+morph_vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;femur&quot;</span>,<span class="st">&quot;tibia&quot;</span>,<span class="st">&quot;tarsus&quot;</span>,<span class="st">&quot;SCT&quot;</span>)
+morph_vars_sc &lt;-<span class="st"> </span><span class="kw">paste</span>(morph_vars,<span class="st">&quot;s&quot;</span>,<span class="dt">sep=</span><span class="st">&quot;_&quot;</span>)
+dll_data2 &lt;-<span class="st"> </span>dll_data
+## c() drops unwanted structure from the results of scale()
+for (i in <span class="dv">1</span>:<span class="kw">length</span>(morph_vars)) {
+    dll_data2[[morph_vars_sc[i]]] &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">scale</span>(dll_data[[morph_vars[i]]]))
+}</code></pre></div>
+<h2 id="mixed-models">Mixed models</h2>
+<p>The previous expression for the multivariate model was</p>
+<p><span class="math display">\[ 
+\mathbf{Y} = \mathbf{XB} + \mathbf{E}
+\]</span></p>
+<p>In contrast, the expression for the mixed model is</p>
+<p><span class="math display">\[ 
+y = \mathbf{X\beta} + \mathbf{Zb} + \epsilon
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{b}\)</span> is a set of Gaussian variables with a variance-covariance matrix <span class="math inline">\(\mathbf{\Sigma}\)</span> which we estimate.</p>
+<p>Suppose we have observations of <span class="math inline">\(m\)</span> individuals, with <span class="math inline">\(p\)</span> different observations (traits, or time points, or types of measurement, or …) for each individual. The way we’re going to make this work is to expand (“melt”, or <code>gather()</code> if we’re using <code>tidyr</code>) the data set to be <span class="math inline">\(mp\)</span> observations long, then treat each individual (which was previously a single row of the data set but now comprises <span class="math inline">\(p\)</span> rows) as a group (we’ll call this <code>units</code>):</p>
+<h2 id="melting-code">melting code</h2>
+<p><img src="the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;"/></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_melt &lt;-<span class="st"> </span>(dll_data2
+    %&gt;%<span class="st"> </span><span class="kw">select</span>(-<span class="kw">c</span>(femur,tibia,tarsus,SCT))  ## drop unscaled vars
+    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">units=</span><span class="kw">factor</span>(<span class="dv">1</span>:<span class="kw">n</span>()))
+    %&gt;%<span class="st"> </span><span class="kw">gather</span>(trait,value, -<span class="kw">c</span>(units,replicate,line,genotype,temp))
+    %&gt;%<span class="st"> </span>na.omit
+)</code></pre></div>
+<h2 id="lmer-fit">lmer fit</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t1 &lt;-<span class="st"> </span><span class="kw">system.time</span>(
+    lmer1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(value ~<span class="st"> </span>trait:(genotype*temp) -<span class="st"> </span><span class="dv">1</span> +
+<span class="st">                      </span>(trait<span class="dv">-1</span>|line) +<span class="st"> </span>(trait<span class="dv">-1</span>|units),
+                  <span class="dt">data=</span>dll_melt,
+                  <span class="dt">control=</span><span class="kw">lmerControl</span>(<span class="dt">check.nobs.vs.nlev=</span><span class="st">&quot;ignore&quot;</span>,
+                                      <span class="dt">check.nobs.vs.nRE=</span><span class="st">&quot;ignore&quot;</span>))
+)</code></pre></div>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
+## $checkConv, : unable to evaluate scaled gradient</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control
+## $checkConv, : Model failed to converge: degenerate Hessian with 1 negative
+## eigenvalues</code></pre>
+<h2 id="lme4-fixed-effects-formula">lme4: fixed-effects formula</h2>
+<ul>
+<li>it doesn’t make sense to consider effects that apply equally to all traits</li>
+<li>so, let trait interact with all the other variables, but nothing else - use <code>-1</code> to drop intercept</li>
+<li>specification is equivalent to
+<ul>
+<li><code>trait:(1+genotype+temp+genotype:temp)</code></li>
+<li><strong>or</strong> <code>trait + trait:genotype + trait:temp + trait:genotype:temp</code></li>
+</ul></li>
+</ul>
+<h2 id="lme4-random-effects-formula">lme4: random-effects formula</h2>
+<ul>
+<li><code>(trait-1|line)</code> means “variance/covariances of traits among lines”</li>
+<li><code>-1</code> so we consider traits, not <em>differences</em> among traits</li>
+<li><code>(trait-1|units)</code> specifies “var/cov of traits among units (individuals)”</li>
+<li><code>lmer</code> always includes a residual variance term. This is redundant because we have only one data point per individual per trait: <code>lmerControl(...)</code> tells <code>lmer</code> not complain</li>
+<li>As a result, our within-individual correlation estimates will be slightly overestimated (not so for GLMMs)</li>
+</ul>
+<h2 id="notes-on-lme4-results">Notes on lme4 results</h2>
+<ul>
+<li>the fit is a little slow (16 seconds on my laptop) (GLMMs would be even slower)</li>
+<li><code>print(lmer1)</code>, <code>summary(lmer1)</code> useful but awkward (16 fixed effect coefficients, we’ll look at graphical summaries instead</li>
+<li><code>fixef()</code> (fixed effects), <code>ranef()</code> (line/indiv deviations from pop mean), <code>coef()</code> (line/indiv-level estimates), <code>VarCorr</code> (random effects var/cov)</li>
+</ul>
+<h2 id="lme4-random-effects-varcov">lme4: random-effects var/cov</h2>
+<ul>
+<li>underlying var-cov parameters are labeled <span class="math inline">\(\theta\)</span>: <code>getME(fit,&quot;theta&quot;)</code> extracts them</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">all</span>(<span class="kw">abs</span>(<span class="kw">getME</span>(lmer1,<span class="st">&quot;theta&quot;</span>))&gt;<span class="fl">1e-4</span>) ## check for singularity (OK in this case)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">VarCorr</span>(lmer1)</code></pre></div>
+<pre><code>##  Groups   Name          Std.Dev. Corr          
+##  units    traitfemur_s  0.648                  
+##           traitSCT_s    0.723    0.06          
+##           traittarsus_s 0.558    0.59 0.21     
+##           traittibia_s  0.664    0.93 0.12 0.48
+##  line     traitfemur_s  0.489                  
+##           traitSCT_s    0.392    0.14          
+##           traittarsus_s 0.462    0.81 0.37     
+##           traittibia_s  0.473    0.87 0.22 0.83
+##  Residual               0.471</code></pre>
+<h2 id="lme4-correlation-plot">lme4: correlation plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+vv1 &lt;-<span class="st"> </span><span class="kw">VarCorr</span>(lmer1)
+## fix unit variance-covariance by adding residual variance:
+<span class="kw">diag</span>(vv1$units) &lt;-<span class="st"> </span><span class="kw">diag</span>(vv1$units)+<span class="kw">sigma</span>(lmer1)^<span class="dv">2</span>
+<span class="kw">corrplot.mixed</span>(<span class="kw">cov2cor</span>(vv1$line),<span class="dt">upper=</span><span class="st">&quot;ellipse&quot;</span>)
+<span class="kw">corrplot.mixed</span>(<span class="kw">cov2cor</span>(vv1$units),<span class="dt">upper=</span><span class="st">&quot;ellipse&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/corrplot1-1.png" alt="plot of chunk corrplot1" />
+<p class="caption">plot of chunk corrplot1</p>
+</div>
+<p>Correlations of traits across lines are stronger than correlations within individuals. In both cases correlations are all positive (i.e. first axis of variation is <em>size</em> variation?)</p>
+<h2 id="lme4-coefficient-plot">lme4: coefficient plot</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dwplot</span>(lmer1)+<span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="dv">0</span>,<span class="dt">lty=</span><span class="dv">2</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/dwplot-1.png" alt="plot of chunk dwplot" />
+<p class="caption">plot of chunk dwplot</p>
+</div>
+<p>These results tell approximately the same story (coefficients are consistent across traits within a fixed effect, e.g. effect of higher temperature is to reduce scores on all traits).</p>
+<h1 id="mcmcglmm">MCMCglmm</h1>
+<p>Another option is the <code>MCMCglmm</code> package, which has a natural interface for general multivariate mixed models. It takes a while to get used to the interface, but here is an example. Please check out <a href="https://cran.r-project.org/web/packages/MCMCglmm/index.html">here</a> for more information about the package, and <a href="https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf">here</a> for an overview of how to use this package.</p>
+<p>First I find it easier (given the interface of MCMCglmm) to create a formula with the response variables and predictors. This is only for the fixed effects part of the model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fmla.MMLM1  &lt;-<span class="st"> </span><span class="kw">cbind</span>(femur_s, tibia_s, tarsus_s, SCT_s) ~
+<span class="st">    </span>trait:(genotype*temp) -<span class="st"> </span><span class="dv">1</span></code></pre></div>
+<p>Now we need to let <code>MCMCglmm</code> know which family (i.e. distribution) the response variables are. Since all are normal (Gaussian), we can specify it the following way.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fam.test &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;gaussian&quot;</span>, <span class="dv">4</span> )</code></pre></div>
+<p>Since <code>MCMCglmm</code> is fundamentally a Bayesian approach, it needs a prior. If you provide no prior by default, it tries a “flat” prior, although this rarely works. In this case I am providing a not-quite-flat prior, but just for the random effects of line and for the residual variances (could also provide them for the fixed effects).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">prior.model<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">list</span>( <span class="dt">R=</span><span class="kw">list</span>(<span class="dt">V=</span><span class="kw">diag</span>(<span class="dv">4</span>)/<span class="dv">4</span>, <span class="dt">nu=</span><span class="fl">0.004</span>),  
+                       <span class="dt">G=</span><span class="kw">list</span>(<span class="dt">G1=</span><span class="kw">list</span>(<span class="dt">V=</span><span class="kw">diag</span>(<span class="dv">4</span>)/<span class="dv">4</span>, <span class="dt">nu=</span><span class="fl">0.004</span>)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##,depends.on=c(&quot;prior&quot;,&quot;mod_fm&quot;,&quot;get_data&quot;)}
+t2 &lt;-<span class="st"> </span><span class="kw">system.time</span>(
+    MMLM1.fit &lt;-<span class="st"> </span><span class="kw">MCMCglmm</span>(fmla.MMLM1,
+                          <span class="dt">random=</span>~<span class="st"> </span><span class="kw">us</span>(trait):line, 
+                          <span class="dt">rcov=</span>~<span class="st"> </span><span class="kw">us</span>(trait):units,
+                          <span class="dt">prior=</span>  prior.model<span class="fl">.1</span>,
+                          <span class="dt">data=</span> dll_data2, 
+                          <span class="dt">family =</span> fam.test, 
+                          <span class="dt">nitt=</span> <span class="dv">10000</span>, <span class="dt">burnin=</span> <span class="dv">2000</span>, <span class="dt">thin=</span><span class="dv">10</span>)
+)</code></pre></div>
+<h2 id="mcmcglmm-specification-fixed-effects">MCMCglmm specification: fixed effects</h2>
+<ul>
+<li><code>fmla.MMLM1</code> is the formula object we created above</li>
+<li>it looks like the <code>lmer</code> formula</li>
+<li>the <code>trait</code> term is a reserved word in <code>MCMCglmm</code>, letting it know we want to fit a multivariate mixed model</li>
+<li><code>MCMCglmm</code> automatically melts the data for us (and assigns the name <code>trait</code> the same way we did manually above)</li>
+</ul>
+<h2 id="mcmcglmm-random-effects">MCMCglmm: random effects</h2>
+<ul>
+<li><code>random=~us(trait):line</code> asks <code>MCMCglmm</code> to fit an <em>unstructured</em> covariance matrix for the line term (i.e the different wild type genotypes we are examining).- “Unstructured” means we are estimating the complete 4 x 4 matrix of covariances (= 4*5/2 = 10 elements total)</li>
+<li>equivalent to <code>(trait-1|line)</code> in <code>lmer</code> model</li>
+<li><code>MCMCglmm</code> also automatically adds a <code>units</code></li>
+<li><code>rcov=~us(trait):units</code> = <code>(trait-1|units)</code></li>
+<li><code>MCMCglmm</code> offers a few other options for variance-covariance structures</li>
+</ul>
+<h2 id="mcmcglmm-other-options">MCMCglmm: other options</h2>
+<p>The <code>nitt</code> is how many iterations for the MCMC we want to perform, and the <code>burnin</code> is how many should be ignored at the beginning of the random walk.</p>
+<h2 id="mcmcglmm-diagnostics">MCMCglmm: diagnostics</h2>
+<p>The fit takes 23 seconds.</p>
+<p>Normally we would spend a fair bit of time on diagnostics of the MCMC, but for now we will just quickly check the trace plots and autocorrelation.</p>
+<p>In the fitted object <code>$Sol</code> is for solution, which is the term used for fixed effects in MCMCglmm. <code>$VCV</code> is for the variance-covariance matrix.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lattice)
+<span class="kw">xyplot</span>(MMLM1.fit$Sol[,<span class="dv">1</span>:<span class="dv">4</span>])</code></pre></div>
+<div class="figure">
+<img src="figure/diag_plots-1.png" alt="plot of chunk diag_plots" />
+<p class="caption">plot of chunk diag_plots</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(MMLM1.fit$Sol[,<span class="dv">13</span>:<span class="dv">16</span>])</code></pre></div>
+<div class="figure">
+<img src="figure/diag_plots-2.png" alt="plot of chunk diag_plots" />
+<p class="caption">plot of chunk diag_plots</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">acf</span>(MMLM1.fit$Sol[,<span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
+<div class="figure">
+<img src="figure/diag_plots-3.png" alt="plot of chunk diag_plots" />
+<p class="caption">plot of chunk diag_plots</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(MMLM1.fit$VCV[,<span class="dv">1</span>:<span class="dv">4</span>])</code></pre></div>
+<div class="figure">
+<img src="figure/diag_plots-4.png" alt="plot of chunk diag_plots" />
+<p class="caption">plot of chunk diag_plots</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">acf</span>(MMLM1.fit$VCV[,<span class="dv">1</span>:<span class="dv">3</span>])</code></pre></div>
+<div class="figure">
+<img src="figure/diag_plots-5.png" alt="plot of chunk diag_plots" />
+<p class="caption">plot of chunk diag_plots</p>
+</div>
+<p>Nothing terribly worrying.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(MMLM1.fit)</code></pre></div>
+<pre><code>## 
+##  Iterations = 2001:9991
+##  Thinning interval  = 10
+##  Sample size  = 800 
+## 
+##  DIC: 17451 
+## 
+##  G-structure:  ~us(trait):line
+## 
+##                                  post.mean l-95% CI u-95% CI eff.samp
+## traitfemur_s:traitfemur_s.line      0.2983   0.1317    0.485      800
+## traittibia_s:traitfemur_s.line      0.2528   0.1171    0.429      800
+## traittarsus_s:traitfemur_s.line     0.2279   0.1008    0.397      800
+## traitSCT_s:traitfemur_s.line        0.0334  -0.0726    0.161      800
+## traitfemur_s:traittibia_s.line      0.2528   0.1171    0.429      800
+## traittibia_s:traittibia_s.line      0.2790   0.1386    0.445      800
+## traittarsus_s:traittibia_s.line     0.2244   0.0952    0.368      800
+## traitSCT_s:traittibia_s.line        0.0504  -0.0676    0.168      800
+## traitfemur_s:traittarsus_s.line     0.2279   0.1008    0.397      800
+## traittibia_s:traittarsus_s.line     0.2244   0.0952    0.368      800
+## traittarsus_s:traittarsus_s.line    0.2630   0.1163    0.424      800
+## traitSCT_s:traittarsus_s.line       0.0832  -0.0149    0.215      800
+## traitfemur_s:traitSCT_s.line        0.0334  -0.0726    0.161      800
+## traittibia_s:traitSCT_s.line        0.0504  -0.0676    0.168      800
+## traittarsus_s:traitSCT_s.line       0.0832  -0.0149    0.215      800
+## traitSCT_s:traitSCT_s.line          0.1945   0.0916    0.321      701
+## 
+##  R-structure:  ~us(trait):units
+## 
+##                                   post.mean l-95% CI u-95% CI eff.samp
+## traitfemur_s:traitfemur_s.units      0.6431  0.60704   0.6889      800
+## traittibia_s:traitfemur_s.units      0.4010  0.36815   0.4385      800
+## traittarsus_s:traitfemur_s.units     0.2145  0.18671   0.2452      800
+## traitSCT_s:traitfemur_s.units        0.0259 -0.00595   0.0582      800
+## traitfemur_s:traittibia_s.units      0.4010  0.36815   0.4385      800
+## traittibia_s:traittibia_s.units      0.6644  0.62445   0.7087      800
+## traittarsus_s:traittibia_s.units     0.1791  0.15152   0.2067      800
+## traitSCT_s:traittibia_s.units        0.0591  0.02399   0.0885      899
+## traitfemur_s:traittarsus_s.units     0.2145  0.18671   0.2452      800
+## traittibia_s:traittarsus_s.units     0.1791  0.15152   0.2067      800
+## traittarsus_s:traittarsus_s.units    0.5349  0.50385   0.5700      800
+## traitSCT_s:traittarsus_s.units       0.0843  0.05451   0.1135      800
+## traitfemur_s:traitSCT_s.units        0.0259 -0.00595   0.0582      800
+## traittibia_s:traitSCT_s.units        0.0591  0.02399   0.0885      899
+## traittarsus_s:traitSCT_s.units       0.0843  0.05451   0.1135      800
+## traitSCT_s:traitSCT_s.units          0.7476  0.69903   0.7955      800
+## 
+##  Location effects: cbind(femur_s, tibia_s, tarsus_s, SCT_s) ~ trait:(genotype * temp) - 1 
+## 
+##                                 post.mean l-95% CI u-95% CI eff.samp
+## traitfemur_s:genotypeDll           0.5108   0.3032   0.7169      673
+## traittibia_s:genotypeDll           0.6371   0.4453   0.8754      800
+## traittarsus_s:genotypeDll          0.6170   0.4331   0.8153      639
+## traitSCT_s:genotypeDll             0.6771   0.4913   0.8609      800
+## traitfemur_s:genotypewt            0.1840  -0.0221   0.3808      718
+## traittibia_s:genotypewt            0.0199  -0.1863   0.2248      697
+## traittarsus_s:genotypewt           0.4488   0.2488   0.6367      722
+## traitSCT_s:genotypewt             -0.0801  -0.2495   0.0874      800
+## traitfemur_s:temp30               -0.8353  -0.9376  -0.7199      800
+## traittibia_s:temp30               -0.8086  -0.9228  -0.6983      800
+## traittarsus_s:temp30              -1.2366  -1.3258  -1.1272      800
+## traitSCT_s:temp30                 -0.8369  -0.9501  -0.7166      709
+## traitfemur_s:genotypewt:temp30     0.3582   0.2158   0.5130      800
+## traittibia_s:genotypewt:temp30     0.4740   0.3229   0.6069      800
+## traittarsus_s:genotypewt:temp30    0.5128   0.3810   0.6413      800
+## traitSCT_s:genotypewt:temp30       0.7225   0.5660   0.8716      800
+##                                  pMCMC   
+## traitfemur_s:genotypeDll        &lt;0.001 **
+## traittibia_s:genotypeDll        &lt;0.001 **
+## traittarsus_s:genotypeDll       &lt;0.001 **
+## traitSCT_s:genotypeDll          &lt;0.001 **
+## traitfemur_s:genotypewt          0.085 . 
+## traittibia_s:genotypewt          0.825   
+## traittarsus_s:genotypewt        &lt;0.001 **
+## traitSCT_s:genotypewt            0.352   
+## traitfemur_s:temp30             &lt;0.001 **
+## traittibia_s:temp30             &lt;0.001 **
+## traittarsus_s:temp30            &lt;0.001 **
+## traitSCT_s:temp30               &lt;0.001 **
+## traitfemur_s:genotypewt:temp30  &lt;0.001 **
+## traittibia_s:genotypewt:temp30  &lt;0.001 **
+## traittarsus_s:genotypewt:temp30 &lt;0.001 **
+## traitSCT_s:genotypewt:temp30    &lt;0.001 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Sometimes it is easier to look at the fixed and random effects separately.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(MMLM1.fit$Sol)</code></pre></div>
+<pre><code>## 
+## Iterations = 2001:9991
+## Thinning interval = 10 
+## Number of chains = 1 
+## Sample size per chain = 800 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##                                    Mean     SD Naive SE Time-series SE
+## traitfemur_s:genotypeDll         0.5108 0.1083  0.00383        0.00418
+## traittibia_s:genotypeDll         0.6371 0.1063  0.00376        0.00376
+## traittarsus_s:genotypeDll        0.6170 0.1002  0.00354        0.00396
+## traitSCT_s:genotypeDll           0.6771 0.0919  0.00325        0.00325
+## traitfemur_s:genotypewt          0.1840 0.1066  0.00377        0.00398
+## traittibia_s:genotypewt          0.0199 0.1023  0.00362        0.00387
+## traittarsus_s:genotypewt         0.4488 0.0985  0.00348        0.00367
+## traitSCT_s:genotypewt           -0.0801 0.0895  0.00316        0.00316
+## traitfemur_s:temp30             -0.8353 0.0557  0.00197        0.00197
+## traittibia_s:temp30             -0.8086 0.0566  0.00200        0.00200
+## traittarsus_s:temp30            -1.2366 0.0509  0.00180        0.00180
+## traitSCT_s:temp30               -0.8369 0.0600  0.00212        0.00225
+## traitfemur_s:genotypewt:temp30   0.3582 0.0757  0.00268        0.00268
+## traittibia_s:genotypewt:temp30   0.4740 0.0759  0.00268        0.00268
+## traittarsus_s:genotypewt:temp30  0.5128 0.0666  0.00236        0.00236
+## traitSCT_s:genotypewt:temp30     0.7225 0.0792  0.00280        0.00280
+## 
+## 2. Quantiles for each variable:
+## 
+##                                    2.5%     25%     50%     75%   97.5%
+## traitfemur_s:genotypeDll         0.2866  0.4385  0.5160  0.5812  0.7083
+## traittibia_s:genotypeDll         0.4177  0.5716  0.6391  0.7040  0.8533
+## traittarsus_s:genotypeDll        0.4199  0.5483  0.6184  0.6865  0.8123
+## traitSCT_s:genotypeDll           0.4943  0.6187  0.6784  0.7395  0.8670
+## traitfemur_s:genotypewt         -0.0254  0.1158  0.1870  0.2558  0.3778
+## traittibia_s:genotypewt         -0.1822 -0.0453  0.0207  0.0845  0.2316
+## traittarsus_s:genotypewt         0.2555  0.3810  0.4476  0.5147  0.6511
+## traitSCT_s:genotypewt           -0.2496 -0.1423 -0.0761 -0.0235  0.0868
+## traitfemur_s:temp30             -0.9518 -0.8726 -0.8384 -0.7949 -0.7298
+## traittibia_s:temp30             -0.9271 -0.8440 -0.8073 -0.7707 -0.7004
+## traittarsus_s:temp30            -1.3397 -1.2707 -1.2377 -1.2020 -1.1373
+## traitSCT_s:temp30               -0.9549 -0.8758 -0.8378 -0.7955 -0.7196
+## traitfemur_s:genotypewt:temp30   0.2071  0.3109  0.3612  0.4077  0.5081
+## traittibia_s:genotypewt:temp30   0.3286  0.4206  0.4730  0.5292  0.6129
+## traittarsus_s:genotypewt:temp30  0.3745  0.4689  0.5133  0.5599  0.6372
+## traitSCT_s:genotypewt:temp30     0.5765  0.6683  0.7218  0.7753  0.8828</code></pre>
+<p>And for the random effects.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(MMLM1.fit$VCV)</code></pre></div>
+<pre><code>## 
+## Iterations = 2001:9991
+## Thinning interval = 10 
+## Number of chains = 1 
+## Sample size per chain = 800 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##                                     Mean     SD Naive SE Time-series SE
+## traitfemur_s:traitfemur_s.line    0.2983 0.1024 0.003620       0.003620
+## traittibia_s:traitfemur_s.line    0.2528 0.0905 0.003198       0.003198
+## traittarsus_s:traitfemur_s.line   0.2279 0.0844 0.002984       0.002984
+## traitSCT_s:traitfemur_s.line      0.0334 0.0589 0.002083       0.002083
+## traitfemur_s:traittibia_s.line    0.2528 0.0905 0.003198       0.003198
+## traittibia_s:traittibia_s.line    0.2790 0.0915 0.003237       0.003237
+## traittarsus_s:traittibia_s.line   0.2244 0.0789 0.002788       0.002788
+## traitSCT_s:traittibia_s.line      0.0504 0.0568 0.002010       0.002010
+## traitfemur_s:traittarsus_s.line   0.2279 0.0844 0.002984       0.002984
+## traittibia_s:traittarsus_s.line   0.2244 0.0789 0.002788       0.002788
+## traittarsus_s:traittarsus_s.line  0.2630 0.0855 0.003024       0.003024
+## traitSCT_s:traittarsus_s.line     0.0832 0.0587 0.002074       0.002074
+## traitfemur_s:traitSCT_s.line      0.0334 0.0589 0.002083       0.002083
+## traittibia_s:traitSCT_s.line      0.0504 0.0568 0.002010       0.002010
+## traittarsus_s:traitSCT_s.line     0.0832 0.0587 0.002074       0.002074
+## traitSCT_s:traitSCT_s.line        0.1945 0.0684 0.002417       0.002582
+## traitfemur_s:traitfemur_s.units   0.6431 0.0210 0.000741       0.000741
+## traittibia_s:traitfemur_s.units   0.4010 0.0178 0.000631       0.000631
+## traittarsus_s:traitfemur_s.units  0.2145 0.0149 0.000527       0.000527
+## traitSCT_s:traitfemur_s.units     0.0259 0.0162 0.000573       0.000573
+## traitfemur_s:traittibia_s.units   0.4010 0.0178 0.000631       0.000631
+## traittibia_s:traittibia_s.units   0.6644 0.0219 0.000773       0.000773
+## traittarsus_s:traittibia_s.units  0.1791 0.0145 0.000514       0.000514
+## traitSCT_s:traittibia_s.units     0.0591 0.0166 0.000587       0.000554
+## traitfemur_s:traittarsus_s.units  0.2145 0.0149 0.000527       0.000527
+## traittibia_s:traittarsus_s.units  0.1791 0.0145 0.000514       0.000514
+## traittarsus_s:traittarsus_s.units 0.5349 0.0173 0.000610       0.000610
+## traitSCT_s:traittarsus_s.units    0.0843 0.0154 0.000546       0.000546
+## traitfemur_s:traitSCT_s.units     0.0259 0.0162 0.000573       0.000573
+## traittibia_s:traitSCT_s.units     0.0591 0.0166 0.000587       0.000554
+## traittarsus_s:traitSCT_s.units    0.0843 0.0154 0.000546       0.000546
+## traitSCT_s:traitSCT_s.units       0.7476 0.0244 0.000864       0.000864
+## 
+## 2. Quantiles for each variable:
+## 
+##                                       2.5%     25%    50%    75%  97.5%
+## traitfemur_s:traitfemur_s.line     0.16763  0.2302 0.2802 0.3398 0.5298
+## traittibia_s:traitfemur_s.line     0.12761  0.1915 0.2404 0.2932 0.4637
+## traittarsus_s:traitfemur_s.line    0.11074  0.1702 0.2145 0.2693 0.4310
+## traitSCT_s:traitfemur_s.line      -0.07557 -0.0040 0.0296 0.0668 0.1542
+## traitfemur_s:traittibia_s.line     0.12761  0.1915 0.2404 0.2932 0.4637
+## traittibia_s:traittibia_s.line     0.15164  0.2175 0.2631 0.3219 0.4787
+## traittarsus_s:traittibia_s.line    0.11267  0.1705 0.2099 0.2683 0.4118
+## traitSCT_s:traittibia_s.line      -0.05937  0.0156 0.0439 0.0818 0.1789
+## traitfemur_s:traittarsus_s.line    0.11074  0.1702 0.2145 0.2693 0.4310
+## traittibia_s:traittarsus_s.line    0.11267  0.1705 0.2099 0.2683 0.4118
+## traittarsus_s:traittarsus_s.line   0.14110  0.2034 0.2482 0.3060 0.4647
+## traitSCT_s:traittarsus_s.line     -0.01493  0.0442 0.0753 0.1170 0.2128
+## traitfemur_s:traitSCT_s.line      -0.07557 -0.0040 0.0296 0.0668 0.1542
+## traittibia_s:traitSCT_s.line      -0.05937  0.0156 0.0439 0.0818 0.1789
+## traittarsus_s:traitSCT_s.line     -0.01493  0.0442 0.0753 0.1170 0.2128
+## traitSCT_s:traitSCT_s.line         0.09983  0.1464 0.1818 0.2268 0.3582
+## traitfemur_s:traitfemur_s.units    0.60319  0.6286 0.6425 0.6569 0.6856
+## traittibia_s:traitfemur_s.units    0.36726  0.3889 0.4005 0.4132 0.4377
+## traittarsus_s:traitfemur_s.units   0.18667  0.2045 0.2140 0.2238 0.2447
+## traitSCT_s:traitfemur_s.units     -0.00575  0.0146 0.0255 0.0367 0.0599
+## traitfemur_s:traittibia_s.units    0.36726  0.3889 0.4005 0.4132 0.4377
+## traittibia_s:traittibia_s.units    0.62255  0.6501 0.6638 0.6789 0.7072
+## traittarsus_s:traittibia_s.units   0.15150  0.1694 0.1791 0.1885 0.2065
+## traitSCT_s:traittibia_s.units      0.02622  0.0487 0.0590 0.0696 0.0909
+## traitfemur_s:traittarsus_s.units   0.18667  0.2045 0.2140 0.2238 0.2447
+## traittibia_s:traittarsus_s.units   0.15150  0.1694 0.1791 0.1885 0.2065
+## traittarsus_s:traittarsus_s.units  0.50381  0.5233 0.5340 0.5460 0.5698
+## traitSCT_s:traittarsus_s.units     0.05399  0.0745 0.0850 0.0948 0.1131
+## traitfemur_s:traitSCT_s.units     -0.00575  0.0146 0.0255 0.0367 0.0599
+## traittibia_s:traitSCT_s.units      0.02622  0.0487 0.0590 0.0696 0.0909
+## traittarsus_s:traitSCT_s.units     0.05399  0.0745 0.0850 0.0948 0.1131
+## traitSCT_s:traitSCT_s.units        0.69900  0.7313 0.7475 0.7642 0.7954</code></pre>
+<p>This is not the most friendly output, and it takes a while to get used to. However, we can see that we still have evidence for something interesting going, and we could extract the vectors of effects as we did above.</p>
+<p>let’s look at the VCV matrix for the random effects of line in a slightly clearer way (as a matrix)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##&#39; extract variance-covariance matrices for MCMCglmm objects
+##&#39; does not (yet) set cor, stddev, residual-var attributes
+##&#39; may be fragile: depends on group vars not having dots in them?
+VarCorr.MCMCglmm &lt;-<span class="st"> </span>function(object, ...) {
+    s &lt;-<span class="st"> </span><span class="kw">summary</span>(object$VCV)$statistics[,<span class="st">&quot;Mean&quot;</span>]
+    grps &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;^[^.]+</span><span class="ch">\\</span><span class="st">.([[:alnum:]]+)$&quot;</span>,<span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>,<span class="kw">names</span>(s))
+    ss &lt;-<span class="st"> </span><span class="kw">split</span>(s,grps)
+    getVC &lt;-<span class="st"> </span>function(x) {
+        nms &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;^([^.]+)</span><span class="ch">\\</span><span class="st">.[[:alnum:]]+$&quot;</span>,<span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>,<span class="kw">names</span>(x))
+        n &lt;-<span class="st"> </span><span class="kw">length</span>(nms)
+        L &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">sqrt</span>(n))
+        dimnms &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;^([^:]+):.*$&quot;</span>,<span class="st">&quot;</span><span class="ch">\\</span><span class="st">1&quot;</span>,nms[<span class="dv">1</span>:L])
+        <span class="kw">return</span>(<span class="kw">matrix</span>(x,<span class="dt">dimnames=</span><span class="kw">list</span>(dimnms,dimnms),
+                      <span class="dt">nrow=</span>L))
+    }
+    r &lt;-<span class="st"> </span><span class="kw">setNames</span>(<span class="kw">lapply</span>(ss,getVC),<span class="kw">unique</span>(grps))
+    <span class="kw">return</span>(r)
+}
+vv &lt;-<span class="st"> </span><span class="kw">VarCorr</span>(MMLM1.fit)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">corrplot.mixed</span>(<span class="kw">cov2cor</span>(vv$line),<span class="dt">upper=</span><span class="st">&quot;ellipse&quot;</span>)
+<span class="kw">corrplot.mixed</span>(<span class="kw">cov2cor</span>(vv$units),<span class="dt">upper=</span><span class="st">&quot;ellipse&quot;</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/MCMCglmm_corrplot-1.png" alt="plot of chunk MCMCglmm_corrplot" />
+<p class="caption">plot of chunk MCMCglmm_corrplot</p>
+</div>
+<ul>
+<li>among-line effects are very similar to <code>lme4</code> estimates (variables are in a different order)</li>
+<li>among-individual effects a</li>
+</ul>
+<p>This is only a taste of what to do, and after this we could start asking questions about this genetic variance co-variance matrix.</p>
+<p>Compare fixed effects:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tt &lt;-<span class="st"> </span><span class="kw">tidy</span>(MMLM1.fit)
+tt2 &lt;-<span class="st"> </span><span class="kw">tidy</span>(lmer1)
+tt_comb &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(<span class="dt">lmer=</span>tt,<span class="dt">MCMCglmm=</span>tt2,<span class="dt">.id=</span><span class="st">&quot;model&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(effect==<span class="st">&quot;fixed&quot;</span>)</code></pre></div>
+<pre><code>## Warning in bind_rows_(x, .id): Unequal factor levels: coercing to character</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dwplot</span>(tt_comb)+<span class="kw">geom_vline</span>(<span class="dt">xintercept=</span><span class="dv">0</span>,<span class="dt">lty=</span><span class="dv">2</span>)</code></pre></div>
+<div class="figure">
+<img src="figure/dwplot2-1.png" alt="plot of chunk dwplot2" />
+<p class="caption">plot of chunk dwplot2</p>
+</div>
+<h2 id="pros-and-cons">Pros and cons</h2>
+<ul>
+<li>MCMCglmm: Bayesian
+<ul>
+<li>easier to get various kinds of confidence intervals</li>
+<li>flexible priors</li>
+<li>more flexible variance structures</li>
+<li>multiple response types within a unit (e.g. Gaussian + Poisson)</li>
+</ul></li>
+<li>lme4: frequentist
+<ul>
+<li>faster</li>
+<li>simpler interface (??)</li>
+<li>more convenient outputs</li>
+</ul></li>
+<li>other options: <code>glmmTMB</code>, <code>brms</code> …</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
