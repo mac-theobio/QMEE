@@ -25,7 +25,11 @@ library(geomorph)
 ```
 
 ```
-## Error in library(geomorph): there is no package called 'geomorph'
+## Loading required package: rgl
+```
+
+```
+## Loading required package: ape
 ```
 
 the `car` package has some useful functions for helping to make inferences for [multivariate linear models](https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf). the `geomorph` package is a specialized package for biological shape analysis (geometric morphometrics), but since this data is inherently multidimensional, there are many useful functions. Check the [wiki](https://github.com/geomorphR/geomorph/wiki) out. Other useful packages include the [vegan](https://cran.r-project.org/web/packages/vegan/vegan.pdf) package, including the distance based multivariate analysis of variance using the `adonis` function in it. geomorph's linear model is a refinement of this.
@@ -684,16 +688,30 @@ mlm_fit4_dist <- procD.lm(dll_data[,9:12] ~ genotype*temp,
                           data = dll_data, iter = 2000)
 ```
 
-```
-## Error in eval(expr, envir, enclos): could not find function "procD.lm"
-```
-
 ```r
 summary(mlm_fit4_dist)
 ```
 
 ```
-## Error in summary(mlm_fit4_dist): object 'mlm_fit4_dist' not found
+## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
+##     data = dll_data) 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##                 Df   SS   MS    Rsq     F    Z Pr(>F)    
+## genotype         1  143  143 0.0186  44.2 22.9  5e-04 ***
+## temp             1 1136 1136 0.1481 351.2 43.8  5e-04 ***
+## genotype:temp    1  200  200 0.0260  61.8 32.2  5e-04 ***
+## Residuals     1914 6190    3                             
+## Total         1917 7668                                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.
@@ -760,10 +778,10 @@ shapePRsq(mlm_fit5)
 ## [1] 0.193
 ## 
 ## $partials
-##   variable.name         partial.Rsq
-## 1          temp 1.3753888557632e-16
-## 2      genotype                   0
-## 3 temp:genotype  0.0312535650989144
+##   variable.name          partial.Rsq
+## 1          temp -1.3753888557632e-16
+## 2      genotype -2.7507777115264e-16
+## 3 temp:genotype   0.0312535650989142
 ```
 
 
