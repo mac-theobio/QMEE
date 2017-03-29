@@ -556,11 +556,25 @@ class(mlm_fit1)</pre>
 
 <pre class = 'prettyprint lang-r'>mlm_fit2 &lt;- procD.lm(f1 = dll_data[, 9:12] ~ genotype, data = dll_data, iter = 2000 )</pre>
 
-<pre >## Error in eval(expr, envir, enclos): could not find function &quot;procD.lm&quot;</pre>
-
 <pre class = 'prettyprint lang-r'>summary(mlm_fit2)</pre>
 
-<pre >## Error in summary(mlm_fit2): object &#39;mlm_fit2&#39; not found</pre>
+<pre >## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data) 
+## 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##             Df   SS    MS    Rsq    F    Z Pr(&gt;F)    
+## genotype     1  143 142.9 0.0186 36.4 22.9  5e-04 ***
+## Residuals 1916 7525   3.9                            
+## Total     1917 7668                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
 
 <p>Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one.)</p>
 
@@ -568,7 +582,9 @@ class(mlm_fit1)</pre>
 
 <pre class = 'prettyprint lang-r'>coef(mlm_fit2)</pre>
 
-<pre >## Error in coef(mlm_fit2): object &#39;mlm_fit2&#39; not found</pre>
+<pre >##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322</pre>
 
 <p>The &#39;advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.</p>
 
