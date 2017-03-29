@@ -627,17 +627,29 @@ They have a number of functions in the geomorph package, but for most needs, I s
 mlm_fit2 <- procD.lm(f1 = dll_data[, 9:12] ~ genotype, data = dll_data, iter = 2000 )
 ```
 
-```
-## Error in eval(expr, envir, enclos): could not find function "procD.lm"
-```
-
 
 ```r
 summary(mlm_fit2)
 ```
 
 ```
-## Error in summary(mlm_fit2): object 'mlm_fit2' not found
+## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data) 
+## 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##             Df   SS    MS    Rsq    F    Z Pr(>F)    
+## genotype     1  143 142.9 0.0186 36.4 22.9  5e-04 ***
+## Residuals 1916 7525   3.9                            
+## Total     1917 7668                                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one.)
@@ -650,7 +662,9 @@ coef(mlm_fit2)
 ```
 
 ```
-## Error in coef(mlm_fit2): object 'mlm_fit2' not found
+##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322
 ```
 
 The 'advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.
