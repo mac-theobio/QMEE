@@ -2,6 +2,8 @@
 title: Quantitative Methods in Ecology and Evolution
 ---
 
+<!--- 
+
 ## Current
 
 _For this week_:
@@ -21,6 +23,7 @@ _Submission_:
 * Email us to tell us when it's time to look
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
+-->
 
 ## Course information
 

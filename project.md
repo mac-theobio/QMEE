@@ -4,32 +4,56 @@ title: Final project
 
 Your final project is due on Thursday 20 April at noon. You should discuss and perform a group of statistical analyses. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth four (4) ordinary assignments.
 
-## Groups
+## Presentations
 
-We have divided you into groups as follows. The star indicates the person whose data we suggest using for the project.
+Please plan to take 10 minutes for your presentation. Time is short, and we want to be able to comment when appropriate.
 
-* Pesevski, Maria*; Yang, Kai
+The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward.
 
-* Barker, Jordan James*; Werba, Jo Avital
+### Schedule
 
-* Hua, Wenjing*; Cauret, Caroline Marie Sophie
+#### Monday hour 1
 
-* Takahashi, Michael Tadashi Sullivan*; Kosakowski, Jakub
+* Pesevski, Maria; Yang, Kai
+	* African wings
 
-* Delungahawatta, Thilini Nuwanga*; Aljohani, Renad Anwar
+* Hua, Wenjing; Cauret, Caroline Marie Sophie
+	* Cryptococcus phenotype
 
-* Samarasinghe, Himeshi Appuhamillage Himeshi*; Li, Ruoyuan
+* Delungahawatta, Thilini Nuwanga; Aljohani, Renad Anwar
+	* Baci Motility
 
-* Shephard, Alex Mulligan*; Dai, Fei
+* Shephard, Alex Mulligan; Dai, Fei
+	* life history
 
-* Baxter, Carling Manza*; Forsythe, Adrian
+#### Monday hour 2
 
-* You, Man*; Lin, Xiao Yue
+* You, Man; Lin, Xiao Yue
+	* Hybrid Germination
 
-* Miller, Jessica Susan*; Marzec, Sarah Ruth
+* Barker, Jordan James; Werba, Jo Avital
+	* forest community
 
-* Knoops, Paul Peter*; Flett, Lucas
+* Baxter, Carling Manza; Forsythe, Adrian
+	* Drosophila aggression
 
+----------------------------------------------------------------------
+
+#### Wednesday
+
+* Takahashi, Michael Tadashi Sullivan; Kosakowski, Jakub
+	* chlorophyll daphnia
+
+* Samarasinghe, Himeshi Appuhamillage; Li, Ruoyuan
+	* Cryptococcus melanin
+
+* Miller, Jessica Susan; Marzec, Sarah Ruth
+	* Midshipman Sperm
+
+* Knoops, Paul Peter; Flett, Lucas
+	* Drosophila Sequences
+
+<!--
 
 ## Getting started
 
@@ -50,3 +74,5 @@ It is OK to adapt existing text from your assignments, but both partners should 
 
 * Start cleaning, coding and analyzing!
 	* Again, it's OK to reuse stuff, but you should go over it together before moving on.
+
+-->
