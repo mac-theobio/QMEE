@@ -8,7 +8,7 @@ Your final project is due on Thursday 20 April at noon. You should discuss and p
 
 Please plan to take 10 minutes for your presentation. Time is short, and we want to be able to comment when appropriate.
 
-The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward.
+The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.
 
 ### Schedule
 
