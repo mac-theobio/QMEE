@@ -1,24 +1,27 @@
 ---
 title: Quantitative Methods in Ecology and Evolution
 ---
+<!--- This is how you make a comment
+-->
 
 <!--- 
-
 ## Current
 
-_For this week_:
+### Each week:
 
-* Respond to comments, and clarify your group Readme
-* Move your data to your new repo directory
-* Make a master script (either .Rmd or .R) that you will build on to give your project a clear flow.
-	*  You can look at [the example from class (you will need to be logged in to github to see this)](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R)
-	* You can also find this script (and the one or two associated scripts that actually exist) in the course private repo, under dushoff/
-* _Import_ your data-cleaning procedure to the new repo directory
-	* Don't just copy-paste, use this as an opportunity to rethink and rewrite
-* Make a script called by master.R (or a section of your .Rmd) that makes one or two pictures that illustrate relevant aspects of your data.
-	* This is to help the instructors figure out what's going on and help you.
+* A brief project report by email on Friday; let us know if you have any questions we can address
 
-_Submission_:
+### Presentations
+
+Mon 3 April and Wed 5 April
+
+* Let us know if you want to request a day or time
+* Your presentation should take 10 minutes or less: try to keep it clear and simple
+* Don't over-prepare; the presentation should be an informal overview and progress report
+	* Don't let the presentation preparation interfere with the actual project
+	* Don't even start preparing your presentation until the Wed or Fri before (depending on when you are presenting)
+
+### Final project
 
 * Email us to tell us when it's time to look
 * _Tell us_ if you can't submit by Friday at noon
@@ -61,10 +64,16 @@ _We will cover 3-5 of these, depending on how projects are going_
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
 - [Multivariate responses](Multivariate_responses.html)
+
+_Probably not_
+
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 
-<!--- restore for next time; also, build a better list of options
+<!---
+* restore text and link below for next for next time
+	* also, build a better list of options
+
 The last part of the schedule will be determined through discussions
 with the participants. If you have suggestions or requests, let us know.
 
