@@ -14,7 +14,7 @@ Sources = Makefile .gitignore README.md stuff.mk LICENSE.md
 include stuff.mk
 -include $(ms)/git.def
 
-Sources += $(wildcard *.html *.css)
+Sources += $(wildcard *.html *.css *.R)
 
 Sources += $(wildcard figure/*.*)
 
