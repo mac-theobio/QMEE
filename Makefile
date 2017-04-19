@@ -4,7 +4,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: push_pages 
+target pngtarget pdftarget vtarget acrtarget: open_pages 
 
 push_pages: Generalized_linear_models.rmd
 
