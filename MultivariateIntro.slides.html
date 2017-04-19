@@ -109,7 +109,9 @@
 library(car)
 library(geomorph)</pre>
 
-<pre >## Error in library(geomorph): there is no package called &#39;geomorph&#39;</pre>
+<pre >## Loading required package: rgl</pre>
+
+<pre >## Loading required package: ape</pre>
 
 <p>the <code>car</code> package has some useful functions for helping to make inferences for <a href='https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf' title=''>multivariate linear models</a>. the <code>geomorph</code> package is a specialized package for biological shape analysis (geometric morphometrics), but since this data is inherently multidimensional, there are many useful functions. Check the <a href='https://github.com/geomorphR/geomorph/wiki' title=''>wiki</a> out. Other useful packages include the <a href='https://cran.r-project.org/web/packages/vegan/vegan.pdf' title=''>vegan</a> package, including the distance based multivariate analysis of variance using the <code>adonis</code> function in it. geomorph&#39;s linear model is a refinement of this.</p>
 
@@ -554,11 +556,25 @@ class(mlm_fit1)</pre>
 
 <pre class = 'prettyprint lang-r'>mlm_fit2 &lt;- procD.lm(f1 = dll_data[, 9:12] ~ genotype, data = dll_data, iter = 2000 )</pre>
 
-<pre >## Error in eval(expr, envir, enclos): could not find function &quot;procD.lm&quot;</pre>
-
 <pre class = 'prettyprint lang-r'>summary(mlm_fit2)</pre>
 
-<pre >## Error in summary(mlm_fit2): object &#39;mlm_fit2&#39; not found</pre>
+<pre >## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data) 
+## 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##             Df   SS    MS    Rsq    F    Z Pr(&gt;F)    
+## genotype     1  143 142.9 0.0186 36.4 22.9  5e-04 ***
+## Residuals 1916 7525   3.9                            
+## Total     1917 7668                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
 
 <p>Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one.)</p>
 
@@ -566,7 +582,9 @@ class(mlm_fit1)</pre>
 
 <pre class = 'prettyprint lang-r'>coef(mlm_fit2)</pre>
 
-<pre >## Error in coef(mlm_fit2): object &#39;mlm_fit2&#39; not found</pre>
+<pre >##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322</pre>
 
 <p>The &#39;advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.</p>
 
@@ -595,11 +613,27 @@ Anova(mlm_fit5)</pre>
 <pre class = 'prettyprint lang-r'>mlm_fit4_dist &lt;- procD.lm(dll_data[,9:12] ~ genotype*temp,
                           data = dll_data, iter = 2000)</pre>
 
-<pre >## Error in eval(expr, envir, enclos): could not find function &quot;procD.lm&quot;</pre>
-
 <pre class = 'prettyprint lang-r'>summary(mlm_fit4_dist)</pre>
 
-<pre >## Error in summary(mlm_fit4_dist): object &#39;mlm_fit4_dist&#39; not found</pre>
+<pre >## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
+##     data = dll_data) 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##                 Df   SS   MS    Rsq     F    Z Pr(&gt;F)    
+## genotype         1  143  143 0.0186  44.2 22.9  5e-04 ***
+## temp             1 1136 1136 0.1481 351.2 43.8  5e-04 ***
+## genotype:temp    1  200  200 0.0260  61.8 32.2  5e-04 ***
+## Residuals     1914 6190    3                             
+## Total         1917 7668                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
 
 <p>We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.</p>
 
@@ -640,10 +674,10 @@ Anova(mlm_fit5)</pre>
 ## [1] 0.193
 ## 
 ## $partials
-##   variable.name         partial.Rsq
-## 1          temp 1.3753888557632e-16
-## 2      genotype                   0
-## 3 temp:genotype  0.0312535650989144</pre></article></slide>
+##   variable.name          partial.Rsq
+## 1          temp -1.3753888557632e-16
+## 2      genotype -2.7507777115264e-16
+## 3 temp:genotype   0.0312535650989142</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
