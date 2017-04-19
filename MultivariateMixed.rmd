@@ -7,14 +7,12 @@ output:
     keep_md: yes
 ---
 
-
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 options(digits  = 3)
 ```
 
 This lecture follows on from last Wednesday's: rather than fitting several linear models (each for a different response variable) simultaneously, we're going to use a *mixed model* to fit multivariate data.
-
 
 Useful packages:
 
@@ -77,7 +75,7 @@ The way we're going to make this work is to expand ("melt", or `gather()` if we'
 
 ## melting code
 
-<img src="the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;"/>
+<img src="figure/the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;" />
 
 ```{r melt}
 dll_melt <- (dll_data2
