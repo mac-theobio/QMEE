@@ -662,6 +662,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 60        Traditionnal/animist        None/Other
 ## 61                United faith        None/Other
 ## 62               Not responded                NA</code></pre>
+<h2 id="using-a-dictionary">Using a dictionary</h2>
+<p>Start the same way as before.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(patchtab)</code></pre></div>
+<pre><code>##   country continent count patchcountry
+## 1   Kenya    Africa    23         &lt;NA&gt;
+## 2  Uganda    Africa    31         &lt;NA&gt;
+## 3  Ungada    Africa     1       Uganda
+## 4 Vietnam      Asia    16         &lt;NA&gt;</code></pre>
+<p>But use different logic for replacement</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dtab &lt;-<span class="st"> </span>(patchtab
+    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span>patchcountry)
+    %&gt;%<span class="st"> </span><span class="kw">select</span>(-patchcountry)
+)
+<span class="kw">print</span>(dtab)</code></pre></div>
+<pre><code>##   country continent count
+## 1    &lt;NA&gt;    Africa    23
+## 2    &lt;NA&gt;    Africa    31
+## 3  Uganda    Africa     1
+## 4    &lt;NA&gt;      Asia    16</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>

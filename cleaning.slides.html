@@ -811,7 +811,33 @@ print(ctab)</pre>
 ## 59              Traditionalist        None/Other
 ## 60        Traditionnal/animist        None/Other
 ## 61                United faith        None/Other
-## 62               Not responded                NA</pre></article></slide>
+## 62               Not responded                NA</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using a dictionary</h2></hgroup><article  id="using-a-dictionary">
+
+<p>Start the same way as before.</p>
+
+<pre class = 'prettyprint lang-r'>print(patchtab)</pre>
+
+<pre >##   country continent count patchcountry
+## 1   Kenya    Africa    23         &lt;NA&gt;
+## 2  Uganda    Africa    31         &lt;NA&gt;
+## 3  Ungada    Africa     1       Uganda
+## 4 Vietnam      Asia    16         &lt;NA&gt;</pre>
+
+<p>But use different logic for replacement</p>
+
+<pre class = 'prettyprint lang-r'>dtab &lt;- (patchtab
+    %&gt;% mutate(country=patchcountry)
+    %&gt;% select(-patchcountry)
+)
+print(dtab)</pre>
+
+<pre >##   country continent count
+## 1    &lt;NA&gt;    Africa    23
+## 2    &lt;NA&gt;    Africa    31
+## 3  Uganda    Africa     1
+## 4    &lt;NA&gt;      Asia    16</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
