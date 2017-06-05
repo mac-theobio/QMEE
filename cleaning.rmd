@@ -1,5 +1,5 @@
 ---
-title: Clean and tidy data
+title: Data management and cleaning
 author: Jonathan Dushoff
 date: MMED 2017
 ---
