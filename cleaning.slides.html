@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Final project</title>
+  <title>Clean and tidy data</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Final project',
+                title: 'Clean and tidy data',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -29,6 +29,14 @@
 
       // Author information
       presenters: [
+            {
+        name:  'Jonathan Dushoff' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
             ]
     };
   </script>
@@ -85,114 +93,93 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">MMED 2017</p>
           </hgroup>
   </slide>
 
-<p>Your final project is due on Thursday 20 April at noon. You should discuss and perform a group of statistical analyses. You don&#39;t need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth four (4) ordinary assignments.</p>
+<slide class=''><hgroup><h2>Data analysis</h2></hgroup><article  id="data-analysis">
 
-<slide class=''><hgroup><h2>Presentations</h2></hgroup><article  id="presentations">
-
-<p>Please plan to take 10 minutes for your presentation. Time is short, and we want to be able to comment when appropriate.</p>
-
-<p>The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.</p>
-
-<h3>Schedule</h3>
-
-<h4>Monday hour 1</h4>
+<p>Data must be:</p>
 
 <ul>
-<li>Pesevski, Maria; Yang, Kai
-
-<ul>
-<li>African wings</li>
-</ul></li>
-<li>Hua, Wenjing; Cauret, Caroline Marie Sophie
-
-<ul>
-<li>Cryptococcus phenotype</li>
-</ul></li>
-<li>Delungahawatta, Thilini Nuwanga; Aljohani, Renad Anwar
-
-<ul>
-<li>Baci Motility</li>
-</ul></li>
-<li>Shephard, Alex Mulligan; Dai, Fei
-
-<ul>
-<li>life history</li>
-</ul></li>
+<li><p>Organized</p></li>
+<li><p>Cleaned</p></li>
+<li><p>Manipulated</p></li>
+<li><p>Analyzed</p></li>
 </ul>
 
-<h4>Monday hour 2</h4>
+<p>The first three often take the most time, and this is often because researchers undervalue them.</p>
+
+<p>There&#39;s never time to do it right &#8230; but there&#39;s always time to do it over!</p>
+
+</article></slide><slide class=''><hgroup><h2>Structured tools for dealing with data</h2></hgroup><article  id="structured-tools-for-dealing-with-data">
 
 <ul>
-<li>You, Man; Lin, Xiao Yue
-
-<ul>
-<li>Hybrid Germination</li>
-</ul></li>
-<li>Barker, Jordan James; Werba, Jo Avital
-
-<ul>
-<li>forest community</li>
-</ul></li>
-<li>Baxter, Carling Manza; Forsythe, Adrian
-
-<ul>
-<li>Drosophila aggression</li>
-</ul></li>
+<li>dplyr</li>
+<li>tidyr</li>
+<li>readr</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+<pre class = 'prettyprint lang-r'>library(tidyverse)</pre>
 
-<h4>Wednesday</h4>
+</article></slide><slide class=''><hgroup><h2>A sample data set</h2></hgroup><article  id="a-sample-data-set">
+
+<pre class = 'prettyprint lang-r'>village &lt;- read.csv(&quot;~/git/Malaria/village.csv&quot;)
+summary(village)</pre>
+
+<pre >##       area       village           grid          fup        
+##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
+##  A2     :62   1st Qu.:211.2   7C     :  7   1st Qu.: 3.000  
+##  B      :85   Median :362.5   8E     :  7   Median : 6.000  
+##  Babura : 1   Mean   :402.0   4B     :  6   Mean   : 6.217  
+##  Banzoma: 5   3rd Qu.:565.2   4D     :  6   3rd Qu.: 7.000  
+##  C      : 5   Max.   :967.0   6B     :  6   Max.   :92.000  
+##  Ringim :14                   (Other):141                   
+##             vname           vu        grouped1         grouped2      
+##  Daurawa       :  2   Kar    :26   Min.   :  0.00   Min.   : 0.0000  
+##  Sabon Gari    :  2   Dok    :21   1st Qu.:  0.00   1st Qu.: 0.0000  
+##  Adinis Fulanin:  1   Kit    :18   Median : 24.50   Median : 0.0000  
+##  Aduwa         :  1   Aju    :13   Mean   : 37.06   Mean   : 0.7833  
+##  Ajura         :  1   Gar    :13   3rd Qu.: 52.25   3rd Qu.: 1.0000  
+##  Anju          :  1   Sug    :13   Max.   :550.00   Max.   :10.0000  
+##  (Other)       :172   (Other):76                                     
+##    scattered1       scattered2        population    
+##  Min.   :  0.00   Min.   :0.00000   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.: 124.0  
+##  Median :  6.00   Median :0.00000   Median : 222.0  
+##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
+##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
+##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
+## </pre>
+
+</article></slide><slide class=''><hgroup><h2>Entering, maintaining and using data</h2></hgroup><article  id="entering-maintaining-and-using-data">
 
 <ul>
-<li>Takahashi, Michael Tadashi Sullivan; Kosakowski, Jakub
-
-<ul>
-<li>chlorophyll daphnia</li>
-</ul></li>
-<li>Samarasinghe, Himeshi Appuhamillage; Li, Ruoyuan
-
-<ul>
-<li>Cryptococcus melanin</li>
-</ul></li>
-<li>Miller, Jessica Susan; Marzec, Sarah Ruth
-
-<ul>
-<li>Midshipman Sperm</li>
-</ul></li>
-<li>Knoops, Paul Peter; Flett, Lucas
-
-<ul>
-<li>Drosophila Sequences</li>
-</ul></li>
+<li><p>These are different functions, and often call for different ways of formatting data</p></li>
+<li><p>This is why we have computers</p></li>
 </ul>
 
-<!--
+</article></slide><slide class=''><hgroup><h2>Data entry</h2></hgroup><article  id="data-entry">
 
-## Getting started
+<ul>
+<li><p>Convenient for users</p></li>
+<li><p>Some amount of redundancy is good (to catch errors)</p></li>
+<li><p>Often a &quot;wide&quot; format (related information on the same row)</p></li>
+</ul>
 
-* Make a subdirectory in the projects/ subdirectory of the github repo
-    * Use a one- or two-word name that describes the project: e.g., HIV_virulence, biodiversity
-    * The name should consist of letters, you can also use numbers or the underscore `_`. Don't use spaces or other characters.
+</article></slide><slide class=''><hgroup><h2>Data use</h2></hgroup><article  id="data-use">
 
-* Add a README.md file to the project. _We will review these over the weekend_. The README.md should
-    * Describe your data
-    * Describe your scientific question or questions
-    * Describe your analysis plans
-    * Highlight any questions or issues you have about how to proceed
-It is OK to adapt existing text from your assignments, but both partners should go through the text, and the non-starting partner should work to make it clear for outside readers.
+<ul>
+<li><p>Scanning for patterns and problems</p></li>
+<li><p>Making tables for publication</p></li>
+<li><p>Making data frames for statistical analysis</p></li>
+</ul>
 
-* Add your data to the project
+</article></slide><slide class=''><hgroup><h2>Database</h2></hgroup><article  id="database">
 
-* Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R) (this is in the private repo; you can use the link if you are logged in to github, or you can view it locally in the course repo).
-
-* Start cleaning, coding and analyzing!
-    * Again, it's OK to reuse stuff, but you should go over it together before moving on.
-
---></article></slide>
+<ul>
+<li>The database is</li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

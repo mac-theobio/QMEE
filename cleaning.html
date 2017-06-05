@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jonathan Dushoff" />
+  <title>Clean and tidy data</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<div id="header">
+<h1 class="title">Clean and tidy data</h1>
+<h2 class="author">Jonathan Dushoff</h2>
+<h3 class="date">MMED 2017</h3>
+</div>
+<h2 id="data-analysis">Data analysis</h2>
+<p>Data must be:</p>
+<ul>
+<li><p>Organized</p></li>
+<li><p>Cleaned</p></li>
+<li><p>Manipulated</p></li>
+<li><p>Analyzed</p></li>
+</ul>
+<p>The first three often take the most time, and this is often because researchers undervalue them.</p>
+<p>There’s never time to do it right … but there’s always time to do it over!</p>
+<h2 id="structured-tools-for-dealing-with-data">Structured tools for dealing with data</h2>
+<ul>
+<li>dplyr</li>
+<li>tidyr</li>
+<li>readr</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<h2 id="a-sample-data-set">A sample data set</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">village &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;~/git/Malaria/village.csv&quot;</span>)
+<span class="kw">summary</span>(village)</code></pre></div>
+<pre><code>##       area       village           grid          fup        
+##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
+##  A2     :62   1st Qu.:211.2   7C     :  7   1st Qu.: 3.000  
+##  B      :85   Median :362.5   8E     :  7   Median : 6.000  
+##  Babura : 1   Mean   :402.0   4B     :  6   Mean   : 6.217  
+##  Banzoma: 5   3rd Qu.:565.2   4D     :  6   3rd Qu.: 7.000  
+##  C      : 5   Max.   :967.0   6B     :  6   Max.   :92.000  
+##  Ringim :14                   (Other):141                   
+##             vname           vu        grouped1         grouped2      
+##  Daurawa       :  2   Kar    :26   Min.   :  0.00   Min.   : 0.0000  
+##  Sabon Gari    :  2   Dok    :21   1st Qu.:  0.00   1st Qu.: 0.0000  
+##  Adinis Fulanin:  1   Kit    :18   Median : 24.50   Median : 0.0000  
+##  Aduwa         :  1   Aju    :13   Mean   : 37.06   Mean   : 0.7833  
+##  Ajura         :  1   Gar    :13   3rd Qu.: 52.25   3rd Qu.: 1.0000  
+##  Anju          :  1   Sug    :13   Max.   :550.00   Max.   :10.0000  
+##  (Other)       :172   (Other):76                                     
+##    scattered1       scattered2        population    
+##  Min.   :  0.00   Min.   :0.00000   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.: 124.0  
+##  Median :  6.00   Median :0.00000   Median : 222.0  
+##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
+##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
+##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
+## </code></pre>
+<h2 id="entering-maintaining-and-using-data">Entering, maintaining and using data</h2>
+<ul>
+<li><p>These are different functions, and often call for different ways of formatting data</p></li>
+<li><p>This is why we have computers</p></li>
+</ul>
+<h2 id="data-entry">Data entry</h2>
+<ul>
+<li><p>Convenient for users</p></li>
+<li><p>Some amount of redundancy is good (to catch errors)</p></li>
+<li><p>Often a “wide” format (related information on the same row)</p></li>
+</ul>
+<h2 id="data-use">Data use</h2>
+<ul>
+<li><p>Scanning for patterns and problems</p></li>
+<li><p>Making tables for publication</p></li>
+<li><p>Making data frames for statistical analysis</p></li>
+</ul>
+<h2 id="database">Database</h2>
+<ul>
+<li>The database is</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

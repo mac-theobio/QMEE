@@ -107,7 +107,7 @@ y = \mathbf{X\beta} + \mathbf{Zb} + \epsilon
 <p>where <span class="math inline">\(\mathbf{b}\)</span> is a set of Gaussian variables with a variance-covariance matrix <span class="math inline">\(\mathbf{\Sigma}\)</span> which we estimate.</p>
 <p>Suppose we have observations of <span class="math inline">\(m\)</span> individuals, with <span class="math inline">\(p\)</span> different observations (traits, or time points, or types of measurement, or …) for each individual. The way we’re going to make this work is to expand (“melt”, or <code>gather()</code> if we’re using <code>tidyr</code>) the data set to be <span class="math inline">\(mp\)</span> observations long, then treat each individual (which was previously a single row of the data set but now comprises <span class="math inline">\(p\)</span> rows) as a group (we’ll call this <code>units</code>):</p>
 <h2 id="melting-code">melting code</h2>
-<p><img src="the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;"/></p>
+<p><img src="figure/the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_melt &lt;-<span class="st"> </span>(dll_data2
     %&gt;%<span class="st"> </span><span class="kw">select</span>(-<span class="kw">c</span>(femur,tibia,tarsus,SCT))  ## drop unscaled vars
     %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">units=</span><span class="kw">factor</span>(<span class="dv">1</span>:<span class="kw">n</span>()))
