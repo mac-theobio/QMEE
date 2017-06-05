@@ -45,6 +45,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -239,31 +240,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul>
 <h2 id="example">Example</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(villageTable)</code></pre></div>
-<pre><code>##       area       village           grid          fup        
-##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
-##  A2     :62   1st Qu.:211.2   7C     :  7   1st Qu.: 3.000  
-##  B      :85   Median :362.5   8E     :  7   Median : 6.000  
-##  Babura : 1   Mean   :402.0   4B     :  6   Mean   : 6.217  
-##  Banzoma: 5   3rd Qu.:565.2   4D     :  6   3rd Qu.: 7.000  
-##  C      : 5   Max.   :967.0   6B     :  6   Max.   :92.000  
-##  Ringim :14                   (Other):141                   
-##             vname           vu        grouped1         grouped2      
-##  Daurawa       :  2   Kar    :26   Min.   :  0.00   Min.   : 0.0000  
-##  Sabon Gari    :  2   Dok    :21   1st Qu.:  0.00   1st Qu.: 0.0000  
-##  Adinis Fulanin:  1   Kit    :18   Median : 24.50   Median : 0.0000  
-##  Aduwa         :  1   Aju    :13   Mean   : 37.06   Mean   : 0.7833  
-##  Ajura         :  1   Gar    :13   3rd Qu.: 52.25   3rd Qu.: 1.0000  
-##  Anju          :  1   Sug    :13   Max.   :550.00   Max.   :10.0000  
-##  (Other)       :172   (Other):76                                     
-##    scattered1       scattered2        population    
-##  Min.   :  0.00   Min.   :0.00000   Min.   :   0.0  
-##  1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.: 124.0  
-##  Median :  6.00   Median :0.00000   Median : 222.0  
-##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
-##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
-##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
-## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(parasiteTable)</code></pre></div>
+<pre><code>##   id village compound survey person sch X_add tribe hght sleep dist baby
+## 1  1     801      401      1      1   1     1     1    0     1    0    2
+## 2  1     801      401      2      1   1     2     0    0     1    0    2
+## 3  1     801      401      3      1   1     2     0    0     1    0    2
+## 4  1     801      401      4      1   1     2     0    0     1    0    2
+## 5  1     801      401      5      1   1     2     0    0     1    0    2
+## 6  1     801      401      6      1   1     2     0    0     1    0    2
+##   alive   datecoll coll sliden car1 ncar1 car2 ncar2 filt nfilt fever
+## 1     0 1970-11-19    1   2099    3     0    3     0    3     0     1
+## 2     0 1971-02-08    1   7048    3     0    3     0    3     0     2
+## 3     0 1971-04-16    1  10878    3     0    3     0    3     0     2
+## 4     0 1971-06-29    1  17718    3     0    3     0    3     0     2
+## 5     0 1971-09-07    1  22696    3     0    3     0    3     0     2
+## 6     0 1971-11-30    1  36018    3     0    3     0    3     0     2
+##        datep micro   dateexam slide exam pfa pfg pm po ppfa ppfg ppm ppo
+## 1 1970-11-19     2 1970-12-19  2099  201   2   0  0  0    1    0   0   0
+## 2 1971-02-08     5 1971-03-17  7048  200   0   0  0  0    0    0   0   0
+## 3 1971-04-16     2 1971-05-17 10878  200   0   0  0  0    0    0   0   0
+## 4 1971-06-29    11 1971-07-14 17718  200   0   0  3  0    0    0   1   0
+## 5 1971-09-07     1 1971-09-10 22696  200   0   0  0  0    0    0   0   0
+## 6 1971-11-30    10 1971-12-03 36018  200   0   0  0  2    0    0   0   1
+##   pf smove agec
+## 1  2     0    0
+## 2  0     0    0
+## 3  0     0    0
+## 4  0     0    0
+## 5  0     0    0
+## 6  0     0    0</code></pre>
 <h2 id="tidy-data">Tidy data</h2>
 <ul>
 <li><p>No redundancy</p></li>
@@ -273,7 +278,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="relational">Relational</h2>
 <p>Break data into logical tables</p>
 <ul>
-<li>I</li>
+<li>Information at the level where it belongs:
+<ul>
+<li>Sampling event</li>
+<li>Individual</li>
+<li>Household</li>
+<li>Village</li>
+<li>Village group</li>
+</ul></li>
+</ul>
+<h2 id="tidy">Tidy</h2>
+<ul>
+<li>Use long structure to mark things that are comparable, or have the same units
+<ul>
+<li>SIR example</li>
+</ul></li>
+</ul>
+<h2 id="flow">Flow</h2>
+<ul>
+<li>Put input data into a tidy, relational form
+<ul>
+<li>Clean on the way</li>
+<li>This is your database, whether you use database software or not</li>
+</ul></li>
+<li><p>Clean, maintain and merge data in the database</p></li>
+<li><p>Export files for analysis, presentation, etc.</p></li>
 </ul>
 <h1 id="importing">Importing</h1>
 <h2 id="summarize">Summarize</h2>
@@ -359,6 +388,57 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##       &lt;fctr&gt; &lt;int&gt;
 ## 1    Daurawa     2
 ## 2 Sabon Gari     2</code></pre>
+<h2 id="making-a-relational-table">Making a relational table</h2>
+<p>If we had data like the parasite Table, we would want to break it into</p>
+<ul>
+<li><p>A table at the level of people</p></li>
+<li><p>A table at the level of sampling events</p></li>
+<li><p>A table at the level of measurements</p></li>
+</ul>
+<p>This process leads to improved clarity, _and improved cleaning__</p>
+<h2 id="parasite-table">Parasite table</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(parasiteTable
+    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id, village, compound)
+    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
+)</code></pre></div>
+<pre><code>## Source: local data frame [13,656 x 4]
+## Groups: id, village [?]
+## 
+##       id village compound count
+##    &lt;int&gt;   &lt;int&gt;    &lt;int&gt; &lt;int&gt;
+## 1      1     801      401    16
+## 2      2     801      401    16
+## 3      3     801      401    16
+## 4      4     801      401    16
+## 5      5     801      401    16
+## 6      6     801      401    16
+## 7      7     801      401    12
+## 8      8     801      401    11
+## 9      9     801      401    15
+## 10     9     801      417     1
+## # ... with 13,646 more rows</code></pre>
+<h2 id="parasite-table-1">Parasite table</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(parasiteTable
+    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id, village, compound)
+    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
+    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id)
+    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
+    %&gt;%<span class="st"> </span><span class="kw">filter</span>(count&gt;<span class="dv">1</span>)
+)</code></pre></div>
+<pre><code>## # A tibble: 756 × 2
+##       id count
+##    &lt;int&gt; &lt;int&gt;
+## 1      9     2
+## 2     25     2
+## 3     40     2
+## 4     41     3
+## 5     51     2
+## 6     52     2
+## 7     90     2
+## 8    112     2
+## 9    125     2
+## 10   126     2
+## # ... with 746 more rows</code></pre>
 <h2 id="explore-ranges">Explore ranges</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">ggplot</span>(villageTable, <span class="kw">aes</span>(<span class="dt">x=</span>population))
     +<span class="st"> </span><span class="kw">geom_histogram</span>()
@@ -384,7 +464,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <pre><code>##   country patchcountry
 ## 1  Ungada       Uganda</code></pre>
-<h2 id="silly-example">Silly example</h2>
+<h2 id="awkward-example">Awkward example</h2>
 <ul>
 <li><p>We should fix the real table, not the summary table</p></li>
 <li><p>But I don’t have access to the real table in this case</p></li>
@@ -428,6 +508,160 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 2  Uganda    Africa    31
 ## 3  Uganda    Africa     1
 ## 4 Vietnam      Asia    16</code></pre>
+<ul>
+<li>Never be afraid to break pipes up or put them back together.</li>
+</ul>
+<h2 id="factors">Factors</h2>
+<ul>
+<li><p>R likes to convert characters to factors</p></li>
+<li><p>Factors can be useful, but they’re more often weird</p></li>
+<li><p>Be aware of this as a possible problem</p></li>
+<li><p>The more you use tools the tidy family, the less this will happen</p></li>
+</ul>
+<h2 id="dictionary-tables">Dictionary tables</h2>
+<ul>
+<li><p>You might want to summarize a factor variable into categories that you define</p></li>
+<li>In this case you could use a similar table (Ungada <span class="math inline">\(\to\)</span> Uganda), but different logic
+<ul>
+<li>You only want to keep the new version</li>
+<li>… and check for cases where the original is not matched</li>
+</ul></li>
+</ul>
+<h2 id="making-dictionaries">Making dictionaries</h2>
+<p>Print out all the for a variable, and see what you think of them</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(survey
+    %&gt;%<span class="st"> </span><span class="kw">select</span>(code)
+    %&gt;%<span class="st"> </span><span class="kw">distinct</span>()
+)</code></pre></div>
+<pre><code>##                           code
+## 1                     Catholic
+## 2                     Orthodox
+## 3               Roman catholic
+## 4                    Adventist
+## 5                     Anglican
+## 6              Anglican Church
+## 7               Apostolic Sect
+## 8                     Aventist
+## 9                         CCAP
+## 10                 Charismatic
+## 11                  Christrian
+## 12                  Chrétienne
+## 13           Eglise du 7e jour
+## 14                       Elcin
+## 15                   Envagelic
+## 16                  Evangelist
+## 17                 Evangelical
+## 18                  ^Christian
+## 19                     Jehovah
+## 20             Jehovah Witness
+## 21                 kimbanguist
+## 22                   Methodist
+## 23               New apostolic
+## 24                 Pentecostal
+## 25                  Protestant
+## 26         Protestant/Anglican
+## 27 Protestant/ other Christian
+## 28              Salvation Army
+## 29                 Seventh Day
+## 30       Seventh-day adventist
+## 31                         SDA
+## 32                     Baptist
+## 33                       ^Zion
+## 34                     Zionist
+## 35                       Islam
+## 36                     Islamic
+## 37                      Moslem
+## 38                      Muslem
+## 39                      Mulsim
+## 40                      Muslim
+## 41                      Muslum
+## 42                  Musualmane
+## 43            African religion
+## 44                     Animist
+## 45                    Animiste
+## 46             Anytime message
+## 47                       Bahai
+## 48                      Bisaka
+## 49                       Hindu
+## 50                       Jeova
+## 51                        Mana
+## 52                       Mungu
+## 53                        None
+## 54                 No religion
+## 55                      ^Other
+## 56               Sans religion
+## 57                 Traditional
+## 58                Traditionnal
+## 59              Traditionalist
+## 60        Traditionnal/animist
+## 61                United faith
+## 62               Not responded</code></pre>
+<h2 id="build-a-dictionary">Build a dictionary</h2>
+<p>You should start by editing the output from your previous step</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(religTab)</code></pre></div>
+<pre><code>##                           code          category
+## 1                     Catholic Catholic/Orthodox
+## 2                     Orthodox Catholic/Orthodox
+## 3               Roman catholic Catholic/Orthodox
+## 4                    Adventist   Other Christian
+## 5                     Anglican   Other Christian
+## 6              Anglican Church   Other Christian
+## 7               Apostolic Sect   Other Christian
+## 8                     Aventist   Other Christian
+## 9                         CCAP   Other Christian
+## 10                 Charismatic   Other Christian
+## 11                  Christrian   Other Christian
+## 12                  Chrétienne   Other Christian
+## 13           Eglise du 7e jour   Other Christian
+## 14                       Elcin   Other Christian
+## 15                   Envagelic   Other Christian
+## 16                  Evangelist   Other Christian
+## 17                 Evangelical   Other Christian
+## 18                  ^Christian   Other Christian
+## 19                     Jehovah   Other Christian
+## 20             Jehovah Witness   Other Christian
+## 21                 kimbanguist   Other Christian
+## 22                   Methodist   Other Christian
+## 23               New apostolic   Other Christian
+## 24                 Pentecostal   Other Christian
+## 25                  Protestant   Other Christian
+## 26         Protestant/Anglican   Other Christian
+## 27 Protestant/ other Christian   Other Christian
+## 28              Salvation Army   Other Christian
+## 29                 Seventh Day   Other Christian
+## 30       Seventh-day adventist   Other Christian
+## 31                         SDA   Other Christian
+## 32                     Baptist   Other Christian
+## 33                       ^Zion   Other Christian
+## 34                     Zionist   Other Christian
+## 35                       Islam            Muslim
+## 36                     Islamic            Muslim
+## 37                      Moslem            Muslim
+## 38                      Muslem            Muslim
+## 39                      Mulsim            Muslim
+## 40                      Muslim            Muslim
+## 41                      Muslum            Muslim
+## 42                  Musualmane            Muslim
+## 43            African religion        None/Other
+## 44                     Animist        None/Other
+## 45                    Animiste        None/Other
+## 46             Anytime message        None/Other
+## 47                       Bahai        None/Other
+## 48                      Bisaka        None/Other
+## 49                       Hindu        None/Other
+## 50                       Jeova        None/Other
+## 51                        Mana        None/Other
+## 52                       Mungu        None/Other
+## 53                        None        None/Other
+## 54                 No religion        None/Other
+## 55                      ^Other        None/Other
+## 56               Sans religion        None/Other
+## 57                 Traditional        None/Other
+## 58                Traditionnal        None/Other
+## 59              Traditionalist        None/Other
+## 60        Traditionnal/animist        None/Other
+## 61                United faith        None/Other
+## 62               Not responded                NA</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
