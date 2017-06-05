@@ -79,9 +79,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>readr</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)</code></pre></div>
+<pre><code>## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</code></pre>
+<pre><code>## Conflicts with tidy packages ----------------------------------------------</code></pre>
+<pre><code>## filter(): dplyr, stats
+## lag():    dplyr, stats</code></pre>
 <h2 id="a-sample-data-set">A sample data set</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">village &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;~/git/Malaria/village.csv&quot;</span>)
-<span class="kw">summary</span>(village)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">villageTable &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;~/git/Malaria/village.csv&quot;</span>)
+<span class="kw">summary</span>(villageTable)</code></pre></div>
 <pre><code>##       area       village           grid          fup        
 ##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
 ##  A2     :62   1st Qu.:211.2   7C     :  7   1st Qu.: 3.000  
@@ -147,7 +156,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 </ul>
 <h2 id="example">Example</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(village)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(villageTable)</code></pre></div>
 <pre><code>##       area       village           grid          fup        
 ##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
 ##  A2     :62   1st Qu.:211.2   7C     :  7   1st Qu.: 3.000  
@@ -172,6 +181,165 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
 ##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
 ## </code></pre>
+<h2 id="tidy-data">Tidy data</h2>
+<ul>
+<li><p>No redundancy</p></li>
+<li><p>Break data into separate tables following the logic of the data</p></li>
+<li><p>Clear “keys” to describe the information in each row</p></li>
+</ul>
+<h1 id="importing">Importing</h1>
+<h2 id="summarize">Summarize</h2>
+<ul>
+<li>Check that numbers are numbers, dates are dates, etc.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">villageTable &lt;-<span class="st"> </span>(villageTable
+    %&gt;%<span class="st"> </span><span class="kw">transform</span>(<span class="dt">village=</span><span class="kw">as.factor</span>(village))
+)
+<span class="kw">summary</span>(villageTable)</code></pre></div>
+<pre><code>##       area       village         grid          fup        
+##  A1     : 8   1      :  1   4C     :  7   Min.   : 1.000  
+##  A2     :62   2      :  1   7C     :  7   1st Qu.: 3.000  
+##  B      :85   3      :  1   8E     :  7   Median : 6.000  
+##  Babura : 1   4      :  1   4B     :  6   Mean   : 6.217  
+##  Banzoma: 5   5      :  1   4D     :  6   3rd Qu.: 7.000  
+##  C      : 5   6      :  1   6B     :  6   Max.   :92.000  
+##  Ringim :14   (Other):174   (Other):141                   
+##             vname           vu        grouped1         grouped2      
+##  Daurawa       :  2   Kar    :26   Min.   :  0.00   Min.   : 0.0000  
+##  Sabon Gari    :  2   Dok    :21   1st Qu.:  0.00   1st Qu.: 0.0000  
+##  Adinis Fulanin:  1   Kit    :18   Median : 24.50   Median : 0.0000  
+##  Aduwa         :  1   Aju    :13   Mean   : 37.06   Mean   : 0.7833  
+##  Ajura         :  1   Gar    :13   3rd Qu.: 52.25   3rd Qu.: 1.0000  
+##  Anju          :  1   Sug    :13   Max.   :550.00   Max.   :10.0000  
+##  (Other)       :172   (Other):76                                     
+##    scattered1       scattered2        population    
+##  Min.   :  0.00   Min.   :0.00000   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.: 124.0  
+##  Median :  6.00   Median :0.00000   Median : 222.0  
+##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
+##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
+##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
+## </code></pre>
+<h2 id="list">List</h2>
+<ul>
+<li>Make lists of what occurs with what (and how many times)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(villageTable
+    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(vname, vu)
+    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
+)</code></pre></div>
+<pre><code>## Source: local data frame [180 x 3]
+## Groups: vname [?]
+## 
+##              vname     vu count
+##             &lt;fctr&gt; &lt;fctr&gt; &lt;int&gt;
+## 1   Adinis Fulanin    Kar     1
+## 2            Aduwa    Aju     1
+## 3            Ajura    Aju     1
+## 4             Anju    Dok     1
+## 5           Arindi    Sug     1
+## 6          Asayaya    Kit     1
+## 7            Ba&#39;wa    Dok     1
+## 8     Bakan Sabara    Kar     1
+## 9  Bakan Sabara II    Kar     1
+## 10       Balalashi    Dok     1
+## # ... with 170 more rows</code></pre>
+<h2 id="section">…</h2>
+<ul>
+<li>The computer is your friend</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(villageTable
+    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(vname, vu)
+    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
+    %&gt;%<span class="st"> </span><span class="kw">filter</span>(count&gt;<span class="dv">1</span>)
+)</code></pre></div>
+<pre><code>## Source: local data frame [0 x 3]
+## Groups: vname [0]
+## 
+## # ... with 3 variables: vname &lt;fctr&gt;, vu &lt;fctr&gt;, count &lt;int&gt;</code></pre>
+<h2 id="section-1">…</h2>
+<ul>
+<li>and you always want to check yourself</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(villageTable
+    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(vname)
+    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
+    %&gt;%<span class="st"> </span><span class="kw">filter</span>(count&gt;<span class="dv">1</span>)
+)</code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##        vname count
+##       &lt;fctr&gt; &lt;int&gt;
+## 1    Daurawa     2
+## 2 Sabon Gari     2</code></pre>
+<h2 id="explore-ranges">Explore ranges</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">ggplot</span>(villageTable, <span class="kw">aes</span>(<span class="dt">x=</span>population))
+    +<span class="st"> </span><span class="kw">geom_histogram</span>()
+)</code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/pophist.R-1.png" alt="plot of chunk pophist.R" /> <img src="figure/pophist-1.png" alt="Population histogram" /></p>
+<h1 id="correction-tables">Correction tables</h1>
+<h2 id="mistakes">Mistakes</h2>
+<p>Let’s say you find an obvious error in your data</p>
+<pre><code>##   country continent count
+## 1   Kenya    Africa    23
+## 2  Uganda    Africa    31
+## 3  Ungada    Africa     1
+## 4 Vietnam      Asia    16</code></pre>
+<p>How should you fix it?</p>
+<h2 id="a-table">A table</h2>
+<p>A table:</p>
+<ul>
+<li>respects the original data</li>
+<li>records your decision</li>
+<li>is transparent to yourself and others</li>
+<li><strong>fixes the mistake again, if it happens again</strong></li>
+</ul>
+<pre><code>##   country patchcountry
+## 1  Ungada       Uganda</code></pre>
+<h2 id="silly-example">Silly example</h2>
+<ul>
+<li><p>We should fix the real table, not the summary table</p></li>
+<li><p>But I don’t have access to the real table in this case</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">patchtab &lt;-<span class="st"> </span>(ctab
+    %&gt;%<span class="st"> </span><span class="kw">left_join</span>(cortab)
+)</code></pre></div>
+<pre><code>## Joining, by = &quot;country&quot;</code></pre>
+<pre><code>## Warning in left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y): joining
+## factors with different levels, coercing to character vector</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(patchtab)</code></pre></div>
+<pre><code>##   country continent count patchcountry
+## 1   Kenya    Africa    23         &lt;NA&gt;
+## 2  Uganda    Africa    31         &lt;NA&gt;
+## 3  Ungada    Africa     1       Uganda
+## 4 Vietnam      Asia    16         &lt;NA&gt;</code></pre>
+<h2 id="na-logic-is-scary">NA logic is scary</h2>
+<p>NA means “Something I don’t know”. You don’t get the answers you expect if you compare things to NA:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Jonathan&quot;</span> ==<span class="st"> </span><span class="ot">NA</span></code></pre></div>
+<pre><code>## [1] NA</code></pre>
+<h2 id="finish-the-patch-being-careful">Finish the patch, being careful</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctab &lt;-<span class="st"> </span>(patchtab
+    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(patchcountry), country, patchcountry))
+    %&gt;%<span class="st"> </span><span class="kw">select</span>(-patchcountry)
+)
+<span class="kw">print</span>(ctab)</code></pre></div>
+<pre><code>##   country continent count
+## 1   Kenya    Africa    23
+## 2  Uganda    Africa    31
+## 3       1    Africa     1
+## 4 Vietnam      Asia    16</code></pre>
+<h2 id="be-careful-er">Be careful-er</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctab &lt;-<span class="st"> </span>(patchtab
+    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(patchcountry), country, 
+        <span class="kw">as.character</span>(patchcountry)))
+    %&gt;%<span class="st"> </span><span class="kw">select</span>(-patchcountry)
+)
+<span class="kw">print</span>(ctab)</code></pre></div>
+<pre><code>##   country continent count
+## 1   Kenya    Africa    23
+## 2  Uganda    Africa    31
+## 3  Uganda    Africa     1
+## 4 Vietnam      Asia    16</code></pre>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>

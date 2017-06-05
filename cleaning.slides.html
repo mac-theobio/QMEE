@@ -122,10 +122,22 @@
 
 <pre class = 'prettyprint lang-r'>library(tidyverse)</pre>
 
+<pre >## Loading tidyverse: ggplot2
+## Loading tidyverse: tibble
+## Loading tidyverse: tidyr
+## Loading tidyverse: readr
+## Loading tidyverse: purrr
+## Loading tidyverse: dplyr</pre>
+
+<pre >## Conflicts with tidy packages ----------------------------------------------</pre>
+
+<pre >## filter(): dplyr, stats
+## lag():    dplyr, stats</pre>
+
 </article></slide><slide class=''><hgroup><h2>A sample data set</h2></hgroup><article  id="a-sample-data-set">
 
-<pre class = 'prettyprint lang-r'>village &lt;- read.csv(&quot;~/git/Malaria/village.csv&quot;)
-summary(village)</pre>
+<pre class = 'prettyprint lang-r'>villageTable &lt;- read.csv(&quot;~/git/Malaria/village.csv&quot;)
+summary(villageTable)</pre>
 
 <pre >##       area       village           grid          fup        
 ##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
@@ -208,7 +220,7 @@ summary(village)</pre>
 
 </article></slide><slide class=''><hgroup><h2>Example</h2></hgroup><article  id="example">
 
-<pre class = 'prettyprint lang-r'>summary(village)</pre>
+<pre class = 'prettyprint lang-r'>summary(villageTable)</pre>
 
 <pre >##       area       village           grid          fup        
 ##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
@@ -233,7 +245,215 @@ summary(village)</pre>
 ##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
 ##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
 ##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
-## </pre></article></slide>
+## </pre>
+
+</article></slide><slide class=''><hgroup><h2>Tidy data</h2></hgroup><article  id="tidy-data">
+
+<ul>
+<li><p>No redundancy</p></li>
+<li><p>Break data into separate tables following the logic of the data</p></li>
+<li><p>Clear &quot;keys&quot; to describe the information in each row</p></li>
+</ul>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Importing</h2></hgroup><article  id="importing">
+
+</article></slide><slide class=''><hgroup><h2>Summarize</h2></hgroup><article  id="summarize">
+
+<ul>
+<li>Check that numbers are numbers, dates are dates, etc.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>villageTable &lt;- (villageTable
+    %&gt;% transform(village=as.factor(village))
+)
+summary(villageTable)</pre>
+
+<pre >##       area       village         grid          fup        
+##  A1     : 8   1      :  1   4C     :  7   Min.   : 1.000  
+##  A2     :62   2      :  1   7C     :  7   1st Qu.: 3.000  
+##  B      :85   3      :  1   8E     :  7   Median : 6.000  
+##  Babura : 1   4      :  1   4B     :  6   Mean   : 6.217  
+##  Banzoma: 5   5      :  1   4D     :  6   3rd Qu.: 7.000  
+##  C      : 5   6      :  1   6B     :  6   Max.   :92.000  
+##  Ringim :14   (Other):174   (Other):141                   
+##             vname           vu        grouped1         grouped2      
+##  Daurawa       :  2   Kar    :26   Min.   :  0.00   Min.   : 0.0000  
+##  Sabon Gari    :  2   Dok    :21   1st Qu.:  0.00   1st Qu.: 0.0000  
+##  Adinis Fulanin:  1   Kit    :18   Median : 24.50   Median : 0.0000  
+##  Aduwa         :  1   Aju    :13   Mean   : 37.06   Mean   : 0.7833  
+##  Ajura         :  1   Gar    :13   3rd Qu.: 52.25   3rd Qu.: 1.0000  
+##  Anju          :  1   Sug    :13   Max.   :550.00   Max.   :10.0000  
+##  (Other)       :172   (Other):76                                     
+##    scattered1       scattered2        population    
+##  Min.   :  0.00   Min.   :0.00000   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.: 124.0  
+##  Median :  6.00   Median :0.00000   Median : 222.0  
+##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
+##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
+##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
+## </pre>
+
+</article></slide><slide class=''><hgroup><h2>List</h2></hgroup><article  id="list">
+
+<ul>
+<li>Make lists of what occurs with what (and how many times)</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>print(villageTable
+    %&gt;% group_by(vname, vu)
+    %&gt;% summarize(count = n())
+)</pre>
+
+<pre >## Source: local data frame [180 x 3]
+## Groups: vname [?]
+## 
+##              vname     vu count
+##             &lt;fctr&gt; &lt;fctr&gt; &lt;int&gt;
+## 1   Adinis Fulanin    Kar     1
+## 2            Aduwa    Aju     1
+## 3            Ajura    Aju     1
+## 4             Anju    Dok     1
+## 5           Arindi    Sug     1
+## 6          Asayaya    Kit     1
+## 7            Ba&#39;wa    Dok     1
+## 8     Bakan Sabara    Kar     1
+## 9  Bakan Sabara II    Kar     1
+## 10       Balalashi    Dok     1
+## # ... with 170 more rows</pre>
+
+</article></slide><slide class=''><hgroup><h2>&#8230;</h2></hgroup><article  id="section">
+
+<ul>
+<li>The computer is your friend</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>print(villageTable
+    %&gt;% group_by(vname, vu)
+    %&gt;% summarize(count = n())
+    %&gt;% filter(count&gt;1)
+)</pre>
+
+<pre >## Source: local data frame [0 x 3]
+## Groups: vname [0]
+## 
+## # ... with 3 variables: vname &lt;fctr&gt;, vu &lt;fctr&gt;, count &lt;int&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>&#8230;</h2></hgroup><article  id="section-1">
+
+<ul>
+<li>and you always want to check yourself</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>print(villageTable
+    %&gt;% group_by(vname)
+    %&gt;% summarize(count = n())
+    %&gt;% filter(count&gt;1)
+)</pre>
+
+<pre >## # A tibble: 2 × 2
+##        vname count
+##       &lt;fctr&gt; &lt;int&gt;
+## 1    Daurawa     2
+## 2 Sabon Gari     2</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore ranges</h2></hgroup><article  id="explore-ranges">
+
+<pre class = 'prettyprint lang-r'>print(ggplot(villageTable, aes(x=population))
+    + geom_histogram()
+)</pre>
+
+<pre >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</pre>
+
+<p><img src='data:image/png;base64,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' title=''/> <img src='figure/pophist-1.png' title=''/></p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Correction tables</h2></hgroup><article  id="correction-tables">
+
+</article></slide><slide class=''><hgroup><h2>Mistakes</h2></hgroup><article  id="mistakes">
+
+<p>Let&#39;s say you find an obvious error in your data</p>
+
+<pre >##   country continent count
+## 1   Kenya    Africa    23
+## 2  Uganda    Africa    31
+## 3  Ungada    Africa     1
+## 4 Vietnam      Asia    16</pre>
+
+<p>How should you fix it?</p>
+
+</article></slide><slide class=''><hgroup><h2>A table</h2></hgroup><article  id="a-table">
+
+<p>A table:</p>
+
+<ul>
+<li>respects the original data</li>
+<li>records your decision</li>
+<li>is transparent to yourself and others</li>
+<li><strong>fixes the mistake again, if it happens again</strong></li>
+</ul>
+
+<pre >##   country patchcountry
+## 1  Ungada       Uganda</pre>
+
+</article></slide><slide class=''><hgroup><h2>Silly example</h2></hgroup><article  id="silly-example">
+
+<ul>
+<li><p>We should fix the real table, not the summary table</p></li>
+<li><p>But I don&#39;t have access to the real table in this case</p></li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>patchtab &lt;- (ctab
+    %&gt;% left_join(cortab)
+)</pre>
+
+<pre >## Joining, by = &quot;country&quot;</pre>
+
+<pre >## Warning in left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y): joining
+## factors with different levels, coercing to character vector</pre>
+
+<pre class = 'prettyprint lang-r'>print(patchtab)</pre>
+
+<pre >##   country continent count patchcountry
+## 1   Kenya    Africa    23         &lt;NA&gt;
+## 2  Uganda    Africa    31         &lt;NA&gt;
+## 3  Ungada    Africa     1       Uganda
+## 4 Vietnam      Asia    16         &lt;NA&gt;</pre>
+
+</article></slide><slide class=''><hgroup><h2>NA logic is scary</h2></hgroup><article  id="na-logic-is-scary">
+
+<p>NA means &quot;Something I don&#39;t know&quot;. You don&#39;t get the answers you expect if you compare things to NA:</p>
+
+<pre class = 'prettyprint lang-r'>&quot;Jonathan&quot; == NA</pre>
+
+<pre >## [1] NA</pre>
+
+</article></slide><slide class=''><hgroup><h2>Finish the patch, being careful</h2></hgroup><article  id="finish-the-patch-being-careful">
+
+<pre class = 'prettyprint lang-r'>ctab &lt;- (patchtab
+    %&gt;% mutate(country=ifelse(is.na(patchcountry), country, patchcountry))
+    %&gt;% select(-patchcountry)
+)
+print(ctab)</pre>
+
+<pre >##   country continent count
+## 1   Kenya    Africa    23
+## 2  Uganda    Africa    31
+## 3       1    Africa     1
+## 4 Vietnam      Asia    16</pre>
+
+</article></slide><slide class=''><hgroup><h2>Be careful-er</h2></hgroup><article  id="be-careful-er">
+
+<pre class = 'prettyprint lang-r'>ctab &lt;- (patchtab
+    %&gt;% mutate(country=ifelse(is.na(patchcountry), country, 
+        as.character(patchcountry)))
+    %&gt;% select(-patchcountry)
+)
+print(ctab)</pre>
+
+<pre >##   country continent count
+## 1   Kenya    Africa    23
+## 2  Uganda    Africa    31
+## 3  Uganda    Africa     1
+## 4 Vietnam      Asia    16</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
