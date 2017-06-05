@@ -175,11 +175,65 @@ summary(village)</pre>
 <li><p>Making data frames for statistical analysis</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Database</h2></hgroup><article  id="database">
+</article></slide><slide class=''><hgroup><h2>Data maintenance</h2></hgroup><article  id="data-maintenance">
 
 <ul>
-<li>The database is</li>
-</ul></article></slide>
+<li>Your database is
+
+<ul>
+<li>a logical construct</li>
+<li>maybe also a real thing</li>
+</ul></li>
+<li>Data in the database is:
+
+<ul>
+<li>Non-redundant</li>
+<li>Relational</li>
+<li>&quot;Long&quot;</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Redundancy</h2></hgroup><article  id="redundancy">
+
+<p>You don&#39;t want any redundancy in your database (although you might in your data set)</p>
+
+<ul>
+<li><p>Removing redundancies is a great way to check data integrity</p></li>
+<li>Non-redundant information can be updated conveniently
+
+<ul>
+<li>and without introducing new errors</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Example</h2></hgroup><article  id="example">
+
+<pre class = 'prettyprint lang-r'>summary(village)</pre>
+
+<pre >##       area       village           grid          fup        
+##  A1     : 8   Min.   :  1.0   4C     :  7   Min.   : 1.000  
+##  A2     :62   1st Qu.:211.2   7C     :  7   1st Qu.: 3.000  
+##  B      :85   Median :362.5   8E     :  7   Median : 6.000  
+##  Babura : 1   Mean   :402.0   4B     :  6   Mean   : 6.217  
+##  Banzoma: 5   3rd Qu.:565.2   4D     :  6   3rd Qu.: 7.000  
+##  C      : 5   Max.   :967.0   6B     :  6   Max.   :92.000  
+##  Ringim :14                   (Other):141                   
+##             vname           vu        grouped1         grouped2      
+##  Daurawa       :  2   Kar    :26   Min.   :  0.00   Min.   : 0.0000  
+##  Sabon Gari    :  2   Dok    :21   1st Qu.:  0.00   1st Qu.: 0.0000  
+##  Adinis Fulanin:  1   Kit    :18   Median : 24.50   Median : 0.0000  
+##  Aduwa         :  1   Aju    :13   Mean   : 37.06   Mean   : 0.7833  
+##  Ajura         :  1   Gar    :13   3rd Qu.: 52.25   3rd Qu.: 1.0000  
+##  Anju          :  1   Sug    :13   Max.   :550.00   Max.   :10.0000  
+##  (Other)       :172   (Other):76                                     
+##    scattered1       scattered2        population    
+##  Min.   :  0.00   Min.   :0.00000   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.: 124.0  
+##  Median :  6.00   Median :0.00000   Median : 222.0  
+##  Mean   : 14.29   Mean   :0.01111   Mean   : 287.1  
+##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
+##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
+## </pre></article></slide>
 
 
   <slide class="backdrop"></slide>
