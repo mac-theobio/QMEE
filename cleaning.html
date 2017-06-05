@@ -115,6 +115,89 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ##  3rd Qu.: 22.00   3rd Qu.:0.00000   3rd Qu.: 375.0  
 ##  Max.   :117.00   Max.   :1.00000   Max.   :2556.0  
 ## </code></pre>
+<h2 id="a-sample-data-set-1">A sample data set</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">parasiteTable &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;~/git/Malaria/parademo.csv&quot;</span>)
+<span class="kw">summary</span>(parasiteTable)</code></pre></div>
+<pre><code>##        id           village         compound       survey     
+##  Min.   :    1   Min.   : 51.0   Min.   :  1   Min.   : 1.00  
+##  1st Qu.: 2671   1st Qu.:202.0   1st Qu.: 40   1st Qu.: 6.00  
+##  Median : 6186   Median :220.0   Median :205   Median :10.00  
+##  Mean   : 5980   Mean   :337.3   Mean   :176   Mean   :10.61  
+##  3rd Qu.: 8993   3rd Qu.:552.0   3rd Qu.:249   3rd Qu.:15.00  
+##  Max.   :12849   Max.   :806.0   Max.   :949   Max.   :23.00  
+##                                                               
+##      person            sch            X_add           tribe        
+##  Min.   : 1.000   Min.   :0.000   Min.   :1.000   Min.   :0.00000  
+##  1st Qu.: 2.000   1st Qu.:1.000   1st Qu.:2.000   1st Qu.:0.00000  
+##  Median : 5.000   Median :1.000   Median :2.000   Median :0.00000  
+##  Mean   : 6.745   Mean   :1.189   Mean   :1.906   Mean   :0.08756  
+##  3rd Qu.: 9.000   3rd Qu.:1.000   3rd Qu.:2.000   3rd Qu.:0.00000  
+##  Max.   :99.000   Max.   :5.000   Max.   :2.000   Max.   :3.00000  
+##                                                                    
+##       hght            sleep             dist               baby      
+##  Min.   :  0.00   Min.   :0.0000   Min.   :0.00e+00   Min.   :0.000  
+##  1st Qu.:  0.00   1st Qu.:1.0000   1st Qu.:0.00e+00   1st Qu.:2.000  
+##  Median :  0.00   Median :1.0000   Median :0.00e+00   Median :2.000  
+##  Mean   : 15.33   Mean   :0.7863   Mean   :7.96e-05   Mean   :1.714  
+##  3rd Qu.:  0.00   3rd Qu.:1.0000   3rd Qu.:0.00e+00   3rd Qu.:2.000  
+##  Max.   :985.00   Max.   :2.0000   Max.   :2.00e+00   Max.   :2.000  
+##                                                                      
+##      alive                datecoll           coll         
+##  Min.   :0.000000   1973-12-20:   464   Min.   :       0  
+##  1st Qu.:0.000000   1972-12-27:   383   1st Qu.:       1  
+##  Median :0.000000   1974-08-01:   375   Median :       1  
+##  Mean   :0.005442   1972-05-03:   355   Mean   :     138  
+##  3rd Qu.:0.000000   1973-12-31:   346   3rd Qu.:       1  
+##  Max.   :2.000000   1973-04-27:   337   Max.   :19000000  
+##                     (Other)   :135937                     
+##      sliden            car1           ncar1               car2      
+##  Min.   :     0   Min.   :0.000   Min.   :    0.00   Min.   :0.000  
+##  1st Qu.: 14967   1st Qu.:1.000   1st Qu.:    0.00   1st Qu.:1.000  
+##  Median : 47182   Median :3.000   Median :    0.00   Median :3.000  
+##  Mean   : 49504   Mean   :2.263   Mean   :   85.08   Mean   :2.298  
+##  3rd Qu.: 81473   3rd Qu.:3.000   3rd Qu.:    0.00   3rd Qu.:3.000  
+##  Max.   :117927   Max.   :3.000   Max.   :30000.00   Max.   :3.000  
+##                                                                     
+##      ncar2               filt           nfilt             fever      
+##  Min.   :   0.000   Min.   :0.000   Min.   :0.0e+00   Min.   :0.000  
+##  1st Qu.:   0.000   1st Qu.:1.000   1st Qu.:0.0e+00   1st Qu.:2.000  
+##  Median :   0.000   Median :3.000   Median :0.0e+00   Median :2.000  
+##  Mean   :   1.888   Mean   :2.279   Mean   :7.3e-02   Mean   :1.694  
+##  3rd Qu.:   0.000   3rd Qu.:3.000   3rd Qu.:0.0e+00   3rd Qu.:2.000  
+##  Max.   :4200.000   Max.   :3.000   Max.   :1.0e+04   Max.   :2.000  
+##                                                                      
+##         datep            micro              dateexam         slide       
+##  0000-00-00: 19703   Min.   : 0.000   0000-00-00:38403   Min.   :     0  
+##  1973-12-20:   410   1st Qu.: 5.000   1972-08-22:  261   1st Qu.: 14967  
+##  1974-08-01:   344   Median : 7.000   1973-03-08:  255   Median : 47182  
+##  1972-05-03:   306   Mean   : 7.226   1972-01-11:  250   Mean   : 49504  
+##  1973-05-22:   303   3rd Qu.:10.000   1973-03-06:  249   3rd Qu.: 81473  
+##  1972-07-27:   282   Max.   :90.000   1972-08-21:  247   Max.   :117927  
+##  (Other)   :116849                    (Other)   :98532                   
+##       exam            pfa              pfg                 pm         
+##  Min.   :  0.0   Min.   :  0.00   Min.   :  0.0000   Min.   :  0.000  
+##  1st Qu.:200.0   1st Qu.:  0.00   1st Qu.:  0.0000   1st Qu.:  0.000  
+##  Median :200.0   Median :  0.00   Median :  0.0000   Median :  0.000  
+##  Mean   :198.3   Mean   : 16.05   Mean   :  0.5428   Mean   :  1.442  
+##  3rd Qu.:200.0   3rd Qu.:  3.00   3rd Qu.:  0.0000   3rd Qu.:  0.000  
+##  Max.   :462.0   Max.   :449.00   Max.   :392.0000   Max.   :400.000  
+##                                                                       
+##        po                ppfa             ppfg              ppm         
+##  Min.   :  0.0000   Min.   :0.0000   Min.   :0.00000   Min.   :0.00000  
+##  1st Qu.:  0.0000   1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.00000  
+##  Median :  0.0000   Median :0.0000   Median :0.00000   Median :0.00000  
+##  Mean   :  0.1589   Mean   :0.2982   Mean   :0.08759   Mean   :0.09235  
+##  3rd Qu.:  0.0000   3rd Qu.:1.0000   3rd Qu.:0.00000   3rd Qu.:0.00000  
+##  Max.   :396.0000   Max.   :1.0000   Max.   :1.00000   Max.   :1.00000  
+##                                                                         
+##       ppo                 pf             smove              agec        
+##  Min.   :0.000000   Min.   :  0.00   Min.   :0.00000   Min.   :0.00000  
+##  1st Qu.:0.000000   1st Qu.:  0.00   1st Qu.:0.00000   1st Qu.:0.00000  
+##  Median :0.000000   Median :  0.00   Median :0.00000   Median :0.00000  
+##  Mean   :0.009935   Mean   : 16.38   Mean   :0.00657   Mean   :0.00419  
+##  3rd Qu.:0.000000   3rd Qu.:  3.00   3rd Qu.:0.00000   3rd Qu.:0.00000  
+##  Max.   :1.000000   Max.   :449.00   Max.   :1.00000   Max.   :7.00000  
+## </code></pre>
 <h2 id="entering-maintaining-and-using-data">Entering, maintaining and using data</h2>
 <ul>
 <li><p>These are different functions, and often call for different ways of formatting data</p></li>
@@ -186,6 +269,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><p>No redundancy</p></li>
 <li><p>Break data into separate tables following the logic of the data</p></li>
 <li><p>Clear “keys” to describe the information in each row</p></li>
+</ul>
+<h2 id="relational">Relational</h2>
+<p>Break data into logical tables</p>
+<ul>
+<li>I</li>
 </ul>
 <h1 id="importing">Importing</h1>
 <h2 id="summarize">Summarize</h2>
