@@ -3,8 +3,7 @@
 
 ### Hooks for the editor to set the default target
 current: target
-
-target pngtarget pdftarget vtarget acrtarget: open_pages 
+include target.mk
 
 push_pages: Generalized_linear_models.rmd
 
@@ -173,7 +172,7 @@ push_pages: pages/figure pages/qmee.css $(pages) $(slides) $(pscripts)
 
 open_pages: 
 	$(MAKE) push_pages
-	$(MAKE) pages/index.html.go
+	$(MAKE) pages/cleaning.slides.html.go
 
 ## Push the site to github.io (all to simultaneously sync this repo)
 push_site: 
