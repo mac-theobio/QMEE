@@ -77,7 +77,9 @@ summary(parasiteTable)
 
 * Your database is
 	* a logical construct
-	* maybe also a real thing
+		* The core of the data that we maintain and validate
+	* maybe also a software construct
+		* If you are using a database program
 
 * Data in the database is:
 	* Non-redundant
@@ -106,6 +108,9 @@ head(parasiteTable)
 * Break data into separate tables following the logic of the data
 
 * Clear "keys" to describe the information in each row
+	* Non-redundant, unique identifiers
+	* Village table has village (number) as the key
+	* Measurement table has id, survey as the key'
 
 ## Relational
 
@@ -144,6 +149,8 @@ print(gather(sim, class, people, S:R))
 * Clean, maintain and merge data in the database
 
 * Export files for analysis, presentation, etc.
+	* You may wind up rebuilding files like the ones you started with
+	* They are now quality-checked, and may also be easier to update
 
 # Importing
 
@@ -193,7 +200,7 @@ print(villageTable
 )
 ```
 
-## Making a relational table
+## Making relational tables
 
 If we had data like the parasite Table, we would want to break it into
 
@@ -355,12 +362,21 @@ survey <- (
 )
 religTab <- survey
 ```
-Print out all the for a variable, and see what you think of them
+Print out all the codes for a particular variable, and see what you think of them
 
 ```{r}
 print(survey
 	%>% select(code)
 	%>% distinct()
+)
+```
+
+## Coders can be funny
+```{r}
+print(survey
+	%>% select(code)
+	%>% distinct()
+	%>% filter(grepl("^M", code))
 )
 ```
 
@@ -380,8 +396,9 @@ Start the same way as before.
 print(patchtab)
 ```
 
-But use different logic for replacement
+## Dictionary replacement
 
+But use different logic for replacement
 
 ```{r}
 dtab <- (patchtab
