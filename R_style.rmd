@@ -2,7 +2,7 @@
 title: "Bio 708/theobio style guide"
 ---
 
-Folow Hadley Wickham's [style guide](http://adv-r.had.co.nz/Style.html), adapted from [Google's style guide](https://google.github.io/styleguide/Rguide.xml) (HW's link to Google is broken). Some of the differences between Google and HW are:
+Follow Hadley Wickham's [style guide](http://adv-r.had.co.nz/Style.html), adapted from [Google's style guide](https://google.github.io/styleguide/Rguide.xml) (HW's link to Google is broken). Some of the differences between Google and HW are:
 
 - HW prefers `snake_case` for identifiers, Google likes kebab or camel (`variable.name` (or `variableName`), `FunctionName`, `kConstantName`)
 - HW uses Roxygen
@@ -12,7 +12,7 @@ Additions from BMB and JD:
 - **never use absolute paths**
 - don't use file names with spaces or parens
 - don't depend on case sensitivity for anything important
-- don't put `rm(list=ls())` t the top of your code
+- don't put `rm(list=ls())` at the top of your code
 - always use `TRUE` and `FALSE` rather than `T`/`F` (is this in the other style guides already???)
 - surround multi-line expressions with parentheses instead of relying on R's rule that statements should be carried on to the next line when the line ends with a binary operator (usually `+`, `%>%`). For example,
 ```{r cont1,eval=FALSE}
