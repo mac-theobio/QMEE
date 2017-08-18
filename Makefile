@@ -42,6 +42,11 @@ intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
 pages/%.slides.html: %.md
 	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
 
+## Does not work
+## If requested again this year (2017), use print to file
+%.slides.pdf: %.md
+	echo 'library(rmarkdown); render("$<",output_format=presentation(), output_file="$@")' | R --vanilla
+
 CA_homicide_pix.md: CA_homicide_pix.rmd
 pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
@@ -137,6 +142,17 @@ Sources += qmee.css header.html footer.html
 mds = pandoc --mathjax -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
 pages/%.html: %.md qmee.css header.html footer.html
 	$(mds)
+
+## Did not chain properly (both figures and inputs)
+pages/%.pdf: %.md header.html footer.html
+	pandoc --mathjax -s -S -o $@ $<
+
+######################################################################
+
+## Wrong place, wrong time!!!
+
+
+## Can we use md ⇒ beamer to save cleaning slides?
 
 ######################################################################
 
