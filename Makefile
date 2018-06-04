@@ -39,7 +39,7 @@ Sources = Makefile .gitignore .ignore README.md LICENSE.md notes.txt TODO.md
 
 ## Current
 
-cleaning.slides.html: cleaning.rmd
+gh-pages/cleaning.slides.html: cleaning.rmd
 
 ##################################################################
 
