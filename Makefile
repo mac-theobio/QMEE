@@ -10,7 +10,8 @@ target pngtarget pdftarget vtarget acrtarget: index.html
 
 # make files
 
-Sources = Makefile .gitignore README.md LICENSE.md
+Sources = Makefile .ignore README.md LICENSE.md
+Ignore = .gitignore
 -include $(ms)/git.def
 
 msrepo = https://github.com/dushoff
