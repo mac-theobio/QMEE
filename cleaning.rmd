@@ -1,7 +1,7 @@
 ---
 title: Data management and cleaning
 author: Jonathan Dushoff
-date: MMED 2017
+date: MMED 2018
 ---
 
 ## Goals
@@ -41,13 +41,24 @@ library(tidyverse)
 ## A sample data set
 
 ```{r village.R}
-villageTable <- read.csv("~/git/Malaria/village.csv")
+villageTable <- read_csv("~/gitroot/malariaImmunity/garki_data/village.csv")
+```
+
+## A sample data set
+
+```{r villageSum.R}
 summary(villageTable)
 ```
+
 ## A sample data set
 
 ```{r parasite.R}
-parasiteTable <- read.csv("~/git/Malaria/parademo.csv")
+parasiteTable <- read_csv("~/gitroot/malariaImmunity/garki_data/parademo.csv")
+```
+
+## A sample data set
+
+```{r parasiteSum.R}
 summary(parasiteTable)
 ```
 
@@ -84,7 +95,7 @@ summary(parasiteTable)
 * Data in the database is:
 	* Non-redundant
 	* Relational
-	* "Long"
+	* Often in a "long" format (to signal values that are comparable)
 
 ## Redundancy
 
@@ -94,6 +105,7 @@ You don't want any redundancy in your database (although you might for entry or 
 
 * Non-redundant information can be updated conveniently
 	* and without introducing new errors
+	* and without introducing inconsistencies
 
 ## Example
 
@@ -126,18 +138,25 @@ Break data into logical tables
 ## Tidy example
 
 ```{r echo=FALSE}
-load("~/git/Workshops/disease_model_talks/.live.RData")
+load("~/gitroot/Workshops/disease_model_talks/live.RData")
 ```
 
 ```{r}
 print(sim)
 ```
+
 ## Gathering makes things tidy
 
 * Use long structure to mark things that are comparable, or have the same units
 
 ```{r}
-print(gather(sim, class, people, S:R))
+print(gat <- gather(sim[1:6, ], class, people, S:R))
+```
+
+## Spreading can make things more human-readable
+
+```{r}
+print(spread(gat, class, people))
 ```
 
 ## Flow
@@ -202,7 +221,7 @@ print(villageTable
 
 ## Making relational tables
 
-If we had data like the parasite Table, we would want to break it into
+If we had data like the ```parasiteTable```, we would want to break it into
 
 * A table at the level of people
 
@@ -232,6 +251,7 @@ print(parasiteTable
 	%>% group_by(id)
 	%>% summarize(count=n())
 	%>% filter(count>1)
+	%>% arrange(desc(count))
 )
 
 ```
@@ -280,23 +300,23 @@ A table:
 
 * Make a csv with an editor or spreadsheet program
 
-## Awkward example
+## Patching
 
-* We should fix the real table, not the summary table
+* Fix the problem as far "upstream" as possible
 
-* But I don't have access to the real table in this case
+* Not the count table (as I'm doing here)
 
 ```{r}
-patchtab <- (ctab
+patchTab <- (ctab
 	%>% left_join(cortab)
 )
-print(patchtab)
+print(patchTab)
 ```
 
 ## ...
 
 ```{r echo=FALSE}
-print(patchtab)
+print(patchTab)
 ```
 
 ## NA logic is scary
@@ -312,7 +332,7 @@ NA means "Something I don't know". You don't get the answers you expect if you c
 
 
 ```{r}
-ctab <- (patchtab
+ctab <- (patchTab
 	%>% mutate(country=ifelse(is.na(patchcountry), country, patchcountry))
 	%>% select(-patchcountry)
 )
@@ -322,7 +342,7 @@ print(ctab)
 ## Be careful-er
 
 ```{r}
-ctab <- (patchtab
+ctab <- (patchTab
 	%>% mutate(country=ifelse(is.na(patchcountry), country, 
 		as.character(patchcountry)))
 	%>% select(-patchcountry)
@@ -340,7 +360,9 @@ print(ctab)
 
 * Be aware of this as a possible problem
 
-* The more you use tools the tidy family, the less this will happen
+* The more you use tools from the tidy family, the less this will happen
+
+
 
 ## Dictionary tables
 
@@ -353,19 +375,18 @@ print(ctab)
 ## Making dictionaries
 
 ```{r echo=FALSE}
-survey <- (
-	read.table("~/git/Circumcision_and_behaviour/religion_basic.ccsv"
+religTab <- (
+	read.table("~/gitroot/Circumcision_and_behaviour/religion_basic.ccsv"
 		, sep=":", strip.white=TRUE, header=FALSE
 		, stringsAsFactors=FALSE, na.strings=""
 	)
 	%>% transmute(category=V2, code=V1)
 )
-religTab <- survey
 ```
 Print out all the codes for a particular variable, and see what you think of them
 
 ```{r}
-print(survey
+print(religTab
 	%>% select(code)
 	%>% distinct()
 )
@@ -373,7 +394,7 @@ print(survey
 
 ## Coders can be funny
 ```{r}
-print(survey
+print(religTab
 	%>% select(code)
 	%>% distinct()
 	%>% filter(grepl("^M", code))
@@ -392,8 +413,24 @@ print(religTab)
 
 Start the same way as before.
 
+```{r echo=FALSE}
+churchTab <- data.frame(
+	person = c("Ntombikayise", "Gao Zhong", "Mafalda", "Bill")
+	, religion = c("Mulsim", "Anglican", "Angler", "Roman catholic")
+)
+print(churchTab)
+```
+
 ```{r}
-print(patchtab)
+patchTab <- (churchTab
+	%>% left_join(religTab, by=c("religion"="code"))
+) %>% print()
+```
+
+### ...
+
+```{r echo=FALSE}
+print(patchTab)
 ```
 
 ## Dictionary replacement
@@ -401,11 +438,10 @@ print(patchtab)
 But use different logic for replacement
 
 ```{r}
-dtab <- (patchtab
-	%>% mutate(country=patchcountry)
-	%>% select(-patchcountry)
-)
-print(dtab)
+catTab <- (patchTab
+	%>% mutate(religion=category)
+	%>% select(-category)
+) %>% print()
 ```
 
 ## Play with your data

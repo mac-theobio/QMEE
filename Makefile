@@ -1,25 +1,45 @@
 # QMEE
 # https://mac-theobio.github.io/QMEE/index.html
 
+### Making slides locally now 
+### Rethink pages paradigm for next time!
+
+
 ### Hooks for the editor to set the default target
 current: target
-include target.mk
+-include target.mk
 
 push_pages: Generalized_linear_models.rmd
 
-open_pages:
-
 ##################################################################
+
+msrepo = https://github.com/dushoff
+ms = makestuff
+Ignore += local.mk
+-include local.mk
+-include $(ms)/os.mk
+
+# -include $(ms)/perl.def
+
+Ignore += $(ms)
+## Sources += $(ms)
+Makefile: $(ms) $(ms)/Makefile
+$(ms):
+	git clone $(msrepo)/$(ms)
 
 # make files
 
-Sources = Makefile .gitignore README.md stuff.mk LICENSE.md notes.txt TODO.md
-Sources += $(wildcard *.local)
+Sources = Makefile .gitignore README.md LICENSE.md notes.txt TODO.md
 
-include stuff.mk
 -include $(ms)/git.def
 -include $(ms)/perl.def
 -include local.mk
+
+######################################################################
+
+## Current
+
+cleaning.slides.html: cleaning.rmd
 
 ##################################################################
 
@@ -39,8 +59,13 @@ intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
 %.io.html: %.rmd
 	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
 
-pages/%.slides.html: %.md
-	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+ioslides = echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+
+%.slides.html: %.md
+	$(ioslides)
+
+gh-pages/%.slides.html: %.md
+	$(ioslides)
 
 ## Does not work
 ## If requested again this year (2017), use print to file
@@ -48,7 +73,7 @@ pages/%.slides.html: %.md
 	echo 'library(rmarkdown); render("$<",output_format=presentation(), output_file="$@")' | R --vanilla
 
 CA_homicide_pix.md: CA_homicide_pix.rmd
-pages/CA_homicide_pix.html: CA_homicide_pix.rmd
+gh-pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
 ######################################################################
 
@@ -129,8 +154,8 @@ Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
 ## Editing pages
 
 Sources += $(wildcard *.md)
-pages/index.html: index.md
-pages/Importing_data.html: Importing_data.md
+gh-pages/index.html: index.md
+gh-pages/Importing_data.html: Importing_data.md
 
 local:
 
@@ -140,17 +165,16 @@ local:
 
 Sources += qmee.css header.html footer.html
 mds = pandoc --mathjax -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
-pages/%.html: %.md qmee.css header.html footer.html
+gh-pages/%.html: %.md qmee.css header.html footer.html
 	$(mds)
 
 ## Did not chain properly (both figures and inputs)
-pages/%.pdf: %.md header.html footer.html
+gh-pages/%.pdf: %.md header.html footer.html
 	pandoc --mathjax -s -S -o $@ $<
 
 ######################################################################
 
 ## Wrong place, wrong time!!!
-
 
 ## Can we use md ⇒ beamer to save cleaning slides?
 
@@ -158,37 +182,32 @@ pages/%.pdf: %.md header.html footer.html
 
 ## Exporting
 
-pages:
-	git clone git@github.com:mac-theobio/QMEE.git $@
-	cp local.mk pages
-	cd pages && $(MAKE) gh-pages.branch
-
 md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
 pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
-pages = $(pageroots:%=pages/%.html)
+pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
 scripts = $(wildcard *.R)
-pscripts = $(scripts:%=pages/%)
-pages/%.css: %.css
+pscripts = $(scripts:%=gh-pages/%)
+gh-pages/%.css: %.css
 	$(copy)
 
-pages/%.R: %.R
+gh-pages/%.R: %.R
 	$(copy)
 
-pages/figure: 
+gh-pages/figure: 
 	$(mkdir)
 
 figure:
 	$(mkdir)
 
 ## Update the _local copy_ of the site (open to open the main page as well)
-push_pages: pages/figure pages/qmee.css $(pages) $(slides) $(pscripts)
-	rsync figure/* pages/figure
+push_pages: gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
+	rsync figure/* gh-pages/figure
 
 open_pages: 
 	$(MAKE) push_pages
-	$(MAKE) pages/cleaning.slides.html.go
+	$(MAKE) gh-pages/cleaning.slides.html.go
 
 ## Push the site to github.io (all to simultaneously sync this repo)
 push_site: 
