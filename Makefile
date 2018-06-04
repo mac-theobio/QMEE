@@ -10,12 +10,23 @@ target pngtarget pdftarget vtarget acrtarget: index.html
 
 # make files
 
-Sources = Makefile .gitignore README.md stuff.mk LICENSE.md
-include stuff.mk
+Sources = Makefile .gitignore README.md LICENSE.md
 -include $(ms)/git.def
 
-Sources += $(wildcard *.html *.css *.R)
+msrepo = https://github.com/dushoff
+ms = makestuff
+Ignore += local.mk
+-include local.mk
+-include $(ms)/os.mk
 
+Ignore += $(ms)
+Makefile: $(ms) $(ms)/Makefile
+$(ms):
+	git clone $(msrepo)/$(ms)
+
+######################################################################
+
+Sources += $(wildcard *.html *.css *.R)
 Sources += $(wildcard figure/*.*)
 
 ##################################################################
