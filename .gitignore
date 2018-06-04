@@ -8,6 +8,7 @@ make.log
 ## content from makestuff
 local.mk
 makestuff
+figure
 commit.time
 commit.default
 dotdir/

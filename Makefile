@@ -29,7 +29,7 @@ $(ms):
 
 # make files
 
-Sources = Makefile .gitignore README.md LICENSE.md notes.txt TODO.md
+Sources = Makefile .gitignore .ignore README.md LICENSE.md notes.txt TODO.md
 
 -include $(ms)/git.def
 -include $(ms)/perl.def
@@ -198,6 +198,7 @@ gh-pages/%.R: %.R
 gh-pages/figure: 
 	$(mkdir)
 
+Ignore += figure
 figure:
 	$(mkdir)
 
