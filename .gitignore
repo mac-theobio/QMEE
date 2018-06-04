@@ -13,6 +13,7 @@ commit.time
 commit.default
 dotdir/
 clonedir/
+gh-pages
 up.time
 all.time
 .clean_dir

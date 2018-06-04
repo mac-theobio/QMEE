@@ -4,7 +4,6 @@
 ### Making slides locally now 
 ### Rethink pages paradigm for next time!
 
-
 ### Hooks for the editor to set the default target
 current: target
 -include target.mk
@@ -40,6 +39,14 @@ Sources = Makefile .gitignore .ignore README.md LICENSE.md notes.txt TODO.md
 ## Current
 
 gh-pages/cleaning.slides.html: cleaning.rmd
+
+##################################################################
+
+Makefile: gh-pages
+
+clonedirs += gh-pages
+gh-pages:
+	$(MAKE) $@.branchdir
 
 ##################################################################
 
@@ -222,12 +229,8 @@ push_all:
 
 ### Makestuff
 
-## Change this name to download a new version of the makestuff directory
-# Makefile: start.makestuff
-
 -include $(ms)/git.mk
 -include $(ms)/visual.mk
 -include $(ms)/linkdirs.mk
 
 # -include $(ms)/wrapR.mk
-# -include $(ms)/oldlatex.mk
