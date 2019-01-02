@@ -14,8 +14,6 @@ push_pages: Generalized_linear_models.rmd
 
 msrepo = https://github.com/dushoff
 ms = makestuff
-Ignore += local.mk
--include local.mk
 -include $(ms)/os.mk
 
 # -include $(ms)/perl.def
@@ -32,7 +30,6 @@ Sources = Makefile .gitignore .ignore README.md LICENSE.md notes.txt TODO.md
 
 -include $(ms)/git.def
 -include $(ms)/perl.def
--include local.mk
 
 ######################################################################
 
@@ -163,8 +160,6 @@ Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
 Sources += $(wildcard *.md)
 gh-pages/index.html: index.md
 gh-pages/Importing_data.html: Importing_data.md
-
-local:
 
 ######################################################################
 

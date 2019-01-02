@@ -24,69 +24,89 @@ Mon 3 April and Wed 5 April
 ### Final project
 
 * Email us to tell us when it's time to look
+<!-- COMMENT
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
--->
+COMMENT -->
 
 ## Course information
 
-* The course meets in LSB-130A:
-	*  Mon 10:30-12:20
-	*  Wed 10:30-11:20
+* The course meets in LSB-213A:
+	*  Mon 10:30-11:20
+	*  Wed 15:30-17:20 (two hours, bring coffee)
 
 -   [Course description](description.html)
+<!-- COMMENT
 -   [Assignments](assignments.html)
 -   [Final project](project.html)
+COMMENT -->
 
 ## Course schedule
 
-__Some links may be broken as we build our new website__, your patience is appreciated.
+__Some links may be broken__, your patience is appreciated.
 
 _This schedule is subject to change_
 
 ### Foundations
 
--   [Introduction to R](Introduction_to_R.html) Week of 9 Jan
--   [Data management](Data_management.html) Week of 16 Jan
--   [Visualization](Visualization.html) Week of 23 Jan
--   [Statistical philosophy](Statistical_philosophy.html) Week of 30 Jan
+* Introduction to R Week of 7 Jan
+* Data management Week of 14 Jan
+* Visualization Week of 21 Jan
+* Statistical philosophy Week of 28 Jan
+
+<!-- COMMENT
+-   [Introduction to R](Introduction_to_R.html) Week of 7 Jan
+-   [Data management](Data_management.html) Week of 14 Jan
+-   [Visualization](Visualization.html) Week of 21 Jan
+-   [Statistical philosophy](Statistical_philosophy.html) Week of 28 Jan
+COMMENT -->
 
 ### Basic Statistics
 
+- Permutations
+- Linear models
+- Bayesian statistics
+
+<!-- COMMENT
 -   [Permutations](Permutations.html)
 -   [Linear models](Linear_models.html)
 -   [Bayesian statistics](Bayesian_statistics.html)
+COMMENT -->
 
 ### Additional topics
 
 _We will cover 3-5 of these, depending on how projects are going_
 
+<!-- COMMENT
+* Generalized linear models
+* Mixed models
+* Multivariate responses
+* Linear model parameters
+* Penalized regression
+
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
 - [Multivariate responses](Multivariate_responses.html)
-
-_Probably not_
-
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
-
-<!---
-* restore text and link below for next for next time
-	* also, build a better list of options
+COMMENT -->
 
 The last part of the schedule will be determined through discussions
 with the participants. If you have suggestions or requests, let us know.
 
 We may choose one or more additional [statistical topics](topics.html), or focus on programming and project design questions, or go into depth about one or more research projects.
--->
 
+<!-- COMMENT
 ### Extras
 
 -   [Multiple comparisons](Multiple_comparisons.html)
+COMMENT -->
 
+<!-- COMMENT
 ## Other 
 
 * [Git issues](git_issues.html)
+COMMENT -->
 
 ## Faculty
 
