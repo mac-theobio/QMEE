@@ -22,8 +22,8 @@ Ignore += local.mk
 
 Ignore += $(ms)
 ## Sources += $(ms)
-Makefile: $(ms) $(ms)/Makefile
-$(ms):
+Makefile: $(ms)/Makefile
+$(ms)/Makefile:
 	git clone $(msrepo)/$(ms)
 
 # make files
@@ -42,9 +42,9 @@ gh-pages/cleaning.slides.html: cleaning.rmd
 
 ##################################################################
 
-Makefile: gh-pages
+## Makefile: gh-pages
 
-clonedirs += gh-pages
+## clonedirs += gh-pages
 gh-pages:
 	$(MAKE) $@.branchdir
 
