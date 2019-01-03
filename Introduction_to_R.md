@@ -10,18 +10,28 @@ Preparation
     which you can install and run the software that we will be using for
     the class
 
+Before Monday
+----------------
 
--   Please install and run the free (and open-source) program `R` from
-    the links at the top of [the Comprehensive R Archive
-    Network](http://cran.r-project.org/). (If you have an older version of R installed on your computer (e.g. version < 3.3.0), we strongly recommend that you update it by downloading and installing the latest version.)
+-   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
+	 * (If you have an older version of R (< 3.3.0), please update to the latest version.)
 
-
--   You should also install and run the free (and open-source) R
+- Install and run the free (and open-source) R
     development environment `RStudio` from the Download button at the
     [RStudio web site](http://www.rstudio.com/ide/). You want the
     "desktop" version.
 
+- install the `tidyverse` suite of R packages: 
+  * within an R session, type `install.packages("tidyverse")`
+  * (*or* use the package manager window in RStudio).
 
+Before Wednesday
+----------------
+
+- Register a GitHub account click "Sign up" on [https://github.com].
+	* You may want to read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
+- If you're on MacOS, try to [install XCode](https://developer.apple.com/download/).
+	* If you have trouble, you can ask for help on Wednesday
 
 Goals
 =====
@@ -29,28 +39,20 @@ Goals
 -   An introduction to the R environment, and some basic principles of
     scripting and programming
 
-
 -   Participants will install and run R, write a script, and read some
     data
 
 Resources
 =========
 
--   Course material
-    -   [ Lecture notes](intro_Lecture_notes.html)
-    -   [Importing data](Importing_data.html)
-    -   [Running R](Running_R.html)
-
-
 -   The official Introduction to R on the [R manuals
     page](http://cran.r-project.org/manuals.html)
 
+-   Course material
+    -   [Lecture notes](intro_Lecture_notes.html)
+    -   [Importing data](Importing_data.html)
+    -   [Running R](Running_R.html)
 
--   [Another introduction to
-    R](http://yushan.mcmaster.ca/theobio/mmed/index.php/Introduction_to_R),
-    with tutorials (also from JD and associates).
-
-<!--- Commented out because schedule awkwardness; comment back in for next time as default
 Exercise
 ========
 
@@ -62,10 +64,15 @@ reads it and does the calculation. You should confirm that these work
 
 Also, a short paragraph about the data would be nice so we can think
 about what sort of projects to do in the future.
+
+<!--- Commented out because schedule awkwardness; comment back in for next time as default
 -->
+
+<!--- COMMENT
+COMMENT -->
 
 
 Assignment
 ========
 
-Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and send a paragraph to the course email address (see below) describing the data. Add any thoughts that you like
+Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and send a paragraph to the course email address (see below) describing the data. Add any thoughts that you like.

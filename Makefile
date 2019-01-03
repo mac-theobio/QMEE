@@ -8,7 +8,7 @@
 current: target
 -include target.mk
 
-push_pages: Generalized_linear_models.rmd
+push_pages: 
 
 ##################################################################
 
@@ -206,16 +206,17 @@ figure:
 
 ## Update the _local copy_ of the site (open to open the main page as well)
 push_pages: gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
-	rsync figure/* gh-pages/figure
+	-rsync figure/* gh-pages/figure
 
 open_pages: 
 	$(MAKE) push_pages
-	$(MAKE) gh-pages/cleaning.slides.html.go
+	$(MAKE) gh-pages/index.html.go
 
 ## Push the site to github.io (all to simultaneously sync this repo)
 push_site: 
 	$(MAKE) push_pages
-	cd pages && $(MAKE) remotesync
+	cd gh-pages && $(MAKE) remotesync
+
 push_all: 
 	$(MAKE) push_site
 	$(MAKE) sync
