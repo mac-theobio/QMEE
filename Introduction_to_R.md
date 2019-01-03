@@ -28,7 +28,7 @@ Before Monday
 Before Wednesday
 ----------------
 
-- Register a GitHub account click "Sign up" on [https://github.com].
+- [Sign up for a github account](https://github.com).
 	* You may want to read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
 - If you're on MacOS, try to [install XCode](https://developer.apple.com/download/).
 	* If you have trouble, you can ask for help on Wednesday
@@ -64,9 +64,6 @@ reads it and does the calculation. You should confirm that these work
 
 Also, a short paragraph about the data would be nice so we can think
 about what sort of projects to do in the future.
-
-<!--- Commented out because schedule awkwardness; comment back in for next time as default
--->
 
 <!--- COMMENT
 COMMENT -->
