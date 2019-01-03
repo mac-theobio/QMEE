@@ -99,27 +99,9 @@ Generalized_linear_models.autormd:
 
 ######################################################################
 
-## Scraping
-
 .PRECIOUS: intro_%.mediawiki
 intro_%.mediawiki:
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Introduction_to_R/$*&action=raw"
-
-.PRECIOUS: Visualization_%.mediawiki
-Visualization_%.mediawiki:
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Visualization/$*&action=raw"
-
-.PRECIOUS: Bayesian_statistics_%.mediawiki
-Bayesian_statistics_%.mediawiki:
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Bayesian_statistics/$*&action=raw"
-
-.PRECIOUS: Multiple_comparisons_%.mediawiki
-Multiple_comparisons_%.mediawiki:
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Multiple_comparisons/$*&action=raw"
-
-.PRECIOUS: Permutations_%.mediawiki
-Permutations_%.mediawiki:
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Permutations/$*&action=raw"
 
 intro_Lecture_notes.mediawiki:
 
@@ -127,16 +109,11 @@ intro_Lecture_notes.mediawiki:
 %.mediawiki: 
 	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
 
-Data_management.mw.md:
-Visualization.mw.md:
-
-Evolutionary_analysis.mediawiki:
-
-##################################################################
-
 ## Converting
 %.mw: %.mediawiki
 	pandoc -f mediawiki -t markdown -o $@ $<
+
+##################################################################
 
 Sources += $(wildcard *.pl)
 Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
