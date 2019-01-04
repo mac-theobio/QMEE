@@ -54,6 +54,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -111,87 +115,95 @@ Mon 3 April and Wed 5 April
 ### Final project
 
 * Email us to tell us when it's time to look
+<!-- COMMENT
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
--->
+COMMENT -->
 
-<slide class=''><hgroup><h2>Course information</h2></hgroup><article  id="course-information">
-
-<ul>
-<li>The course meets in LSB-130A:
+<slide class=""><hgroup><h2>Course information</h2></hgroup><article  id="course-information">
 
 <ul>
-<li>Mon 10:30-12:20</li>
-<li>Wed 10:30-11:20</li>
+<li>The course meets in LSB-213A:
+
+<ul>
+<li>Mon 10:30-11:20</li>
+<li>Wed 15:30-17:20 (two hours, bring coffee)</li>
 </ul></li>
-<li><a href='description.html' title=''>Course description</a></li>
-<li><a href='assignments.html' title=''>Assignments</a></li>
-<li><a href='project.html' title=''>Final project</a></li>
+<li><a href='description.html' title=''>Course description</a> <!-- COMMENT
+-   [Assignments](assignments.html)
+-   [Final project](project.html)
+COMMENT --></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Course schedule</h2></hgroup><article  id="course-schedule">
+</article></slide><slide class=""><hgroup><h2>Course schedule</h2></hgroup><article  id="course-schedule">
 
-<p><strong>Some links may be broken as we build our new website</strong>, your patience is appreciated.</p>
+<p><strong>Some links may be broken</strong>, your patience is appreciated.</p>
 
 <p><em>This schedule is subject to change</em></p>
 
 <h3>Foundations</h3>
 
 <ul>
-<li><a href='Introduction_to_R.html' title=''>Introduction to R</a> Week of 9 Jan</li>
-<li><a href='Data_management.html' title=''>Data management</a> Week of 16 Jan</li>
-<li><a href='Visualization.html' title=''>Visualization</a> Week of 23 Jan</li>
-<li><a href='Statistical_philosophy.html' title=''>Statistical philosophy</a> Week of 30 Jan</li>
+<li><a href='Introduction_to_R.html' title=''>Introduction to R</a> Week of 7 Jan</li>
+<li>Data management Week of 14 Jan</li>
+<li>Visualization Week of 21 Jan</li>
+<li>Statistical philosophy Week of 28 Jan</li>
 </ul>
+
+<!-- COMMENT
+-   [Introduction to R](Introduction_to_R.html) Week of 7 Jan
+-   [Data management](Data_management.html) Week of 14 Jan
+-   [Visualization](Visualization.html) Week of 21 Jan
+-   [Statistical philosophy](Statistical_philosophy.html) Week of 28 Jan
+COMMENT -->
 
 <h3>Basic Statistics</h3>
 
 <ul>
-<li><a href='Permutations.html' title=''>Permutations</a></li>
-<li><a href='Linear_models.html' title=''>Linear models</a></li>
-<li><a href='Bayesian_statistics.html' title=''>Bayesian statistics</a></li>
+<li>Permutations</li>
+<li>Linear models</li>
+<li>Bayesian statistics</li>
 </ul>
+
+<!-- COMMENT
+-   [Permutations](Permutations.html)
+-   [Linear models](Linear_models.html)
+-   [Bayesian statistics](Bayesian_statistics.html)
+COMMENT -->
 
 <h3>Additional topics</h3>
 
-<p><em>We will cover 3-5 of these, depending on how projects are going</em></p>
+<!-- COMMENT
+* Generalized linear models
+* Mixed models
+* Multivariate responses
+* Linear model parameters
+* Penalized regression
 
-<ul>
-<li><a href='Generalized_linear_models.html' title=''>Generalized linear models</a></li>
-<li><a href='Mixed_models.html' title=''>Mixed models</a></li>
-<li><a href='Multivariate_responses.html' title=''>Multivariate responses</a></li>
-</ul>
+- [Generalized linear models](Generalized_linear_models.html)
+- [Mixed models](Mixed_models.html)
+- [Multivariate responses](Multivariate_responses.html)
+- [Linear model parameters] (parameters.html)
+- [Penalized regression] (penalized.html)
+COMMENT -->
 
-<p><em>Probably not</em></p>
+<p>The last part of the schedule will be determined through discussions with the participants. If you have suggestions or requests, let us know.</p>
 
-<ul>
-<li>[Linear model parameters] (parameters.html)</li>
-<li>[Penalized regression] (penalized.html)</li>
-</ul>
+<p>We may choose one or more additional <a href='topics.html' title=''>statistical topics</a>, or focus on programming and project design questions, or go into depth about one or more research projects.</p>
 
-<!---
-* restore text and link below for next for next time
-    * also, build a better list of options
+<!-- COMMENT
+### Extras
 
-The last part of the schedule will be determined through discussions
-with the participants. If you have suggestions or requests, let us know.
+-   [Multiple comparisons](Multiple_comparisons.html)
+COMMENT -->
 
-We may choose one or more additional [statistical topics](topics.html), or focus on programming and project design questions, or go into depth about one or more research projects.
--->
+<!-- COMMENT
+## Other 
 
-<h3>Extras</h3>
+* [Git issues](git_issues.html)
+COMMENT -->
 
-<ul>
-<li><a href='Multiple_comparisons.html' title=''>Multiple comparisons</a></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Other</h2></hgroup><article  id="other">
-
-<ul>
-<li><a href='git_issues.html' title=''>Git issues</a></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Faculty</h2></hgroup><article  id="faculty">
+</article></slide><slide class=""><hgroup><h2>Faculty</h2></hgroup><article  id="faculty">
 
 <ul>
 <li><a href='http://www.biology.mcmaster.ca/dushoff/' title=''>Jonathan Dushoff</a></li>
@@ -208,7 +220,7 @@ We may choose one or more additional [statistical topics](topics.html), or focus
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
