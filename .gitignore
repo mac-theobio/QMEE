@@ -19,3 +19,13 @@ all.time
 .clean_dir
 *.oldfile
 *.olddiff
+
+.Rhistory
+*_cache
+*_files
+cache
+
+QMEE_2017
+QMEE_2018
+pages/
+qmee_private
