@@ -203,7 +203,7 @@ summary(g1)
 
 ## Diagnostics (`plot(g1)`)
 
-```{r diagplot,echo=FALSE}
+```{r diagplot,echo=FALSE,fig.width=8,fig.height=8}
 op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
 plot(g1) ## ugh
 par(op)  ## restore parameter settings

@@ -75,8 +75,6 @@ COMMENT -->
 
 ### Additional topics
 
-_We will cover 3-5 of these, depending on how projects are going_
-
 <!-- COMMENT
 * Generalized linear models
 * Mixed models

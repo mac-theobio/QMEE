@@ -162,7 +162,7 @@ assumptions, it is good to evaluate them
 		**residuals** look Normal?)
     - Independence is hard to test
 - Normality is the **least important** of these assumptions
- 
+
 ## Default plots in R
 
 Example needed

@@ -31,11 +31,11 @@ opts_chunk$set(results="hide")
 
 ## R is a programming language
 
-- You may or may not use R for programming tasks,  but it will help if you understand roughly how it works inside.
+- You may or may not use R for programming tasks,  but it will help if you understand roughly how it works inside
 - What is a program?
-    - A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order
-    - A program's flow is controlled by *control structures* (instructions about what instruction to do next)
-    - What are some examples of programs, and how do they work?
+    - A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order
+    - A program's flow is controlled by *control structures* (instructions about what instruction to do next)
+    - What are some examples of programs, and how do they work?
 
 ## Calculation
 
@@ -59,7 +59,7 @@ then explain how you would write it more clearly.
 
 ## Assigning values
 
-R can remember numbers and give them back to you. This is the foundation
+R can remember numbers (and other things) and give them back to you. This is the foundation
 of being able to write programs that do many things in a specified
 order.
 
@@ -75,16 +75,13 @@ y
 
 ----------------------------------------------------------------------
 
-
-R keeps track of a variety of objects: data structures and functions
-mostly. You can see all of your user-defined objects by typing
-`objects()` (the parentheses mean that you are calling a *function*;
-more on this later).
+R keeps track of a variety of objects. You can see all of the objects
+you've defined by typing `ls()` (short for "list": the parentheses
+mean that you are calling a *function*; more on this later), or looking in the "Environment" tab in RStudio.
 
 ## Values
 
-In addition to numbers, R has other kinds of values (also known as "atomic types"). The main ones we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` is one way to try to figure out what your R object is.
-
+In addition to numbers, R has other kinds of values. The main ones we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` (short for "structure") is one way to figure out what your R object is. 
 
 ```{r values}
 num <- 3
@@ -93,13 +90,17 @@ str(num)
 char <- "Hello, class?"
 str(char)
  
-logic <- TRUE ## Note lack of quotes
+logic <- TRUE ## No quotes
 str(logic)
 ```
 
+You can also switch to the "Grid View" in the Environment tab in RStudio.
+
+![](pix/gridview.png)
+
 ## Other types
 
-R objects are divided into *types*. Other than the above, we're mostly interested in three of these: *vectors*, *lists* and *functions*.
+R objects are divided into *types*. Other than the ones above, we're mostly interested in *vectors*, *lists* and *functions*.
 
 ## Vectors
 
@@ -109,8 +110,8 @@ A vector consists of zero or more values of the same *storage mode*:
 words <- c("Mary", "had", "a", "little", "lamb")
 # c() puts elements together into a vector
 str(words)
- 
-print(v <- 1:5)  ## 'm:n' creates a sequence from m to n
+
+v <- 1:5  ## 'm:n' creates a sequence from m to n
 str(v)
 ```
 
@@ -120,11 +121,9 @@ R does math on vectors directly.
 
 <!-- this flavor of markdown / pandoc needs an empty line before an itemized list -->
 
-* If we add (for example) two vectors we add each pair
-of corresponding elements.
-* If we multiply a vector by a *scalar* (a
-single number) we multiply each element by the scalar.
-* Avoid arithmetic involving two vectors of different length (except the scalar case, above)
+* If we add (for example) two vectors we add each pair of corresponding elements.
+* If we multiply a vector by a *scalar* (a single number) we multiply each element by the scalar.
+* Avoid arithmetic involving two vectors of different length
 
 ```{r vector_math}
 v <- 1:5
@@ -133,23 +132,19 @@ v+w
 2*w
 ```
 
-
 ## No scalars
 
 R does not have any particular idea of individual numbers (or strings,
-etc.); you represent a number as a vector of length 1. This has
-advantages and disadvantages.
-
-
+etc.); you represent a number as a vector of length 1.
 
 ## Lists
 
-A list is a bunch of things in order. Those things can be any R object - vectors, functions, other lists ...
+A list is a bunch of things in order, not necessarily of the same type. Those things can be any R object - vectors, functions, other lists ...
 
 ```{r list}
 L <- list(1:3, "Apple tree", TRUE)
 str(L)
-str(L[1]) ## L[1] picks out the first element of the list
+str(L[[1]]) ## L[1] picks out the first element of the list
 LL <- list(L, c(2, 7, 9))
 str(LL)
 str(LL[1])
@@ -163,8 +158,7 @@ does things (including possibly "returning" a result).
 
 What functions have we seen so far?
 
-Example: `mean()` in its simplest form takes a vector argument and
-returns the mean.
+Example: `mean()` takes a vector argument and returns the mean.
 
 ```{r mean}
 mean(c(2, 5, 11))
@@ -177,7 +171,7 @@ print(m_x)
 ## About functions
 
 You can learn about any built-in function by using R's help: type
-`?"mean"` or `help("mean")`.
+`?"mean"` or `help("mean")`, or find the Help tab in RStudio.
 
 Arguments can be passed to functions in order, or by using names. For
 example, `mean` takes an optional argument `trim`.
@@ -192,22 +186,22 @@ mean(x, trim=0.1)
 
 `=` is a synonym for `<-` at the top level (and many people use it).
 Be aware that they are not synonyms inside a function call: `<-`
-still means assignment, but `=` is used to name an argument.
+still means assignment, but `=` is used to name an argument. `mean(x, trim <- 0.1)` **does not do what you think it does**.
 
 ## Variable names
 
-R variable names are case-sensitive. This means that `m` and `M` are
+R variable names are *case-sensitive*: e.g. `m` and `M` are
 different variables. In general, you should not try to take advantage of this, because it may cause confusion.
 
 R variable names have to start with a letter, and certain characters
 (particularly space characters) are not allowed. Good naming conventions
 include:
 
--   Using mostly letters, underscores (`_`) and dots (`.`)
--  Not using potentially confusing names like `l` or `O`.
--  Not using built-in names (like `c`, `list`, or `data`) for variables.
--   Make readable variable names using `camelCase`, `snake_case`, or `kebab.case`
--   Avoid `variableNamesThatAreExcessivelyLong`
+* Using mostly letters, underscores (`_`) and dots (`.`)
+* Avoiding potentially confusing names like `l` or `O`.
+* Avoiding built-in names (like `c`, `t`, `list`, or `data`) for variables.
+* Making readable variable names using `camelCase`, `snake_case`, or `kebab.case`
+*   Avoiding `variableNamesThatAreExcessivelyLong`
 
 # Compound objects
 
@@ -241,11 +235,13 @@ m %*% m
 
 ## Data frames
 
-Data frames are lists that have a rectangular shape (they look like, and
+Data frames are sets of lists organized into a rectangle (they look like, and
 can be used a like matrices, but don't have to be of a single "mode" -
 in particular you can mix numbers, factors (see below), dates, ...).
 
 We'll talk more about data frames when we start dealing with data.
+
+`tibbles` are a special "tidyverse" version of data frames that act a little bit differently.
 
 ## Factors
 
@@ -259,8 +255,7 @@ terms. We will also talk more about them later.
 
 Control structures in R include:
 
--  loops: we will use `for`, `lapply` and `apply`, among others.
-    `lapply` stands for **l**ist **apply**.
+-  loops: we will use `for`, `lapply` and `apply`, among others. `lapply` stands for **l**ist **apply**.
 -   conditionals: `if` and `ifelse`. Use `ifelse` with care!
 
 ```{r control}
@@ -290,31 +285,20 @@ print its value. It's better
 practice to always say `print`, when that's what you want.
 * Clearer, and less fragile
 
-Similarly, you usually don't need to say `return` to return a function value … but you should. 
+Similarly, you usually don't need to say `return` to return a function value ... but you should. 
 
 Clarity and explicitness are worth more than saving a few keystrokes.
 
 * When R was invented, this was less clear
 
-## Names
-
-R's primary objects often have associated "attributes". The information
-that tells R what shape a matrix (or higher-dimensional array) is is an
-attribute. R also has "name" attributes: `names`, `rownames` and
-`colnames`.
+## Selecting
 
 You can select single elements from an R object using the element
 operator `[[]]`, and subsets using the subset operator `[]`. If
 the object has dimensions, you can separate them with a comma.
 
-## Selecting
-
 You can also select things by name, using the syntax `v["name"]` or
-`v[n]`, if `n` is a variable that contains the name. In general it's a
-good idea to use names instead of numbers whenever you can, because (1)
-your code will be easier to read (`x["temperature"]` instead of `x[21]`)
-and (2) your code will be more robust (i.e., if you modify something so
-that temperature is now in position 22 rather than 21).
+`v[n]`, if `n` is a variable that contains the name. Use names instead of numbers whenever you can, because (1) your code will be easier to read (`x["temperature"]` instead of `x[21]`) and (2) your code will be more robust (e.g., if something changes so that temperature is now in position 22 rather than 21).
 
 ## Selection example
 
@@ -356,6 +340,10 @@ In programs, it is bad practice to let R do this (because it will
 confuse the program when the structure of your results changes). In this
 case, you can avoid it by selecting from the list.
 
+<!-- COMMENT
+
+Not worth bothering people with this on day 1 ???
+
 ## Being explicit
 
 It's unfortunate that R makes you do stuff like this…
@@ -368,3 +356,5 @@ InsectSprays[, 1]
 # Avoid inappropriate collapse
 InsectSprays[, 1, drop=FALSE]
 ```
+
+-->

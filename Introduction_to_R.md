@@ -13,45 +13,48 @@ Preparation
 Before Monday
 ----------------
 
--   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
+*   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
 	 * (If you have an older version of R (< 3.3.0), please update to the latest version.)
 
-- Install and run the free (and open-source) R
+* Install and run the free (and open-source) R
     development environment `RStudio` from the Download button at the
     [RStudio web site](http://www.rstudio.com/ide/). You want the
     "desktop" version.
 
-- install the `tidyverse` suite of R packages: 
+* install the `tidyverse` suite of R packages: 
   * within an R session, type `install.packages("tidyverse")`
   * (*or* use the package manager window in RStudio).
 
 Before Wednesday
 ----------------
 
-- [Sign up for a github account](https://github.com).
+* [Sign up for a github account](https://github.com) (click the big green "Sign up for GitHub" button)
 	* You may want to read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
-- If you're on MacOS, try to [install XCode](https://developer.apple.com/download/).
-	* If you have trouble, you can ask for help on Wednesday
-
+* If you're on MacOS, try to [install XCode](https://developer.apple.com/download/).
+* e-mail your GitHub account name to <bio708qmee@gmail.com>
+* Get as far as you can through the following steps:
+    * Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan's [Happy Git with R](https://happygitwithr.com/)
+* If you have trouble with any of this, you can get help on Wednesday
+	
 Goals
 =====
 
--   An introduction to the R environment, and some basic principles of
+*   An introduction to the R environment, and some basic principles of
     scripting and programming
 
--   Participants will install and run R, write a script, and read some
+*   Participants will install and run R, write a script, and read some
     data
 
 Resources
 =========
 
--   The official Introduction to R on the [R manuals
+*   The official Introduction to R on the [R manuals
     page](http://cran.r-project.org/manuals.html)
 
--   Course material
-    -   [Lecture notes](intro_Lecture_notes.html)
-    -   [Importing data](Importing_data.html)
-    -   [Running R](Running_R.html)
+*   Course material
+    *   [Lecture notes](intro_Lecture_notes.html)
+    *   [Importing data](Importing_data.html)
+    *   [Running R](Running_R.html)
 
 Exercise
 ========
@@ -72,4 +75,4 @@ COMMENT -->
 Assignment
 ========
 
-Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and send a paragraph to the course email address (see below) describing the data. Add any thoughts that you like.
+Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and send a paragraph to the course email address (`bio708qmee@gmail.com`) describing it. It will be particularly helpful if you give us some context for the data and describe the **biological** questions you would hope to answer (if you also want to translate your biological questions into statistical questions that's fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).
