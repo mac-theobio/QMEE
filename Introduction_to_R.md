@@ -14,7 +14,7 @@ Before Monday
 ----------------
 
 *   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
-	 * (If you have an older version of R (< 3.3.0), please update to the latest version.)
+	 * If you have an older version of R (< 3.5.2), *please update to the latest version*.
 
 * Install and run the free (and open-source) R
     development environment `RStudio` from the Download button at the

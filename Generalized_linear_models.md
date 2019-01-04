@@ -1,7 +1,7 @@
 ---
 title: "Generalized linear models"
 author: Ben Bolker and Jonathan Dushoff
-date: "10:10 06 March 2017"
+date: "20:02 03 January 2019"
 ---
 
 
@@ -49,7 +49,7 @@ date: "10:10 06 March 2017"
     - e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
 - This is good, because the observed value of $y$ might be zero
     - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)
-	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=-4=0.018)$
+	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=exp(-4)=0.018)$
 - model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale
 
 ## logit/logistic function
@@ -60,7 +60,7 @@ date: "10:10 06 March 2017"
 
 - a little harder than linear models: `plot` is still somewhat useful
 - binary data especially hard (e.g. `arm::binnedplot`)
-- goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type=response))`)
+- goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type="response"))`)
 - residuals are *Pearson residuals* by default ($(\textrm{obs}-\textrm{exp})/V(\textrm{exp})$); predicted values are on the effect scale (e.g. log/logit) by default (use `type="response"` to get data-scale predictions)
 
 
