@@ -1,0 +1,46 @@
+---
+title: "Intro to tidyverse"
+author: "Jonathan Dushoff and Ben Bolker"
+date:  "`r format(Sys.time(),'%d %B %Y')`"
+slide_level: 3
+output: html_document
+---
+
+
+```{r opts,echo=FALSE}
+library(knitr)
+opts_chunk$set(results="hide")  
+```
+
+# The tidyverse
+
+## basic concepts
+
+- a set of R packages: https://www.tidyverse.org/
+- advantages
+    - expressiveness
+    - speed
+	- new hotness
+- disadvantages
+    - incompatibilities with base R
+	- rapid evolution
+	- non-standard evaluation
+
+## Sample data
+
+We want to get some data. Before executing the code below:
+
+- think about where you want to keep your stuff for this class
+- set your **working directory** accordingly (`setwd()`, or in RStudio `Session / Set Working Directory / Choose Directory`)
+- create a `data/` subdirectory if you want, or edit it out of the `destfile` argument below
+
+```{r eval=FALSE}
+download.file(url="https://ndownloader.figshare.com/files/2292169",
+              destfile = "data/portal_data_joined.csv")
+```
+
+## And now ...
+
+We will continue with the [Data Carpentry](https://datacarpentry.org/) [lesson for R in ecology](https://datacarpentry.org/R-ecology-lesson/):
+
+https://datacarpentry.org/R-ecology-lesson/03-dplyr.html

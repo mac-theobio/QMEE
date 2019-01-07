@@ -53,6 +53,7 @@ Resources
 
 *   Course material
     *   [Lecture notes](intro_Lecture_notes.html)
+    *   [tidyverse](intro_tidyverse.html)
     *   [Importing data](Importing_data.html)
     *   [Running R](Running_R.html)
 
