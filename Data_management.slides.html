@@ -54,6 +54,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -88,14 +92,14 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Goals</h2></hgroup><article  id="goals">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Goals</h2></hgroup><article  id="goals">
 
 <ul>
 <li>We will discuss some principles of data management, data flow and reproducible research</li>
 <li>Participants will continue to practice with R, and will examine their data and make some products</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
 
 <ul>
 <li><a href='Managing_data_in_R.html' title=''>Managing data in R</a></li>
@@ -103,9 +107,9 @@
 <li><a href='More_bits_and_pieces.html' title=''>More bits and pieces</a></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Preparation</h2></hgroup><article  id="preparation">
+</article></slide><slide class=""><hgroup><h2>Preparation</h2></hgroup><article  id="preparation">
 
-<p>In the second hour of Monday&#39;s class we will be working to get you set up with Git and Github, following <a href='http://happygitwithr.com/' title=''>Happy Git and GitHub for the useR</a>.</p>
+<p>In the second hour of Wednesday&#39;s class we will be working to get you set up with Git and Github, following <a href='http://happygitwithr.com/' title=''>Happy Git and GitHub for the useR</a>.</p>
 
 <p>If possible, before Monday&#39;s class:</p>
 
@@ -117,7 +121,7 @@
 <li>(<em>or</em> you can do this via the package manager window in RStudio).</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Exercise</h2></hgroup><article  id="exercise">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Exercise</h2></hgroup><article  id="exercise">
 
 <!---
 Exercise supplemented this year because of awkward start
@@ -131,13 +135,14 @@ Continue working on your data
 <li>Examine your data for mistakes, and to make sure you understand the R classes</li>
 <li>Describe what sort of investigations you might do with your data, and how you might break it into replicable components: save this (somewhere) as a file called <code>README.md</code></li>
 <li>Make sure you know how to use <code>source</code>, <code>save</code> and <code>load</code> in R: finish a task, and then close R without saving your workspace and efficiently redo the task.</li>
-<li>Make a directory on the github repo named after yourself; add your data, a script that does something with the data, and the <code>README.md</code> file you created above to this directory
+<li>Make a directory on the github repo called <code>QMEE</code></li>
+<li>add Jonathan Dushoff (<code>@dushoff</code>) and Ben Bolker (<code>@bbolker</code>) as collaborators (<code>Settings</code> &gt; <code>Collaborators</code> (left margin) &gt; <code>Add collaborator</code>) add your data, a script that does something with the data, and the <code>README.md</code> file you created above to this directory
 
 <ul>
 <li><em>more detailed instructions on this to follow, but approximately &#8230;</em></li>
 <li>(all subsequent steps are in RStudio)</li>
 <li>in the menus, go to <code>File &gt; New Project &gt; Version Control &gt; Git</code></li>
-<li>enter <code>https://github.com/mac-theobio/QMEE_2017.git</code> as the repository URL (or the equivalent <code>git@...</code> URL if you have set up SSH keys). You can also find this string by clicking on the <code>Clone</code> button on the <a href='https://github.com/mac-theobio/QMEE_2017' title=''>front page of the QMEE_2017 repo</a>.</li>
+<li>enter <code>https://github.com/mac-theobio/QMEE_2019.git</code> as the repository URL (or the equivalent <code>git@...</code> URL if you have set up SSH keys). You can also find this string by clicking on the <code>Clone</code> button on the <a href='https://github.com/mac-theobio/QMEE_2019' title=''>front page of the QMEE_2019 repo</a>.</li>
 <li>click on the <code>New Folder</code> button in the files panel. <strong>Use your GitHub ID for the folder name</strong>, and don&#39;t let RStudio autocorrect it!</li>
 <li>copy your CSV file to this directory (using the file browser in your operating system)</li>
 <li>either press the <code>New File</code> button in RStudio to create your R script (when you save it, <em>make sure you click on your personal subdirectory/folder to save it there</em>), or copy an R script you created somewhere else to your personal subdirectory</li>
@@ -164,7 +169,7 @@ Continue working on your data
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

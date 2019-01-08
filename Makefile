@@ -10,7 +10,7 @@ target pngtarget pdftarget vtarget acrtarget: index.html
 
 # make files
 
-Sources = Makefile .ignore README.md LICENSE.md
+Sources = Makefile README.md LICENSE.md
 Ignore = .gitignore
 -include $(ms)/git.def
 

@@ -1,710 +1,484 @@
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-
-
-
-  <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/frameworks-c4ea0a21580a57091fc76df379ba40e19a614ee3bdca871a3a8a2b38d181c65d.css" integrity="sha256-xOoKIVgKVwkfx23zebpA4ZphTuO9yocaOoorONGBxl0=" media="all" rel="stylesheet" />
-  <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github-a20b0761ae9a52b4ed0d75922904eb8ffb5934a855914ec141ff3b2140a18b9a.css" integrity="sha256-ogsHYa6aUrTtDXWSKQTrj/tZNKhVkU7BQf87IUChi5o=" media="all" rel="stylesheet" />
-  
-  
-  
-  
-
-  <meta name="viewport" content="width=device-width">
-  
-  <title>Bio720/Bio708_MultivariateLinearModelsIntro.html at master · DworkinLab/Bio720</title>
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
-  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
-  <meta property="fb:app_id" content="1401488693436528">
-
-    
-    <meta content="https://avatars1.githubusercontent.com/u/4523003?v=3&amp;s=400" property="og:image" /><meta content="GitHub" property="og:site_name" /><meta content="object" property="og:type" /><meta content="DworkinLab/Bio720" property="og:title" /><meta content="https://github.com/DworkinLab/Bio720" property="og:url" /><meta content="Bio720 - Repository For graduate class (Practical introduction to Bioinformatics &amp; Genomics). McMaster University" property="og:description" />
-
-  <link rel="assets" href="https://assets-cdn.github.com/">
-  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6MTQ3NjQ2NjYzOjY1ODZhNGYxMDA4MTA0MDVjOTQyZmYxZGNhYzRiNTJiYjAxODMwMDZhM2FjODg5MmY5ZDEyMzE1ZmUxZTAxNTQ=--4c6f5c238c990bed092ccc9d135c7b0163b932f1">
-  <meta name="pjax-timeout" content="1000">
-  <link rel="sudo-modal" href="/sessions/sudo_modal">
-  <meta name="request-id" content="C857:0760:38409B8:5BFBB09:58CFE748" data-pjax-transient>
-  
-
-  <meta name="selected-link" value="repo_source" data-pjax-transient>
-
-  <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
-<meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
-    <meta name="google-analytics" content="UA-3769691-2">
-
-<meta content="collector.githubapp.com" name="octolytics-host" /><meta content="github" name="octolytics-app-id" /><meta content="https://collector.githubapp.com/github-external/browser_event" name="octolytics-event-url" /><meta content="C857:0760:38409B8:5BFBB09:58CFE748" name="octolytics-dimension-request_id" /><meta content="78918" name="octolytics-actor-id" /><meta content="bbolker" name="octolytics-actor-login" /><meta content="f6f5ce553639f3839d88e25d5d595ff23246025e21b35d89eec19aa00d00ac33" name="octolytics-actor-hash" />
-<meta content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" name="analytics-location" />
-
-
-
-
-  <meta class="js-ga-set" name="dimension1" content="Logged In">
-
-
-  
-  
-      <meta name="hostname" content="github.com">
-  <meta name="user-login" content="bbolker">
-
-      <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="MzY5NDE2NjQ4NjIyZjJlMjA2ZmQzYTdkN2EwODEwNjA4ZmY3ZTIyYTdkMWE0NDM3YmVjMGJkMWU4OThjOGZiZXx7InJlbW90ZV9hZGRyZXNzIjoiMTMwLjExMy4xMDkuMTY4IiwicmVxdWVzdF9pZCI6IkM4NTc6MDc2MDozODQwOUI4OjVCRkJCMDk6NThDRkU3NDgiLCJ0aW1lc3RhbXAiOjE0OTAwMjAxNjgsImhvc3QiOiJnaXRodWIuY29tIn0=">
-
-
-  <meta name="html-safe-nonce" content="2618f5f7f134bffab69c1a0154f8aca82db7b273">
-
-  <meta http-equiv="x-pjax-version" content="715a12d5c7f2a53101a05dbd4576b80b">
-  
-
-    
-  <meta name="description" content="Bio720 - Repository For graduate class (Practical introduction to Bioinformatics &amp; Genomics). McMaster University">
-  <meta name="go-import" content="github.com/DworkinLab/Bio720 git https://github.com/DworkinLab/Bio720.git">
-
-  <meta content="4523003" name="octolytics-dimension-user_id" /><meta content="DworkinLab" name="octolytics-dimension-user_login" /><meta content="41442567" name="octolytics-dimension-repository_id" /><meta content="DworkinLab/Bio720" name="octolytics-dimension-repository_nwo" /><meta content="true" name="octolytics-dimension-repository_public" /><meta content="false" name="octolytics-dimension-repository_is_fork" /><meta content="41442567" name="octolytics-dimension-repository_network_root_id" /><meta content="DworkinLab/Bio720" name="octolytics-dimension-repository_network_root_nwo" />
-      <link href="https://github.com/DworkinLab/Bio720/commits/master.atom" rel="alternate" title="Recent Commits to Bio720:master" type="application/atom+xml">
-
-
-    <link rel="canonical" href="https://github.com/DworkinLab/Bio720/blob/master/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html" data-pjax-transient>
-
-
-  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
-
-  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
-
-  <link rel="mask-icon" href="https://assets-cdn.github.com/pinned-octocat.svg" color="#000000">
-  <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
-
-<meta name="theme-color" content="#1e2327">
-
-
-
-  </head>
-
-  <body class="logged-in env-production page-blob">
-    
-
-  <div class="position-relative js-header-wrapper ">
-    <a href="#start-of-content" tabindex="1" class="accessibility-aid js-skip-to-content">Skip to content</a>
-    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
-
-    
-    
-    
-
-
-
-        
-<div class="header" role="banner">
-  <div class="container clearfix">
-    <a class="header-logo-invertocat" href="https://github.com/" data-hotkey="g d" aria-label="Homepage" data-ga-click="Header, go to dashboard, icon:logo">
-  <svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-</a>
-
-
-        <div class="header-search scoped-search site-scoped-search js-site-search" role="search">
-  <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/DworkinLab/Bio720/search" class="js-site-search-form" data-scoped-search-url="/DworkinLab/Bio720/search" data-unscoped-search-url="/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
-    <label class="form-control header-search-wrapper js-chromeless-input-container">
-      <div class="header-search-scope">This repository</div>
-      <input type="text"
-        class="form-control header-search-input js-site-search-focus js-site-search-field is-clearable"
-        data-hotkey="s"
-        name="q"
-        placeholder="Search"
-        aria-label="Search this repository"
-        data-unscoped-placeholder="Search GitHub"
-        data-scoped-placeholder="Search"
-        autocapitalize="off">
-    </label>
-</form></div>
-
-
-      <ul class="header-nav float-left" role="navigation">
-        <li class="header-nav-item">
-          <a href="/pulls" aria-label="Pull requests you created" class="js-selected-navigation-item header-nav-link" data-ga-click="Header, click, Nav menu - item:pulls context:user" data-hotkey="g p" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls">
-            Pull requests
-</a>        </li>
-        <li class="header-nav-item">
-          <a href="/issues" aria-label="Issues you created" class="js-selected-navigation-item header-nav-link" data-ga-click="Header, click, Nav menu - item:issues context:user" data-hotkey="g i" data-selected-links="/issues /issues/assigned /issues/mentioned /issues">
-            Issues
-</a>        </li>
-          <li class="header-nav-item">
-            <a class="header-nav-link" href="https://gist.github.com/" data-ga-click="Header, go to gist, text:gist">Gist</a>
-          </li>
-      </ul>
-
-    
-<ul class="header-nav user-nav float-right" id="user-links">
-  <li class="header-nav-item">
-    
-    <a href="/notifications" aria-label="You have unread notifications" class="header-nav-link notification-indicator tooltipped tooltipped-s js-socket-channel js-notification-indicator" data-channel="notification-changed:78918" data-ga-click="Header, go to notifications, icon:unread" data-hotkey="g n">
-        <span class="mail-status unread"></span>
-        <svg aria-hidden="true" class="octicon octicon-bell float-left" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.23 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 .38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 2-2H5c0 1.11.89 2 2 2z"/></svg>
-</a>
-  </li>
-
-  <li class="header-nav-item dropdown js-menu-container">
-    <a class="header-nav-link tooltipped tooltipped-s js-menu-target" href="/new"
-       aria-label="Create new…"
-       data-ga-click="Header, create new, icon:add">
-      <svg aria-hidden="true" class="octicon octicon-plus float-left" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5z"/></svg>
-      <span class="dropdown-caret"></span>
-    </a>
-
-    <div class="dropdown-menu-content js-menu-content">
-      <ul class="dropdown-menu dropdown-menu-sw">
-        
-<a class="dropdown-item" href="/new" data-ga-click="Header, create new repository">
-  New repository
-</a>
-
-  <a class="dropdown-item" href="/new/import" data-ga-click="Header, import a repository">
-    Import repository
-  </a>
-
-<a class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, create new gist">
-  New gist
-</a>
-
-  <a class="dropdown-item" href="/organizations/new" data-ga-click="Header, create new organization">
-    New organization
-  </a>
-
-
-
-  <div class="dropdown-divider"></div>
-  <div class="dropdown-header">
-    <span title="DworkinLab/Bio720">This repository</span>
-  </div>
-    <a class="dropdown-item" href="/DworkinLab/Bio720/issues/new" data-ga-click="Header, create new issue">
-      New issue
-    </a>
-
-      </ul>
-    </div>
-  </li>
-
-  <li class="header-nav-item dropdown js-menu-container">
-    <a class="header-nav-link name tooltipped tooltipped-sw js-menu-target" href="/bbolker"
-       aria-label="View profile and more"
-       data-ga-click="Header, show menu, icon:avatar">
-      <img alt="@bbolker" class="avatar" src="https://avatars2.githubusercontent.com/u/78918?v=3&amp;s=40" height="20" width="20">
-      <span class="dropdown-caret"></span>
-    </a>
-
-    <div class="dropdown-menu-content js-menu-content">
-      <div class="dropdown-menu dropdown-menu-sw">
-        <div class="dropdown-header header-nav-current-user css-truncate">
-          Signed in as <strong class="css-truncate-target">bbolker</strong>
-        </div>
-
-        <div class="dropdown-divider"></div>
-
-        <a class="dropdown-item" href="/bbolker" data-ga-click="Header, go to profile, text:your profile">
-          Your profile
-        </a>
-        <a class="dropdown-item" href="/bbolker?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">
-          Your stars
-        </a>
-        <a class="dropdown-item" href="/explore" data-ga-click="Header, go to explore, text:explore">
-          Explore
-        </a>
-          <a class="dropdown-item" href="/integrations" data-ga-click="Header, go to integrations, text:integrations">
-            Integrations
-          </a>
-        <a class="dropdown-item" href="https://help.github.com" data-ga-click="Header, go to help, text:help">
-          Help
-        </a>
-
-        <div class="dropdown-divider"></div>
-
-        <a class="dropdown-item" href="/settings/profile" data-ga-click="Header, go to settings, icon:settings">
-          Settings
-        </a>
-
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/logout" class="logout-form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="eT0N0UszDYJ0sgZZG6k0GSTTFj3sRtGUG7myskph7ynxewjqGaogVY8yDH6kpUOm/ih/ns1mH5QvD90IHg+TRA==" /></div>
-          <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
-            Sign out
-          </button>
-</form>      </div>
-    </div>
-  </li>
-</ul>
-
-
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/logout" class="sr-only right-0" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="TTuRqICif8ZFzEhsew/x00Q9kuowXEBphnxg67vUCuDFfZST0jtSEb5MQkvEA4Zsnsb7SRF8jmmyyg9R77p2jQ==" /></div>
-      <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout">
-        Sign out
-      </button>
-</form>  </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
 </div>
+</header>
+<h1 id="verysimpleintroductiontomultivariatelinearmodels">VerySimpleIntroductionToMultivariateLinearModels</h1>
+<p>Ian Dworkin<br />
+March 17, 2017</p>
+<p>In today’s class we are introducing how to model data when you have multiple continuous response variables. This can be done with a relatively simple extension of the linear models you learned previously (regression, ANOVA, ANCOVA style models).</p>
+<h2 id="packages">Packages</h2>
+<p>You may also need to install the following packages. If you do not have them remove the ‘#’ to uncomment the lines.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;car&quot;)</span>
+<span class="co"># install.packages(&quot;geomorph&quot;)</span>
+<span class="kw">library</span>(car)
+<span class="kw">library</span>(geomorph)</code></pre></div>
+<p>the <code>car</code> package has some useful functions for helping to make inferences for <a href="https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf">multivariate linear models</a>. the <code>geomorph</code> package is a specialized package for biological shape analysis (geometric morphometrics), but since this data is inherently multidimensional, there are many useful functions. Check the <a href="https://github.com/geomorphR/geomorph/wiki">wiki</a> out. Other useful packages include the <a href="https://cran.r-project.org/web/packages/vegan/vegan.pdf">vegan</a> package, including the distance based multivariate analysis of variance using the <code>adonis</code> function in it. geomorph’s linear model is a refinement of this.</p>
+<h2 id="source-in-some-custom-functions">Source in some custom functions</h2>
+<p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href="https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd">here</a>. We wrote most of them for a paper analyzing multivariate shape of Drosophila wings across altitudinal and latitudinal gradients. <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full">Check here</a> for the paper and <a href="http://datadryad.org/resource/doi:10.5061/dryad.r43k1">here</a> for the full data and scripts. Lots of cool multivariate examples.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;./BIO708_MLM_Dworkin.R&quot;</span>)
+<span class="kw">ls</span>()</code></pre></div>
+<pre><code>##  [1] &quot;ang.vec.abs&quot;   &quot;dll_data&quot;      &quot;mlm_fit1&quot;      &quot;mlm_fit2&quot;     
+##  [5] &quot;mlm_fit4&quot;      &quot;mlm_fit4_dist&quot; &quot;mlm_fit5&quot;      &quot;PD&quot;           
+##  [9] &quot;shapePRsq&quot;     &quot;shapeRsq&quot;      &quot;ShapeScore&quot;</code></pre>
+<h2 id="data">Data</h2>
+<p>We will use an old <em>Drosophila melanogaster</em> data set from my PhD work. The associated paper can be found <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1525-142X.2005.05010.x/abstract">here</a>. This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study I measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p>Before we go on, how should we look at the data to make sure it imported correctly, and the structure (and other information) about the object we have just created?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(dll_data)</code></pre></div>
+<pre><code>##    replicate         line      genotype        temp          femur     
+##  Min.   :1.00   line-7 : 132   Dll: 871   Min.   :25.0   Min.   :0.21  
+##  1st Qu.:1.00   line-18: 121   wt :1102   1st Qu.:25.0   1st Qu.:0.53  
+##  Median :1.00   line-4 : 112              Median :25.0   Median :0.55  
+##  Mean   :1.18   line-8 : 110              Mean   :27.4   Mean   :0.55  
+##  3rd Qu.:1.00   line-2 : 104              3rd Qu.:30.0   3rd Qu.:0.57  
+##  Max.   :2.00   line-11: 100              Max.   :30.0   Max.   :0.70  
+##                 (Other):1294                             NA&#39;s   :24    
+##      tibia          tarsus          SCT      
+##  Min.   :0.34   Min.   :0.11   Min.   : 6.0  
+##  1st Qu.:0.46   1st Qu.:0.18   1st Qu.:10.0  
+##  Median :0.48   Median :0.19   Median :11.0  
+##  Mean   :0.48   Mean   :0.19   Mean   :11.2  
+##  3rd Qu.:0.50   3rd Qu.:0.20   3rd Qu.:12.0  
+##  Max.   :0.61   Max.   :0.26   Max.   :32.0  
+##  NA&#39;s   :19     NA&#39;s   :17     NA&#39;s   :25</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(dll_data)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1973 obs. of  8 variables:
+##  $ replicate: int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ line     : Factor w/ 27 levels &quot;line-1&quot;,&quot;line-11&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ genotype : Factor w/ 2 levels &quot;Dll&quot;,&quot;wt&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ temp     : int  25 25 25 25 25 25 25 25 25 25 ...
+##  $ femur    : num  0.59 0.55 0.588 0.588 0.596 ...
+##  $ tibia    : num  0.499 0.501 0.488 0.515 0.502 ...
+##  $ tarsus   : num  0.219 0.214 0.211 0.211 0.207 ...
+##  $ SCT      : int  9 13 11 NA 12 14 11 12 10 12 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(dll_data)</code></pre></div>
+<pre><code>## [1] 1973    8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(dll_data)</code></pre></div>
+<pre><code>##   replicate   line genotype temp femur tibia tarsus SCT
+## 1         1 line-1      Dll   25 0.590 0.499  0.219   9
+## 2         1 line-1      Dll   25 0.550 0.501  0.214  13
+## 3         1 line-1      Dll   25 0.588 0.488  0.211  11
+## 4         1 line-1      Dll   25 0.588 0.515  0.211  NA
+## 5         1 line-1      Dll   25 0.596 0.502  0.207  12
+## 6         1 line-1      Dll   25 0.577 0.499  0.207  14</code></pre>
+<h2 id="cleaning-data">Cleaning data</h2>
+<h3 id="removing-missing-data">removing missing data</h3>
+<p>Sometimes your data set has missing data, i.e. for some reason you could not measure one of your variables on a particular object. How you decide to deal with missing data can be a big topic, but for the moment we are going to assume you want to delete rows that contain missing data.</p>
+<p>First let’s check if there is any missing data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anyNA</span>(dll_data)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>For the moment we are just going to remove rows containing any missing data</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data &lt;-<span class="st"> </span><span class="kw">na.omit</span>(dll_data)
+<span class="kw">dim</span>(dll_data)</code></pre></div>
+<pre><code>## [1] 1918    8</code></pre>
+<p>For ease of interpretation, let’s also make the wild-type level of genotype (<code>wt</code>) the base level.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data<span class="op">$</span>genotype &lt;-<span class="st"> </span><span class="kw">relevel</span>(dll_data<span class="op">$</span>genotype, <span class="st">&quot;wt&quot;</span>)
+<span class="kw">levels</span>(dll_data<span class="op">$</span>genotype)</code></pre></div>
+<pre><code>## [1] &quot;wt&quot;  &quot;Dll&quot;</code></pre>
+<p>We will also make temperature (<code>temp</code>) a factor (it only has two levels so it does not matter that much).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data<span class="op">$</span>temp &lt;-<span class="st"> </span><span class="kw">as.factor</span>(dll_data<span class="op">$</span>temp)</code></pre></div>
+<p>Our response variables for this study are <code>femur</code>, <code>tibia</code>, <code>tarsus</code> and <code>SCT</code>. Let’s check out some basic summary stats for them</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(dll_data)</code></pre></div>
+<pre><code>##    replicate         line      genotype   temp          femur      
+##  Min.   :1.00   line-7 : 127   wt :1077   25:1006   Min.   :0.423  
+##  1st Qu.:1.00   line-18: 119   Dll: 841   30: 912   1st Qu.:0.530  
+##  Median :1.00   line-4 : 110                        Median :0.549  
+##  Mean   :1.18   line-8 : 108                        Mean   :0.546  
+##  3rd Qu.:1.00   line-2 : 100                        3rd Qu.:0.565  
+##  Max.   :2.00   line-11:  97                        Max.   :0.698  
+##                 (Other):1257                                       
+##      tibia           tarsus           SCT      
+##  Min.   :0.342   Min.   :0.106   Min.   : 6.0  
+##  1st Qu.:0.465   1st Qu.:0.175   1st Qu.:10.0  
+##  Median :0.484   Median :0.188   Median :11.0  
+##  Mean   :0.482   Mean   :0.188   Mean   :11.1  
+##  3rd Qu.:0.501   3rd Qu.:0.200   3rd Qu.:12.0  
+##  Max.   :0.609   Max.   :0.258   Max.   :22.0  
+## </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">5</span><span class="op">:</span><span class="dv">8</span>], <span class="dv">2</span>, sd)</code></pre></div>
+<pre><code>##  femur  tibia tarsus    SCT 
+## 0.0279 0.0280 0.0179 1.6270</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">5</span><span class="op">:</span><span class="dv">8</span>], <span class="dv">2</span>, mean)</code></pre></div>
+<pre><code>##  femur  tibia tarsus    SCT 
+##  0.546  0.482  0.188 11.132</code></pre>
+<p>While the three length measurements are on approximately the same scale (and all measured in mm), SCT is count data. So we will probably want to scale each of these to help make comparisons a bit clearer. Before we do that though. Let’s ask how these variables co-vary with one another (across the whole data set). In general we prefer working with the variances and covariances, but it is easier to interpret the correlations among variables. We can easily look at both.</p>
+<p>The phenotypic variance-covariance matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cov</span>(dll_data[ ,<span class="dv">5</span><span class="op">:</span><span class="dv">8</span>])</code></pre></div>
+<pre><code>##           femur    tibia   tarsus     SCT
+## femur  0.000781 0.000557 0.000285 0.00935
+## tibia  0.000557 0.000785 0.000249 0.01080
+## tarsus 0.000285 0.000249 0.000319 0.00860
+## SCT    0.009349 0.010796 0.008597 2.64703</code></pre>
+<p>The phenotypic correlation matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(dll_data[, <span class="dv">5</span><span class="op">:</span><span class="dv">8</span>])</code></pre></div>
+<pre><code>##        femur tibia tarsus   SCT
+## femur  1.000 0.712  0.571 0.206
+## tibia  0.712 1.000  0.497 0.237
+## tarsus 0.571 0.497  1.000 0.296
+## SCT    0.206 0.237  0.296 1.000</code></pre>
+<p>Let’s visualize this as well.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairs</span>(dll_data[, <span class="dv">5</span><span class="op">:</span><span class="dv">8</span>],<span class="dt">pch=</span><span class="st">&quot;.&quot;</span>,<span class="dt">gap=</span><span class="dv">0</span>)</code></pre></div>
+<p><img src="Bio708_MultivariateLinearModelsIntro_files/figure-html/pairs-1.png" /><!-- --></p>
+<p>We could do some more plotting to take a look (from the <code>car</code> package). However, there is so much overlap in the data among treatment variables, that it can be hard to see what is going on</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">scatterplotMatrix</span>( <span class="op">~</span><span class="st"> </span>femur <span class="op">+</span><span class="st"> </span>tibia <span class="op">+</span><span class="st"> </span>tarsus <span class="op">+</span><span class="st"> </span>SCT <span class="op">|</span><span class="st"> </span>temp, 
+                  <span class="dt">ellipse =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> dll_data,
+                  <span class="dt">transform =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="Bio708_MultivariateLinearModelsIntro_files/figure-html/smatrix-1.png" /><!-- --> Not surprising since we have three length measures, but we see a moderate degree of correlation among these traits, likely reflecting a common factor (overall size). However, they are certainly not perfectly correlated with one another.</p>
+<p>In general, when we are dealing with a set of multivariate response variables, this is the situation we want to be in. That is, if there is some correlation between our variables, it is not too high. If it was, I would probably consider using Principal Components Analysis or another dimensional reduction technique to get a few axes of variation that account for most of the variation. We could also check to see if the covariance matrix was not of full rank (i.e. for a covariance matrix for 4 variables, do we really have 4 “independent axes”). One quick check (which directly relates to PCA) is to examine the eigenvalues of the covariance matrix, and make sure the final ones are not really small.</p>
+<p>We can extract the eigenvalues.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">svd</span>(<span class="kw">cov</span>(dll_data[, <span class="dv">5</span><span class="op">:</span><span class="dv">8</span>]))<span class="op">$</span>d</code></pre></div>
+<pre><code>## [1] 2.647138 0.001366 0.000239 0.000175</code></pre>
+<p>The final eigenvalue is not vanishingly small (which is all we need to worry about for the moment).</p>
+<h2 id="should-we-scale-the-response-variables">Should we scale the response variables?</h2>
+<p>Like I mentioned earlier, we need to consider whether we should put all response variables on a common scale. This certainly can aid in comparisons with our vector of coefficients. However, if all of your data is already on a pretty similar scale, it may not matter much. In this case, because of SCT I think it is probably worthwhile.</p>
+<p>For length measures it is common to instead to just log transform variables. This is something that can be helpful (but unnecessary with the current data). However, I will scale them here so you can get a sense of it.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data<span class="op">$</span>femur_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data<span class="op">$</span>femur)
+dll_data<span class="op">$</span>tibia_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data<span class="op">$</span>tibia)
+dll_data<span class="op">$</span>tarsus_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data<span class="op">$</span>tarsus)
+dll_data<span class="op">$</span>SCT_s &lt;-<span class="st"> </span><span class="kw">scale</span>(dll_data<span class="op">$</span>SCT)</code></pre></div>
+<p>The variables now all have a mean of zero and a standard deviation of 1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>], <span class="dv">2</span>, sd)</code></pre></div>
+<pre><code>##  femur_s  tibia_s tarsus_s    SCT_s 
+##        1        1        1        1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">apply</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>], <span class="dv">2</span>, mean)  ## very small ~ 0</code></pre></div>
+<pre><code>##  femur_s  tibia_s tarsus_s    SCT_s 
+## 2.95e-16 9.07e-16 1.19e-16 4.51e-16</code></pre>
+<p>And our co-variance matrix and correlation matrix should be identical.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cov</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>])</code></pre></div>
+<pre><code>##          femur_s tibia_s tarsus_s SCT_s
+## femur_s    1.000   0.712    0.571 0.206
+## tibia_s    0.712   1.000    0.497 0.237
+## tarsus_s   0.571   0.497    1.000 0.296
+## SCT_s      0.206   0.237    0.296 1.000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cor</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>])</code></pre></div>
+<pre><code>##          femur_s tibia_s tarsus_s SCT_s
+## femur_s    1.000   0.712    0.571 0.206
+## tibia_s    0.712   1.000    0.497 0.237
+## tarsus_s   0.571   0.497    1.000 0.296
+## SCT_s      0.206   0.237    0.296 1.000</code></pre>
+<h2 id="multivariate-linear-models-lets-begin">Multivariate linear models, let’s begin …</h2>
+<p>The multivariate general linear model is:</p>
+<p><span class="math display">\[
+\mathbf{Y} = \mathbf{XB} + \mathbf{E}
+\]</span></p>
+<p>Which you may recognize as being very similar to your univariate linear model. Indeed it is fundamentally the same. However instead of each observation having a single value for its response <span class="math inline">\(y_i\)</span> for an individual <span class="math inline">\(i\)</span>, we are now in a situation where each individual has a response <strong>vector</strong>, which we denote as <span class="math inline">\(\mathbf{y}_i\)</span>. The vector for that observation is shown in bold as a common way to represent a vector of observations. Since you are using R you are actually already pretty familiar with this idea. i.e. if we stored <code>y &lt;- 1</code> or <code>y &lt;- c(1,2,3)</code> we could recall this vector the same way. The same is true in matrix notation.</p>
+<p>However, you see that instead of a lowercase bold <span class="math inline">\(\mathbf{y_i}\)</span>, I have instead represented this as an uppercase <span class="math inline">\(\mathbf{Y}\)</span>. This is matrix notation to denote a matrix of values. In this case it is meant to represent the <span class="math inline">\(( n x m)\)</span> matrix, for the <span class="math inline">\(n\)</span> observations in rows, and the <span class="math inline">\(m\)</span> response variables we have, which in this case is 4 (femur, tibia, tarsus, SCT). It is standard matrix notation to always talk about 2 dimensional matrices in rows by columns.</p>
+<p>How about the right hand side of the equation? Our <span class="math inline">\(\mathbf{X}\)</span> is the design matrix (or model matrix). We will come back to that in a second. Our <span class="math inline">\(\mathbf{B}\)</span> matrix is the matrix of regression coefficients from our model. If you were fitting a simple linear regression, you are used to estimating a slope <span class="math inline">\((\beta)\)</span> for the model <span class="math inline">\(y = \alpha + \beta x + \epsilon\)</span>.</p>
+<p>Even for a simple multivariate linear model (with only a single quantitative predictor variable), we will still estimate a coefficient for each response variable (i.e. a vector. As we add more predictors, this generalizes to a matrix of coefficients. Finally the <span class="math inline">\(\mathbf{E}\)</span> is just a generalization of the residual variation unaccounted for by the model. i.e. it is the same idea as <span class="math inline">\(\epsilon\)</span> for a simple linear model, but we have a vector <span class="math inline">\(\mathbf{e_i}\)</span> of residuals for each observation (<span class="math inline">\(i\)</span>) instead of a single value.</p>
+<p>However, otherwise the same ideas really apply. We use some approach to estimate the slopes. Just like for a single response, the MLE and LS estimators are equivalent under most conditions and can be found with:</p>
+<p><span class="math display">\[
+\hat{\mathbf{B}} = (\mathbf{X&#39;X})^{-1} \mathbf{X&#39;Y}
+\]</span></p>
+<p>Let’s give it a whirl. We will start with a really simple model with a single predictor with two levels (genotype). Importantly <strong>you do need to let R know that your response variables are numeric</strong>. Otherwise the call is a standard call to <code>lm</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as.matrix</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>]) <span class="op">~</span><span class="st"> </span>genotype, <span class="dt">data =</span> dll_data)
+<span class="kw">class</span>(mlm_fit1)</code></pre></div>
+<pre><code>## [1] &quot;mlm&quot; &quot;lm&quot;</code></pre>
+<p>So what do we get from this? Summary does not give us what we want. Instead it provides the linear model for each response variable in turn. So not so helpful.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit1)</code></pre></div>
+<pre><code>## Response femur_s :
+## 
+## Call:
+## lm(formula = femur_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.356 -0.610  0.097  0.703  5.500 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.0690     0.0304   -2.27  0.02335 *  
+## genotypeDll   0.1573     0.0459    3.43  0.00062 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.997 on 1916 degrees of freedom
+## Multiple R-squared:  0.00609,    Adjusted R-squared:  0.00557 
+## F-statistic: 11.7 on 1 and 1916 DF,  p-value: 0.000622
+## 
+## 
+## Response tibia_s :
+## 
+## Call:
+## lm(formula = tibia_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.246 -0.608  0.058  0.676  4.676 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.1719     0.0299   -5.75    1e-08 ***
+## genotypeDll   0.3921     0.0451    8.69   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.981 on 1916 degrees of freedom
+## Multiple R-squared:  0.0379, Adjusted R-squared:  0.0374 
+## F-statistic: 75.4 on 1 and 1916 DF,  p-value: &lt;2e-16
+## 
+## 
+## Response tarsus_s :
+## 
+## Call:
+## lm(formula = tarsus_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.472 -0.652  0.008  0.634  4.024 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   0.0624     0.0304    2.05    0.040 * 
+## genotypeDll  -0.1423     0.0459   -3.10    0.002 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.998 on 1916 degrees of freedom
+## Multiple R-squared:  0.00499,    Adjusted R-squared:  0.00447 
+## F-statistic:  9.6 on 1 and 1916 DF,  p-value: 0.00197
+## 
+## 
+## Response SCT_s :
+## 
+## Call:
+## lm(formula = SCT_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.336 -0.555  0.060  0.675  6.499 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  -0.1413     0.0301   -4.70  2.8e-06 ***
+## genotypeDll   0.3223     0.0454    7.09  1.8e-12 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.987 on 1916 degrees of freedom
+## Multiple R-squared:  0.0256, Adjusted R-squared:  0.0251 
+## F-statistic: 50.3 on 1 and 1916 DF,  p-value: 1.83e-12</code></pre>
+<p>Instead we need to let R know we want this as a single multivariate linear model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">manova</span>(mlm_fit1))</code></pre></div>
+<pre><code>##             Df Pillai approx F num Df den Df Pr(&gt;F)    
+## genotype     1  0.102       54      4   1913 &lt;2e-16 ***
+## Residuals 1916                                         
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Unfortunately, by default this spits out a minimal amount of useful information. While the object contains a few additional bits of information that are useful, mostly this is all about getting a p-value. Before we go on to something more useful, let’s talk about what is going on with this output.</p>
+<p>While we have just estimated a single predictor variable (<code>genotype</code>) you can see we are not using just one degree of freedom, but 4 (<code>num Df</code>). This is because we have 4 response variables that we are estimating. This is the first (and one of the most important) things to keep in mind with a multivariate linear model. We will be estimating a lot more parameters, so we need to keep in mind how much we can estimate in a model. As we will see below, this is why distance based approaches (like in adonis/vegan and geomorph) are often used.</p>
+<p>The other two things to note is this “Pillai” statistic and the approximate F statistic. It turns out that with the matrices that are used for inference (<span class="math inline">\(\mathbf{H}\)</span> the <em>hypothesis matrix</em>) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of <span class="math inline">\(\mathbf{HE^{-1}}\)</span> where <span class="math inline">\(\mathbf{E}\)</span> is the matrix of residuals. There are four commonly used test statistics that are derived from the eigenvalues of this matrix. I don’t want to get into this here, but do check out inferences for <a href="https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf">multivariate linear models</a> for more information, and how it is used in <code>car</code>. While this defaults to Pillai’s trace, many in biology seem to use Wilks’s <span class="math inline">\(\lambda\)</span>. Most of the time these give pretty similar results. You can easily change it, like so:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">manova</span>(mlm_fit1), <span class="dt">test =</span> <span class="st">&quot;Wilks&quot;</span>)</code></pre></div>
+<pre><code>##             Df Wilks approx F num Df den Df Pr(&gt;F)    
+## genotype     1 0.899       54      4   1913 &lt;2e-16 ***
+## Residuals 1916                                        
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>In each case a test statistic, an approximation of the F statistic and a p-value. It is worth seeing how the <code>car</code> package handles this. For the moment this appears the same.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">Anova</span>(mlm_fit1)</code></pre></div>
+<pre><code>## 
+## Type II MANOVA Tests: Pillai test statistic
+##          Df test stat approx F num Df den Df Pr(&gt;F)    
+## genotype  1     0.102       54      4   1913 &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<h3 id="how-about-measures-of-effect-size">How about measures of effect size?</h3>
+<p>What we would like to start to think about is effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or <em>length</em> of the vector for coefficients associated with the response. This is sometimes known as the <em>L2 norm</em> of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:</p>
+<p><span class="math display">\[
+|| \mathbf{x} || = \sqrt{\mathbf{x&#39;} \cdot \mathbf{x}}
+\]</span></p>
+<p>This is equivalent to: <span class="math display">\[
+|| \mathbf{x} || = \sqrt{x^{2}_{1} + x^{2}_{2} + \cdots + x^{2}_{n}  }
+\]</span></p>
+<p>Which you may recognize from the Pythagorean theorem.</p>
+<p>For our model we can examine the coefficients easily</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(mlm_fit1)</code></pre></div>
+<pre><code>##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sqrt</span>(<span class="kw">t</span>(<span class="kw">coef</span>(mlm_fit1)[<span class="dv">2</span>,]) <span class="op">%*%</span><span class="st"> </span><span class="kw">coef</span>(mlm_fit1)[<span class="dv">2</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 0.55</code></pre>
+<p>However, this gets annoying to write out each time. So one of the functions in the source file does this for you. <code>PD()</code> (for Procrustes Distance) computes the Euclidean Distance between two vectors, but also can compute the length of the vector we want.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit1)[<span class="dv">2</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 0.55</code></pre>
+<p>Unfortunately in many fields of biology interpreting this magnitude of effect can be tricky. I will show you one example from <a href="http://biorxiv.org/content/early/2014/05/19/005322">this paper</a> to give you some ideas. To make sense of it, and what your expectations are under the null, we generated permutations of the data and computed the length of those vectors to generate a distribution. In some fields (like geometric morphometrics), this measure is used quite commonly so we have an easier time with biological interpretation and comparison. To generate confidence intervals on this we generally utilize non-parametric bootstrapping.</p>
+<h2 id="how-about-coefficient-of-determination">How about coefficient of determination?</h2>
+<p>We might also like to understand how much variation (of all of the variation) that the model accounts for. As this is multivariate data, there are actually multiple ways of doing this (based on both the trace of the matrix and some based on the determinant). So there is no single <span class="math inline">\(R^2\)</span> measure. However, there is a relatively simple one that we like to employ, recognizing that it does not capture everything. Essentially we take the trace (sum of the elements on the diagonal) of the variance covariance matrix for the observed data as a measure of total variation in the data. We then ask how much of the variation in the trace of the matrix is accounted for by the trace of the fitted values. i.e:</p>
+<p><span class="math inline">\(\frac{Tr(\mathbf{V}_{\hat{Y}})}{Tr(\mathbf{V}_{Y})}\)</span></p>
+<p>Where <span class="math inline">\(Tr(\mathbf{V}_{\hat{Y}})\)</span> is the trace for the matrix of fitted values, and <span class="math inline">\(Tr(\mathbf{V}_{Y})\)</span> is the trace for the observed.</p>
+<p>Since we have scaled all of our observations in our response, then we know that the trace needs to be equal to the number of variables we are using in our response (4 in this case). Let’s check</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>])))</code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<p>How about for our fitted values?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(mlm_fit1<span class="op">$</span>fitted)))</code></pre></div>
+<pre><code>## [1] 0.0746</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(mlm_fit1<span class="op">$</span>fitted)))<span class="op">/</span><span class="kw">sum</span>(<span class="kw">diag</span>(<span class="kw">cov</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>])))</code></pre></div>
+<pre><code>## [1] 0.0186</code></pre>
+<p>So we can account for just under 2% of the variation (based on this measure) in all of our response variables, using genotype as the sole predictor.</p>
+<p>Once again, the above code is annoying to write, so we have written a nice function for you, <code>shapeRsq</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapeRsq</span>(mlm_fit1)</code></pre></div>
+<pre><code>## [1] 0.0186</code></pre>
+<h2 id="distance-based-approaches">Distance based approaches</h2>
+<p>Before we get too complicated with our model, I also want to show you a distance based approach, as implemented in geomorph. This is useful because we are computing distances (essentially Euclidean distances) between observations (although not the raw distances, but based on the mean estimates within and between treatment levels). This means we are ultimately estimating far fewer coefficients, so can be very helpful when we have large numbers of response traits relative to number of observations.</p>
+<p>They have a number of functions in the geomorph package, but for most needs, I suggest starting with <code>procD.lm</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit2 &lt;-<span class="st"> </span><span class="kw">procD.lm</span>(<span class="dt">f1 =</span> dll_data[, <span class="dv">9</span><span class="op">:</span><span class="dv">12</span>] <span class="op">~</span><span class="st"> </span>genotype, <span class="dt">data =</span> dll_data, <span class="dt">iter =</span> <span class="dv">2000</span> )</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit2)</code></pre></div>
+<pre><code>## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data) 
+## 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##             Df   SS    MS    Rsq    F    Z Pr(&gt;F)    
+## genotype     1  143 142.9 0.0186 36.4 22.9  5e-04 ***
+## Residuals 1916 7525   3.9                            
+## Total     1917 7668                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one.)</p>
+<p>Note that it actually provides the same estimated coefficients, as these are typically used to compare Procrustes Distance (Euclidean Distance) as a measure of effect size</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(mlm_fit2)</code></pre></div>
+<pre><code>##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322</code></pre>
+<p>The ’advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.</p>
+<h2 id="does-the-data-conform-to-the-assumptions-of-a-multivariate-linear-model">Does the data conform to the assumptions of a multivariate linear model?</h2>
+<p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <a href="https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd">this paper</a> we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
+<h2 id="more-complicated-models">More complicated models</h2>
+<p>Let’s add some complexity to the model. We have additional predictors, temp (rearing temperature) and line (different wild type strains.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit4 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as.matrix</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>]) <span class="op">~</span><span class="st"> </span>temp <span class="op">+</span><span class="st"> </span>genotype, <span class="dt">data =</span> dll_data)
+mlm_fit5 &lt;-<span class="st"> </span><span class="kw">lm</span>(<span class="kw">as.matrix</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>]) <span class="op">~</span><span class="st"> </span>temp<span class="op">*</span>genotype, <span class="dt">data =</span> dll_data)
 
-
-      
-
-  </div>
-
-  <div id="start-of-content" class="accessibility-aid"></div>
-
-    <div id="js-flash-container">
+<span class="kw">Anova</span>(mlm_fit5)</code></pre></div>
+<pre><code>## 
+## Type II MANOVA Tests: Pillai test statistic
+##               Df test stat approx F num Df den Df Pr(&gt;F)    
+## temp           1    0.3077    212.3      4   1911 &lt;2e-16 ***
+## genotype       1    0.1042     55.6      4   1911 &lt;2e-16 ***
+## temp:genotype  1    0.0761     39.3      4   1911 &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlm_fit4_dist &lt;-<span class="st"> </span><span class="kw">procD.lm</span>(dll_data[,<span class="dv">9</span><span class="op">:</span><span class="dv">12</span>] <span class="op">~</span><span class="st"> </span>genotype<span class="op">*</span>temp,
+                          <span class="dt">data =</span> dll_data, <span class="dt">iter =</span> <span class="dv">2000</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(mlm_fit4_dist)</code></pre></div>
+<pre><code>## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
+##     data = dll_data) 
+## 
+## 
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## 
+##                 Df   SS   MS    Rsq     F    Z Pr(&gt;F)    
+## genotype         1  143  143 0.0186  44.2 22.9  5e-04 ***
+## temp             1 1136 1136 0.1481 351.2 43.8  5e-04 ***
+## genotype:temp    1  200  200 0.0260  61.8 32.2  5e-04 ***
+## Residuals     1914 6190    3                             
+## Total         1917 7668                                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">2</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 1.06</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">3</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,] 1.16</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PD</span>(<span class="kw">coef</span>(mlm_fit5)[<span class="dv">4</span>,])</code></pre></div>
+<pre><code>##      [,1]
+## [1,]  1.3</code></pre>
+<p>How about variance accounted for? We have a slightly more advanced version for this. However, with interaction terms, this can be difficult to interpret (and we tend to only use it for main effects)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapeRsq</span>(mlm_fit4)</code></pre></div>
+<pre><code>## [1] 0.167</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapePRsq</span>(mlm_fit4)</code></pre></div>
+<pre><code>## $Rsquared
+## [1] 0.167
+## 
+## $partials
+##   variable.name        partial.Rsq
+## 1          temp  0.150926579344358
+## 2      genotype 0.0257889597702598</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapePRsq</span>(mlm_fit5)</code></pre></div>
+<pre><code>## $Rsquared
+## [1] 0.193
+## 
+## $partials
+##   variable.name          partial.Rsq
+## 1          temp -1.3753888557632e-16
+## 2      genotype -2.7507777115264e-16
+## 3 temp:genotype   0.0312535650989142</code></pre>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
 </div>
-
-
-
-  <div role="main">
-      <div itemscope itemtype="http://schema.org/SoftwareSourceCode">
-    <div id="js-repo-pjax-container" data-pjax-container>
-        
-
-
-
-<div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav">
-  <div class="container repohead-details-container">
-
-
-    <ul class="pagehead-actions">
-  <li>
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/notifications/subscribe" class="js-social-container" data-autosubmit="true" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="oHFH6lFsPQRTrfACPciSyeO6XB5Z185sYpashSXmR7fbytTaCa7hmq0afvpaLEvaQXwgDkT/T8lHAGTsAdzgbA==" /></div>      <input class="form-control" id="repository_id" name="repository_id" type="hidden" value="41442567" />
-
-        <div class="select-menu js-menu-container js-select-menu">
-          <a href="/DworkinLab/Bio720/subscription"
-            class="btn btn-sm btn-with-count select-menu-button js-menu-target" role="button" tabindex="0" aria-haspopup="true"
-            data-ga-click="Repository, click Watch settings, action:blob#show">
-            <span class="js-select-button">
-              <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
-              Watch
-            </span>
-          </a>
-          <a class="social-count js-social-count"
-            href="/DworkinLab/Bio720/watchers"
-            aria-label="3 users are watching this repository">
-            3
-          </a>
-
-        <div class="select-menu-modal-holder">
-          <div class="select-menu-modal subscription-menu-modal js-menu-content" aria-hidden="true">
-            <div class="select-menu-header js-navigation-enable" tabindex="-1">
-              <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"/></svg>
-              <span class="select-menu-title">Notifications</span>
-            </div>
-
-              <div class="select-menu-list js-navigation-container" role="menu">
-
-                <div class="select-menu-item js-navigation-item selected" role="menuitem" tabindex="0">
-                  <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"/></svg>
-                  <div class="select-menu-item-text">
-                    <input checked="checked" id="do_included" name="do" type="radio" value="included" />
-                    <span class="select-menu-item-heading">Not watching</span>
-                    <span class="description">Be notified when participating or @mentioned.</span>
-                    <span class="js-select-button-text hidden-select-button-text">
-                      <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
-                      Watch
-                    </span>
-                  </div>
-                </div>
-
-                <div class="select-menu-item js-navigation-item " role="menuitem" tabindex="0">
-                  <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"/></svg>
-                  <div class="select-menu-item-text">
-                    <input id="do_subscribed" name="do" type="radio" value="subscribed" />
-                    <span class="select-menu-item-heading">Watching</span>
-                    <span class="description">Be notified of all conversations.</span>
-                    <span class="js-select-button-text hidden-select-button-text">
-                      <svg aria-hidden="true" class="octicon octicon-eye" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
-                      Unwatch
-                    </span>
-                  </div>
-                </div>
-
-                <div class="select-menu-item js-navigation-item " role="menuitem" tabindex="0">
-                  <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"/></svg>
-                  <div class="select-menu-item-text">
-                    <input id="do_ignore" name="do" type="radio" value="ignore" />
-                    <span class="select-menu-item-heading">Ignoring</span>
-                    <span class="description">Never be notified.</span>
-                    <span class="js-select-button-text hidden-select-button-text">
-                      <svg aria-hidden="true" class="octicon octicon-mute" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8 2.81v10.38c0 .67-.81 1-1.28.53L3 10H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h2l3.72-3.72C7.19 1.81 8 2.14 8 2.81zm7.53 3.22l-1.06-1.06-1.97 1.97-1.97-1.97-1.06 1.06L11.44 8 9.47 9.97l1.06 1.06 1.97-1.97 1.97 1.97 1.06-1.06L13.56 8l1.97-1.97z"/></svg>
-                      Stop ignoring
-                    </span>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
-</form>
-  </li>
-
-  <li>
-      <div class="js-toggler-container js-social-container starring-container ">
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/DworkinLab/Bio720/unstar" class="starred" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="EQBKfb5qinjqDq3CXoP7EVl4cpcAxpUtAyAVAO0/tdx02fWKX4Ysp3m5GZ1QkC0wDymwRkR3h5aR43Dn57+onA==" /></div>
-      <button
-        type="submit"
-        class="btn btn-sm btn-with-count js-toggler-target"
-        aria-label="Unstar this repository" title="Unstar DworkinLab/Bio720"
-        data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">
-        <svg aria-hidden="true" class="octicon octicon-star" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"/></svg>
-        Unstar
-      </button>
-        <a class="social-count js-social-count" href="/DworkinLab/Bio720/stargazers"
-           aria-label="0 users starred this repository">
-          0
-        </a>
-</form>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/DworkinLab/Bio720/star" class="unstarred" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="EercfuN2v/qn0LYN5hDsfJtUV8CHvlfPOPqL8KB7bz/YR93wTUMSIX7aHqF9nixpprtDbcgZrhy5sbxW1yCIqg==" /></div>
-      <button
-        type="submit"
-        class="btn btn-sm btn-with-count js-toggler-target"
-        aria-label="Star this repository" title="Star DworkinLab/Bio720"
-        data-ga-click="Repository, click star button, action:blob#show; text:Star">
-        <svg aria-hidden="true" class="octicon octicon-star" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74z"/></svg>
-        Star
-      </button>
-        <a class="social-count js-social-count" href="/DworkinLab/Bio720/stargazers"
-           aria-label="0 users starred this repository">
-          0
-        </a>
-</form>  </div>
-
-  </li>
-
-  <li>
-          <a href="#fork-destination-box" class="btn btn-sm btn-with-count"
-              title="Fork your own copy of DworkinLab/Bio720 to your account"
-              aria-label="Fork your own copy of DworkinLab/Bio720 to your account"
-              rel="facebox"
-              data-ga-click="Repository, show fork modal, action:blob#show; text:Fork">
-              <svg aria-hidden="true" class="octicon octicon-repo-forked" height="16" version="1.1" viewBox="0 0 10 16" width="10"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
-            Fork
-          </a>
-
-          <div id="fork-destination-box" style="display: none;">
-            <h2 class="facebox-header" data-facebox-id="facebox-header">Where should we fork this repository?</h2>
-            <include-fragment src=""
-                class="js-fork-select-fragment fork-select-fragment"
-                data-url="/DworkinLab/Bio720/fork?fragment=1">
-              <img alt="Loading" height="64" src="https://assets-cdn.github.com/images/spinners/octocat-spinner-128.gif" width="64" />
-            </include-fragment>
-          </div>
-
-    <a href="/DworkinLab/Bio720/network" class="social-count"
-       aria-label="5 users forked this repository">
-      5
-    </a>
-  </li>
-</ul>
-
-    <h1 class="public ">
-  <svg aria-hidden="true" class="octicon octicon-repo" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
-  <span class="author" itemprop="author"><a href="/DworkinLab" class="url fn" rel="author">DworkinLab</a></span><!--
---><span class="path-divider">/</span><!--
---><strong itemprop="name"><a href="/DworkinLab/Bio720" data-pjax="#js-repo-pjax-container">Bio720</a></strong>
-
-</h1>
-
-  </div>
-  <div class="container">
-    
-<nav class="reponav js-repo-nav js-sidenav-container-pjax"
-     itemscope
-     itemtype="http://schema.org/BreadcrumbList"
-     role="navigation"
-     data-pjax="#js-repo-pjax-container">
-
-  <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-    <a href="/DworkinLab/Bio720" class="js-selected-navigation-item selected reponav-item" data-hotkey="g c" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches /DworkinLab/Bio720" itemprop="url">
-      <svg aria-hidden="true" class="octicon octicon-code" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>
-      <span itemprop="name">Code</span>
-      <meta itemprop="position" content="1">
-</a>  </span>
-
-    <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-      <a href="/DworkinLab/Bio720/issues" class="js-selected-navigation-item reponav-item" data-hotkey="g i" data-selected-links="repo_issues repo_labels repo_milestones /DworkinLab/Bio720/issues" itemprop="url">
-        <svg aria-hidden="true" class="octicon octicon-issue-opened" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"/></svg>
-        <span itemprop="name">Issues</span>
-        <span class="counter">0</span>
-        <meta itemprop="position" content="2">
-</a>    </span>
-
-  <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
-    <a href="/DworkinLab/Bio720/pulls" class="js-selected-navigation-item reponav-item" data-hotkey="g p" data-selected-links="repo_pulls /DworkinLab/Bio720/pulls" itemprop="url">
-      <svg aria-hidden="true" class="octicon octicon-git-pull-request" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
-      <span itemprop="name">Pull requests</span>
-      <span class="counter">0</span>
-      <meta itemprop="position" content="3">
-</a>  </span>
-
-  <a href="/DworkinLab/Bio720/projects" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /DworkinLab/Bio720/projects">
-    <svg aria-hidden="true" class="octicon octicon-project" height="16" version="1.1" viewBox="0 0 15 16" width="15"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
-    Projects
-    <span class="counter">0</span>
-</a>
-    <a href="/DworkinLab/Bio720/wiki" class="js-selected-navigation-item reponav-item" data-hotkey="g w" data-selected-links="repo_wiki /DworkinLab/Bio720/wiki">
-      <svg aria-hidden="true" class="octicon octicon-book" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"/></svg>
-      Wiki
-</a>
-
-  <a href="/DworkinLab/Bio720/pulse" class="js-selected-navigation-item reponav-item" data-selected-links="pulse /DworkinLab/Bio720/pulse">
-    <svg aria-hidden="true" class="octicon octicon-pulse" height="16" version="1.1" viewBox="0 0 14 16" width="14"><path fill-rule="evenodd" d="M11.5 8L8.8 5.4 6.6 8.5 5.5 1.6 2.38 8H0v2h3.6l.9-1.8.9 5.4L9 8.5l1.6 1.5H14V8z"/></svg>
-    Pulse
-</a>
-  <a href="/DworkinLab/Bio720/graphs" class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors /DworkinLab/Bio720/graphs">
-    <svg aria-hidden="true" class="octicon octicon-graph" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"/></svg>
-    Graphs
-</a>
-
-</nav>
-
-  </div>
-</div>
-
-<div class="container new-discussion-timeline experiment-repo-nav">
-  <div class="repository-content">
-
-    
-
-<a href="/DworkinLab/Bio720/blob/8b03091e730ba1abd842c13a44ee9842eca17e69/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html" class="d-none js-permalink-shortcut" data-hotkey="y">Permalink</a>
-
-<!-- blob contrib key: blob_contributors:v21:2df7b81e547cd4a5aca9d66cadf0c3c5 -->
-
-<div class="file-navigation js-zeroclipboard-container">
-  
-<div class="select-menu branch-select-menu js-menu-container js-select-menu float-left">
-  <button class="btn btn-sm select-menu-button js-menu-target css-truncate" data-hotkey="w"
-    
-    type="button" aria-label="Switch branches or tags" tabindex="0" aria-haspopup="true">
-    <i>Branch:</i>
-    <span class="js-select-button css-truncate-target">master</span>
-  </button>
-
-  <div class="select-menu-modal-holder js-menu-content js-navigation-container" data-pjax aria-hidden="true">
-
-    <div class="select-menu-modal">
-      <div class="select-menu-header">
-        <svg aria-label="Close" class="octicon octicon-x js-menu-close" height="16" role="img" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"/></svg>
-        <span class="select-menu-title">Switch branches/tags</span>
-      </div>
-
-      <div class="select-menu-filters">
-        <div class="select-menu-text-filter">
-          <input type="text" aria-label="Filter branches/tags" id="context-commitish-filter-field" class="form-control js-filterable-field js-navigation-enable" placeholder="Filter branches/tags">
-        </div>
-        <div class="select-menu-tabs">
-          <ul>
-            <li class="select-menu-tab">
-              <a href="#" data-tab-filter="branches" data-filter-placeholder="Filter branches/tags" class="js-select-menu-tab" role="tab">Branches</a>
-            </li>
-            <li class="select-menu-tab">
-              <a href="#" data-tab-filter="tags" data-filter-placeholder="Find a tag…" class="js-select-menu-tab" role="tab">Tags</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="branches" role="menu">
-
-        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
-
-
-            <a class="select-menu-item js-navigation-item js-navigation-open selected"
-               href="/DworkinLab/Bio720/blob/master/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html"
-               data-name="master"
-               data-skip-pjax="true"
-               rel="nofollow">
-              <svg aria-hidden="true" class="octicon octicon-check select-menu-item-icon" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5z"/></svg>
-              <span class="select-menu-item-text css-truncate-target js-select-menu-filter-text">
-                master
-              </span>
-            </a>
-        </div>
-
-          <div class="select-menu-no-results">Nothing to show</div>
-      </div>
-
-      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tags">
-        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
-
-
-        </div>
-
-        <div class="select-menu-no-results">Nothing to show</div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-  <div class="BtnGroup float-right">
-    <a href="/DworkinLab/Bio720/find/master"
-          class="js-pjax-capture-input btn btn-sm BtnGroup-item"
-          data-pjax
-          data-hotkey="t">
-      Find file
-    </a>
-    <button aria-label="Copy file path to clipboard" class="js-zeroclipboard btn btn-sm BtnGroup-item tooltipped tooltipped-s" data-copied-hint="Copied!" type="button">Copy path</button>
-  </div>
-  <div class="breadcrumb js-zeroclipboard-target">
-    <span class="repo-root js-repo-root"><span class="js-path-segment"><a href="/DworkinLab/Bio720"><span>Bio720</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a href="/DworkinLab/Bio720/tree/master/Bio708_MLM"><span>Bio708_MLM</span></a></span><span class="separator">/</span><strong class="final-path">Bio708_MultivariateLinearModelsIntro.html</strong>
-  </div>
-</div>
-
-
-
-  <div class="commit-tease">
-      <span class="float-right">
-        <a class="commit-tease-sha" href="/DworkinLab/Bio720/commit/8b03091e730ba1abd842c13a44ee9842eca17e69" data-pjax>
-          8b03091
-        </a>
-        <relative-time datetime="2017-03-20T14:20:53Z">Mar 20, 2017</relative-time>
-      </span>
-      <div>
-        <img alt="@idworkin" class="avatar" height="20" src="https://avatars0.githubusercontent.com/u/827827?v=3&amp;s=40" width="20" />
-        <a href="/idworkin" class="user-mention" rel="contributor">idworkin</a>
-          <a href="/DworkinLab/Bio720/commit/8b03091e730ba1abd842c13a44ee9842eca17e69" class="message" data-pjax="true" title="MLM tutorial for BIO708">MLM tutorial for BIO708</a>
-      </div>
-
-    <div class="commit-tease-contributors">
-      <button type="button" class="btn-link muted-link contributors-toggle" data-facebox="#blob_contributors_box">
-        <strong>1</strong>
-         contributor
-      </button>
-      
-    </div>
-
-    <div id="blob_contributors_box" style="display:none">
-      <h2 class="facebox-header" data-facebox-id="facebox-header">Users who have contributed to this file</h2>
-      <ul class="facebox-user-list" data-facebox-id="facebox-description">
-          <li class="facebox-user-list-item">
-            <img alt="@idworkin" height="24" src="https://avatars2.githubusercontent.com/u/827827?v=3&amp;s=48" width="24" />
-            <a href="/idworkin">idworkin</a>
-          </li>
-      </ul>
-    </div>
-  </div>
-
-<div class="file">
-  <div class="file-header">
-  <div class="file-actions">
-
-    <div class="BtnGroup">
-      <a href="/DworkinLab/Bio720/raw/master/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html" class="btn btn-sm BtnGroup-item" id="raw-url">Download</a>
-      <a href="/DworkinLab/Bio720/commits/master/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html" class="btn btn-sm BtnGroup-item" rel="nofollow">History</a>
-    </div>
-
-
-        <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="/DworkinLab/Bio720/delete/master/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html" class="inline-form" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="E79IQBuLLcv2SHewFZe2a/5BhsSiZIjW6mcsa1zNZeNzCBIghLsRx59JxVBWTvH9/JbrDp+E/ycD0JpKuy0lzw==" /></div>
-          <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
-            aria-label="Fork this project and delete the file" data-disable-with>
-            <svg aria-hidden="true" class="octicon octicon-trashcan" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
-          </button>
-</form>  </div>
-
-  <div class="file-info">
-    1.03 MB
-  </div>
-</div>
-
-  
-
-  <div itemprop="text" class="blob-wrapper data type-text">
-      <div class="image">
-          <a href="/DworkinLab/Bio720/blob/master/Bio708_MLM/Bio708_MultivariateLinearModelsIntro.html?raw=true">View Raw</a>
-            <p>(Sorry about that, but we can’t show files that are this big right now.)</p>
-      </div>
-  </div>
-
-</div>
-
-<button type="button" data-facebox="#jump-to-line" data-facebox-class="linejump" data-hotkey="l" class="d-none">Jump to Line</button>
-<div id="jump-to-line" style="display:none">
-  <!-- '"` --><!-- </textarea></xmp> --></option></form><form accept-charset="UTF-8" action="" class="js-jump-to-line-form" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
-    <input class="form-control linejump-input js-jump-to-line-field" type="text" placeholder="Jump to line&hellip;" aria-label="Jump to line" autofocus>
-    <button type="submit" class="btn">Go</button>
-</form></div>
-
-  </div>
-  <div class="modal-backdrop js-touch-events"></div>
-</div>
-
-
-
-
-    </div>
-  </div>
-
-  </div>
-
-      <div class="container site-footer-container">
-  <div class="site-footer" role="contentinfo">
-    <ul class="site-footer-links float-right">
-        <li><a href="https://github.com/contact" data-ga-click="Footer, go to contact, text:contact">Contact GitHub</a></li>
-      <li><a href="https://developer.github.com" data-ga-click="Footer, go to api, text:api">API</a></li>
-      <li><a href="https://training.github.com" data-ga-click="Footer, go to training, text:training">Training</a></li>
-      <li><a href="https://shop.github.com" data-ga-click="Footer, go to shop, text:shop">Shop</a></li>
-        <li><a href="https://github.com/blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
-        <li><a href="https://github.com/about" data-ga-click="Footer, go to about, text:about">About</a></li>
-
-    </ul>
-
-    <a href="https://github.com" aria-label="Homepage" class="site-footer-mark" title="GitHub">
-      <svg aria-hidden="true" class="octicon octicon-mark-github" height="24" version="1.1" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-</a>
-    <ul class="site-footer-links">
-      <li>&copy; 2017 <span title="0.14460s from github-fe158-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
-        <li><a href="https://github.com/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
-        <li><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
-        <li><a href="https://github.com/security" data-ga-click="Footer, go to security, text:security">Security</a></li>
-        <li><a href="https://status.github.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
-        <li><a href="https://help.github.com" data-ga-click="Footer, go to help, text:help">Help</a></li>
-    </ul>
-  </div>
-</div>
-
-
-
-  
-
-  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
-    <svg aria-hidden="true" class="octicon octicon-alert" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z"/></svg>
-    <button type="button" class="flash-close js-flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
-      <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"/></svg>
-    </button>
-    You can't perform that action at this time.
-  </div>
-
-
-    
-    <script crossorigin="anonymous" integrity="sha256-9ZVgaDj6gInYIAHGtNp/a6M/Md3kgGXgA5AUO5DatkI=" src="https://assets-cdn.github.com/assets/frameworks-f595606838fa8089d82001c6b4da7f6ba33f31dde48065e00390143b90dab642.js"></script>
-    <script async="async" crossorigin="anonymous" integrity="sha256-vseP1jC35LhglmEBADCgHiNcPQW+kxZY1AFG2Arhq9s=" src="https://assets-cdn.github.com/assets/github-bec78fd630b7e4b8609661010030a01e235c3d05be931658d40146d80ae1abdb.js"></script>
-    
-    
-    
-    
-  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner d-none">
-    <svg aria-hidden="true" class="octicon octicon-alert" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M8.865 1.52c-.18-.31-.51-.5-.87-.5s-.69.19-.87.5L.275 13.5c-.18.31-.18.69 0 1 .19.31.52.5.87.5h13.7c.36 0 .69-.19.86-.5.17-.31.18-.69.01-1L8.865 1.52zM8.995 13h-2v-2h2v2zm0-3h-2V6h2v4z"/></svg>
-    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
-    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
-  </div>
-  <div class="facebox" id="facebox" style="display:none;">
-  <div class="facebox-popup">
-    <div class="facebox-content" role="dialog" aria-labelledby="facebox-header" aria-describedby="facebox-description">
-    </div>
-    <button type="button" class="facebox-close js-facebox-close" aria-label="Close modal">
-      <svg aria-hidden="true" class="octicon octicon-x" height="16" version="1.1" viewBox="0 0 12 16" width="12"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48z"/></svg>
-    </button>
-  </div>
-</div>
-
-
-  </body>
+</body>
 </html>
-
