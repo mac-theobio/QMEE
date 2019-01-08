@@ -56,23 +56,21 @@ Resources
     *   [Importing data](Importing_data.html)
     *   [Running R](Running_R.html)
 
-Exercise
-========
+Wednesday
+=========
 
-Input some real data into `R`, and do a substantive calculation using
-the data. These can be your own data, or data that you find on the web.
-You should provide a text file or spreadsheet, and an R script that
-reads it and does the calculation. You should confirm that these work
-"independently" before emailing them to us at <bio708qmee@gmail.com>.
+Our goal for the second part of the session is to set up repos, experiment with commiting, pushing and pulling, and share with the instructors.
 
-Also, a short paragraph about the data would be nice so we can think
-about what sort of projects to do in the future.
+The repo that you intend to share with us should be called QMEE. It will be publicly readable by default.
 
 <!--- COMMENT
 COMMENT -->
 
 
 Assignment
-========
+==========
 
-Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and send a paragraph to the course email address (`bio708qmee@gmail.com`) describing it. It will be particularly helpful if you give us some context for the data and describe the **biological** questions you would hope to answer (if you also want to translate your biological questions into statistical questions that's fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).
+* Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and add a paragraph to the README.md file in your course repo describing it. Please give us some context for the data and describe the **biological** questions you would hope to answer (if you also want to translate your biological questions into statistical questions that's fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).
+
+* Input some piece of this data (use some public data set if your real one is not quickly available) into `R`, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work "independently" before submitting by emailing the name of your main script to us at <bio708qmee@gmail.com>.
+

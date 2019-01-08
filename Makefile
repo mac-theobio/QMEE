@@ -36,6 +36,7 @@ Sources = Makefile .gitignore .ignore README.md LICENSE.md notes.txt TODO.md
 ## Current
 
 gh-pages/cleaning.slides.html: cleaning.rmd
+gh-pages/Introduction_to_R.html: Introduction_to_R.md
 
 ##################################################################
 
