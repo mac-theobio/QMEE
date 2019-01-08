@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R"
 author: Jonathan Dushoff and Ben Bolker
-date:  26 April 2016
+date: "06 January 2019"
 slide_level: 3
 output: html_document
 ---
