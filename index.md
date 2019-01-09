@@ -36,8 +36,8 @@ COMMENT -->
 	*  Wed 15:30-17:20 (two hours, bring coffee)
 
 -   [Course description](description.html)
-<!-- COMMENT
 -   [Assignments](assignments.html)
+<!-- COMMENT
 -   [Final project](project.html)
 COMMENT -->
 
