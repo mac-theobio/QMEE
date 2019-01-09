@@ -26,7 +26,7 @@ $(ms)/Makefile:
 
 # make files
 
-Sources = Makefile .gitignore .ignore README.md LICENSE.md notes.txt TODO.md
+Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 -include $(ms)/git.def
 -include $(ms)/perl.def
