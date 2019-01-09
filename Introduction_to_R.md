@@ -62,11 +62,14 @@ Wednesday
 
 Our goal for the second part of the session is to set up repos, experiment with commiting, pushing and pulling, and share with the instructors.
 
-The repo that you intend to share with us should be called QMEE. It will be publicly readable by default.
+* E-mail your GitHub user name to `bio708qmee@gmail.com`, if you haven't already done so.
+* Work through chapters 9 and 12 in [Happy Git with R](https://happygitwithr.com/)
+* Make a directory on the github repo called `QMEE`
+	* Be aware that your repo is publicly readable by default.
+* add Jonathan Dushoff (`@dushoff`) and Ben Bolker (`@bbolker`) as collaborators (`Settings` > `Collaborators` (left margin) > `Add collaborator`)
 
 <!--- COMMENT
 COMMENT -->
-
 
 Assignment
 ==========

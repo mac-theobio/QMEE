@@ -44,7 +44,7 @@ Continue working on your data
 * Examine your data for mistakes, and to make sure you understand the R classes
 * Describe what sort of investigations you might do with your data, and how you might break it into replicable components: save this (somewhere) as a file called `README.md`
 *   Make sure you know how to use `source`, `save` and `load` in R: finish a task, and then close R without saving your workspace and efficiently redo the task.
-* Make a directory on the github repo called `stat744`
+* Make a directory on the github repo called `QMEE`
 * add Jonathan Dushoff (`@dushoff`) and Ben Bolker (`@bbolker`) as collaborators (`Settings` > `Collaborators` (left margin) > `Add collaborator`)
 add your data, a script that does something with the data, and the `README.md` file you created above to this directory
     - *more detailed instructions on this to follow, but approximately ...*
