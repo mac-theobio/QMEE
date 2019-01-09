@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
-  <meta name="date" content="2016-04-26" />
+  <meta name="date" content="2019-01-06" />
   <title>Introduction to R</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -61,7 +61,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Introduction to R</h1>
 <h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
-<h3 class="date">26 April 2016</h3>
+<h3 class="date">06 January 2019</h3>
 </div>
 <!-- rendering
  HTML:
@@ -79,53 +79,58 @@ https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_p
 <h1 id="basics">Basics</h1>
 <h2 id="r-is-a-programming-language">R is a programming language</h2>
 <ul>
-<li>You may or may not use R for programming tasks, but it will help if you understand roughly how it works inside.</li>
+<li>You may or may not use R for programming tasks, but it will help if you understand roughly how it works inside</li>
 <li>What is a program?
 <ul>
-<li>A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order</li>
-<li>A program’s flow is controlled by <em>control structures</em> (instructions about what instruction to do next)</li>
-<li>What are some examples of programs, and how do they work?</li>
+<li>A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order</li>
+<li>A program’s flow is controlled by <em>control structures</em> (instructions about what instruction to do next)</li>
+<li>What are some examples of programs, and how do they work?</li>
 </ul></li>
 </ul>
 <h2 id="calculation">Calculation</h2>
 <p>R works as a calculator.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2+2</span>
-<span class="dv">2439</span>*<span class="dv">41</span>
-<span class="dv">259</span>*<span class="dv">3861</span>
-<span class="dv">2</span>+<span class="kw">sqrt</span>(<span class="dv">92</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span><span class="op">+</span><span class="dv">2</span>
+<span class="dv">2439</span><span class="op">*</span><span class="dv">41</span>
+<span class="dv">259</span><span class="op">*</span><span class="dv">3861</span>
+<span class="dv">2</span><span class="op">+</span><span class="kw">sqrt</span>(<span class="dv">92</span>)</code></pre></div>
 <p>What about:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">7+3</span>*<span class="dv">9</span>
-<span class="dv">32</span>/<span class="dv">4</span>*<span class="dv">4</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">7</span><span class="op">+</span><span class="dv">3</span><span class="op">*</span><span class="dv">9</span>
+<span class="dv">32</span><span class="op">/</span><span class="dv">4</span><span class="op">*</span><span class="dv">4</span></code></pre></div>
 <p>Figure out what the second one does, and then explain how you would write it more clearly.</p>
 <h2 id="assigning-values">Assigning values</h2>
-<p>R can remember numbers and give them back to you. This is the foundation of being able to write programs that do many things in a specified order.</p>
+<p>R can remember numbers (and other things) and give them back to you. This is the foundation of being able to write programs that do many things in a specified order.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">23</span>
 <span class="kw">print</span>(x)
-x +<span class="st"> </span><span class="dv">17</span>
-y &lt;-<span class="st"> </span>x +<span class="st"> </span><span class="dv">17</span>
+x <span class="op">+</span><span class="st"> </span><span class="dv">17</span>
+y &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">17</span>
 y</code></pre></div>
 <h1 id="objects">Objects</h1>
 <hr />
-<p>R keeps track of a variety of objects: data structures and functions mostly. You can see all of your user-defined objects by typing <code>objects()</code> (the parentheses mean that you are calling a <em>function</em>; more on this later).</p>
+<p>R keeps track of a variety of objects. You can see all of the objects you’ve defined by typing <code>ls()</code> (short for “list”: the parentheses mean that you are calling a <em>function</em>; more on this later), or looking in the “Environment” tab in RStudio.</p>
 <h2 id="values">Values</h2>
-<p>In addition to numbers, R has other kinds of values (also known as “atomic types”). The main ones we’re interested in are <code>character</code>, <code>numeric</code> and <code>logical</code> (ie., <code>TRUE</code> or <code>FALSE</code>). <code>str()</code> is one way to try to figure out what your R object is.</p>
+<p>In addition to numbers, R has other kinds of values. The main ones we’re interested in are <code>character</code>, <code>numeric</code> and <code>logical</code> (ie., <code>TRUE</code> or <code>FALSE</code>). <code>str()</code> (short for “structure”) is one way to figure out what your R object is.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">num &lt;-<span class="st"> </span><span class="dv">3</span>
 <span class="kw">str</span>(num) 
  
 char &lt;-<span class="st"> &quot;Hello, class?&quot;</span>
 <span class="kw">str</span>(char)
  
-logic &lt;-<span class="st"> </span><span class="ot">TRUE</span> ## Note lack of quotes
+logic &lt;-<span class="st"> </span><span class="ot">TRUE</span> ## No quotes
 <span class="kw">str</span>(logic)</code></pre></div>
+<p>You can also switch to the “Grid View” in the Environment tab in RStudio.</p>
+<div class="figure">
+<img src="pix/gridview.png" />
+
+</div>
 <h2 id="other-types">Other types</h2>
-<p>R objects are divided into <em>types</em>. Other than the above, we’re mostly interested in three of these: <em>vectors</em>, <em>lists</em> and <em>functions</em>.</p>
+<p>R objects are divided into <em>types</em>. Other than the ones above, we’re mostly interested in <em>vectors</em>, <em>lists</em> and <em>functions</em>.</p>
 <h2 id="vectors">Vectors</h2>
 <p>A vector consists of zero or more values of the same <em>storage mode</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">words &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Mary&quot;</span>, <span class="st">&quot;had&quot;</span>, <span class="st">&quot;a&quot;</span>, <span class="st">&quot;little&quot;</span>, <span class="st">&quot;lamb&quot;</span>)
 <span class="co"># c() puts elements together into a vector</span>
 <span class="kw">str</span>(words)
- 
-<span class="kw">print</span>(v &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>)  ## &#39;m:n&#39; creates a sequence from m to n
+
+v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>  ## &#39;m:n&#39; creates a sequence from m to n
 <span class="kw">str</span>(v)</code></pre></div>
 <h2 id="vector-math">Vector math</h2>
 <p>R does math on vectors directly.</p>
@@ -133,48 +138,48 @@ logic &lt;-<span class="st"> </span><span class="ot">TRUE</span> ## Note lack of
 <ul>
 <li>If we add (for example) two vectors we add each pair of corresponding elements.</li>
 <li>If we multiply a vector by a <em>scalar</em> (a single number) we multiply each element by the scalar.</li>
-<li>Avoid arithmetic involving two vectors of different length (except the scalar case, above)</li>
+<li>Avoid arithmetic involving two vectors of different length</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">5</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>
 w &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>)
-v+w
-<span class="dv">2</span>*w</code></pre></div>
+v<span class="op">+</span>w
+<span class="dv">2</span><span class="op">*</span>w</code></pre></div>
 <h2 id="no-scalars">No scalars</h2>
-<p>R does not have any particular idea of individual numbers (or strings, etc.); you represent a number as a vector of length 1. This has advantages and disadvantages.</p>
+<p>R does not have any particular idea of individual numbers (or strings, etc.); you represent a number as a vector of length 1.</p>
 <h2 id="lists">Lists</h2>
-<p>A list is a bunch of things in order. Those things can be any R object - vectors, functions, other lists …</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span>:<span class="dv">3</span>, <span class="st">&quot;Apple tree&quot;</span>, <span class="ot">TRUE</span>)
+<p>A list is a bunch of things in order, not necessarily of the same type. Those things can be any R object - vectors, functions, other lists …</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">L &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="st">&quot;Apple tree&quot;</span>, <span class="ot">TRUE</span>)
 <span class="kw">str</span>(L)
-<span class="kw">str</span>(L[<span class="dv">1</span>]) ## L[1] picks out the first element of the list
+<span class="kw">str</span>(L[[<span class="dv">1</span>]]) ## L[1] picks out the first element of the list
 LL &lt;-<span class="st"> </span><span class="kw">list</span>(L, <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">9</span>))
 <span class="kw">str</span>(LL)
 <span class="kw">str</span>(LL[<span class="dv">1</span>])</code></pre></div>
 <h2 id="functions">Functions</h2>
 <p>Functions are “called” using parentheses. A function is a set of commands that uses whatever “arguments” are inside the parentheses and does things (including possibly “returning” a result).</p>
 <p>What functions have we seen so far?</p>
-<p>Example: <code>mean()</code> in its simplest form takes a vector argument and returns the mean.</p>
+<p>Example: <code>mean()</code> takes a vector argument and returns the mean.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">11</span>))
  
-x &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
+x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
 m_x &lt;-<span class="st"> </span><span class="kw">mean</span>(x)
 <span class="kw">print</span>(m_x)</code></pre></div>
 <h2 id="about-functions">About functions</h2>
-<p>You can learn about any built-in function by using R’s help: type <code>?&quot;mean&quot;</code> or <code>help(&quot;mean&quot;)</code>.</p>
+<p>You can learn about any built-in function by using R’s help: type <code>?&quot;mean&quot;</code> or <code>help(&quot;mean&quot;)</code>, or find the Help tab in RStudio.</p>
 <p>Arguments can be passed to functions in order, or by using names. For example, <code>mean</code> takes an optional argument <code>trim</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>(<span class="dv">1</span>:<span class="dv">10</span>)^<span class="dv">2</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>)<span class="op">^</span><span class="dv">2</span>
 <span class="kw">mean</span>(x)
 <span class="kw">mean</span>(x, <span class="dt">trim=</span><span class="fl">0.1</span>)</code></pre></div>
 <h2 id="function-syntax">Function syntax</h2>
-<p><code>=</code> is a synonym for <code>&lt;-</code> at the top level (and many people use it). Be aware that they are not synonyms inside a function call: <code>&lt;-</code> still means assignment, but <code>=</code> is used to name an argument.</p>
+<p><code>=</code> is a synonym for <code>&lt;-</code> at the top level (and many people use it). Be aware that they are not synonyms inside a function call: <code>&lt;-</code> still means assignment, but <code>=</code> is used to name an argument. <code>mean(x, trim &lt;- 0.1)</code> <strong>does not do what you think it does</strong>.</p>
 <h2 id="variable-names">Variable names</h2>
-<p>R variable names are case-sensitive. This means that <code>m</code> and <code>M</code> are different variables. In general, you should not try to take advantage of this, because it may cause confusion.</p>
+<p>R variable names are <em>case-sensitive</em>: e.g. <code>m</code> and <code>M</code> are different variables. In general, you should not try to take advantage of this, because it may cause confusion.</p>
 <p>R variable names have to start with a letter, and certain characters (particularly space characters) are not allowed. Good naming conventions include:</p>
 <ul>
 <li>Using mostly letters, underscores (<code>_</code>) and dots (<code>.</code>)</li>
-<li>Not using potentially confusing names like <code>l</code> or <code>O</code>.</li>
-<li>Not using built-in names (like <code>c</code>, <code>list</code>, or <code>data</code>) for variables.</li>
-<li>Make readable variable names using <code>camelCase</code>, <code>snake_case</code>, or <code>kebab.case</code></li>
-<li>Avoid <code>variableNamesThatAreExcessivelyLong</code></li>
+<li>Avoiding potentially confusing names like <code>l</code> or <code>O</code>.</li>
+<li>Avoiding built-in names (like <code>c</code>, <code>t</code>, <code>list</code>, or <code>data</code>) for variables.</li>
+<li>Making readable variable names using <code>camelCase</code>, <code>snake_case</code>, or <code>kebab.case</code></li>
+<li>Avoiding <code>variableNamesThatAreExcessivelyLong</code></li>
 </ul>
 <h1 id="compound-objects">Compound objects</h1>
 <hr />
@@ -186,13 +191,14 @@ m_x &lt;-<span class="st"> </span><span class="kw">mean</span>(x)
 <span class="co"># R arranges vectors into matrices in COLUMN-FIRST order, by default</span>
  
 <span class="co"># Elementwise (&quot;vector&quot;) multiplication (or &quot;Hadamard product&quot;)</span>
-m*m
+m<span class="op">*</span>m
  
 <span class="co"># Matrix multiplication</span>
-m %*%<span class="st"> </span>m</code></pre></div>
+m <span class="op">%*%</span><span class="st"> </span>m</code></pre></div>
 <h2 id="data-frames">Data frames</h2>
-<p>Data frames are lists that have a rectangular shape (they look like, and can be used a like matrices, but don’t have to be of a single “mode” - in particular you can mix numbers, factors (see below), dates, …).</p>
+<p>Data frames are sets of lists organized into a rectangle (they look like, and can be used a like matrices, but don’t have to be of a single “mode” - in particular you can mix numbers, factors (see below), dates, …).</p>
 <p>We’ll talk more about data frames when we start dealing with data.</p>
+<p><code>tibbles</code> are a special “tidyverse” version of data frames that act a little bit differently.</p>
 <h2 id="factors">Factors</h2>
 <p>Factors are used to describe items that can have a known set of values (gender, social class, etc.) - <em>categorical variables</em> in statistical terms. We will also talk more about them later.</p>
 <h1 id="more-stuff">More stuff</h1>
@@ -202,13 +208,13 @@ m %*%<span class="st"> </span>m</code></pre></div>
 <li>loops: we will use <code>for</code>, <code>lapply</code> and <code>apply</code>, among others. <code>lapply</code> stands for <strong>l</strong>ist <strong>apply</strong>.</li>
 <li>conditionals: <code>if</code> and <code>ifelse</code>. Use <code>ifelse</code> with care!</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">10</span>
-for (x in v) {
-  <span class="kw">print</span>(x^<span class="dv">2</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<span class="cf">for</span> (x <span class="cf">in</span> v) {
+  <span class="kw">print</span>(x<span class="op">^</span><span class="dv">2</span>)
 }
-for (x in v){
-    if(x&gt;=<span class="dv">4</span>) {
-        <span class="kw">print</span>(x^<span class="dv">2</span>)
+<span class="cf">for</span> (x <span class="cf">in</span> v){
+    <span class="cf">if</span>(x<span class="op">&gt;=</span><span class="dv">4</span>) {
+        <span class="kw">print</span>(x<span class="op">^</span><span class="dv">2</span>)
     }
 }</code></pre></div>
 <h2 id="control-syntax">Control syntax</h2>
@@ -226,11 +232,9 @@ for (x in v){
 <ul>
 <li>When R was invented, this was less clear</li>
 </ul>
-<h2 id="names">Names</h2>
-<p>R’s primary objects often have associated “attributes”. The information that tells R what shape a matrix (or higher-dimensional array) is is an attribute. R also has “name” attributes: <code>names</code>, <code>rownames</code> and <code>colnames</code>.</p>
-<p>You can select single elements from an R object using the element operator <code>[[]]</code>, and subsets using the subset operator <code>[]</code>. If the object has dimensions, you can separate them with a comma.</p>
 <h2 id="selecting">Selecting</h2>
-<p>You can also select things by name, using the syntax <code>v[&quot;name&quot;]</code> or <code>v[n]</code>, if <code>n</code> is a variable that contains the name. In general it’s a good idea to use names instead of numbers whenever you can, because (1) your code will be easier to read (<code>x[&quot;temperature&quot;]</code> instead of <code>x[21]</code>) and (2) your code will be more robust (i.e., if you modify something so that temperature is now in position 22 rather than 21).</p>
+<p>You can select single elements from an R object using the element operator <code>[[]]</code>, and subsets using the subset operator <code>[]</code>. If the object has dimensions, you can separate them with a comma.</p>
+<p>You can also select things by name, using the syntax <code>v[&quot;name&quot;]</code> or <code>v[n]</code>, if <code>n</code> is a variable that contains the name. Use names instead of numbers whenever you can, because (1) your code will be easier to read (<code>x[&quot;temperature&quot;]</code> instead of <code>x[21]</code>) and (2) your code will be more robust (e.g., if something changes so that temperature is now in position 22 rather than 21).</p>
 <h2 id="selection-example">Selection example</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># InsectSprays is a built-in data set in R</span>
 <span class="kw">class</span>(InsectSprays)
@@ -247,24 +251,35 @@ InsectSprays[<span class="dv">1</span>]
 InsectSprays[, <span class="dv">1</span>]
  
 <span class="co"># Select part of the first column of InsectSprays</span>
-InsectSprays[<span class="dv">1</span>:<span class="dv">10</span>, <span class="dv">1</span>]
+InsectSprays[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">1</span>]
  
 <span class="co"># Select the first list element of InsectSprays by name</span>
 InsectSprays[[<span class="st">&quot;count&quot;</span>]]
  
 <span class="co"># Use a convenient but sometimes dangerous short-cut for this</span>
-InsectSprays$count</code></pre></div>
+InsectSprays<span class="op">$</span>count</code></pre></div>
 <h2 id="arcane">Arcane</h2>
 <p>You may have been surprised by the column-selection results. We used the subset operator, but got a single element instead. R noticed we only selected one thing, and “collapsed” the object for our “convenience”. This sort of thing is a common problem in R, probably due to its rather ancient history, and the tension between structure and convenience (particularly convenience for interactive use).</p>
 <p>In programs, it is bad practice to let R do this (because it will confuse the program when the structure of your results changes). In this case, you can avoid it by selecting from the list.</p>
-<h2 id="being-explicit">Being explicit</h2>
-<p>It’s unfortunate that R makes you do stuff like this…</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A data frame</span>
-InsectSprays[, <span class="dv">1</span>:<span class="dv">2</span>]
-<span class="co">#  An inappropriate &quot;collapse&quot; to a simpler form</span>
-InsectSprays[, <span class="dv">1</span>]
-<span class="co"># Avoid inappropriate collapse</span>
-InsectSprays[, <span class="dv">1</span>, drop=<span class="ot">FALSE</span>]</code></pre></div>
+<!-- COMMENT
+
+Not worth bothering people with this on day 1 ???
+
+## Being explicit
+
+It's unfortunate that R makes you do stuff like this…
+
+
+```r
+# A data frame
+InsectSprays[, 1:2]
+#  An inappropriate "collapse" to a simpler form
+InsectSprays[, 1]
+# Avoid inappropriate collapse
+InsectSprays[, 1, drop=FALSE]
+```
+
+-->
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>

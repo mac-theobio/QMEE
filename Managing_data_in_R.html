@@ -45,18 +45,18 @@
 <p>Factors are logically variables with a fixed number of categories. In R they are represented as integer variables that have a “levels” attribute. In other words, each possible value of the factor is given an integer, and the variable carries around the code that allows translation from this integer to its meaning.</p>
 <p>This system has advantages:</p>
 <ul>
-<li>You can put the levels in an appropriate order (R also has “ordered” levels, which assume this order has meaning); these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
+<li>You can put the levels in an appropriate order; these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
 <li>You can specify the <em>contrasts</em> that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)</li>
 </ul>
 <p>… and disadvantages:</p>
 <ul>
 <li>It is potentially confusing
 <ul>
-<li><code>as.numeric(f)</code> does not do the same thing as <code>as.numeric(as.character(f))</code></li>
+<li><code>as.numeric(f)</code> is not the same as <code>as.numeric(as.character(f))</code></li>
 </ul></li>
 <li>Similar variables can have different sets of levels</li>
 </ul>
-<p>There has been <a href="https://stat.ethz.ch/pipermail/r-help//2012-August/321913.html">much discussion</a> of the pros and cons of factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data. The <a href="http://tidyverse.org/">tidyverse</a> (more later on this) abandons automatic conversion as well.</p>
+<p>As a general rule, convert variables to factors <em>at the last possible time</em>, when you have already fixed typos; combined different data sets; etc.. The tidyverse functions <code>readr::read_csv()</code>, <code>readr::read_table()</code>, <code>readxl::read_xlsx()</code> will <strong>not</strong> automatically convert strings to factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data.</p>
 <h2 id="examination">Examination</h2>
 <p>You should think creatively, and early on, about how to check your data. Is it internally consistent? Are there extreme outliers? Are there typos? Are there certain values that really mean something else?</p>
 <p>An American Airlines memo about fuel reporting from the 1980s complained of multiple cases of:</p>
@@ -90,29 +90,30 @@
 <li>Statistical modeling tools and graphical tools (especially the <strong>ggplot2</strong> package) in R work best with long form</li>
 </ul>
 <h3 id="tools">Tools</h3>
-<h4 id="base-r">base R</h4>
-<ul>
-<li><code>reshape</code>: wide-to-long and vice versa</li>
-<li><code>merge</code>: join data frames</li>
-<li><code>ave</code>: compute averages by group</li>
-<li><code>subset</code>, <code>[</code>-indexing: select obs and vars</li>
-<li><code>transform</code>: modify variables and create new ones</li>
-<li><code>aggregate</code>: split-apply-summarize</li>
-<li><code>split</code>, <code>lapply</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
-<li><code>sort</code></li>
-</ul>
 <h4 id="the-tidyverse">The tidyverse</h4>
 <ul>
-<li><code>tidyr</code> package: <code>gather</code>, <code>spread</code></li>
+<li><code>tidyr</code> package (reshaping): <code>gather()</code>, <code>spread()</code></li>
 <li><code>dplyr</code> package:
 <ul>
-<li><code>mutate</code></li>
-<li><code>select</code></li>
-<li><code>filter</code></li>
-<li><code>group_by</code></li>
-<li><code>summarise</code></li>
-<li><code>arrange</code></li>
+<li><code>mutate()</code></li>
+<li><code>select()</code></li>
+<li><code>filter()</code></li>
+<li><code>group_by()</code></li>
+<li><code>summarise()</code></li>
+<li><code>arrange()</code></li>
+<li><code>*_join()</code></li>
 </ul></li>
+</ul>
+<h4 id="base-r">base R</h4>
+<ul>
+<li><code>reshape()</code>: wide-to-long and vice versa</li>
+<li><code>merge()</code>: join data frames</li>
+<li><code>ave()</code>: compute averages by group</li>
+<li><code>subset()</code>, <code>[</code>-indexing: select obs and vars</li>
+<li><code>transform()</code>: modify variables and create new ones</li>
+<li><code>aggregate()</code>: split-apply-summarize</li>
+<li><code>split()</code>, <code>lapply()</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
+<li><code>sort()</code></li>
 </ul>
 <h2 id="manipulation-1">Manipulation</h2>
 <ul>

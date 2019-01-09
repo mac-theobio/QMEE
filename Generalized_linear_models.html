@@ -45,7 +45,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -61,7 +61,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Generalized linear models</h1>
 <h2 class="author">Ben Bolker and Jonathan Dushoff</h2>
-<h3 class="date">10:10 06 March 2017</h3>
+<h3 class="date">20:02 03 January 2019</h3>
 </div>
 <h1 id="basics">Basics</h1>
 <h2 id="basics-1">Basics</h2>
@@ -112,7 +112,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>This is good, because the observed value of <span class="math inline">\(y\)</span> might be zero
 <ul>
 <li>e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)</li>
-<li>with <span class="math inline">\(\beta=\{1,1\}\)</span>, <span class="math inline">\(T=15\)</span>, <span class="math inline">\(\textrm{counts} \sim \textrm{Poisson}(\lambda=-4=0.018)\)</span></li>
+<li>with <span class="math inline">\(\beta=\{1,1\}\)</span>, <span class="math inline">\(T=15\)</span>, <span class="math inline">\(\textrm{counts} \sim \textrm{Poisson}(\lambda=exp(-4)=0.018)\)</span></li>
 </ul></li>
 <li>model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale</li>
 </ul>
@@ -125,7 +125,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>a little harder than linear models: <code>plot</code> is still somewhat useful</li>
 <li>binary data especially hard (e.g. <code>arm::binnedplot</code>)</li>
-<li>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=response))</code>)</li>
+<li>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=&quot;response&quot;))</code>)</li>
 <li>residuals are <em>Pearson residuals</em> by default (<span class="math inline">\((\textrm{obs}-\textrm{exp})/V(\textrm{exp})\)</span>); predicted values are on the effect scale (e.g. log/logit) by default (use <code>type=&quot;response&quot;</code> to get data-scale predictions)</li>
 </ul>
 <h2 id="overdispersion">overdispersion</h2>
@@ -210,21 +210,21 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1 id="example">Example</h1>
 <h2 id="aids-australia-dobson-barnett">AIDS (Australia: Dobson &amp; Barnett)</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">aids &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;aids.csv&quot;</span>)
-aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span class="dt">date=</span>year+(quarter<span class="dv">-1</span>)/<span class="dv">4</span>)
-<span class="kw">print</span>(gg0 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(aids,<span class="kw">aes</span>(date,cases))+<span class="kw">geom_point</span>())</code></pre></div>
+aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span class="dt">date=</span>year<span class="op">+</span>(quarter<span class="dv">-1</span>)<span class="op">/</span><span class="dv">4</span>)
+<span class="kw">print</span>(gg0 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(aids,<span class="kw">aes</span>(date,cases))<span class="op">+</span><span class="kw">geom_point</span>())</code></pre></div>
 <div class="figure">
 <img src="figure/aids_ex_1.R-1.png" alt="plot of chunk aids_ex_1.R" />
 <p class="caption">plot of chunk aids_ex_1.R</p>
 </div>
 <h2 id="easy-glms-with-ggplot">Easy GLMs with ggplot</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg1 &lt;-<span class="st"> </span>gg0 +<span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;red&quot;</span>,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg1 &lt;-<span class="st"> </span>gg0 <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">colour=</span><span class="st">&quot;red&quot;</span>,
           <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>)))</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot1-1.png" alt="plot of chunk ggplot1" />
 <p class="caption">plot of chunk ggplot1</p>
 </div>
 <h2 id="equivalent-code">Equivalent code</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g1 &lt;-<span class="st"> </span><span class="kw">glm</span>(cases~date,aids,<span class="dt">family=</span><span class="kw">quasipoisson</span>(<span class="dt">link=</span><span class="st">&quot;log&quot;</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g1 &lt;-<span class="st"> </span><span class="kw">glm</span>(cases<span class="op">~</span>date,aids,<span class="dt">family=</span><span class="kw">quasipoisson</span>(<span class="dt">link=</span><span class="st">&quot;log&quot;</span>))
 <span class="kw">summary</span>(g1)</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -260,20 +260,20 @@ aids &lt;-<span class="st"> </span><span class="kw">transform</span>(aids, <span
 <p class="caption">plot of chunk acf1</p>
 </div>
 <h2 id="ggplot-check-out-quadratic-model">ggplot: check out quadratic model</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2 &lt;-<span class="st"> </span>gg1+<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">formula=</span>y~<span class="kw">poly</span>(x,<span class="dv">2</span>),
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2 &lt;-<span class="st"> </span>gg1<span class="op">+</span><span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;glm&quot;</span>,<span class="dt">formula=</span>y<span class="op">~</span><span class="kw">poly</span>(x,<span class="dv">2</span>),
             <span class="dt">method.args=</span><span class="kw">list</span>(<span class="dt">family=</span><span class="st">&quot;quasipoisson&quot;</span>)))</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot2-1.png" alt="plot of chunk ggplot2" />
 <p class="caption">plot of chunk ggplot2</p>
 </div>
 <h2 id="on-log-scale">on log scale</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2+<span class="kw">scale_y_log10</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(gg2<span class="op">+</span><span class="kw">scale_y_log10</span>())</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot3-1.png" alt="plot of chunk ggplot3" />
 <p class="caption">plot of chunk ggplot3</p>
 </div>
 <h2 id="improved-model">improved model</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g2 &lt;-<span class="st"> </span><span class="kw">update</span>(g1,.~<span class="kw">poly</span>(date,<span class="dv">2</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">g2 &lt;-<span class="st"> </span><span class="kw">update</span>(g1,.<span class="op">~</span><span class="kw">poly</span>(date,<span class="dv">2</span>))
 <span class="kw">summary</span>(g2)</code></pre></div>
 <pre><code>## 
 ## Call:

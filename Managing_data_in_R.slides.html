@@ -53,6 +53,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -87,9 +91,9 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Intro</h2></hgroup><article  id="intro">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Intro</h2></hgroup><article  id="intro">
 
-</article></slide><slide class=''><hgroup><h2>Goals</h2></hgroup><article  id="goals">
+</article></slide><slide class=""><hgroup><h2>Goals</h2></hgroup><article  id="goals">
 
 <p>You should be able to</p>
 
@@ -103,13 +107,13 @@
 <li>examine the data visually, numerically, textually, etc.</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Representations</h2></hgroup><article  id="representations">
+</article></slide><slide class=""><hgroup><h2>Representations</h2></hgroup><article  id="representations">
 
 <p>Numeric and character types are fairly straightforward, and you rarely have to worry about when and whether R represents things as integers or <em>floating point</em>. <em>Very occasionally</em> you will need to know that R is limited in its capacity to represent numbers of extremely large or small magnitude, and that floating-point computations are always approximate.</p>
 
 <p>You do need to know about <strong>factors</strong>, and to be aware when your variables are being treated as such.</p>
 
-</article></slide><slide class=''><hgroup><h2>Missing values</h2></hgroup><article  id="missing-values">
+</article></slide><slide class=""><hgroup><h2>Missing values</h2></hgroup><article  id="missing-values">
 
 <p>When you input data, you need to be aware of <code>NA</code> (&quot;not available&quot;). Your read function has an option called <code>na.strings</code> which you can use to communicate between R and your CSV files, for example. You need to know that</p>
 
@@ -118,7 +122,7 @@
 <li>use <code>is.na()</code> to test for <code>NA</code> values, <code>na.omit()</code> to drop them, and the optional <code>na.rm</code> argument in some functions (<code>mean</code>, <code>sum</code>, <code>median</code> &#8230;)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Changing representations</h2></hgroup><article  id="changing-representations">
+</article></slide><slide class=""><hgroup><h2>Changing representations</h2></hgroup><article  id="changing-representations">
 
 <p>R has a big suite of functions for creating, testing and changing representations. These have names like <code>factor()</code>, <code>as.numeric()</code> and <code>is.character()</code>.</p>
 
@@ -129,7 +133,7 @@
 <p>This system has advantages:</p>
 
 <ul>
-<li>You can put the levels in an appropriate order (R also has &quot;ordered&quot; levels, which assume this order has meaning); these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
+<li>You can put the levels in an appropriate order; these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
 <li>You can specify the <em>contrasts</em> that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)</li>
 </ul>
 
@@ -139,14 +143,14 @@
 <li>It is potentially confusing
 
 <ul>
-<li><code>as.numeric(f)</code> does not do the same thing as <code>as.numeric(as.character(f))</code></li>
+<li><code>as.numeric(f)</code> is not the same as <code>as.numeric(as.character(f))</code></li>
 </ul></li>
 <li>Similar variables can have different sets of levels</li>
 </ul>
 
-<p>There has been <a href='https://stat.ethz.ch/pipermail/r-help//2012-August/321913.html' title=''>much discussion</a> of the pros and cons of factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R&#39;s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data. The <a href='http://tidyverse.org/' title=''>tidyverse</a> (more later on this) abandons automatic conversion as well.</p>
+<p>As a general rule, convert variables to factors <em>at the last possible time</em>, when you have already fixed typos; combined different data sets; etc.. The tidyverse functions <code>readr::read_csv()</code>, <code>readr::read_table()</code>, <code>readxl::read_xlsx()</code> will <strong>not</strong> automatically convert strings to factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R&#39;s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data.</p>
 
-</article></slide><slide class=''><hgroup><h2>Examination</h2></hgroup><article  id="examination">
+</article></slide><slide class=""><hgroup><h2>Examination</h2></hgroup><article  id="examination">
 
 <p>You should think creatively, and early on, about how to check your data. Is it internally consistent? Are there extreme outliers? Are there typos? Are there certain values that really mean something else?</p>
 
@@ -167,13 +171,13 @@
 
 <p>What R functions do you know that are useful for examination? What are your strategies?</p>
 
-</article></slide><slide class=''><hgroup><h2>Manipulation</h2></hgroup><article  id="manipulation">
+</article></slide><slide class=""><hgroup><h2>Manipulation</h2></hgroup><article  id="manipulation">
 
 <p>Even once your data are clean, there can still be a lot of work getting it into a format you want to use. &quot;Data manipulation&quot;, &quot;munging&quot;, or &quot;wrangling&quot; are the terms covering this activity. The RStudio folks have a useful <a href='http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf' title=''>cheat sheet</a>.</p>
 
 <p>This is a very, very hard, very general problem; everyone&#39;s data problems and requirements are slightly different. But there are recurring themes.</p>
 
-</article></slide><slide class=''><hgroup><h2>Specialized data</h2></hgroup><article  id="specialized-data">
+</article></slide><slide class=""><hgroup><h2>Specialized data</h2></hgroup><article  id="specialized-data">
 
 <p>Some data are in specialized formats, and often already cleaned. We will mention only in passing:</p>
 
@@ -183,7 +187,7 @@
 <li>maps, spatial data</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Tidy(ing) data</h2></hgroup><article  id="tidying-data">
+</article></slide><slide class=""><hgroup><h2>Tidy(ing) data</h2></hgroup><article  id="tidying-data">
 
 <p>Hadley Wickham has defined a concept of <a href='http://www.jstatsoft.org/v59/i10/paper' title=''>tidy data</a>, and has recently introduced the <code>tidyr</code> package.</p>
 
@@ -197,36 +201,37 @@
 
 <h3>Tools</h3>
 
-<h4>base R</h4>
-
-<ul>
-<li><code>reshape</code>: wide-to-long and vice versa</li>
-<li><code>merge</code>: join data frames</li>
-<li><code>ave</code>: compute averages by group</li>
-<li><code>subset</code>, <code>[</code>-indexing: select obs and vars</li>
-<li><code>transform</code>: modify variables and create new ones</li>
-<li><code>aggregate</code>: split-apply-summarize</li>
-<li><code>split</code>, <code>lapply</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
-<li><code>sort</code></li>
-</ul>
-
 <h4>The tidyverse</h4>
 
 <ul>
-<li><code>tidyr</code> package: <code>gather</code>, <code>spread</code></li>
+<li><code>tidyr</code> package (reshaping): <code>gather()</code>, <code>spread()</code></li>
 <li><code>dplyr</code> package:
 
 <ul>
-<li><code>mutate</code></li>
-<li><code>select</code></li>
-<li><code>filter</code></li>
-<li><code>group_by</code></li>
-<li><code>summarise</code></li>
-<li><code>arrange</code></li>
+<li><code>mutate()</code></li>
+<li><code>select()</code></li>
+<li><code>filter()</code></li>
+<li><code>group_by()</code></li>
+<li><code>summarise()</code></li>
+<li><code>arrange()</code></li>
+<li><code>*_join()</code></li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Manipulation</h2></hgroup><article  id="manipulation-1">
+<h4>base R</h4>
+
+<ul>
+<li><code>reshape()</code>: wide-to-long and vice versa</li>
+<li><code>merge()</code>: join data frames</li>
+<li><code>ave()</code>: compute averages by group</li>
+<li><code>subset()</code>, <code>[</code>-indexing: select obs and vars</li>
+<li><code>transform()</code>: modify variables and create new ones</li>
+<li><code>aggregate()</code>: split-apply-summarize</li>
+<li><code>split()</code>, <code>lapply()</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
+<li><code>sort()</code></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Manipulation</h2></hgroup><article  id="manipulation-1">
 
 <ul>
 <li><a href='CA_homicide.html' title=''>Canadian homicide rate example</a>
@@ -247,7 +252,7 @@
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
