@@ -181,6 +181,7 @@ gh-pages/figure:
 Ignore += figure
 figure:
 	$(mkdir)
+	cd $@ && touch null
 
 ## Update the _local copy_ of the site (open to open the main page as well)
 push_pages:
