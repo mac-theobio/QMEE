@@ -183,7 +183,9 @@ figure:
 	$(mkdir)
 
 ## Update the _local copy_ of the site (open to open the main page as well)
-push_pages: gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
+push_pages:
+	cd gh-pages && make pull
+	$(MAKE) gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
 	-rsync figure/* gh-pages/figure
 
 open_pages: 
