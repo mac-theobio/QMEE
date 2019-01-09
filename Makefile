@@ -42,7 +42,7 @@ gh-pages/Introduction_to_R.html: Introduction_to_R.md
 
 ## Makefile: gh-pages
 
-## clonedirs += gh-pages
+clonedirs += gh-pages
 gh-pages:
 	$(MAKE) $@.branchdir
 
