@@ -1,14 +1,13 @@
 # QMEE
 # https://mac-theobio.github.io/QMEE/index.html
 
-### Making slides locally now 
-### Rethink pages paradigm for next time!
-
 ### Hooks for the editor to set the default target
 current: target
 -include target.mk
 
-push_pages: 
+## push_pages: 
+## open_pages: 
+## push_site
 
 ##################################################################
 
@@ -55,12 +54,10 @@ gh-pages:
 Sources += $(wildcard *.Rmd *.rmd)
 Sources += $(wildcard *.csv)
 
-intro_Lecture_notes.md: intro_Lecture_notes.rmd
 ### md for _made_ markdown; not to be repo-ed
 %.md: %.rmd
 	echo 'knitr::knit("$<")' | R --vanilla
 
-intro_Lecture_notes.io.html: intro_Lecture_notes.rmd
 %.io.html: %.rmd
 	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
 
@@ -88,56 +85,10 @@ gh-pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
 ######################################################################
 
-## Real WW transformation?
-
-Sources += bayes.bug
-
-Generalized_linear_models.rmd:
-Generalized_linear_models.autormd:
-
-%.autormd: %.mediawiki wwrmd.pl
-	$(PUSH)
-
-######################################################################
-
-.PRECIOUS: intro_%.mediawiki
-intro_%.mediawiki:
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=Introduction_to_R/$*&action=raw"
-
-intro_Lecture_notes.mediawiki:
-
-.PRECIOUS: %.mediawiki
-%.mediawiki: 
-	wget -O $@ "http://lalashan.mcmaster.ca/theobio/bio_708/index.php?title=$*&action=raw"
-
-## Converting
-%.mw: %.mediawiki
-	pandoc -f mediawiki -t markdown -o $@ $<
-
-##################################################################
-
-Sources += $(wildcard *.pl)
-Statistical_philosophy.new: Statistical_philosophy.mw mdtrim.pl
-%.new: %.mw mdtrim.pl
-	$(PUSH)
-	cp $@ $*.md
-
-%.tmk: %.md tmk.pl
-	$(PUSH)
-
-%.rmk:
-	$(RM) $*
-	$(MAKE) $*
-
-# Introduction_to_R.md: Introduction_to_R.mw.md mdtrim.pl
-
-######################################################################
-
 ## Editing pages
+## It would be fun to figure out how to deal with the competing md streams
 
 Sources += $(wildcard *.md)
-gh-pages/index.html: index.md
-gh-pages/Importing_data.html: Importing_data.md
 
 ######################################################################
 
@@ -182,6 +133,8 @@ Ignore += figure
 figure:
 	$(mkdir)
 
+######################################################################
+
 ## Update the _local copy_ of the site (open to open the main page as well)
 push_pages: gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
 	-rsync figure/* gh-pages/figure
@@ -205,6 +158,5 @@ push_all:
 
 -include $(ms)/git.mk
 -include $(ms)/visual.mk
--include $(ms)/linkdirs.mk
 
 # -include $(ms)/wrapR.mk
