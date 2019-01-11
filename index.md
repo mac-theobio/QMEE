@@ -34,6 +34,9 @@ COMMENT -->
 * The course meets in LSB-213A:
 	*  Mon 10:30-11:20
 	*  Wed 15:30-17:20 (two hours, bring coffee)
+<!-- COMMENT
+-   130A room code is 3214; add to private repos when we use the room.
+COMMENT -->
 
 -   [Course description](description.html)
 -   [Assignments](assignments.html)
