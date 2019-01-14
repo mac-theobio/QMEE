@@ -34,9 +34,6 @@ COMMENT -->
 * The course meets in LSB-213A:
 	*  Mon 10:30-11:20
 	*  Wed 15:30-17:20 (two hours, bring coffee)
-<!-- COMMENT
--   130A room code is 3214; add to private repos when we use the room.
-COMMENT -->
 
 -   [Course description](description.html)
 -   [Assignments](assignments.html)
@@ -53,13 +50,12 @@ _This schedule is subject to change_
 ### Foundations
 
 * [Introduction to R](Introduction_to_R.html) Week of 7 Jan
-* Data management Week of 14 Jan
+* [Data management](Data_management.html) Week of 14 Jan
 * Visualization Week of 21 Jan
 * Statistical philosophy Week of 28 Jan
 
 <!-- COMMENT
 -   [Introduction to R](Introduction_to_R.html) Week of 7 Jan
--   [Data management](Data_management.html) Week of 14 Jan
 -   [Visualization](Visualization.html) Week of 21 Jan
 -   [Statistical philosophy](Statistical_philosophy.html) Week of 28 Jan
 COMMENT -->

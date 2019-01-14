@@ -2,6 +2,20 @@
 
 The web site for Biology 708. The user-friendly view is [here](https://mac-theobio.github.io/QMEE/index.html).
 
+## Workflow
+
+* After you pull, say `make pull_pages` before you start work 
+* To update the __local__ copy of pages, say `make push_pages`
+	* or `make open_pages` to also open the local site
+* To update the github site, say `make push_site`
+	* or `make push_all` to simultaneously sync the working repo
+
+* You should be able to edit or create a `.md` or `.rmd` file and have it automatically reflected on the site after pushing
+
+Stuff below here is old 2019 Jan 14 (Mon)
+
+----------------------------------------------------------------------
+
 ##  Installing the backend
 
 You can view any of the files for the course on this web site as well as in the user-friendly view.

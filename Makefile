@@ -137,9 +137,11 @@ figure:
 
 ######################################################################
 
-## Update the _local copy_ of the site (open to open the main page as well)
-push_pages:
+pull_pages:
 	cd gh-pages && make pull
+
+## Update the _local copy_ of the site (open to open the main page as well)
+push_pages: 
 	$(MAKE) gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
 	-rsync figure/* gh-pages/figure
 
