@@ -97,7 +97,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">13:16 09 January 2019</p>
+            <p style="margin-top: 6px; margin-left: -2px;">12:18 14 January 2019</p>
           </hgroup>
   </slide>
 
@@ -134,6 +134,9 @@ popdat &lt;- read_csv(&quot;data/CA_popdat.csv&quot;, col_types=cols())</pre>
              rep(&quot;East&quot;,2),
              rep(&quot;West&quot;,4),
              rep(&quot;North&quot;,3))))</pre>
+
+<pre >## Warning: `data_frame()` is deprecated, use `tibble()`.
+## This warning is displayed once per session.</pre>
 
 <pre >## # A tibble: 6 x 2
 ##   Place                     Region  
@@ -210,7 +213,7 @@ sdat2 %&gt;%
 
 <pre >## # A tibble: 6 x 5
 ##   Place    year homicides Region Pop_2011
-##   &lt;fct&gt;   &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+##   &lt;fct&gt;   &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
 ## 1 Canada   2007      1.8  all    33476688
 ## 2 Canada   2008      1.83 all    33476688
 ## 3 Canada   2009      1.81 all    33476688
@@ -237,7 +240,7 @@ sdat2 %&gt;%
 ##  8  2008 East      1.27 
 ##  9  2008 North     9.53 
 ## 10  2008 West      3.29 
-## # ... with 15 more rows</pre>
+## # … with 15 more rows</pre>
 
 <p>What if I want the mean and standard error? R doesn&#39;t have a built-in &quot;standard error of the mean&quot; function so I define one on the fly:</p>
 
@@ -252,7 +255,7 @@ region_avgs &lt;- sdat3 %&gt;% group_by(year,Region) %&gt;%
 
 <pre >## # A tibble: 1 x 5
 ##   Place   year homicides Region Pop_2011
-##   &lt;fct&gt;  &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
+##   &lt;fct&gt;  &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
 ## 1 Canada  2007       1.8 all    33476688</pre>
 
 <p>Sometimes it&#39;s useful to be able to go from long to wide format. <code>spread()</code> is the opposite of <code>gather()</code>: we specify a column in the current data set to spread out into new columns (<code>key</code>) and a column to use as the vales for the table (<code>value</code>)</p>
