@@ -142,7 +142,7 @@ pull_pages:
 
 ## Update the _local copy_ of the site (open to open the main page as well)
 push_pages: 
-	$(MAKE) gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
+	$(MAKE) figure gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
 	-rsync figure/* gh-pages/figure
 
 open_pages: 

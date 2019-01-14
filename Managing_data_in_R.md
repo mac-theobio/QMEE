@@ -46,20 +46,20 @@ translation from this integer to its meaning.
 
 This system has advantages:
 
--   You can put the levels in an appropriate order (R also has "ordered" levels, which assume this order has meaning); these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models
--   You can specify the *contrasts* that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)
+* You can put the levels in an appropriate order; these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models
+* You can specify the *contrasts* that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)
 
 ... and disadvantages:
 
-- It is potentially confusing
-    - `as.numeric(f)` does not do the same thing as
+* It is potentially confusing
+    * `as.numeric(f)` is not the same as
         `as.numeric(as.character(f))`
-- Similar variables can have different sets of levels
+* Similar variables can have different sets of levels
 
-There has been [much discussion](https://stat.ethz.ch/pipermail/r-help//2012-August/321913.html) of the pros and cons of factors. You can set
+As a general rule, convert variables to factors *at the last possible time*, when you have already fixed typos; combined different data sets; etc.. The tidyverse functions `readr::read_csv()`, `readr::read_table()`, `readxl::read_xlsx()` will **not** automatically convert strings to factors. You can set
 `options(stringsAsFactors=FALSE)` to disable R's default behaviour of
 converting character data to factors when you use `read.table()` or
-`read.csv()` to read in data. The [tidyverse](http://tidyverse.org/) (more later on this) abandons automatic conversion as well.
+`read.csv()` to read in data. 
 
 ## Examination
 
@@ -69,10 +69,10 @@ typos? Are there certain values that really mean something else?
 
 An American Airlines memo about fuel reporting from the 1980s complained of multiple cases of:
 
--   Reported departure fuel greater than aircraft capacity
--   Reported departure fuel less than minimum required for trip
--   Reported arrival fuel greater than reported departure fuel
--   Difference between reported departure fuel and reported arrival fuel not within reasonable min/max bounds
+*  Reported departure fuel greater than aircraft capacity
+*  Reported departure fuel less than minimum required for trip
+*  Reported arrival fuel greater than reported departure fuel
+*  Difference between reported departure fuel and reported arrival fuel not within reasonable min/max bounds
 
 You should think about what you can test, and what you can fix if it's
 broken.
@@ -120,27 +120,29 @@ introduced the `tidyr` package.
 
 ### Tools
 
-#### base R
-
--   `reshape`: wide-to-long and vice versa
--   `merge`: join data frames
--   `ave`: compute averages by group
--   `subset`, `[`-indexing: select obs and vars
--   `transform`: modify variables and create new ones
--   `aggregate`: split-apply-summarize
--   `split`, `lapply`, `do.call(rbind())`: split-apply-combine
--   `sort`
-
 #### The tidyverse
 
--   `tidyr` package: `gather`, `spread`
+-   `tidyr` package (reshaping): `gather()`, `spread()`
 -   `dplyr` package:
-    -   `mutate`
-    -   `select`
-    -   `filter`
-    -   `group_by`
-    -   `summarise`
-    -   `arrange`
+    -   `mutate()`
+    -   `select()`
+    -   `filter()`
+    -   `group_by()`
+    -   `summarise()`
+    -   `arrange()`
+	-   `*_join()`
+
+#### base R
+
+-   `reshape()`: wide-to-long and vice versa
+-   `merge()`: join data frames
+-   `ave()`: compute averages by group
+-   `subset()`, `[`-indexing: select obs and vars
+-   `transform()`: modify variables and create new ones
+-   `aggregate()`: split-apply-summarize
+-   `split()`, `lapply()`, `do.call(rbind())`: split-apply-combine
+-   `sort()`
+
 
 Manipulation
 ------------
