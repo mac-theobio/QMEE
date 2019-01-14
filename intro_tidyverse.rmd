@@ -41,6 +41,5 @@ download.file(url="https://ndownloader.figshare.com/files/2292169",
 
 ## And now ...
 
-We will continue with the [Data Carpentry](https://datacarpentry.org/) [lesson for R in ecology](https://datacarpentry.org/R-ecology-lesson/):
+We will continue with the [Data Carpentry](https://datacarpentry.org/) [lesson for R in ecology](https://datacarpentry.org/R-ecology-lesson/)
 
-https://datacarpentry.org/R-ecology-lesson/03-dplyr.html
