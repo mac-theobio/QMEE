@@ -137,6 +137,8 @@ figure:
 
 ######################################################################
 
+pullup: pull_pages
+
 pull_pages:
 	cd gh-pages && make pull
 
