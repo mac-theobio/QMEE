@@ -35,7 +35,7 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 ## Current
 
-gh-pages/cleaning.slides.html: cleaning.rmd
+gh-pages/cleaning.html: cleaning.rmd
 gh-pages/Introduction_to_R.html: Introduction_to_R.md
 
 ##################################################################
@@ -137,6 +137,7 @@ figure:
 
 ######################################################################
 
+## Need to update vim stuff before this works with C-F3
 pullup: pull_pages
 
 pull_pages:

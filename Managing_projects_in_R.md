@@ -23,13 +23,11 @@ Advantages of pipelines
     -   Colleagues and collaborators can see exactly what you've done
     -   You can figure out exactly what you've done
 
-
--   [Reproducibility](http://reproducibleresearch.net/index.php/RR_links)
+-   [Reproducibility](http://reproducibleresearch.net/links/)
     -   It's easy for others to confirm your work
     -   Or modify or extend it
     -   [A scary story about why we should practice and push for
         reproducible research](http://www.economist.com/node/21528593)
-
 
 -   Flexibility
     -   You are less likely to be trapped by choices that you've made
