@@ -14,6 +14,7 @@ Resources
 =========
 
 -   [Managing data in R](Managing_data_in_R.html)
+	- [Lecture notes](cleaning.html); [slides](cleaning.slides.html)
 -   [Managing projects in R](Managing_projects_in_R.html)
 -   [More bits and pieces](More_bits_and_pieces.html)
 

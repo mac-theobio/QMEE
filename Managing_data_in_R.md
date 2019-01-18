@@ -148,6 +148,6 @@ Manipulation
 ------------
 
 -   [Canadian homicide rate example](CA_homicide.html)
-	- [Data files](data/)
+	- [Data files](data_index.html)
 -   Simple [Reshape examples](Reshape_examples.html)
 

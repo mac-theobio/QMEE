@@ -1,7 +1,7 @@
 ---
 title: Data management and cleaning
 author: Jonathan Dushoff
-date: MMED 2018
+date: QMEE 2019
 ---
 
 ## Goals
@@ -73,6 +73,7 @@ summary(parasiteTable)
 * Convenient for users
 
 * Some amount of redundancy is good (to catch errors)
+	* Some amount of redundancy is good (to catch errors)
 
 * Often a "wide" format (related information on the same row)
 
@@ -138,7 +139,8 @@ Break data into logical tables
 ## Tidy example
 
 ```{r echo=FALSE}
-load("~/gitroot/Workshops/disease_model_talks/live.RData")
+load("~/gitroot/disease_model_talks/live.RData")
+sim <- as.tibble(sim)
 ```
 
 ```{r}
@@ -150,13 +152,14 @@ print(sim)
 * Use long structure to mark things that are comparable, or have the same units
 
 ```{r}
-print(gat <- gather(sim[1:6, ], class, people, S:R))
+longsim <-  gather(sim, class, people, S:R)
+print(longsim)
 ```
 
 ## Spreading can make things more human-readable
 
 ```{r}
-print(spread(gat, class, people))
+print(spread(longsim, class, people))
 ```
 
 ## Flow
@@ -179,7 +182,7 @@ print(spread(gat, class, people))
 
 ```{r}
 villageTable <- (villageTable
-	%>% transform(village=as.factor(village))
+	%>% mutate(village=as.factor(village))
 )
 summary(villageTable)
 ```
@@ -362,8 +365,6 @@ print(ctab)
 
 * The more you use tools from the tidy family, the less this will happen
 
-
-
 ## Dictionary tables
 
 * You might want to summarize a factor variable into categories that you define
@@ -380,6 +381,7 @@ religTab <- (
 		, sep=":", strip.white=TRUE, header=FALSE
 		, stringsAsFactors=FALSE, na.strings=""
 	)
+	%>% as.tibble()
 	%>% transmute(category=V2, code=V1)
 )
 ```
