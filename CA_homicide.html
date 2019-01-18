@@ -60,7 +60,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Canadian homicide rates</h1>
 <h2 class="author">Ben Bolker</h2>
-<h3 class="date">12:18 14 January 2019</h3>
+<h3 class="date">15:26 16 January 2019</h3>
 </div>
 <h2 id="read-data-in-wide-format-and-play-with-it">Read data in wide format and play with it</h2>
 <p>Data are originally from <a href="http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm">here</a> (it might be possible to <em>scrape</em> this data set using the <code>XML</code> package …).</p>
@@ -86,8 +86,6 @@ popdat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span clas
              <span class="kw">rep</span>(<span class="st">&quot;East&quot;</span>,<span class="dv">2</span>),
              <span class="kw">rep</span>(<span class="st">&quot;West&quot;</span>,<span class="dv">4</span>),
              <span class="kw">rep</span>(<span class="st">&quot;North&quot;</span>,<span class="dv">3</span>))))</code></pre></div>
-<pre><code>## Warning: `data_frame()` is deprecated, use `tibble()`.
-## This warning is displayed once per session.</code></pre>
 <pre><code>## # A tibble: 6 x 2
 ##   Place                     Region  
 ##   &lt;chr&gt;                     &lt;chr&gt;   
@@ -145,7 +143,7 @@ sdat2 <span class="op">%&gt;%</span>
 )</code></pre></div>
 <pre><code>## # A tibble: 6 x 5
 ##   Place    year homicides Region Pop_2011
-##   &lt;fct&gt;   &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
+##   &lt;fct&gt;   &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
 ## 1 Canada   2007      1.8  all    33476688
 ## 2 Canada   2008      1.83 all    33476688
 ## 3 Canada   2009      1.81 all    33476688
@@ -169,7 +167,7 @@ sdat2 <span class="op">%&gt;%</span>
 ##  8  2008 East      1.27 
 ##  9  2008 North     9.53 
 ## 10  2008 West      3.29 
-## # … with 15 more rows</code></pre>
+## # ... with 15 more rows</code></pre>
 <p>What if I want the mean and standard error? R doesn’t have a built-in “standard error of the mean” function so I define one on the fly:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sem &lt;-<span class="st"> </span><span class="cf">function</span>(x) { <span class="kw">sd</span>(x)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(x)) }
 region_avgs &lt;-<span class="st"> </span>sdat3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(year,Region) <span class="op">%&gt;%</span>
@@ -179,7 +177,7 @@ region_avgs &lt;-<span class="st"> </span>sdat3 <span class="op">%&gt;%</span><s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2007</span> <span class="op">&amp;</span><span class="st"> </span>Region<span class="op">==</span><span class="st">&quot;all&quot;</span>)</code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   Place   year homicides Region Pop_2011
-##   &lt;fct&gt;  &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;int&gt;
+##   &lt;fct&gt;  &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
 ## 1 Canada  2007       1.8 all    33476688</code></pre>
 <p>Sometimes it’s useful to be able to go from long to wide format. <code>spread()</code> is the opposite of <code>gather()</code>: we specify a column in the current data set to spread out into new columns (<code>key</code>) and a column to use as the vales for the table (<code>value</code>)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region_avgs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>sem) <span class="op">%&gt;%</span>

@@ -53,6 +53,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -87,7 +91,7 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Pipelines</h2></hgroup><article  id="pipelines">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Pipelines</h2></hgroup><article  id="pipelines">
 
 <p>One of the main concepts of this course is <strong>pipelines</strong>. This means that the various steps of your project are all carefully recorded and systematized. The basic idea is that you should be able to delete any results of computer calculations at any time, and then quickly re-do it.</p>
 
@@ -101,7 +105,7 @@
 
 <p>&#8230; and nothing else</p>
 
-</article></slide><slide class=''><hgroup><h2>Advantages of pipelines</h2></hgroup><article  id="advantages-of-pipelines">
+</article></slide><slide class=""><hgroup><h2>Advantages of pipelines</h2></hgroup><article  id="advantages-of-pipelines">
 
 <ul>
 <li>Clarity
@@ -110,7 +114,7 @@
 <li>Colleagues and collaborators can see exactly what you&#39;ve done</li>
 <li>You can figure out exactly what you&#39;ve done</li>
 </ul></li>
-<li><a href='http://reproducibleresearch.net/index.php/RR_links' title=''>Reproducibility</a>
+<li><a href='http://reproducibleresearch.net/links/' title=''>Reproducibility</a>
 
 <ul>
 <li>It&#39;s easy for others to confirm your work</li>
@@ -124,7 +128,7 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Automation</h2></hgroup><article  id="automation">
+</article></slide><slide class=""><hgroup><h2>Automation</h2></hgroup><article  id="automation">
 
 <p>A corollary of the flexibility idea is that you should <em>automate</em> whenever possible. Cutting and pasting, or editing by hand, is not only tedious, error-prone and hard to replicate, it also traps you into depending on certain data sets. <strong>DRY</strong> (&quot;don&#39;t repeat yourself&quot;) is a programming maxim.</p>
 
@@ -140,9 +144,9 @@
 </ul></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>R tools for managing projects</h2></hgroup><article  id="r-tools-for-managing-projects">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>R tools for managing projects</h2></hgroup><article  id="r-tools-for-managing-projects">
 
-</article></slide><slide class=''><hgroup><h2>Spreadsheets</h2></hgroup><article  id="spreadsheets">
+</article></slide><slide class=""><hgroup><h2>Spreadsheets</h2></hgroup><article  id="spreadsheets">
 
 <p>R can read and write in spreadsheet form. Usually the best way to do this is with <code>read.csv</code> and <code>write.csv</code>. A good model for working in R is to read in raw data from spreadsheets and manipulate it in R.</p>
 
@@ -166,7 +170,7 @@
 <li>Another option is to force these colleagues to learn R</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Metadata</h2></hgroup><article  id="metadata">
+</article></slide><slide class=""><hgroup><h2>Metadata</h2></hgroup><article  id="metadata">
 
 <ul>
 <li>Data about the data</li>
@@ -176,7 +180,7 @@
 <li>Discuss &#8230;</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Data bases</h2></hgroup><article  id="data-bases">
+</article></slide><slide class=""><hgroup><h2>Data bases</h2></hgroup><article  id="data-bases">
 
 <p>Large, or evolving data sets may need to use database tools. As of 2015,</p>
 
@@ -188,7 +192,7 @@
 
 <p><em>This is a possible advanced topic</em></p>
 
-</article></slide><slide class=''><hgroup><h2>R</h2></hgroup><article  id="r">
+</article></slide><slide class=""><hgroup><h2>R</h2></hgroup><article  id="r">
 
 <p>If you are following the pipeline philosophy, it will be useful to make scripts that do discrete tasks, and depend on each others&#39; outputs.</p>
 
@@ -196,7 +200,7 @@
 
 <p><em>How should you get more information about these commands?</em></p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Co-ordination tools</h2></hgroup><article  id="co-ordination-tools">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Co-ordination tools</h2></hgroup><article  id="co-ordination-tools">
 
 <p>You should try to have a pipeline-driven project where as many steps as possible are clearly documented and easily replicable.</p>
 
@@ -234,7 +238,7 @@
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
