@@ -45,6 +45,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -60,15 +61,65 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Data Visualization in R</h1>
 <h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
-<h3 class="date">18:25 04 March 2017</h3>
+<h3 class="date">10:19 21 January 2019</h3>
 </div>
-<h1 id="ideas">Ideas</h1>
-<hr />
+<h1 id="goalscontexts-of-data-visualization">Goals/contexts of data visualization</h1>
+<h2 id="exploration">Exploration</h2>
 <ul>
-<li>Exploratory vs. diagnostic vs. presentation</li>
-<li><a href="http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555">Cleveland hierarchy</a>: position, length, angle, area, volume, colour</li>
+<li>find patterns (&amp; problems) in data, explore hypotheses</li>
+<li><em>nonparametric</em>/<em>robust</em> approaches: impose as few assumptions as possible
+<ul>
+<li>histograms for distributions</li>
+<li>boxplots (median/IQR) instead of mean/std dev for grouped data</li>
+<li>loess/GAM instead of linear/polynomial regression for continous data</li>
+</ul></li>
+<li>need for <em>speed</em>: quick and dirty</li>
+<li>canned routines for standard tasks, flexibility for non-standard tasks</li>
+<li>manipulate to visualize: summarize on the fly</li>
+</ul>
+<p><img src="pix/hadley_cycle.jpg" /> <a href="https://twitter.com/hadleywickham/status/784780387180425217">HW on Twitter</a></p>
+<h2 id="diagnostic-plots">diagnostic plots</h2>
+<ul>
+<li>determine fitting problems, evaluate model assumptions</li>
+<li>badness of fit, heteroscedasticity, non-Normality</li>
+<li>identify outliers</li>
+<li>looking for <strong>absence</strong> of patterns in residuals</li>
+<li>e.g. scale-location plot, Q-Q plot; <code>plot.lm</code></li>
+<li>plot methods: generic (e.g. residuals vs fitted) vs specific (e.g. residuals vs predictors)</li>
+<li>predictions (intuitive) vs residuals (amplifies/zooms in on discrepancies)</li>
+<li>evaluating neglected features (e.g. spatial, temporal autocorrelation):<br />
+pictures easier than model</li>
+<li>code contrasts for visual simplicity<br />
+(e.g. deviations from linearity: Q-Q plots)</li>
+</ul>
+<h2 id="inferential">inferential</h2>
+<ul>
+<li>coefficient plots: replacement for tables <span class="citation">[@gelman_lets_2002]</span>; <code>dotwhisker::dwplot</code></li>
+<li>also: tests of inference <span class="citation">@wickham_graphical_2010</span></li>
+</ul>
+<h2 id="expository-data-viz">expository: data-viz</h2>
+<ul>
+<li>should analyses match graphs?
+<ul>
+<li>“Let the data speak for themselves” vs “Tell a story”</li>
+</ul></li>
+<li>display data (e.g. boxplots, standard deviations) or inferences from data (confidence intervals)</li>
+<li><p>superimposing model fits (<code>geom_smooth</code>)</p></li>
+<li>tell an accurate story</li>
+<li>high information density</li>
+<li><p>Tufte, Cleveland</p></li>
+</ul>
+<h2 id="cleveland-hierarchy">Cleveland hierarchy</h2>
+<ul>
+<li><a href="http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555">Cleveland hierarchy</a>: position, length, angle, area, volume, colour: also see <span class="citation">@rauser_how_2016</span> <img src="pix/data_vis_1.png" alt="cleveland" /></li>
+</ul>
+<h2 id="aesthetics">Aesthetics</h2>
+<ul>
 <li><a href="http://en.wikipedia.org/wiki/Edward_tufte">Edward Tufte</a>: chartjunk, data- and non-data-ink, small multiples, “information at the point of need”/direct labeling, …</li>
-<li>graphics nazis: <a href="http://emdbolker.wikidot.com/blog:dynamite">dynamite plots</a>, <a href="http://www.qualia.hr/pie-chart-controversy/">pie charts</a>, <a href="http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf">dual-axes plots</a> …</li>
+<li>graphics fascists: <a href="http://emdbolker.wikidot.com/blog:dynamite">dynamite plots</a>, <a href="http://wnnnww.qualia.hr/pie-chart-controversy/">pie charts</a>, <a href="http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf">dual-axes plots</a> …</li>
+</ul>
+<h2 id="other-ideas">other ideas</h2>
+<ul>
 <li>Extending the pipeline: R vs <a href="http://glx.sourceforge.net/">GLE</a> vs. <a href="https://d3js.org/">D3.js</a> vs. <a href="https://plot.ly/">plot.ly</a> vs. …</li>
 <li>Telling a story vs. letting the data speak</li>
 <li>Showing the data vs. representing the statistical model accurately</li>
@@ -91,7 +142,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="lattice-graphics">Lattice graphics</h2>
 <ul>
 <li>alternative, higher-level graphing interface</li>
-<li><code>xyplot</code> (with <code>type=</code> one or more of [<code>&quot;p&quot;</code>, <code>&quot;l&quot;</code>, <code>&quot;r&quot;</code>,<code>&quot;smooth&quot;</code>, <code>&quot;a&quot;</code> …]), <code>bwplot</code></li>
+<li><code>xyplot</code> (with <code>type=</code> one or more of <code>&quot;p&quot;</code>, <code>&quot;l&quot;</code>, <code>&quot;r&quot;</code>,<code>&quot;smooth&quot;</code>, <code>&quot;a&quot;</code> …), <code>bwplot</code></li>
 <li>Disadvantages: tricky to customize</li>
 <li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
 </ul>
@@ -122,9 +173,32 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>next (categorical) predictors as facets</li>
 </ul></li>
 </ul>
+<p><strong>Data presentation scales with data size</strong></p>
+<ul>
+<li><strong>small</strong> show all points, possibly dodged/jittered, with some summary statistics: dotplot, beeswarm. Simple trends (linear/GLM)</li>
+<li><strong>medium</strong> boxplots, loess, histograms, GAM (or linear regression)</li>
+<li><strong>large</strong> modern nonparametrics: violin plots, hexbin plots, kernel densities: computational burden, and display overlapping problems, relevant</li>
+<li>combinations or overlays where appropriate (beanplot)</li>
+</ul>
+<h2 id="rules-of-thumb">Rules of thumb</h2>
+<ul>
+<li>what goes where? Based on Cleveland hierarchy
+<ul>
+<li>(Continuous) response on the <span class="math inline">\(y\)</span>-axis, most salient (continuous) predictor on the <span class="math inline">\(x\)</span>-axis</li>
+<li>Most salient comparisons within the same subplot (distinguished by color/shape), and nearby within the subplot when grouping bars/points</li>
+<li>Facet rows &gt; facet columns</li>
+</ul></li>
+<li>flip axes to display labels better (<code>coord_flip()</code>, <code>ggstance()</code> package)</li>
+<li>Use transparency to include important but potentially distracting detail</li>
+<li>Do category levels need to be <em>identified</em> or just <em>distinguished</em>?</li>
+<li>Order categorical variables meaningfully (“What’s wrong with Alabama?”): <code>forcats::fct_reorder()</code>, <code>forcats::fct_infreq()</code></li>
+<li>Choose <em>population variation</em> (standard deviations, boxplots) vs. <em>estimate variation</em> (standard errors, mean <span class="math inline">\(\pm\)</span> 2 SE, boxplot notches)</li>
+<li>Choose colors carefully (<code>RColorBrewer</code>/<a href="colorbrewer2.org/">ColorBrewer</a>, <a href="http://tools.medialab.sciences-po.fr/iwanthue/">IWantHue</a>): respect dichromats and B&amp;W printouts</li>
+<li>visual design (tweaking) vs. reproducibility (e.g. <code>ggrepel</code>, <code>directlabels</code> packages)</li>
+</ul>
 <h2 id="challenges">challenges:</h2>
 <ul>
-<li>more than one continuous predictor (can discretize continuous predictors, but loses information)</li>
+<li>multiple continuous predictors</li>
 <li>multivariate responses</li>
 <li>high-dimensional data generally</li>
 <li>factors with lots of (unordered) levels</li>
