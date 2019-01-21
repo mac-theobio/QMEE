@@ -60,7 +60,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Canadian homicide rates</h1>
 <h2 class="author">Ben Bolker</h2>
-<h3 class="date">13:16 09 January 2019</h3>
+<h3 class="date">15:26 16 January 2019</h3>
 </div>
 <h2 id="read-data-in-wide-format-and-play-with-it">Read data in wide format and play with it</h2>
 <p>Data are originally from <a href="http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm">here</a> (it might be possible to <em>scrape</em> this data set using the <code>XML</code> package …).</p>
@@ -81,7 +81,7 @@ popdat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span clas
 ## 5 New Brunswick               1.07   0.4    1.6    1.2    1.06
 ## 6 Quebec                      1.17   1.19   1.12   1.06   1.32</code></pre>
 <p>What if we want combine other information?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(rdat &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">Place=</span>dat$Place,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(rdat &lt;-<span class="st"> </span><span class="kw">data_frame</span>(<span class="dt">Place=</span>dat<span class="op">$</span>Place,
       <span class="dt">Region=</span><span class="kw">c</span>(<span class="st">&quot;all&quot;</span>,<span class="kw">rep</span>(<span class="st">&quot;Atlantic&quot;</span>,<span class="dv">4</span>),
              <span class="kw">rep</span>(<span class="st">&quot;East&quot;</span>,<span class="dv">2</span>),
              <span class="kw">rep</span>(<span class="st">&quot;West&quot;</span>,<span class="dv">4</span>),
@@ -97,16 +97,16 @@ popdat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span clas
 ## 6 Quebec                    East</code></pre>
 <p>Let’s start by converting the data to long form:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat &lt;-<span class="st"> </span>(dat
-    %&gt;%<span class="st"> </span><span class="kw">gather</span>(year,homicides,-Place,<span class="dt">convert=</span><span class="ot">TRUE</span>)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">gather</span>(year,homicides,<span class="op">-</span>Place,<span class="dt">convert=</span><span class="ot">TRUE</span>)
 )</code></pre></div>
 <p>(we use <code>convert=TRUE</code> to convert the years back to numeric values)</p>
 <p>Now combine all three data sets (<code>full_join</code> will automatically match all columns with identical names across the data sets, but it’s better practice to specify the matching columns explicitly).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 &lt;-<span class="st"> </span>sdat %&gt;%
-<span class="st">    </span><span class="kw">full_join</span>(rdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 &lt;-<span class="st"> </span>sdat <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">full_join</span>(rdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">full_join</span>(popdat,<span class="dt">by=</span><span class="st">&quot;Place&quot;</span>)</code></pre></div>
 <p>If we just used the original data set (without the added stuff), it’s fairly easy to get summary statistics by dropping the first row (so that we have a data frame that is all numeric) and computing means of rows and columns:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dmat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(dat[,-<span class="dv">1</span>])
-<span class="kw">rownames</span>(dmat) &lt;-<span class="st"> </span>dat$Place
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dmat &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(dat[,<span class="op">-</span><span class="dv">1</span>])
+<span class="kw">rownames</span>(dmat) &lt;-<span class="st"> </span>dat<span class="op">$</span>Place
 <span class="kw">rowMeans</span>(dmat)  ## means by place</code></pre></div>
 <pre><code>##                    Canada Newfoundland and Labrador 
 ##                     1.758                     0.668 
@@ -127,19 +127,19 @@ popdat &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span clas
 ## 3.812143 3.587857 3.588571 3.040000 3.542857</code></pre>
 <p>(Don’t forget the <code>na.rm</code> argument, unnecessary in this case, that can be provided to most R summary functions to get them to ignore <code>NA</code> values.)</p>
 <p>If we want summary statistics from the full data set we can do</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 %&gt;%
-<span class="st">    </span><span class="kw">group_by</span>(Place) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat2 <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(Place) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))
-sdat2 %&gt;%
-<span class="st">    </span><span class="kw">group_by</span>(year) %&gt;%
+sdat2 <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(year) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
 <p>One more useful technique is reordering factors (representing categorical variables) in a sensible way. Right now the ‘places’ (provinces, territories, etc.) are ordered alphabetically, R’s default.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 &lt;-<span class="st"> </span>sdat2 %&gt;%
-<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(<span class="kw">factor</span>(Place),Pop_2011))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 &lt;-<span class="st"> </span>sdat2 <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(<span class="kw">factor</span>(Place),Pop_<span class="dv">2011</span>))</code></pre></div>
 <p>This will be useful in the future, but is different from the <strong>order the data frame is stored in</strong>, which we can modify via <code>arrange()</code> (use <code>desc(Pop_2011)</code> to arrange in descending order of population):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(sdat3
-    %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Pop_2011))
-    %&gt;%<span class="st"> </span><span class="kw">head</span>()
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(Pop_<span class="dv">2011</span>))
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>()
 )</code></pre></div>
 <pre><code>## # A tibble: 6 x 5
 ##   Place    year homicides Region Pop_2011
@@ -151,7 +151,7 @@ sdat2 %&gt;%
 ## 5 Canada   2011      1.73 all    33476688
 ## 6 Ontario  2007      1.58 East   12851821</code></pre>
 <p>I can also summarise by combinations of variables:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">group_by</span>(year,Region) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(year,Region) <span class="op">%&gt;%</span>
 <span class="st">      </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides))</code></pre></div>
 <pre><code>## # A tibble: 25 x 3
 ## # Groups:   year [?]
@@ -169,18 +169,18 @@ sdat2 %&gt;%
 ## 10  2008 West      3.29 
 ## # ... with 15 more rows</code></pre>
 <p>What if I want the mean and standard error? R doesn’t have a built-in “standard error of the mean” function so I define one on the fly:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sem &lt;-<span class="st"> </span>function(x) { <span class="kw">sd</span>(x)/<span class="kw">sqrt</span>(<span class="kw">length</span>(x)) }
-region_avgs &lt;-<span class="st"> </span>sdat3 %&gt;%<span class="st"> </span><span class="kw">group_by</span>(year,Region) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sem &lt;-<span class="st"> </span><span class="cf">function</span>(x) { <span class="kw">sd</span>(x)<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(x)) }
+region_avgs &lt;-<span class="st"> </span>sdat3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(year,Region) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(homicides,<span class="dt">na.rm=</span><span class="ot">TRUE</span>),
               <span class="dt">sem=</span><span class="kw">sem</span>(homicides))</code></pre></div>
 <p>What if I want to check the variables to see why they’re <code>NA</code>?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 %&gt;%<span class="st"> </span><span class="kw">filter</span>(year==<span class="dv">2007</span> &amp;<span class="st"> </span>Region==<span class="st">&quot;all&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sdat3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(year<span class="op">==</span><span class="dv">2007</span> <span class="op">&amp;</span><span class="st"> </span>Region<span class="op">==</span><span class="st">&quot;all&quot;</span>)</code></pre></div>
 <pre><code>## # A tibble: 1 x 5
 ##   Place   year homicides Region Pop_2011
 ##   &lt;fct&gt;  &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;
 ## 1 Canada  2007       1.8 all    33476688</code></pre>
 <p>Sometimes it’s useful to be able to go from long to wide format. <code>spread()</code> is the opposite of <code>gather()</code>: we specify a column in the current data set to spread out into new columns (<code>key</code>) and a column to use as the vales for the table (<code>value</code>)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region_avgs %&gt;%<span class="st"> </span><span class="kw">select</span>(-sem) %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">region_avgs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>sem) <span class="op">%&gt;%</span>
 <span class="st">    </span><span class="kw">spread</span>(<span class="dt">key=</span>Region,<span class="dt">value=</span>mean)</code></pre></div>
 <pre><code>## # A tibble: 5 x 6
 ## # Groups:   year [5]

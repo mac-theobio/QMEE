@@ -349,7 +349,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>Use long structure to mark things that are comparable, or have the same units</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">longsim &lt;-<span class="st">  </span><span class="kw">gather</span>(sim, class, people, S:R)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">longsim &lt;-<span class="st">  </span><span class="kw">gather</span>(sim, class, people, S<span class="op">:</span>R)
 <span class="kw">print</span>(longsim)</code></pre></div>
 <pre><code>## # A tibble: 3,003 x 3
 ##     time class  people
@@ -401,7 +401,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Check that numbers are numbers, dates are dates, etc.</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">villageTable &lt;-<span class="st"> </span>(villageTable
-    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">village=</span><span class="kw">as.factor</span>(village))
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">village=</span><span class="kw">as.factor</span>(village))
 )
 <span class="kw">summary</span>(villageTable)</code></pre></div>
 <pre><code>##      area              village        grid                fup        
@@ -433,8 +433,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Make lists of what occurs with what (and how many times)</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(villageTable
-    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(vname, vu)
-    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(vname, vu)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
 )</code></pre></div>
 <pre><code>## # A tibble: 180 x 3
 ## # Groups:   vname [?]
@@ -456,9 +456,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>The computer is your friend</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(villageTable
-    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(vname, vu)
-    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
-    %&gt;%<span class="st"> </span><span class="kw">filter</span>(count&gt;<span class="dv">1</span>)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(vname, vu)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(count<span class="op">&gt;</span><span class="dv">1</span>)
 )</code></pre></div>
 <pre><code>## # A tibble: 0 x 3
 ## # Groups:   vname [0]
@@ -468,9 +468,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>and you always want to check yourself</li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(villageTable
-    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(vname)
-    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
-    %&gt;%<span class="st"> </span><span class="kw">filter</span>(count&gt;<span class="dv">1</span>)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(vname)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count =</span> <span class="kw">n</span>())
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(count<span class="op">&gt;</span><span class="dv">1</span>)
 )</code></pre></div>
 <pre><code>## # A tibble: 2 x 2
 ##   vname      count
@@ -487,8 +487,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>This process leads to improved clarity, <strong>and improved cleaning</strong></p>
 <h2 id="parasite-table">Parasite table</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(parasiteTable
-    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id, village, compound)
-    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(id, village, compound)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
 )</code></pre></div>
 <pre><code>## # A tibble: 13,656 x 4
 ## # Groups:   id, village [?]
@@ -507,12 +507,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## # ... with 13,646 more rows</code></pre>
 <h2 id="parasite-table-1">Parasite table</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(parasiteTable
-    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id, village, compound)
-    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
-    %&gt;%<span class="st"> </span><span class="kw">group_by</span>(id)
-    %&gt;%<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
-    %&gt;%<span class="st"> </span><span class="kw">filter</span>(count&gt;<span class="dv">1</span>)
-    %&gt;%<span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(count))
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(id, village, compound)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(id)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarize</span>(<span class="dt">count=</span><span class="kw">n</span>())
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(count<span class="op">&gt;</span><span class="dv">1</span>)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(count))
 )</code></pre></div>
 <pre><code>## # A tibble: 756 x 2
 ##       id count
@@ -530,7 +530,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## # ... with 746 more rows</code></pre>
 <h2 id="explore-ranges">Explore ranges</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">ggplot</span>(villageTable, <span class="kw">aes</span>(<span class="dt">x=</span>population))
-    +<span class="st"> </span><span class="kw">geom_histogram</span>()
+    <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>()
 )</code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <div class="figure">
@@ -570,7 +570,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li><p>Not the count table (as I’m doing here)</p></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">patchTab &lt;-<span class="st"> </span>(ctab
-    %&gt;%<span class="st"> </span><span class="kw">left_join</span>(cortab)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(cortab)
 )</code></pre></div>
 <pre><code>## Joining, by = &quot;country&quot;</code></pre>
 <pre><code>## Warning: Column `country` joining factors with different levels, coercing
@@ -589,12 +589,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 4 Vietnam      Asia    16         &lt;NA&gt;</code></pre>
 <h2 id="na-logic-is-scary">NA logic is scary</h2>
 <p>NA means “Something I don’t know”. You don’t get the answers you expect if you compare things to NA:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Jonathan&quot;</span> ==<span class="st"> </span><span class="ot">NA</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Jonathan&quot;</span> <span class="op">==</span><span class="st"> </span><span class="ot">NA</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <h2 id="finish-the-patch-being-careful">Finish the patch, being careful</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctab &lt;-<span class="st"> </span>(patchTab
-    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(patchcountry), country, patchcountry))
-    %&gt;%<span class="st"> </span><span class="kw">select</span>(-patchcountry)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(patchcountry), country, patchcountry))
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>patchcountry)
 )
 <span class="kw">print</span>(ctab)</code></pre></div>
 <pre><code>##   country continent count
@@ -604,9 +604,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 4 Vietnam      Asia    16</code></pre>
 <h2 id="be-careful-er">Be careful-er</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctab &lt;-<span class="st"> </span>(patchTab
-    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(patchcountry), country, 
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">country=</span><span class="kw">ifelse</span>(<span class="kw">is.na</span>(patchcountry), country, 
         <span class="kw">as.character</span>(patchcountry)))
-    %&gt;%<span class="st"> </span><span class="kw">select</span>(-patchcountry)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>patchcountry)
 )
 <span class="kw">print</span>(ctab)</code></pre></div>
 <pre><code>##   country continent count
@@ -636,8 +636,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="making-dictionaries">Making dictionaries</h2>
 <p>Print out all the codes for a particular variable, and see what you think of them</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(religTab
-    %&gt;%<span class="st"> </span><span class="kw">select</span>(code)
-    %&gt;%<span class="st"> </span><span class="kw">distinct</span>()
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(code)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>()
 )</code></pre></div>
 <pre><code>## # A tibble: 62 x 1
 ##    code           
@@ -655,9 +655,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## # ... with 52 more rows</code></pre>
 <h2 id="coders-can-be-funny">Coders can be funny</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(religTab
-    %&gt;%<span class="st"> </span><span class="kw">select</span>(code)
-    %&gt;%<span class="st"> </span><span class="kw">distinct</span>()
-    %&gt;%<span class="st"> </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">&quot;^M&quot;</span>, code))
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(code)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>()
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">grepl</span>(<span class="st">&quot;^M&quot;</span>, code))
 )</code></pre></div>
 <pre><code>## # A tibble: 9 x 1
 ##   code      
@@ -696,8 +696,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## 3      Mafalda         Angler
 ## 4         Bill Roman catholic</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">patchTab &lt;-<span class="st"> </span>(churchTab
-    %&gt;%<span class="st"> </span><span class="kw">left_join</span>(religTab, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;religion&quot;</span>=<span class="st">&quot;code&quot;</span>))
-) %&gt;%<span class="st"> </span><span class="kw">print</span>()</code></pre></div>
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">left_join</span>(religTab, <span class="dt">by=</span><span class="kw">c</span>(<span class="st">&quot;religion&quot;</span>=<span class="st">&quot;code&quot;</span>))
+) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>()</code></pre></div>
 <pre><code>## Warning: Column `religion`/`code` joining factor and character vector,
 ## coercing into character vector</code></pre>
 <pre><code>##         person       religion          category
@@ -714,9 +714,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 id="dictionary-replacement">Dictionary replacement</h2>
 <p>But use different logic for replacement</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">catTab &lt;-<span class="st"> </span>(patchTab
-    %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">religion=</span>category)
-    %&gt;%<span class="st"> </span><span class="kw">select</span>(-category)
-) %&gt;%<span class="st"> </span><span class="kw">print</span>()</code></pre></div>
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">religion=</span>category)
+    <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>category)
+) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">print</span>()</code></pre></div>
 <pre><code>##         person          religion
 ## 1 Ntombikayise            Muslim
 ## 2    Gao Zhong         Christian
