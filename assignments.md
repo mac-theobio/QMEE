@@ -17,3 +17,24 @@ read.csv("eggplant_survey.csv")
 
 * Make sure that your script runs, from beginning to end, _without absolute path names_ (just in case one of us doesn't have a directory called `E://From Oshawa Computer/Research Files/My Thesis/Data for 708/` already available)
 * Put package names at the top, and use `library` instead of `require`, in case we don't have the packages you are using.
+
+## General principles gleaned from assignment review
+
+### don't
+
+- use spaces or other special characters (`&`, `#`, `$`) in file names (`_` and `.` are OK)
+- leave interactive commands like `View()`, `head()`, `str()` in your code [unless commented out]
+- leave `install.packages()` in your code [ditto]
+- use names of built-in R objects (especially `data`, but also: `sd`, `t`, `dt`, `df`, `I`, ...) for your own variables
+- include absolute path names
+- include `rm(list=ls())` (see [Jenny Bryan's blog post on this topic](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/)
+- load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)
+- use "extreme tidyverse"; e.g. `dd %>% pull(x) %>% mean()` instead of `mean(dd$x)`
+
+### do
+
+- use `count()` instead of `group_by(..)+summarize(count=n())`, *or* use base-R `table` [which also spreads the results]
+- rename bad variable names (long, containing spaces or special characters) up front (with `dplyr::rename()`)
+- use the `data=` argument whenever possible (e.g. `lm()`)
+- use the `*_if()`, `*_at()`, `*_all()` versions of tidyverse functions (esp. `mutate` and `summarise`) to transform multiple columns
+- use `stopifnot()` (or the `assertthat` package from the extended hadleyverse) to test conditions
