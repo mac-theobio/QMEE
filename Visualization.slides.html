@@ -53,6 +53,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -87,11 +91,11 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Intro</h2></hgroup><article  id="intro">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Intro</h2></hgroup><article  id="intro">
 
 <p>We will be talking about visualizing your data, with an emphasis on <code>ggplot2</code>, which is based on the Grammar of Graphics.</p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Goals</h2></hgroup><article  id="goals">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Goals</h2></hgroup><article  id="goals">
 
 <ul>
 <li>Participants will learn to think broadly about effective uses of visualization</li>
@@ -99,7 +103,7 @@
 <li>Participants will be introduced to <a href='http://ggplot2.org' title=''>ggplot2</a></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
 
 <ul>
 <li>Course material
@@ -114,9 +118,20 @@
 <li>Graphics design pioneer <a href='https://www.edwardtufte.com/tufte/' title=''>Edward Tufte</a></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Exercise</h2></hgroup><article  id="exercise">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Exercise</h2></hgroup><article  id="exercise">
 
-<p>Construct some (i.e., more than one) ggplots using your data. Explain what you are trying to show and some of the choices that you have made. You should put your code on GitHub in some form. Make sure that the code has no local commands (like <code>setwd()</code>) and just runs from beginning to end. You can test this by clearing your R workspace and running it from beginning to end.</p></article></slide>
+<ul>
+<li>Construct some (i.e., more than one) ggplots using your data. Discuss:
+
+<ul>
+<li>what you are trying to show</li>
+<li>some of the choices that you have made</li>
+<li>the basis for these choices (e.g., Cleveland hierarchy, proximity of comparisons, or other principles of graphical communication)</li>
+</ul></li>
+<li>See the <a href='assignments.html' title=''>assignment instructions</a></li>
+</ul>
+
+<p>You should put your code on GitHub in some form. Make sure that the code has no local commands (like <code>setwd()</code>) and just runs from beginning to end. You can test this by clearing your R workspace and running it from beginning to end.</p></article></slide>
 
 
   <slide class="backdrop"></slide>
@@ -128,7 +143,7 @@
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
