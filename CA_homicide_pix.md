@@ -1,6 +1,6 @@
 ---
 title: "Data Vis example: homicide data"
-date: "19:09 21 January 2019"
+date: "17:10 22 January 2019"
 ---
 
 Load data from previous computations (can be downloaded from [here](data/CA_homicide.RData)):
