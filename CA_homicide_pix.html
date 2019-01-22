@@ -68,22 +68,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## set up basic plot:
 p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class="kw">aes</span>(Year,Hom_rate,<span class="dt">colour=</span>Place))</code></pre></div>
 <p>Unlike base plots (which can only be saved/replayed through the RStudio interface), <code>ggplot</code> produces an R object which can then be printed (=displayed in a graphics window), or saved (or exported to a graphics file via <code>ggsave()</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1<span class="op">+</span><span class="kw">geom_line</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1+<span class="kw">geom_line</span>())</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot2-1.png" alt="plot of chunk ggplot2" />
 <p class="caption">plot of chunk ggplot2</p>
 </div>
 <p>We could add both lines and points:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1<span class="op">+</span><span class="kw">geom_line</span>() <span class="op">+</span><span class="kw">geom_point</span>())</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1+<span class="kw">geom_line</span>() +<span class="kw">geom_point</span>())</code></pre></div>
 <div class="figure">
 <img src="figure/ggplot3-1.png" alt="plot of chunk ggplot3" />
 <p class="caption">plot of chunk ggplot3</p>
 </div>
 <p>Might be better on a log scale, with a sensible y-axis label:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1L &lt;-<span class="st"> </span>(p1
-    <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()
-    <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>()
-    <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
+    +<span class="st"> </span><span class="kw">geom_line</span>()
+    +<span class="st"> </span><span class="kw">scale_y_log10</span>()
+    +<span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
 )
 <span class="kw">print</span>(p1L)</code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
@@ -94,9 +94,9 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class
 <p>Maybe we don’t care about time at all:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b1 &lt;-<span class="st"> </span>(<span class="kw">ggplot</span>(mdat,<span class="kw">aes</span>(<span class="dt">x=</span>Place,<span class="dt">y=</span>Hom_rate,
                        <span class="dt">colour=</span>Region))
-    <span class="op">+</span><span class="st"> </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.colour=</span><span class="ot">NULL</span>)  ## set outlier points to same colour as boxes
-    <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>()
-    <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
+    +<span class="st"> </span><span class="kw">geom_boxplot</span>(<span class="dt">outlier.colour=</span><span class="ot">NULL</span>)  ## set outlier points to same colour as boxes
+    +<span class="st"> </span><span class="kw">scale_y_log10</span>()
+    +<span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
 )
 <span class="kw">print</span>(b1)</code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
@@ -107,7 +107,7 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class
 </div>
 <p>The x-axis tick labels overlap enough to be unreadable (unless we resize the plot to be ridiculously long and narrow).</p>
 <p>We could rotate them 90 degrees to be vertical:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b1_vertlabels &lt;-<span class="st"> </span>b1<span class="op">+</span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">b1_vertlabels &lt;-<span class="st"> </span>b1+<span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>))
 <span class="kw">print</span>(b1_vertlabels)</code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <pre><code>## Warning: Removed 4 rows containing non-finite values (stat_boxplot).</code></pre>
@@ -118,30 +118,30 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class
 <p>In general if you want to tweak a <code>ggplot</code> plot, Google it or search the <a href="https://ggplot2.tidyverse.org/reference/theme.html">ggplot theme documentation</a> or the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot cheat sheet</a> for more information …</p>
 <p>Rotating the whole plot is less familiar, but arguably better. Here I’m also (1) changing the colour palette and (2) changing the order of the <code>Place</code> variable, using <code>%+%</code> to substitute a different set of data into an existing plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
-mdat_sort &lt;-<span class="st"> </span>mdat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(Place,Hom_rate))
+mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(Place,Hom_rate))
 <span class="kw">print</span>(b1
-      <span class="op">%+%</span><span class="st"> </span>mdat_sort  ## substitute sorted data
-      <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()      ## rotate entire plot
-      <span class="op">+</span><span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)          ## x-label redundant
-      <span class="op">+</span><span class="st"> </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>) ## change palette
+      %+%<span class="st"> </span>mdat_sort  ## substitute sorted data
+      +<span class="st"> </span><span class="kw">coord_flip</span>()      ## rotate entire plot
+      +<span class="st"> </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)          ## x-label redundant
+      +<span class="st"> </span><span class="kw">scale_colour_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Dark2&quot;</span>) ## change palette
       )</code></pre></div>
 <div class="figure">
 <img src="figure/coord_flip-1.png" alt="plot of chunk coord_flip" />
 <p class="caption">plot of chunk coord_flip</p>
 </div>
 <p>Maybe we want to make our line graph less busy:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L<span class="op">+</span><span class="kw">facet_wrap</span>(<span class="op">~</span>Region))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L+<span class="kw">facet_wrap</span>(~Region))</code></pre></div>
 <div class="figure">
 <img src="figure/facet_wrap-1.png" alt="plot of chunk facet_wrap" />
 <p class="caption">plot of chunk facet_wrap</p>
 </div>
 <p>We could also code population size by line width:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p2 &lt;-<span class="st"> </span>(<span class="kw">ggplot</span>(mdat,
-             <span class="kw">aes</span>(Year,Hom_rate,<span class="dt">colour=</span>Region,<span class="dt">size=</span><span class="kw">log</span>(Pop_<span class="dv">2011</span>),
+             <span class="kw">aes</span>(Year,Hom_rate,<span class="dt">colour=</span>Region,<span class="dt">size=</span><span class="kw">log</span>(Pop_2011),
                  <span class="dt">group=</span>Place))
-    <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)
-    <span class="op">+</span><span class="st"> </span><span class="kw">scale_y_log10</span>()
-    <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
+    +<span class="st"> </span><span class="kw">geom_line</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)
+    +<span class="st"> </span><span class="kw">scale_y_log10</span>()
+    +<span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
 )
 <span class="kw">print</span>(p2)</code></pre></div>
 <div class="figure">
@@ -151,9 +151,9 @@ mdat_sort &lt;-<span class="st"> </span>mdat <span class="op">%&gt;%</span><span
 <p>Using the <a href="http://directlabels.r-forge.r-project.org/">directlabels</a> package (also on <a href="https://github.com/tdhock/directlabels">GitHub</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(directlabels)
 (p1L
-    <span class="op">+</span><span class="st"> </span><span class="kw">expand_limits</span>(<span class="dt">x=</span><span class="dv">2012</span>)  ## add a little more space
-    <span class="op">+</span><span class="st"> </span><span class="kw">geom_dl</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Place),<span class="dt">method=</span><span class="st">&quot;last.bumpup&quot;</span>) 
-    <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>)  ## don&#39;t need the legend any more
+    +<span class="st"> </span><span class="kw">expand_limits</span>(<span class="dt">x=</span><span class="dv">2012</span>)  ## add a little more space
+    +<span class="st"> </span><span class="kw">geom_dl</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Place),<span class="dt">method=</span><span class="st">&quot;last.bumpup&quot;</span>) 
+    +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>)  ## don&#39;t need the legend any more
 )</code></pre></div>
 <div class="figure">
 <img src="figure/directlabels-1.png" alt="plot of chunk directlabels" />

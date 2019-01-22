@@ -54,6 +54,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -103,6 +107,31 @@
 <li><p>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don&#39;t have the packages you are using.</p></li>
 </ul>
 
+<slide class=""><hgroup><h2>General principles gleaned from assignment review</h2></hgroup><article  id="general-principles-gleaned-from-assignment-review">
+
+<h3>don&#39;t</h3>
+
+<ul>
+<li>use spaces or other special characters (<code>&amp;</code>, <code>#</code>, <code>$</code>) in file names (<code>_</code> and <code>.</code> are OK)</li>
+<li>leave interactive commands like <code>View()</code>, <code>head()</code>, <code>str()</code> in your code [unless commented out]</li>
+<li>leave <code>install.packages()</code> in your code [ditto]</li>
+<li>use names of built-in R objects (especially <code>data</code>, but also: <code>sd</code>, <code>t</code>, <code>dt</code>, <code>df</code>, <code>I</code>, &#8230;) for your own variables</li>
+<li>include absolute path names</li>
+<li>include <code>rm(list=ls())</code> (see <a href='https://www.tidyverse.org/articles/2017/12/workflow-vs-script/' title=''>Jenny Bryan&#39;s blog post on this topic</a></li>
+<li>load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)</li>
+<li>use &quot;extreme tidyverse&quot;; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
+</ul>
+
+<h3>do</h3>
+
+<ul>
+<li>use <code>count()</code> instead of <code>group_by(..)+summarize(count=n())</code>, <em>or</em> use base-R <code>table</code> [which also spreads the results]</li>
+<li>rename bad variable names (long, containing spaces or special characters) up front (with <code>dplyr::rename()</code>)</li>
+<li>use the <code>data=</code> argument whenever possible (e.g. <code>lm()</code>)</li>
+<li>use the <code>*_if()</code>, <code>*_at()</code>, <code>*_all()</code> versions of tidyverse functions (esp. <code>mutate</code> and <code>summarise</code>) to transform multiple columns</li>
+<li>use <code>stopifnot()</code> (or the <code>assertthat</code> package from the extended hadleyverse) to test conditions</li>
+</ul></article></slide>
+
 
   <slide class="backdrop"></slide>
 
@@ -113,7 +142,7 @@
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
