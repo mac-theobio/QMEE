@@ -26,8 +26,13 @@ Resources
 Exercise
 ========
 
-Construct some (i.e., more than one) ggplots using your data. Explain
-what you are trying to show and some of the choices that you have made.
+* Construct some (i.e., more than one) ggplots using your data. Discuss:
+	* what you are trying to show
+	* some of the choices that you have made
+	* the basis for these choices (e.g., Cleveland hierarchy, proximity of comparisons, or other principles of graphical communication) 
+
+* See the [assignment instructions](Assignments.html)
+
 You should put your code on GitHub in some form. Make sure that the
 code has no local commands (like `setwd()`) and just runs from beginning
 to end. You can test this by clearing your R workspace and running it
