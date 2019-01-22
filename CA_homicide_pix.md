@@ -1,9 +1,9 @@
 ---
 title: "Data Vis example: homicide data"
-date: "18:25 04 March 2017"
+date: "19:09 21 January 2019"
 ---
 
-Load data from previous computations:
+Load data from previous computations (can be downloaded from [here](data/CA_homicide.RData)):
 
 ```r
 load("data/CA_homicide.RData")
@@ -39,9 +39,10 @@ print(p1+geom_line() +geom_point())
 Might be better on a log scale, with a sensible y-axis label:
 
 ```r
-p1L <- (p1 + geom_line()+
-        scale_y_log10()+
-        labs(y="Homicides per 100,000 population")
+p1L <- (p1
+    + geom_line()
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
 )
 print(p1L)
 ```
@@ -56,9 +57,10 @@ Maybe we don't care about time at all:
 
 ```r
 b1 <- (ggplot(mdat,aes(x=Place,y=Hom_rate,
-                      colour=Region))+
-  geom_boxplot(outlier.colour=NULL)+  ## set outlier points to same colour
-  scale_y_log10()+labs(y="Homicides per 100,000 population")
+                       colour=Region))
+    + geom_boxplot(outlier.colour=NULL)  ## set outlier points to same colour as boxes
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
 )
 print(b1)
 ```
@@ -73,7 +75,9 @@ print(b1)
 
 ![plot of chunk boxplot](figure/boxplot-1.png)
 
-The labels are horrible.
+The x-axis tick labels overlap enough to be unreadable (unless we resize the
+plot to be ridiculously long and narrow).
+
 We could rotate them 90 degrees to be vertical:
 
 ```r
@@ -91,22 +95,24 @@ print(b1_vertlabels)
 
 ![plot of chunk vertlabels](figure/vertlabels-1.png)
 
+
 In general if you want to tweak a `ggplot` plot, Google it or
-search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
+search the [ggplot theme documentation](https://ggplot2.tidyverse.org/reference/theme.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
 
 Rotating the whole plot is less familiar, but arguably better.
 Here I'm also (1) changing the colour palette
 and (2) changing the order of the `Place` variable, using `%+%` to
-substitute a different set of data:
+substitute a different set of data into an existing plot:
 
 
 ```r
 library(dplyr)
 mdat_sort <- mdat %>% mutate(Place=reorder(Place,Hom_rate))
-print(b1 %+% mdat_sort + ## substitute sorted data
-      coord_flip()+      ## rotate entire plot
-      xlab("")+          ## x-label redundant
-      scale_colour_brewer(palette="Dark2") ## change palette
+print(b1
+      %+% mdat_sort  ## substitute sorted data
+      + coord_flip()      ## rotate entire plot
+      + xlab("")          ## x-label redundant
+      + scale_colour_brewer(palette="Dark2") ## change palette
       )
 ```
 
@@ -118,24 +124,19 @@ Maybe we want to make our line graph less busy:
 print(p1L+facet_wrap(~Region))
 ```
 
-```
-## Warning: Transformation introduced infinite values in continuous y-axis
-```
-
 ![plot of chunk facet_wrap](figure/facet_wrap-1.png)
 
 We could also code population size by line width:
 
 ```r
-p2 <- ggplot(mdat,
+p2 <- (ggplot(mdat,
              aes(Year,Hom_rate,colour=Region,size=log(Pop_2011),
-                 group=Place))+geom_line(alpha=0.5)+
-  scale_y_log10()+labs(y="Homicides per 100,000 population")
+                 group=Place))
+    + geom_line(alpha=0.5)
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
+)
 print(p2)
-```
-
-```
-## Warning: Transformation introduced infinite values in continuous y-axis
 ```
 
 ![plot of chunk plot3](figure/plot3-1.png)
@@ -145,11 +146,13 @@ Using the [directlabels](http://directlabels.r-forge.r-project.org/) package (al
 
 ```r
 library(directlabels)
-direct.label(p1L)+
-  expand_limits(x=2004,y=0.1)
+(p1L
+    + expand_limits(x=2012)  ## add a little more space
+    + geom_dl(aes(label=Place),method="last.bumpup") 
+    + theme(legend.position="none")  ## don't need the legend any more
+)
 ```
 
-```
-## Error in switch(geom, density = "top.bumptwice", line = {: EXPR must be a length 1 vector
-```
+![plot of chunk directlabels](figure/directlabels-1.png)
 
+We'd have to work a little harder to avoid clipping the "Yukon" label ...

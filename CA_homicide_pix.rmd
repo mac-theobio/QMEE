@@ -3,7 +3,7 @@ title: "Data Vis example: homicide data"
 date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 ---
 
-Load data from previous computations:
+Load data from previous computations (can be downloaded from [here](data/CA_homicide.RData)):
 ```{r getdat}
 load("data/CA_homicide.RData")
 ```
@@ -30,9 +30,10 @@ print(p1+geom_line() +geom_point())
 
 Might be better on a log scale, with a sensible y-axis label:
 ```{r ggplot4}
-p1L <- (p1 + geom_line()+
-        scale_y_log10()+
-        labs(y="Homicides per 100,000 population")
+p1L <- (p1
+    + geom_line()
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
 )
 print(p1L)
 ```
@@ -40,57 +41,69 @@ print(p1L)
 Maybe we don't care about time at all:
 ```{r boxplot}
 b1 <- (ggplot(mdat,aes(x=Place,y=Hom_rate,
-                      colour=Region))+
-  geom_boxplot(outlier.colour=NULL)+  ## set outlier points to same colour
-  scale_y_log10()+labs(y="Homicides per 100,000 population")
+                       colour=Region))
+    + geom_boxplot(outlier.colour=NULL)  ## set outlier points to same colour as boxes
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
 )
 print(b1)
 ```
 
-The labels are horrible.
+The x-axis tick labels overlap enough to be unreadable (unless we resize the
+plot to be ridiculously long and narrow).
+
 We could rotate them 90 degrees to be vertical:
 ```{r vertlabels}
 b1_vertlabels <- b1+theme(axis.text.x=element_text(angle=90))
 print(b1_vertlabels)
 ```
 
+
 In general if you want to tweak a `ggplot` plot, Google it or
-search the [ggplot theme vignette](http://docs.ggplot2.org/dev/vignettes/themes.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
+search the [ggplot theme documentation](https://ggplot2.tidyverse.org/reference/theme.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
 
 Rotating the whole plot is less familiar, but arguably better.
 Here I'm also (1) changing the colour palette
 and (2) changing the order of the `Place` variable, using `%+%` to
-substitute a different set of data:
+substitute a different set of data into an existing plot:
 
 ```{r coord_flip,message=FALSE,warning=FALSE}
 library(dplyr)
 mdat_sort <- mdat %>% mutate(Place=reorder(Place,Hom_rate))
-print(b1 %+% mdat_sort + ## substitute sorted data
-      coord_flip()+      ## rotate entire plot
-      xlab("")+          ## x-label redundant
-      scale_colour_brewer(palette="Dark2") ## change palette
+print(b1
+      %+% mdat_sort  ## substitute sorted data
+      + coord_flip()      ## rotate entire plot
+      + xlab("")          ## x-label redundant
+      + scale_colour_brewer(palette="Dark2") ## change palette
       )
 ```
 
 Maybe we want to make our line graph less busy: 
-```{r facet_wrap}
+```{r facet_wrap,warning=FALSE}
 print(p1L+facet_wrap(~Region))
 ```
 
 We could also code population size by line width:
-```{r plot3}
-p2 <- ggplot(mdat,
+```{r plot3, warning=FALSE}
+p2 <- (ggplot(mdat,
              aes(Year,Hom_rate,colour=Region,size=log(Pop_2011),
-                 group=Place))+geom_line(alpha=0.5)+
-  scale_y_log10()+labs(y="Homicides per 100,000 population")
+                 group=Place))
+    + geom_line(alpha=0.5)
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
+)
 print(p2)
 ```
 
 Using the [directlabels](http://directlabels.r-forge.r-project.org/) package (also on [GitHub](https://github.com/tdhock/directlabels)):
 
-```{r directlabels,message=FALSE}
+```{r directlabels,message=FALSE, warning=FALSE}
 library(directlabels)
-direct.label(p1L)+
-  expand_limits(x=2004,y=0.1)
+(p1L
+    + expand_limits(x=2012)  ## add a little more space
+    + geom_dl(aes(label=Place),method="last.bumpup") 
+    + theme(legend.position="none")  ## don't need the legend any more
+)
 ```
 
+We'd have to work a little harder to avoid clipping the "Yukon" label ...
