@@ -58,7 +58,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </header>
 <div id="header">
 <h1 class="title">Data Vis example: homicide data</h1>
-<h3 class="date">19:00 21 January 2019</h3>
+<h3 class="date">19:09 21 January 2019</h3>
 </div>
 <p>Load data from previous computations (can be downloaded from <a href="data/CA_homicide.RData">here</a>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/CA_homicide.RData&quot;</span>)</code></pre></div>
@@ -115,7 +115,7 @@ p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(mdat,<span class
 <img src="figure/vertlabels-1.png" alt="plot of chunk vertlabels" />
 <p class="caption">plot of chunk vertlabels</p>
 </div>
-<p>In general if you want to tweak a <code>ggplot</code> plot, Google it or search the <a href="http://docs.ggplot2.org/dev/vignettes/themes.html">ggplot theme vignette</a> or the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot cheat sheet</a> for more information …</p>
+<p>In general if you want to tweak a <code>ggplot</code> plot, Google it or search the <a href="https://ggplot2.tidyverse.org/reference/theme.html">ggplot theme documentation</a> or the <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">ggplot cheat sheet</a> for more information …</p>
 <p>Rotating the whole plot is less familiar, but arguably better. Here I’m also (1) changing the colour palette and (2) changing the order of the <code>Place</code> variable, using <code>%+%</code> to substitute a different set of data into an existing plot:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">Place=</span><span class="kw">reorder</span>(Place,Hom_rate))
@@ -131,7 +131,6 @@ mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><spa
 </div>
 <p>Maybe we want to make our line graph less busy:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(p1L+<span class="kw">facet_wrap</span>(~Region))</code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <div class="figure">
 <img src="figure/facet_wrap-1.png" alt="plot of chunk facet_wrap" />
 <p class="caption">plot of chunk facet_wrap</p>
@@ -145,7 +144,6 @@ mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><spa
     +<span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Homicides per 100,000 population&quot;</span>)
 )
 <span class="kw">print</span>(p2)</code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <div class="figure">
 <img src="figure/plot3-1.png" alt="plot of chunk plot3" />
 <p class="caption">plot of chunk plot3</p>
@@ -157,13 +155,11 @@ mdat_sort &lt;-<span class="st"> </span>mdat %&gt;%<span class="st"> </span><spa
     +<span class="st"> </span><span class="kw">geom_dl</span>(<span class="kw">aes</span>(<span class="dt">label=</span>Place),<span class="dt">method=</span><span class="st">&quot;last.bumpup&quot;</span>) 
     +<span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>)  ## don&#39;t need the legend any more
 )</code></pre></div>
-<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis
-
-## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
 <div class="figure">
 <img src="figure/directlabels-1.png" alt="plot of chunk directlabels" />
 <p class="caption">plot of chunk directlabels</p>
 </div>
+<p>We’d have to work a little harder to avoid clipping the “Yukon” label …</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
