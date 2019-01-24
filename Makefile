@@ -163,6 +163,10 @@ push_all:
 
 ######################################################################
 
+Ignore += facebook_logo.png
+facebook_logo.png: figure/gam-1.png Makefile
+	convert -crop 500x300+0+100 $< $@
+
 ### Makestuff
 
 -include $(ms)/git.mk
