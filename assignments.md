@@ -18,6 +18,8 @@ read.csv("eggplant_survey.csv")
 * Make sure that your script runs, from beginning to end, _without absolute path names_ (just in case one of us doesn't have a directory called `E://From Oshawa Computer/Research Files/My Thesis/Data for 708/` already available)
 * Put package names at the top, and use `library` instead of `require`, in case we don't have the packages you are using.
 
+For lots more opinions on R coding style, see [here](R_style.html)
+
 ## General principles gleaned from assignment review
 
 ### don't

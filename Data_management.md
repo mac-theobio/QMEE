@@ -19,6 +19,7 @@ Resources
 -   [More bits and pieces](More_bits_and_pieces.html)
 
 Also: [OpenRefine](http://openrefine.org)  ([Data Carpentry lesson](https://datacarpentry.org/OpenRefine-ecology-lesson/))
+
 Preparation
 -----------
 
