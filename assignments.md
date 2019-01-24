@@ -25,7 +25,10 @@ read.csv("eggplant_survey.csv")
 - use spaces or other special characters (`&`, `#`, `$`) in file names (`_` and `.` are OK)
 - leave interactive commands like `View()`, `head()`, `str()` in your code [unless commented out]
 - leave `install.packages()` in your code [ditto]
-- use names of built-in R objects (especially `data`, but also: `sd`, `t`, `dt`, `df`, `I`, ...) for your own variables
+- use names of built-in R objects (especially `data`, but also: `sd`, `t`, `dt`, `df`, `I`, ...) for your own variables. `fortunes::fortune(77)`
+
+> Firstly, don't call your matrix 'matrix'. Would you call your dog 'dog'? Anyway, it might clash with the function 'matrix'. [Barry Rowlingson, R-help (October 2004)]
+
 - include absolute path names
 - include `rm(list=ls())` (see [Jenny Bryan's blog post on this topic](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/)
 - load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)
@@ -33,7 +36,7 @@ read.csv("eggplant_survey.csv")
 
 ### do
 
-- use `count()` instead of `group_by(..)+summarize(count=n())`, *or* use base-R `table` [which also spreads the results]
+- use `count()` instead of `group_by(..)+summarize(count=n())`, *or* use base-R `table` [which also spreads the results]: `with(your_data,table(var1,var2))`
 - rename bad variable names (long, containing spaces or special characters) up front (with `dplyr::rename()`)
 - use the `data=` argument whenever possible (e.g. `lm()`)
 - use the `*_if()`, `*_at()`, `*_all()` versions of tidyverse functions (esp. `mutate` and `summarise`) to transform multiple columns
