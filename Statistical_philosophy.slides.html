@@ -53,6 +53,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -87,28 +91,32 @@
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Introduction</h2></hgroup><article  id="introduction">
+<slide class=""><hgroup><h2>Introduction</h2></hgroup><article  id="introduction">
 
 <p>This week is the introduction to the main statistical part of the course. We will be grappling with difficult, abstract questions about what we mean by scientific and statistical inference and about statistical philosophies.</p>
 
 <p>Time spent grappling with these questions will make you a better scientist, and will provide you a strong foundation to navigate the various detailed questions that arise from particular questions and approaches.</p>
 
-</article></slide><slide class=''><hgroup><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class=""><hgroup><h2>Resources</h2></hgroup><article  id="resources">
 
 <ul>
-<li><a href='http://dushoff.github.io/notebook/materials/philosophy.handouts.emb.html' title=''>Lecture notes</a></li>
+<li><a href='https://github.com/dushoff/statistics_talks/blob/master/git_push/philosophy.handouts.pdf' title=''>Lecture notes</a>
+
+<ul>
+<li><a href='https://github.com/dushoff/statistics_talks/blob/master/git_push/philosophy.draft.pdf' title=''>Slides</a></li>
+</ul></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Assignment</h2></hgroup><article  id="assignment">
+</article></slide><slide class=""><hgroup><h2>Assignment</h2></hgroup><article  id="assignment">
 
 <ul>
 <li>Answer the <a href='MMV.html' title=''>MMV question</a>. Get help where you need it, but write up the answer by yourself.</li>
 <li>Formulate a hypothesis about your data, and discuss how you would test it statistically.</li>
 </ul>
 
-<p>See <a href='assignments.html' title=''>the assignment page</a> to submit. For this case there are two separate assignments, so you should email us the names of two files. Don&#39;t submit in a proprietary format, like Word. If it&#39;s easy for you, use text, otherwise, you can use .pdf.</p>
+<p>See <a href='assignments.html' title=''>the assignment page</a> to submit. For this case there are two separate assignments, so you should email us the names of two files on your repo. Don&#39;t submit in a proprietary format, like Word. Best is text, PDF is also acceptable</p>
 
-</article></slide><slide class=''><hgroup><h2>Main readings</h2></hgroup><article  id="main-readings">
+</article></slide><slide class=""><hgroup><h2>Main readings</h2></hgroup><article  id="main-readings">
 
 <ul>
 <li><p>Please read the articles below. They should not be too hard to get through. Think about your own statistical philosophy and be prepared to talk about what statistical inference means to you.</p></li>
@@ -117,19 +125,20 @@
 <li><p><a href='http://www.fharrell.com/2017/01/introduction.html' title=''>Frank Harrell&#39;s blog intro</a></p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Additional readings</h2></hgroup><article  id="additional-readings">
+</article></slide><slide class=""><hgroup><h2>Additional readings</h2></hgroup><article  id="additional-readings">
 
 <p>Some of these are very cool, and different ones will speak to different people.</p>
 
 <ul>
 <li><p><a href='http://www.stat.columbia.edu/~gelman/research/unpublished/p_hacking.pdf' title=''>The garden of forking paths (Gelman)</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1810.06387' title=''>I can see clearly now (Dushoff, Kain and Bolker)</a></p></li>
 <li><p><a href='http://www.annals.org.libaccess.lib.mcmaster.ca/content/130/12/1019.long' title=''>Standing statistics right side up</a> <em>Mac library authentication (MacID password) may be required</em></p></li>
 <li><a href='http://lalashan.mcmaster.ca/theobio/bio_708/images/2/29/Pigliucci.pdf' title=''>Reject that null hypothesis! (Pigliucci)</a></li>
 <li><p><a href='http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&amp;rep=rep1&amp;type=pdf' title=''>Fisher, Jeffreys and Neyman</a></p></li>
 <li><p><a href='http://www.jstor.org/pss/1558705' title=''>What is a statistical model?</a> by Peter McCullagh. Aimed at mathematicians and mathematical statisticians.</p></li>
 <li><p>Bad statistical practice article from <a href='http://www.nature.com/neuro/journal/v14/n9/full/nn.2886.html' title=''>a paper in Nature Neuroscience</a>, and related <a href='http://www.guardian.co.uk/commentisfree/2011/sep/09/bad-science-research-error' title=''>News article</a></p></li>
 <li><p>Gelman <a href='http://www.stat.columbia.edu/~gelman/research/published/signif4.pdf' title=''>The Difference Between “Significant” and “Not Significant” is not Itself Statistically Significant</a></p></li>
-<li><p><a href='http://dx.doi.org/10.1177/0049124108318973' title=''>Gerber and Malhotra on the dip in p-values just above p=0.05 in the sociological literature</a> (and <a href='https://scholar.google.ca/scholar?cites=2944013600336981085&amp;as_sdt=2005&amp;sciodt=0,5&amp;hl=en' title=''>Google scholar citations of their paper</a></p></li>
+<li><p><a href='http://dx.doi.org/10.1177/0049124108318973' title=''>Gerber and Malhotra on the dip in p-values just above p=0.05 in the sociological literature</a> (and <a href='https://scholar.google.ca/scholar?cites=2944013600336981085&amp;as_sdt=2005&amp;sciodt=0,5&amp;hl=en' title=''>Google scholar citations of their paper</a>)</p></li>
 </ul></article></slide>
 
 
@@ -142,7 +151,7 @@
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
