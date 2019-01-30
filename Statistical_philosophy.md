@@ -61,3 +61,9 @@ Some of these are very cool, and different ones will speak to different people.
     sociological literature](http://dx.doi.org/10.1177/0049124108318973)
     (and [Google scholar citations of their
     paper](https://scholar.google.ca/scholar?cites=2944013600336981085&as_sdt=2005&sciodt=0,5&hl=en))
+
+Fun web site
+-------------------
+
+* [Spurious correlations](http://www.tylervigen.com/spurious-correlations)
+
