@@ -288,7 +288,7 @@ permdist_rsamp &lt;-<span class="st"> </span><span class="kw">replicate</span>(<
 <p>This gives exactly the same result as the original approach, because there is a one-to-one relationship between differences between means and <span class="math inline">\(t\)</span> statistics …</p>
 <h2 id="permutation-tests-of-regression-reproductive-skew-data">Permutation tests of regression: reproductive skew data</h2>
 <p>Some data from Holly Kindsvater on reproductive skew in fish (from <span class="citation">@paczolt_multiple_2015</span>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">skewdat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;skewdat.csv&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">skewdat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/skewdat.csv&quot;</span>)
 (<span class="kw">ggplot</span>(skewdata, <span class="kw">aes</span>(Size,skew))
     +<span class="st"> </span><span class="kw">geom_point</span>()
     +<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)

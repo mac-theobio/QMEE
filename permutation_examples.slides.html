@@ -399,7 +399,7 @@ mean(abs(permdist_diffmean)&gt;=abs(sumfun_diffmean(ants)))</pre>
 
 <p>Some data from Holly Kindsvater on reproductive skew in fish (from <span class="cite">Paczolt et al. (2015)</span>):</p>
 
-<pre class = 'prettyprint lang-r'>skewdat &lt;- read.csv(&quot;skewdat.csv&quot;)
+<pre class = 'prettyprint lang-r'>skewdat &lt;- read.csv(&quot;data/skewdat.csv&quot;)
 (ggplot(skewdata, aes(Size,skew))
     + geom_point()
     +geom_smooth(method=&quot;lm&quot;)
