@@ -52,12 +52,7 @@ _This schedule is subject to change_
 * [Introduction to R](Introduction_to_R.html) Week of 7 Jan
 * [Data management](Data_management.html) Week of 14 Jan
 * [Visualization](Visualization.html) Week of 21 Jan
-* Statistical philosophy Week of 28 Jan
-
-<!-- COMMENT
--   [Introduction to R](Introduction_to_R.html) Week of 7 Jan
--   [Statistical philosophy](Statistical_philosophy.html) Week of 28 Jan
-COMMENT -->
+* [Statistical philosophy](Statistical_philosophy.html) Week of 28 Jan
 
 ### Basic Statistics
 
