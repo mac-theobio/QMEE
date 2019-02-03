@@ -64,12 +64,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 class="author">Ben Bolker</h2>
 <h3 class="date">03 February 2019</h3>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</code></pre></div>
-<pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
+<span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;coin&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;gtools&quot;</span>)</code></pre></div>
 <h2 id="example-counting-ant-colonies">Example: counting ant colonies</h2>
 <p>Data originally from Gotelli and Ellison <em>Primer of Ecology</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ants &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/ants.csv&quot;</span>)
@@ -159,8 +157,7 @@ res[i] &lt;-<span class="st"> </span>agg$colonies[<span class="dv">1</span>]-agg
 ##                10.75                 7.00</code></pre>
 <p>We could substitute the test statistic here (diff/sd = 2.96) for the difference of means used above.</p>
 <h2 id="using-lmperm">Using <code>lmPerm</code></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)  ## load the package
-<span class="kw">summary</span>(<span class="kw">lmp</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
 <pre><code>## [1] &quot;Settings:  unique SS &quot;</code></pre>
 <pre><code>## 
 ## Call:
@@ -182,10 +179,6 @@ res[i] &lt;-<span class="st"> </span>agg$colonies[<span class="dv">1</span>]-agg
 <p><code>lmp()</code> seems to automatically change the contrast settings from the default treatment contrast to sum-to-zero contrasts, so that the reported effect size is half what it was (3.75/2), because it is computing the difference between the (unweighted) average of the two groups and the first group (field).</p>
 <h2 id="using-coin">Using <code>coin</code></h2>
 <p>The <code>coin</code> package is big and complicated and powerful. For each of the tests it provides, it allows a choice of whether to use differences of ranks or raw differences, and whether to use (1) <em>asymptotic</em> p-values (like the classic nonparametric tests: Kruskal-Wallis, Mann-Whitney, etc.); (2) <em>approximate</em> p-values (taking many random samples), or (3) <em>exact</em> p-values (effectively, generating all possible combinations).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;coin&quot;</span>)</code></pre></div>
-<pre><code>## Loading required package: survival</code></pre>
-<pre><code>## Warning: S3 methods &#39;ggplot2::autoplot.zoo&#39;, &#39;ggplot2::fortify.zoo&#39; were
-## declared in NAMESPACE but not found</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## default: asymptotic
 <span class="kw">oneway_test</span>(colonies~place,<span class="dt">data=</span>ants)</code></pre></div>
 <pre><code>## 
@@ -212,12 +205,6 @@ res[i] &lt;-<span class="st"> </span>agg$colonies[<span class="dv">1</span>]-agg
 ## alternative hypothesis: true mu is not equal to 0</code></pre>
 <h2 id="more-general-approach">More general approach</h2>
 <p>Load <code>gtools</code> package and generate the combinations, as in the original example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gtools)</code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;gtools&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:lmPerm&#39;:
-## 
-##     permute</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_comb &lt;-<span class="st"> </span><span class="kw">combinations</span>(<span class="kw">nrow</span>(ants), <span class="kw">sum</span>(ants$place==<span class="st">&quot;field&quot;</span>))
 <span class="kw">head</span>(ind_comb)</code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4]

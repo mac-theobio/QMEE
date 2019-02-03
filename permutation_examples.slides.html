@@ -102,13 +102,10 @@
           </hgroup>
   </slide>
 
-<pre class = 'prettyprint lang-r'>library(&quot;ggplot2&quot;); theme_set(theme_bw())</pre>
-
-<pre >## Registered S3 methods overwritten by &#39;ggplot2&#39;:
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</pre>
+<pre class = 'prettyprint lang-r'>library(&quot;ggplot2&quot;); theme_set(theme_bw())
+library(&quot;lmPerm&quot;)
+library(&quot;coin&quot;)
+library(&quot;gtools&quot;)</pre>
 
 <slide class=""><hgroup><h2>Example: counting ant colonies</h2></hgroup><article  id="example-counting-ant-colonies">
 
@@ -222,8 +219,7 @@ points(obs,0,pch=16,cex=1.5,col=&quot;red&quot;)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Using <code>lmPerm</code></h2></hgroup><article  id="using-lmperm">
 
-<pre class = 'prettyprint lang-r'>library(&quot;lmPerm&quot;)  ## load the package
-summary(lmp(colonies~place,data=ants))</pre>
+<pre class = 'prettyprint lang-r'>summary(lmp(colonies~place,data=ants))</pre>
 
 <pre >## [1] &quot;Settings:  unique SS &quot;</pre>
 
@@ -250,13 +246,6 @@ summary(lmp(colonies~place,data=ants))</pre>
 </article></slide><slide class=""><hgroup><h2>Using <code>coin</code></h2></hgroup><article  id="using-coin">
 
 <p>The <code>coin</code> package is big and complicated and powerful. For each of the tests it provides, it allows a choice of whether to use differences of ranks or raw differences, and whether to use (1) <em>asymptotic</em> p-values (like the classic nonparametric tests: Kruskal-Wallis, Mann-Whitney, etc.); (2) <em>approximate</em> p-values (taking many random samples), or (3) <em>exact</em> p-values (effectively, generating all possible combinations).</p>
-
-<pre class = 'prettyprint lang-r'>library(&quot;coin&quot;)</pre>
-
-<pre >## Loading required package: survival</pre>
-
-<pre >## Warning: S3 methods &#39;ggplot2::autoplot.zoo&#39;, &#39;ggplot2::fortify.zoo&#39; were
-## declared in NAMESPACE but not found</pre>
 
 <pre class = 'prettyprint lang-r'>## default: asymptotic
 oneway_test(colonies~place,data=ants)</pre>
@@ -291,15 +280,6 @@ oneway_test(colonies~place,data=ants,distribution=approximate(B=9999))</pre>
 </article></slide><slide class=""><hgroup><h2>More general approach</h2></hgroup><article  id="more-general-approach">
 
 <p>Load <code>gtools</code> package and generate the combinations, as in the original example:</p>
-
-<pre class = 'prettyprint lang-r'>library(gtools)</pre>
-
-<pre >## 
-## Attaching package: &#39;gtools&#39;</pre>
-
-<pre >## The following object is masked from &#39;package:lmPerm&#39;:
-## 
-##     permute</pre>
 
 <pre class = 'prettyprint lang-r'>ind_comb &lt;- combinations(nrow(ants), sum(ants$place==&quot;field&quot;))
 head(ind_comb)</pre>
