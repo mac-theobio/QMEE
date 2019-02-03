@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Ben Bolker" />
+  <meta name="date" content="2019-02-03" />
   <title>Simple permutation tests in R</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -61,7 +62,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Simple permutation tests in R</h1>
 <h2 class="author">Ben Bolker</h2>
-<h3 class="date">18:03 03 February 2019</h3>
+<h3 class="date">03 February 2019</h3>
 </div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</code></pre></div>
 <pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
@@ -126,10 +127,8 @@ res[i] &lt;-<span class="st"> </span>agg$colonies[<span class="dv">1</span>]-agg
     %&gt;%<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">colonies=</span><span class="kw">mean</span>(colonies))
     %&gt;%<span class="st"> </span><span class="kw">pull</span>(colonies)  ## extract a single column
     %&gt;%<span class="st"> </span><span class="kw">diff</span>()          ## difference between elements
-)
-
-Since there aren<span class="st">&#39;t actually that many possible outcomes,</span>
-<span class="st">we could plot them this way:</span></code></pre></div>
+)</code></pre></div>
+<p>Since there aren’t actually that many possible outcomes, we could plot them this way:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">las=</span><span class="dv">1</span>,<span class="dt">bty=</span><span class="st">&quot;l&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(<span class="kw">round</span>(res,<span class="dv">2</span>))),
      <span class="dt">ylab=</span><span class="st">&quot;Proportion&quot;</span>,<span class="dt">axes=</span><span class="ot">FALSE</span>)
@@ -288,15 +287,13 @@ permdist_rsamp &lt;-<span class="st"> </span><span class="kw">replicate</span>(<
 <pre><code>## [1] 0.03809524</code></pre>
 <p>This gives exactly the same result as the original approach, because there is a one-to-one relationship between differences between means and <span class="math inline">\(t\)</span> statistics …</p>
 <h2 id="permutation-tests-of-regression-reproductive-skew-data">Permutation tests of regression: reproductive skew data</h2>
-<p>Some data from Holly Kindsvater on reproductive skew in fish (????):</p>
+<p>Some data from Holly Kindsvater on reproductive skew in fish (from <span class="citation">@paczolt_multiple_2015</span>):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">skewdat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;skewdat.csv&quot;</span>)
-<span class="kw">library</span>(ggplot2)
-<span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
-<span class="kw">qplot</span>(Size,skew,<span class="dt">data=</span>skewdat)+<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)</code></pre></div>
-<div class="figure">
-<img src="figure/skewdat-1.png" alt="plot of chunk skewdat" />
-<p class="caption">plot of chunk skewdat</p>
-</div>
+(<span class="kw">ggplot</span>(skewdata, <span class="kw">aes</span>(Size,skew))
+    +<span class="st"> </span><span class="kw">geom_point</span>()
+    +<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)
+)</code></pre></div>
+<pre><code>## Error in ggplot(skewdata, aes(Size, skew)): object &#39;skewdata&#39; not found</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(skew~Size,<span class="dt">data=</span>skewdat))</code></pre></div>
 <pre><code>## 
 ## Call:
@@ -318,6 +315,7 @@ permdist_rsamp &lt;-<span class="st"> </span><span class="kw">replicate</span>(<
 ## F-statistic: 5.543 on 1 and 29 DF,  p-value: 0.02554</code></pre>
 <p>Can we trust this regression? Let’s try a permutation test.</p>
 <p>Since all the <span class="math inline">\(x\)</span> (<code>Size</code>) values are unique, there are a total of 31! (factorial) possible permutations, or 8.2 × 10<sup>33</sup>, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out …)</p>
+<!-- what is the funny calculation above?? -->
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simfun_rsamp2 &lt;-<span class="st"> </span>function(<span class="dt">respvar=</span><span class="st">&quot;skew&quot;</span>,<span class="dt">data=</span>skewdat) {
   permdat &lt;-<span class="st"> </span>data
   permdat[[respvar]] &lt;-<span class="st"> </span><span class="kw">sample</span>(permdat[[respvar]])
@@ -369,6 +367,7 @@ permdist_skew &lt;-<span class="st"> </span><span class="kw">replicate</span>(<s
 ## Z = 2.1941, p-value = 0.026
 ## alternative hypothesis: two.sided</code></pre>
 <p>Since the standard error of an estimated proportion is <span class="math inline">\(\sqrt{p(1-p)/n}\)</span>, the <em>coefficient of variation</em> (ratio of the standard error to the mean estimate, <span class="math inline">\(p\)</span>) is <span class="math inline">\(\sqrt{(1-p)/(pn)}\)</span>. Thus for an observed <span class="math inline">\(p\)</span>-value, if we want to get the coefficient of variation down to a specified level <span class="math inline">\(c\)</span> (say 5%, so the confidence intervals are approximately <span class="math inline">\(\pm\)</span> 10% of the estimated <span class="math inline">\(p\)</span>-value) then we need to take <span class="math inline">\(n\)</span> large enough so that <span class="math inline">\(c = \sqrt{(1-p)/(pn)}\)</span>, or <span class="math inline">\(n \approx (1-p)/(p c^2)\)</span>; if <span class="math inline">\(p\)</span> is small then this is further approximated by <span class="math inline">\(1/(p c^2)\)</span> (e.g. for a <span class="math inline">\(p\)</span>-value of 0.05 accurate within <span class="math inline">\(c=0.05\)</span>, we need <span class="math inline">\(1/(0.5 \cdot 0.5^2) = 1/(0.5^3) = 20^3 = 8000\)</span> samples (slightly fewer since we have neglected the <span class="math inline">\(1-p\)</span> term). If we wanted a similarly accurate answer for our current answer, with a <span class="math inline">\(p\)</span>-value about half as large, we would need twice as many samples.</p>
+<h2 id="references">References</h2>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
