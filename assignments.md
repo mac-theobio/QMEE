@@ -43,3 +43,6 @@ For lots more opinions on R coding style, see [here](R_style.html)
 - use the `data=` argument whenever possible (e.g. `lm()`)
 - use the `*_if()`, `*_at()`, `*_all()` versions of tidyverse functions (esp. `mutate` and `summarise`) to transform multiple columns
 - use `stopifnot()` (or the `assertthat` package from the extended hadleyverse) to test conditions
+- use log scales often, especially for morphometric measurements
+- especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]
+- use comma-separation to combine multiple `mutate()` steps
