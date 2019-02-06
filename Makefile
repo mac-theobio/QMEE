@@ -37,6 +37,8 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 gh-pages/cleaning.html: cleaning.rmd
 gh-pages/Introduction_to_R.html: Introduction_to_R.md
+gh-pages/: Introduction_to_R.md
+
 
 ##################################################################
 
