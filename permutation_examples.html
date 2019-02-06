@@ -64,15 +64,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2 class="author">Ben Bolker</h2>
 <h3 class="date">06 February 2019</h3>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())</code></pre></div>
-<pre><code>## Error: package or namespace load failed for &#39;ggplot2&#39; in loadNamespace(j &lt;- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
-##  namespace &#39;rlang&#39; 0.2.0 is being loaded, but &gt;= 0.2.1 is required</code></pre>
-<pre><code>## Error in theme_set(theme_bw()): could not find function &quot;theme_set&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)</code></pre></div>
-<pre><code>## Error in library(&quot;lmPerm&quot;): there is no package called &#39;lmPerm&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;coin&quot;</span>)</code></pre></div>
-<pre><code>## Error in library(&quot;coin&quot;): there is no package called &#39;coin&#39;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;gtools&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>); <span class="kw">theme_set</span>(<span class="kw">theme_bw</span>())
+<span class="kw">library</span>(<span class="st">&quot;lmPerm&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;coin&quot;</span>)
+<span class="kw">library</span>(<span class="st">&quot;gtools&quot;</span>)</code></pre></div>
 <h2 id="example-counting-ant-colonies">Example: counting ant colonies</h2>
 <p>Data originally from Gotelli and Ellison <em>Primer of Ecology</em> (data for this document is available <a href="https://github.com/mac-theobio/QMEE/tree/master/data">here</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ants &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;data/ants.csv&quot;</span>)
@@ -95,7 +90,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
     +<span class="st"> </span><span class="kw">stat_sum</span>(<span class="dt">colour=</span><span class="st">&quot;darkgray&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.5</span>)
     +<span class="st"> </span><span class="kw">scale_size</span>(<span class="dt">breaks=</span><span class="dv">1</span>:<span class="dv">2</span>, <span class="dt">range=</span><span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))
 )</code></pre></div>
-<pre><code>## Error in ggplot(ants, aes(place, colonies)): could not find function &quot;ggplot&quot;</code></pre>
+<div class="figure">
+<img src="figure/antPlot-1.png" alt="plot of chunk antPlot" />
+<p class="caption">plot of chunk antPlot</p>
+</div>
 <h2 id="permutation-tests">Permutation tests</h2>
 <h3 id="brute-force">Brute force</h3>
 <p>There are always trade-offs between simplicity, transparency, length of code, computational efficiency …</p>
@@ -173,14 +171,7 @@ res[i] &lt;-<span class="st"> </span>tt$statistic</code></pre></div>
 <p>in place of the difference between means computed above.</p>
 <h2 id="using-lmperm">Using <code>lmPerm</code></h2>
 <p>R has a software package (<code>lmPerm</code>) that automatically fits linear models and computes p-values by permutations. Here the <code>lmp()</code> function is the permutation analog of the <code>lm()</code> (linear model) function in base R.</p>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
-=======
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(colonies<span class="op">~</span>place,<span class="dt">data=</span>ants))</code></pre></div>
-<<<<<<< HEAD
-<pre><code>## Error in lmp(colonies ~ place, data = ants): could not find function &quot;lmp&quot;</code></pre>
-=======
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <pre><code>## [1] &quot;Settings:  unique SS &quot;</code></pre>
 <pre><code>## 
 ## Call:
@@ -199,25 +190,11 @@ res[i] &lt;-<span class="st"> </span>tt$statistic</code></pre></div>
 ## Residual standard error: 1.961 on 8 degrees of freedom
 ## Multiple R-Squared: 0.5233,  Adjusted R-squared: 0.4637 
 ## F-statistic:  8.78 on 1 and 8 DF,  p-value: 0.01806</code></pre>
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
 <p>We’ll talk more about specifying linear models next week, but the formula is <code>response ~ &lt;predictor variables&gt;</code>; in this case <code>place</code> is the predictor (this is again equivalent to a t-test or a one-way ANOVA with two groups). <code>lmp()</code> seems to automatically change the contrast settings from the default treatment contrast to sum-to-zero contrasts, so that the reported effect size is half what it was (3.75/2), because it is computing the difference between the (unweighted) average of the two groups and the first group (field).</p>
 <h2 id="using-coin">Using <code>coin</code></h2>
 <p>The <code>coin</code> package is big and complicated and powerful. For each of the tests it provides, it allows a choice of whether to use differences of ranks or raw differences, and whether to use (1) <em>asymptotic</em> p-values (like the classic nonparametric tests: Kruskal-Wallis, Mann-Whitney, etc.); (2) <em>approximate</em> p-values (taking many random samples), or (3) <em>exact</em> p-values (effectively, generating all possible combinations). The formulas are interpreted in the same way as above.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## default: asymptotic
-<<<<<<< HEAD
 <span class="kw">oneway_test</span>(colonies~place,<span class="dt">data=</span>ants)</code></pre></div>
-=======
-<span class="kw">oneway_test</span>(colonies<span class="op">~</span>place,<span class="dt">data=</span>ants)</code></pre></div>
-<<<<<<< HEAD
-<pre><code>## Error in oneway_test(colonies ~ place, data = ants): could not find function &quot;oneway_test&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## exact distribution
-<span class="kw">oneway_test</span>(colonies<span class="op">~</span>place,<span class="dt">data=</span>ants,<span class="dt">distribution=</span><span class="st">&quot;exact&quot;</span>)</code></pre></div>
-<pre><code>## Error in oneway_test(colonies ~ place, data = ants, distribution = &quot;exact&quot;): could not find function &quot;oneway_test&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## approximate (random-sampling/Monte Carlo)
-<span class="kw">oneway_test</span>(colonies<span class="op">~</span>place,<span class="dt">data=</span>ants,<span class="dt">distribution=</span><span class="kw">approximate</span>(<span class="dt">B=</span><span class="dv">9999</span>))</code></pre></div>
-<pre><code>## Error in oneway_test(colonies ~ place, data = ants, distribution = approximate(B = 9999)): could not find function &quot;oneway_test&quot;</code></pre>
-=======
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <pre><code>## 
 ##  Asymptotic Two-Sample Fisher-Pitman Permutation Test
 ## 
@@ -240,7 +217,6 @@ res[i] &lt;-<span class="st"> </span>tt$statistic</code></pre></div>
 ## data:  colonies by place (field, forest)
 ## Z = 2.1701, p-value = 0.0371
 ## alternative hypothesis: true mu is not equal to 0</code></pre>
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
 <h2 id="more-general-approach">More general approach</h2>
 <p>Suppose we want to be careful as JD suggests and compute only the values corresponding to the actual permutations. Make sure the <code>gtools</code> package is loaded and generate the combinations, as in the original example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ind_comb &lt;-<span class="st"> </span><span class="kw">combinations</span>(<span class="kw">nrow</span>(ants), <span class="kw">sum</span>(ants$place==<span class="st">&quot;field&quot;</span>))
@@ -274,31 +250,15 @@ for (i in <span class="dv">1</span>:ncomb) {
 <p>(this could also be done using R’s <code>apply()</code> function). What do we get, and how does it compare with the distribution we would expect from classical statistics, which is a <span class="math inline">\(t\)</span>-distribution with 8 degrees of freedom?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">obs_stat &lt;-<span class="st"> </span>tt$statistic
 <span class="kw">hist</span>(permdist,<span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">breaks=</span><span class="dv">30</span>,<span class="dt">freq=</span><span class="ot">FALSE</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>)
-<<<<<<< HEAD
 <span class="kw">curve</span>(<span class="kw">dt</span>(x,<span class="dt">df=</span>tt$parameter),<span class="dt">add=</span><span class="ot">TRUE</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
-=======
-<<<<<<< HEAD
-<span class="kw">curve</span>(<span class="kw">dt</span>(x,<span class="dt">df=</span>tt<span class="op">$</span>parameter,<span class="dt">add=</span><span class="ot">TRUE</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
-=======
-<span class="kw">curve</span>(<span class="kw">dt</span>(x,<span class="dt">df=</span>tt<span class="op">$</span>parameter),<span class="dt">add=</span><span class="ot">TRUE</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <span class="kw">abline</span>(<span class="dt">v=</span>obs_stat,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</code></pre></div>
 <div class="figure">
 <img src="figure/stats_hist-1.png" alt="plot of chunk stats_hist" />
 <p class="caption">plot of chunk stats_hist</p>
 </div>
 <p>One way to get the <span class="math inline">\(p\)</span>-value:</p>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(obs_pval &lt;-<span class="st"> </span><span class="dv">2</span>*<span class="kw">mean</span>(permdist&gt;=obs_stat))</code></pre></div>
-=======
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(obs_pval &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="kw">mean</span>(permdist<span class="op">&gt;=</span>obs_stat))</code></pre></div>
-<<<<<<< HEAD
-<pre><code>## Error in mean(permdist &gt;= obs_stat): object &#39;obs_stat&#39; not found</code></pre>
-=======
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <pre><code>## [1] 0.04761905</code></pre>
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
 <ul>
 <li>as above, using <code>mean(permutations&gt;=obs))</code> is a trick to calculate the proportion: the logical statement returns a logical (<code>FALSE</code>/<code>TRUE</code>) vector, which then gets converted to a 0/1 vector when you ask R to take the mean, so this is equivalent to counting the number of true values and dividing by the length …</li>
 </ul>
@@ -320,16 +280,8 @@ Wherever the black line is below/to the right of the gray 1:1 line, the permutat
 <span class="kw">set.seed</span>(<span class="dv">101</span>)
 permdist_rsamp &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dv">2000</span>,<span class="kw">sumfun</span>(<span class="kw">simfun_rsamp</span>()))</code></pre></div>
 <p>The result isn’t quite the same as the exact value derived above, but it’s pretty close to the result we got before:</p>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span>*<span class="kw">mean</span>(permdist_rsamp&gt;=obs_stat)</code></pre></div>
-=======
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="dv">2</span><span class="op">*</span><span class="kw">mean</span>(permdist_rsamp<span class="op">&gt;=</span>obs_stat)</code></pre></div>
-<<<<<<< HEAD
-<pre><code>## Error in mean(permdist_rsamp &gt;= obs_stat): object &#39;obs_stat&#39; not found</code></pre>
-=======
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <pre><code>## [1] 0.054</code></pre>
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
 <h3 id="use-difference-between-means-as-test-statistic">Use difference between means as test statistic</h3>
 <p>If we want to switch test statistics, we only need to switch <code>sumfun()</code>. (<code>with()</code> below is a shortcut so we don’t have to use <code>dat$</code> as often.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sumfun_diffmean &lt;-<span class="st"> </span>function(dat) {
@@ -350,19 +302,11 @@ permdist_rsamp &lt;-<span class="st"> </span><span class="kw">replicate</span>(<
     +<span class="st"> </span><span class="kw">geom_point</span>()
     +<span class="kw">geom_smooth</span>(<span class="dt">method=</span><span class="st">&quot;lm&quot;</span>)
 )</code></pre></div>
-<<<<<<< HEAD
-<pre><code>## Error in ggplot(skewdat, aes(Size, skew)): could not find function &quot;ggplot&quot;</code></pre>
-=======
 <div class="figure">
 <img src="figure/skewdat-1.png" alt="plot of chunk skewdat" />
 <p class="caption">plot of chunk skewdat</p>
 </div>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(skew~Size,<span class="dt">data=</span>skewdat))</code></pre></div>
-=======
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(skew<span class="op">~</span>Size,<span class="dt">data=</span>skewdat))</code></pre></div>
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <pre><code>## 
 ## Call:
 ## lm(formula = skew ~ Size, data = skewdat)
@@ -398,18 +342,7 @@ permdist_skew &lt;-<span class="st"> </span><span class="kw">replicate</span>(<s
 <pre><code>## [1] 0.023875</code></pre>
 <p>The results are <em>very</em> close to the classical test result (before trying this with 8000 replicates, I tried a few times with 2000 replicates and found that the results varied between about 0.02 and 0.035 – maybe JD was right …)</p>
 <p>We could also use <code>lmPerm</code> for this:</p>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(skew~Size,<span class="dt">data=</span>skewdat))</code></pre></div>
-=======
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lmp</span>(skew<span class="op">~</span>Size,<span class="dt">data=</span>skewdat))</code></pre></div>
-<<<<<<< HEAD
-<pre><code>## Error in lmp(skew ~ Size, data = skewdat): could not find function &quot;lmp&quot;</code></pre>
-<p>Or <code>coin</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">independence_test</span>(skew<span class="op">~</span>Size,<span class="dt">data=</span>skewdat,<span class="dt">teststat=</span><span class="st">&quot;scalar&quot;</span>,
-                  <span class="dt">distribution=</span><span class="st">&quot;asymptotic&quot;</span>)</code></pre></div>
-<pre><code>## Error in independence_test(skew ~ Size, data = skewdat, teststat = &quot;scalar&quot;, : could not find function &quot;independence_test&quot;</code></pre>
-=======
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
 <pre><code>## [1] &quot;Settings:  unique SS : numeric variables centered&quot;</code></pre>
 <pre><code>## 
 ## Call:
@@ -437,14 +370,14 @@ permdist_skew &lt;-<span class="st"> </span><span class="kw">replicate</span>(<s
 ## data:  skew by Size
 ## Z = 2.1941, p-value = 0.02823
 ## alternative hypothesis: two.sided</code></pre>
-<<<<<<< HEAD
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">independence_test</span>(skew~Size,<span class="dt">data=</span>skewdat,<span class="dt">teststat=</span><span class="st">&quot;scalar&quot;</span>,
-=======
->>>>>>> dae7ab131777a104e715a9f2a9aabb6cddef5fd1
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">independence_test</span>(skew<span class="op">~</span>Size,<span class="dt">data=</span>skewdat,<span class="dt">teststat=</span><span class="st">&quot;scalar&quot;</span>,
->>>>>>> fcd5b86650cba0ddb3ac981f6c335dea03355182
                   <span class="dt">distribution=</span><span class="kw">approximate</span>(<span class="dt">B=</span><span class="dv">9999</span>))</code></pre></div>
-<pre><code>## Error in independence_test(skew ~ Size, data = skewdat, teststat = &quot;scalar&quot;, : could not find function &quot;independence_test&quot;</code></pre>
+<pre><code>## 
+##  Approximative General Independence Test
+## 
+## data:  skew by Size
+## Z = 2.1941, p-value = 0.026
+## alternative hypothesis: two.sided</code></pre>
 <p>Since the standard error of an estimated proportion is <span class="math inline">\(\sqrt{p(1-p)/n}\)</span>, the <em>coefficient of variation</em> (ratio of the standard error to the mean estimate, <span class="math inline">\(p\)</span>) is <span class="math inline">\(\sqrt{(1-p)/(pn)}\)</span>. Thus for an observed <span class="math inline">\(p\)</span>-value, if we want to get the coefficient of variation down to a specified level <span class="math inline">\(c\)</span> (say 5%, so the confidence intervals are approximately <span class="math inline">\(\pm\)</span> 10% of the estimated <span class="math inline">\(p\)</span>-value) then we need to take <span class="math inline">\(n\)</span> large enough so that <span class="math inline">\(c = \sqrt{(1-p)/(pn)}\)</span>, or <span class="math inline">\(n \approx (1-p)/(p c^2)\)</span>; if <span class="math inline">\(p\)</span> is small then this is further approximated by <span class="math inline">\(1/(p c^2)\)</span> (e.g. for a <span class="math inline">\(p\)</span>-value of 0.05 accurate within <span class="math inline">\(c=0.05\)</span>, we need <span class="math inline">\(1/(0.5 \cdot 0.5^2) = 1/(0.5^3) = 20^3 = 8000\)</span> samples (slightly fewer since we have neglected the <span class="math inline">\(1-p\)</span> term). If we wanted a similarly accurate answer for our current answer, with a <span class="math inline">\(p\)</span>-value about half as large, we would need twice as many samples.</p>
 <h2 id="references">References</h2>
 <div id="footer">
