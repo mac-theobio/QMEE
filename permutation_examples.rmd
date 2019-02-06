@@ -212,7 +212,7 @@ What do we get, and how does it compare with the distribution we would expect fr
 ```{r stats_hist}
 obs_stat <- tt$statistic
 hist(permdist,col="gray",breaks=30,freq=FALSE,main="")
-curve(dt(x,df=tt$parameter,add=TRUE,col="red")
+curve(dt(x,df=tt$parameter),add=TRUE,col="red")
 abline(v=obs_stat,col="blue")
 ```
 
