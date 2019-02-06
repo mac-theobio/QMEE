@@ -53,6 +53,10 @@
       font-style: italic;
     }
 
+    summary {
+      display: list-item;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -87,15 +91,23 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>TODO</h2></hgroup><article  id="todo">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>TODO</h2></hgroup><article  id="todo">
 
 <p>Garden of forking</p>
 
 <p>Find and link assignment guidelines</p>
 
-</article></slide><slide class=''><hgroup><h2>Content</h2></hgroup><article  id="content">
+</article></slide><slide class=""><hgroup><h2>Content</h2></hgroup><article  id="content">
 
-</article></slide><slide class=''><hgroup><h2>Github</h2></hgroup><article  id="github">
+<ul>
+<li>perm example tweaks
+
+<ul>
+<li>size/area issues in ggplot?</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Github</h2></hgroup><article  id="github">
 
 <ul>
 <li>Tell them:
@@ -110,20 +122,20 @@
 <li>somebody says they can&#39;t click</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Assignments</h2></hgroup><article  id="assignments">
+</article></slide><slide class=""><hgroup><h2>Assignments</h2></hgroup><article  id="assignments">
 
 <ul>
 <li>read &amp; respond to student assignments (how are we coordinating this?)</li>
 <li>JD will do a task script</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>JD</h2></hgroup><article  id="jd">
+</article></slide><slide class=""><hgroup><h2>JD</h2></hgroup><article  id="jd">
 
 <ul>
 <li>QMEE_private repo on bitbucket to bbolker</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Notes</h2></hgroup><article  id="notes">
+</article></slide><slide class=""><hgroup><h2>Notes</h2></hgroup><article  id="notes">
 
 <ul>
 <li><code>which</code> doesn&#39;t always work on Windows, even if git does!</li>
@@ -131,11 +143,11 @@
 <li><p>parentheses for spanning and print for printing in tidyverse intro</p></li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Admin</h2></hgroup><article  id="admin">
+</article></slide><slide class=""><hgroup><h2>Admin</h2></hgroup><article  id="admin">
 
 <h70></h70>
 
-</article></slide><slide class=''><hgroup><h2>Optional/prettification</h2></hgroup><article  id="optionalprettification">
+</article></slide><slide class=""><hgroup><h2>Optional/prettification</h2></hgroup><article  id="optionalprettification">
 
 <ul>
 <li>put stuff in subdirectories</li>
@@ -175,7 +187,7 @@ at an appropriate point in the slide files themselves, or in a CSS file they ref
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
