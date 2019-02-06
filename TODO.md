@@ -6,6 +6,12 @@ Find and link assignment guidelines
 
 ## Content
 
+* perm example tweaks
+    * size/area issues in ggplot?
+    * split hist into separate chunk
+    * add obs to vector of perm results
+    * use nsim <- 1000
+
 ## Github
 
 * Tell them:
