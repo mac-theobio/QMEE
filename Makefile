@@ -165,8 +165,10 @@ push_all:
 
 ######################################################################
 
-# Not sure what's going on with pandoc.mk
-# Hacking
+# Figure out what the old pathway was (still used for straight md)
+# and unify (if possible on rmarkdown/render with some sort of qmee css)
+
+Ignore += cache/ *_cache/ *_files/
 
 gh-pages/%.html: %.Rmd
 	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
