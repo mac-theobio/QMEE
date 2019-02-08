@@ -49,8 +49,9 @@ The simplest way to do this would be something like:
 
 ```{r brute1}
 set.seed(101) ## for reproducibility
-res <- numeric(1000) ## set aside space for results
-for (i in 1:1000) {
+nsim <- 1000
+res <- numeric(nsim) ## set aside space for results
+for (i in 1:nsim) {
     ## standard approach: scramble response value
     perm <- sample(nrow(ants))
     bdat <- transform(ants,colonies=colonies[perm])
@@ -60,15 +61,21 @@ for (i in 1:1000) {
 }
 obs <- mean(ants[ants$place=="field","colonies"])-
     mean(ants[ants$place=="forest","colonies"])
-## draw the picture
-hist(res,col="gray",las=1,main="")
-abline(v=obs,col="red")
+## append the observed value to the list of results
+res <- c(res,obs)
 ```
 
 - `set.seed(<integer>)` resets the random-number stream to a specified place. You can use any integer you like. You should always use `set.seed()` before running computations involving randomizations
 - `for` loops are a way to repeat computations many times: e.g. see [here](https://datascienceplus.com/how-to-write-the-loop-in-r/) for an introduction
 - `transform()` is a base-R analog of tidyverse `mutate()`
 - `sample()` is a general-purpose tool: by default it samples a specified number of values *without replacement*, which means that it generates a re-ordering of the numbers, e.g. `set.seed(101); sample(5)` produces a vector `(2,1,3,5,4)`. `colonies[perm]` above scrambles the response variable with respect to the predictors (in this case, to the "field" vs. "forest" location)
+
+A picture of the results:
+
+```{r permhist}
+hist(res,col="gray",las=1,main="")
+abline(v=obs,col="red")
+```
 
 Some alternative recipes for computing the difference in the means: (1) base R with `aggregate()` ... either of these could be substituted for the `mean(bdat,...)` line in the code above.
 
@@ -116,10 +123,10 @@ mean(abs(res)>=abs(obs))  ## count both tails: matches lmPerm
 
 Instead of computing the difference between means, we could use the
 test *statistic* from a standard statistical test. Although we're using
-the same test statistic, we're *not* assume that the values of the
-test statistic are $t$-distributed, which would need us to make the
-assumptions we want to avoid [in this case that the values themselves
-are Normally distributed].
+the same test statistic, we're *not* assuming that the values of the
+test statistic are $t$-distributed, which would require the
+assumptions we want to avoid [i.e., that the colony counts
+are Normally distributed within each habitat].
 The standard parametric test to use here would be a $t$ test,
 or equivalently a 1-way ANOVA (as done by `lm()`).
 For some reason R's t-test seems to use opposite signs
