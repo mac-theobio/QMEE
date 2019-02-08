@@ -39,7 +39,6 @@ gh-pages/cleaning.html: cleaning.rmd
 gh-pages/Introduction_to_R.html: Introduction_to_R.md
 gh-pages/permutation_examples.html: permutation_examples.rmd
 
-
 ##################################################################
 
 ## Makefile: gh-pages
@@ -57,8 +56,9 @@ gh-pages:
 Sources += $(wildcard *.Rmd *.rmd)
 Sources += $(wildcard *.csv)
 
-### md for _made_ markdown; not to be repo-ed
-%.md: %.rmd
+Ignore += $(wildcard *.mkd)
+### mkd for _made_ markdown; not to be repo-ed
+%.mkd: %.rmd
 	echo 'knitr::knit("$<")' | R --vanilla
 
 %.io.html: %.rmd
@@ -165,6 +165,19 @@ push_all:
 
 ######################################################################
 
+# Not sure what's going on with pandoc.mk
+# Hacking
+
+gh-pages/%.html: %.Rmd
+	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
+	mv -f $*.html $@
+
+gh-pages/%.html: %.rmd
+	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
+	mv -f $*.html $@
+
+######################################################################
+
 Ignore += facebook_logo.png
 facebook_logo.png: figure/gam-1.png Makefile
 	convert -crop 500x300+0+100 $< $@
@@ -174,4 +187,5 @@ facebook_logo.png: figure/gam-1.png Makefile
 -include $(ms)/git.mk
 -include $(ms)/visual.mk
 
+# -include $(ms)/pandoc.mk
 # -include $(ms)/wrapR.mk
