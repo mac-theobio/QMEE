@@ -248,7 +248,7 @@ $(document).ready(function () {
 <ul>
 <li>Leads naturally to a <em>least squares</em> fit - we get parameters that minimize the squared differences between predictions and observations</li>
 <li>Least squares fits have a lot of nice properties, including partitioning, and finding the middle</li>
-<li>Solution is a simple (!) matrix equation</li>
+<li>Solution is a simple (!?) matrix equation</li>
 <li>Sensitive to some departures from the assumptions - anomalous events tend to have a larger effect than they should</li>
 <li>Alternatives</li>
 </ul>
@@ -258,7 +258,7 @@ $(document).ready(function () {
 <ul>
 <li>Continuous predictor variable: estimate a straight line with one parameter
 <ul>
-<li>Also implies one <em>input variable</em> – we’re not going to talk much about those</li>
+<li>Also implies one <em>input variable</em></li>
 </ul></li>
 <li><span class="math inline">\(Y = a+bX\)</span>: <span class="math inline">\(Y\)</span> is the response, <span class="math inline">\(X\)</span> is the input variable<br />
 (<span class="math inline">\(b\)</span> is the <em>slope</em> - expected change in <span class="math inline">\(Y\)</span> per unit change in <span class="math inline">\(X\)</span>)</li>
@@ -280,7 +280,7 @@ $(document).ready(function () {
 <li>Non-linear response to a predictor variable
 <ul>
 <li>Might be able to use a linear model! <span class="math inline">\(Y = a + bX + cX^2\)</span> is linear in <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> (the unknowns)</li>
-<li><strong>Don’t</strong> use simple polynomials: use either <em>orthogonal polynomials</em> (<code>poly</code> in R) or splines (<code>ns</code> in R, <code>mgcv</code> package)</li>
+<li><strong>Don’t</strong> use simple polynomials: use either <em>orthogonal polynomials</em> (<code>poly</code> in R, e.g. <code>y  ~ poly(x,2)</code>) or splines (<code>splines::ns()</code>, or <code>mgcv</code> package)</li>
 </ul></li>
 </ul>
 </div>
@@ -364,8 +364,8 @@ M = a + B_x X + B_t t + B_{xt} Xt
 </ul></li>
 <li>This may make your life harder, but it’s worth it for the karma
 <ul>
-<li>There are techniques to deal with multiple predictors (e.g., lasso regression)</li>
-<li>There are ways to estimate main effects in the presence of interactions (“sum-to-zero contrasts” or “orthogonal interactions”)</li>
+<li>There are techniques to deal with multiple predictors (e.g., ridge or lasso regression)</li>
+<li>There are ways to estimate sensible main effects in the presence of interactions (centering variables <span class="citation">(Schielzeth 2010)</span>; “sum-to-zero contrasts”)</li>
 </ul></li>
 </ul>
 </div>
@@ -373,10 +373,10 @@ M = a + B_x X + B_t t + B_{xt} Xt
 <h2>Diagnostics</h2>
 <ul>
 <li>Because the linear model is sensitive (sometimes!) to assumptions, it is good to evaluate them</li>
-<li>Concerns:
+<li>Concerns (in order):
 <ul>
+<li><em>Bias</em>/<em>linearity</em>: did you miss a nonlinear relationship?</li>
 <li><em>Heteroscedasticity</em> (does variance change across the data set, e.g. increasing variance with increasing mean?)</li>
-<li>Linearity (does your model fit well?)</li>
 <li>Normality (assuming no overall problems, do your <strong>residuals</strong> look Normal?)</li>
 <li>Independence is hard to test</li>
 </ul></li>
@@ -444,9 +444,8 @@ http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnosti
 <ul>
 <li><code>lm</code> fits a linear model</li>
 <li><code>summary</code> prints statistics associated with the <em>parameters</em> that were fitted</li>
-<li><code>arm::coefplot</code> and <code>dotwhisker</code> package are useful for <em>visualizing</em> these</li>
-<li><code>anova</code> and <code>drop1</code> will attach P values to variables that have more than one parameter (even groups of variables, in the case of anova). <code>car::Anova</code> can also be useful</li>
-<li><strong>BEWARE</strong>: the standard ANOVA <span class="math inline">\(P\)</span> values are <em>sequential</em> (early variables <em>do not</em> control for the presence of later variables. This is probably not what you want. (See <code>car::Anova</code>)</li>
+<li><code>dotwhisker::dwplot()</code> is useful for <em>visualizing</em> these</li>
+<li><code>car::Anova()</code> and <code>drop1()</code> will find <span class="math inline">\(p\)</span> values that test the effect of variables that have more than one parameter. <code>anova(model1, model2)</code> tests the difference between two specific models.</li>
 </ul>
 </div>
 <div id="multiple-comparisons" class="section level2">
@@ -454,19 +453,24 @@ http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnosti
 <ul>
 <li>One standard of practice is to take a variable-level P value and then evaluate patterns in the response to significant variables</li>
 <li>Straightforward, but maybe not conservative</li>
-<li><code>TukeyHSD</code> does multiple comparison tests on objects produced by <code>aov</code>. Use <code>glht</code> in the <code>multcomp</code> package more generally.</li>
-<li>Note: <code>aov</code> is just another way of calling <code>lm</code>, whereas <code>anova</code> <em>compares</em> different model fits. Sorry for the confusion.</li>
+<li><code>emmeans::pairs()</code> (see <a href="https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html">emmeans vignette on comparisons</a> or <code>multcomp::glht()</code></li>
 </ul>
 </div>
 <div id="plotting" class="section level2">
 <h2>Plotting</h2>
 <ul>
-<li><code>plot</code> can be applied to an <code>lm</code> object to give you a nice set of diagnostic tests.</li>
+<li><code>plot</code> can be applied to an <code>lm</code> object to give you a set of diagnostic tests.</li>
 <li><code>predict</code> can give predicted values, and standard errors.</li>
 <li><code>simulate</code> simulates values from the fitted model</li>
 <li>Try <code>methods(class=&quot;lm&quot;)</code> to see all the possibilities …</li>
 <li>In <code>ggplot</code>, <code>geom_smooth(method=&quot;lm&quot;)</code> fits a linear model to each group of data (i.e. each group that you have identified by plotting it in a different colour, within a different facet, etc.</li>
+<li><code>effects</code>, <code>emmeans</code>, <code>sjPlot</code> packages … (mostly plotting inferences only, not overlaying observed points with predictions)</li>
 </ul>
+<div id="refs" class="references">
+<div id="ref-schielzeth_simple_2010">
+<p>Schielzeth, Holger. 2010. “Simple Means to Improve the Interpretability of Regression Coefficients.” <em>Methods in Ecology and Evolution</em> 1: 103–13. doi:<a href="https://doi.org/10.1111/j.2041-210X.2010.00012.x">10.1111/j.2041-210X.2010.00012.x</a>.</p>
+</div>
+</div>
 </div>
 </div>
 
