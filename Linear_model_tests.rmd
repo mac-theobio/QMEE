@@ -4,9 +4,8 @@ title: "Linear model testing"
 
 ## Variable-level P values
 
-Your go-to test for getting variable-level P values is `anova`
-
-`drop1` is a wrapper that allows you to do many simple anovas at once (one for each variable (or term) that R thinks it should drop).
+- `anova(model1,model2)` compares two *nested* models
+- `car::Anova` and `drop1` are wrappers that allow you to do many simple anovas at once (one for each variable (or term) that R thinks it should drop).
 
 When you are *estimating* variance (e.g., with a normal response variable) you should use an $F$ test.
 
@@ -23,8 +22,10 @@ lmtime <- lm(grahami~time, data=lizards)
 anova(lmTL1, lmlight, test="F")
 ## Test light (should be exactly the same test as in summary)
 anova(lmTL1, lmtime, test="F")
-## In this simple case, drop1 should do exactly the same thing we did above
+## In this simple case, drop1 and car::Anova
+##  will do exactly the same thing we did above
 drop1(lmTL1, test="F")
+car::Anova(lmTL1)
 ```
 
 ## Interaction model
@@ -37,6 +38,8 @@ anova(lmTL2, lmlight, test="F")
 anova(lmTL2, lmtime, test="F")
 ## drop1 now tests the whole interaction, also very useful
 drop1(lmTL2, test="F")
+car::Anova(lmTL2)  ## 'type II'; drop interaction before testing
+car::Anova(lmTL2, type='III')  ## 'type III'; test time at baseline light & v. versa
 ```
 
 ## Multiple comparisons
@@ -49,5 +52,11 @@ Multiple comparisons are tricky, and you probably don't need to do them.  Unlike
 library(multcomp)
 print(mc <- glht(lmTL1, linfct=mcp(time="Tukey")))
 cld(mc)
+```
+
+```{r emmeans,message=FALSE}
+library(emmeans)
+(e1 <- emmeans(lmTL1, "time"))
+pairs(e1)
 ```
 

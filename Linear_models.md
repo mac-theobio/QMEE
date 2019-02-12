@@ -64,7 +64,7 @@ Make a linear model for one or more of your hypotheses.
 Draw **and discuss** at least one of each of the following:
 
 * diagnostic plot
-* inferential plot (e.g., a coefficient plot, or something from `lsmeans` or `effects`)
+* inferential plot (e.g., a coefficient plot, or something from `emmeans` or `effects`)
 
 The assignment is due by sometime on Mon. 18 Feb.
 
