@@ -78,10 +78,10 @@ predict(lm1,newdata=data.frame(place=c("field","forest")),
 library("effects")
 summary(allEffects(lm1))
 ```
-- Use the `lsmeans` package:
+- Use the `emmeans` package:
 ```{r lsmeans,message=FALSE,warning=FALSE,results="hide"}
-library("lsmeans")
-lsmeans(lm1,specs=~place)
+library("emmeans")
+emmeans(lm1,specs=~place)
 ```
 
 ------
@@ -95,7 +95,7 @@ plot(allEffects(lm1))
 -------
 
 or
-```{r dotwhisker,mesage=FALSE}
+```{r dotwhisker,message=FALSE}
 library("dotwhisker")
 dwplot(lm0)
 ```
@@ -181,7 +181,7 @@ $\beta_1$ is the intercept ("early","sunny"); $\beta_2$ and $\beta_3$ are the di
 
 ## Graphical interpretation
 
-```{r lizardcontrasts1,echo=FALSE}
+```{r lizardcontrasts1,echo=FALSE,message=FALSE}
 require("grid")
 pp <- with(lizards,expand.grid(time=levels(time),light=levels(light)))
 pp$grahami <- predict(lmTL1,newdata=pp)
@@ -280,7 +280,8 @@ Session info:
 sessionInfo()
 ```
 
-Other refs
+## Other refs
+
 - http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html
 - [`gmodels::fit.contrast()`](http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html) (show parameter estimates based on re-fitting models with new contrasts), [`rms::contrast.rms()`](http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html) (ditto, for `rms`-based fits)
 - http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm

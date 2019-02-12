@@ -1,20 +1,21 @@
 ---
 title: Linear models lecture
 author: Jonathan Dushoff and Ben Bolker
+bibliography: glmm.bib
 ---
 
 # Introduction
  
 ## History
  
-- ANOVA, ANCOVA, regression, $t$ test are all variations of the same animal, the *general* linear model
+- ANOVA, ANCOVA, regression, $t$ test are **all variations of the same thing**, the *general* linear model
 - Many people (including the R project) call it a linear model (`lm`)
 to distinguish it from the *generalized* linear model (`glm`)
 - Unfortunately SAS calls it `PROC GLM`
 
 ## (part of) the statistical universe
 
-![](models-glmm.png)
+![](pix/models-glmm.png)
 
 ## Extended linear models
  
@@ -44,15 +45,14 @@ to distinguish it from the *generalized* linear model (`glm`)
  
 - Leads naturally to a *least squares* fit - we get parameters that minimize the squared differences between predictions and observations
 - Least squares fits have a lot of nice properties, including partitioning, and finding the middle
-- Solution is a simple (!) matrix equation
+- Solution is a simple (!?) matrix equation
 - Sensitive to some departures from the assumptions - anomalous events tend to have a larger effect than they should
 - Alternatives
  
 ## One-parameter variables
  
 - Continuous predictor variable: estimate a straight line with one parameter 
-     - Also implies one *input variable* -- we're not going to
-		talk much about those
+     - Also implies one *input variable*
 - $Y = a+bX$: $Y$ is the response, $X$ is the input variable   
 ($b$ is the *slope* - expected change in $Y$ per unit change in $X$)
 - Categorical predictor variable with two categories: only one parameter
@@ -69,7 +69,7 @@ input variable (parameter) associated with a single predictor variable
 - Non-linear response to a predictor variable
     - Might be able to use a linear model! $Y = a + bX + cX^2$ is linear
 in $a$ and $b$ (the unknowns)
-    - **Don't** use simple polynomials: use either *orthogonal polynomials* (`poly` in R) or splines (`ns` in R, `mgcv` package)
+    - **Don't** use simple polynomials: use either *orthogonal polynomials* (`poly` in R, e.g. `y  ~ poly(x,2)`) or splines (`splines::ns()`, or `mgcv` package)
 
 ## Interpreting multi-parameter variables is hard
  
@@ -138,26 +138,25 @@ variables, or more
 
 ## Statistical philosophy
  
- - Don't accept the null hypothesis
+- Don't accept the null hypothesis
     - Don't throw out predictors you wanted to test because
 		they're not significant
 	- Don't throw out interactions you wanted to test because
 		they're not significant
 - This may make your life harder, but it's worth it for the karma
      - 	There are techniques to deal with multiple predictors (e.g.,
-		lasso regression)
-     - 	There are ways to estimate main effects in the presence of
-		interactions ("sum-to-zero contrasts" or "orthogonal
-		interactions")
+ridge or lasso regression)
+     - 	There are ways to estimate sensible main effects in the presence of
+interactions (centering variables [@schielzeth_simple_2010]; "sum-to-zero contrasts")
  
 ## Diagnostics
  
 - Because the linear model is sensitive (sometimes!) to
 assumptions, it is good to evaluate them
-- Concerns:
+- Concerns (in order):
+    - *Bias*/*linearity*: did you miss a nonlinear relationship?
     - *Heteroscedasticity* (does variance change across the
 		data set, e.g. increasing variance with increasing mean?)
-    - Linearity (does your model fit well?)
 	- Normality (assuming no overall problems, do your
 		**residuals** look Normal?)
     - Independence is hard to test
@@ -165,11 +164,27 @@ assumptions, it is good to evaluate them
 
 ## Default plots in R
 
-Example needed
- 
-<!--- 
-http://lalashan.mcmaster.ca/theobio/bio_708_2013/index.php/Evan_Borman/diagnostics
--->
+```{r diagplots}
+skewdata <- read.csv("data/skewdat.csv")
+m1 <- lm(skew~Size, data=skewdata)
+par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
+plot(m1,id.n=4)
+```
+
+You can also use `broom::augment()` to get all the pieces (fitted, residuals, etc.) that yo need to construct these plots for yourself.
+
+---
+
+```{r plotstuff}
+library(dplyr)
+library(ggplot2); theme_set(theme_bw())
+aa <- broom::augment(m1) %>% mutate(n=1:n())
+(ggplot(skewdata, aes(Size,skew))
+    + geom_point(aes(colour=abs(aa$.resid)>0.1))
+    + geom_smooth(method="lm")
+    + scale_colour_manual(values=c("black","red"))
+)
+```
  
 ## Transformations
  
@@ -222,33 +237,26 @@ residuals, however
 
 - `lm` fits a linear model
 - `summary` prints statistics associated with the *parameters* that were fitted
-- `arm::coefplot` and `dotwhisker` package are useful for *visualizing* these
-- `anova` and `drop1` will attach P values to
-variables that have more than one parameter (even groups of
-variables, in the case of anova). `car::Anova` can also
-be useful
-- **BEWARE**: the standard ANOVA $P$ values are *sequential*
-(early variables *do not* control for the presence of later
-variables.  This is probably not what you want. (See `car::Anova`)
+- `dotwhisker::dwplot()` is useful for *visualizing* these
+- `car::Anova()` and `drop1()` will find $p$ values that test the effect of
+variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models.
 
 ## Multiple comparisons
  
 - One standard of practice is to take a variable-level P value and
 then evaluate patterns in the response to significant variables
 - Straightforward, but maybe not conservative
-- `TukeyHSD` does multiple comparison tests on objects
-produced by `aov`.  Use `glht` in the `multcomp` package
-more generally.
-- Note: `aov` is just another way of calling `lm`, whereas
-`anova` *compares* different model fits.  Sorry for the
-confusion.
+- `emmeans::pairs()` (see [emmeans vignette on comparisons](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html) or `multcomp::glht()`
  
 ## Plotting
 
-- `plot` can be applied to an `lm` object to give you a nice set of diagnostic tests.
+- `plot` can be applied to an `lm` object to give you a set of diagnostic tests.
 - `predict` can give predicted values, and standard errors.
 - `simulate` simulates values from the fitted model
 - Try `methods(class="lm")` to see all the possibilities ...
 - In `ggplot`, `geom_smooth(method="lm")` fits a linear model
 	to each group of data (i.e.  each group that you have identified by
 	plotting it in a different colour, within a different facet, etc.
+- `effects`, `emmeans`, `sjPlot` packages ... (mostly plotting inferences only, not overlaying observed points with predictions)
+
+## References
