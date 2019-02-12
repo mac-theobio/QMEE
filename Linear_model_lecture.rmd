@@ -252,4 +252,3 @@ confusion.
 - In `ggplot`, `geom_smooth(method="lm")` fits a linear model
 	to each group of data (i.e.  each group that you have identified by
 	plotting it in a different colour, within a different facet, etc.
-
