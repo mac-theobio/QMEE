@@ -46,3 +46,9 @@ For lots more opinions on R coding style, see [here](R_style.html)
 - use log scales often, especially for morphometric measurements
 - especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]
 - use comma-separation to combine multiple `mutate()` steps
+
+## MMV comments/questions
+
+- why did your friend get tested? Was this part of a random screen or did they have a reason to be tested (which may raise the prior probability)?
+- could one gather more information about your friend to either increase or decrease their prior probability (risk factors, status of relatives, etc.)?
+- multiple tests *might* improve accuracy - depending on why the tests give false positives. Are multiple tests on the same person independent?

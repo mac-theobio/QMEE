@@ -57,10 +57,9 @@ _This schedule is subject to change_
 ### Basic Statistics
 
 - [Permutations](Permutations.html)
-- Linear models
+- [Linear models](Linear_models.html)
 - Bayesian statistics
 <!-- COMMENT
--   [Linear models](Linear_models.html)
 -   [Bayesian statistics](Bayesian_statistics.html)
 COMMENT -->
 

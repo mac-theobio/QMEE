@@ -61,9 +61,10 @@ Assignment
 ==========
 
 Make a linear model for one or more of your hypotheses. 
-Draw _and discuss_ at least one of each of the following:
+Draw **and discuss** at least one of each of the following:
+
 * diagnostic plot
 * inferential plot (e.g., a coefficient plot, or something from `lsmeans` or `effects`)
 
-The assignment is due by Wed. 22 Feb noon.
+The assignment is due by sometime on Mon. 18 Feb.
 
