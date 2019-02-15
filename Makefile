@@ -6,7 +6,7 @@
 current: target
 -include target.mk
 
-## push_pages: 
+## push_local: 
 ## open_pages: 
 ## push_site
 
@@ -38,6 +38,7 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 gh-pages/cleaning.html: cleaning.rmd
 gh-pages/Introduction_to_R.html: Introduction_to_R.md
 gh-pages/permutation_examples.html: permutation_examples.rmd
+## gh-pages/assignments.html: assignments.md
 
 ##################################################################
 
@@ -98,13 +99,13 @@ Sources += $(wildcard *.md)
 ## Formatting
 
 Sources += qmee.css header.html footer.html
-mds = pandoc --mathjax -s -S -c qmee.css -B header.html -A footer.html -o $@ $<
+mds = pandoc --mathjax -s -c qmee.css -B header.html -A footer.html -o $@ $<
 gh-pages/%.html: %.md qmee.css header.html footer.html
 	$(mds)
 
 ## Did not chain properly (both figures and inputs)
 gh-pages/%.pdf: %.md header.html footer.html
-	pandoc --mathjax -s -S -o $@ $<
+	pandoc --mathjax -s -o $@ $<
 
 ######################################################################
 
@@ -146,17 +147,17 @@ pull_pages:
 	cd gh-pages && make pull
 
 ## Update the _local copy_ of the site (open to open the main page as well)
-push_pages: 
+push_local: 
 	$(MAKE) figure gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
 	-rsync figure/* gh-pages/figure
 
 open_pages: 
-	$(MAKE) push_pages
+	$(MAKE) push_local
 	$(MAKE) gh-pages/index.html.go
 
 ## Push the site to github.io (all to simultaneously sync this repo)
 push_site: 
-	$(MAKE) push_pages
+	$(MAKE) push_local
 	cd gh-pages && $(MAKE) remotesync
 
 push_all: 
