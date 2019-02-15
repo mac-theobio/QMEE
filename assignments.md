@@ -52,3 +52,19 @@ For lots more opinions on R coding style, see [here](R_style.html)
 - why did your friend get tested? Was this part of a random screen or did they have a reason to be tested (which may raise the prior probability)?
 - could one gather more information about your friend to either increase or decrease their prior probability (risk factors, status of relatives, etc.)?
 - multiple tests *might* improve accuracy - depending on why the tests give false positives. Are multiple tests on the same person independent?
+
+## permutation assignment
+
+- what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; $F$-statistic from `anova()`)
+- tibble problems:
+```
+mean(fi_d2[fi_d2$Type=="NM", "body_condition"])
+```
+- extracting summary statistics:
+```
+fi_d3.aov<- aov(body_condition~Type, fi_d3)
+summary(fi_d3.aov)[[1]]$`F value`[1]
+## or
+a2 <- anova(lm(body_condition~Type, fi_d3))
+a2$`F value`[1]
+```
