@@ -44,6 +44,7 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -103,6 +104,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>why did your friend get tested? Was this part of a random screen or did they have a reason to be tested (which may raise the prior probability)?</li>
 <li>could one gather more information about your friend to either increase or decrease their prior probability (risk factors, status of relatives, etc.)?</li>
 <li>multiple tests <em>might</em> improve accuracy - depending on why the tests give false positives. Are multiple tests on the same person independent?</li>
+</ul>
+<h2 id="permutation-assignment">permutation assignment</h2>
+<ul>
+<li>what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; <span class="math inline">\(F\)</span>-statistic from <code>anova()</code>)</li>
+<li><p>tibble problems:</p>
+<pre><code>mean(fi_d2[fi_d2$Type==&quot;NM&quot;, &quot;body_condition&quot;])</code></pre></li>
+<li><p>extracting summary statistics:</p>
+<pre><code>fi_d3.aov&lt;- aov(body_condition~Type, fi_d3)
+summary(fi_d3.aov)[[1]]$`F value`[1]
+## or
+a2 &lt;- anova(lm(body_condition~Type, fi_d3))
+a2$`F value`[1]</code></pre></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
