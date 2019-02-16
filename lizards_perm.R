@@ -42,3 +42,23 @@ for (i in 2:nsim) {
 library(lmPerm)
 ## does *NOT* give overall comparison ...
 summary(lmp(gfrac~time,data=lizards))
+
+## what if we want to extract summary statistics from a 1-way ANOVA?
+
+a2 <- anova(lm(gfrac~time, data=lizards))
+str(a2)
+## Classes ‘anova’ and 'data.frame':	2 obs. of  5 variables:
+##  $ Df     : int  2 20
+##  $ Sum Sq : num  0.214 0.495
+##  $ Mean Sq: num  0.107 0.0247
+##  $ F value: num  4.33 NA
+##  $ Pr(>F) : num  0.0275 NA
+##  - attr(*, "heading")= chr  "Analysis of Variance Table\n" "Response: gfrac"
+
+## we want to pull out the F value ("4.33")
+a2$`F value`
+a2[["F value"]]
+
+## but we only need the first element
+a2$`F value`[1]
+

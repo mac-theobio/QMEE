@@ -55,20 +55,34 @@ For lots more opinions on R coding style, see [here](R_style.html)
 
 ## permutation assignment
 
-- what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; $F$-statistic from `anova()`)
+- what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; $F$-statistic from `anova()`). See [lizards_perm.R](lizards example)
+
+### extracting summary statistics:
+
+```
+fi_d3.aov<- aov(body_condition~Type, fi_d3)
+summary(fi_d3.aov)[[1]]$`F value`[1]
+## or
+a2 <- anova(lm(body_condition~Type, fi_d3))
+a2$`F value`[1]
+```
+
 ### tibble problems:
 
 ```
 mean(fi_d2[fi_d2$Type=="NM", "body_condition"])
 ```
+
 works for data.frames (because of auto-collapse), but not for tibbles. Sorry!
 
 A base R solution might be to explicitly "pull" the column first):
+
 ```
 mean(fi_d2$body_condition[fi_d2$Type=="NM")
 ```
 
-A tidy solution could deal with all types at once
+A tidy solution could deal with all types at once:
+
 ```
 print(fi_d2
 	%>% group_by(Type)
@@ -78,11 +92,3 @@ print(fi_d2
 
 This would be for viewing. To put this in an analysis pipeline, you would use pull (see [permutation examples](permutation_examples.html))
 
-### extracting summary statistics:
-```
-fi_d3.aov<- aov(body_condition~Type, fi_d3)
-summary(fi_d3.aov)[[1]]$`F value`[1]
-## or
-a2 <- anova(lm(body_condition~Type, fi_d3))
-a2$`F value`[1]
-```
