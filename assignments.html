@@ -44,7 +44,6 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
   </style>
   <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 </head>
 <body>
 <header class="site-header">
@@ -60,33 +59,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Assignments</h1>
 </div>
-<p>For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we've said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure.</p>
+<p>For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we’ve said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure.</p>
 <p>If your assignment will be late, please email us by Friday noon to let us know when you will hand it in. This should be before 2PM on Monday, unless we give permission for special circumstances.</p>
 <p><em>Submit your assignment by email</em> to <a href="mailto:bio708qmee@gmail.com">bio708qmee@gmail.com</a>. Your assignment is not done until you do this. To submit an assignment:</p>
 <ul>
 <li><p>Tell us the main file we should be looking at, including the <em>relative path</em> from the main repo directory, e.g, <code>dushoff/add.R</code> Other files that are relevant can simply be mentioned in the script:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read.csv</span>(<span class="st">&quot;eggplant_survey.csv&quot;</span>)
 ## Plot the histotypes (see README.md)</code></pre></div></li>
-<li>Make sure that your script runs, from beginning to end, <em>without absolute path names</em> (just in case one of us doesn't have a directory called <code>E://From Oshawa Computer/Research Files/My Thesis/Data for 708/</code> already available)</li>
-<li><p>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don't have the packages you are using.</p></li>
+<li>Make sure that your script runs, from beginning to end, <em>without absolute path names</em> (just in case one of us doesn’t have a directory called <code>E://From Oshawa Computer/Research Files/My Thesis/Data for 708/</code> already available)</li>
+<li><p>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don’t have the packages you are using.</p></li>
 </ul>
 <p>For lots more opinions on R coding style, see <a href="R_style.html">here</a></p>
 <h2 id="general-principles-gleaned-from-assignment-review">General principles gleaned from assignment review</h2>
-<h3 id="dont">don't</h3>
+<h3 id="dont">don’t</h3>
 <ul>
 <li>use spaces or other special characters (<code>&amp;</code>, <code>#</code>, <code>$</code>) in file names (<code>_</code> and <code>.</code> are OK)</li>
 <li>leave interactive commands like <code>View()</code>, <code>head()</code>, <code>str()</code> in your code [unless commented out]</li>
 <li>leave <code>install.packages()</code> in your code [ditto]</li>
-<li>use names of built-in R objects (especially <code>data</code>, but also: <code>sd</code>, <code>t</code>, <code>dt</code>, <code>df</code>, <code>I</code>, ...) for your own variables. <code>fortunes::fortune(77)</code></li>
+<li>use names of built-in R objects (especially <code>data</code>, but also: <code>sd</code>, <code>t</code>, <code>dt</code>, <code>df</code>, <code>I</code>, …) for your own variables. <code>fortunes::fortune(77)</code></li>
 </ul>
 <blockquote>
-<p>Firstly, don't call your matrix 'matrix'. Would you call your dog 'dog'? Anyway, it might clash with the function 'matrix'. [Barry Rowlingson, R-help (October 2004)]</p>
+<p>Firstly, don’t call your matrix ‘matrix’. Would you call your dog ‘dog’? Anyway, it might clash with the function ‘matrix’. [Barry Rowlingson, R-help (October 2004)]</p>
 </blockquote>
 <ul>
 <li>include absolute path names</li>
-<li>include <code>rm(list=ls())</code> (see <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script/">Jenny Bryan's blog post on this topic</a></li>
+<li>include <code>rm(list=ls())</code> (see <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script/">Jenny Bryan’s blog post on this topic</a></li>
 <li>load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)</li>
-<li>use &quot;extreme tidyverse&quot;; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
+<li>use “extreme tidyverse”; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
 </ul>
 <h3 id="do">do</h3>
 <ul>
@@ -96,7 +95,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>use the <code>*_if()</code>, <code>*_at()</code>, <code>*_all()</code> versions of tidyverse functions (esp. <code>mutate</code> and <code>summarise</code>) to transform multiple columns</li>
 <li>use <code>stopifnot()</code> (or the <code>assertthat</code> package from the extended hadleyverse) to test conditions</li>
 <li>use log scales often, especially for morphometric measurements</li>
-<li>especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]</li>
+<li>especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]</li>
 <li>use comma-separation to combine multiple <code>mutate()</code> steps</li>
 </ul>
 <h2 id="mmv-commentsquestions">MMV comments/questions</h2>
@@ -105,27 +104,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>could one gather more information about your friend to either increase or decrease their prior probability (risk factors, status of relatives, etc.)?</li>
 <li>multiple tests <em>might</em> improve accuracy - depending on why the tests give false positives. Are multiple tests on the same person independent?</li>
 </ul>
-<h2 id="permutation-assignment">permutation assignment</h2>
-<ul>
-<li>what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; <span class="math inline">\(F\)</span>-statistic from <code>anova()</code>). See <a href="lizards%20example">lizards_perm.R</a></li>
-</ul>
-<h3 id="extracting-summary-statistics">extracting summary statistics:</h3>
-<pre><code>fi_d3.aov&lt;- aov(body_condition~Type, fi_d3)
-summary(fi_d3.aov)[[1]]$`F value`[1]
-## or
-a2 &lt;- anova(lm(body_condition~Type, fi_d3))
-a2$`F value`[1]</code></pre>
-<h3 id="tibble-problems">tibble problems:</h3>
-<pre><code>mean(fi_d2[fi_d2$Type==&quot;NM&quot;, &quot;body_condition&quot;])</code></pre>
-<p>works for data.frames (because of auto-collapse), but not for tibbles. Sorry!</p>
-<p>A base R solution might be to explicitly &quot;pull&quot; the column first):</p>
-<pre><code>mean(fi_d2$body_condition[fi_d2$Type==&quot;NM&quot;)</code></pre>
-<p>A tidy solution could deal with all types at once:</p>
-<pre><code>print(fi_d2
-    %&gt;% group_by(Type)
-    %&gt;% summarise(mean_cond = mean(body_condition))
-)</code></pre>
-<p>This would be for viewing. To put this in an analysis pipeline, you would use pull (see <a href="permutation_examples.html">permutation examples</a>)</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
