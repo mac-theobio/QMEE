@@ -155,18 +155,35 @@
 </article></slide><slide class=""><hgroup><h2>permutation assignment</h2></hgroup><article  id="permutation-assignment">
 
 <ul>
-<li>what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; \(F\)-statistic from <code>anova()</code>)</li>
-<li><p>tibble problems:</p>
+<li>what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; \(F\)-statistic from <code>anova()</code>). See <a href='lizards%20example' title=''>lizards_perm.R</a></li>
+</ul>
 
-<pre >mean(fi_d2[fi_d2$Type==&quot;NM&quot;, &quot;body_condition&quot;])</pre></li>
-<li><p>extracting summary statistics:</p>
+<h3>extracting summary statistics:</h3>
 
 <pre >fi_d3.aov&lt;- aov(body_condition~Type, fi_d3)
 summary(fi_d3.aov)[[1]]$`F value`[1]
 ## or
 a2 &lt;- anova(lm(body_condition~Type, fi_d3))
-a2$`F value`[1]</pre></li>
-</ul></article></slide>
+a2$`F value`[1]</pre>
+
+<h3>tibble problems:</h3>
+
+<pre >mean(fi_d2[fi_d2$Type==&quot;NM&quot;, &quot;body_condition&quot;])</pre>
+
+<p>works for data.frames (because of auto-collapse), but not for tibbles. Sorry!</p>
+
+<p>A base R solution might be to explicitly &quot;pull&quot; the column first):</p>
+
+<pre >mean(fi_d2$body_condition[fi_d2$Type==&quot;NM&quot;)</pre>
+
+<p>A tidy solution could deal with all types at once:</p>
+
+<pre >print(fi_d2
+    %&gt;% group_by(Type)
+    %&gt;% summarise(mean_cond = mean(body_condition))
+)</pre>
+
+<p>This would be for viewing. To put this in an analysis pipeline, you would use pull (see <a href='permutation_examples.html' title=''>permutation examples</a>)</p></article></slide>
 
 
   <slide class="backdrop"></slide>
