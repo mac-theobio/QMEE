@@ -49,11 +49,11 @@ gh-pages:
 
 ##################################################################
 
-## Rmd stuff
+## rmd stuff
 
 ### Right now building "notes" html like regular html (with this upstream rule)
 ### Could cause problems with figures or (less likely) mathjax
-Sources += $(wildcard *.Rmd *.rmd)
+Sources += $(wildcard *.rmd)
 Sources += $(wildcard *.csv)
 
 Ignore += $(wildcard *.mkd)
@@ -169,10 +169,6 @@ push_all:
 # and unify (if possible on rmarkdown/render with some sort of qmee css)
 
 Ignore += cache/ *_cache/ *_files/
-
-gh-pages/%.html: %.Rmd
-	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
-	mv -f $*.html $@
 
 gh-pages/%.html: %.rmd
 	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
