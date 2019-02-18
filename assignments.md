@@ -55,7 +55,7 @@ For lots more opinions on R coding style, see [here](R_style.html)
 
 ## permutation assignment
 
-- what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; $F$-statistic from `anova()`). See [lizards_perm.R](lizards example)
+- what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; $F$-statistic from `anova()`). See [lizards example](lizards_perm.R).
 
 ### extracting summary statistics:
 
@@ -91,4 +91,3 @@ print(fi_d2
 ```
 
 This would be for viewing. To put this in an analysis pipeline, you would use pull (see [permutation examples](permutation_examples.html))
-
