@@ -3171,7 +3171,11 @@ if (document.readyState !== "loading" &&
 </article></slide><slide class=""><hgroup><h2>permutation assignment</h2></hgroup><article  id="permutation-assignment">
 
 <ul>
+<<<<<<< HEAD
 <li>what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; \(F\)-statistic from <code>anova()</code>). See <a href='lizards%20example' title=''>lizards_perm.R</a></li>
+=======
+<li>what are good summary statistics when we want to comparing among more than two groups? (sum of squared differences among groups/between group means and overall mean; sum of abs value of differences between group median and overall median; \(F\)-statistic from <code>anova()</code>). See <a href='lizards_perm.R' title=''>lizards example</a></li>
+>>>>>>> 8eb04e37a6d18b551be2214192da983713f56baf
 </ul>
 
 <h3>extracting summary statistics:</h3>
@@ -3188,7 +3192,11 @@ a2$`F value`[1]</pre>
 
 <p>works for data.frames (because of auto-collapse), but not for tibbles. Sorry!</p>
 
+<<<<<<< HEAD
 <p>A base R solution might be to explicitly &ldquo;pull&rdquo; the column first):</p>
+=======
+<p>A base R solution might be to explicitly &quot;pull&quot; the column first):</p>
+>>>>>>> 8eb04e37a6d18b551be2214192da983713f56baf
 
 <pre >mean(fi_d2$body_condition[fi_d2$Type==&quot;NM&quot;)</pre>
 
