@@ -10,6 +10,8 @@ current: target
 ## open_pages: 
 ## push_site
 
+pullup pull: pull_site
+
 ##################################################################
 
 msrepo = https://github.com/dushoff
