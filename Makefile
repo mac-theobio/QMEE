@@ -10,7 +10,7 @@ current: target
 ## open_pages: 
 ## push_site
 
-pullup pull: pull_site
+pullup pull: pull_pages
 
 ##################################################################
 
