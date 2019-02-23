@@ -2,9 +2,6 @@
 title: "VerySimpleIntroductionToMultivariateLinearModels"
 author: "Ian Dworkin"
 date: "`r format(Sys.time(),'%d %b %Y')`"
-output: 
-  html_document: 
-    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}

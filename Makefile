@@ -37,10 +37,8 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 ## Current
 
-gh-pages/cleaning.html: cleaning.rmd
-gh-pages/Introduction_to_R.html: Introduction_to_R.md
-gh-pages/permutation_examples.html: permutation_examples.rmd
-## gh-pages/assignments.html: assignments.md
+## gh-pages/permutation_examples.html: permutation_examples.rmd
+## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
 
 ##################################################################
 
@@ -171,11 +169,15 @@ push_all:
 # Figure out what the old pathway was (still used for straight md)
 # and unify (if possible on rmarkdown/render with some sort of qmee css)
 
+## 2019 Feb 22 (Fri) This seemed to work but is now creating figures elsewhere
+
 Ignore += cache/ *_cache/ *_files/
 
+gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
 gh-pages/%.html: %.rmd
 	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
 	mv -f $*.html $@
+	- mv -f $_files $@
 
 ######################################################################
 
