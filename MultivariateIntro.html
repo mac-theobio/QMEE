@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Ian Dworkin" />
+  <meta name="date" content="2019-02-22" />
   <title>VerySimpleIntroductionToMultivariateLinearModels</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -61,7 +62,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">VerySimpleIntroductionToMultivariateLinearModels</h1>
 <h2 class="author">Ian Dworkin</h2>
-<h3 class="date">function () , .POSIXct(.Internal(Sys.time()))</h3>
+<h3 class="date">22 Feb 2019</h3>
 </div>
 <p>In today's class we are introducing how to model data when you have multiple continuous response variables. This can be done with a relatively simple extension of the linear models you learned previously (regression, ANOVA, ANCOVA style models).</p>
 <h2 id="packages">Packages</h2>
@@ -78,8 +79,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&quot;./MLM_Dworkin.R&quot;</span>)
 <span class="kw">ls</span>()</code></pre></div>
-<pre><code>## [1] &quot;ang.vec.abs&quot; &quot;bci&quot;         &quot;bci2&quot;        &quot;df2&quot;         &quot;gaussmodel&quot; 
-## [6] &quot;PD&quot;          &quot;shapePRsq&quot;   &quot;shapeRsq&quot;    &quot;ShapeScore&quot;</code></pre>
+<pre><code>##  [1] &quot;ang.vec.abs&quot;   &quot;bci&quot;           &quot;bci2&quot;          &quot;df2&quot;          
+##  [5] &quot;dll_data&quot;      &quot;gaussmodel&quot;    &quot;mlm_fit1&quot;      &quot;mlm_fit2&quot;     
+##  [9] &quot;mlm_fit4&quot;      &quot;mlm_fit4_dist&quot; &quot;mlm_fit5&quot;      &quot;PD&quot;           
+## [13] &quot;shapePRsq&quot;     &quot;shapeRsq&quot;      &quot;ShapeScore&quot;</code></pre>
 <h2 id="data">Data</h2>
 <p>We will use an old <em>Drosophila melanogaster</em> data set from my PhD work. The associated paper can be found <a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1525-142X.2005.05010.x/abstract">here</a>. This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study I measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dll_data =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv&quot;</span>, <span class="dt">header=</span><span class="ot">TRUE</span>)</code></pre></div>
