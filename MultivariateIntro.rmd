@@ -1,7 +1,7 @@
 ---
 title: "VerySimpleIntroductionToMultivariateLinearModels"
 author: "Ian Dworkin"
-date: "March 17, 2017"
+date: "`r format(Sys.time(),'%d %b %Y')`"
 output: 
   html_document: 
     keep_md: yes
@@ -19,7 +19,7 @@ In today's class we are introducing how to model data when you have multiple con
 
 You may also need to install the following packages. If you do not have them remove the '#' to uncomment the lines.
 
-```{r pkgs,warning=FALSE}
+```{r pkgs,warning=FALSE,message=FALSE}
 # install.packages("car")
 # install.packages("geomorph")
 library(car)
@@ -30,7 +30,7 @@ the `car` package has some useful functions for helping to make inferences for [
 
 ## Source in some custom functions
 
-We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages [here](https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd). We wrote most of them for a paper analyzing multivariate shape of Drosophila wings across altitudinal and latitudinal gradients. [Check here](http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full) for the paper and [here](http://datadryad.org/resource/doi:10.5061/dryad.r43k1) for the full data and scripts. Lots of cool multivariate examples.
+We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages [here](https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd). We wrote most of them for a paper analyzing multivariate shape of *Drosophila* wings across altitudinal and latitudinal gradients. [Check here](http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full) for the paper and [here](http://datadryad.org/resource/doi:10.5061/dryad.r43k1) for the full data and scripts. Lots of cool multivariate examples.
 
 * [R script to source](MLM_Dworkin.R)
 
@@ -112,16 +112,18 @@ pairs(dll_data[, 5:8],pch=".",gap=0)
 ```
 
 We could do some more plotting to take a look (from the `car` package). However, there is so much overlap in the data among treatment variables, that it can be hard to see what is going on
-```{r smatrix}
+```{r smatrix, warning=FALSE}
 scatterplotMatrix( ~ femur + tibia + tarsus + SCT | temp, 
                   ellipse = TRUE, data = dll_data,
-                  transform = TRUE)
+                  transform = TRUE, gap=0)
 ```
+
 Not surprising since we have three length measures, but we see a moderate degree of correlation among these traits, likely reflecting a common factor (overall size). However, they are certainly not perfectly correlated with one another. 
 
 In general, when we are dealing with a set of multivariate response variables, this is the situation we want to be in. That is, if there is some correlation between our variables, it is not too high. If it was, I would probably consider using Principal Components Analysis or another dimensional reduction technique to get a few axes of variation that account for most of the variation. We could also check to see if the covariance matrix was not of full rank (i.e. for a covariance matrix for 4 variables, do we really have 4 "independent axes"). One quick check (which directly relates to PCA) is to examine the eigenvalues of the covariance matrix, and make sure the final ones are not really small.
 
 We can extract the eigenvalues.
+
 ```{r eigs}
 svd(cov(dll_data[, 5:8]))$d
 ```
@@ -199,7 +201,7 @@ Unfortunately, by default this spits out a minimal amount of useful information.
 
 While we have just estimated a single predictor variable (`genotype`) you can see we are not using just one degree of freedom, but 4 (`num Df`). This is because we have 4 response variables that we are estimating. This is the first (and one of the most important) things to keep in mind with a multivariate linear model. We will be estimating a lot more parameters, so we need to keep in mind how much we can estimate in a model. As we will see below, this is why distance based approaches (like in adonis/vegan and geomorph) are often used. 
 
-The other two things to note is this "Pillai" statistic and the approximate F statistic. It turns out that with the matrices that are used for inference ($\mathbf{H}$ the *hypothesis matrix*) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of $\mathbf{HE^{-1}}$ where $\mathbf{E}$ is the matrix of residuals. There are four commonly used test statistics that are derived from the eigenvalues of this matrix. I don't want to get into this here, but do check out inferences for [multivariate linear models](https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf) for more information, and how it is used in `car`.
+The other two things to note is this "Pillai" statistic and the approximate $F$ statistic. It turns out that with the matrices that are used for inference ($\mathbf{H}$ the *hypothesis matrix*) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of $\mathbf{HE^{-1}}$ where $\mathbf{E}$ is the matrix of residuals. There are four commonly used test statistics that are derived from the eigenvalues of this matrix. I don't want to get into this here, but do check out inferences for [multivariate linear models](https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf) for more information, and how it is used in `car`.
 While this defaults to Pillai's trace, many in biology seem to use Wilks's $\lambda$. Most of the time these give pretty similar results. You can easily change it, like so:
 
 ```{r wilks}
@@ -214,7 +216,7 @@ Anova(mlm_fit1)
 
 ### How about measures of effect size?
 
-What we would like to start to think about is effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or *length* of the vector for coefficients associated with the response. This is sometimes known as the *L2 norm* of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:
+We would like to start to think about effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or *length* of the vector for coefficients associated with the response. This is sometimes known as the *L2 norm* of the vector, but you can mostly easily think about it as the square root of the sum of squares of the coefficients, i.e:
 
 $$
 || \mathbf{x} || = \sqrt{\mathbf{x'} \cdot \mathbf{x}}
@@ -225,7 +227,7 @@ $$
 || \mathbf{x} || = \sqrt{x^{2}_{1} + x^{2}_{2} + \cdots + x^{2}_{n}  }
 $$
 
-Which you may recognize from the Pythagorean theorem. 
+which you may recognize from the Pythagorean theorem. 
 
 For our model we can examine the coefficients easily
 ```{r mlm_coefs}
