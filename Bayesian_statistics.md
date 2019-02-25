@@ -45,7 +45,7 @@ Resources
     Bayesians?"](http://www.jstor.org/stable/2269594): strong
     anti-Bayesian view, Dennis 1996 "Ecological Applications"
     ("Bayesianism means never having to say you're wrong";
-    "Bayesianism equals scientific relativism, which is ... a sort
+    "\[Bayesianism equals scientific relativism, which is ... \] a sort
     of intellectual
     [Calvinball](http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball)")
 - [Translating Probability Density Functions: From R to BUGS and Back Again](https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf), LeBauer et al. 2013
