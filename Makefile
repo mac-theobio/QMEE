@@ -8,7 +8,7 @@ current: target
 
 ## push_local: 
 ## open_local: 
-## push_site
+## push_site:
 
 pullup pull: pull_pages
 
