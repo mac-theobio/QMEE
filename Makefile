@@ -207,3 +207,4 @@ facebook_logo.png: figure/gam-1.png Makefile
 
 # -include $(ms)/pandoc.mk
 -include $(ms)/stepR.mk
+
