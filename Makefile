@@ -192,6 +192,7 @@ gh-pages/%.html: %.rmd
 ## Experimenting with live jags-ing
 
 jags.Rout: jags.bug jags.R
+fev.Rout: fev.bug fev.R
 
 ######################################################################
 
@@ -206,3 +207,4 @@ facebook_logo.png: figure/gam-1.png Makefile
 
 # -include $(ms)/pandoc.mk
 -include $(ms)/stepR.mk
+
