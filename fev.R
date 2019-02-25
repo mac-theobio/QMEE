@@ -1,4 +1,5 @@
 library(R2jags)
+## Try to install rjags first (read instructions about jags)
 library(readr)
 ## wants to use curl package to read from web, you may want to install it
 library(ggplot2)
@@ -13,12 +14,15 @@ print(ggplot(df, aes(x=height, y=fev))
 linmod <- lm(fev~height, data=df)
 plot(linmod)
 
+N <- nrow(df)
 
-quit()
-
-bayesmod <- jags(model.file='fev.bug'
-	, parameters=c("")
-	, data = list('fev' = fev, 'height' = height)
+bayesmod <- with(df, jags(model.file='fev.bug'
+	, parameters=c("b_height", "b_0", "tau")
+	, data = list('fev' = fev, 'height' = height, 'N'=N)
 	, n.chains = 4
 	, inits=NULL
-)
+))
+
+print(bayesmod)
+plot(bayesmod)
+traceplot(bayesmod)
