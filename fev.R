@@ -12,15 +12,9 @@ print(ggplot(df, aes(x=height, y=fev))
 linmod <- lm(fev~height, data=df)
 plot(linmod)
 
-N <- nrow(df)
-
-bayesmod <- with(df, jags(model.file='jags.bug',
-	parameters=c("b_0", "b_height", "tau")
-	, data = list('fev' = fev, 'height' = height, 'N' = N)
-	, n.chains = 4
-	, inits=NULL
-))
-
-print(bayesmod)
-plot(bayesmod)
-traceplot(bayesmod)
+bayesmod <- jags(model.file='fev.bug',
+	parameters=c("")
+	data = list('fev' = fev, 'height' = height),
+	n.chains = 4,
+	inits=NULL
+)
