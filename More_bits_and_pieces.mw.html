@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h2 id="r-resources">R resources</h2>
+<ul>
+<li>Basic help: <code>help(&quot;topic&quot;)</code>, <code>?&quot;topic</code></li>
+<li>Search all installed packages: <code>help.search()</code></li>
+<li>Find functions or objects containing a string: <code>apropos()</code></li>
+<li>Search all of CRAN: <code>library(&quot;sos&quot;);</code> <code>findFn(...)</code> (<strong>amazingly useful</strong>)</li>
+<li><a href="http://www.maths.lancs.ac.uk/~rowlings/R/TaskViews/">Task views</a>
+<ul>
+<li>Functionality for specific areas</li>
+<li>See especially <a href="http://cran.r-project.org/web/views/Phylogenetics.html">Phylogenetics</a>, <a href="http://cran.r-project.org/web/views/Environmetrics.html">Environmetrics</a> (ignore the silly name)</li>
+<li><code>ctv</code> package (installs all packages associated with a Task View)</li>
+</ul></li>
+<li>The <a href="http://www.ats.ucla.edu/stat/r/faq/">UCLA R FAQ</a> is very good</li>
+<li>Mailing lists and forums:
+<ul>
+<li>general ground rules
+<ul>
+<li>browse/lurk before posting</li>
+<li>be clear about the focus of your question (e.g. r-help is not for stats questions)</li>
+<li>read the documentation as carefully as you can first; indicate what you’ve read</li>
+<li>“what have you tried?”</li>
+<li>provide a <strong>minimal workable example</strong> (e.g. see <a href="http://tinyurl.com/reproducible-000">here</a>)</li>
+</ul></li>
+<li><code>r-help@r-project.org</code> (also via <a href="http://news.gmane.org/gmane.comp.lang.r.general">Gmane interface</a>)</li>
+<li>also “SIG” (special interest groups), especially r-sig-phylo, r-sig-ecology</li>
+<li><a href="http://stackoverflow.com/questions/tagged/r">StackOverflow ([r</a> tag)], <a href="http://stats.stackexchange.com">CrossValidated</a></li>
+<li><a href="https://support.bioconductor.org/">Bioconductor support forum</a></li>
+<li><a href="https://twitter.com/search?q=%23rstats&amp;src=typd">#rstats</a> on Twitter</li>
+<li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
+<li><code>d-r-users@mcmaster.ca</code></li>
+</ul></li>
+</ul>
+<h2 id="phylogeneticbioinformatic-stuff">Phylogenetic/bioinformatic stuff</h2>
+<ul>
+<li>Use <code>setRepositories()</code> to easily add <a href="http://www.bioconductor.org/">Bioconductor</a> to your list of package repositories</li>
+<li><code>ape</code> package for most basic phylogenetic/sequence stuff
+<ul>
+<li><code>ape::read.GenBank</code></li>
+<li><code>DNAbin</code> data type</li>
+</ul></li>
+<li><code>taxize</code> and <code>traits</code> package for retrieving trees via Phylomatic
+<ul>
+<li><code>install.packages(&quot;devtools&quot;);</code> <code>install_github(&quot;traits&quot;)</code> (may need compilation tools; X<a href="http://cran.r-project.org/bin/windows/Rtools/">Rtools</a> for Windows, <a href="http://r.research.att.com/tools/">developer tools</a> for MacOS)</li>
+<li>then <code>library(&quot;phylomatic&quot;);</code> <code>?phylomatic</code></li>
+</ul></li>
+</ul>
+<footer class="site-header">
+<div class="wrapper">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com)">Course email address</a>
+	</div>
+</div>
+</footer>
+</body>
+</html>

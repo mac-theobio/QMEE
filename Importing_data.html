@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h1 id="data-structure">Data structure</h1>
+<p>You will typically import data into <code>R</code> as a data frame. This is basically a rectangle of data, with each column representing a different variable. R will try to figure out the type of each variable by looking at the values.</p>
+<p>Your rectangle may additionally have “names” (equivalent to “colnames”) at the top, and “rownames” along the left.</p>
+<h1 id="plain-data">Plain data</h1>
+<p>You may have a table in text format (with “fields” separated by spaces or tabs. Or you may use a spreadsheet program to save the data you want to import in “CSV” format. To import such data, you will use the R function <code>read.table</code> or <code>read.csv</code> (the latter is really just a version of the former). You will want to read about these in R help (e.g., type <code>?read.table</code>, and give some attention to the various arguments, particularly <code>header</code>.</p>
+<h1 id="spreadsheet-data">Spreadsheet data</h1>
+<p>If you prefer to save a spreadsheet in a proprietary format and read it in directly, this actually works quite well, if you give your spreadsheet a rectangular shape that R can understand.</p>
+<p>You will need to use a <a href="package.html">package</a> to do this; JD uses <code>gdata</code>. Once you have loaded <code>gdata</code>, you can read about <code>read.xls</code> in the documentation.</p>
+<p>Although this works fine, we tend to prefer the CSV route, since it makes it absolutely easy to look at your data file and make sure that it consists exactly of what you want it to (no hidden Microsoft magic).</p>
+<h1 id="missing-data">Missing data</h1>
+<p>If your data set has any missing values, you will want R to “get” that they are missing. You should be able to do this with the <code>na.strings</code> argument, and to verify it by applying summary to your new data frame (which is something you should do anyway).</p>
+<h1 id="an-example">An example</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;xy.csv&quot;</span>)
+<span class="kw">print</span>(dat)
+dat$ratio &lt;-<span class="st"> </span>dat$y/dat$x
+<span class="kw">print</span>(dat)</code></pre></div>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

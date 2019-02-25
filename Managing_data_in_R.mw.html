@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h1 id="intro">Intro</h1>
+<p>You should be able to</p>
+<ul>
+<li>read data into R</li>
+<li>understand and control how R represents those data
+<ul>
+<li>numbers, characters, factors, missing values</li>
+</ul></li>
+<li>examine the data visually, numerically, textually, etc.</li>
+</ul>
+<h1 id="representations">Representations</h1>
+<p>Numeric and character types seem fairly straightforward, and you rarely have to worry about when and whether R represents things as integers. Very occasionally you will need to know that R is limited in its capacity to represent numbers of extremely large or small magnitude, and that floating-point computations are always approximate.</p>
+<p>You do need to know about <strong>factors</strong>, and to be aware when your variables are being treated as such.</p>
+<p>When you input data, you need to be aware of <code>NA</code> (not available). Your read function has an option called <code>na.strings</code> which you can use to communicate between R and your csv files, for example. You need to know that</p>
+<ul>
+<li><code>NA==x</code> is always <code>NA</code></li>
+<li>use <code>is.na()</code> to test for <code>NA</code> values, <code>na.omit()</code> to drop them, and the optional <code>na.rm</code> argument in some functions (<code>mean</code>, <code>sum</code>, <code>median</code> …)</li>
+</ul>
+<h2 id="changing-representations">Changing representations</h2>
+<p>R has a big suite of functions for creating, testing and changing representations. These have names like <code>factor()</code>, <code>as.numeric()</code> and <code>is.character()</code>.</p>
+<h2 id="factors">Factors</h2>
+<p>Factors are logically variables with a fixed number of categories. In R they are represented as integer variables that have a “levels” attribute. In other words, each possible value of the factor is given an integer, and the variable carries around the code that allows translation from this integer to its meaning.</p>
+<p>This system has advantages:</p>
+<ul>
+<li>You can put the levels in an appropriate order (R also has “ordered” levels, which assume this order has meaning); these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
+<li>You can specify the <em>contrasts</em> that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)</li>
+</ul>
+<p>… and disadvantages:</p>
+<ul>
+<li>It is potentially confusing
+<ul>
+<li><code>as.numeric(f)</code> does not do the same thing as <code>as.numeric(as.character(f))</code></li>
+</ul></li>
+<li>Similar variables can have different sets of levels</li>
+</ul>
+<p>There has been <a href="https://stat.ethz.ch/pipermail/r-help//2012-August/321913.html">much discussion</a> of the pros and cons of factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data.</p>
+<h1 id="examination">Examination</h1>
+<p>You should think creatively, and early on, about how to check your data. Is it internally consistent? Are there extreme outliers? Are there typos? Are there certain values that really mean something else?</p>
+<p>In the 1980s, I randomly found an American Airlines memo about fuel reporting, that complained of multiple cases of:</p>
+<ul>
+<li>Reported departure fuel greater than aircraft capacity</li>
+<li>Reported departure fuel less than minimum required for trip</li>
+<li>Reported arrival fuel greater than reported departure fuel</li>
+<li>Difference between reported departure fuel and reported arrival fuel not within reasonable min/max bounds</li>
+</ul>
+<p>You should think about what you can test, and what you can fix if it’s broken.</p>
+<p>See <a href="http://lalashan.mcmaster.ca/theobio/mmed/index.php/Introduction_to_data_management_and_cleaning">The MMED data management lecture</a>.</p>
+<p>Graphical approaches are really useful for data cleaning; we will discuss this more later on.</p>
+<p>What R functions do you know that are useful for examination? What are your strategies?</p>
+<h1 id="manipulation">Manipulation</h1>
+<p>Even once your data are clean, there can still be a lot of work getting it into a format you want to use. “Data manipulation”, “munging”, or “wrangling” are the terms covering this activity. The RStudio folks has a useful [cheat sheet](http://www.rstudio.com/wp-content/uploads/2015/01/data-wrangling-cheatsheet.pdf)</p>
+<p>This is a very, very hard, very general problem; everyone’s data problems and requirements are slightly different. But there are recurring themes.</p>
+<h2 id="specialized-data">Specialized data</h2>
+<p>Some data are in specialized formats, and often already cleaned. We will mention only in passing:</p>
+<ul>
+<li>phylogenetic trees</li>
+<li>sequence data</li>
+<li>maps, spatial data</li>
+</ul>
+<h2 id="tidying-data">Tidy(ing) data</h2>
+<p>Hadley Wickham has defined a concept of <a href="http://www.jstatsoft.org/v59/i10/paper">tidy data</a>, and has recently introduced the <code>tidyr</code> package.</p>
+<ul>
+<li>Each variable is in a column</li>
+<li>Each observation is in a row</li>
+<li>“Long” rather than “wide” form</li>
+<li>Sometimes duplicates data</li>
+<li>Statistical modeling tools and graphical tools (especially the <strong>ggplot2</strong> package) in R work best with long form</li>
+</ul>
+<h3 id="tools">Tools</h3>
+<h4 id="base-r">base R</h4>
+<ul>
+<li><code>reshape</code>: wide-to-long and vice versa</li>
+<li><code>merge</code>: join data frames</li>
+<li><code>ave</code>: compute averages by group</li>
+<li><code>subset</code>, <code>[</code>-indexing: select obs and vars</li>
+<li><code>transform</code>: modify variables and create new ones</li>
+<li><code>aggregate</code>: split-apply-summarize</li>
+<li><code>split</code>, <code>lapply</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
+<li><code>sort</code></li>
+</ul>
+<h4 id="hadleyverse-1">Hadleyverse 1</h4>
+<ul>
+<li><code>plyr</code> package: split-apply-combine
+<ul>
+<li><code>arrange</code></li>
+</ul></li>
+<li><code>reshape(2)</code> package: wide-to-long and vice versa (<code>melt</code>, <code>cast</code>)</li>
+<li><code>ggplot2</code> package: graphics</li>
+</ul>
+<h4 id="hadleyverse-2">Hadleyverse 2</h4>
+<ul>
+<li><code>tidyr</code> package: <code>gather</code>, <code>spread</code></li>
+<li><code>dplyr</code> package:
+<ul>
+<li><code>mutate</code></li>
+<li><code>select</code></li>
+<li><code>filter</code></li>
+<li><code>group_by</code></li>
+<li><code>summarise</code></li>
+<li><code>arrange</code></li>
+</ul></li>
+</ul>
+<h2 id="manipulation-1">Manipulation</h2>
+<ul>
+<li>aggregate: reshape has the ability to calculate aggregate statistics (mean, range, sd) for variables not given columns or rows in a cast</li>
+</ul>
+<!-- -->
+<ul>
+<li>Simple <a href="Reshape_examples" title="wikilink">Reshape examples</a></li>
+<li><a href="http://lalashan.mcmaster.ca/theobio/bio_708/index.php/homicide_example">Canadian homicide rate example</a></li>
+</ul>
+<footer class="site-header">
+<div class="wrapper">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com)">Course email address</a>
+	</div>
+</div>
+</footer>
+</body>
+</html>

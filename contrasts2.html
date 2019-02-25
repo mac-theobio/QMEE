@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h2 id="interpreting-parameters-of-linear-models">Interpreting parameters of linear models</h2>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;knit_hooks&#39; not found</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;opts_chunk&#39; not found</code></pre>
+<ul>
+<li>Parameters of a linear model typically characterize <em>differences</em> in means; differences per unit of change for continuous predictors, differences between groups (or between group averages) for categorical predictors</li>
+<li>Interactions are <strong>differences between differences</strong></li>
+</ul>
+<h3 id="coding-for-categorical-predictors-contrasts">Coding for categorical predictors: contrasts</h3>
+<ul>
+<li>What do the parameters of a linear model mean?<br />
+</li>
+<li>Start with categorical variables, because they’re potentially more confusing (“intercept and slope” isn’t too hard)</li>
+<li>Default R behaviour: <em>treatment contrasts</em>. <span class="math inline">\(\beta_1\)</span> = expected value in baseline group (= first level of the factor variable, by default the first in alphabetical order); <span class="math inline">\(\beta_i\)</span> = expected difference between group <span class="math inline">\(i\)</span> and the first group.</li>
+</ul>
+<p>For example, if we took the ants example from our permutations and ran a linear model, the results would look like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pr &lt;-<span class="st"> </span>function(m) <span class="kw">printCoefmat</span>(<span class="kw">coef</span>(<span class="kw">summary</span>(m)),<span class="dt">digits=</span><span class="dv">3</span>,<span class="dt">signif.stars=</span><span class="ot">FALSE</span>)
+<span class="kw">pr</span>(lm1 &lt;-<span class="st"> </span><span class="kw">lm</span>(colonies~place,<span class="dt">data=</span>ants))</code></pre></div>
+<pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    10.75       0.98   10.97  4.2e-06
+## placeforest    -3.75       1.27   -2.96    0.018</code></pre>
+<p>(<code>pr</code> is just a utility function I made up for printing compact summaries of the estimates from a linear regression: <code>summary()</code> would give the same information plus a lot more I’m not interested in right now.) The <code>(Intercept)</code> row refers to <span class="math inline">\(\beta_1\)</span>, which is the mean density in the “field” sites (“field” comes before “forest”). The <code>placeforest</code> row tells us we are looking at the effect of the <code>place</code> variable on the <code>forest</code> level, i.e. the difference between the “forest” and “field” sites. (The only ways we could know that “field” is the baseline site are (1) to remember, or look at <code>levels(ants$place)</code> or (2) to notice which level is <em>missing</em> from the list of parameter estimates.)</p>
+<p>R’s behaviour may seem annoyng at first – it seems like the estimated values of the groups are what we’re really interested in – but it is really designed for testing <em>differences among groups</em>. To get the estimates per group (what SAS calls <code>LSMEANS</code>), you could: * use a regression formula <code>colonies~place-1</code>, or equivalently <code>colonies~place+0</code>, to suppress the implicit intercept term:</p>
+<pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
+## placefield     10.75       0.98   10.97  4.2e-06
+## placeforest     7.00       0.80    8.75  2.3e-05</code></pre>
+<ul>
+<li>Use the <code>predict</code> function:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">predict</span>(lm1,<span class="dt">newdata=</span><span class="kw">data.frame</span>(<span class="dt">place=</span><span class="kw">c</span>(<span class="st">&quot;field&quot;</span>,<span class="st">&quot;forest&quot;</span>)),<span class="dt">interval=</span><span class="st">&quot;confidence&quot;</span>)</code></pre></div>
+<ul>
+<li>Use the <code>effects</code> package:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;effects&quot;</span>)
+<span class="kw">summary</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
+<p>You can (and should) look at graphical summaries of your results via</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">allEffects</span>(lm1))</code></pre></div>
+<p>or</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;coefplot2&quot;</span>)</code></pre></div>
+<pre><code>## Error in library(&quot;coefplot2&quot;): there is no package called &#39;coefplot2&#39;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coefplot2</span>(lm0,<span class="dt">intercept=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;coefplot2&quot;</code></pre>
+<p>(or <code>coefplot2(lm1)</code>).</p>
+<p>When you use the <code>colonies~place-1</code> formula, the meanings of the parameters change: <span class="math inline">\(\beta_1\)</span> is the same (mean of “field”), but <span class="math inline">\(\beta_2\)</span> is ‘mean of “field”’ rather than (“(field)-(forest)”).</p>
+<p>Things get slightly more interesting/complicated when we have more than two levels of a categorical variable. I’ll look at some data on lizard perching behaviour, from the <code>brglm</code> package (and before that from McCullagh and Nelder <em>Generalized Linear Models</em> 1989, ultimately from Schoener 1970 <em>Ecology</em> <strong>51</strong>:408-418). I’m going to ignore the fact that these data might best be fitted with generalized linear models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lizards &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;lizards.csv&quot;</span>)</code></pre></div>
+<p>A quick look at the data: response is number of <em>Anolis grahami</em> lizards found on perches in particular conditions.</p>
+<pre><code>## Warning: attributes are not identical across measure variables; they will
+## be dropped</code></pre>
+<div class="figure">
+<img src="figure/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5" />
+<p class="caption">plot of chunk unnamed-chunk-5</p>
+</div>
+<p>For a moment we’re going to just look at the <code>time</code> variable. If we leave the factors as is (alphabetical) then <span class="math inline">\(\beta_1\)</span>=“early”, <span class="math inline">\(\beta_2\)</span>=“late”-“early”, <span class="math inline">\(\beta_3\)</span>=“midday”-“early”. At the very least, it probably makes sense to change the order of the levels:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lizards$time &lt;-<span class="st"> </span><span class="kw">factor</span>(lizards$time,<span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;early&quot;</span>,<span class="st">&quot;midday&quot;</span>,<span class="st">&quot;late&quot;</span>))</code></pre></div>
+<p>All this does (since we haven’t changed the baseline factor) is swap the definitions of <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span>.</p>
+<p>In a linear model, we could also use so-called <em>sum-to-zero</em> contrasts:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(<span class="kw">lm</span>(grahami~time,<span class="dt">data=</span>lizards,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sum)))</code></pre></div>
+<pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    19.30       3.53    5.47  2.4e-05
+## time1          -1.67       4.93   -0.34     0.74
+## time2          12.85       5.10    2.52     0.02</code></pre>
+<p>Now the <code>(Intercept)</code> parameter is the overall mean: <code>time1</code> and <code>time2</code> are the deviations of the first (“early”) and second (“midday”) groups from the overall mean. (The names are useless: the <code>car</code> package offers a slightly better alternative called <code>contr.Sum</code>). There are other ways to change the contrasts (i.e., use the <code>contrasts()</code> function to change the contrasts for a particular variable permanently, or use <code>options(contrasts=c(&quot;contr.sum&quot;,&quot;contr.poly&quot;)))</code> to change the contrasts for <em>all</em> variables), but the way shown above may be the most transparent.</p>
+<p>There are other options for contrasts such as <code>MASS::contr.sdif()</code>, which gives the successive differences between levels.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;MASS&quot;</span>)
+<span class="kw">pr</span>(<span class="kw">lm</span>(grahami~time,<span class="dt">data=</span>lizards,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sdif)))</code></pre></div>
+<pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    19.30       3.53    5.47  2.4e-05
+## time2-1        14.52       8.74    1.66    0.112
+## time3-2       -24.02       8.74   -2.75    0.012</code></pre>
+<p>You might have particular contrasts in mind (e.g. “control” vs. all other treatments, then “low” vs “high” within treatments), in which case it is probably worth learning how to set contrasts. (We will talk about testing <em>all pairwise differences later</em>, when we discuss multiple comparisons. This approach is probably not as useful as it is common.)</p>
+<h2 id="multiple-treatments-and-interactions">Multiple treatments and interactions</h2>
+<h3 id="additive-model">Additive model</h3>
+<p>Let’s consider the <code>light</code> variable in addition to <code>time</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL1 &lt;-<span class="st"> </span><span class="kw">lm</span>(grahami~time+light,<span class="dt">data=</span>lizards))</code></pre></div>
+<pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    27.29       5.63    4.85  0.00011
+## timemidday     13.14       7.11    1.85  0.08010
+## timelate       -9.50       6.85   -1.39  0.18174
+## lightsunny    -19.32       5.73   -3.37  0.00321</code></pre>
+<p>Here’s a graphical interpretation of the parameters:</p>
+<pre><code>## Loading required package: grid</code></pre>
+<p><img src="figure/lizardcontrasts1-1.png" alt="plot of chunk lizardcontrasts1" /> <span class="math inline">\(\beta_1\)</span> is the intercept (“early”,“sunny”); <span class="math inline">\(\beta_2\)</span> and <span class="math inline">\(\beta_3\)</span> are the differences from the baseline level (“early”) of the <em>first</em> variable (<code>time</code>) in the <em>baseline</em> level of the other parameter(s) (<code>light</code>=“shady”); <span class="math inline">\(\beta_4\)</span> is the difference from the baseline level (“sunny”) of the <em>second</em> variable (<code>light</code>) in the <em>baseline</em> level of <code>time</code> (“early”).</p>
+<p>Now let’s look at an interaction model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL2 &lt;-<span class="st"> </span><span class="kw">lm</span>(grahami~time*light,<span class="dt">data=</span>lizards))</code></pre></div>
+<pre><code>##                       Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)              23.50       5.38    4.37  0.00042
+## timemidday               27.75       7.60    3.65  0.00198
+## timelate                -12.75       7.60   -1.68  0.11180
+## lightsunny              -11.75       7.60   -1.55  0.14061
+## timemidday:lightsunny   -32.83      11.19   -2.93  0.00927
+## timelate:lightsunny       6.50      10.75    0.60  0.55343</code></pre>
+<p><img src="figure/lizardcontrasts2-1.png" alt="plot of chunk lizardcontrasts2" /> Parameters <span class="math inline">\(\beta_1\)</span> to <span class="math inline">\(\beta_4\)</span> have the same meanings as before. Now we also have <span class="math inline">\(\beta_5\)</span> and <span class="math inline">\(\beta_6\)</span>, labelled “timemidday:lightsunny” and “timelate:lightsunny”, which describe the difference between the expected mean value of these treatment combinations based on the additive model (which are <span class="math inline">\(\beta_1 + \beta_2 + \beta_4\)</span> and <span class="math inline">\(\beta_1 + \beta_3 + \beta_4\)</span> respectively) and their actual values.</p>
+<p>Now re-do this for sum-to-zero contrasts … the fits are easy:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL1S &lt;-<span class="st"> </span><span class="kw">update</span>(lmTL1,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sum,<span class="dt">light=</span>contr.sum)))</code></pre></div>
+<pre><code>##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    18.84       2.87    6.57  2.7e-06
+## time1          -1.21       4.01   -0.30   0.7654
+## time2          11.92       4.15    2.87   0.0097
+## light1          9.66       2.87    3.37   0.0032</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pr</span>(lmTL2S &lt;-<span class="st"> </span><span class="kw">update</span>(lmTL2,<span class="dt">contrasts=</span><span class="kw">list</span>(<span class="dt">time=</span>contr.sum,<span class="dt">light=</span>contr.sum)))</code></pre></div>
+<pre><code>##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)    18.236      2.255    8.09  3.1e-07
+## time1          -0.611      3.146   -0.19  0.84830
+## time2          10.722      3.271    3.28  0.00444
+## light1         10.264      2.255    4.55  0.00028
+## time1:light1   -4.389      3.146   -1.39  0.18100
+## time2:light1   12.028      3.271    3.68  0.00187</code></pre>
+<p>(The intercept doesn’t stay exactly the same when we add the interaction because the data are unbalanced: try <code>with(lizards,table(light,time))</code>)</p>
+<p>The pictures will be a pain – maybe draw by hand?</p>
+<p>Session info:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.3.2 (2016-10-31)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 16.10
+## 
+## locale:
+##  [1] LC_CTYPE=en_CA.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_CA.UTF-8        LC_COLLATE=en_CA.UTF-8    
+##  [5] LC_MONETARY=en_CA.UTF-8    LC_MESSAGES=en_CA.UTF-8   
+##  [7] LC_PAPER=en_CA.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_CA.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] MASS_7.3-45    ggplot2_2.2.1  reshape2_1.4.2 effects_3.1-2 
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.9      knitr_1.15.1     magrittr_1.5     splines_3.3.2   
+##  [5] munsell_0.4.3    colorspace_1.3-2 lattice_0.20-34  minqa_1.2.4     
+##  [9] highr_0.6        stringr_1.1.0    plyr_1.8.4       tools_3.3.2     
+## [13] nnet_7.3-12      nlme_3.1-129     gtable_0.2.0     digest_0.6.11   
+## [17] lme4_1.1-12      lazyeval_0.2.0   assertthat_0.1   tibble_1.2      
+## [21] Matrix_1.2-7.1   nloptr_1.0.4     evaluate_0.10    labeling_0.3    
+## [25] stringi_1.1.2    scales_0.4.1</code></pre>
+<p>Other refs * http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html * <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html"><code>gmodels::fit.contrast()</code></a> (show parameter estimates based on re-fitting models with new contrasts), <a href="http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html"><code>rms::contrast.rms()</code></a> (ditto, for <code>rms</code>-based fits) * http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm * Crawley <em>Statistical Computing: An Introduction to Data Analysis using S-PLUS</em>, chapter 18</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;wwiki&quot;</span>)
+<span class="kw">options</span>(<span class="dt">MWUser=</span><span class="st">&quot;Bb&quot;</span>)
+<span class="kw">pushWiki</span>(<span class="st">&quot;contrasts2.rmd&quot;</span>,<span class="dt">page=</span><span class="st">&quot;linear model parameters&quot;</span>,<span class="dt">wiki=</span><span class="st">&quot;bio_708&quot;</span>)</code></pre></div>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

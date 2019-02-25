@@ -13,6 +13,7 @@ print(ggplot(df, aes(x=height, y=fev))
 linmod <- lm(fev~height, data=df)
 plot(linmod)
 
+
 quit()
 
 bayesmod <- jags(model.file='fev.bug'

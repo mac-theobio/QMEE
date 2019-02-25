@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Bayesian_regression_example</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="qmee.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<h1 id="generate-fake-data">Generate fake data</h1>
+<p>N &lt;- 40</p>
+<ol type="1">
+<li><ol type="1">
+<li>predictor variables</li>
+</ol></li>
+</ol>
+<p>a &lt;- runif(N) b &lt;- runif(N) c &lt;- runif(N) y &lt;- rnorm(N,mean=a+4*b+c,sd=1) dat &lt;- data.frame(y,a,b,c) </source-file></p>
+<h1 id="do-a-linear-model">Do a linear model</h1>
+<p>lm.R </source-file></p>
+<p>summary(lm(y~a+b+c,data=dat)) </source-file></p>
+<h1 id="bayesian-analysis">Bayesian analysis</h1>
+<h2 id="with-bayesglm">With bayesglm</h2>
+<p>series.Rout bayesglm.R </source-file></p>
+<p>library(“arm”) summary(bayesglm(y~a+b+c,data=dat)) </source-file></p>
+<h2 id="with-bugsjags">With BUGS/JAGS</h2>
+<p>We need priors for the four regression parameters, and for the error variance. The BUGS/JAGS framework does not let us use improper priors, so we have to pick things that we think are “wide” enough.</p>
+<p>For the error variance, we also have to pick something that’s always positive.</p>
+<p>Finally, BUGS/JAGS thinks in terms of “precision” $$\tau=1/\sigma^2$$, which is confusing, but you can get used to it. It’s best to start by guessing what you think a “large” standard deviation would be, then taking $$1/\sigma^2$$ to get the relevant value of $$\tau$$. A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of $$10^{-6}$$. The normal priors below have low precision, so they have high variance.</p>
+<h2 id="rjags">rjags</h2>
+<p>series.Rout bayes.R </source-file></p>
+<p><code>   for (i in 1:N){</code><br />
+<code>       y[i] ~ dnorm(pred[i], tau)</code><br />
+<code>       pred[i] &lt;- ma*a[i] + mb*b[i] + mc*c[i] + int</code><br />
+<code>   }</code><br />
+<code>   ma ~ dnorm(0, .0001)</code><br />
+<code>   mb ~ dnorm(0, .0001)</code><br />
+<code>   mc ~ dnorm(0, .0001)</code><br />
+<code>   int ~ dnorm(0, .0001)</code><br />
+<code>   tau ~ dgamma(.001, .001)</code></p>
+<p>} </source-file></p>
+<h2 id="r2jags">R2jags</h2>
+<p>bayes_r2jags.Rout: bayes.bug series.Rout bayes_r2jags.R </source-file></p>
+<p>library(‘R2jags’) jags1 &lt;- jags(model.file=‘bayes.bug’,</p>
+<p><code>             parameters=c("ma","mb","mc","int"),</code><br />
+<code>             data = list('a' = a, 'b' = b, 'c' = c, 'N'=N, 'y'=y),</code><br />
+<code>             n.chains = 4,</code><br />
+<code>             inits=NULL)</code></p>
+<ul>
+<li>You can use <code>inits=NULL</code> to have JAGS pick the initial values randomly from the priors. For more complex models you might want to pick starting values for the chains yourself (see the <code>?jags</code> documentation).</li>
+</ul>
+<h3 id="examine-the-chains-and-output">Examine the chains and output</h3>
+<p>bayes_r2jags.RData </source-file></p>
+<p>library(‘coda’) library(‘emdbook’) ## for lump.mcmc.list() and as.mcmc.bugs() library(‘coefplot2’) bb &lt;- jags1$BUGSoutput ## extract the “BUGS output” component mm &lt;- as.mcmc.bugs(bb) ## convert it to an “mcmc” object that coda can handle plot(jags1) ## large-format graph</p>
+<ol type="1">
+<li><ol type="1">
+<li>plot(mm) ## trace + density plots, same as above</li>
+</ol></li>
+</ol>
+<p>xyplot(mm,layout=c(2,3)) ## prettier trace plot densityplot(mm,layout=c(2,3)) ## prettier density plot coefplot2(jags1) ## estimate + credible interval plot </source-file></p>
+<p>The <code>lump.mcmc.list</code> function from the <code>emdbook</code> package can be useful for converting a set of MCMC chains into a single long chain.</p>
+<h2 id="further-notes">Further notes</h2>
+<h3 id="categorical-variables">Categorical variables</h3>
+<p>Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above. There are two basic strategies:</p>
+<ol type="1">
+<li>pass the categorical variable as a vector of numeric codes (i.e. pass <code>as.numeric(f)</code> rather than <code>f</code> to JAGS in your <code>data</code> list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters <code>catparam</code> and specify the predicted value as <code>pred[i]</code> <code>=</code> <code>catparam[f[i]]</code></li>
+<li>construct a design matrix using the <code>model.matrix</code> function in R and pass the whole model matrix (<code>X</code>)to JAGS. Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. <code>pred[i]</code> <code>=</code> <code>beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]</code>. You can also use the built-in <code>inprod</code> (inner product) function: <code>pred[i]</code> <code>=</code> <code>inprod(X[i,],beta)</code></li>
+</ol>
+<p>The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using <code>lm</code>).</p>
+<h3 id="built-in-bayesian-modeling-techniques">Built-in Bayesian modeling techniques</h3>
+<ul>
+<li><code>bayesglm</code> from the <code>arm</code> package</li>
+</ul>
+<p>bayes_r2jags.RData coda2.Rout </source-file></p>
+<p>library(‘emdbook’) ## for lump.mcmc.list() and as.mcmc.bugs() mmL &lt;- lump.mcmc.list(mm) ## convert to a single long chain colMeans(mmL) ## which one is biggest? b …</p>
+<ol type="1">
+<li><ol type="1">
+<li>test the probability that it is really the biggest</li>
+</ol></li>
+</ol>
+<p>mean((mmL[,“mb”] &gt; mmL[,“ma”]) &amp; (mmL[,“mb”] &gt; mmL[,“mc”]))</p>
+<ol type="1">
+<li><ol type="1">
+<li>or (alternatively – this would be good if you had lots of categories)</li>
+</ol></li>
+</ol>
+<p>meanschain &lt;- mmL[,-(1:2)] maxval &lt;- apply(meanschain,1,which.max) mean(maxval==2) </source-file></p>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

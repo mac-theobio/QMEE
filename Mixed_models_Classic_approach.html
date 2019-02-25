@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<p>The classic approach to mixed models involves fitting regular linear models, but interpreting the “sums of squares” differently.</p>
+<ul>
+<li>Decompose sums of squares</li>
+<li>Decide which error terms to put in the denominator, which in the numerator, how many degrees of freedom</li>
+<li>For simplest cases (e.g. one-way ANOVA), the answer is the same either way</li>
+<li>Bestiary of experimental designs: nested, randomized block, split-plot (Gotelli and Ellison, Quinn and Keough)</li>
+<li>Classic approaches will <em>not</em> work well if you have
+<ul>
+<li>strongly unbalanced designs</li>
+<li>responses that you’d rather treat with a GLM(M) (e.g., binary responses)</li>
+</ul></li>
+<li>For simple nested designs, you often can (and should) simplify your model by simply <em>aggregating</em> at the bottom level (Murtaugh 2007)
+<ul>
+<li>… doesn’t work for randomized block and other more complicated designs</li>
+<li>works easily if perfectly balanced (equal samples per group); if not, have to deal with <em>weighting</em> according to sample size</li>
+</ul></li>
+<li>works (although perhaps with very low power) for any sample size</li>
+<li>sometimes gives negative variance estimates in complex situations (e.g. population genetics)</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
