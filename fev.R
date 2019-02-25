@@ -1,5 +1,6 @@
 library(R2jags)
 library(readr)
+## wants to use curl package to read from web, you may want to install it
 library(ggplot2)
 
 df <- read_csv("http://biostat.mc.vanderbilt.edu/wiki/pub/Main/DataSets/FEV.csv")
@@ -12,9 +13,11 @@ print(ggplot(df, aes(x=height, y=fev))
 linmod <- lm(fev~height, data=df)
 plot(linmod)
 
-bayesmod <- jags(model.file='fev.bug',
-	parameters=c("")
-	data = list('fev' = fev, 'height' = height),
-	n.chains = 4,
-	inits=NULL
+quit()
+
+bayesmod <- jags(model.file='fev.bug'
+	, parameters=c("")
+	, data = list('fev' = fev, 'height' = height)
+	, n.chains = 4
+	, inits=NULL
 )
