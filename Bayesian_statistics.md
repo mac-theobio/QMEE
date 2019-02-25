@@ -25,7 +25,6 @@ Resources
     -   [Bayesian statistics/Lecture notes](Bayesian_statistics_Lecture_notes.html)
     -   [Bayesian regression example](Bayesian_example.html)
 
-
 -   Introductory
     -   [Standing statistics right side
         up](http://www.annals.org.libaccess.lib.mcmaster.ca/content/130/12/1019.long)
@@ -67,5 +66,5 @@ Resources
 Assignment
 ----------
 
-Install JAGS (and either rjags or R2jags). Use jags to manually a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
+Install JAGS (and either rjags or R2jags). Use jags to manually fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
 

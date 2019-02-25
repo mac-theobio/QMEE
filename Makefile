@@ -7,7 +7,7 @@ current: target
 -include target.mk
 
 ## push_local: 
-## open_pages: 
+## open_local: 
 ## push_site
 
 pullup pull: pull_pages
@@ -151,7 +151,7 @@ push_local:
 	$(MAKE) figure gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
 	-rsync figure/* gh-pages/figure
 
-open_pages: 
+open_local: 
 	$(MAKE) push_local
 	$(MAKE) gh-pages/index.html.go
 
@@ -181,6 +181,12 @@ gh-pages/%.html: %.rmd
 
 ######################################################################
 
+## Experimenting with live jags-ing
+
+jags.Rout: jags.bug jags.R
+
+######################################################################
+
 Ignore += facebook_logo.png
 facebook_logo.png: figure/gam-1.png Makefile
 	convert -crop 500x300+0+100 $< $@
@@ -191,4 +197,4 @@ facebook_logo.png: figure/gam-1.png Makefile
 -include $(ms)/visual.mk
 
 # -include $(ms)/pandoc.mk
-# -include $(ms)/wrapR.mk
+-include $(ms)/stepR.mk
