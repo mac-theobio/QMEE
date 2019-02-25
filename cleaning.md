@@ -1,7 +1,6 @@
 ---
 title: Data management and cleaning
 author: Jonathan Dushoff
-date: QMEE 2019
 ---
 
 ## Goals
