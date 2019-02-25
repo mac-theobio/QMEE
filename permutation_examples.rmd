@@ -1,0 +1,354 @@
+---
+title: "Simple permutation tests in R"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+author: Ben Bolker
+bibliography: qmee.bib
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r pkgs, message=FALSE, warning=FALSE}
+library("ggplot2"); theme_set(theme_bw())
+library("lmPerm")
+library("coin")
+library("gtools")
+```
+
+## Example: counting ant colonies
+
+Data originally from Gotelli and Ellison *Primer of Ecology*
+(data for this document is available [here](https://github.com/mac-theobio/QMEE/tree/master/data)).
+
+```{r define_data}
+ants <- read.csv("data/ants.csv")
+print(ants)
+```
+
+### Visualization
+
+Look at the data (with `stat_sum()` to visualize overlapping data points;
+jittering is also a possibility, but `stat_sum()` is prettier).  `aes(size=..n..)` tells `stat_sum()` to use the number of overlapping points, not the proportion of points within a category, as the summary statistic; `scale_size()` tells ggplot to scale the area of the points proportional to the size (`breaks=1:2` tells it what values to show in the legend).  We don't really need the boxplot here, but shown for comparison (and to illustrate that boxplots are a little silly for tiny data sets; if you must show them, show the points as well).
+
+```{r antPlot,message=FALSE}
+(ggplot(ants,aes(place,colonies))
+    + geom_boxplot()
+    + stat_sum(colour="darkgray",alpha=0.5)
+    + scale_size(breaks=1:2, range=c(3,6))
+)
+```
+
+## Permutation tests
+
+### Brute force
+
+There are always trade-offs between simplicity, transparency, length of code, computational efficiency ...
+
+The simplest way to do this would be something like:
+
+```{r brute1}
+set.seed(101) ## for reproducibility
+nsim <- 1000
+res <- numeric(nsim) ## set aside space for results
+for (i in 1:nsim) {
+    ## standard approach: scramble response value
+    perm <- sample(nrow(ants))
+    bdat <- transform(ants,colonies=colonies[perm])
+    ## compute & store difference in means; store the value
+    res[i] <- mean(bdat[bdat$place=="field","colonies"])-
+        mean(bdat[bdat$place=="forest","colonies"])
+}
+obs <- mean(ants[ants$place=="field","colonies"])-
+    mean(ants[ants$place=="forest","colonies"])
+## append the observed value to the list of results
+res <- c(res,obs)
+```
+
+- `set.seed(<integer>)` resets the random-number stream to a specified place. You can use any integer you like. You should always use `set.seed()` before running computations involving randomizations
+- `for` loops are a way to repeat computations many times: e.g. see [here](https://datascienceplus.com/how-to-write-the-loop-in-r/) for an introduction
+- `transform()` is a base-R analog of tidyverse `mutate()`
+- `sample()` is a general-purpose tool: by default it samples a specified number of values *without replacement*, which means that it generates a re-ordering of the numbers, e.g. `set.seed(101); sample(5)` produces a vector `(2,1,3,5,4)`. `colonies[perm]` above scrambles the response variable with respect to the predictors (in this case, to the "field" vs. "forest" location)
+
+A picture of the results:
+
+```{r permhist}
+hist(res,col="gray",las=1,main="")
+abline(v=obs,col="red")
+```
+
+Some alternative recipes for computing the difference in the means: (1) base R with `aggregate()` ... either of these could be substituted for the `mean(bdat,...)` line in the code above.
+
+```{r agg,eval=FALSE}
+agg <- aggregate(colonies~place,FUN=mean,data=bdat)
+res[i] <- agg$colonies[1]-agg$colonies[2]
+```
+
+or tidyverse:
+
+```{r tidy_agg,eval=FALSE}
+(bdat
+    %>% group_by(colonies)
+    %>% summarise(colonies=mean(colonies))
+    %>% pull(colonies)  ## extract a single column
+    %>% diff()          ## difference between elements
+)
+```
+
+Since there aren't actually that many possible outcomes,
+we could plot them this way instead of using a histogram:
+
+```{r plot.ant.table}
+par(las=1,bty="l")
+plot(prop.table(table(round(res,2))),
+     ylab="Proportion",axes=FALSE)
+axis(side=2)
+points(obs,0,pch=16,cex=1.5,col="red")
+```
+
+If we want a two-tailed test, we have to decide whether
+we are doubling the observed value 
+or counting the area in both tails.
+If `x` is a logical vector (such as `res>=obs`), then `mean(x)`
+first converts `FALSE` values to 0 and `TRUE` values to 1, then
+computes the mean; this calculates the *proportion* of the values that
+are `TRUE`. (It's equivalent to `sum(x==TRUE)/length(x)`.)
+
+```{r ant_force}
+2*mean(res>=obs)          ## doubling (as suggested by JD)
+mean(abs(res)>=abs(obs))  ## count both tails: matches lmPerm
+```
+
+## Using a t test
+
+Instead of computing the difference between means, we could use the
+test *statistic* from a standard statistical test. Although we're using
+the same test statistic, we're *not* assuming that the values of the
+test statistic are $t$-distributed, which would require the
+assumptions we want to avoid [i.e., that the colony counts
+are Normally distributed within each habitat].
+The standard parametric test to use here would be a $t$ test,
+or equivalently a 1-way ANOVA (as done by `lm()`).
+For some reason R's t-test seems to use opposite signs
+for the effect size (i.e. it reports a positive value, "field minus forest",
+rather than a negative value as we did above), but this doesn't really
+matter. The test statistic here is not the difference between the means, as we used above, but the difference divided by the standard error. In this case this should give the same answer ...
+
+```{r ant_t_test}
+(tt <- t.test(colonies~place,data=ants,var.equal=TRUE))
+```
+
+If you want to use this in your testing code you would use
+
+```{r t_val, eval=FALSE}
+tt <- t.test(colonies~place,data=bdat,var.equal=TRUE)
+res[i] <- tt$statistic
+```
+
+in place of the difference between means computed above.
+
+## Using `lmPerm`
+
+R has a software package (`lmPerm`) that automatically fits linear models and computes p-values by permutations.  Here the `lmp()` function is the permutation analog of the `lm()` (linear model) function in base R.
+
+```{r ant_lmperm}
+summary(lmp(colonies~place,data=ants))
+```
+
+We'll talk more about specifying linear models next week,
+but the formula is ` response ~ <predictor variables>`; in this
+case `place` is the predictor (this is again equivalent to a t-test
+or a one-way ANOVA with two groups).
+`lmp()` seems to automatically change the contrast settings
+from the default treatment contrast to sum-to-zero contrasts,
+so that the reported effect size is half what it was (3.75/2),
+because it is computing the difference between the (unweighted)
+average of the two groups and the first group (field).
+
+## Using `coin`
+
+The `coin` package is big and complicated and powerful.  For each of the tests it provides, it allows a choice of whether to use differences of ranks or raw differences, and whether to use (1) *asymptotic* p-values (like the classic nonparametric tests: Kruskal-Wallis, Mann-Whitney, etc.); (2) *approximate* p-values (taking many random samples), or (3) *exact* p-values (effectively, generating all possible combinations). The formulas are interpreted in the same way as above.
+```{r ant_coin}
+## default: asymptotic
+oneway_test(colonies~place,data=ants)
+## exact distribution
+oneway_test(colonies~place,data=ants,distribution="exact")
+## approximate (random-sampling/Monte Carlo)
+oneway_test(colonies~place,data=ants,distribution=approximate(B=9999))
+```
+    
+## More general approach
+
+Suppose we want to be careful as JD suggests and compute only the values corresponding to the actual permutations.
+Make sure the `gtools` package is loaded and generate the combinations, as in the original example:
+```{r get_comb}
+ind_comb <- combinations(nrow(ants), sum(ants$place=="field"))
+nrow(ind_comb) ## count combinations
+head(ind_comb) ## look at the first few
+```
+
+Now write two functions. The first, `simfun()`, simulates a randomized data set given inputs (in this case, the input is a list of elements to be assigned to the "field" category).  We take the `colonies` column from the original `ants` data set and arrange the field-assigned colony counts first, and the non-field-assigned colony counts second.
+
+```{r simfun}
+simfun <- function(cc) {
+    transform(ants,colonies=c(colonies[cc],colonies[-cc]))
+}
+```
+
+- if `cc` is a set of indices, `colonies[-cc]` selects all *but* those values from the `colonies` vector.
+
+The second function, `sumfun()`, takes a simulated data set and returns whatever summary statistic we want.  In this case I decided to use the $t$ statistic as computed by R.  (In many cases simple summary statistics can be computed more efficiently by doing it by hand, but it's often conceptually clearer to run *exactly the same test* that we would have used in the non-permutation analysis and extract the test statistic, which is usually stored as a list element called "statistic", from it.)
+
+```{r sumfun}
+sumfun <- function(dat) {
+    t.test(colonies~place,data=dat,var.equal=TRUE)$statistic
+}
+```
+
+```{r get_permdist}
+ncomb <- nrow(ind_comb)
+permdist <- numeric(ncomb)
+## ind_comb[i,] is the ith row of the matrix of combinations
+for (i in 1:ncomb) {
+    permdist[i] <- sumfun(simfun(ind_comb[i,]))
+}
+```
+(this could also be done using R's `apply()` function).
+What do we get, and how does it compare with the distribution we would expect from classical statistics, which is a $t$-distribution with `r tt$parameter` degrees of freedom?
+
+```{r stats_hist}
+obs_stat <- tt$statistic
+hist(permdist,col="gray",breaks=30,freq=FALSE,main="")
+curve(dt(x,df=tt$parameter),add=TRUE,col="red")
+abline(v=obs_stat,col="blue")
+```
+
+One way to get the $p$-value:
+
+```{r pval}
+(obs_pval <- 2*mean(permdist>=obs_stat))
+```
+
+- as above, using `mean(permutations>=obs))` is a trick to calculate the proportion: the logical statement returns a logical (`FALSE`/`TRUE`) vector, which then gets converted to a 0/1 vector when you ask R to take the mean, so this is equivalent to counting the number of true values and dividing by the length ...
+
+This gives just the single $p$-value, which we can compare with the $p$-value we got from the classical test (`r round(tt$p.value,3)`)
+
+<!-- Quantile/p-value plot:
+         
+```{r quantplot,echo=FALSE,eval=FALSE}
+par(las=1,bty="l")
+r <- sort(ceiling(rank(permdist)))/length(permdist)
+pval <- 2*pt(sort(abs(permdist),decreasing=TRUE),lower.tail=FALSE,
+                     df=tt$parameter)
+plot(r,pval,xlab="Permutation p-value",ylab="Nominal p-value",
+     type="s",log="xy")
+abline(a=0,b=1,col="gray")
+abline(h=tt$p.value,v=obs_pval,col=adjustcolor("red",alpha=0.5))
+abline(h=0.05,col=adjustcolor("red",alpha=0.5),lty=2)
+```
+
+Wherever the black line is below/to the right of the gray 1:1 line, the permutation p-value is greater (more conservative than) the corresponding p-value from the classical $t$-test.  This is true for both the observed data (red lines) and for the $p=0.05$ cutoff (horizontal dashed line).
+
+-->
+
+### Other approaches
+
+### Brute-force resampling
+
+Re-doing the ants example as done originally, but now reorganizing it to use `simfun()` and `sumfun()`. You can skip ahead to the reproductive-skew (regression) example if you like.
+
+We'll use the same `sumfun()` as before, but we need to define a new version of `simfun()`.  Because we are picking a different value every time, we don't need to keep track of which sample we are on; `simfun()` doesn't need to take any arguments, and we can use R's `replicate()` function to generate as many permutation results as we want (this is basically the same as the `for()` loop we started above, just a little more compact).
+
+```{r simfun2}
+simfun_rsamp <- function() {
+    transform(ants,colonies=sample(colonies))
+}
+set.seed(101)
+permdist_rsamp <- replicate(2000,sumfun(simfun_rsamp()))
+```
+
+The result isn't quite the same as the exact value derived above, but it's pretty close to the result we got before:
+
+```{r simfun2_res}
+2*mean(permdist_rsamp>=obs_stat)
+```
+
+### Use difference between means as test statistic
+
+If we want to switch test statistics, we only need to switch `sumfun()`. (`with()` below is a shortcut so we don't have to use `dat$` as often.)
+
+```{r meandiff}
+sumfun_diffmean <- function(dat) {
+  with(dat,
+    mean(colonies[place=="field"])-mean(colonies[place=="forest"]))
+}
+sumfun_diffmean(ants)  ## test
+permdist_diffmean <- apply(ind_comb,
+                           MARGIN=1,function(x) sumfun_diffmean(simfun(x)))
+2*mean(permdist_diffmean>=sumfun_diffmean(ants))
+```
+
+This gives exactly the same result as the original approach, because there is a one-to-one relationship between differences between means and $t$ statistics ...
+
+## Permutation tests of regression: reproductive skew data
+
+Some data from Holly Kindsvater on reproductive skew in fish
+(from @paczolt_multiple_2015):
+
+```{r skewdat}
+skewdat <- read.csv("data/skewdat.csv")
+(ggplot(skewdat, aes(Size,skew))
+    + geom_point()
+    +geom_smooth(method="lm")
+)
+```
+
+```{r skewlm}
+summary(lm(skew~Size,data=skewdat))
+```
+Can we trust this regression? Let's try a permutation test.
+
+Since all the $x$ (`Size`) values
+are unique, there are a total of `r nrow(skewdat)`! (factorial) possible permutations, or `r 1e32*round(factorial(nrow(skewdat))*1e-32)`, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out ...)
+
+<!-- what is the funny calculation above?? -->
+
+```{r skew_funs}
+simfun_rsamp2 <- function(respvar="skew",data=skewdat) {
+  permdat <- data
+  permdat[[respvar]] <- sample(permdat[[respvar]])
+  permdat
+}
+sumfun_skew <- function(dat) {
+  coef(lm(skew~Size,data=dat))["Size"]
+}
+```
+
+```{r skew_permute,cache=TRUE}
+set.seed(101)
+permdist_skew <- replicate(8000,sumfun_skew(simfun_rsamp2()))
+(skew_pval <- mean(abs(permdist_skew)>=abs(sumfun_skew(skewdat))))
+```
+
+The results are *very* close to the classical test result
+(before trying this with 8000 replicates,
+I tried a few times with 2000 replicates and found that the results varied between about 0.02 and 0.035 -- maybe JD was right ...)
+
+We could also use `lmPerm` for this:
+
+```{r lmPerm_regr}
+summary(lmp(skew~Size,data=skewdat))
+```
+
+Or `coin`:
+
+```{r coin_regr}
+independence_test(skew~Size,data=skewdat,teststat="scalar",
+                  distribution="asymptotic")
+independence_test(skew~Size,data=skewdat,teststat="scalar",
+                  distribution=approximate(B=9999))
+```
+
+Since the standard error of an estimated proportion is $\sqrt{p(1-p)/n}$, the *coefficient of variation* (ratio of the standard error to the mean estimate, $p$) is $\sqrt{(1-p)/(pn)}$.  Thus for an observed $p$-value, if we want to get the coefficient of variation down to a specified level $c$ (say 5%, so the confidence intervals are approximately $\pm$ 10% of the estimated $p$-value) then we need to take $n$ large enough so that $c = \sqrt{(1-p)/(pn)}$, or $n \approx (1-p)/(p c^2)$; if $p$ is small then this is further approximated by $1/(p c^2)$ (e.g. for a $p$-value of 0.05 accurate within $c=0.05$, we need $1/(0.5 \cdot 0.5^2) = 1/(0.5^3) = 20^3 = 8000$ samples (slightly fewer since we have neglected the $1-p$ term). If we wanted a similarly accurate answer for our current answer, with a $p$-value about half as large, we would need twice as many samples.
+
+## References

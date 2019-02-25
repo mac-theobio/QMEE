@@ -1,0 +1,129 @@
+---
+title: "Canadian homicide rates"
+date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
+author: Ben Bolker
+---
+
+## Read data in wide format and play with it
+
+Data are originally from [here](http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm) (it might be possible to *scrape* this data set using the `XML` package ...).
+
+I also got [data on population size in 2011 from Wikipedia](http://en.wikipedia.org/wiki/List_of_Canadian_provinces_and_territories_by_population) .
+
+```{r popdat,echo=FALSE,eval=FALSE,message=FALSE}
+## hidden stuff about 'scraping'
+page <- "http://en.wikipedia.org/wiki/List_of_Canadian_provinces_and_territories_by_population"
+library("XML")
+popdat <- setNames(readHTMLTable(page)[[1]][,2:3],
+                   c("Place","Pop_2011"))
+## strip off junk and commas and convert to numeric
+popdat[,2] <- as.numeric(gsub(",","",
+                            gsub("^700[0-9]+000+","",popdat[,2])))
+write.csv(popdat,file="popdat.csv",row.names=FALSE)
+```
+Read data.
+
+```{r getdat, message=FALSE}
+library(tidyverse)
+dat <- read_csv("data/CA_homicide.csv", col_types=cols())
+popdat <- read_csv("data/CA_popdat.csv", col_types=cols())
+```
+
+These data are in wide format:
+```{r showdat}
+head(dat)
+```
+
+What if we want combine other information?
+```{r regiondat}
+head(rdat <- data_frame(Place=dat$Place,
+      Region=c("all",rep("Atlantic",4),
+             rep("East",2),
+             rep("West",4),
+             rep("North",3))))
+```
+
+Let's start by converting the data to long form:
+```{r gather}
+sdat <- (dat
+    %>% gather(year,homicides,-Place,convert=TRUE)
+)
+```
+(we use `convert=TRUE` to convert the years back to numeric values)
+
+Now combine all three data sets (`full_join` will automatically
+match all columns with identical names across the data sets,
+but it's better practice to specify the matching columns explicitly).
+
+```{r join}
+sdat2 <- sdat %>%
+    full_join(rdat,by="Place") %>%
+    full_join(popdat,by="Place")
+```
+
+If we just used the original data set (without the added stuff), it's fairly easy to get summary statistics by dropping the first row (so that we have a data frame that is all numeric) and computing means of rows and columns:
+```{r sum1}
+dmat <- as.matrix(dat[,-1])
+rownames(dmat) <- dat$Place
+rowMeans(dmat)  ## means by place
+colMeans(dmat)  ## means by year
+```
+(Don't forget the `na.rm` argument, unnecessary in this case, that can be provided to most R summary functions to get them to ignore `NA` values.)
+
+If we want summary statistics from the full data set we can do
+
+```{r fullsum,results="hide"}
+sdat2 %>%
+    group_by(Place) %>%
+    summarise(mean=mean(homicides))
+sdat2 %>%
+    group_by(year) %>%
+    summarise(mean=mean(homicides))
+```
+
+One more useful technique is reordering factors (representing categorical variables) in a sensible way.  Right now the 'places' (provinces, territories, etc.) are ordered alphabetically, R's default.
+
+```{r reorder}
+sdat3 <- sdat2 %>%
+    mutate(Place=reorder(factor(Place),Pop_2011))
+```
+This will be useful in the future, but is different from the **order the data frame is stored in**, which we can modify via `arrange()` (use `desc(Pop_2011)` to arrange in descending order of population):
+
+```{r arrange}
+(sdat3
+    %>% arrange(desc(Pop_2011))
+    %>% head()
+)
+```
+
+I can also summarise by combinations of variables:
+```{r sumcomb}
+sdat3 %>% group_by(year,Region) %>%
+      summarise(mean=mean(homicides))
+```
+
+What if I want the mean and standard error?  R doesn't have a built-in "standard error of the mean" function so I define one on the fly:
+
+```{r meanse}
+sem <- function(x) { sd(x)/sqrt(length(x)) }
+region_avgs <- sdat3 %>% group_by(year,Region) %>%
+    summarise(mean=mean(homicides,na.rm=TRUE),
+              sem=sem(homicides))
+```
+
+What if I want to check the variables to see why they're `NA`?
+
+```{r check}
+sdat3 %>% filter(year==2007 & Region=="all")
+```
+
+Sometimes it's useful to be able to go from long to wide format. `spread()` is the opposite of `gather()`: we specify a column in the current data set to spread out into new columns (`key`) and a column to use as the vales for the table (`value`)
+
+```{r}
+region_avgs %>% select(-sem) %>%
+    spread(key=Region,value=mean)
+```
+
+For analysis in R, it is generally best to keep your data in long format and `spread()` it to wide as necessary.
+
+
