@@ -122,6 +122,8 @@ rmd = $(wildcard *.rmd)
 scripts = $(wildcard *.R)
 bugs = $(wildcard *.bug)
 
+Sources += $(scripts) $(bugs)
+
 pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
