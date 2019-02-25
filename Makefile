@@ -192,6 +192,7 @@ gh-pages/%.html: %.rmd
 ## Experimenting with live jags-ing
 
 jags.Rout: jags.bug jags.R
+fev.Rout: fev.bug fev.R
 
 ######################################################################
 
