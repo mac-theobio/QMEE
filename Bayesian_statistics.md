@@ -48,11 +48,10 @@ Resources
     "Bayesianism equals scientific relativism, which is ... a sort
     of intellectual
     [Calvinball](http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball)")
-
-
+- [Translating Probability Density Functions: From R to BUGS and Back Again](https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf), LeBauer et al. 2013
 -   Software
-    -   [JAGS](http://mcmc-jags.sourceforge.net/) (just another Gibbs
-        sampler); software for doing Bayesian MCMC estimation
+    -   [JAGS](http://mcmc-jags.sourceforge.net/) (Just Another Gibbs
+        Sampler); software for doing Bayesian MCMC estimation
     -   The
         [rjags](http://cran.r-project.org/web/packages/rjags/index.html)
         and
