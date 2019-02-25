@@ -119,12 +119,17 @@ gh-pages/%.pdf: %.md header.html footer.html
 
 md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
+scripts = $(wildcard *.R)
+bugs = $(wildcard *.bug)
+
 pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
-scripts = $(wildcard *.R)
-pscripts = $(scripts:%=gh-pages/%)
+pscripts = $(scripts:%=gh-pages/%) $(bugs:%=gh-pages/%)
 gh-pages/%.css: %.css
+	$(copy)
+
+gh-pages/%.bug: %.bug
 	$(copy)
 
 gh-pages/%.R: %.R
