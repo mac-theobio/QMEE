@@ -1,5 +1,6 @@
-# QMEE pages branch
+# QMEE
 # https://mac-theobio.github.io/QMEE/?version=123
+# https://mac-theobio.github.io/QMEE/index.html
 
 ### Hooks for the editor to set the default target
 current: target
@@ -199,35 +200,6 @@ facebook_logo.png: figure/gam-1.png Makefile
 	convert -crop 500x300+0+100 $< $@
 
 ### Makestuff
-=======
-target pngtarget pdftarget vtarget acrtarget: index.html
-
-##################################################################
-
-# make files
-
-Sources = Makefile README.md LICENSE.md
-Ignore = .gitignore
--include $(ms)/git.def
-
-msrepo = https://github.com/dushoff
-ms = makestuff
-Ignore += local.mk
--include local.mk
--include $(ms)/os.mk
-
-Ignore += $(ms)
-Makefile: $(ms) $(ms)/Makefile
-$(ms):
-	git clone $(msrepo)/$(ms)
-
-######################################################################
-
-Sources += $(wildcard *.html *.css *.R)
-Sources += $(wildcard figure/*.* *_files/*.*)
-
-##################################################################
->>>>>>> d76f6537ac7748dcfce35b66e010063803b34502
 
 -include $(ms)/git.mk
 -include $(ms)/visual.mk
