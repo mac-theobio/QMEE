@@ -35,18 +35,6 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 ## Current
 
-## gh-pages/permutation_examples.html: permutation_examples.rmd
-## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
-## gh-pages/Bayesian_statistics_Lecture_notes.html: Bayesian_statistics_Lecture_notes.md
-
-##################################################################
-
-## Makefile: gh-pages
-
-clonedirs += gh-pages
-gh-pages:
-	$(MAKE) $@.branchdir
-
 ##################################################################
 
 ## rmd stuff
