@@ -29,7 +29,7 @@ N <- 40
 a <- runif(N)
 b <- runif(N)
 c <- runif(N)
-y <- rnorm(N,mean=a+4*b+c,sd=1)
+y <- rnorm(N,mean=2+1*a+4*b+1*c,sd=1)
 dat <- data.frame(y,a,b,c)
 print(summary(dat))
 ```
@@ -102,7 +102,7 @@ The `lump.mcmc.list` function from the `emdbook` package can be useful for conve
 Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above.  There are two basic strategies:
 
 - pass the categorical variable as a vector of numeric codes (i.e. pass `as.numeric(f)` rather than `f` to JAGS in your `data` list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters `catparam` and specify the predicted value as `pred[i] = catparam[f[i]]`
-- construct a design matrix using the `model.matrix` function in R and pass the whole model matrix (`X`)to JAGS.  Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. `pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]`.  You can also use the built-in `inprod` (inner product) function: `pred[i] = inprod(X[i,],beta)`
+- construct a design matrix using the `model.matrix` function in R and pass the whole model matrix (`X`) to JAGS.  Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. `pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]`.  You can also use the built-in `inprod` (inner product) function: `pred[i] = inprod(X[i,],beta)`
 
 The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using `lm`).
 
