@@ -25,4 +25,4 @@ _We will probably choose ~4 of these, based on student requests_
 
 <!-- picture comes out ridiculously large w/ reg ![]() markup -->
 
-<img src="pix/additional_topics.png" width="500">
+<img src="pix/additional_topics.png" width="800">
