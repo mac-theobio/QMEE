@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Bayesian_statistics</title>
-  <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <link rel="stylesheet" href="qmee.css" />
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="qmee.css" type="text/css" />
 </head>
 <body>
 <header class="site-header">
@@ -28,7 +20,7 @@
 </div>
 </header>
 <h2 id="introduction">Introduction</h2>
-<p>Bayesian statistics is a completely different paradigm for thinking about statistics. It involves making a complete probability model for what you think <em>did</em> happen, rather than constructing a framework to rule out things that <em>didn’t</em> happen (e.g., this result arising by chance). It has important advantages (conceptual simplicity, power, ability to combine information from different sources), and important disadvantages (requires more assumptions, answers may be difficult to find).</p>
+<p>Bayesian statistics is a completely different paradigm for thinking about statistics. It involves making a complete probability model for what you think <em>did</em> happen, rather than constructing a framework to rule out things that <em>didn't</em> happen (e.g., this result arising by chance). It has important advantages (conceptual simplicity, power, ability to combine information from different sources), and important disadvantages (requires more assumptions, answers may be difficult to find).</p>
 <p>As a scientist you are probably well advised to take a pragmatic approach by using whatever statistical technique seems best suited to your problem. You are definitely well advised to make a good-faith effort to understand the foundations (particularly the philosophical foundations) of the methods you are using (as well as the methods your colleagues are using, since you will have to be able to evaluate these intelligently.</p>
 <h2 id="resources">Resources</h2>
 <ul>
@@ -48,9 +40,9 @@
 <li><a href="http://www.jstor.org/pss/1558705">What is a statistical model?</a> by Peter McCullagh. Aimed at mathematicians and mathematical statisticians.</li>
 <li>Gelman with <a href="http://www.stat.columbia.edu/~gelman/research/published/signif4.pdf">more discussion and examples</a></li>
 </ul></li>
-<li><a href="http://www.jstor.org/stable/2269593">“The first data analysis should be journalistic”</a>: Edwards 1996 <em>Ecological Applications</em></li>
-<li><a href="http://www.jstor.org/stable/2269594">“Should ecologists become Bayesians?”</a>: strong anti-Bayesian view, Dennis 1996 “Ecological Applications” (“Bayesianism means never having to say you’re wrong”; “[Bayesianism equals scientific relativism, which is … ] a sort of intellectual <a href="http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball">Calvinball</a>”)</li>
-<li><a href="https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf">Translating Probability Density Functions: From R to BUGS and Back Again</a>, LeBauer et al. 2013</li>
+<li><a href="http://www.jstor.org/stable/2269593">&quot;The first data analysis should be journalistic&quot;</a>: Edwards 1996 <em>Ecological Applications</em></li>
+<li><a href="http://www.jstor.org/stable/2269594">&quot;Should ecologists become Bayesians?&quot;</a>: strong anti-Bayesian view, Dennis 1996 &quot;Ecological Applications&quot; (&quot;Bayesianism means never having to say you're wrong&quot;; &quot;[Bayesianism equals scientific relativism, which is ... ] a sort of intellectual <a href="http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball">Calvinball</a>&quot;)</li>
+<li><a href="https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf">Translating Probability Density Functions: From R to BUGS and Back Again</a>, LeBauer et al. 2013</li>
 <li>Software
 <ul>
 <li><a href="http://mcmc-jags.sourceforge.net/">JAGS</a> (Just Another Gibbs Sampler); software for doing Bayesian MCMC estimation
@@ -64,6 +56,9 @@
 </ul>
 <h2 id="assignment">Assignment</h2>
 <p>Install JAGS (and either <code>rjags</code> or <code>R2jags</code>). Use <code>jags</code> to fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.</p>
+<ul>
+<li><a href="lizards_bayes.R">JAGS examples with categorical variables and interactions</a> (you'll need <a href="named_list.R">this R file</a> too)</li>
+</ul>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
