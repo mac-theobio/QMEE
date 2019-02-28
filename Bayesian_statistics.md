@@ -31,7 +31,6 @@ Resources
     -   [Frameworks for statistical inference and estimation (Notes from UF)](https://web.archive.org/web/20100616211430/http://www.biology.ufl.edu/ip/2009Fall/notes/ip-bayes-etc.html)
     -   [Fisher, Jeffreys and Neyman](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&rep=rep1&type=pdf)
 
-
 -   Discussion
     -   [What is a statistical model?](http://www.jstor.org/pss/1558705)
         by Peter McCullagh. Aimed at mathematicians and
@@ -68,4 +67,4 @@ Assignment
 
 Install JAGS (and either `rjags` or `R2jags`). Use `jags` to fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
 
-
+- [JAGS examples with categorical variables and interactions](lizards_bayes.R) (you'll need [this R file](named_list.R) too)
