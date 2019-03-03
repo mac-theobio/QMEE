@@ -11,6 +11,7 @@
 
 <meta name="author" content="Ben Bolker and Jonathan Dushoff" />
 
+<meta name="date" content="2019-03-03" />
 
 <title>Generalized linear models</title>
 
@@ -186,7 +187,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Generalized linear models</h1>
 <h4 class="author"><em>Ben Bolker and Jonathan Dushoff</em></h4>
-<h4 class="date"><em>15:38 03 March 2019</em></h4>
+<h4 class="date"><em>03 March 2019</em></h4>
 
 </div>
 
@@ -196,8 +197,8 @@ $(document).ready(function () {
 <div id="basics-1" class="section level2">
 <h2>Basics</h2>
 <ul>
-<li>in R: <code>glm()</code>, model specification as before: <code>glm(y~f1+x1+f2+x2, data=..., ...)</code></li>
-<li>definition: <em>family</em> + <em>link function</em></li>
+<li>in R: <code>glm()</code>, model specification as before: <code>glm(y~f1+x1+f2+x2, data=..., family=..., ...)</code></li>
+<li>definition: <em>family</em>/<em>link function</em></li>
 </ul>
 </div>
 <div id="family" class="section level2">
@@ -206,8 +207,8 @@ $(document).ready(function () {
 <li>family: what kind of data do I have?
 <ul>
 <li>from <strong>first principles</strong>: family specifies the relationship between the mean and variance</li>
-<li>binomial: proportions, out of a total number of counts; includes binary (Bernoulli) (“logistic regression”)</li>
-<li>Poisson (independent counts, no set maximum, or far from the maximum)</li>
+<li><code>family=binomial</code>: proportions, out of a total number of counts; includes binary (Bernoulli) (“logistic regression”)</li>
+<li><code>family=poisson</code>: Poisson (independent counts, no set maximum, or far from the maximum)</li>
 <li>other (Normal (<code>&quot;gaussian&quot;</code>), Gamma)</li>
 </ul></li>
 <li>default family for <code>glm</code> is Gaussian</li>
@@ -346,7 +347,7 @@ $(document).ready(function () {
 <div id="offsets" class="section level2">
 <h2>offsets</h2>
 <ul>
-<li>contant terms added to a model</li>
+<li>constant terms added to a model</li>
 <li>what if we want to model densities rather than counts?</li>
 <li>log-link (Poisson/NB) models: <span class="math inline">\(\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)\)</span></li>
 <li>if we know the area then we want <span class="math inline">\(\mu = A \cdot \mu_0\)</span></li>
