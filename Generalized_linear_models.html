@@ -186,7 +186,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Generalized linear models</h1>
 <h4 class="author"><em>Ben Bolker and Jonathan Dushoff</em></h4>
-<h4 class="date"><em>14:09 03 March 2019</em></h4>
+<h4 class="date"><em>15:38 03 March 2019</em></h4>
 
 </div>
 
@@ -247,7 +247,7 @@ $(document).ready(function () {
 <li>This is good, because the observed value of <span class="math inline">\(y\)</span> might be zero
 <ul>
 <li>e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)</li>
-<li>with <span class="math inline">\(\beta=\{1,1\}\)</span>, <span class="math inline">\(T=15\)</span>, <span class="math inline">\(\textrm{counts} \sim \textrm{Poisson}(\lambda=exp(-4)=0.018)\)</span></li>
+<li>with <span class="math inline">\(\beta=\{1,1\}\)</span>, <span class="math inline">\(T=15\)</span>, <span class="math inline">\(\textrm{counts} \sim \textrm{Poisson}(\lambda=\exp(-4)=0.018)\)</span></li>
 </ul></li>
 <li>model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale</li>
 </ul>
@@ -292,10 +292,10 @@ $(document).ready(function () {
 <ul>
 <li>log link: proportional for small <span class="math inline">\(\beta\)</span>, changes
 <ul>
-<li>e.g. <span class="math inline">\(\beta=0.01 \to\)</span> “1% change/unit change in input”</li>
-<li><span class="math inline">\(\beta=3 \to\)</span> “<span class="math inline">\((e^3)\)</span>=20-fold change/change in input”</li>
+<li>e.g. <span class="math inline">\(\beta=0.01 \to\)</span> “<span class="math inline">\(\approx\)</span> 1% change per unit change in input”</li>
+<li><span class="math inline">\(\beta=3 \to\)</span> “<span class="math inline">\((e^3)\)</span>=20-fold change per change in input”</li>
 </ul></li>
-<li>logit link: <strong>depends on baseline prob</strong>
+<li>logit link: <strong>depends on baseline probability</strong>
 <ul>
 <li>low baseline prob: like log link</li>
 <li>high baseline prob: prop. change in (1-prob)</li>
@@ -304,6 +304,7 @@ $(document).ready(function () {
 <ul>
 <li><code>plogis(1)=</code> 0.73</li>
 </ul></li>
+<li>also see <a href="https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/">UCLA FAQ on odds ratios</a>; <a href="http://www.mypolyuweb.hk/~sjpolit/logisticregression.html">here</a>; read Gelman and Hill’s <em>Applied Regression Modeling</em> book (p. 81; <a href="https://books.google.ca/books?id=lV3DIdV0F9AC&amp;printsec=frontcover&amp;dq=gelman+hill+logistic+parameter&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&amp;q=divide%20by%204&amp;f=false">Google books link</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -313,8 +314,8 @@ $(document).ready(function () {
 <ul>
 <li>Wald <span class="math inline">\(Z\)</span> tests (i.e., results of <code>summary()</code>), confidence intervals
 <ul>
-<li>approximate, can be way off if parameters have extreme values (<em>Hauck-Donner effect</em>, complete separation)</li>
-<li>asymptotic (finite-size correction is hard, usually ignored)</li>
+<li>approximate, can be way off if parameters have extreme values (<em>Hauck-Donner effect</em>/<em>complete separation</em>)</li>
+<li>asymptotic (finite-size correction/“degrees of freedom” are hard, usually ignored)</li>
 </ul></li>
 <li>likelihood ratio tests (equivalent to <span class="math inline">\(F\)</span> tests); <code>drop1(model,test=&quot;Chisq&quot;)</code>, <code>anova(model1,model2)</code>), profile confidence intervals (<code>MASS::confint.glm</code>)</li>
 <li>AIC</li>
@@ -329,6 +330,29 @@ $(document).ready(function () {
 <li>Use <em>offsets</em> to address unequal sampling</li>
 <li><strong>always check for overdispersion</strong> <em>unless</em> (1) already using quasilikelihood or (2) using binary data</li>
 <li>if you want to quote values on the original scale, confidence intervals need to be back-transformed; <em>never back-transform standard errors alone</em></li>
+</ul>
+</div>
+<div id="binomial-models" class="section level2">
+<h2>## binomial models</h2>
+<ul>
+<li>for Poisson, Bernoulli (0/1) responses we only need one piece of information</li>
+<li>how do we specify denominator (<span class="math inline">\(N\)</span> in <span class="math inline">\(k/N\)</span>)?</li>
+<li>traditional R: response is two-column matrix <code>cbind(successes,failures)</code> <strong>not</strong> <code>cbind(successes,total)</code></li>
+<li>also allowed: response is proportion (<span class="math inline">\(k/N\)</span>), also specify <code>weights=N</code></li>
+<li>if equal for all cases and specified on the fly need to replicate:<br />
+<code>glm(p~...,data,weights=rep(N,nrow(data)))</code></li>
+</ul>
+</div>
+<div id="offsets" class="section level2">
+<h2>offsets</h2>
+<ul>
+<li>contant terms added to a model</li>
+<li>what if we want to model densities rather than counts?</li>
+<li>log-link (Poisson/NB) models: <span class="math inline">\(\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)\)</span></li>
+<li>if we know the area then we want <span class="math inline">\(\mu = A \cdot \mu_0\)</span></li>
+<li>equivalent to adding <span class="math inline">\(\log(A)\)</span> to the linear predictor (((_0) + (A)) = _0 A$)</li>
+<li>use <code>... + offset(log(A))</code> in R formula</li>
+<li>for survival/event modeling over different periods of time, a similar offset trick works with <code>link=&quot;cloglog&quot;</code> (see <a href="https://stats.stackexchange.com/questions/148699/modelling-a-binary-outcome-when-census-interval-varies">here</a>)</li>
 </ul>
 </div>
 <div id="add-on-packages" class="section level2">
