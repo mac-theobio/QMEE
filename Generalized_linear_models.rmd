@@ -133,8 +133,8 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - as with linear models (change in response per change in input)
 - but on *effect* scale
 - log link: proportional for small $\beta$, changes
-	     - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
-		 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change per change in input"
+     - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
+	 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change per change in input"
 
 ---
 
@@ -143,8 +143,9 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
     - high baseline prob: prop. change in (1-prob)
 	- medium prob: absolute change $\approx \beta/4$
 	- e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
-	      - `plogis(1)=` `r round(plogis(1),2)`
- - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); [here](http://www.mypolyuweb.hk/~sjpolit/logisticregression.html); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false)
+	      - `plogis(0)=` `r round(plogis(0),2)`
+	      - `plogis(0+1)=` `r round(plogis(1),2)`
+ - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); [here](http://www.mypolyuweb.hk/~sjpolit/logisticregression.html); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false))
 			  
 ## inference
 
@@ -158,7 +159,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 - formula similar to `lm` (but specifies relationship on linear predictor scale)
 - specify family; maybe specify link
-- always do Poisson, binomial regression on *counts*, never proportions (although you can specify response as a proportion if you also give $N$ as the `weights` argument
+- always do Poisson, binomial regression on *counts*, never proportions (although can specify response as a proportion if you also give $N$ as the `weights` argument)
 - Use *offsets* to address unequal sampling
 - **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
 - if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
@@ -167,7 +168,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 - for Poisson, Bernoulli (0/1) responses we only need one piece of information
 - how do we specify denominator ($N$ in $k/N$)?
-- traditional R: response is two-column matrix `cbind(successes,failures)` **not** `cbind(successes,total)`
+- traditional R: response is two-column matrix `cbind(successes,failures)` [**not** `cbind(successes,total)`]
 - also allowed: response is proportion ($k/N$), also specify `weights=N`
 - if equal for all cases and specified on the fly need to replicate:  
 `glm(p~...,data,weights=rep(N,nrow(data)))`
@@ -178,13 +179,14 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - what if we want to model densities rather than counts?
 - log-link (Poisson/NB) models: $\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)$
 - if we know the area then we want $\mu = A \cdot \mu_0$
-- equivalent to adding $\log(A)$ to the linear predictor (\exp(\log(\mu_0) + \log(A)) = \mu_0 \cdot A$)
+- equivalent to adding $\log(A)$ to the linear predictor ($\exp(\log(\mu_0) + \log(A)) = \mu_0 \cdot A$)
 - use `... + offset(log(A))` in R formula
 - for survival/event modeling over different periods of time, a similar offset trick works with `link="cloglog"` (see [here](https://stats.stackexchange.com/questions/148699/modelling-a-binary-outcome-when-census-interval-varies))
 
 ## add-on packages
 
-- `ggplot2`: `geom_smooth(method="glm", method.args=list(family=...))`
+- `ggplot2`
+    - `geom_smooth(method="glm", method.args=list(family=...))`
 - `dotwhisker`, `emmeans`, `effects` all work
     - need to interpret parameters appropriately
     - means may be computed on link *or* response scale
@@ -197,7 +199,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - non-standard link functions
 - visualization (hard because of overlaps: try `stat_sum`, `position="jitter"`, `geom_dotplot`,
 ([beeswarm plot](http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
-- see also: GLM extensions talk ([source](https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd), [html](https://cdn.rawgit.com/bbolker/iiscvisit/master/workshops/glm_extensions.html))
+- see also: GLM extensions talk ([source](https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd), [html](http://htmlpreview.github.com/bbolker/iiscvisit/master/workshops/glm_extensions.html))
 
 ## Common(est?) `glm()` problems
 
@@ -224,19 +226,19 @@ knitr::opts_chunk$set(echo=TRUE)
 ```{r aids_ex_1.R,fig.width=10,fig.height=5}
 aids <- read.csv("aids.csv")
 aids <- transform(aids, date=year+(quarter-1)/4)
-print(gg0 <- ggplot(aids,aes(date,cases))+geom_point())
+gg0 <- ggplot(aids,aes(date,cases))+geom_point()
 ```
 
 ## Easy GLMs with ggplot
 
 ```{r ggplot1,fig.width=10,fig.height=5}
-print(gg1 <- gg0 + geom_smooth(method="glm",colour="red",
-          method.args=list(family="quasipoisson")))
+gg1 <- gg0 + geom_smooth(method="glm",colour="red",
+                         method.args=list(family="quasipoisson"))
 ```
 
 ## Equivalent code
 
-```{r aids_model_1.R}
+```{r aids_model_1.R,results="hide"}
 g1 <- glm(cases~date,aids,family=quasipoisson(link="log"))
 summary(g1)
 ```
@@ -244,7 +246,7 @@ summary(g1)
 ## Diagnostics (`plot(g1)`)
 
 ```{r diagplot,echo=FALSE,fig.width=8,fig.height=8}
-op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
+op <- par(mfrow=c(2,2), mar=c(2,2,1,1), mgp=c(1.5, 1, 0)) ## set 2x2 grid of plots
 plot(g1) ## ugh
 par(op)  ## restore parameter settings
 ```
@@ -256,14 +258,14 @@ acf(residuals(g1)) ## check autocorrelation
 ## ggplot: check out quadratic model
 
 ```{r ggplot2,fig.width=10,fig.height=5}
-print(gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
-            method.args=list(family="quasipoisson")))
+gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
+                       method.args=list(family="quasipoisson"))
 ```
 
 ## on log scale
 
 ```{r ggplot3,fig.width=10,fig.height=5}
-print(gg2+scale_y_log10())
+gg2+scale_y_log10()
 ```
 
 ## improved model
@@ -277,7 +279,7 @@ anova(g1,g2,test="F") ## for quasi-models specifically
 ## new diagnostics
 
 ```{r aids_test,echo=FALSE}
-op <- par(mfrow=c(2,2)) ## set 2x2 grid of plots
+op <- par(mfrow=c(2,2), mar=c(2,2,1,1), mgp=c(1.5, 1, 0))
 plot(g2) ## better
 par(op)  ## restore parameter settings
 ```
