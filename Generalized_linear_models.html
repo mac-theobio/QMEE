@@ -272,8 +272,9 @@ $(document).ready(function () {
 <li>harder than linear models: <code>plot</code> is still somewhat useful</li>
 <li>binary data especially hard (e.g. <code>arm::binnedplot</code>)</li>
 <li>goodness of fit tests, <span class="math inline">\(R^2\)</span> etc. hard (can always compute <code>cor(observed,predict(model, type=&quot;response&quot;))</code>)</li>
-<li>residuals are <em>Pearson residuals</em> by default (<span class="math inline">\((\textrm{obs}-\textrm{exp})/V(\textrm{exp})\)</span>); predicted values are on the effect scale (e.g. log/logit) by default (use <code>type=&quot;response&quot;</code> to get data-scale predictions)</li>
-<li>see also <code>DHARMa</code> package</li>
+<li>residuals are <em>Pearson residuals</em> by default [<code>(obs-exp)/sqrt(V(exp))</code>]</li>
+<li>predicted values on the effect scale by default: use <code>type=&quot;response&quot;</code> to back-transform</li>
+<li>see also <code>DHARMa::simulateResiduals(model,plot=TRUE)</code></li>
 </ul>
 </div>
 <div id="overdispersion" class="section level2">
@@ -287,24 +288,22 @@ $(document).ready(function () {
 <li>Poisson <span class="math inline">\(\to\)</span> negative binomial (<code>MASS::glm.nb</code>)</li>
 <li>binomial <span class="math inline">\(\to\)</span> beta-binomial (<code>glmmTMB</code> package)</li>
 </ul></li>
-<li>overdispersion <strong>not</strong> relevant for
+<li>overdispersion <strong>not relevant</strong> for
 <ul>
 <li>binary responses</li>
-<li>families with estimated scale parameters (gaussian, Gamma, …)</li>
+<li>families with estimated scale parameters (Gaussian, Gamma, NB, …)</li>
 </ul></li>
 </ul>
 </div>
 <div id="parameter-interpretation" class="section level2">
 <h2>parameter interpretation</h2>
 <ul>
-<li>as with linear models (change in response/change in input)</li>
-<li>but on <em>effect</em> scale
+<li>as with linear models (change in response per change in input)</li>
+<li>but on <em>effect</em> scale</li>
+<li>log link: proportional for small <span class="math inline">\(\beta\)</span>, changes - e.g. <span class="math inline">\(\beta=0.01 \to\)</span> “<span class="math inline">\(\approx\)</span> 1% change per unit change in input” - <span class="math inline">\(\beta=3 \to\)</span> “<span class="math inline">\((e^3)\)</span>=20-fold change per change in input”</li>
+</ul>
+<hr />
 <ul>
-<li>log link: proportional for small <span class="math inline">\(\beta\)</span>, changes
-<ul>
-<li>e.g. <span class="math inline">\(\beta=0.01 \to\)</span> “<span class="math inline">\(\approx\)</span> 1% change per unit change in input”</li>
-<li><span class="math inline">\(\beta=3 \to\)</span> “<span class="math inline">\((e^3)\)</span>=20-fold change per change in input”</li>
-</ul></li>
 <li>logit link: <strong>depends on baseline probability</strong>
 <ul>
 <li>low baseline prob: like log link</li>
@@ -314,9 +313,8 @@ $(document).ready(function () {
 <ul>
 <li><code>plogis(1)=</code> 0.73</li>
 </ul></li>
+</ul></li>
 <li>also see <a href="https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/">UCLA FAQ on odds ratios</a>; <a href="http://www.mypolyuweb.hk/~sjpolit/logisticregression.html">here</a>; read Gelman and Hill’s <em>Applied Regression Modeling</em> book (p. 81; <a href="https://books.google.ca/books?id=lV3DIdV0F9AC&amp;printsec=frontcover&amp;dq=gelman+hill+logistic+parameter&amp;hl=en&amp;sa=X&amp;ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&amp;q=divide%20by%204&amp;f=false">Google books link</a></li>
-</ul></li>
-</ul></li>
 </ul>
 </div>
 <div id="inference" class="section level2">
