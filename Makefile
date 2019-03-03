@@ -64,9 +64,9 @@ Ignore += $(wildcard *.mkd)
 	echo 'knitr::knit("$<")' | R --vanilla
 
 %.io.html: %.rmd
-	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+	echo 'rmarkdown::render("$<",output_format=ioslides_presentation(), output_file="$(notdir $@)", output_dir="$(dir $@))"' | R --vanilla
 
-ioslides = echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+ioslides = echo 'rmarkdown::render("$<",output_format="ioslides_presentation", output_file="$(notdir $@)", output_dir="$(dir $@)")' | R --vanilla
 
 %.slides.html: %.md
 	$(ioslides)
