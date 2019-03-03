@@ -27,13 +27,15 @@ title: Bayesian approaches
 	 parameters to the probability of parameters given data
 
 * Once we have a posterior distribution, we can calculate a best guess for each parameter
-	* JD prefers the median
+	* Mean, median or mode
+	* Only median is scale-independent
 
 ## Confidence intervals
 
 * We do hypothesis tests using "credible intervals" -- these are like confidence intervals, except that we really believe (relying on our assumptions) that there is a 95% chance that the value is in the credible interval
-	* There are a lot of ways to do this
-	* JD prefers _quantiles_ (and is prepared to argue about it)
+	* There are a lot of ways to do this. You need to decide in advance.
+	* _Quantiles_ are principled, but not easy in >1 dimension
+	* Highest posterior density is straightforward, but scale-dependent
 
 * Example, a linear relationship is significant if the credible interval for the slope does not include zero
 
@@ -186,4 +188,9 @@ how.
 * Once you have calculated (or estimated) a Bayesian posterior, you can calculate whatever you want!
 	* In particular, you can attach a probability to any combination of the parameters
 	* You can simulate a model forward in time and get credible intervals not only for the parameters, but what you expect to happen
+
+## Live coding example
+
+* [R script](fev.R)
+* [model file](fev.bug)
 

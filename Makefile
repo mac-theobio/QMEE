@@ -8,7 +8,7 @@ current: target
 
 ## push_local: 
 ## open_local: 
-## push_site
+## push_site:
 
 pullup pull: pull_pages
 
@@ -39,6 +39,7 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 ## gh-pages/permutation_examples.html: permutation_examples.rmd
 ## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
+## gh-pages/Bayesian_statistics_Lecture_notes.html: Bayesian_statistics_Lecture_notes.md
 
 ##################################################################
 
@@ -63,14 +64,14 @@ Ignore += $(wildcard *.mkd)
 	echo 'knitr::knit("$<")' | R --vanilla
 
 %.io.html: %.rmd
-	echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+	echo 'rmarkdown::render("$<",output_format=ioslides_presentation(), output_file="$(notdir $@)", output_dir="$(dir $@))"' | R --vanilla
 
-ioslides = echo 'library(rmarkdown); render("$<",output_format=ioslides_presentation(), output_file="$@")' | R --vanilla
+ioslides = echo 'rmarkdown::render("$<",output_format="ioslides_presentation", output_file="$(notdir $@)", output_dir="$(dir $@)")' | R --vanilla
 
 %.slides.html: %.md
 	$(ioslides)
 
-gh-pages/%.slides.html: %.md
+gh-pages/%.slides.html: %.rmd
 	$(ioslides)
 
 ## Does not work
@@ -191,6 +192,7 @@ gh-pages/%.html: %.rmd
 ## Experimenting with live jags-ing
 
 jags.Rout: jags.bug jags.R
+fev.Rout: fev.bug fev.R
 
 ######################################################################
 
@@ -205,3 +207,4 @@ facebook_logo.png: figure/gam-1.png Makefile
 
 # -include $(ms)/pandoc.mk
 -include $(ms)/stepR.mk
+

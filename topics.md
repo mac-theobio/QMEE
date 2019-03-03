@@ -18,3 +18,11 @@ _We will probably choose ~4 of these, based on student requests_
 * Information-theoretic approaches
 * Transcriptomes
 * Metagenomics
+
+## Results
+
+(14 responses, as of 25 Feb)
+
+<!-- picture comes out ridiculously large w/ reg ![]() markup -->
+
+<img src="pix/additional_topics.png" width="800">

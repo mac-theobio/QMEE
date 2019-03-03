@@ -1,21 +1,45 @@
+---
+title: "Bayesian example"
+author: Jonathan Dushoff and Ben Bolker
+date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
+---
+
+## setup
+
+```{r pkgs,message=FALSE}
+library("arm")
+library("R2jags")
+library("coda")
+library("emdbook")    ## for lump.mcmc.list() and as.mcmc.bugs()
+library("arm")        ## for coefplot, bayesglm
+library("lattice")
+library("rstanarm")
+library("dotwhisker")
+library("broom.mixed")
+## may need remotes::install("bbolker/broom.mixed")
+library("ggplot2"); theme_set(theme_bw())
+```
+
 # Generate fake data
 
 ``` {r series.R, echo=FALSE}
 set.seed(411)
-
 N <- 40
-
 ## predictor variables
 a <- runif(N)
 b <- runif(N)
 c <- runif(N)
-y <- rnorm(N,mean=a+4*b+c,sd=1)
+y <- rnorm(N,mean=2+1*a+4*b+1*c,sd=1)
 dat <- data.frame(y,a,b,c)
-
 print(summary(dat))
 ```
 
-# Do a linear model
+The nice thing about Bayesian models in JAGS etc. is that we
+use essentially the same *forward* specification (to simulate
+data given parameters) as the *backward* specification (to estimate
+parameters given data).
+
+# Fit a regular linear model
 
 ``` {r lm.R}
 summary(lm(y~a+b+c,data=dat))
@@ -25,8 +49,9 @@ summary(lm(y~a+b+c,data=dat))
 
 ## With bayesglm
 
+`bayesglm` fits a "cheap" (maximum *a posteriori*) model. See `prior.mean`, `prior.scale`, `prior.df` parameters for specifying *independent* priors on the parameters (also see `scaled`)
+
 ``` {r bayesglm.R, message=FALSE}
-library("arm")
 summary(bayesglm(y~a+b+c,data=dat))
 ```
 
@@ -40,10 +65,13 @@ Finally, BUGS/JAGS thinks in terms of "precision" $\tau=1/\sigma^2$, which is co
 
 ## rjags
 
+`rjags` offers a slightly lower-level (more powerful/flexible, but harder) interface to JAGS. I rarely use it.
+
 ## R2jags
 
+The `bugs` file is [here](bayes.bug).
+
 ``` {r bayes_r2jags.R, echo=FALSE, message=FALSE}
-library("R2jags")
 jags1 <- jags(model.file='bayes.bug',
               parameters=c("ma","mb","mc","int"),
               data = list('a' = a, 'b' = b, 'c' = c, 'N'=N, 'y'=y),
@@ -56,13 +84,6 @@ jags1 <- jags(model.file='bayes.bug',
 ### Examine the chains and output
 
 ``` {r coda2.R, echo=TRUE}
-library(R2jags)
-library(coda)
-library(emdbook)    ## for lump.mcmc.list() and as.mcmc.bugs()
-library(arm)        ## for coefplot
-library(lattice)
-library(dotwhisker)
-library(ggplot2); theme_set(theme_bw())
 bb <- jags1$BUGSoutput  ## extract the "BUGS output" component
 mm <- as.mcmc.bugs(bb)  ## convert it to an "mcmc" object that coda can handle
 plot(jags1)             ## large-format graph
@@ -81,7 +102,7 @@ The `lump.mcmc.list` function from the `emdbook` package can be useful for conve
 Implementing models with categorical variables (say, a t-test or an ANOVA) is a little bit more tedious than the multiple regression analysis shown above.  There are two basic strategies:
 
 - pass the categorical variable as a vector of numeric codes (i.e. pass `as.numeric(f)` rather than `f` to JAGS in your `data` list), and make your parameters a simple vector of the means corresponding to each level, e.g. you could have a vector of parameters `catparam` and specify the predicted value as `pred[i] = catparam[f[i]]`
-- construct a design matrix using the `model.matrix` function in R and pass the whole model matrix (`X`)to JAGS.  Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. `pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]`.  You can also use the built-in `inprod` (inner product) function: `pred[i] = inprod(X[i,],beta)`
+- construct a design matrix using the `model.matrix` function in R and pass the whole model matrix (`X`) to JAGS.  Then, to get the predicted value for each observation, just add up the relevant columns of the model matrix: e.g. `pred[i] = beta[1]*X[i,1]+beta[2]*X[i,2]+beta[3]*X[i,3]`.  You can also use the built-in `inprod` (inner product) function: `pred[i] = inprod(X[i,],beta)`
 
 The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using `lm`).
 
@@ -90,9 +111,6 @@ The second approach is a little bit harder to understand but generalizes to more
 - `bayesglm` from the `arm` package
 
 ``` {r coda3.R, echo=FALSE,message=FALSE}
-library('coda')
-library('emdbook')    ## for lump.mcmc.list() and as.mcmc.bugs()
-library('lattice')
 mmL <- emdbook::lump.mcmc.list(mm)  ## convert to a single long chain
 colMeans(mmL)   ## which one is biggest? b ...
 ## test the probability that it is really the biggest
@@ -102,3 +120,10 @@ meanschain <- mmL[,-(1:2)]
 maxval <- apply(meanschain,1,which.max)
 mean(maxval==2)
 ```
+
+```{r}
+lms <- stan_lm(y~a+b+c,data=dat, prior=R2(0.2))
+dwplot(lms)
+```
+
+Similar to ‘lm’ or ‘aov’ but with novel regularizing priors on the model parameters that are driven by prior beliefs about R^2, the proportion of variance in the outcome attributable to the predictors in a linear model.

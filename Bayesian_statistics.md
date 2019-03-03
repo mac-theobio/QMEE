@@ -31,7 +31,6 @@ Resources
     -   [Frameworks for statistical inference and estimation (Notes from UF)](https://web.archive.org/web/20100616211430/http://www.biology.ufl.edu/ip/2009Fall/notes/ip-bayes-etc.html)
     -   [Fisher, Jeffreys and Neyman](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&rep=rep1&type=pdf)
 
-
 -   Discussion
     -   [What is a statistical model?](http://www.jstor.org/pss/1558705)
         by Peter McCullagh. Aimed at mathematicians and
@@ -45,26 +44,27 @@ Resources
     Bayesians?"](http://www.jstor.org/stable/2269594): strong
     anti-Bayesian view, Dennis 1996 "Ecological Applications"
     ("Bayesianism means never having to say you're wrong";
-    "\[Bayesianism equals scientific relativism, which is\] ... a sort
+    "\[Bayesianism equals scientific relativism, which is ... \] a sort
     of intellectual
     [Calvinball](http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball)")
-
-
+- [Translating Probability Density Functions: From R to BUGS and Back Again](https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf), LeBauer et al. 2013
 -   Software
-    -   [JAGS](http://mcmc-jags.sourceforge.net/) (just another Gibbs
-        sampler); software for doing Bayesian MCMC estimation
+    -   [JAGS](http://mcmc-jags.sourceforge.net/) (Just Another Gibbs
+    Sampler); software for doing Bayesian MCMC estimation
+	    - go to the [version 4 folder on sourceforge](https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/), go to the folder for your operating system, and download the installer for JAGS version 4.3.0
     -   The
         [rjags](http://cran.r-project.org/web/packages/rjags/index.html)
         and
         [R2jags](http://cran.r-project.org/web/packages/R2jags/index.html)
         packages: interfaces between R and JAGS
     -   [Some tips on JAGS and rjags](http://www.johnmyleswhite.com/notebook/2010/08/20/using-jags-in-r-with-the-rjags-package/)
-    -   [Coda](http://cran.r-project.org/web/packages/coda/index.html)
-        (COnvergence DiAgnostics) is an R package for analyzing
+    -   [coda](http://cran.r-project.org/web/packages/coda/index.html)
+        (**co**nvergence **d**i**a**gnostics) is an R package for analyzing
         MCMC fits.
 
 Assignment
 ----------
 
-Install JAGS (and either rjags or R2jags). Use jags to manually fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
+Install JAGS (and either `rjags` or `R2jags`). Use `jags` to fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
 
+- [JAGS examples with categorical variables and interactions](lizards_bayes.R) (you'll need [this R file](named_list.R) too)
