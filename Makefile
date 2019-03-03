@@ -71,7 +71,7 @@ ioslides = echo 'rmarkdown::render("$<",output_format="ioslides_presentation", o
 %.slides.html: %.md
 	$(ioslides)
 
-gh-pages/%.slides.html: %.md
+gh-pages/%.slides.html: %.rmd
 	$(ioslides)
 
 ## Does not work
