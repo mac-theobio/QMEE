@@ -1,7 +1,7 @@
 ---
 title: "Generalized linear models"
 author: Ben Bolker and Jonathan Dushoff
-date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
 
 ```{r pkgs,message=FALSE,echo=FALSE}
@@ -14,15 +14,15 @@ knitr::opts_chunk$set(echo=FALSE)
 ## Basics
 
 - in R: `glm()`, model specification as before:
-`glm(y~f1+x1+f2+x2, data=..., ...)`
-- definition: *family* + *link function*
+`glm(y~f1+x1+f2+x2, data=..., family=..., ...)`
+- definition: *family*/*link function*
 
 ## Family
 
 - family: what kind of data do I have?
     - from **first principles**: family specifies the relationship between the mean and variance
-	- binomial: proportions, out of a total number of counts; includes binary (Bernoulli) ("logistic regression")
-	- Poisson (independent counts, no set maximum, or far from the maximum)
+	- `family=binomial`: proportions, out of a total number of counts; includes binary (Bernoulli) ("logistic regression")
+	- `family=poisson`: Poisson (independent counts, no set maximum, or far from the maximum)
 	- other (Normal (`"gaussian"`), Gamma)
 - default family for `glm` is Gaussian
 
@@ -58,7 +58,7 @@ if (!file.exists(fn)) {
 } else load(fn)
 ```       
 
-```{r gscrapepix,message=FALSE}
+```{r gscrapepix,message=FALSE,width=6,height=4}
 d <- data.frame(n=names(gscrape),v=gscrape)
 d$n <- reorder(d$n,d$v)
 ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
@@ -161,7 +161,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 ## offsets
 
-- contant terms added to a model
+- constant terms added to a model
 - what if we want to model densities rather than counts?
 - log-link (Poisson/NB) models: $\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)$
 - if we know the area then we want $\mu = A \cdot \mu_0$
