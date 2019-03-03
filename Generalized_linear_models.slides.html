@@ -198,7 +198,7 @@
 </article></slide><slide class=""><hgroup><h2>overdispersion</h2></hgroup><article  id="overdispersion">
 
 <ul>
-<li>too much variance: (residual deviance)/(residual df) should be \(\approx 1\). (If the ratio is &gt;1.2, worry a little bit; if the ratio is greater than \(\approx 3\), something else might be wrong with your model.)</li>
+<li>too much variance: (residual deviance)/(residual df) should be \(\approx 1\). (Ratio &gt;1.2 worrisome; ratio&gt;3, v. worrisome (check your model &amp; data!)</li>
 <li>quasi-likelihood models (e.g. <code>family=quasipoisson</code>); fit, then adjust CIs/p-values</li>
 <li>negative binomial etc.</li>
 <li>alternatives:
@@ -265,7 +265,7 @@
 <li>if you want to quote values on the original scale, confidence intervals need to be back-transformed; <em>never back-transform standard errors alone</em></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>## binomial models</h2></hgroup><article  id="binomial-models">
+</article></slide><slide class=""><hgroup><h2>binomial models</h2></hgroup><article  id="binomial-models">
 
 <ul>
 <li>for Poisson, Bernoulli (0/1) responses we only need one piece of information</li>
@@ -290,9 +290,13 @@
 </article></slide><slide class=""><hgroup><h2>add-on packages</h2></hgroup><article  id="add-on-packages">
 
 <ul>
-<li><code>dotwhisker</code>, <code>emmeans</code>, <code>effects</code> all work</li>
+<li><code>ggplot2</code>: <code>geom_smooth(method=&quot;glm&quot;, method.args=list(family=...))</code></li>
+<li><code>dotwhisker</code>, <code>emmeans</code>, <code>effects</code> all work
+
+<ul>
 <li>need to interpret parameters appropriately</li>
-<li>may need to worry about whether means are computed on link or response scale</li>
+<li>means may be computed on link <em>or</em> response scale</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Advanced topics</h2></hgroup><article  id="advanced-topics">
