@@ -1,13 +1,21 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Bayesian approaches</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="qmee.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -20,9 +28,9 @@
 	</div>
 </div>
 </header>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Bayesian approaches</h1>
-</div>
+</header>
 <h1 id="introduction">Introduction</h1>
 <h2 id="bayes-theorem">Bayes Theorem</h2>
 <ul>
@@ -50,7 +58,7 @@
 </ul>
 <h2 id="confidence-intervals">Confidence intervals</h2>
 <ul>
-<li>We do hypothesis tests using &quot;credible intervals&quot; -- these are like confidence intervals, except that we really believe (relying on our assumptions) that there is a 95% chance that the value is in the credible interval
+<li>We do hypothesis tests using “credible intervals” – these are like confidence intervals, except that we really believe (relying on our assumptions) that there is a 95% chance that the value is in the credible interval
 <ul>
 <li>There are a lot of ways to do this. You need to decide in advance.</li>
 <li><em>Quantiles</em> are principled, but not easy in &gt;1 dimension</li>
@@ -79,7 +87,7 @@
 <h1 id="assumptions">Assumptions</h1>
 <h2 id="prior-distributions">Prior distributions</h2>
 <ul>
-<li>Typically, start with a prior distribution that has little &quot;information&quot;
+<li>Typically, start with a prior distribution that has little “information”
 <ul>
 <li>Let the data do the work</li>
 </ul></li>
@@ -91,10 +99,10 @@
 </ul>
 <h2 id="examples">Examples</h2>
 <ul>
-<li><p>&quot;Complete ignorance&quot; can be harder to specify than you think</p>
+<li><p>“Complete ignorance” can be harder to specify than you think</p>
 <ul>
-<li><p>Linear vs. log scale: do we expect the probability of being between 10 and 11 grams to be the same as the prob. of being between 100 and 101 grams, or the same as the prob. of being between 100 and 110 grams??</p></li>
-<li><p>Linear vs. inverse scale: if we are waiting for things to happen, do we pick our prior on the time scale (number of minutes per bus) or the rate scale (number of buses per minute)?</p></li>
+<li><p>Linear vs. log scale: do we expect the probability of being between 10 and 11 grams to be the same as the prob. of being between 100 and 101 grams, or the same as the prob. of being between 100 and 110 grams??</p></li>
+<li><p>Linear vs. inverse scale: if we are waiting for things to happen, do we pick our prior on the time scale (number of minutes per bus) or the rate scale (number of buses per minute)?</p></li>
 <li><p>Discrete hypotheses: subdivision (nest predation example: do we consider species separately, or grouped by higher-level taxon?)</p></li>
 </ul></li>
 </ul>
@@ -120,7 +128,7 @@
 <h1 id="making-a-probability-model">Making a probability model</h1>
 <h2 id="assumptions-1">Assumptions</h2>
 <ul>
-<li><p>We need enough assumptions to actually calculate the &quot;likelihood&quot; of our data given parameters</p></li>
+<li><p>We need enough assumptions to actually calculate the “likelihood” of our data given parameters</p></li>
 <li><p>To make a probability model we need prior distributions for all of the parameters we wish to estimate</p></li>
 <li><p>We then need to make explicit assumptions about how our data are generated, and calculate a likelihood for the data corresponding to any set of parameters</p></li>
 </ul>
@@ -137,12 +145,12 @@
 <li><span class="math inline">\((rT)^{N-1} \exp(-rT)\)</span>, which gives a Gamma distribution with mean <span class="math inline">\(N/T\)</span> (the observed rate), and CV <span class="math inline">\(1/\sqrt{N}\)</span>.</li>
 </ul></li>
 </ul>
-<p>This example is in the category of &quot;easy problems&quot;; the math is a bit hard (Calc II level), but no harder than the equivalent math for a frequentist approach, and the actual procedure is easy once you know how.</p>
+<p>This example is in the category of “easy problems”; the math is a bit hard (Calc II level), but no harder than the equivalent math for a frequentist approach, and the actual procedure is easy once you know how.</p>
 <h1 id="mcmc-methods">MCMC methods</h1>
 <ul>
 <li><p>Bayesian methods are very flexible</p></li>
 <li><p>We can write down reasonable priors, and likelihoods, to cover a wide variety of assumptions and situations</p></li>
-<li><p>Unfortunately, we usually can't <em>integrate</em> -- calculate the denominator of Bayes' formula</p></li>
+<li><p>Unfortunately, we usually can’t <em>integrate</em> – calculate the denominator of Bayes’ formula</p></li>
 <li><p>Instead we use <em>Markov chain Monte Carlo</em> methods to sample randomly from the posterior distribution</p>
 <ul>
 <li>Simple to do, but hard to know how long you have to simulate to get a good sample of the posterior distribution</li>
@@ -150,11 +158,11 @@
 </ul>
 <h2 id="mcmc-sampling">MCMC sampling</h2>
 <ul>
-<li><p>Rules that assure that we will visit each point in parameter space in proportion to its likelihood ... eventually</p></li>
+<li><p>Rules that assure that we will visit each point in parameter space in proportion to its likelihood … eventually</p></li>
 <li><p>Checking convergence:</p>
 <ul>
 <li><p>Look at your parameter estimates: do they seem to have settled to bouncing back and forth) rather than going somewhere?</p></li>
-<li><p>Repeat the whole process with a different starting point (in parameter space): do these &quot;chains&quot; converge?</p></li>
+<li><p>Repeat the whole process with a different starting point (in parameter space): do these “chains” converge?</p></li>
 </ul></li>
 </ul>
 <h2 id="packages">Packages</h2>
