@@ -71,27 +71,36 @@ ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
 ## Link functions
 
 - on what scale are the data linear?
-- link function goes from 'data scale' (bounded) to 'effect scale' (unbounded)
+- link function goes from *data scale* (bounded) to *effect scale* (unbounded)
     - Poisson=log; binomial=logit
 - *inverse link* function goes from effect scale to data scale
     - Poisson=exponential; binomial=logistic
-- each family has a "canonical" link (sensible + nice math)
-    - usually OK to use canonical link (except: Gamma/log)
+- each family has a default "canonical" link (sensible + nice math)
+    - default usually OK (except: use `family=Gamma(link="log")`)
     - probit vs. logit link for binomial family; mostly cultural
 
 ## Machinery
 
-- "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ that (roughly) fits the data on the link scale
-- Fit doesn't apply link function to the responses: instead applies *inverse* link function to the linear predictor 
-    - e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
-- This is good, because the observed value of $y$ might be zero
+- "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ describes patterns on the link (effect) scale
+- Fit doesn't transform the responses: instead applies *inverse* link function to the linear predictor 
+    - instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
+- this is good, because the observed value of $y$ might be zero
     - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)
 	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=\exp(-4)=`r round(exp(-4),3)`)$
-- model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale
 
-## logit/logistic function
+## Machinery (2)
 
-``` {r logit-pic.R, echo=FALSE,fig.width=10}
+Model setup is the same as linear models
+
+- categorical vs. continuous predictors
+- contrasts
+- multivariable regression vs ANOVA vs ANCOVA vs ...
+
+but fit on the linear predictor (effect, link) scale
+
+## logit/logistic function (`qlogis`/`plogis`)
+
+``` {r logit-pic.R, echo=FALSE,fig.width=8,fig.height=4}
 par(las=1,bty="l")
 par(mfrow=c(1,2),oma=c(0,3,0,0),xpd=NA)
 curve(plogis(x),from=-4,to=4,xlab="x (log-odds)",ylab="logistic(x)\n(probability)")
