@@ -118,7 +118,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 ## overdispersion
 
-- too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (If the ratio is >1.2, worry a little bit; if the ratio is greater than $\approx 3$, something else might be wrong with your model.)
+- too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (Ratio >1.2 worrisome; ratio>3, v. worrisome (check your model & data!)
 - quasi-likelihood models (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
 - negative binomial etc.
 - alternatives:
@@ -163,7 +163,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
 - if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
 
-## ## binomial models
+## binomial models
 
 - for Poisson, Bernoulli (0/1) responses we only need one piece of information
 - how do we specify denominator ($N$ in $k/N$)?
@@ -184,9 +184,10 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 ## add-on packages
 
+- `ggplot2`: `geom_smooth(method="glm", method.args=list(family=...))`
 - `dotwhisker`, `emmeans`, `effects` all work
-- need to interpret parameters appropriately
-- may need to worry about whether means are computed on link or response scale
+    - need to interpret parameters appropriately
+    - means may be computed on link *or* response scale
 
 ## Advanced topics
 
