@@ -112,8 +112,9 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - harder than linear models: `plot` is still somewhat useful
 - binary data especially hard (e.g. `arm::binnedplot`)
 - goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type="response"))`)
-- residuals are *Pearson residuals* by default ($(\textrm{obs}-\textrm{exp})/V(\textrm{exp})$); predicted values are on the effect scale (e.g. log/logit) by default (use `type="response"` to get data-scale predictions)
-- see also `DHARMa` package
+- residuals are *Pearson residuals* by default [`(obs-exp)/sqrt(V(exp))`]
+- predicted values on the effect scale by default: use `type="response"` to back-transform
+- see also `DHARMa::simulateResiduals(model,plot=TRUE)`
 
 ## overdispersion
 
@@ -123,24 +124,27 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - alternatives:
     - Poisson $\to$ negative binomial (`MASS::glm.nb`)
 	- binomial $\to$ beta-binomial (`glmmTMB` package)
-- overdispersion **not** relevant for
+- overdispersion **not relevant** for
     - binary responses
-	- families with estimated scale parameters (gaussian, Gamma, ...)
+	- families with estimated scale parameters (Gaussian, Gamma, NB, ...)
 
 ## parameter interpretation
 
-- as with linear models (change in response/change in input)
+- as with linear models (change in response per change in input)
 - but on *effect* scale
-    - log link: proportional for small $\beta$, changes
+- log link: proportional for small $\beta$, changes
 	     - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
 		 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change per change in input"
-    - logit link: **depends on baseline probability**
-	     - low baseline prob: like log link
-		 - high baseline prob: prop. change in (1-prob)
-		 - medium prob: absolute change $\approx \beta/4$
-		 - e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
-		      - `plogis(1)=` `r round(plogis(1),2)`
-		  - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); [here](http://www.mypolyuweb.hk/~sjpolit/logisticregression.html); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false)
+
+---
+
+- logit link: **depends on baseline probability**
+    - low baseline prob: like log link
+    - high baseline prob: prop. change in (1-prob)
+	- medium prob: absolute change $\approx \beta/4$
+	- e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
+	      - `plogis(1)=` `r round(plogis(1),2)`
+ - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); [here](http://www.mypolyuweb.hk/~sjpolit/logisticregression.html); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false)
 			  
 ## inference
 
