@@ -86,7 +86,7 @@ ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
     - e.g., instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
 - This is good, because the observed value of $y$ might be zero
     - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)
-	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=exp(-4)=`r round(exp(-4),3)`)$
+	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=\exp(-4)=`r round(exp(-4),3)`)$
 - model setup: as linear models (categorical/continuous) but fit on the linear predictor (effect, link) scale
 
 ## logit/logistic function
@@ -100,11 +100,11 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 ## diagnostics
 
-- a little harder than linear models: `plot` is still somewhat useful
+- harder than linear models: `plot` is still somewhat useful
 - binary data especially hard (e.g. `arm::binnedplot`)
 - goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type="response"))`)
 - residuals are *Pearson residuals* by default ($(\textrm{obs}-\textrm{exp})/V(\textrm{exp})$); predicted values are on the effect scale (e.g. log/logit) by default (use `type="response"` to get data-scale predictions)
-
+- see also `DHARMa` package
 
 ## overdispersion
 
@@ -123,20 +123,21 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - as with linear models (change in response/change in input)
 - but on *effect* scale
     - log link: proportional for small $\beta$, changes
-	     - e.g. $\beta=0.01 \to$ "1% change/unit change in input"
-		 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change/change in input"
-    - logit link: **depends on baseline prob**
+	     - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
+		 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change per change in input"
+    - logit link: **depends on baseline probability**
 	     - low baseline prob: like log link
 		 - high baseline prob: prop. change in (1-prob)
 		 - medium prob: absolute change $\approx \beta/4$
 		 - e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
 		      - `plogis(1)=` `r round(plogis(1),2)`
-
+		  - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); [here](http://www.mypolyuweb.hk/~sjpolit/logisticregression.html); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false)
+			  
 ## inference
 
 - Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
-	- approximate, can be way off if parameters have extreme values (*Hauck-Donner effect*, complete separation)
-	- asymptotic (finite-size correction is hard, usually ignored)
+	- approximate, can be way off if parameters have extreme values (*Hauck-Donner effect*/*complete separation*)
+	- asymptotic (finite-size correction/"degrees of freedom" are hard, usually ignored)
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC
 
@@ -148,6 +149,31 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - Use *offsets* to address unequal sampling
 - **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
 - if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
+
+## ## binomial models
+
+- for Poisson, Bernoulli (0/1) responses we only need one piece of information
+- how do we specify denominator ($N$ in $k/N$)?
+- traditional R: response is two-column matrix `cbind(successes,failures)` **not** `cbind(successes,total)`
+- also allowed: response is proportion ($k/N$), also specify `weights=N`
+- if equal for all cases and specified on the fly need to replicate:  
+`glm(p~...,data,weights=rep(N,nrow(data)))`
+
+## offsets
+
+- contant terms added to a model
+- what if we want to model densities rather than counts?
+- log-link (Poisson/NB) models: $\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)$
+- if we know the area then we want $\mu = A \cdot \mu_0$
+- equivalent to adding $\log(A)$ to the linear predictor (\exp(\log(\mu_0) + \log(A)) = \mu_0 \cdot A$)
+- use `... + offset(log(A))` in R formula
+- for survival/event modeling over different periods of time, a similar offset trick works with `link="cloglog"` (see [here](https://stats.stackexchange.com/questions/148699/modelling-a-binary-outcome-when-census-interval-varies))
+
+## add-on packages
+
+- `dotwhisker`, `emmeans`, `effects` all work
+- need to interpret parameters appropriately
+- may need to worry about whether means are computed on link or response scale
 
 ## Advanced topics
 
@@ -247,5 +273,3 @@ par(op)  ## restore parameter settings
 ```{r acf2}
 acf(residuals(g2)) ## check autocorrelation
 ```
-
-
