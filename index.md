@@ -65,6 +65,7 @@ COMMENT -->
 ### Additional topics
 
 - [Generalized linear models](Generalized_linear_models.html)
+- [Mixed models](Mixed_models.html)
 
 <!-- COMMENT
 * Generalized linear models
@@ -72,7 +73,6 @@ COMMENT -->
 * Multivariate responses
 * Linear model parameters
 * Penalized regression
-- [Mixed models](Mixed_models.html)
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
