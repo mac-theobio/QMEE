@@ -39,7 +39,7 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 ## gh-pages/permutation_examples.html: permutation_examples.rmd
 ## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
-## gh-pages/Bayesian_statistics_Lecture_notes.html: Bayesian_statistics_Lecture_notes.md
+## gh-pages/Mixed_models.html: Mixed_models.md
 
 ##################################################################
 
@@ -68,7 +68,7 @@ Ignore += $(wildcard *.mkd)
 
 ioslides = echo 'rmarkdown::render("$<",output_format="ioslides_presentation", output_file="$(notdir $@)", output_dir="$(dir $@)")' | R --vanilla
 
-%.slides.html: %.md
+gh-pages/%.slides.html: %.md
 	$(ioslides)
 
 gh-pages/%.slides.html: %.rmd

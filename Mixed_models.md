@@ -7,8 +7,7 @@ author: Jonathan Dushoff and Ben Bolker
 
 * [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models.
 
-* [Bolker chapter from Fox et al.](https://github.com/mac-theobio/QMEE_2017/blob/master/papers/14-Fox-Chap13_ed.pdf) (on private repo, you need to be signed in)
-
+* [Bolker chapter from Fox et al.](http://ms.mcmaster.ca/~bolker/misc/private/14-Fox-Chap13.pdf) (on private repo, you need to be signed in)
 
 ## Intro
 
@@ -25,7 +24,7 @@ Mixed models are models which combine "random" and "fixed" effects.
 
 ## Modern and classic approaches
 
-"Modern" approach to mixed models involves explicitly estimating "random" parameters and their variances (see below).
+The "modern" approach to mixed models involves explicitly estimating "random" parameters and their variances (see below).
 
 Compared to the [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models, the modern approach is:
 
@@ -53,7 +52,7 @@ to). As a result:
 
 ## Random effects
 
-Random effects are typically based on unordered factors
+Random effects are based on unordered factors
 
 -   the levels of the factor are conceptualized as random samples from a
     larger population
@@ -79,13 +78,12 @@ There is sometimes controversy about when it is appropriate to model a predictor
 
 ## Types of analysis
 
-There are several terms of art that are often used as synonyms for mixed models
-
-* repeated measures
-	* individual identity would typically be associated with a random effect
-
 * multilevel or hierarchical models
 	* each identifiable level could have its own random effect: e.g., country, village, household
+
+* repeated measures
+	* individual identity _can_ be associated with a random effect
+	* this can also be done with residual structures
 
 ## inferential questions
 
@@ -131,6 +129,7 @@ Spruce trees
 	* e.g., spruce trees 
 
 * Interactions are often conceptually appealing, but computationally challenging
+	* There is a (questionable) culture of not worrying about them
 
 ## Fitting
 
@@ -169,13 +168,13 @@ R-side effects
 	* I am very close to Ben, and sort of close to Morgan
 * Can also allow for heteroscedasticity
 
-## How it works
+## How modern methods work
 
 It's complicated!
 
-## How it works
+## How modern methods work
 
-Typically based on *marginal likelihood*: probability of observing outcomes.
+Typically based on *marginal likelihood*: probability of observing outcomes integrated over different possible values of the random effects.
 
 Balance (dispersion of RE around 0) with (dispersion of data conditional on RE)
 
