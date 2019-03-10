@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bayesian_statistics.utf8.md</title>
+  <title>Linear models</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,6 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
+                title: 'Linear models',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -28,6 +29,14 @@
 
       // Author information
       presenters: [
+            {
+        name:  'Jonathan Dushoff and Ben Bolker' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
             ]
     };
   </script>
@@ -3104,58 +3113,61 @@ if (document.readyState !== "loading" &&
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Introduction</h2></hgroup><article  id="introduction">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
 
-<p>Bayesian statistics is a completely different paradigm for thinking about statistics. It involves making a complete probability model for what you think <em>did</em> happen, rather than constructing a framework to rule out things that <em>didn’t</em> happen (e.g., this result arising by chance). It has important advantages (conceptual simplicity, power, ability to combine information from different sources), and important disadvantages (requires more assumptions, answers may be difficult to find).</p>
+<p>Linear models are a kind of <a href='lamppost_theory.html' title=''>lamppost</a>: a very powerful set of tools for solving certain kinds of problems, using certain kinds of assumptions.</p>
 
-<p>As a scientist you are probably well advised to take a pragmatic approach by using whatever statistical technique seems best suited to your problem. You are definitely well advised to make a good-faith effort to understand the foundations (particularly the philosophical foundations) of the methods you are using (as well as the methods your colleagues are using, since you will have to be able to evaluate these intelligently.</p>
-
-</article></slide><slide class=""><hgroup><h2>Resources</h2></hgroup><article  id="resources">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Class materials</h2></hgroup><article  id="class-materials">
 
 <ul>
-<li>Material
+<li><a href='Linear_model_lecture.html' title=''>Main lecture notes</a>
 
 <ul>
-<li><a href='Bayesian_statistics_Lecture_notes.html' title=''>Bayesian statistics/Lecture notes</a></li>
-<li><a href='Bayesian_example.html' title=''>Bayesian regression example</a></li>
+<li><a href='Linear_model_lecture.slides.html' title=''>slide version</a></li>
 </ul></li>
+<li><a href='Linear_model_parameters.html' title=''>Parameters</a></li>
+<li><a href='Linear_model_tests.html' title=''>Testing</a></li>
+</ul>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Resources</h2></hgroup><article  id="resources">
+
+<ul>
 <li>Introductory
 
 <ul>
-<li><a href='http://www.annals.org.libaccess.lib.mcmaster.ca/content/130/12/1019.long' title=''>Standing statistics right side up</a></li>
-<li><a href='https://web.archive.org/web/20100616211430/http://www.biology.ufl.edu/ip/2009Fall/notes/ip-bayes-etc.html' title=''>Frameworks for statistical inference and estimation (Notes from UF)</a></li>
-<li><a href='http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.167.4064&amp;rep=rep1&amp;type=pdf' title=''>Fisher, Jeffreys and Neyman</a></li>
+<li><a href='http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R' title=''>The model section from the R intro book</a></li>
+<li><a href='http://plantecology.syr.edu/fridley/bio793/lm.html' title=''>Fridley examples and guidelines</a></li>
+<li><a href='http://data.princeton.edu/R/linearModels.html' title=''>Rodriguez introduction</a></li>
+<li><a href='http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf' title=''>Bolker book</a> (see Sec. 9.2)</li>
+<li><a href='http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf' title=''>Faraway linear models</a> book draft
+
+<ul>
+<li><a href='http://www.maths.bath.ac.uk/~jjf23/LMR/' title=''>Book home page</a></li>
+</ul></li>
+<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf' title=''>Hector et al</a> on ANOVA for unbalanced data (i.e. &ldquo;type III sums of squares&rdquo; revisited)</li>
+<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full' title=''>Schielzeth</a> (2010) on centering and scaling in linear models</li>
+<li><a href='http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2' title=''>Murtaugh</a> (2007) on averaging in analysis of nested designs</li>
+<li><a href='http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00021.x/full' title=''>O’Hara and Kotze</a> (2010) on not log-transforming count data</li>
+<li><a href='http://www.esajournals.org/doi/full/10.1890/10-0340.1' title=''>&ldquo;The arcsine is asinine&rdquo;</a>: Warton and Hui on not arcsine-transforming proportion data</li>
 </ul></li>
 <li>Discussion
 
 <ul>
-<li><a href='http://www.jstor.org/pss/1558705' title=''>What is a statistical model?</a> by Peter McCullagh. Aimed at mathematicians and mathematical statisticians.</li>
-<li>Gelman with <a href='http://www.stat.columbia.edu/~gelman/research/published/signif4.pdf' title=''>more discussion and examples</a></li>
-</ul></li>
-<li><a href='http://www.jstor.org/stable/2269593' title=''>&ldquo;The first data analysis should be journalistic&rdquo;</a>: Edwards 1996 <em>Ecological Applications</em></li>
-<li><a href='http://www.jstor.org/stable/2269594' title=''>&ldquo;Should ecologists become Bayesians?&rdquo;</a>: strong anti-Bayesian view, Dennis 1996 &ldquo;Ecological Applications&rdquo; (&ldquo;Bayesianism means never having to say you’re wrong&rdquo;; &ldquo;\[Bayesianism equals scientific relativism, which is ... \] a sort of intellectual <a href='http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball' title=''>Calvinball</a>&rdquo;)</li>
-<li><a href='https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf' title=''>Translating Probability Density Functions: From R to BUGS and Back Again</a>, LeBauer et al. 2013</li>
-<li>Software
-
-<ul>
-<li><a href='http://mcmc-jags.sourceforge.net/' title=''>JAGS</a> (Just Another Gibbs Sampler); software for doing Bayesian MCMC estimation
-
-<ul>
-<li>go to the <a href='https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/' title=''>version 4 folder on sourceforge</a>, go to the folder for your operating system, and download the installer for JAGS version 4.3.0</li>
-</ul></li>
-<li>The <a href='http://cran.r-project.org/web/packages/rjags/index.html' title=''>rjags</a> and <a href='http://cran.r-project.org/web/packages/R2jags/index.html' title=''>R2jags</a> packages: interfaces between R and JAGS</li>
-<li><a href='http://www.johnmyleswhite.com/notebook/2010/08/20/using-jags-in-r-with-the-rjags-package/' title=''>Some tips on JAGS and rjags</a></li>
-<li><a href='http://cran.r-project.org/web/packages/coda/index.html' title=''>coda</a> (<strong>co</strong>nvergence <strong>d</strong>i<strong>a</strong>gnostics) is an R package for analyzing MCMC fits.</li>
+<li><a href='http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf' title=''>Hurlbert’s classic Pseudo-replication paper</a></li>
+<li><a href='http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf' title=''>Exegeses on linear models</a> (advanced)</li>
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Assignment</h2></hgroup><article  id="assignment">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Assignment</h2></hgroup><article  id="assignment">
 
-<p>Install JAGS (and either <code>rjags</code> or <code>R2jags</code>). Use <code>jags</code> to fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.</p>
+<p>Make a linear model for one or more of your hypotheses. Draw <strong>and discuss</strong> at least one of each of the following:</p>
 
 <ul>
-<li><a href='lizards_bayes.R' title=''>JAGS examples with categorical variables and interactions</a> (you’ll need <a href='named_list.R' title=''>this R file</a> too)</li>
-</ul></article></slide>
+<li>diagnostic plot</li>
+<li>inferential plot (e.g., a coefficient plot, or something from <code>emmeans</code> or <code>effects</code>)</li>
+</ul>
+
+<p>The assignment is due by sometime on Mon. 18 Feb.</p></article></slide>
 
 
   <slide class="backdrop"></slide>

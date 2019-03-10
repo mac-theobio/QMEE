@@ -1,14 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
   <title>Mixed models</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="qmee.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -21,10 +29,10 @@
 	</div>
 </div>
 </header>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Mixed models</h1>
-<h2 class="author">Jonathan Dushoff and Ben Bolker</h2>
-</div>
+<p class="author">Jonathan Dushoff and Ben Bolker</p>
+</header>
 <h2 id="resources">Resources</h2>
 <ul>
 <li><p><a href="Mixed_models_Classic_approach.html">classic ANOVA approach</a> to mixed models.</p></li>
@@ -45,7 +53,7 @@
 </ul></li>
 </ul>
 <h2 id="modern-and-classic-approaches">Modern and classic approaches</h2>
-<p>“Modern” approach to mixed models involves explicitly estimating “random” parameters and their variances (see below).</p>
+<p>The “modern” approach to mixed models involves explicitly estimating “random” parameters and their variances (see below).</p>
 <p>Compared to the <a href="Mixed_models_Classic_approach.html">classic ANOVA approach</a> to mixed models, the modern approach is:</p>
 <ul>
 <li>conceptually clear</li>
@@ -69,7 +77,7 @@
 </ul></li>
 </ul>
 <h2 id="random-effects">Random effects</h2>
-<p>Random effects are typically based on unordered factors</p>
+<p>Random effects are based on unordered factors</p>
 <ul>
 <li>the levels of the factor are conceptualized as random samples from a larger population</li>
 <li>the effect of each level is therefore a random variable</li>
@@ -91,15 +99,15 @@
 <li>are you <em>uninterested</em> in testing hypotheses about specific levels?</li>
 </ul>
 <h2 id="types-of-analysis">Types of analysis</h2>
-<p>There are several terms of art that are often used as synonyms for mixed models</p>
 <ul>
-<li>repeated measures
-<ul>
-<li>individual identity would typically be associated with a random effect</li>
-</ul></li>
 <li>multilevel or hierarchical models
 <ul>
 <li>each identifiable level could have its own random effect: e.g., country, village, household</li>
+</ul></li>
+<li>repeated measures
+<ul>
+<li>individual identity <em>can</em> be associated with a random effect</li>
+<li>this can also be done with residual structures</li>
 </ul></li>
 </ul>
 <h2 id="inferential-questions">inferential questions</h2>
@@ -143,7 +151,10 @@
 <ul>
 <li>e.g., spruce trees</li>
 </ul></li>
-<li>Interactions are often conceptually appealing, but computationally challenging</li>
+<li>Interactions are often conceptually appealing, but computationally challenging
+<ul>
+<li>There is a (questionable) culture of not worrying about them</li>
+</ul></li>
 </ul>
 <h2 id="fitting">Fitting</h2>
 <p>Modern mixed-model packages (see below) can fit a wide variety of models. You just need to specify which effects are random.</p>
@@ -178,10 +189,10 @@
 </ul></li>
 <li>Can also allow for heteroscedasticity</li>
 </ul>
-<h2 id="how-it-works">How it works</h2>
+<h2 id="how-modern-methods-work">How modern methods work</h2>
 <p>It’s complicated!</p>
-<h2 id="how-it-works-1">How it works</h2>
-<p>Typically based on <em>marginal likelihood</em>: probability of observing outcomes.</p>
+<h2 id="how-modern-methods-work-1">How modern methods work</h2>
+<p>Typically based on <em>marginal likelihood</em>: probability of observing outcomes integrated over different possible values of the random effects.</p>
 <p>Balance (dispersion of RE around 0) with (dispersion of data conditional on RE)</p>
 <p><strong>Shrinkage</strong>: estimated values get “shrunk” toward the overall mean, especially in small-sample/extreme units</p>
 <h2 id="how-do-we-do-it">How do we do it?</h2>

@@ -3141,7 +3141,7 @@ if (document.readyState !== "loading" &&
 
 </article></slide><slide class=""><hgroup><h2>Modern and classic approaches</h2></hgroup><article  id="modern-and-classic-approaches">
 
-<p>&ldquo;Modern&rdquo; approach to mixed models involves explicitly estimating &ldquo;random&rdquo; parameters and their variances (see below).</p>
+<p>The &ldquo;modern&rdquo; approach to mixed models involves explicitly estimating &ldquo;random&rdquo; parameters and their variances (see below).</p>
 
 <p>Compared to the <a href='Mixed_models_Classic_approach.html' title=''>classic ANOVA approach</a> to mixed models, the modern approach is:</p>
 
@@ -3175,7 +3175,7 @@ if (document.readyState !== "loading" &&
 
 </article></slide><slide class=""><hgroup><h2>Random effects</h2></hgroup><article  id="random-effects">
 
-<p>Random effects are typically based on unordered factors</p>
+<p>Random effects are based on unordered factors</p>
 
 <ul>
 <li>the levels of the factor are conceptualized as random samples from a larger population</li>
@@ -3206,18 +3206,17 @@ if (document.readyState !== "loading" &&
 
 </article></slide><slide class=""><hgroup><h2>Types of analysis</h2></hgroup><article  id="types-of-analysis">
 
-<p>There are several terms of art that are often used as synonyms for mixed models</p>
-
 <ul>
-<li>repeated measures
-
-<ul>
-<li>individual identity would typically be associated with a random effect</li>
-</ul></li>
 <li>multilevel or hierarchical models
 
 <ul>
 <li>each identifiable level could have its own random effect: e.g., country, village, household</li>
+</ul></li>
+<li>repeated measures
+
+<ul>
+<li>individual identity <em>can</em> be associated with a random effect</li>
+<li>this can also be done with residual structures</li>
 </ul></li>
 </ul>
 
@@ -3277,7 +3276,11 @@ if (document.readyState !== "loading" &&
 <ul>
 <li>e.g., spruce trees</li>
 </ul></li>
-<li>Interactions are often conceptually appealing, but computationally challenging</li>
+<li>Interactions are often conceptually appealing, but computationally challenging
+
+<ul>
+<li>There is a (questionable) culture of not worrying about them</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Fitting</h2></hgroup><article  id="fitting">
@@ -3329,13 +3332,13 @@ if (document.readyState !== "loading" &&
 <li>Can also allow for heteroscedasticity</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>How it works</h2></hgroup><article  id="how-it-works">
+</article></slide><slide class=""><hgroup><h2>How modern methods work</h2></hgroup><article  id="how-modern-methods-work">
 
 <p>It’s complicated!</p>
 
-</article></slide><slide class=""><hgroup><h2>How it works</h2></hgroup><article  id="how-it-works-1">
+</article></slide><slide class=""><hgroup><h2>How modern methods work</h2></hgroup><article  id="how-modern-methods-work-1">
 
-<p>Typically based on <em>marginal likelihood</em>: probability of observing outcomes.</p>
+<p>Typically based on <em>marginal likelihood</em>: probability of observing outcomes integrated over different possible values of the random effects.</p>
 
 <p>Balance (dispersion of RE around 0) with (dispersion of data conditional on RE)</p>
 
