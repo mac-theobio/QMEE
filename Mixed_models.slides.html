@@ -3307,29 +3307,37 @@ if (document.readyState !== "loading" &&
 <li>The scope of your analysis covers only the sampled levels, not the population they were sampled from</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>R-side effects</h2></hgroup><article  id="r-side-effects">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Residual structure and group structure</h2></hgroup><article  id="residual-structure-and-group-structure">
 
-<p>Some effects can be modeled effectively with MMMs (modern mixed models) on the &ldquo;residual (R) side&rdquo;.</p>
-
-<p>Standard random effects</p>
+</article></slide><slide class=""><hgroup><h2>Standard random effects: we attach a random effect to the <em>group</em></h2></hgroup><article  id="standard-random-effects-we-attach-a-random-effect-to-the-group">
 
 <ul>
-<li>Discrete groups: any relation is binary
+<li>Sometimes called G-side modeling</li>
+<li>Group membership is binary (same or different)</li>
+<li>Hierarchy is possible
 
 <ul>
 <li>You and I are in the same country, but not the same village</li>
+<li>But the model doesn’t understand if our villages are close together</li>
 </ul></li>
 </ul>
 
-<p>R-side effects</p>
+</article></slide><slide class=""><hgroup><h2>R-side modeling: we impose a covariance structure on the residuals</h2></hgroup><article  id="r-side-modeling-we-impose-a-covariance-structure-on-the-residuals">
 
 <ul>
 <li>Arbitrary variance-covariance structure (time, space, etc.)
 
 <ul>
-<li>I am very close to Ben, and sort of close to Morgan</li>
+<li>I am very close to Ben, and sort of close to you</li>
 </ul></li>
 <li>Can also allow for heteroscedasticity</li>
+<li>Disadvantages
+
+<ul>
+<li>Harder to combine effects</li>
+<li>Easier to mis-specify the model</li>
+<li>Difficult to implement (especially for generalized models)</li>
+</ul></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>How modern methods work</h2></hgroup><article  id="how-modern-methods-work">
@@ -3366,10 +3374,10 @@ if (document.readyState !== "loading" &&
 <li><code>aov + Error()</code> term: <em>classical</em> designs</li>
 <li><code>lme</code> (<code>nlme</code> package): older, better documented, more stable, does R-side models, complex variance structures, gives denominator df/\(p\) values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster, does crossed random effects, GLMMs</li>
-<li>many other special-purpose packages</li>
-</ul>
-
-<p><a href='Mixed_models_examples.html' title=''>examples</a></p></article></slide>
+<li><p>many other special-purpose packages</p></li>
+<li><a href='Mixed_models_examples.html' title=''>examples</a></li>
+<li><p><a href='https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html' title=''>Bolker FAQ</a></p></li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>

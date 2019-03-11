@@ -172,22 +172,30 @@
 <ul>
 <li>The scope of your analysis covers only the sampled levels, not the population they were sampled from</li>
 </ul>
-<h2 id="r-side-effects">R-side effects</h2>
-<p>Some effects can be modeled effectively with MMMs (modern mixed models) on the “residual (R) side”.</p>
-<p>Standard random effects</p>
+<h1 id="residual-structure-and-group-structure">Residual structure and group structure</h1>
+<h2 id="standard-random-effects-we-attach-a-random-effect-to-the-group">Standard random effects: we attach a random effect to the <em>group</em></h2>
 <ul>
-<li>Discrete groups: any relation is binary
+<li>Sometimes called G-side modeling</li>
+<li>Group membership is binary (same or different)</li>
+<li>Hierarchy is possible
 <ul>
 <li>You and I are in the same country, but not the same village</li>
+<li>But the model doesn’t understand if our villages are close together</li>
 </ul></li>
 </ul>
-<p>R-side effects</p>
+<h2 id="r-side-modeling-we-impose-a-covariance-structure-on-the-residuals">R-side modeling: we impose a covariance structure on the residuals</h2>
 <ul>
 <li>Arbitrary variance-covariance structure (time, space, etc.)
 <ul>
-<li>I am very close to Ben, and sort of close to Morgan</li>
+<li>I am very close to Ben, and sort of close to you</li>
 </ul></li>
 <li>Can also allow for heteroscedasticity</li>
+<li>Disadvantages
+<ul>
+<li>Harder to combine effects</li>
+<li>Easier to mis-specify the model</li>
+<li>Difficult to implement (especially for generalized models)</li>
+</ul></li>
 </ul>
 <h2 id="how-modern-methods-work">How modern methods work</h2>
 <p>It’s complicated!</p>
@@ -212,9 +220,10 @@
 <li><code>aov + Error()</code> term: <em>classical</em> designs</li>
 <li><code>lme</code> (<code>nlme</code> package): older, better documented, more stable, does R-side models, complex variance structures, gives denominator df/<span class="math inline">\(p\)</span> values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster, does crossed random effects, GLMMs</li>
-<li>many other special-purpose packages</li>
+<li><p>many other special-purpose packages</p></li>
+<li><a href="Mixed_models_examples.html">examples</a></li>
+<li><p><a href="https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html">Bolker FAQ</a></p></li>
 </ul>
-<p><a href="Mixed_models_examples.html">examples</a></p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="index.html">Course home page</a>
