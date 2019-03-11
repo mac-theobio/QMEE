@@ -46,10 +46,12 @@ to). As a result:
 ## Model
 
 "Treatment" is a fixed effect
+
 -   We want to estimate the difference in growth with clean air and
         dirty air
 
 "Tree" is a random effect
+
 -   We want to know what about the *distribution* of tree effects
 	  (so we can control for it); we are not specifically interested
 	  in the difference in growth between tree 3 and tree 5
