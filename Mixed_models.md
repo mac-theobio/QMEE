@@ -152,21 +152,25 @@ is properly reflected in your scientific conclusions.
 -   The scope of your analysis covers only the sampled levels, not the
     population they were sampled from
 
-## R-side effects
+# Residual structure and group structure
 
-Some effects can be modeled effectively with MMMs (modern mixed models)
-on the "residual (R) side".
+## Standard random effects: we attach a random effect to the _group_
 
-Standard random effects
-
-* Discrete groups: any relation is binary
+* Sometimes called G-side modeling
+* Group membership is binary (same or different)
+* Hierarchy is possible
 	* You and I are in the same country, but not the same village
+	* But the model doesn't understand if our villages are close together
 
-R-side effects
+## R-side modeling: we impose a covariance structure on the residuals
 
 * Arbitrary variance-covariance structure (time, space, etc.)
-	* I am very close to Ben, and sort of close to Morgan
+	* I am very close to Ben, and sort of close to you
 * Can also allow for heteroscedasticity
+* Disadvantages
+	* Harder to combine effects
+	* Easier to mis-specify the model
+	* Difficult to implement (especially for generalized models)
 
 ## How modern methods work
 
@@ -203,4 +207,6 @@ and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)
     GLMMs
 -   many other special-purpose packages
 
-[ examples](Mixed_models_examples.html)
+* [examples](Mixed_models_examples.html)
+* [Bolker FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
+
