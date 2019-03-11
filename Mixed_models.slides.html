@@ -3075,10 +3075,6 @@ if (document.readyState !== "loading" &&
       font-style: italic;
     }
 
-    summary {
-      display: list-item;
-    }
-
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -3161,17 +3157,13 @@ if (document.readyState !== "loading" &&
 <ul>
 <li>We have a small number of trees</li>
 <li>We take a lot of samples from each tree</li>
-<li>&ldquo;Treatment&rdquo; is a fixed effect
-
-<ul>
-<li>We want to estimate the difference in growth with clean air and dirty air</li>
-</ul></li>
-<li>&ldquo;Tree&rdquo; is a random effect
-
-<ul>
-<li>We want to know what about the <em>distribution</em> of tree effects (so we can control for it); we are not specifically interested in the difference in growth between tree 3 and tree 5</li>
-</ul></li>
 </ul>
+
+</article></slide><slide class=""><hgroup><h2>Model</h2></hgroup><article  id="model">
+
+<p>&ldquo;Treatment&rdquo; is a fixed effect - We want to estimate the difference in growth with clean air and dirty air</p>
+
+<p>&ldquo;Tree&rdquo; is a random effect - We want to know what about the <em>distribution</em> of tree effects (so we can control for it); we are not specifically interested in the difference in growth between tree 3 and tree 5</p>
 
 </article></slide><slide class=""><hgroup><h2>Random effects</h2></hgroup><article  id="random-effects">
 
