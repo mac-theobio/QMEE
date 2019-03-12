@@ -41,6 +41,7 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 ## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
 ## gh-pages/Mixed_models.html: Mixed_models.md
 ## gh-pages/Mixed_models.slides.html: Mixed_models.md
+## gh-pages/assignmentsMixed_models.md.html: assignments.md
 
 ##################################################################
 
