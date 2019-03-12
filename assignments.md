@@ -16,7 +16,7 @@ Final project
 * This can be just a restatement of ideas you've already shared via README or assignments, but in a convenient form for us to look at
 * make a file called projects.md in your _main_ repo directory. It should contain <200 words (plus a title of <10 words)
 
-The assignment is due Fri 15 Mar
+The assignment is due Fri 15 Mar. The project part is _really_ due Fri 15 mar
 
 Week 8
 ------
