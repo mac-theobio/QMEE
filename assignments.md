@@ -2,6 +2,32 @@
 title: Assignments
 ---
 
+Week 9
+------
+
+* Make a (possibly generalized) linear mixed model for one or more of your hypotheses. 
+
+* Discuss what choices you made about mixed effects (both grouping variables and related effects; i.e., what did you put on each side of a pipe)
+
+* Identify the maximal model that you could have used, and explain what you left out (if anything) and why
+
+* Discuss your results
+
+The assignment is due Fri 15 Mar
+
+Week 8
+------
+
+Make a generalized linear model for one or more of your hypotheses. 
+
+Discuss your results.
+
+The assignment was due Fri 8 Mar
+
+
+General
+-------
+
 For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we've said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure. 
 
 If your assignment will be late, please email us by Friday noon to let us know when you will hand it in. This should be before 2PM on Monday, unless we give permission for special circumstances.
