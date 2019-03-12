@@ -5,13 +5,16 @@ title: Assignments
 Week 9
 ------
 
+Course content
 * Make a (possibly generalized) linear mixed model for one or more of your hypotheses. 
-
 * Discuss what choices you made about mixed effects (both grouping variables and related effects; i.e., what did you put on each side of a pipe)
-
 * Identify the maximal model that you could have used, and explain what you left out (if anything) and why
-
 * Discuss your results
+
+Final project
+* Write some ideas about what data and questions you would pursue if your project were chosen as a final project for a group of 2 or 3 people
+* This can be just a restatement of ideas you've already shared via README or assignments, but in a convenient form for us to look at
+* make a file called projects.md in your _main_ repo directory. It should contain <200 words (plus a title of <10 words)
 
 The assignment is due Fri 15 Mar
 
