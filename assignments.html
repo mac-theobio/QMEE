@@ -1,50 +1,84 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Assignments</title>
-  <style type="text/css">code{white-space: pre;}</style>
-  <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
-  <link rel="stylesheet" href="qmee.css" type="text/css" />
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <style>
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="qmee.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -57,46 +91,57 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 	</div>
 </div>
 </header>
-<div id="header">
+<header id="title-block-header">
 <h1 class="title">Assignments</h1>
-</div>
-<p>For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we've said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure.</p>
+</header>
+<h2 id="week-9">Week 9</h2>
+<p>Course content * Make a (possibly generalized) linear mixed model for one or more of your hypotheses. * Discuss what choices you made about mixed effects (both grouping variables and related effects; i.e., what did you put on each side of a pipe) * Identify the maximal model that you could have used, and explain what you left out (if anything) and why * Discuss your results</p>
+<p>Final project * Write some ideas about what data and questions you would pursue if your project were chosen as a final project for a group of 2 or 3 people * This can be just a restatement of ideas you’ve already shared via README or assignments, but in a convenient form for us to look at * make a file called projects.md in your <em>main</em> repo directory. It should contain &lt;200 words (plus a title of &lt;10 words)</p>
+<p>The assignment is due Fri 15 Mar. The project part is <em>really</em> due Fri 15 mar</p>
+<h2 id="week-8">Week 8</h2>
+<p>Make a generalized linear model for one or more of your hypotheses.</p>
+<p>Discuss your results.</p>
+<p>The assignment was due Fri 8 Mar</p>
+<h2 id="general">General</h2>
+<p>For the first few weeks of the course, there will be a short assignment every week. You are advised to start on these on Monday (whether we’ve said exactly what the assignment is by then or not). We will typically work on them or talk about them in class on Wednesday They are technically due Friday at noon. This is to encourage you to finish quickly if you can, and move on with your life, not to give you pressure.</p>
 <p>If your assignment will be late, please email us by Friday noon to let us know when you will hand it in. This should be before 2PM on Monday, unless we give permission for special circumstances.</p>
 <p><em>Submit your assignment by email</em> to <a href="mailto:bio708qmee@gmail.com">bio708qmee@gmail.com</a>. Your assignment is not done until you do this. To submit an assignment:</p>
 <ul>
-<li><p>Tell us the main file we should be looking at, including the <em>relative path</em> from the main repo directory, e.g, <code>dushoff/add.R</code> Other files that are relevant can simply be mentioned in the script:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read.csv</span>(<span class="st">&quot;eggplant_survey.csv&quot;</span>)
-## Plot the histotypes (see README.md)</code></pre></div></li>
-<li>Make sure that your script runs, from beginning to end, <em>without absolute path names</em> (just in case one of us doesn't have a directory called <code>E://From Oshawa Computer/Research Files/My Thesis/Data for 708/</code> already available)</li>
-<li><p>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don't have the packages you are using.</p></li>
+<li>Tell us the main file we should be looking at, including the <em>relative path</em> from the main repo directory, e.g, <code>dushoff/add.R</code> Other files that are relevant can simply be mentioned in the script:</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">read.csv</span>(<span class="st">&quot;eggplant_survey.csv&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co">## Plot the histotypes (see README.md)</span></a></code></pre></div>
+<ul>
+<li>Make sure that your script runs, from beginning to end, <em>without absolute path names</em> (just in case one of us doesn’t have a directory called <code>E://From Oshawa Computer/Research Files/My Thesis/Data for 708/</code> already available)</li>
+<li>Put package names at the top, and use <code>library</code> instead of <code>require</code>, in case we don’t have the packages you are using.</li>
 </ul>
 <p>For lots more opinions on R coding style, see <a href="R_style.html">here</a></p>
 <h2 id="general-principles-gleaned-from-assignment-review">General principles gleaned from assignment review</h2>
-<h3 id="dont">don't</h3>
+<h3 id="dont">don’t</h3>
 <ul>
 <li>use spaces or other special characters (<code>&amp;</code>, <code>#</code>, <code>$</code>) in file names (<code>_</code> and <code>.</code> are OK)</li>
 <li>leave interactive commands like <code>View()</code>, <code>head()</code>, <code>str()</code> in your code [unless commented out]</li>
 <li>leave <code>install.packages()</code> in your code [ditto]</li>
-<li>use names of built-in R objects (especially <code>data</code>, but also: <code>sd</code>, <code>t</code>, <code>dt</code>, <code>df</code>, <code>I</code>, ...) for your own variables. <code>fortunes::fortune(77)</code></li>
+<li>use names of built-in R objects (especially <code>data</code>, but also: <code>sd</code>, <code>t</code>, <code>dt</code>, <code>df</code>, <code>I</code>, …) for your own variables. <code>fortunes::fortune(77)</code></li>
 </ul>
 <blockquote>
-<p>Firstly, don't call your matrix 'matrix'. Would you call your dog 'dog'? Anyway, it might clash with the function 'matrix'. [Barry Rowlingson, R-help (October 2004)]</p>
+<p>Firstly, don’t call your matrix ‘matrix’. Would you call your dog ‘dog’? Anyway, it might clash with the function ‘matrix’. [Barry Rowlingson, R-help (October 2004)]</p>
 </blockquote>
 <ul>
 <li>include absolute path names</li>
-<li>include <code>rm(list=ls())</code> (see <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script/">Jenny Bryan's blog post on this topic</a></li>
+<li>include <code>rm(list=ls())</code> (see <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script/">Jenny Bryan’s blog post on this topic</a></li>
 <li>load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)</li>
-<li>use &quot;extreme tidyverse&quot;; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
+<li>use “extreme tidyverse”; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
 </ul>
 <h3 id="do">do</h3>
 <ul>
 <li>use <code>count()</code> instead of <code>group_by(..)+summarize(count=n())</code>, <em>or</em> use base-R <code>table</code> [which also spreads the results]: <code>with(your_data,table(var1,var2))</code></li>
 <li>rename bad variable names (long, containing spaces or special characters) up front (with <code>dplyr::rename()</code>)</li>
-<li>use the <code>data=</code> argument whenever possible (e.g. <code>lm()</code>)</li>
-<li>use the <code>*_if()</code>, <code>*_at()</code>, <code>*_all()</code> versions of tidyverse functions (esp. <code>mutate</code> and <code>summarise</code>) to transform multiple columns</li>
+<li>use the <code>data=</code> argument whenever possible (e.g. <code>lm()</code>)</li>
+<li>use the <code>*_if()</code>, <code>*_at()</code>, <code>*_all()</code> versions of tidyverse functions (esp. <code>mutate</code> and <code>summarise</code>) to transform multiple columns</li>
 <li>use <code>stopifnot()</code> (or the <code>assertthat</code> package from the extended hadleyverse) to test conditions</li>
 <li>use log scales often, especially for morphometric measurements</li>
-<li>especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]</li>
+<li>especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]</li>
 <li>use comma-separation to combine multiple <code>mutate()</code> steps</li>
 </ul>
 <h2 id="mmv-commentsquestions">MMV comments/questions</h2>
@@ -118,7 +163,7 @@ a2$`F value`[1]</code></pre>
 <h3 id="tibble-problems">tibble problems:</h3>
 <pre><code>mean(fi_d2[fi_d2$Type==&quot;NM&quot;, &quot;body_condition&quot;])</code></pre>
 <p>works for data.frames (because of auto-collapse), but not for tibbles. Sorry!</p>
-<p>A base R solution might be to explicitly &quot;pull&quot; the column first):</p>
+<p>A base R solution might be to explicitly “pull” the column first):</p>
 <pre><code>mean(fi_d2$body_condition[fi_d2$Type==&quot;NM&quot;)</code></pre>
 <p>A tidy solution could deal with all types at once:</p>
 <pre><code>print(fi_d2
