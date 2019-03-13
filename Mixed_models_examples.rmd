@@ -38,7 +38,7 @@ y ~ (x|g)                  | Zero slope on average (weird!)
 y ~ x + (1|g)+(0+x|g)      | Independent slope and intercept
 ```
 
-## Basic look at the data
+## Look at the data
 
 - Sometimes called a *spaghetti plot*
 - Alternative: use `+facet_wrap(~Subject)`
@@ -155,7 +155,7 @@ $$
    - drop slopes
    - force correlations to zero (use `1+x||g` to fit intercept and slope independently)
    
-## Convergence failures ![](pix/skullcross_tiny.png)
+## Convergence failures 
 
 - convergence failures are common
 - what do they really mean? how to fix them? when can they be ignored?
