@@ -299,7 +299,7 @@ This is only a taste of what to do, and after this we could start asking questio
 
 Compare fixed effects:
 
-```{r dwplot2}
+```{r dwplot3}
 tt <- tidy(MMLM1.fit)
 tt2 <- tidy(lmer1)
 tt_comb <- bind_rows(lmer=tt,MCMCglmm=tt2,.id="model") %>%
