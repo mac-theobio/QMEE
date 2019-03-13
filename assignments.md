@@ -66,6 +66,7 @@ For lots more opinions on R coding style, see [here](R_style.html)
 - include `rm(list=ls())` (see [Jenny Bryan's blog post on this topic](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/)
 - load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)
 - use "extreme tidyverse"; e.g. `dd %>% pull(x) %>% mean()` instead of `mean(dd$x)`
+- load all possible packages (e.g. all of the ones used in class examples); try to load just the ones you need
 
 ### do
 
@@ -104,9 +105,9 @@ a2$`F value`[1]
 mean(fi_d2[fi_d2$Type=="NM", "body_condition"])
 ```
 
-works for data.frames (because of auto-collapse), but not for tibbles. Sorry!
+works for data frames (because of auto-collapse), but not for tibbles. Sorry! This is because selecting a single column from a data frame (`"body_condition"`) returns a vector, whereas selecting a single column from a tibble **always returns a one-column tibble**
 
-A base R solution might be to explicitly "pull" the column first):
+A base R solution might be to explicitly "pull" the column first (`$` extracts a column as a vector):
 
 ```
 mean(fi_d2$body_condition[fi_d2$Type=="NM")

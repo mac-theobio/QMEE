@@ -23,9 +23,7 @@ library(brms)
 library(tidyr)
 library(dplyr)
 library(corrplot)
-library(broom)
-## need BMB's version from github:
-##  devtools::install_github("bbolker/broom")
+library(broom.mixed)
 library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 ```
@@ -82,7 +80,7 @@ dll_melt <- (dll_data2
     %>% select(-c(femur,tibia,tarsus,SCT))  ## drop unscaled vars
     %>% mutate(units=factor(1:n()))
     %>% gather(trait,value, -c(units,replicate,line,genotype,temp))
-    %>% na.omit
+    %>% drop_na()
 )
 ```
 
@@ -93,7 +91,8 @@ t1 <- system.time(
     lmer1 <- lmer(value ~ trait:(genotype*temp) - 1 +
                       (trait-1|line) + (trait-1|units),
                   data=dll_melt,
-                  control=lmerControl(check.nobs.vs.nlev="ignore",
+                  control=lmerControl(optCtrl=list(ftol_abs=1e-8),
+                                      check.nobs.vs.nlev="ignore",
                                       check.nobs.vs.nRE="ignore"))
 )
 ```
@@ -154,16 +153,26 @@ all positive (i.e. first axis of variation is *size* variation?)
 
 ## lme4: coefficient plot
 ```{r dwplot}
-dwplot(lmer1)+geom_vline(xintercept=0,lty=2)
+cc1 <- tidy(lmer1,effect="fixed") %>%
+  tidyr::separate(term,into=c("trait","fixeff"),extra="merge",
+                  remove=FALSE)
+dwplot(cc1)+facet_wrap(~fixeff,scale="free",ncol=2)+
+  geom_vline(xintercept=0,lty=2)
 ```
 
 These results tell approximately the same story (coefficients are
 consistent across traits within a fixed effect, e.g. effect of higher
 temperature is to reduce scores on all traits).
 
+## lme4: random effects
+
+```{r dwplot2,cache=TRUE}
+cc2 <- tidy(lmer1,effect="ran_pars",conf.int=TRUE,conf.method="profile")
+```
+
 # MCMCglmm
 
-Another option is the `MCMCglmm` package, which has a natural interface for general multivariate mixed models.  It takes a while to get used to the interface, but here is an example. Please check out [here](https://cran.r-project.org/web/packages/MCMCglmm/index.html) for more information about the package, and [here](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf) for an overview of how to use this package.
+Another option is the `MCMCglmm` package, which has a natural interface for general multivariate mixed models.  It takes a while to get used to the interface, but here is an example. Please check out [here](https://cran.r-project.org/web/packages/MCMCglmm/index.html) for more information about the package, and [here](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf) for an overview of how to use it.
 
 First I find it easier (given the interface of MCMCglmm) to create a formula with the response variables and predictors. This is only for the fixed effects part of the model.
 ```{r mod_fm}
