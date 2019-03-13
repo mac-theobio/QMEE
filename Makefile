@@ -38,7 +38,7 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 ## Current
 
 ## gh-pages/permutation_examples.html: permutation_examples.rmd
-## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
+## gh-pages/MultivariateMixed.html: MultivariateMixed.rmd
 ## gh-pages/Mixed_models.html: Mixed_models.md
 ## gh-pages/Mixed_models.slides.html: Mixed_models.md
 ## gh-pages/assignmentsMixed_models.md.html: assignments.md
