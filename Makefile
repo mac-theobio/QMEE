@@ -127,7 +127,11 @@ bugs = $(wildcard *.bug)
 
 Sources += $(scripts) $(bugs)
 
-pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
+### Suppress stuff that's not working!
+### Use sparingly
+pagelist = $(md:%.md=%) $(rmd:%.rmd=%)
+pageroots = $(filter-out MultivariateMixed, $(pagelist))
+
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
 pscripts = $(scripts:%=gh-pages/%) $(bugs:%=gh-pages/%)
