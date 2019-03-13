@@ -143,6 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>include <code>rm(list=ls())</code> (see <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script/">Jenny Bryan’s blog post on this topic</a></li>
 <li>load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)</li>
 <li>use “extreme tidyverse”; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
+<li>load all possible packages (e.g. all of the ones used in class examples); try to load just the ones you need</li>
 </ul>
 <h3 id="do">do</h3>
 <ul>
@@ -173,8 +174,8 @@ a2 &lt;- anova(lm(body_condition~Type, fi_d3))
 a2$`F value`[1]</code></pre>
 <h3 id="tibble-problems">tibble problems:</h3>
 <pre><code>mean(fi_d2[fi_d2$Type==&quot;NM&quot;, &quot;body_condition&quot;])</code></pre>
-<p>works for data.frames (because of auto-collapse), but not for tibbles. Sorry!</p>
-<p>A base R solution might be to explicitly “pull” the column first):</p>
+<p>works for data frames (because of auto-collapse), but not for tibbles. Sorry! This is because selecting a single column from a data frame (<code>"body_condition"</code>) returns a vector, whereas selecting a single column from a tibble <strong>always returns a one-column tibble</strong></p>
+<p>A base R solution might be to explicitly “pull” the column first (<code>$</code> extracts a column as a vector):</p>
 <pre><code>mean(fi_d2$body_condition[fi_d2$Type==&quot;NM&quot;)</code></pre>
 <p>A tidy solution could deal with all types at once:</p>
 <pre><code>print(fi_d2
