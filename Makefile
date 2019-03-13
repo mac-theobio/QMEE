@@ -38,10 +38,11 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 ## Current
 
 ## gh-pages/permutation_examples.html: permutation_examples.rmd
-## gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
+## gh-pages/MultivariateMixed.html: MultivariateMixed.rmd
 ## gh-pages/Mixed_models.html: Mixed_models.md
 ## gh-pages/Mixed_models.slides.html: Mixed_models.md
 ## gh-pages/assignmentsMixed_models.md.html: assignments.md
+## gh-pages/Mixed_models_examples.html: Mixed_models_examples.rmd
 
 ##################################################################
 
@@ -127,7 +128,11 @@ bugs = $(wildcard *.bug)
 
 Sources += $(scripts) $(bugs)
 
-pageroots = $(md:%.md=%) $(rmd:%.rmd=%)
+### Suppress stuff that's not working!
+### Use sparingly
+pagelist = $(md:%.md=%) $(rmd:%.rmd=%)
+pageroots = $(filter-out MultivariateMixed, $(pagelist))
+
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
 pscripts = $(scripts:%=gh-pages/%) $(bugs:%=gh-pages/%)

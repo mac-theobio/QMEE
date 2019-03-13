@@ -1,6 +1,21 @@
 ---
 title: "Mixed model examples"
+output:
+  html_document:
+    code_folding: hide
 ---
+
+```{r pkgs,message=FALSE}
+## fitting
+library(lme4)
+library(glmmTMB)
+## diagnostics etc.
+library(broom.mixed)
+library(DHARMa)
+##
+library(ggplot2); theme_set(theme_bw())
+library(cowplot)
+```
 
 ## Examples
 
@@ -9,40 +24,44 @@ title: "Mixed model examples"
 
 ## Formulae
 
+```
 Formula  |                  Meaning
 -------------------------|------------------------------------
-y ~ x                    |     No random effects
-y ~ x + (1|g)            |   The intercept is a random effect
-
+y ~ x                    |  No random effects
+y ~ x + (1|g)            |  The intercept is a random effect
+y ~ x + (1|site/block)   |   Nested random effects (block within site)
+y ~ x + (1|site) + (1|year)| Crossed random effects
+y ~ x + (1|site:block)     | Interaction (only block within site)
+y ~ x + site + (1|site:block) | Fixed site, random block within site
+y ~ x + (x|g)              | Intercept and slope are random effects
+y ~ (x|g)                  | Zero slope on average (weird!)
+y ~ x + (1|g)+(0+x|g)      | Independent slope and intercept
 ```
-y ~ x + (1|site/block)      Nested random effects (block within site)
-y ~ x + (1|site) + (1|year) Crossed random effects
-y ~ x + (1|site:block)      Interaction (only block within site)
-y ~ x + (x|g)               Intercept and slope are random effects
-y ~ (x|g)                   Zero slope on average (weird!)
-y ~ x + (1|g)+(0+x|g)       Independent slope and intercept
-```
 
-## Basic look at the data
+## Look at the data
 
 - Sometimes called a *spaghetti plot*
 - Alternative: use `+facet_wrap(~Subject)`
 
 ```{r mmex1}
-library(lme4)
-library(ggplot2); theme_set(theme_bw())
 q0 <- (ggplot(sleepstudy, aes(Days, Reaction, colour = Subject))
     + geom_point())  ## points only, use later
 print(q0+geom_line())
 ```
 
+(Alternatives; connect, don't colour; separate individuals into separate facets ... for scatterplots, try `ggalt::geom_encircle()`. See examples [here](https://bbolker.github.io/goettingen_2019/notes/datavis.html) as well.)
+
 ## Basic model fits
 
-``` {r mmex2,message=FALSE}
-library(nlme)
-lm1 <- lmList(Reaction~Days|Subject,data=sleepstudy) ## per-group fit (fixed)
-lm2 <- lme(Reaction~Days,random=~1|Subject,data=sleepstudy) ## rand intercept
-lm3 <- lme(Reaction~Days,random=~Days|Subject,data=sleepstudy) ## rand slopes
+```{r mmex2,message=FALSE}
+library(lme4)
+## per-group fit (fixed)
+lm1 <- lmList(Reaction~Days|Subject, data=sleepstudy) 
+## random intercept
+lm2 <- lmer(Reaction~Days+(1|Subject),
+            data=sleepstudy)
+## random slopes
+lm3 <- lmer(Reaction~Days+(1+Days|Subject), data=sleepstudy) 
 ```
 
 ## Compute predictions
@@ -52,22 +71,112 @@ pp <- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
 pp1 <- cbind(pp,Reaction=predict(lm1,newdata=pp))
 pp2 <- cbind(pp,Reaction=predict(lm2,newdata=pp))
 pp3 <- cbind(pp,Reaction=predict(lm3,newdata=pp))
-summary(lm3)
 ```
 
 ## plot predictions
 
-``` {r mmex3, echo=FALSE}
-print(q0
-      + geom_line(data=pp2)
-      + geom_line(data=pp3)
-      + geom_line(data=pp1,lty=2))
+```{r mmex3, fig.width=10}
+theme_set(theme_classic()+theme(legend.position="none"))
+plot_grid(q0+geom_line(data=pp2)+ggtitle("random intercept"),
+          q0+geom_line(data=pp3)+ggtitle("random int&slope"),
+          q0+geom_line(data=pp1)+ggtitle("fixed effects"),
+          nrow=1)
 ```
 
-## the same thing with lme4::lmer
+## diagnostics
 
-``` {r mmex4, echo=FALSE}
-library(lme4)
-lm4 <- lmer(Reaction~Days+(Days|Subject),data=sleepstudy)
-summary(lm4)
+- more do-it-yourself
+
+```{r,fig.keep="none"}
+plot(lm3)  ## fitted vs residual
+## scale-location
+plot(lm3, sqrt(abs(resid(.))) ~ fitted(.),
+     type=c("p","smooth"), col.line="red")
+## or:
+aa <- augment(lm3)
+## and then use ggplot.
 ```
+
+Or use `DHARMa::simulateResiduals(lm3, plot=TRUE)`.
+
+
+## post-hoc stuff
+
+`emmeans`, `effects`, `car::Anova()`
+
+## model choice considerations
+
+- what is the maximal model?
+- Which effects vary *within* which groups?
+- If effects don't vary within groups, then we *can't* estimate among-group variation in the effect
+     - convenient
+     - maybe less powerful (among-group variation is lumped into residual variation)
+- e.g. female rats exposed to different doses of radiation, multiple pups per mother, multiple measurements per pup (labeled by time). Maximal model ... ?
+
+---
+
+Maximal model **often won't work**
+
+e.g.
+
+- *Culcita* (coral-reef) example: randomized-block design, so each treatment (none/crabs/shrimp/both) is repeated in every block; thus `(treat|block)` is maximal
+- CBPP data: each herd is measured in every period, so in principle we could use `(period|herd)`, not just `(1|herd)`
+
+## Random-slopes models: what does `(x|g)` really do?
+
+- equivalent to `(1+x|g)`
+- both intercept (baseline) and slope vary across groups
+- estimates **bivariate** zero-centered distribution:
+
+$$
+(\textrm{intercept}, \textrm{slope}) =
+\textrm{MVN}\left(\boldsymbol 0,
+\left[
+\begin{array}{cc}
+\sigma^2_{\textrm{int}} &
+\sigma_{\textrm{int},\textrm{slope}} \\
+\sigma_{\textrm{int},\textrm{slope}} & 
+\sigma^2_{\textrm{slope}}
+\end{array}
+\right]
+\right)
+$$
+
+## What is a practical model?
+
+- Fits aren't **singular**
+- singular = zero variances, +/- 1 correlations
+- More subtle for larger models: `isSingular(model)`
+
+## How to simplify?
+
+- remove random effects
+- simplify random effects
+   - drop slopes
+   - force correlations to zero (use `1+x||g` to fit intercept and slope independently)
+   
+## Convergence failures 
+
+- convergence failures are common
+- what do they really mean? how to fix them? when can they be ignored?
+- **approximate** test that gradient=0 and curvature is correct
+- scale and center predictors; simplify model
+- use `?allFit` to see whether different optimizers give sufficiently similar answers
+     - `$fixef`, etc.: are answers sufficiently similar?
+     - `$llik`: how similar is goodness-of-fit?
+
+```{r allFit_ex, cache=TRUE, message=FALSE}
+m1 <- lmer(Reaction ~ Days + (Days|Subject), sleepstudy)
+aa <- allFit(m1)
+ss <- summary(aa)
+names(ss)
+ss$fixef
+```
+
+## Integration techniques
+
+- PQL, Laplace, AGQ
+- fast/flexible/inaccurate $\to$ slow/inflexible/accurate
+- **amount of data per group** is what matters
+    - number of points, info per point (binary vs count)
+- set `nAGQ=` to a larger value (1=Laplace; 25 should be more than enough)
