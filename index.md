@@ -66,6 +66,7 @@ COMMENT -->
 
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
+- [Power analysis](power_analysis.html)
 
 <!-- COMMENT
 * Generalized linear models
