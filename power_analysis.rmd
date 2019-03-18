@@ -3,8 +3,6 @@ title: power analysis etc.
 author: Ben Bolker
 date: "`r format(Sys.time(),'%d %b %Y')`"
 bibliography: qmee.bib
-output:
-  ioslides_presentation
 ---
 
 <!-- 
@@ -41,7 +39,7 @@ td {
 
 > - design your experiment well and execute it well:  
 you needn't worry too much in advance about statistics
-> - don't: you're doomed - statistics can't save you ![](pix/skullcross_tiny.png)
+> - don't: you're doomed, statistics can't save you ![](pix/skullcross_tiny.png)
 > - **randomization**, **control**, **replication**
 
 ## randomization
