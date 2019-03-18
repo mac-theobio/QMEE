@@ -58,7 +58,6 @@ gh-pages:
 
 ### Right now building "notes" html like regular html (with this upstream rule)
 ### Could cause problems with figures or (less likely) mathjax
-Sources += $(wildcard *.rmd)
 Sources += $(wildcard *.csv)
 
 Ignore += $(wildcard *.mkd)
@@ -93,13 +92,6 @@ gh-pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
 ######################################################################
 
-## Editing pages
-## It would be fun to figure out how to deal with the competing md streams
-
-Sources += $(wildcard *.md)
-
-######################################################################
-
 ## Formatting
 
 Sources += qmee.css header.html footer.html
@@ -125,8 +117,11 @@ md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
 scripts = $(wildcard *.R)
 bugs = $(wildcard *.bug)
+mddown = $(rmd:rmd=md)
+mdsource = $(filter-out $(mddown), $(md))
 
-Sources += $(scripts) $(bugs)
+Sources += $(scripts) $(rmd) $(mdsource) $(bugs)
+Ignore += $(mddown)
 
 ### Suppress stuff that's not working!
 ### Use sparingly
