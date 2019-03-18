@@ -1,0 +1,261 @@
+---
+title: power analysis etc.
+author: Ben Bolker
+date: "`r format(Sys.time(),'%d %b %Y')`"
+bibliography: qmee.bib
+output:
+  ioslides_presentation
+---
+
+<!-- 
+apa.csl is a slightly hacked version of APA 
+  (modified for "et al" after 2 authors in text)
+-->
+<!-- .refs is style for reference page (small text) -->
+<style>
+.refs {
+   font-size: 16px;
+}
+
+.smallslide {
+   font-size: 12px;
+}
+
+h2 { 
+ color: #3399ff;		
+}
+h3 { 
+ color: #3399ff;		
+}
+td {
+  font-size: 12px !important;
+}
+.title-slide {
+   background-color: #55bbff;
+}
+</style>
+
+# experimental design
+
+## the most important thing {.build}
+
+> - design your experiment well and execute it well:  
+you needn't worry too much in advance about statistics
+> - don't: you're doomed - statistics can't save you ![](pix/skullcross_tiny.png)
+> - **randomization**, **control**, **replication**
+
+## randomization
+
+- random *assignment to treatments*
+- poorer alternative: *haphazard* assignment
+- stratification  
+(i.e., randomize within groups)
+- related: experimental *blinding*
+
+## control
+
+- maximize *desired* variation
+     - e.g. large doses  (tradeoff with biological realism)
+- minimize *undesired* variation
+    - within-subjects designs
+        - e.g. paired, randomized-block, crossover
+    - reduce environmental variation
+        - tradeoff with generality
+        - e.g. environmental chambers, inbred/clones
+- isolate desired effects: **positive/negative controls**  
+(vehicle-only, cage treatments, etc.)
+- measure/control for covariates
+
+<!-- https://stackoverflow.com/questions/27120954/multiple-lines-in-a-single-cell-for-rmarkdown-table -->
+
+## @hurlbert_pseudoreplication_1984 Table 1
+
+---------------------------------------------------------------
+	Source of confusion     Features of an experimental design
+                            that reduce or eliminate confusion
+--------------------------  -----------------------------------
+Temporal change             Control treatments
+
+Procedure effects           Control treatments
+
+Experimenter bias           Randomized assignment of\
+                            experimental units to\
+                            treatments\
+                            Randomization in conduct\
+                            of other procedures\
+                            “Blind” procedures*\
+
+Experimenter-generated\  	Replication of treatments
+variability (random error)
+
+Initial or inherent\        Replication of treatments\
+variability among\          Interspersion of treatments\
+experimental units\         Concomitant observations\
+
+Nondemonic intrusion        Replication of treatments\
+                            Interspersion of treatments\
+							
+Demonic intrusion           Eternal vigilance, exorcism,\
+                            human sacrifices, etc.
+---------------------------------------------------------------
+
+## replication {.build}
+
+> - how big does your experiment need to be?
+- **power**: probability of detecting an effect of a particular size,  
+if one exists
+    - more generally: how much information? what kinds of mistakes? [@gelman_beyond_2014] 
+> - *underpowered* studies
+>       - failure is likely
+>       - cheating is likely
+>       - *significance filter* $\to$ biased estimates
+- *overpowered* studies waste time, lives, $
+> - **pseudoreplication** [@hurlbert_pseudoreplication_1984;@davies_dont_2015]
+confounding sampling units with treatment units
+
+# power analysis
+
+## definition
+
+- **power** is the probability of successfully rejecting the null hypothesis
+    - i.e., being able to see something clearly
+- depends on
+    - biological effect size
+    - noise level
+    - experimental design (sample size + ...)
+- uses null-effect *counterfactual*
+
+## power analysis: a cautionary conversation
+
+[an introductory video](https://www.youtube.com/watch?v=PbODigCZqL8&feature=youtu.be)
+
+## where do effect sizes come from?
+
+- pilot studies? (**danger**)
+- previous literature
+- **minimal** interesting sample size
+- estimates of uncertainty
+     - particularly hard to think about
+	 - think in terms of coefficient of variation and translate
+	 - binomial tests easier, but watch out:  
+assume no overdispersion
+
+<div style="color:red">
+**if you can't guess an effect size you shouldn't be doing an experiment**
+</div>
+
+## power analysis: methods
+
+- seat-of-the-pants ("ask your supervisor")
+- [web calculators](http://homepage.stat.uiowa.edu/~rlenth/Power/) [@lenth_java_2006]
+- [G*Power](http://www.gpower.hhu.de/) [@faul_statistical_2009]
+
+## methods, cont.: power analysis in R
+
+```{r pow}
+apropos("^power\\.")  ## base-R functions
+```
+
+```{r pow_pkgs}
+a1 <- available.packages(repos="https://cran.rstudio.com")
+pow_pkgs <- grep("power",rownames(a1),value=TRUE,ignore.case=TRUE)
+head(pow_pkgs, 10)
+```
+
+## the `pwr` package
+
+```{r pwr_pkg, message=FALSE}
+library("pwr")
+apropos("^pwr")
+```
+
+also: `library("sos"); findFn("{power analysis}")`
+
+## ant example
+
+```{r ants1,results="hide"}
+dd <- read.csv("data/ants.csv")
+power.t.test(n=c(10,10),delta=2,sd=1)
+power.t.test(power=0.8,delta=2,sd=1)
+```
+
+## power curves
+
+```{r powcurve}
+nvec <- 2:15
+powfun <- function(n) {
+   power.t.test(n, delta=2, sd=1)$power
+}
+powvec <- sapply(nvec,powfun)
+par(las=1,bty="l")
+plot(nvec,powvec,type="b", xlab="sample size (each group)",
+     ylab="power")
+```
+
+## avoid: scaled effect sizes ![](pix/skullcross_tiny.png)
+
+- e.g. Cohen's $d$/$g$
+- scaling *not* by standard deviation of a predictor, but by the noise
+- removes units (and biological meaning)
+- refers only to *clarity*, not *biological impact*
+- if you need these for input to a program, start with biological effects and translate
+
+## avoid: "T-shirt" effect sizes ![](pix/skullcross_tiny.png)
+
+- Cohen proposed standardized "small", "medium", and "large" scaled effect sizes
+- convenient: but scaled/unitless/non-biological!
+
+From [Russ Lenth FAQs](http://homepage.stat.uiowa.edu/~rlenth/Power/#frequently-asked-questions):
+
+<blockquote>
+<div style="font-size:20px">
+<p>
+for a “medium” effect size, you’ll choose the same $n$ regardless of the accuracy or reliability of your instrument, or the narrowness or diversity of your subjects
+</blockquote>
+
+## avoid: retrospective power analysis ![](pix/skullcross_tiny.png)
+
+- running 
+- tautological: high $p$-value $\leftrightarrow$ low power
+- essentially useless
+- instead:
+    - show confidence intervals
+	- (*if necessary*) pretend you're doing prospective analysis
+- push back: @thomas_retrospective_1997, @gerard_limits_1998, @hoenig_abuse_2001
+  
+## what to do about bad news?
+
+- simplify the question
+- use simpler designs (e.g. low/high vs continuous range)
+- push treatments harder
+- ask a different question
+
+## what if your analysis is more complex?
+
+- simplify 
+- simulate
+    - see [chap 5](https://ms.mcmaster.ca/~bolker/emdbook/chap5A.pdf) [@bolker_ecological_2008]
+    - much more flexible 
+	      - e.g. simulate effects of lack of balance
+          - endpoints other than power (e.g. CV)
+  
+## simulation (linear regression example)
+
+```{r sim1}
+## experimental design
+N <- 20; x_min <- 0; x_max <- 2
+x <- runif(N, min=x_min, max=x_max)
+## model world
+a <- 2; b <- 1; sd_y <- 1
+## setup
+nsim <- 1000; pval <- numeric(N); set.seed(101)
+for (i in 1:nsim) {
+  y_det <- a + b * x  ## deterministic y
+  y <- rnorm(N, mean = y_det, sd = sd_y)
+  m <- lm(y ~ x)
+  pval[i] <- coef(summary(m))["x", "Pr(>|t|)"] ## extract p-value
+}
+mean(pval<0.05)
+```
+
+## references  {.refs}
