@@ -196,6 +196,10 @@ gh-pages/%.html: %.rmd
 jags.Rout: jags.bug jags.R
 fev.Rout: fev.bug fev.R
 
+## Live power
+
+power.Rout: power.R
+
 ######################################################################
 
 Ignore += facebook_logo.png

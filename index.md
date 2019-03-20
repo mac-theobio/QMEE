@@ -67,6 +67,7 @@ COMMENT -->
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
 - [Power analysis](power_analysis.html)
+	* [vitaminA simulation](https://github.com/dushoff/notebook/blob/gh-pages/vitaminA.R)
 
 <!-- COMMENT
 * Generalized linear models
