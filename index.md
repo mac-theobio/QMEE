@@ -1,16 +1,16 @@
 ---
 title: Quantitative Methods in Ecology and Evolution
 ---
-<!--- This is how you make a comment
--->
 
-<!--- 
 ## Current
+
+Working on [projects](project.html)
 
 ### Each week:
 
-* A brief project report by email on Friday; let us know if you have any questions we can address
+* Send a brief project report by email on Friday; let us know if you have any questions we can address
 
+<!-- COMMENT
 ### Presentations
 
 Mon 3 April and Wed 5 April
@@ -21,10 +21,7 @@ Mon 3 April and Wed 5 April
 	* Don't let the presentation preparation interfere with the actual project
 	* Don't even start preparing your presentation until the Wed or Fri before (depending on when you are presenting)
 
-### Final project
-
 * Email us to tell us when it's time to look
-<!-- COMMENT
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
 COMMENT -->

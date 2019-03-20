@@ -2,13 +2,16 @@
 title: Final project
 ---
 
-Your final project is due on Thursday 20 April at noon. You should discuss and perform a group of statistical analyses. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth four (4) ordinary assignments.
+Your final project is due at a date and time. You should discuss and perform a group of statistical analyses. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth four (4) ordinary assignments.
+
+
 
 ## Presentations
 
 Please plan to take 10 minutes for your presentation. Time is short, and we want to be able to comment when appropriate.
 
 The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.
+<!-- COMMENT
 
 ### Schedule
 
@@ -53,7 +56,7 @@ The presentation does not have to be a finished work. Outline your scientific qu
 * Knoops, Paul Peter; Flett, Lucas
 	* Drosophila Sequences
 
-<!--
+COMMENT -->
 
 ## Getting started
 
@@ -70,7 +73,9 @@ It is OK to adapt existing text from your assignments, but both partners should 
 
 * Add your data to the project
 
+<!-- COMMENT
 * Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R) (this is in the private repo; you can use the link if you are logged in to github, or you can view it locally in the course repo).
+COMMENT -->
 
 * Start cleaning, coding and analyzing!
 	* Again, it's OK to reuse stuff, but you should go over it together before moving on.
