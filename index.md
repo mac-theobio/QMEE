@@ -65,6 +65,7 @@ COMMENT -->
 - [Mixed models](Mixed_models.html)
 - [Power analysis](power_analysis.html)
 	* [vitaminA simulation](https://github.com/dushoff/notebook/blob/gh-pages/vitaminA.R)
+- [Multivariate responses](Multivariate_responses.html)
 
 <!-- COMMENT
 * Generalized linear models
@@ -72,7 +73,7 @@ COMMENT -->
 * Multivariate responses
 * Linear model parameters
 * Penalized regression
-- [Multivariate responses](Multivariate_responses.html)
+
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 COMMENT -->
