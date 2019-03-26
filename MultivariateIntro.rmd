@@ -99,6 +99,7 @@ The phenotypic variance-covariance matrix:
 ```{r pcov}
 cov(dll_data[ ,5:8])
 ```
+With the variances for each trait along the diagonal, and the covariances along the off-diagonal. Also note that the covariance of two traits (x and y) is the same in both directions. i.e. $cov(x,y) = cov(y,x)$.
 
 The phenotypic correlation matrix:
 ```{r pcor}
@@ -131,21 +132,27 @@ We could also check to see if the covariance matrix was not of full rank (i.e. f
 
 ## Eigenvalues of a variance-covariance matrix.
 
-Many methods in multivariate statistics, depend on *eigenvalues*. I am not going to go over the details of *eigendecomposition* at the moment, but you will see we use them alot. We can extract the eigenvalues (usually denoted as $\lambda$) from our covariance matrix. We get as many eigenvalues as we have variables ($k$) in the covariance matrix (4 in this case), ordered from largest ($\lambda_1$ sometimes called the principal eigenvalue) to the smallest . What we want to watch for is that none of the eigenvalues are equal to zero. 
+Many methods in multivariate statistics, depend on *eigenvalues*. I am not going to go over the details of *eigendecomposition* at the moment, but you will see we use them alot. We can extract the eigenvalues (usually denoted as $\lambda$) from our covariance matrix. We get as many eigenvalues as we have variables ($k$) in the covariance matrix (4 in this case), ordered from largest ($\lambda_1$ sometimes called the principal eigenvalue) to the smallest ($\lambda_k$). What we want to watch for is that none of the eigenvalues are equal to zero (that's where we can have problems).
 
-In this case use a *singular value decomposition* this can also be done using an *eigendecomposition* for this matrix (a symmetric one) the results should be the same.
+To get the eigenvalues, we will use a *singular value decomposition* this can also be done using an *eigendecomposition* for this matrix (a symmetric one) and the results should be the same.
 
-Note what I am doing. I am first computing the variance-covariance matrix (a symmetric matrix), then extracting the eigenvalues from that matrix. I am also calculating the determinant of the matrix (I won't explain here, but for simple 2x2 matrices like the area of the shape the matrix defines). For our purposes at the moment, as long as the determinant can be estimated (it is not so small that the computer spits out a warning) we are ok. Also note that this determinant is equal to $\prod{\lambda_i}$
+Note what I am doing.
+- First computing the variance-covariance matrix (a symmetric matrix).
+- Then extracting the eigenvalues from that matrix. 
+
+- I am also calculating the determinant of the matrix (I won't explain here, but for simple 2x2 matrices like the area of the shape the matrix defines). 
+
+For our purposes at the moment, as long as the determinant can be estimated (it is not so small that the computer spits out a warning) we are ok. Also note that this determinant is equal to $\prod{\lambda_i}$
 
 ```{r eigs}
 eig_vals <- svd(cov(dll_data[, 5:8]))$d
 
-prod(eig_vals)
-
 det(cov(dll_data[, 5:8]))
+
+prod(eig_vals)
 ```
 
-The final eigenvalue is not vanishingly small (which is all we need to worry about for the moment).
+This all looks fine. The final eigenvalue is not vanishingly small, nor the determinant.
 
 ## Should we scale the response variables?
 
@@ -167,7 +174,7 @@ apply(dll_data[,9:12], 2, sd)
 apply(dll_data[,9:12], 2, mean)  ## very small ~ 0
 ```
 
-And our co-variance matrix and correlation matrix should be identical.
+And our co-variance matrix and correlation matrix should now be identical.
 
 ```{r sc_covcor}
 cov(dll_data[,9:12])
@@ -186,9 +193,9 @@ Which you may recognize as being very similar to your univariate linear model. I
 
 However, you see that instead of a lowercase bold $\mathbf{y_i}$, I have instead represented this as an uppercase $\mathbf{Y}$. This is matrix notation to denote a matrix of values. In this case it is meant to represent the $( n x m)$ matrix, for the $n$ observations in rows, and the $m$ response variables we have, which in this case is 4 (femur, tibia, tarsus, SCT). It is standard matrix notation to always talk about 2 dimensional matrices in rows by columns.
 
-How about the right hand side of the equation? Our $\mathbf{X}$ is the design matrix (or model matrix). We will come back to that in a second. Our $\mathbf{B}$ matrix is the matrix of regression coefficients from our model. If you were fitting a simple linear regression, you are used to estimating a slope $(\beta)$ for the model $y = \alpha + \beta x + \epsilon$.
+How about the right hand side of the equation? Our $\mathbf{X}$ is the design matrix (or model matrix). We will come back to that in a second. Our $\mathbf{B}$ matrix is the matrix of regression coefficients from our model. If you were fitting a simple linear regression, you are used to estimating a slope $(\beta)$ for the model $y = \beta_0 + \beta_1 x + \epsilon$.
 
-Even for a simple multivariate linear model (with only a single quantitative predictor variable), we will still estimate a coefficient for each response variable (i.e. a vector. As we add more predictors, this generalizes to a matrix of coefficients. Finally the $\mathbf{E}$ is just a generalization of the residual variation unaccounted for by the model. i.e. it is the same idea as $\epsilon$ for a simple linear model, but we have a vector $\mathbf{e_i}$ of residuals for each observation ($i$) instead of a single value.
+Even for a simple multivariate linear model (with only a single quantitative predictor variable), we estimate a coefficient **for each** response variable (i.e. a vector). As we add more predictors, this generalizes to a matrix of coefficients. Finally the $\mathbf{E}$ is just a generalization of the residual variation unaccounted for by the model. i.e. it is the same idea as $\epsilon$ for a simple linear model, but we have a vector $\mathbf{e_i}$ of residuals for each observation ($i$) instead of a single value.
 
 However, otherwise the same ideas really apply. We use some approach to estimate the slopes. Just like for a single response, the MLE and LS estimators are equivalent under most conditions and can be found with:
 
