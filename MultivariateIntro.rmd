@@ -1,5 +1,5 @@
 ---
-title: "VerySimpleIntroductionToMultivariateLinearModels"
+title: "Very Simple Introduction To Multivariate Linear Models"
 author: "Ian Dworkin"
 date: "`r format(Sys.time(),'%d %b %Y')`"
 ---
