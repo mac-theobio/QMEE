@@ -1,7 +1,7 @@
 ---
 title: "Very Simple Introduction To Multivariate Linear Models"
 author: "Ian Dworkin"
-date: "`r format(Sys.time(),'%d %b %Y')`"
+date: "26 Mar 2019"
 output: 
   html_document: 
     keep_md: yes
@@ -9,10 +9,7 @@ output:
     toc: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-options(digits  = 3)
-```
+
 
 In today's class we are introducing how to model data when you have multiple continuous response variables. This can be done with a relatively simple extension of the linear models you learned previously (regression, ANOVA, ANCOVA style models).
 
@@ -21,7 +18,8 @@ In today's class we are introducing how to model data when you have multiple con
 
 You may also need to install the following packages. If you do not have them remove the '#' to uncomment the lines.
 
-```{r pkgs,warning=FALSE,message=FALSE}
+
+```r
 # install.packages("car")
 # install.packages("geomorph")
 library(car)
@@ -38,26 +36,87 @@ We are also going to need some custom functions for multivariate analysis. We us
 
 * [R script to source](MLM_Dworkin.R)
 
-```{r get_funs}
+
+```r
 source("./MLM_Dworkin.R")
 ls()
+```
+
+```
+## [1] "ang.vec.abs" "PD"          "shapePRsq"   "shapeRsq"    "ShapeScore"
 ```
 
 ## Data
 We will use an old *Drosophila melanogaster* data set from my PhD work. The associated paper can be found [here](http://onlinelibrary.wiley.com/doi/10.1111/j.1525-142X.2005.05010.x/abstract). This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study I measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).
 
 
-```{r get_data}
+
+```r
 dll_data = read.csv("http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv", header=TRUE)
 ```
 
 Before we go on, how should we look at the data to make sure it imported correctly, and the structure (and other information) about the object we have just created?
  
-```{r summary}
+
+```r
 summary(dll_data)
+```
+
+```
+##    replicate         line      genotype        temp          femur     
+##  Min.   :1.00   line-7 : 132   Dll: 871   Min.   :25.0   Min.   :0.21  
+##  1st Qu.:1.00   line-18: 121   wt :1102   1st Qu.:25.0   1st Qu.:0.53  
+##  Median :1.00   line-4 : 112              Median :25.0   Median :0.55  
+##  Mean   :1.18   line-8 : 110              Mean   :27.4   Mean   :0.55  
+##  3rd Qu.:1.00   line-2 : 104              3rd Qu.:30.0   3rd Qu.:0.57  
+##  Max.   :2.00   line-11: 100              Max.   :30.0   Max.   :0.70  
+##                 (Other):1294                             NA's   :24    
+##      tibia          tarsus          SCT      
+##  Min.   :0.34   Min.   :0.11   Min.   : 6.0  
+##  1st Qu.:0.46   1st Qu.:0.18   1st Qu.:10.0  
+##  Median :0.48   Median :0.19   Median :11.0  
+##  Mean   :0.48   Mean   :0.19   Mean   :11.2  
+##  3rd Qu.:0.50   3rd Qu.:0.20   3rd Qu.:12.0  
+##  Max.   :0.61   Max.   :0.26   Max.   :32.0  
+##  NA's   :19     NA's   :17     NA's   :25
+```
+
+```r
 str(dll_data)
+```
+
+```
+## 'data.frame':	1973 obs. of  8 variables:
+##  $ replicate: int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ line     : Factor w/ 27 levels "line-1","line-11",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ genotype : Factor w/ 2 levels "Dll","wt": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ temp     : int  25 25 25 25 25 25 25 25 25 25 ...
+##  $ femur    : num  0.59 0.55 0.588 0.588 0.596 ...
+##  $ tibia    : num  0.499 0.501 0.488 0.515 0.502 ...
+##  $ tarsus   : num  0.219 0.214 0.211 0.211 0.207 ...
+##  $ SCT      : int  9 13 11 NA 12 14 11 12 10 12 ...
+```
+
+```r
 dim(dll_data)
+```
+
+```
+## [1] 1973    8
+```
+
+```r
 head(dll_data)
+```
+
+```
+##   replicate   line genotype temp femur tibia tarsus SCT
+## 1         1 line-1      Dll   25 0.590 0.499  0.219   9
+## 2         1 line-1      Dll   25 0.550 0.501  0.214  13
+## 3         1 line-1      Dll   25 0.588 0.488  0.211  11
+## 4         1 line-1      Dll   25 0.588 0.515  0.211  NA
+## 5         1 line-1      Dll   25 0.596 0.502  0.207  12
+## 6         1 line-1      Dll   25 0.577 0.499  0.207  14
 ```
 
 ## Cleaning data
@@ -67,68 +126,147 @@ Sometimes your data set has missing data, i.e. for some reason you could not mea
 
 First let's check if there is any missing data
 
-```{r anyNA}
+
+```r
 anyNA(dll_data)
+```
+
+```
+## [1] TRUE
 ```
 
 For the moment we are just going to remove rows containing any missing data
 
-```{r rmNA}
+
+```r
 dll_data <- na.omit(dll_data)
 dim(dll_data)
 ```
 
+```
+## [1] 1918    8
+```
+
 For ease of interpretation, let's also make the wild-type level of genotype (`wt`) the base level.
 
-```{r reorder}
+
+```r
 dll_data$genotype <- relevel(dll_data$genotype, "wt")
 levels(dll_data$genotype)
 ```
 
+```
+## [1] "wt"  "Dll"
+```
+
 We will also make temperature (`temp`) a factor (it only has two levels so it does not matter that much).
 
-```{r tempfac}
+
+```r
 dll_data$temp <- as.factor(dll_data$temp)
 ```
 
 Our response variables for this study are `femur`, `tibia`, `tarsus` and `SCT`. Let's check out some basic summary stats for them
-```{r summary2}
+
+```r
 summary(dll_data)
+```
+
+```
+##    replicate         line      genotype   temp          femur      
+##  Min.   :1.00   line-7 : 127   wt :1077   25:1006   Min.   :0.423  
+##  1st Qu.:1.00   line-18: 119   Dll: 841   30: 912   1st Qu.:0.530  
+##  Median :1.00   line-4 : 110                        Median :0.549  
+##  Mean   :1.18   line-8 : 108                        Mean   :0.546  
+##  3rd Qu.:1.00   line-2 : 100                        3rd Qu.:0.565  
+##  Max.   :2.00   line-11:  97                        Max.   :0.698  
+##                 (Other):1257                                       
+##      tibia           tarsus           SCT      
+##  Min.   :0.342   Min.   :0.106   Min.   : 6.0  
+##  1st Qu.:0.465   1st Qu.:0.175   1st Qu.:10.0  
+##  Median :0.484   Median :0.188   Median :11.0  
+##  Mean   :0.482   Mean   :0.188   Mean   :11.1  
+##  3rd Qu.:0.501   3rd Qu.:0.200   3rd Qu.:12.0  
+##  Max.   :0.609   Max.   :0.258   Max.   :22.0  
+## 
+```
+
+```r
 apply(dll_data[,5:8], 2, sd)
+```
+
+```
+##  femur  tibia tarsus    SCT 
+## 0.0279 0.0280 0.0179 1.6270
+```
+
+```r
 apply(dll_data[,5:8], 2, mean)
+```
+
+```
+##  femur  tibia tarsus    SCT 
+##  0.546  0.482  0.188 11.132
 ```
 
 While the three length measurements are on approximately the same scale (and all measured in mm), SCT is count data. So we will probably want to scale each of these to help make comparisons a bit clearer. Before we do that though. Let's ask how these variables co-vary with one another (across the whole data set). In general we prefer working with the variances and covariances, but it is easier to interpret the correlations among variables. We can easily look at both.
 
 The phenotypic variance-covariance matrix:
-```{r pcov}
+
+```r
 cov(dll_data[ ,5:8])
+```
+
+```
+##           femur    tibia   tarsus     SCT
+## femur  0.000781 0.000557 0.000285 0.00935
+## tibia  0.000557 0.000785 0.000249 0.01080
+## tarsus 0.000285 0.000249 0.000319 0.00860
+## SCT    0.009349 0.010796 0.008597 2.64703
 ```
 With the variances for each trait along the diagonal, and the covariances along the off-diagonal. Also note that the covariance of two traits (x and y) is the same in both directions. i.e. $cov(x,y) = cov(y,x)$.
 
 The phenotypic correlation matrix:
-```{r pcor}
+
+```r
 cor(dll_data[, 5:8])
 ```
 
+```
+##        femur tibia tarsus   SCT
+## femur  1.000 0.712  0.571 0.206
+## tibia  0.712 1.000  0.497 0.237
+## tarsus 0.571 0.497  1.000 0.296
+## SCT    0.206 0.237  0.296 1.000
+```
+
 Let's visualize this as well.
-```{r pairs}
+
+```r
 pairs(dll_data[, 5:8],
       pch = ".", gap = 0)
 ```
 
+![](MultivariateIntro_files/figure-html/pairs-1.png)<!-- -->
+
 We could do some more plotting to take a look (from the `car` package). However, there is so much overlap in the data among treatment variables, that it can be hard to see what is going on.
-```{r smatrix, warning=FALSE}
+
+```r
 scatterplotMatrix( ~ femur + tibia + tarsus + SCT | interaction(genotype, temp), 
                   ellipse = TRUE, data = dll_data, gap = 0,
                   plot.points = T, pch = 20, cex  = 0.5)
 ```
 
-```{r smatrix_2, warning=FALSE}
+![](MultivariateIntro_files/figure-html/smatrix-1.png)<!-- -->
+
+
+```r
 scatterplotMatrix( ~ femur + tibia + tarsus + SCT | interaction(genotype, temp), 
                   ellipse = TRUE, data = dll_data, gap = 0,
                   plot.points = F)
 ```
+
+![](MultivariateIntro_files/figure-html/smatrix_2-1.png)<!-- -->
 We see a moderate degree of correlation among these traits, likely reflecting a common factor (overall size). However, they are certainly not perfectly correlated with one another.  In general, when we are dealing with a set of multivariate response variables, this is the situation we want to be in. That is, some (but not too much) correlation between our variables. If correlations were very high I would probably consider using Principal Components Analysis or another dimensional reduction technique to get a few axes of variation that account for most of the variation. 
 
 We do also see that some of the patterns of covariances (the direction of covariation) does differ, which is something we need to bear in mind. I will return to this later.
@@ -150,21 +288,44 @@ Note what I am doing.
 
 For our purposes at the moment, as long as the determinant can be estimated (it is not so small that the computer spits out a warning) we are ok. Also note that this determinant is equal to $\prod{\lambda_i}$
 
-```{r eigs}
+
+```r
 eig_vals <- svd(cov(dll_data[, 5:8]))$d
 
 det(cov(dll_data[, 5:8]))
+```
 
+```
+## [1] 1.51e-10
+```
+
+```r
 prod(eig_vals)
+```
+
+```
+## [1] 1.51e-10
 ```
 
 This all looks fine. The final eigenvalue is not vanishingly small, nor the determinant.
 
 For what it is worth the determinant (or the product of the eigenvalues if you prefer) of the VCV is called the *generalized variance*. The other common single number (scalar) measure derived from a variance-covariance matrix is the *total variance*, the sum of the eigenvalues. This is actually equal to the sum of the variances for each individual trait (the values on the diagonal of the VCV)
 
-```{r}
+
+```r
 sum(eig_vals)
+```
+
+```
+## [1] 2.65
+```
+
+```r
 sum(diag(cov(dll_data[, 5:8])))
+```
+
+```
+## [1] 2.65
 ```
 
 These are both pretty commonly used in evolutionary biology.
@@ -175,7 +336,8 @@ Like I mentioned earlier, we need to consider whether we should put all response
 
 For length measures it is common to instead to just log transform variables. This is something that can be helpful (but unnecessary with the current data). However, I will scale them here so you can get a sense of it. 
 
-```{r scale}
+
+```r
 dll_data$femur_s <- scale(dll_data$femur)
 dll_data$tibia_s <- scale(dll_data$tibia)
 dll_data$tarsus_s <- scale(dll_data$tarsus)
@@ -184,17 +346,50 @@ dll_data$SCT_s <- scale(dll_data$SCT)
 
 The variables now all have a mean of zero and a standard deviation of 1.
 
-```{r check_meansd}
-apply(dll_data[,9:12], 2, sd)
 
+```r
+apply(dll_data[,9:12], 2, sd)
+```
+
+```
+##  femur_s  tibia_s tarsus_s    SCT_s 
+##        1        1        1        1
+```
+
+```r
 round(apply(dll_data[,9:12], 2, mean))  ## very small 
+```
+
+```
+##  femur_s  tibia_s tarsus_s    SCT_s 
+##        0        0        0        0
 ```
 
 And our co-variance matrix and correlation matrix should now be identical.
 
-```{r sc_covcor}
+
+```r
 cov(dll_data[,9:12])
+```
+
+```
+##          femur_s tibia_s tarsus_s SCT_s
+## femur_s    1.000   0.712    0.571 0.206
+## tibia_s    0.712   1.000    0.497 0.237
+## tarsus_s   0.571   0.497    1.000 0.296
+## SCT_s      0.206   0.237    0.296 1.000
+```
+
+```r
 cor(dll_data[,9:12])
+```
+
+```
+##          femur_s tibia_s tarsus_s SCT_s
+## femur_s    1.000   0.712    0.571 0.206
+## tibia_s    0.712   1.000    0.497 0.237
+## tarsus_s   0.571   0.497    1.000 0.296
+## SCT_s      0.206   0.237    0.296 1.000
 ```
 
 ## Multivariate linear models, let's begin ...
@@ -223,21 +418,121 @@ $$
 Let's give it a whirl. We will start with a really simple model with a single predictor with two levels (genotype). Since genotype only has two levels this is equivalent to a simple MANOVA or a Hotelling's $T^2$.
 
 Importantly **you do need to let R know that your response variables are numeric**.  Otherwise the call is a standard call to `lm`
-```{r mlm1}
+
+```r
 mlm_fit1 <- lm(as.matrix(dll_data[,9:12]) ~ genotype, data = dll_data)
 class(mlm_fit1)
 ```
 
+```
+## [1] "mlm" "lm"
+```
+
 So what do we get from this? Summary does not give us what we want. Instead it provides the linear model for each response variable in turn. So not so helpful.
 
-```{r mlmsum1}
+
+```r
 summary(mlm_fit1)
+```
+
+```
+## Response femur_s :
+## 
+## Call:
+## lm(formula = femur_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.356 -0.610  0.097  0.703  5.500 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -0.0690     0.0304   -2.27  0.02335 *  
+## genotypeDll   0.1573     0.0459    3.43  0.00062 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.997 on 1916 degrees of freedom
+## Multiple R-squared:  0.00609,	Adjusted R-squared:  0.00557 
+## F-statistic: 11.7 on 1 and 1916 DF,  p-value: 0.000622
+## 
+## 
+## Response tibia_s :
+## 
+## Call:
+## lm(formula = tibia_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -5.246 -0.608  0.058  0.676  4.676 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -0.1719     0.0299   -5.75    1e-08 ***
+## genotypeDll   0.3921     0.0451    8.69   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.981 on 1916 degrees of freedom
+## Multiple R-squared:  0.0379,	Adjusted R-squared:  0.0374 
+## F-statistic: 75.4 on 1 and 1916 DF,  p-value: <2e-16
+## 
+## 
+## Response tarsus_s :
+## 
+## Call:
+## lm(formula = tarsus_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -4.472 -0.652  0.008  0.634  4.024 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)   
+## (Intercept)   0.0624     0.0304    2.05    0.040 * 
+## genotypeDll  -0.1423     0.0459   -3.10    0.002 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.998 on 1916 degrees of freedom
+## Multiple R-squared:  0.00499,	Adjusted R-squared:  0.00447 
+## F-statistic:  9.6 on 1 and 1916 DF,  p-value: 0.00197
+## 
+## 
+## Response SCT_s :
+## 
+## Call:
+## lm(formula = SCT_s ~ genotype, data = dll_data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -3.336 -0.555  0.060  0.675  6.499 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -0.1413     0.0301   -4.70  2.8e-06 ***
+## genotypeDll   0.3223     0.0454    7.09  1.8e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.987 on 1916 degrees of freedom
+## Multiple R-squared:  0.0256,	Adjusted R-squared:  0.0251 
+## F-statistic: 50.3 on 1 and 1916 DF,  p-value: 1.83e-12
 ```
 
 Instead we need to let R know we want this as a single multivariate linear model.
 
-```{r mlmsum2}
+
+```r
 summary(manova(mlm_fit1))
+```
+
+```
+##             Df Pillai approx F num Df den Df Pr(>F)    
+## genotype     1  0.102       54      4   1913 <2e-16 ***
+## Residuals 1916                                         
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Unfortunately, by default this spits out a minimal amount of useful information. While the object contains a few additional bits of information that are useful, mostly this is all about getting a p-value (boo!). Before we go on to something more useful, let's talk about what is going on with this output.
@@ -256,15 +551,34 @@ $$\Lambda_{Wilks} = \prod_{n=1}^{k} \frac{1}{1+ \lambda_k}$$
 
 Most of the time these give pretty similar results (when compared to the appropriate distributions). What you care about is you can easily change it, like so:
 
-```{r wilks}
+
+```r
 summary(manova(mlm_fit1), 
         test = "Wilks")
 ```
 
+```
+##             Df Wilks approx F num Df den Df Pr(>F)    
+## genotype     1 0.899       54      4   1913 <2e-16 ***
+## Residuals 1916                                        
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
 In each case a test statistic, and an approximation of the F statistic and a p-value. It is worth seeing how the `car` package handles this (more for complex models, as we will see).
 
-```{r car_Anova}
+
+```r
 Anova(mlm_fit1)
+```
+
+```
+## 
+## Type II MANOVA Tests: Pillai test statistic
+##          Df test stat approx F num Df den Df Pr(>F)    
+## genotype  1     0.102       54      4   1913 <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ## How about measures of effect size?
@@ -292,24 +606,49 @@ $$
 
 For our model we can examine the coefficients easily
 
-```{r mlm_coefs}
+
+```r
 coef(mlm_fit1)
+```
+
+```
+##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322
 ```
 With the second row (genotypeDll) representing the treatment contrasts (differences) compared to the intercept, which in this case is simply the mean values for the wild type for the 4 traits.
 
 How about a single effect size for our treatment contrast? Well, we can start with magnitude of the treatment contrast vector
-```{r mlm_effect_coefs}
+
+```r
 # Length/magnitude (L2 norm) of the vector
 sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])
+```
 
+```
+##      [,1]
+## [1,] 0.55
+```
+
+```r
 # or equivalently
 sqrt(sum(coef(mlm_fit1)[2,]^2))
 ```
 
+```
+## [1] 0.55
+```
+
 However, this gets annoying to write out each time. So one of the functions in the source file does this for you. `PD()` (for Procrustes Distance) computes the Euclidean Distance between two vectors, but also can compute the length of the vector we want.
 
-```{r PD}
+
+```r
 PD(coef(mlm_fit1)[2,])
+```
+
+```
+##      [,1]
+## [1,] 0.55
 ```
 
 Unfortunately in many fields of biology interpreting this magnitude of effect can be tricky. I will show you one example from [this paper](http://biorxiv.org/content/early/2014/05/19/005322) to give you some ideas. To make sense of it, and what your expectations are under the null, we generated permutations of the data and computed the length of those vectors to generate a distribution. In some fields (like geometric morphometrics), this measure is used quite commonly so we have an easier time with biological interpretation and comparison. To generate confidence intervals on this we generally utilize non-parametric bootstrapping. 
@@ -318,8 +657,14 @@ Unfortunately in many fields of biology interpreting this magnitude of effect ca
 
 One approach to deal with this is to use a standardized measure. As with other measures of effect size you have multiple options. If one of your treatments is a control, perhaps scale the measure by the magnitude/length of the mean vector for the control group. That would look something like this:
 
-```{r scaledEffect}
+
+```r
 PD(coef(mlm_fit1)[2,])/PD(coef(mlm_fit1)[1,])
+```
+
+```
+##      [,1]
+## [1,] 2.28
 ```
 
 Then as long as you scale other measures of effect size by the multivariate mean for the "control", they can be broadly compared. 
@@ -355,24 +700,45 @@ Where $Tr(\mathbf{V}_{\hat{Y}})$ is the trace for the matrix of model fitted val
 
 Since we have scaled all of our observations in our response, then we know that the trace needs to be equal to the number of variables we are using in our response (4 in this case). Let's check
 
-```{r check_trace}
+
+```r
 sum(diag(cov(dll_data[,9:12])))
+```
+
+```
+## [1] 4
 ```
 
 How about for our fitted values?
 
-```{r trace_fitted}
-sum(diag(cov(mlm_fit1$fitted)))
 
+```r
+sum(diag(cov(mlm_fit1$fitted)))
+```
+
+```
+## [1] 0.0746
+```
+
+```r
 sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(dll_data[,9:12])))
+```
+
+```
+## [1] 0.0186
 ```
 
 So we can account for just under 2% of the variation (based on this measure) in all of our response variables, using genotype as the sole predictor.
 
 Once again, the above code is annoying to write, so we have written a nice function, `shapeRsq`:
 
-```{r shapeRsq}
+
+```r
 shapeRsq(mlm_fit1)
+```
+
+```
+## [1] 0.0186
 ```
 
 
@@ -382,21 +748,49 @@ Before we get too complicated with our model, I also want to show you a distance
 
 They have a number of functions in the geomorph package, but for most needs, I suggest starting with `procD.lm`
 
-```{r mlm2,results="hide",cache=TRUE}
+
+```r
 mlm_fit2 <- procD.lm(f1 = dll_data[, 9:12] ~ genotype, 
                      data = dll_data, iter = 2000 )
 ```
 
-```{r mlm2_sum}
+
+```r
 summary(mlm_fit2)
+```
+
+```
+## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data)
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## ANOVA effect sizes and P-values based on empirical F distributions
+## 
+## 
+##             Df   SS    MS   Rsq    F    Z Pr(>F)    
+## genotype     1  143 142.9 0.019 36.4 4.26  5e-04 ***
+## Residuals 1916 7525   3.9 0.981                     
+## Total     1917 7668                                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one). Also note that it also provides a measure of $R^2$, which is not identical to the one I provided (but similar in this instance).
 
 Note that it actually provides the same estimated coefficients, as these are typically used to compare Procrustes Distance (Euclidean Distance) as a measure of effect size
 
-```{r mlm2_coef}
+
+```r
 coef(mlm_fit2)
+```
+
+```
+##             femur_s tibia_s tarsus_s  SCT_s
+## (Intercept)  -0.069  -0.172   0.0624 -0.141
+## genotypeDll   0.157   0.392  -0.1423  0.322
 ```
 
 The 'advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.
@@ -409,34 +803,125 @@ As with any other general linear model you want to examine how well the model fi
 
 Let's add some complexity to the model. We have additional predictors, temp (rearing temperature) and line (different wild type strains.)
 
-```{r mlm_45}
+
+```r
 mlm_fit4 <- lm(as.matrix(dll_data[,9:12]) ~ temp + genotype, data = dll_data)
 mlm_fit5 <- lm(as.matrix(dll_data[,9:12]) ~ temp*genotype, data = dll_data)
 
 Anova(mlm_fit5)
 ```
 
-```{r mlm_45_procD,results="hide"}
+```
+## 
+## Type II MANOVA Tests: Pillai test statistic
+##               Df test stat approx F num Df den Df Pr(>F)    
+## temp           1    0.3077    212.3      4   1911 <2e-16 ***
+## genotype       1    0.1042     55.6      4   1911 <2e-16 ***
+## temp:genotype  1    0.0761     39.3      4   1911 <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+
+```r
 mlm_fit4_dist <- procD.lm(dll_data[,9:12] ~ genotype*temp,
                           data = dll_data, iter = 2000)
 ```
-```{r mlm_45_procD_sum}
+
+```r
 summary(mlm_fit4_dist)
+```
+
+```
+## 
+## Call:
+## procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
+##     data = dll_data)
+## 
+## Type I (Sequential) Sums of Squares and Cross-products
+## Randomized Residual Permutation Procedure Used
+## 2001 Permutations
+## ANOVA effect sizes and P-values based on empirical F distributions
+## 
+## 
+##                 Df   SS   MS   Rsq     F    Z Pr(>F)    
+## genotype         1  143  143 0.019  44.2 4.47  5e-04 ***
+## temp             1 1136 1136 0.148 351.2 6.63  5e-04 ***
+## genotype:temp    1  200  200 0.026  61.8 5.22  5e-04 ***
+## Residuals     1914 6190    3 0.807                      
+## Total         1917 7668                                 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.
 
-```{r PD_5}
+
+```r
 PD(coef(mlm_fit5)[2,])
+```
+
+```
+##      [,1]
+## [1,] 1.06
+```
+
+```r
 PD(coef(mlm_fit5)[3,])
+```
+
+```
+##      [,1]
+## [1,] 1.16
+```
+
+```r
 PD(coef(mlm_fit5)[4,])
+```
+
+```
+##      [,1]
+## [1,]  1.3
 ```
 
 How about variance accounted for? We have a slightly more advanced version for this. However, with interaction terms, this can be difficult to interpret (and we tend to only use it for main effects)
 
-```{r shapeRsq_45}
+
+```r
 shapeRsq(mlm_fit4)
+```
+
+```
+## [1] 0.167
+```
+
+```r
 shapePRsq(mlm_fit4)
+```
+
+```
+## $Rsquared
+## [1] 0.167
+## 
+## $partials
+##   variable.name        partial.Rsq
+## 1          temp  0.150926579344358
+## 2      genotype 0.0257889597702598
+```
+
+```r
+shapePRsq(mlm_fit5)
+```
+
+```
+## $Rsquared
+## [1] 0.193
+## 
+## $partials
+##   variable.name          partial.Rsq
+## 1          temp -1.3753888557632e-16
+## 2      genotype -2.7507777115264e-16
+## 3 temp:genotype   0.0312535650989142
 ```
 
 
