@@ -137,7 +137,8 @@ Many methods in multivariate statistics, depend on *eigenvalues*. I am not going
 To get the eigenvalues, we will use a *singular value decomposition* this can also be done using an *eigendecomposition* for this matrix (a symmetric one) and the results should be the same.
 
 Note what I am doing.
-- First computing the variance-covariance matrix (a symmetric matrix).
+- First computing the variance-covariance matrix (VCV), a symmetric matrix.
+
 - Then extracting the eigenvalues from that matrix. 
 
 - I am also calculating the determinant of the matrix (I won't explain here, but for simple 2x2 matrices like the area of the shape the matrix defines). 
@@ -153,6 +154,15 @@ prod(eig_vals)
 ```
 
 This all looks fine. The final eigenvalue is not vanishingly small, nor the determinant.
+
+For what it is worth the determinant (or the product of the eigenvalues if you prefer) of the VCV is called the *generalized variance*. The other common single number (scalar) measure derived from a variance-covariance matrix is the *total variance*, the sum of the eigenvalues. This is actually equal to the sum of the variances for each individual trait (the values on the diagonal of the VCV)
+
+```{r}
+sum(eig_vals)
+sum(diag(cov(dll_data[, 5:8])))
+```
+
+These are both pretty commonly used in evolutionary biology.
 
 ## Should we scale the response variables?
 
@@ -171,7 +181,8 @@ The variables now all have a mean of zero and a standard deviation of 1.
 
 ```{r check_meansd}
 apply(dll_data[,9:12], 2, sd)
-apply(dll_data[,9:12], 2, mean)  ## very small ~ 0
+
+round(apply(dll_data[,9:12], 2, mean))  ## very small 
 ```
 
 And our co-variance matrix and correlation matrix should now be identical.
@@ -203,7 +214,10 @@ $$
 \hat{\mathbf{B}} = (\mathbf{X'X})^{-1} \mathbf{X'Y}
 $$
 
-Let's give it a whirl. We will start with a really simple model with a single predictor with two levels (genotype). Importantly **you do need to let R know that your response variables are numeric**. Otherwise the call is a standard call to `lm`
+## Our first multivariate linear model
+Let's give it a whirl. We will start with a really simple model with a single predictor with two levels (genotype). Since genotype only has two levels this is equivalent to a simple MANOVA or a Hotelling's $T^2$.
+
+Importantly **you do need to let R know that your response variables are numeric**.  Otherwise the call is a standard call to `lm`
 ```{r mlm1}
 mlm_fit1 <- lm(as.matrix(dll_data[,9:12]) ~ genotype, data = dll_data)
 class(mlm_fit1)
@@ -221,43 +235,70 @@ Instead we need to let R know we want this as a single multivariate linear model
 summary(manova(mlm_fit1))
 ```
 
-Unfortunately, by default this spits out a minimal amount of useful information. While the object contains a few additional bits of information that are useful, mostly this is all about getting a p-value. Before we go on to something more useful, let's talk about what is going on with this output.
+Unfortunately, by default this spits out a minimal amount of useful information. While the object contains a few additional bits of information that are useful, mostly this is all about getting a p-value (boo!). Before we go on to something more useful, let's talk about what is going on with this output.
 
 While we have just estimated a single predictor variable (`genotype`) you can see we are not using just one degree of freedom, but 4 (`num Df`). This is because we have 4 response variables that we are estimating. This is the first (and one of the most important) things to keep in mind with a multivariate linear model. We will be estimating a lot more parameters, so we need to keep in mind how much we can estimate in a model. As we will see below, this is why distance based approaches (like in adonis/vegan and geomorph) are often used. 
 
-The other two things to note is this "Pillai" statistic and the approximate $F$ statistic. It turns out that with the matrices that are used for inference ($\mathbf{H}$ the *hypothesis matrix*) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of $\mathbf{HE^{-1}}$ where $\mathbf{E}$ is the matrix of residuals. There are four commonly used test statistics that are derived from the eigenvalues of this matrix. I don't want to get into this here, but do check out inferences for [multivariate linear models](https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf) for more information, and how it is used in `car`.
-While this defaults to Pillai's trace, many in biology seem to use Wilks's $\lambda$. Most of the time these give pretty similar results. You can easily change it, like so:
+The other two things to note is this "Pillai" statistic and the approximate $F$ statistic. It turns out that with the matrices that are used for inference ($\mathbf{H}$ the *hypothesis matrix*) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of $\mathbf{A} = \mathbf{HE^{-1}}$ where $\mathbf{E}$ is the matrix of "residuals". Generally the different approaches then take the eigenvalues of $\mathbf{A}$ to generate a test statistic There are four commonly used test statistics that are derived from the eigenvalues of this matrix. If you are so inclined, check out inferences for [multivariate linear models](https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf) for more information, and how it is used in `car`.
+
+## Various test statistics for multivariate linear models. Or, fun with eigenvalues
+
+While this defaults to Pillai's trace ($\Lambda_{Pillai}$), which is the trace (sum of the diagonals of $\mathbf{H}(\mathbf{H}+\mathbf{E})^{-1}$.This is basically generating a matrix where the between group VCV is "divided" by the overall VCV. However, it is also equivalent to $$\Lambda_{Pillai} = \sum_{n=1}^{k} \frac{\lambda_k}{1+ \lambda_k}$$  
+
+Many in biology seem to use  $\Lambda_{Wilks}$, which is.
+
+$$\Lambda_{Wilks} = \prod_{n=1}^{k} \frac{1}{1+ \lambda_k}$$  
+
+Most of the time these give pretty similar results (when compared to the appropriate distributions). What you care about is you can easily change it, like so:
 
 ```{r wilks}
-summary(manova(mlm_fit1), test = "Wilks")
+summary(manova(mlm_fit1), 
+        test = "Wilks")
 ```
 
-In each case a test statistic, an approximation of the F statistic and a p-value. It is worth seeing how the `car` package handles this. For the moment this appears the same.
+In each case a test statistic, and an approximation of the F statistic and a p-value. It is worth seeing how the `car` package handles this (more for complex models, as we will see).
 
 ```{r car_Anova}
 Anova(mlm_fit1)
 ```
 
-### How about measures of effect size?
+## How about measures of effect size?
 
-We would like to start to think about effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or *length* of the vector for coefficients associated with the response. This is sometimes known as the *L2 norm* of the vector, but you can mostly easily think about it as the square root of the sum of squares of the coefficients, i.e:
+### Some background & review
+
+What we would like to start to think about is effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or *length* of the vector for coefficients associated with the response. This is sometimes known as the *L2 norm* of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:
 
 $$
-|| \mathbf{x} || = \sqrt{\mathbf{x'} \cdot \mathbf{x}}
+\lVert \mathbf{\hat{x}} \rVert = \sqrt{\mathbf{\hat{x}'} \cdot \mathbf{\hat{x}}}
 $$
 
 This is equivalent to:
-$$
-|| \mathbf{x} || = \sqrt{x^{2}_{1} + x^{2}_{2} + \cdots + x^{2}_{n}  }
+$$ \lVert \mathbf{\hat{x}} \rVert = \sqrt{\hat{x}^{2}_{1} + \hat{x}^{2}_{2} + \cdots + \hat{x}^{2}_{n}}
 $$
 
-which you may recognize from the Pythagorean theorem. 
+Which you may recognize from the Pythagorean theorem. For clarity, I want to make it clear that the vector $\mathbf{\hat{x}}$ we are defining above is the vector of coefficients expressed as a *treatment contrast* (the default in `R`). This is basically equivalent to the vector defined as the difference between $\mathbf{\bar{x}}_{Dll}$, the mean vector in the treatment condition (i.e the *Dll* mutant) and $\mathbf{\bar{x}}_{wt}$, the mean vector for wild type. So in this case we can think of it like this
+
+$$
+\mathbf{\hat{x}} = \mathbf{\bar{x}}_{Dll} - \mathbf{\bar{x}}_{wt}
+$$
+
+
+### multivariate effect size in R
 
 For our model we can examine the coefficients easily
+
 ```{r mlm_coefs}
 coef(mlm_fit1)
+```
+With the second row (genotypeDll) representing the treatment contrasts (differences) compared to the intercept, which in this case is simply the mean values for the wild type for the 4 traits.
 
+How about a single effect size for our treatment contrast? Well, we can start with magnitude of the treatment contrast vector
+```{r mlm_effect_coefs}
+# Length/magnitude (L2 norm) of the vector
 sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])
+
+# or equivalently
+sqrt(sum(coef(mlm_fit1)[2,]^2))
 ```
 
 However, this gets annoying to write out each time. So one of the functions in the source file does this for you. `PD()` (for Procrustes Distance) computes the Euclidean Distance between two vectors, but also can compute the length of the vector we want.
@@ -268,13 +309,44 @@ PD(coef(mlm_fit1)[2,])
 
 Unfortunately in many fields of biology interpreting this magnitude of effect can be tricky. I will show you one example from [this paper](http://biorxiv.org/content/early/2014/05/19/005322) to give you some ideas. To make sense of it, and what your expectations are under the null, we generated permutations of the data and computed the length of those vectors to generate a distribution. In some fields (like geometric morphometrics), this measure is used quite commonly so we have an easier time with biological interpretation and comparison. To generate confidence intervals on this we generally utilize non-parametric bootstrapping. 
 
+### Mahalanobis distance and other measures of effect size.
+
+One approach to deal with this is to use a standardized measure. As with other measures of effect size you have multiple options. If one of your treatments is a control, perhaps scale the measure by the magnitude/length of the mean vector for the control group. That would look something like this:
+
+```{r scaledEffect}
+PD(coef(mlm_fit1)[2,])/PD(coef(mlm_fit1)[1,])
+```
+
+Then as long as you scale other measures of effect size by the multivariate mean for the "control", they can be broadly compared. 
+
+### *Cohen's d* and *Mahalanobis distance*
+However probably the most common approaches is to scale the treatment effect by a measure of biological variability like the standard deviation. If you think about a common univariate measure of effect size like *Cohen's d*:
+
+$$
+d = \frac{\bar{x}_t - \bar{x}_c}{\sigma_{pooled}}
+$$
+
+Where $\bar{x}_t$ is the estimated (or just mean) treatment mean, $\bar{x}_c$ is the estimated control mean, and $\sigma_{pooled}$ is the pooled standard deviation. Don't confuse this pooled standard deviation with the standard error (a measure of uncertainty due to sampling). Indeed if you replace the denominator in *Cohen's d* with the standard error, you get a *t* statistic ( a measure of the magnitude of your effect relative to your uncertainty in your estimate). 
+
+We can use a multivariate extension of this same approach. As you will see it is essentially the Euclidian distance we examined above but scaled by the pooled variance-covariance matrix, $\mathbf{S}_{pooled}$. This is known as the *Mahalanobis Distance*. The measure is defined as:
+
+$$
+D^{2} = (\mathbf{\bar{x}}_t - \mathbf{\bar{x}}_c )' \mathbf{S}^{-1}_{pl} (\mathbf{\bar{x}}_t - \mathbf{\bar{x}}_c)
+$$
+
+Where $\mathbf{\bar{x}}_t$ is the mean vector for the treatment,$\mathbf{\bar{x}}_c$ is the mean vector for the control and $\mathbf{S}^{-1}_{pl}$ is the inverse of the pooled phenotypic variance-covariance matrix. Great care should be taken with generating the pooled covariance matrix. In particular you should first center observations on their treatment means, and then generate the pooled covariance matrix (this is true for *Cohen's d* with respect to the pooled standard deviation as well). This is what Ben mentioned in class. Or you can use the formula I showed in class.
+
+You can probably envision other variants of this (in particular which matrix to use for scaling).
+
+`R` has a function to compute this `mahalanobis`.
+
 ## How about coefficient of determination?
 
-We might also like to understand how much variation (of all of the variation) that the model accounts for. As this is multivariate data, there are actually multiple ways of doing this (based on both the trace of the matrix and some based on the determinant). So there is no single $R^2$ measure. However, there is a relatively simple one that we like to employ, recognizing that it does not capture everything. Essentially we take the trace (sum of the elements on the diagonal) of the variance covariance matrix for the observed data as a measure of total variation in the data. We then ask how much of the variation in the trace of the matrix is accounted for by the trace of the fitted values. i.e:
+We might also like to understand how much variation (of all of the variation) that the model accounts for. As this is multivariate data, there are actually multiple ways of doing this (based on both the trace of the matrix and some based on the determinant). So there is no single $R^2$ measure. However, there is a relatively simple one that we like to employ, recognizing that it does not capture everything. Essentially we take the trace (sum of the elements on the diagonal) of the VCV for the observed data as a measure of total variation in the data. We then ask how much of the variation in the trace of the matrix is accounted for by the trace of the fitted values. i.e:
 
-$\frac{Tr(\mathbf{V}_{\hat{Y}})}{Tr(\mathbf{V}_{Y})}$
+$$\frac{Tr(\mathbf{V}_{\hat{Y}})}{Tr(\mathbf{V}_{Y})}$$
 
-Where $Tr(\mathbf{V}_{\hat{Y}})$ is the trace for the matrix of fitted values, and $Tr(\mathbf{V}_{Y})$ is the trace for the observed.
+Where $Tr(\mathbf{V}_{\hat{Y}})$ is the trace for the matrix of model fitted values, and $Tr(\mathbf{V}_{Y})$ is the trace for the observed data.
 
 Since we have scaled all of our observations in our response, then we know that the trace needs to be equal to the number of variables we are using in our response (4 in this case). Let's check
 
@@ -292,7 +364,7 @@ sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(dll_data[,9:12])))
 
 So we can account for just under 2% of the variation (based on this measure) in all of our response variables, using genotype as the sole predictor.
 
-Once again, the above code is annoying to write, so we have written a nice function for you, `shapeRsq`:
+Once again, the above code is annoying to write, so we have written a nice function, `shapeRsq`:
 
 ```{r shapeRsq}
 shapeRsq(mlm_fit1)
@@ -306,14 +378,15 @@ Before we get too complicated with our model, I also want to show you a distance
 They have a number of functions in the geomorph package, but for most needs, I suggest starting with `procD.lm`
 
 ```{r mlm2,results="hide",cache=TRUE}
-mlm_fit2 <- procD.lm(f1 = dll_data[, 9:12] ~ genotype, data = dll_data, iter = 2000 )
+mlm_fit2 <- procD.lm(f1 = dll_data[, 9:12] ~ genotype, 
+                     data = dll_data, iter = 2000 )
 ```
 
 ```{r mlm2_sum}
 summary(mlm_fit2)
 ```
 
-Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one.)
+Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one). Also note that it also provides a measure of $R^2$, which is not identical to the one I provided (but similar in this instance).
 
 Note that it actually provides the same estimated coefficients, as these are typically used to compare Procrustes Distance (Euclidean Distance) as a measure of effect size
 
