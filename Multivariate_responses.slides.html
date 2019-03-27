@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Multivariate approaches</title>
+  <title></title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,6 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Multivariate approaches',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -95,16 +94,27 @@ slide:not(.current) .plotly.html-widget{
           </hgroup>
   </slide>
 
+<table class = 'rmdtable'>
+<col width="2.777778%" />
+<tr class="odd">
+<td align="left">d_tidy_ran_pars, echo=FALSE, message=FALSE} c2 &lt;- readRDS(&quot;mm_ranpars.rds&quot;) ``</td>
+</tr>
+<tr class="even">
+<td align="left"><code>{r plot_ran_pars} ibrary(ggstance) gplot(cc2, aes(y=term,x=estimate,xmin=conf.low,xmax=conf.high)) + geom_pointrangeh()+ geom_point()+ facet_wrap(~group)</code></td>
+</tr>
+<tr class="odd">
+<td align="left">itle: Multivariate approaches</td>
+</tr>
+</table>
+
 <ul>
 <li><a href='Bio708_MLM_lecture.pdf' title=''>Ian&#39;s intro lecture slides</a></li>
-</ul>
-
-<!-- 
+<li><a href='MultivariateMixed.html' title=''>Multivariate mixed models</a> <!-- 
 * [Ian's intro notes](MultivariateIntro.html)
     * [Associated R file](MLM_Dworkin.R)
 
-* [Ben's mixed notes](MultivariateMixed.html)
--->
+--></li>
+</ul>
 
 
   <slide class="backdrop"></slide>
