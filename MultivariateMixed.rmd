@@ -188,7 +188,7 @@ temperature is to reduce scores on all traits).
 
 ## lme4: random effects
 
-**Note to BB, this does not work**
+**This is slow, you may not want to evaluate it on your computer**
 ```{r dwplot2, cache=TRUE, eval = F}
 cc2 <- tidy(lmer1,
             effect = "ran_pars",

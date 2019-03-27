@@ -160,8 +160,9 @@ library(brms)
 library(tidyr)
 library(dplyr)
 library(corrplot)
-library(broom.mixed)
-library(dotwhisker)
+library(broom.mixed)</code></pre>
+<pre><code>## Warning: package 'broom.mixed' was built under R version 3.5.2</code></pre>
+<pre class="r"><code>library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())</code></pre>
 <p>Get data:</p>
 <pre class="r"><code>data_url &lt;- &quot;http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv&quot;
@@ -311,7 +312,7 @@ dwplot(cc1)+facet_wrap(~fixeff,scale=&quot;free&quot;,ncol=2)+
 </div>
 <div id="lme4-random-effects" class="section level2">
 <h2><span class="header-section-number">0.10</span> lme4: random effects</h2>
-<p><strong>Note to BB, this does not work</strong></p>
+<p><strong>This is slow, you may not want to evaluate it on your computer</strong></p>
 <pre class="r"><code>cc2 &lt;- tidy(lmer1,
             effect = &quot;ran_pars&quot;,
             conf.int = TRUE, conf.method = &quot;profile&quot;)</code></pre>

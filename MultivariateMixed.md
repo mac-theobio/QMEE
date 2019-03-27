@@ -24,6 +24,13 @@ library(tidyr)
 library(dplyr)
 library(corrplot)
 library(broom.mixed)
+```
+
+```
+## Warning: package 'broom.mixed' was built under R version 3.5.2
+```
+
+```r
 library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 ```
@@ -244,7 +251,7 @@ temperature is to reduce scores on all traits).
 
 ## lme4: random effects
 
-**Note to BB, this does not work**
+**This is slow, you may not want to evaluate it on your computer**
 
 ```r
 cc2 <- tidy(lmer1,
