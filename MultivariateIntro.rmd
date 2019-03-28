@@ -378,9 +378,9 @@ You can probably envision other variants of this (in particular which matrix to 
 
 We might also like to understand how much variation (of all of the variation) that the model accounts for. As this is multivariate data, there are actually multiple ways of doing this (based on both the trace of the matrix and some based on the determinant). So there is no single $R^2$ measure. However, there is a relatively simple one that we like to employ, recognizing that it does not capture everything. Essentially we take the trace (sum of the elements on the diagonal) of the VCV for the observed data as a measure of total variation in the data. We then ask how much of the variation in the trace of the matrix is accounted for by the trace of the fitted values. i.e:
 
-$$\frac{Tr(\mathbf{V}_{\hat{Y}})}{Tr(\mathbf{V}_{Y})}$$
+$$\frac{\textrm{Tr}(\mathbf{V}_{\hat{Y}})}{\textrm{Tr}(\mathbf{V}_{Y})}$$
 
-Where $Tr(\mathbf{V}_{\hat{Y}})$ is the trace for the matrix of model fitted values, and $Tr(\mathbf{V}_{Y})$ is the trace for the observed data.
+Where $\textrm{Tr}(\mathbf{V}_{\hat{Y}})$ is the trace for the matrix of model fitted values, and $\textrm{Tr}(\mathbf{V}_{Y})$ is the trace for the observed data.
 
 Since we have scaled all of our observations in our response, then we know that the trace needs to be equal to the number of variables we are using in our response (4 in this case). Let's check
 
@@ -392,7 +392,6 @@ How about for our fitted values?
 
 ```{r trace_fitted}
 sum(diag(cov(mlm_fit1$fitted)))
-
 sum(diag(cov(mlm_fit1$fitted)))/sum(diag(cov(dll_data[,9:12])))
 ```
 

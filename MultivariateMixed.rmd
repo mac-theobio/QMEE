@@ -30,6 +30,10 @@ library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
 ```
 
+```{r chkver, echo=FALSE}
+if (packageVersion("broom.mixed")<"0.2.4") stop("need broom.mixed >= 0.2.4")
+```
+
 Get data:
 
 ```{r get_data}
@@ -90,7 +94,9 @@ dll_melt <- (dll_data2
     %>% mutate(units=factor(1:n()))
     %>% gather(trait,value, -c(units,replicate,line,genotype,temp))
     %>% drop_na()
+    %>% arrange(units)
 )
+saveRDS(dll_melt, file="dll_melt.rds")
 ```
 
 And we can take a look at how this has changed the structure of the data from a "wide" format to a long format
@@ -113,7 +119,8 @@ t1 <- system.time(
     lmer1 <- lmer(value ~ trait:(genotype*temp) - 1 +
                       (trait-1|line) + (trait-1|units),
                   data=dll_melt,
-                  control=lmerControl(optCtrl=list(ftol_abs=1e-8),
+                  control=lmerControl(optCtrl=list(ftol_abs=1e-10),
+                                      optimizer="bobyqa",
                                       check.nobs.vs.nlev="ignore",
                                       check.nobs.vs.nRE="ignore"))
 )
@@ -188,11 +195,15 @@ temperature is to reduce scores on all traits).
 
 ## lme4: random effects
 
-**This is slow, you may not want to evaluate it on your computer**
-```{r dwplot2, cache=TRUE, eval = F}
+**This is very slow, you probably don't want to evaluate it on your computer**
+
+```{r tidy_ran_pars, cache=TRUE, eval=FALSE}
 cc2 <- tidy(lmer1,
             effect = "ran_pars",
-            conf.int = TRUE, conf.method = "profile")
+            conf.int = TRUE,
+            conf.method = "profile",
+            parallel="multicore",
+            ncpus=2)
 ```
 
 # MCMCglmm
@@ -353,3 +364,9 @@ dwplot(tt_comb)+geom_vline(xintercept=0,lty=2)
 	- simpler interface (??)
 	- more convenient outputs
 - other options: `glmmTMB`, `brms` ...
+
+**FIXME**:
+
+- sort out random effects tidying
+- set wildtype as baseline level
+- check out convergence warnings with nloptwrap vs bobyqa (why is `allFit` not working?)
