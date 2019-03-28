@@ -196,7 +196,7 @@ temperature is to reduce scores on all traits).
 
 **This is very slow, you probably don't want to evaluate it on your computer**
 
-```{r tidy_ran_pars, cache=TRUE, eval=FALSE}
+```{r tidy_ran_pars, eval=FALSE, warning=FALSE, message=FALSE}
 cc2 <- tidy(lmer1,
             effect = "ran_pars",
             conf.int = TRUE,
