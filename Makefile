@@ -126,7 +126,8 @@ Ignore += $(mddown)
 ### Suppress stuff that's not working!
 ### Use sparingly
 pagelist = $(md:%.md=%) $(rmd:%.rmd=%)
-## pageroots = $(filter-out MultivariateMixed, $(pagelist))
+pageroots = $(filter-out MultivariateMixed, $(pagelist))
+pageroots = $(pagelist)
 
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
