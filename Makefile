@@ -183,11 +183,10 @@ push_all:
 
 Ignore += cache/ *_cache/ *_files/
 
-gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
 gh-pages/%.html: %.rmd
 	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
 	mv -f $*.html $@
-	- mv -f $_files $@
+	- mv -f $*_files $@
 
 ######################################################################
 
