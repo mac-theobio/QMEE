@@ -126,7 +126,7 @@ Ignore += $(mddown)
 ### Suppress stuff that's not working!
 ### Use sparingly
 pagelist = $(md:%.md=%) $(rmd:%.rmd=%)
-pageroots = $(filter-out MultivariateMixed, $(pagelist))
+## pageroots = $(filter-out MultivariateMixed, $(pagelist))
 
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
@@ -186,7 +186,9 @@ Ignore += cache/ *_cache/ *_files/
 gh-pages/%.html: %.rmd
 	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
 	mv -f $*.html $@
-	- mv -f $*_files $@
+	- mv -f $*_files gh-pages
+
+Ignore += dll_melt.rds
 
 ######################################################################
 
