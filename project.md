@@ -2,14 +2,17 @@
 title: Final project
 ---
 
-Your final project is due on Thursday 20 April at noon. You should discuss and perform a group of statistical analyses. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth four (4) ordinary assignments.
+Your final project is due on Tuesday 20 April at noon. You should discuss and perform a group of statistical analyses. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth three (3) ordinary assignments.
 
 ## Presentations
+
+Final presentations will be on Monday 8 April at 9:30 AM in the usual room. We will promulgate a schedule.
 
 Please plan to take 10 minutes for your presentation. Time is short, and we want to be able to comment when appropriate.
 
 The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.
 
+<!-- COMMENT
 ### Schedule
 
 #### Monday hour 1
@@ -52,6 +55,7 @@ The presentation does not have to be a finished work. Outline your scientific qu
 
 * Knoops, Paul Peter; Flett, Lucas
 	* Drosophila Sequences
+COMMENT -->
 
 <!--
 
