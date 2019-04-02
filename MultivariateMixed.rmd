@@ -1,10 +1,11 @@
 ---
 title: "Multivariate modeling via mixed models"
 author: "Ian Dworkin and Ben Bolker"
-date: "March 17, 2017"
+date: "`r format(Sys.time(),'%d %b %Y')`"
 output: 
   html_document: 
-    keep_md: yes
+    number_sections: yes
+    toc: yes
 ---
 
 ```{r setup, include = FALSE}
@@ -12,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 options(digits  = 3)
 ```
 
-This lecture follows on from last Wednesday's: rather than fitting several linear models (each for a different response variable) simultaneously, we're going to use a *mixed model* to fit multivariate data.
+This tutorial follows from our introduction to multivariate linear models, extending it by using multivariate linear **mixed** models.
 
 Useful packages:
 
@@ -26,6 +27,10 @@ library(corrplot)
 library(broom.mixed)
 library(dotwhisker)
 library(ggplot2); theme_set(theme_bw())
+```
+
+```{r chkver, echo=FALSE}
+if (packageVersion("broom.mixed")<"0.2.4") stop("need broom.mixed >= 0.2.4")
 ```
 
 Get data:
@@ -71,7 +76,14 @@ Suppose we have observations of $m$ individuals, with $p$ different observations
 (traits, or time points, or types of measurement, or ...) for each individual.
 The way we're going to make this work is to expand ("melt", or `gather()` if we're using `tidyr`) the data set to be $mp$ observations long, then treat each individual (which was previously a single row of the data set but now comprises $p$ rows) as a group (we'll call this `units`):
 
-## melting code
+## A trick to do multivariate mixed models using lme4
+
+lme4 does not (currently) have a natural syntax for multivariate responses, however, as I eluded to in class, there is an important relationship between multivariate response models and so called "repeated" measures (or longitudinal) models. As such we can use a few tricks to estimate the model in lme4. Below this, I will go through the same model using MCMCglmm, which is a library which has a more natural syntax for such multivariate responses, but is explictly Bayesian, so you need to provide prior distributions. 
+
+
+### melting code for lme4
+
+What we need to first do (for lme4) is to generate a single column that represents the numeric values for our response traits, and then a second variable that stores the trait type.
 
 <img src="figure/the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;" />
 
@@ -81,17 +93,33 @@ dll_melt <- (dll_data2
     %>% mutate(units=factor(1:n()))
     %>% gather(trait,value, -c(units,replicate,line,genotype,temp))
     %>% drop_na()
+    %>% arrange(units)
 )
+saveRDS(dll_melt, file="dll_melt.rds")
+```
+
+And we can take a look at how this has changed the structure of the data from a "wide" format to a long format
+```{r}
+head(dll_data) # original wide
+```
+
+
+To the long format
+```{r}
+head(dll_melt)
 ```
 
 ## lmer fit
+
+We can now go ahead and fit the model where we need to include trait as a predictor variable (where each trait is now a "repeated measure" from a particular subject/individual)
 
 ```{r lmer1,cache=TRUE}
 t1 <- system.time(
     lmer1 <- lmer(value ~ trait:(genotype*temp) - 1 +
                       (trait-1|line) + (trait-1|units),
                   data=dll_melt,
-                  control=lmerControl(optCtrl=list(ftol_abs=1e-8),
+                  control=lmerControl(optCtrl=list(ftol_abs=1e-10),
+                                      optimizer="bobyqa",
                                       check.nobs.vs.nlev="ignore",
                                       check.nobs.vs.nRE="ignore"))
 )
@@ -166,8 +194,15 @@ temperature is to reduce scores on all traits).
 
 ## lme4: random effects
 
-```{r dwplot2,cache=TRUE}
-cc2 <- tidy(lmer1,effect="ran_pars",conf.int=TRUE,conf.method="profile")
+**This is very slow, you probably don't want to evaluate it on your computer**
+
+```{r tidy_ran_pars, eval=FALSE, warning=FALSE, message=FALSE}
+cc2 <- tidy(lmer1,
+            effect = "ran_pars",
+            conf.int = TRUE,
+            conf.method = "profile",
+            parallel="multicore",
+            ncpus=2)
 ```
 
 # MCMCglmm
@@ -186,12 +221,21 @@ Now we need to let `MCMCglmm` know which family (i.e. distribution) the response
 fam.test <- rep("gaussian", 4 )
 ```
 
-Since `MCMCglmm` is fundamentally a Bayesian approach, it needs a prior. If you provide no prior by default, it tries a "flat" prior, although this rarely works. In this case I am providing a not-quite-flat prior, but just for the random effects of line and for the residual variances (could also provide them for the fixed effects).
+Since `MCMCglmm` is fundamentally a Bayesian approach, it needs a prior. If you provide no prior by default, it tries a "flat" prior, although this rarely works. In this case I am providing a not-quite-flat prior, but just for the random effects of line and for the residual variances (could also provide them for the fixed effects). Choosing priors for variances and covariances can sometimes be tricky, and for the moment is too much to chew on in this class, so we will use the default prior distributions (inverse-Wishart is what it is called if you really care). If you want to get deep into this, come chat with me. I also have some simple tutorials where I draw out the effects of various common priors for variances and covariances.
 
 ```{r prior} 
-prior.model.1 <- list( R=list(V=diag(4)/4, nu=0.004),  
-                       G=list(G1=list(V=diag(4)/4, nu=0.004)))
+prior.model.1 <- list( R = list(V=diag(4)/4, nu=0.004),  
+                       G = list(G1=list(V=diag(4)/4, nu=0.004)))
 ```
+
+Let's take a quick look at the prior 
+
+
+```{r}
+prior.model.1
+```
+
+The `R` matrix prior is for the residuals. This is $\mathbf{R}_{4,4}$ as we have 4 traits in the VCV matrix. We have have non-zero variances for each trait as the mode for the prior, and 0 for covariances. However this is a weak prior, so even small amounts of data will largely overcome the pull of the prior. Another sensible approach we have used is to make the prior proportional to the overall observed VCV, as there is a large literature on the proportionality of covariance matrices for morphology. This may not be sensible for other types of multivariate response measures.
 
 ```{r MCMCglmm_fit,cache=TRUE,results="hide"}
 ##,depends.on=c("prior","mod_fm","get_data")}
@@ -319,3 +363,9 @@ dwplot(tt_comb)+geom_vline(xintercept=0,lty=2)
 	- simpler interface (??)
 	- more convenient outputs
 - other options: `glmmTMB`, `brms` ...
+
+**FIXME**:
+
+- sort out random effects tidying
+- set wildtype as baseline level
+- check out convergence warnings with nloptwrap vs bobyqa (why is `allFit` not working?)

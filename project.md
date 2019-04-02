@@ -57,8 +57,6 @@ The presentation does not have to be a finished work. Outline your scientific qu
 	* Drosophila Sequences
 COMMENT -->
 
-<!--
-
 ## Getting started
 
 * Make a subdirectory in the projects/ subdirectory of the github repo
@@ -73,10 +71,10 @@ COMMENT -->
 It is OK to adapt existing text from your assignments, but both partners should go through the text, and the non-starting partner should work to make it clear for outside readers.
 
 * Add your data to the project
-
-* Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R) (this is in the private repo; you can use the link if you are logged in to github, or you can view it locally in the course repo).
-
 * Start cleaning, coding and analyzing!
 	* Again, it's OK to reuse stuff, but you should go over it together before moving on.
 
--->
+<!-- COMMENT
+* Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R) (this is in the private repo; you can use the link if you are logged in to github, or you can view it locally in the course repo).
+COMMENT -->
+

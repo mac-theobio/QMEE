@@ -1,4 +1,5 @@
 # QMEE
+## 2019 Apr 02 (Tue) JD _promises_ to simplify "radically" for 2021
 # https://mac-theobio.github.io/QMEE/?version=123
 # https://mac-theobio.github.io/QMEE/index.html
 
@@ -58,7 +59,6 @@ gh-pages:
 
 ### Right now building "notes" html like regular html (with this upstream rule)
 ### Could cause problems with figures or (less likely) mathjax
-Sources += $(wildcard *.rmd)
 Sources += $(wildcard *.csv)
 
 Ignore += $(wildcard *.mkd)
@@ -93,13 +93,6 @@ gh-pages/CA_homicide_pix.html: CA_homicide_pix.rmd
 
 ######################################################################
 
-## Editing pages
-## It would be fun to figure out how to deal with the competing md streams
-
-Sources += $(wildcard *.md)
-
-######################################################################
-
 ## Formatting
 
 Sources += qmee.css header.html footer.html
@@ -125,13 +118,17 @@ md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
 scripts = $(wildcard *.R)
 bugs = $(wildcard *.bug)
+mddown = $(rmd:rmd=md)
+mdsource = $(filter-out $(mddown), $(md))
 
-Sources += $(scripts) $(bugs)
+Sources += $(scripts) $(rmd) $(mdsource) $(bugs)
+Ignore += $(mddown)
 
 ### Suppress stuff that's not working!
 ### Use sparingly
 pagelist = $(md:%.md=%) $(rmd:%.rmd=%)
 pageroots = $(filter-out MultivariateMixed, $(pagelist))
+pageroots = $(pagelist)
 
 pages = $(pageroots:%=gh-pages/%.html)
 slides = $(pages:%.html=%.slides.html)
@@ -188,11 +185,12 @@ push_all:
 
 Ignore += cache/ *_cache/ *_files/
 
-gh-pages/MultivariateIntro.html: MultivariateIntro.rmd
 gh-pages/%.html: %.rmd
 	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
 	mv -f $*.html $@
-	- mv -f $_files $@
+	- mv -f $*_files gh-pages
+
+Ignore += dll_melt.rds
 
 ######################################################################
 
@@ -200,6 +198,10 @@ gh-pages/%.html: %.rmd
 
 jags.Rout: jags.bug jags.R
 fev.Rout: fev.bug fev.R
+
+## Live power
+
+power.Rout: power.R
 
 ######################################################################
 
