@@ -11,7 +11,7 @@
 
 <meta name="author" content="Ben Bolker" />
 
-<meta name="date" content="2019-03-27" />
+<meta name="date" content="2019-04-02" />
 
 <title>power analysis etc.</title>
 
@@ -372,7 +372,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">power analysis etc.</h1>
 <h4 class="author"><em>Ben Bolker</em></h4>
-<h4 class="date"><em>27 Mar 2019</em></h4>
+<h4 class="date"><em>02 Apr 2019</em></h4>
 
 </div>
 
@@ -688,7 +688,7 @@ for (i in 1:nsim) {
   pval[i] &lt;- coef(summary(m))[&quot;x&quot;, &quot;Pr(&gt;|t|)&quot;] ## extract p-value
 }
 mean(pval&lt;0.05)</code></pre>
-<pre><code>## [1] 0.76</code></pre>
+<pre><code>## [1] 0.643</code></pre>
 </div>
 <div id="references" class="section level2 unnumbered refs">
 <h2>references</h2>

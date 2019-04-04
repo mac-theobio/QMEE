@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2019-03-27" />
+  <meta name="date" content="2019-04-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3111,7 +3111,7 @@ if (document.readyState !== "loading" &&
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">27 Mar 2019</p>
+            <p style="margin-top: 6px; margin-left: -2px;">02 Apr 2019</p>
           </hgroup>
   </slide>
 
@@ -3702,21 +3702,21 @@ D^{2} = (\mathbf{\bar{x}}_t - \mathbf{\bar{x}}_c )&#39; \mathbf{S}^{-1}_{pl} (\m
 <pre class = 'prettyprint lang-r'>summary(mlm_fit2)</pre>
 
 <pre >## 
-## Call:
-## procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data)
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on SS distributions
 ## 
-## Type I (Sequential) Sums of Squares and Cross-products
-## Randomized Residual Permutation Procedure Used
-## 2001 Permutations
-## ANOVA effect sizes and P-values based on empirical F distributions
-## 
-## 
-##             Df   SS    MS   Rsq    F    Z Pr(&gt;F)    
-## genotype     1  143 142.9 0.019 36.4 4.26  5e-04 ***
+##             Df   SS    MS   Rsq    F    Z Pr(&gt;SS)   
+## genotype     1  143 142.9 0.019 36.4 4.24   0.001 **
 ## Residuals 1916 7525   3.9 0.981                     
 ## Total     1917 7668                                 
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Call: procD.lm(f1 = dll_data[, 9:12] ~ genotype, iter = 2000, data = dll_data)</pre>
 
 <p>Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one). Also note that it also provides a measure of \(R^2\), which is not identical to the one I provided (but similar in this instance).</p>
 
@@ -3758,24 +3758,24 @@ Anova(mlm_fit5)</pre>
 <pre class = 'prettyprint lang-r'>summary(mlm_fit4_dist)</pre>
 
 <pre >## 
-## Call:
-## procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
-##     data = dll_data)
+## Analysis of Variance, using Residual Randomization
+## Permutation procedure: Randomization of null model residuals 
+## Number of permutations: 1000 
+## Estimation method: Ordinary Least Squares 
+## Sums of Squares and Cross-products: Type I 
+## Effect sizes (Z) based on SS distributions
 ## 
-## Type I (Sequential) Sums of Squares and Cross-products
-## Randomized Residual Permutation Procedure Used
-## 2001 Permutations
-## ANOVA effect sizes and P-values based on empirical F distributions
-## 
-## 
-##                 Df   SS   MS   Rsq     F    Z Pr(&gt;F)    
-## genotype         1  143  143 0.019  44.2 4.47  5e-04 ***
-## temp             1 1136 1136 0.148 351.2 6.63  5e-04 ***
-## genotype:temp    1  200  200 0.026  61.8 5.22  5e-04 ***
+##                 Df   SS   MS   Rsq     F    Z Pr(&gt;SS)   
+## genotype         1  143  143 0.019  44.2 4.24   0.001 **
+## temp             1 1136 1136 0.148 351.2 6.45   0.001 **
+## genotype:temp    1  200  200 0.026  61.8 4.89   0.001 **
 ## Residuals     1914 6190    3 0.807                      
 ## Total         1917 7668                                 
 ## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Call: procD.lm(f1 = dll_data[, 9:12] ~ genotype * temp, iter = 2000,  
+##     data = dll_data)</pre>
 
 <p>We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.</p>
 
