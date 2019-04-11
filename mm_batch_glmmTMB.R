@@ -10,5 +10,6 @@ t1 <- system.time(
 )
 debug(glmmTMB:::profile.glmmTMB)
 debug(glmmTMB:::vcov.glmmTMB)
+vcov(m1)
 pp <- profile(m1, parm="theta_")
 
