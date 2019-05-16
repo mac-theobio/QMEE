@@ -3,6 +3,11 @@ title: Data management and cleaning
 author: Jonathan Dushoff
 ---
 
+<!--- COMMENT
+2019 May 16 (Thu)
+Now making a separate version is statistics_talks repo
+-->
+
 ## Goals
 
 * Introduce some principles of data management
