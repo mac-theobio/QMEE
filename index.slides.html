@@ -4,7 +4,6 @@
   <title>Quantitative Methods in Ecology and Evolution</title>
 
   <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="generator" content="pandoc" />
 
@@ -33,6 +32,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -250,7 +262,6 @@ background: black;
 }
 
 slides > slide {
-display: none;
 font-family: 'Open Sans', Arial, sans-serif;
 font-size: 26px;
 color: #797979;
@@ -271,17 +282,19 @@ transition: all 0.6s ease-in-out;
 }
 
 slides > slide.far-past {
-display: none;
 }
 
 slides > slide.past {
-display: block;
 opacity: 0;
 }
 
 slides > slide.current {
 display: block;
 opacity: 1;
+z-index: 1;
+}
+slides > slide:not(.current) {
+z-index: 0;
 }
 
 slides > slide.current .auto-fadein {
@@ -296,13 +309,11 @@ background-size: 100% 100%;
 }
 
 slides > slide.next {
-display: block;
 opacity: 0;
 pointer-events: none;
 }
 
 slides > slide.far-next {
-display: none;
 }
 
 slides > slide.dark {
@@ -374,8 +385,6 @@ width: 1100px;
 
 slides.layout-widescreen > slide.far-past,
 slides.layout-faux-widescreen > slide.far-past {
-display: block;
-display: none;
 -webkit-transform: translate(-2260px);
 -moz-transform: translate(-2260px);
 -ms-transform: translate(-2260px);
@@ -409,8 +418,6 @@ pointer-events: none;
 
 slides.layout-widescreen > slide.far-next,
 slides.layout-faux-widescreen > slide.far-next {
-display: block;
-display: none;
 -webkit-transform: translate(2260px);
 -moz-transform: translate(2260px);
 -ms-transform: translate(2260px);
@@ -1342,7 +1349,19 @@ opacity: 1;
 .overview .slide-area {
 display: none;
 }
+slides > slide {
+background: linear-gradient(#ffffff, #ffffff 85%, #e6e6e6);
+background-color: white;
+}
+slides > slide {
+opacity: 0;
+}
 @media print {
+
+@page {
+size: landscape;
+margin: 0;
+}
 
 slides slide {
 display: block !important;
@@ -3086,7 +3105,18 @@ if (document.readyState !== "loading" &&
       transition: opacity 0.6s ease-in 0.4s;
       opacity: 0;
     }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
 
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            
   </style>
 
 
@@ -3100,22 +3130,21 @@ if (document.readyState !== "loading" &&
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Current</h2></hgroup><article  id="current">
+<!--- This is how you make a comment
+-->
 
-<p>Working on <a href='project.html' title=''>projects</a></p>
+<!--- 
+## Current
 
-<h3>Each week:</h3>
+### Each week:
 
-<ul>
-<li>Send a brief project report by email on Friday; let us know if you have any questions we can address</li>
-</ul>
+* A brief project report by email on Friday; let us know if you have any questions we can address
 
-<!-- COMMENT
 ### Presentations
 
 Mon 3 April and Wed 5 April
@@ -3126,39 +3155,40 @@ Mon 3 April and Wed 5 April
     * Don't let the presentation preparation interfere with the actual project
     * Don't even start preparing your presentation until the Wed or Fri before (depending on when you are presenting)
 
+### Final project
+
 * Email us to tell us when it's time to look
+<!-- COMMENT
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
 COMMENT -->
 
+<ul>
+<li>This web page is <strong>under construction</strong>. Some material may current be leftover from previous instances of the course.</li>
+</ul>
+
+<slide class=""><hgroup><h2>News</h2></hgroup><article  id="news">
+
+<p>We will hold an organizational meeting at …</p>
+
 </article></slide><slide class=""><hgroup><h2>Course information</h2></hgroup><article  id="course-information">
 
 <ul>
-<li>The course meets in LSB-213A:
-
-<ul>
-<li>Mon 10:30-11:20</li>
-<li>Wed 15:30-17:20 (two hours, bring coffee)</li>
-</ul></li>
 <li><a href='description.html' title=''>Course description</a></li>
-<li><a href='assignments.html' title=''>Assignments</a> <!-- COMMENT
--   [Final project](project.html)
-COMMENT --></li>
+<li><a href='assignments.html' title=''>Assignments</a></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Course schedule</h2></hgroup><article  id="course-schedule">
 
-<p><strong>Some links may be broken</strong>, your patience is appreciated.</p>
-
-<p><em>This schedule is subject to change</em></p>
+<p>_This schedule is subject to change.</p>
 
 <h3>Foundations</h3>
 
 <ul>
-<li><a href='Introduction_to_R.html' title=''>Introduction to R</a> Week of 7 Jan</li>
-<li><a href='Data_management.html' title=''>Data management</a> Week of 14 Jan</li>
-<li><a href='Visualization.html' title=''>Visualization</a> Week of 21 Jan</li>
-<li><a href='Statistical_philosophy.html' title=''>Statistical philosophy</a> Week of 28 Jan</li>
+<li><a href='Introduction_to_R.html' title=''>Introduction to R</a> Week of ? Jan</li>
+<li><a href='Data_management.html' title=''>Data management</a> Week of ? Jan</li>
+<li><a href='Visualization.html' title=''>Visualization</a> Week of ? Jan</li>
+<li><a href='Statistical_philosophy.html' title=''>Statistical philosophy</a> Week of ?</li>
 </ul>
 
 <h3>Basic Statistics</h3>
@@ -3172,17 +3202,6 @@ COMMENT --></li>
 
 <h3>Additional topics</h3>
 
-<ul>
-<li><a href='Generalized_linear_models.html' title=''>Generalized linear models</a></li>
-<li><a href='Mixed_models.html' title=''>Mixed models</a></li>
-<li><a href='power_analysis.html' title=''>Power analysis</a>
-
-<ul>
-<li><a href='https://github.com/dushoff/notebook/blob/gh-pages/vitaminA.R' title=''>vitaminA simulation</a></li>
-</ul></li>
-<li><a href='Multivariate_responses.html' title=''>Multivariate responses</a></li>
-</ul>
-
 <!-- COMMENT
 * Generalized linear models
 * Mixed models
@@ -3190,6 +3209,9 @@ COMMENT --></li>
 * Linear model parameters
 * Penalized regression
 
+- [Generalized linear models](Generalized_linear_models.html)
+- [Mixed models](Mixed_models.html)
+- [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 COMMENT -->
