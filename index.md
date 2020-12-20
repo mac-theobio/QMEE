@@ -1,16 +1,16 @@
 ---
 title: Quantitative Methods in Ecology and Evolution
 ---
+<!--- This is how you make a comment
+-->
 
+<!--- 
 ## Current
-
-Working on [projects](project.html)
 
 ### Each week:
 
-* Send a brief project report by email on Friday; let us know if you have any questions we can address
+* A brief project report by email on Friday; let us know if you have any questions we can address
 
-<!-- COMMENT
 ### Presentations
 
 Mon 3 April and Wed 5 April
@@ -21,35 +21,35 @@ Mon 3 April and Wed 5 April
 	* Don't let the presentation preparation interfere with the actual project
 	* Don't even start preparing your presentation until the Wed or Fri before (depending on when you are presenting)
 
+### Final project
+
 * Email us to tell us when it's time to look
+<!-- COMMENT
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
 COMMENT -->
 
-## Course information
+* This web page is __under construction__. Some material may current be leftover from previous instances of the course.
 
-* The course meets in LSB-213A:
-	*  Mon 10:30-11:20
-	*  Wed 15:30-17:20 (two hours, bring coffee)
+## News
+
+We will hold an organizational meeting at ...
+
+## Course information
 
 -   [Course description](description.html)
 -   [Assignments](assignments.html)
-<!-- COMMENT
--   [Final project](project.html)
-COMMENT -->
 
 ## Course schedule
 
-__Some links may be broken__, your patience is appreciated.
-
-_This schedule is subject to change_
+_This schedule is subject to change.
 
 ### Foundations
 
-* [Introduction to R](Introduction_to_R.html) Week of 7 Jan
-* [Data management](Data_management.html) Week of 14 Jan
-* [Visualization](Visualization.html) Week of 21 Jan
-* [Statistical philosophy](Statistical_philosophy.html) Week of 28 Jan
+* [Introduction to R](Introduction_to_R.html) Week of ? Jan
+* [Data management](Data_management.html) Week of ? Jan
+* [Visualization](Visualization.html) Week of ? Jan
+* [Statistical philosophy](Statistical_philosophy.html) Week of ?
 
 ### Basic Statistics
 
@@ -61,12 +61,6 @@ COMMENT -->
 
 ### Additional topics
 
-- [Generalized linear models](Generalized_linear_models.html)
-- [Mixed models](Mixed_models.html)
-- [Power analysis](power_analysis.html)
-	* [vitaminA simulation](https://github.com/dushoff/notebook/blob/gh-pages/vitaminA.R)
-- [Multivariate responses](Multivariate_responses.html)
-
 <!-- COMMENT
 * Generalized linear models
 * Mixed models
@@ -74,6 +68,9 @@ COMMENT -->
 * Linear model parameters
 * Penalized regression
 
+- [Generalized linear models](Generalized_linear_models.html)
+- [Mixed models](Mixed_models.html)
+- [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 COMMENT -->
