@@ -36,6 +36,11 @@ Sources = Makefile README.md LICENSE.md notes.txt TODO.md
 
 ######################################################################
 
+Sources += $(wildcard docs/*.md)
+Sources += $(wildcard docs/*.html)
+
+######################################################################
+
 ## Current
 
 ## gh-pages/permutation_examples.html: permutation_examples.rmd
@@ -54,6 +59,15 @@ gh-pages:
 	$(MAKE) $@.branchdir
 
 ##################################################################
+
+## Root content
+
+%.docs: %
+	$(CP) $< docs
+
+
+
+######################################################################
 
 ## rmd stuff
 
