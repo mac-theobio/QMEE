@@ -51,6 +51,7 @@ mdsource = $(filter-out $(mddown), $(md))
 
 Sources += $(scripts) $(rmd) $(mdsource) $(bugs)
 Ignore += $(mddown)
+
 ######################################################################
 
 # Figure out what the old pathway was (still used for straight md)
@@ -81,7 +82,7 @@ Sources += orphans.mk
 
 ### Makestuff
 
-Sources = Makefile README.md LICENSE.md notes.txt TODO.md
+Sources += Makefile README.md LICENSE.md notes.txt TODO.md
 
 msrepo = https://github.com/dushoff
 ms = makestuff

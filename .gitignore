@@ -1,9 +1,0 @@
-.Rhistory
-*_cache/
-*_files/
-*.html
-*.rdeps
-gh-pages/
-makestuff/
-target.mk
-.gitignore

@@ -1,8 +1,3 @@
-## rmd stuff
-
-### Right now building "notes" html like regular html (with this upstream rule)
-### Could cause problems with figures or (less likely) mathjax
-Sources += $(wildcard *.csv)
 
 Ignore += $(wildcard *.mkd)
 ### mkd for _made_ markdown; not to be repo-ed
@@ -28,3 +23,59 @@ gh-pages/%.slides.html: %.rmd
 
 CA_homicide_pix.md: CA_homicide_pix.rmd
 gh-pages/CA_homicide_pix.html: CA_homicide_pix.rmd
+
+######################################################################
+
+## Need to update vim stuff before this works with C-F3
+## pullup: pull_pages
+
+pull_pages:
+	cd gh-pages && make pull
+
+## Update the _local copy_ of the site (open to open the main page as well)
+push_local: 
+	$(MAKE) figure gh-pages/figure gh-pages/qmee.css $(pages) $(slides) $(pscripts)
+	-rsync figure/* gh-pages/figure
+
+open_local: 
+	$(MAKE) push_local
+	$(MAKE) gh-pages/index.html.go
+
+## Push the site to github.io (all to simultaneously sync this repo)
+push_site: 
+	$(MAKE) push_local
+	cd gh-pages && $(MAKE) remotesync
+
+push_all: 
+	$(MAKE) push_site
+	$(MAKE) sync
+
+######################################################################
+
+
+### Suppress stuff that's not working!
+### Use sparingly
+pagelist = $(md:%.md=%) $(rmd:%.rmd=%)
+pageroots = $(filter-out MultivariateMixed, $(pagelist))
+pageroots = $(pagelist)
+
+pages = $(pageroots:%=gh-pages/%.html)
+slides = $(pages:%.html=%.slides.html)
+pscripts = $(scripts:%=gh-pages/%) $(bugs:%=gh-pages/%)
+gh-pages/%.css: %.css
+	$(copy)
+
+gh-pages/%.bug: %.bug
+	$(copy)
+
+gh-pages/%.R: %.R
+	$(copy)
+
+gh-pages/figure: 
+	$(mkdir)
+
+Ignore += figure
+figure:
+	$(mkdir)
+	cd $@ && touch null
+
