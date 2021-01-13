@@ -15,7 +15,7 @@ docs:
 ## (pushed in repo root, this rule only applies in subdirectories)
 Ignore += html
 html:
-	(ls -d $@ && ln -s $@ .)
+	(ls -d ../$@ && ln -s ../$@ .)
 
 ######################################################################
 
