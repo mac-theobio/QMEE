@@ -20,6 +20,9 @@ Sources += $(wildcard docs/html/*.*)
 ## index.html.docs:
 ## index.html: index.md
 
+Sources += index.md
+Ignore += index.html
+
 index: index.md
 	$(MAKE) index.html.docs
 	$(MAKE) docs/index.html.go
