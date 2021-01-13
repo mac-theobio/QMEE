@@ -47,7 +47,7 @@ subdirs += topics
 
 alldirs += $(subdirs)
 
-update_all: $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
+update_all: makestuff $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
 
 ######################################################################
 
