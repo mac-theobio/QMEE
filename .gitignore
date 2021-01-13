@@ -234,3 +234,9 @@ cpdir/
 *.oldfile
 *.olddiff
 *.blame
+*.rdeps
+*~
+*_cache/
+*_files/
+private/
+.gitignore
