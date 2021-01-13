@@ -28,9 +28,6 @@ docs/index.html: index.md
 Sources += rweb.mk
 -include rweb.mk
 
-local_site: update_all
-	$(MAKE) docs/index.html.go
-
 ######################################################################
 
 ## Subdirectories
@@ -49,6 +46,11 @@ subdirs += topics
 alldirs += $(subdirs)
 
 update_all: makestuff $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
+
+local_site: update_all
+	$(MAKE) docs/index.html.go
+
+## all.time:
 
 ######################################################################
 

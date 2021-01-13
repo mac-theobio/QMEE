@@ -87,49 +87,26 @@ margin-bottom: 2ex;
 <h2 id="biology-708">Biology 708</h2>
 <p>The web site for Biology 708. The user-friendly view is <a href="https://mac-theobio.github.io/QMEE/index.html">here</a>.</p>
 <h2 id="workflow">Workflow</h2>
+<p><strong>Under construction</strong></p>
+<p>The subdirectories <code>admin</code> and <code>topics</code> contain .md files that are meant to automatically be made into html files following the site style (in the subdirectory <code>html</code></p>
 <ul>
-<li>After you pull, say <code>make pull_pages</code> before you start work</li>
-<li>To update the <strong>local</strong> copy of pages, say <code>make push_pages</code>
-<ul>
-<li>or <code>make open_pages</code> to also open the local site</li>
-</ul></li>
-<li>To update the github site, say <code>make push_site</code>
-<ul>
-<li>or <code>make push_all</code> to simultaneously sync the working repo</li>
-</ul></li>
-<li>You should be able to edit or create a <code>.md</code> or <code>.rmd</code> file and have it automatically reflected on the site after pushing</li>
+<li><code>update_all</code> is meant to remake the site</li>
 </ul>
-<p>Stuff below here is old 2019 Jan 14 (Mon)</p>
-<hr />
-<h2 id="installing-the-backend">Installing the backend</h2>
-<p>You can view any of the files for the course on this web site as well as in the user-friendly view.</p>
-<p>If you want to work on this repository, you will have to take some extra steps. (If the instructions below look like gobbledygook, you should probably stay away …)</p>
+<p>Here are some directories that we currently have:</p>
 <ul>
-<li>Clone this repo</li>
-<li>Examine standard.local</li>
-<li>Either
-<ul>
-<li>type <code>ln standard.local local.mk</code></li>
-<li>create <code>&lt;yourname&gt;.local</code> and link that</li>
-</ul></li>
-<li>you need JD’s <code>makestuff</code> machinery
-<ul>
-<li>Clone <code>https://github.com/dushoff/makestuff.git</code> into <code>$HOME/git</code> (or anywhere, as long as it matches what’s in the <code>$gitroot</code> variable in <code>local.mk</code> (unless it’s already where you want it and you have gitroot pointed there through local.mk).</li>
-</ul></li>
-<li>Type <code>make pages</code></li>
+<li>data/</li>
+<li>docs/</li>
+<li>figure/</li>
+<li>gh-pages/</li>
+<li>html/</li>
+<li>makestuff/</li>
+<li>oldSource/</li>
+<li>pix/</li>
+<li>topics/</li>
 </ul>
-<p>Then:</p>
+<p>Here is a directory we should have (but we may want to think carefully about how to make things there):</p>
 <ul>
-<li>From <code>pages</code> directory
-<ul>
-<li><open> index.html shows you the local version</li>
-</ul></li>
-<li>From main directory</li>
-<li><code>make push_pages</code> to update the pages/ directory.</li>
-<li><code>make open_pages</code> to update the pages/ directory and open the index document</li>
-<li><code>make sync</code> to sync <em>your work</em></li>
-<li><code>make push_site</code> to update the pages/ directory and sync <em>the site</em>.</li>
-<li><code>make push_all</code> to update the pages/, sync the site and sync the repo..</li>
+<li>lectures/</li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
