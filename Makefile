@@ -17,18 +17,19 @@ Sources += $(wildcard docs/html/*.*)
 
 ## Root content
 
-## index.html.docs:
-## index.html: index.md
+## docs/index.html: index.md
 
 Sources += index.md
 Ignore += index.html
 
-index: index.md
-	$(MAKE) index.html.docs
-	$(MAKE) docs/index.html.go
+docs/index.html: index.md
+	pandoc $< -o $@ --mathjax -s -B html/header.html -A html/mainfooter.html --css html/qmee.css --self-contained
 
 Sources += rweb.mk
 -include rweb.mk
+
+local_site: update_all
+	$(MAKE) docs/index.html.go
 
 ######################################################################
 

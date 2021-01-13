@@ -39,23 +39,23 @@ COMMENT -->
 
 Course meetings will be on [our Team](https://teams.microsoft.com/l/team/19%3a21a7d8d05a1e4a69a238876af57b148b%40thread.tacv2/conversations?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772):
 
-* Tuesdays at 10:30
-* Xdays at 11:30
+* Tuesdays 9:30-11:20
+* Fridays 11:30-12:20
 
 There will also be some asynchronous content
 
 ### Foundations
 
-* [Introduction to R](Introduction_to_R.html) Week of ? Jan
-* [Data management](Data_management.html) Week of ? Jan
-* [Visualization](Visualization.html) Week of ? Jan
-* [Statistical philosophy](Statistical_philosophy.html) Week of ?
+* [Introduction to R](topics/Introduction_to_R.html) Week of 12 Jan
+* [Data management](topics/Data_management.html) Week of 19 Jan
+* [Visualization](topics/Visualization.html) Week of 26 Jan
+* [Statistical philosophy](topics/Statistical_philosophy.html) Week of 2 Feb
 
 ### Basic Statistics
 
-- [Permutations](Permutations.html)
-- [Linear models](Linear_models.html)
-- [Bayesian statistics](Bayesian_statistics.html)
+- [Permutations](topics/Permutations.html)
+- [Linear models](topics/Linear_models.html)
+- [Bayesian statistics](topics/Bayesian_statistics.html)
 <!-- COMMENT
 COMMENT -->
 
