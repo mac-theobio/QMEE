@@ -1,7 +1,5 @@
 # QMEE
-## 2019 Apr 02 (Tue) JD _promises_ to simplify "radically" for 2021
 # https://mac-theobio.github.io/QMEE/?version=123
-# https://mac-theobio.github.io/QMEE/index.html
 
 ### Hooks for the editor to set the default target
 current: target
@@ -13,6 +11,7 @@ vim_session:
 ##################################################################
 
 Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
+Sources += $(wildcard docs/html/*.*)
 
 ######################################################################
 
