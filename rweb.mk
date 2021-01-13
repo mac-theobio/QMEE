@@ -30,6 +30,6 @@ update: $(mdhdocs)
 
 mds = pandoc $< -o $@ --mathjax -s -B html/header.html -A html/footer.html --css html/qmee.css --self-contained
 docs/%.html: %.md
-	$(MAKE) html
+	$(MAKE) html docs
 	$(mds)
 
