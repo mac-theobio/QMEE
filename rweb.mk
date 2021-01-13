@@ -12,6 +12,7 @@ docs:
 ../docs/$(dname):
 	$(mkdir)
 
+Ignore += html
 html:
 	(ls -d docs/$@ && ln -s docs/$@ .) \
 	|| (cd .. && $(MAKE) $@ && ln -s ../$@ .)
