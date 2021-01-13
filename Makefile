@@ -11,7 +11,7 @@ vim_session:
 ##################################################################
 
 Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
-Sources += $(wildcard docs/html/*.*)
+Sources += $(wildcard html/*.*)
 
 ######################################################################
 

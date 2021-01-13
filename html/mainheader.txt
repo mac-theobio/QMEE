@@ -1,7 +1,7 @@
 <header class="site-header">
 <div class="wrapper">
 	<h1 class="title">
-		<a href="../index.html">Biology 708, McMaster University</a>
+		<a href="index.html">Biology 708, McMaster University</a>
 	</h1>
 	<div style="text-align:center">
 		<img src="http://imgs.xkcd.com/comics/self_description.png">
