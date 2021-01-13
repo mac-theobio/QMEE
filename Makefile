@@ -32,9 +32,6 @@ Sources += rweb.mk
 
 ######################################################################
 
-update_all: admin.update topics.update
-push_all: all.time
-
 ## Subdirectories
 
 %.update:
@@ -42,11 +39,15 @@ push_all: all.time
 
 ## admin
 ## admin.update:
-alldirs += admin
+subdirs += admin
 
 ## topics
 ## topics.update:
-alldirs += topics
+subdirs += topics
+
+alldirs += $(subdirs)
+
+update_all: $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
 
 ######################################################################
 
