@@ -9,7 +9,7 @@ current: target
 
 ##################################################################
 
-Sources += $(wildcard docs/*.html)
+Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
 
 ######################################################################
 
@@ -20,11 +20,27 @@ gh-pages:
 
 ## Root content
 
-update: index.html.docs
 ## index.html: index.md
 
-%.docs: %
-	$(CP) $< docs
+Sources += rweb.mk
+-include rweb.mk
+
+######################################################################
+
+## Subdirectories
+
+%.update:
+	cd $* && $(MAKE) update
+
+## admin
+
+alldirs += admin
+## admin.update:
+
+######################################################################
+
+## Old content
+## git mv source stuff from here to where it's wanted
 
 ######################################################################
 
@@ -32,25 +48,10 @@ update: index.html.docs
 Sources += pages.mk
 
 ######################################################################
-## Formatting
 
-mds = pandoc --mathjax -s -c html/qmee.css -B html/header.html -A html/footer.html -o $@ $<
-%.html: %.md $(wildcard html/*.*)
-	$(mds)
-
-######################################################################
-
-## Exporting
-
-md = $(wildcard *.md)
-rmd = $(wildcard *.rmd)
-scripts = $(wildcard *.R)
-bugs = $(wildcard *.bug)
-mddown = $(rmd:rmd=md)
-mdsource = $(filter-out $(mddown), $(md))
-
-Sources += $(scripts) $(rmd) $(mdsource) $(bugs)
-Ignore += $(mddown)
+## Hide all of the old script stuff (already done)
+arcScript:
+	git mv $(oldscripts) oldSource ##
 
 ######################################################################
 
@@ -70,6 +71,9 @@ Ignore += dll_melt.rds
 
 ######################################################################
 
+
+
+
 ## Live sessions
 
 Sources += live.mk
@@ -82,7 +86,7 @@ Sources += orphans.mk
 
 ### Makestuff
 
-Sources += Makefile README.md LICENSE.md notes.txt TODO.md
+Sources += Makefile README.md notes.txt TODO.md
 
 msrepo = https://github.com/dushoff
 ms = makestuff
