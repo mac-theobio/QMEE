@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Week 1: Introduction to R</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="html/qmee.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<header id="title-block-header">
+<h1 class="title">Week 1: Introduction to R</h1>
+</header>
+<h1 id="preparation">Preparation</h1>
+<ul>
+<li>Ideally, you should bring a laptop to class. If you can’t, we’ll work something out, but you definitely need access to a computer on which you can install and run the software that we will be using for the class</li>
+</ul>
+<h2 id="before-monday">Before Monday</h2>
+<ul>
+<li>Install and run the free (and open-source) program <code>R</code> from the links at the top of <a href="http://cran.r-project.org/">the Comprehensive R Archive Network</a>.
+<ul>
+<li>If you have an older version of R (&lt; 3.5.2), <em>please update to the latest version</em>.</li>
+</ul></li>
+<li><p>Install and run the free (and open-source) R development environment <code>RStudio</code> from the Download button at the <a href="http://www.rstudio.com/ide/">RStudio web site</a>. You want the “desktop” version.</p></li>
+<li>install the <code>tidyverse</code> suite of R packages:
+<ul>
+<li>within an R session, type <code>install.packages("tidyverse")</code></li>
+<li>(<em>or</em> use the package manager window in RStudio).</li>
+</ul></li>
+</ul>
+<h2 id="before-wednesday">Before Wednesday</h2>
+<ul>
+<li><a href="https://github.com">Sign up for a github account</a> (click the big green “Sign up for GitHub” button)
+<ul>
+<li>You may want to read <a href="http://happygitwithr.com/github-acct.html">this advice on picking a GitHub user name</a> first.</li>
+</ul></li>
+<li>If you’re on MacOS, try to <a href="https://developer.apple.com/download/">install XCode</a>.</li>
+<li>e-mail your GitHub account name to <a href="mailto:bio708qmee@gmail.com" class="email">bio708qmee@gmail.com</a></li>
+<li>Get as far as you can through the following steps:
+<ul>
+<li>Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan’s <a href="https://happygitwithr.com/">Happy Git with R</a></li>
+</ul></li>
+<li>If you have trouble with any of this, you can get help on Wednesday</li>
+</ul>
+<h1 id="goals">Goals</h1>
+<ul>
+<li><p>An introduction to the R environment, and some basic principles of scripting and programming</p></li>
+<li><p>Participants will install and run R, write a script, and read some data</p></li>
+</ul>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><p>The official Introduction to R on the <a href="http://cran.r-project.org/manuals.html">R manuals page</a></p></li>
+<li>Course material
+<ul>
+<li><a href="intro_Lecture_notes.html">Lecture notes</a></li>
+<li><a href="intro_tidyverse.html">tidyverse</a></li>
+<li><a href="Importing_data.html">Importing data</a></li>
+<li><a href="Running_R.html">Running R</a></li>
+</ul></li>
+</ul>
+<h1 id="wednesday">Wednesday</h1>
+<p>Our goal for the second part of the session is to set up repos, experiment with commiting, pushing and pulling, and share with the instructors.</p>
+<ul>
+<li>E-mail your GitHub user name to <code>bio708qmee@gmail.com</code>, if you haven’t already done so.</li>
+<li>Work through chapters 9 and 12 in <a href="https://happygitwithr.com/">Happy Git with R</a></li>
+<li>Make a directory on the github repo called <code>QMEE</code>
+<ul>
+<li>Be aware that your repo is publicly readable by default.</li>
+</ul></li>
+<li>add Jonathan Dushoff (<code>@dushoff</code>) and Ben Bolker (<code>@bbolker</code>) as collaborators (<code>Settings</code> &gt; <code>Collaborators</code> (left margin) &gt; <code>Add collaborator</code>)</li>
+</ul>
+<!--- COMMENT
+COMMENT -->
+<h1 id="assignment">Assignment</h1>
+<ul>
+<li><p>Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and add a paragraph to the README.md file in your course repo describing it. Please give us some context for the data and describe the <strong>biological</strong> questions you would hope to answer (if you also want to translate your biological questions into statistical questions that’s fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).</p></li>
+<li><p>Input some piece of this data (use some public data set if your real one is not quickly available) into <code>R</code>, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work “independently” before submitting by emailing the name of your main script to us at <a href="mailto:bio708qmee@gmail.com" class="email">bio708qmee@gmail.com</a>.</p></li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>

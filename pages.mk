@@ -79,3 +79,20 @@ figure:
 	$(mkdir)
 	cd $@ && touch null
 
+######################################################################
+
+# Figure out what the old pathway was (still used for straight md)
+# and unify (if possible on rmarkdown/render with some sort of qmee css)
+
+## 2019 Feb 22 (Fri) This seemed to work but is now creating figures elsewhere
+
+Ignore += cache/ *_cache/ *_files/
+
+gh-pages/%.html: %.rmd
+	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
+	mv -f $*.html $@
+	- mv -f $*_files gh-pages
+
+Ignore += dll_melt.rds
+
+######################################################################

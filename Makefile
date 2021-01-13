@@ -7,25 +7,31 @@
 current: target
 -include target.mk
 
+vim_session:
+	bash -cl "vmt"
+
 ##################################################################
 
 Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
 
 ######################################################################
 
-gh-pages:
-	$(MAKE) $@.branchdir
-
-##################################################################
-
 ## Root content
 
+## index.html.docs:
 ## index.html: index.md
+
+index: index.md
+	$(MAKE) index.html.docs
+	$(MAKE) docs/index.html.go
 
 Sources += rweb.mk
 -include rweb.mk
 
 ######################################################################
+
+update_all: admin.update topics.update
+push_all: all.time
 
 ## Subdirectories
 
@@ -33,46 +39,29 @@ Sources += rweb.mk
 	cd $* && $(MAKE) update
 
 ## admin
-
-alldirs += admin
 ## admin.update:
+alldirs += admin
+
+## topics
+## topics.update:
+alldirs += topics
 
 ######################################################################
 
 ## Old content
-## git mv source stuff from here to where it's wanted
 
-######################################################################
+## git mv source stuff from oldSource to where it's wanted
+## arcScript: ; git mv $(oldscripts) oldSource ##
+
+## Look around, or emergency rescue
+Ignore += gh-pages
+gh-pages:
+	$(MAKE) $@.branchdir
+
+##################################################################
 
 ## A bunch of confusing rmd rules
 Sources += pages.mk
-
-######################################################################
-
-## Hide all of the old script stuff (already done)
-arcScript:
-	git mv $(oldscripts) oldSource ##
-
-######################################################################
-
-# Figure out what the old pathway was (still used for straight md)
-# and unify (if possible on rmarkdown/render with some sort of qmee css)
-
-## 2019 Feb 22 (Fri) This seemed to work but is now creating figures elsewhere
-
-Ignore += cache/ *_cache/ *_files/
-
-gh-pages/%.html: %.rmd
-	Rscript -e "library(\"rmarkdown\"); render(\"$<\")"
-	mv -f $*.html $@
-	- mv -f $*_files gh-pages
-
-Ignore += dll_melt.rds
-
-######################################################################
-
-
-
 
 ## Live sessions
 
@@ -86,7 +75,7 @@ Sources += orphans.mk
 
 ### Makestuff
 
-Sources += Makefile README.md notes.txt TODO.md
+Sources += Makefile README.md notes.txt TODO.md .gitignore
 
 msrepo = https://github.com/dushoff
 ms = makestuff

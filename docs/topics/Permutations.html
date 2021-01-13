@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
+  <title>Permutations</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="html/qmee.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header class="site-header">
+<div class="wrapper">
+	<h1 class="title">
+		<a href="index.html">Biology 708, McMaster University</a>
+	</h1>
+	<div style="text-align:center">
+		<img src="http://imgs.xkcd.com/comics/self_description.png">
+	</div>
+</div>
+</header>
+<header id="title-block-header">
+<h1 class="title">Permutations</h1>
+<p class="author">Jonathan Dushoff and Ben Bolker</p>
+</header>
+<h1 id="introduction">Introduction</h1>
+<p>Classical statistics was developed partly under the <a href="lamppost_theory.html">lamppost theory</a>: people did not used to have powerful computers, and therefore there were only certain kinds of statistics that they could do.</p>
+<p>Permutation tests provide a powerful way of testing statistical hypotheses, and <em>also of thinking about what your statistical tests mean</em>. Thinking about statistical tests in terms of permutations can help you think clearly about your tests even if you never actually use a permutation test.</p>
+<h1 id="resources">Resources</h1>
+<ul>
+<li><a href="Permutations_Lecture_notes.html">Permutations_Lecture notes</a></li>
+<li><p><a href="permutation_examples.html">more permutation code examples</a>:</p></li>
+<li>R stuff
+<ul>
+<li><a href="http://cran.r-project.org/web/packages/coin/index.html">R’s “conditional inference” (coin) package</a> – Very cool, and a little intimidating.</li>
+<li><a href="http://ucfagls.wordpress.com/2011/10/04/permute-a-package-for-generating-restricted-permutations/">Information about “permute” and “vegan” packages</a>. These seem to be more about generating permutations than doing permutation tests</li>
+<li><a href="http://cran.r-project.org/web/packages/gtools/index.html">gtools</a></li>
+</ul></li>
+<li>Stuff from JD
+<ul>
+<li><a href="http://lalashan.mcmaster.ca/theobio/math/index.php/Permutation_tests">Counting and plotting permutations</a></li>
+<li><a href="http://lalashan.mcmaster.ca/ecostats/permmean.pdf">Confidence intervals for the mean of a symmetric variable</a></li>
+</ul></li>
+</ul>
+<h1 id="assignment">Assignment</h1>
+<ul>
+<li>Formulate two different hypotheses about your data, and describe how you would test them with two different permutation tests. Challenge yourself to come up with conceptually different tests, if this is reasonable for your data set.</li>
+<li>Implement one or both of these tests in R. You can use permutation, or you can use a classic test if you explain clearly how it corresponds to a permutation test. Best would be to use both.</li>
+</ul>
+<div id="footer">
+	<div style="text-align:center">
+		<a href="index.html">Course home page</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
+		&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		<a href="logo.html">Logo information</a>
+	</div>
+</div>
+</body>
+</html>
