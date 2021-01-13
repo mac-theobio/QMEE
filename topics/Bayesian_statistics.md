@@ -40,8 +40,7 @@ Resources
 -   ["The first data analysis should be
     journalistic"](http://www.jstor.org/stable/2269593): Edwards 1996
     *Ecological Applications*
--   ["Should ecologists become
-    Bayesians?"](http://www.jstor.org/stable/2269594): strong
+-   ["Should ecologists become Bayesians?"](http://www.jstor.org/stable/2269594): strong
     anti-Bayesian view, Dennis 1996 "Ecological Applications"
     ("Bayesianism means never having to say you're wrong";
     "\[Bayesianism equals scientific relativism, which is ... \] a sort
