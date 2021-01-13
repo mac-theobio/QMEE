@@ -16,6 +16,7 @@ Sources += $(wildcard *.md)
 ## an admin subdirectory in docs
 ## make update should make html from the md files it finds here
 
+Ignore += docs
 include ../rweb.mk
 
 ######################################################################
