@@ -33,7 +33,7 @@ Sources += rweb.mk
 
 ## Run things from lectures
 
-lectures/%: $(wildcard lectures/*.rmd)
+lectures/docs/%.html: $(wildcard lectures/*.rmd)
 	cd lectures && $(MAKE) $*
 
 ## lectures/docs/intro_Lecture_notes.slides.html: lectures/intro_Lecture_notes.rmd

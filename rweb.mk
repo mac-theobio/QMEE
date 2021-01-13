@@ -21,7 +21,7 @@ html:
 
 md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
-mdh = $(md:.md=.html)
+
 mdhdocs = $(md:%.md=docs/%.html)
 rmdnotes = $(rmd:%.md=docs/%.notes.html)
 rmdslides = $(rmd:%.md=docs/%.slides.html)
