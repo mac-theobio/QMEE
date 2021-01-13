@@ -3,7 +3,6 @@
 ## Then it never needs to be made again
 
 dname = $(notdir $(CURDIR))
-Ignore += docs
 docs:
 	$(MAKE) ../docs/$(dname)
 	ls -d ../docs/$(dname)

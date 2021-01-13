@@ -213,7 +213,6 @@ cpdir/
 *.oldfile
 *.olddiff
 *.blame
-docs
 gh-pages
 makestuff
 *.ld.tex

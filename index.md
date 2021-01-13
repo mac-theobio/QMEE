@@ -28,21 +28,21 @@ COMMENT -->
 
 * This web page is __under construction__. Some material may current be leftover from previous instances of the course.
 
-## News
-
-The first course meeting will be 
-
 ## Course information
 
--   [Course description](description.html)
--   [Assignments](assignments.html)
+-   [Course description](admin/description.html)
+<!--- COMMENT
+-   [Assignments](admin/assignments.html)
+COMMENT -->
 
 ## Course schedule
 
-Course meetings will be:
+Course meetings will be on [our Team](https://teams.microsoft.com/l/team/19%3a21a7d8d05a1e4a69a238876af57b148b%40thread.tacv2/conversations?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772):
 
 * Tuesdays at 10:30
 * Xdays at 11:30
+
+There will also be some asynchronous content
 
 ### Foundations
 
