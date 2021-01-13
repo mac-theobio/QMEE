@@ -1,13 +1,9 @@
 
-Tonight:
-* add schedule to index
-* make topics directory and install at least the first topic
-* take a look and hand over to Bolker
-
 Tomorrow:
 * make lectures; make a lecture pipeline
 
-data/
-lectures/
-admin/
-topics/
+To-do:
+* Logic for pix and figures directory
+* Do we want stand-alone html?
+* Can we format lecture notes decently?
+* Date statement is not working in yaml

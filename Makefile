@@ -6,7 +6,7 @@ current: target
 -include target.mk
 
 vim_session:
-	bash -cl "vmt"
+	bash -cl "vmt index.md rweb.mk"
 
 ##################################################################
 
@@ -19,15 +19,25 @@ Sources += $(wildcard docs/html/*.*)
 
 ## docs/index.html: index.md
 
-## Current is for stashing stuff that's in the way
+## Current is for stashing stuff that's not current now, but was current before
 Sources += index.md current.md
 Ignore += index.html
 
 docs/index.html: index.md
-	pandoc $< -o $@ --mathjax -s -B html/header.html -A html/mainfooter.html --css html/qmee.css --self-contained
+	pandoc $< -o $@ --mathjax -s -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --self-contained
 
 Sources += rweb.mk
 -include rweb.mk
+
+######################################################################
+
+## Run things from lectures
+
+lectures/%: $(wildcard lectures/*.rmd)
+	cd lectures && $(MAKE) $*
+
+## lectures/docs/intro_Lecture_notes.slides.html: lectures/intro_Lecture_notes.rmd
+## lectures/docs/intro_Lecture_notes.notes.html: lectures/intro_Lecture_notes.rmd
 
 ######################################################################
 
@@ -36,14 +46,12 @@ Sources += rweb.mk
 %.update:
 	cd $* && $(MAKE) update
 
-## admin
-## admin.update:
-subdirs += admin
+subdirs += admin topics
+subdirs += lectures tips
 
-## topics
-## topics.update:
-subdirs += topics
+######################################################################
 
+Ignore += $(subdirs)
 alldirs += $(subdirs)
 
 update_all: makestuff $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
@@ -51,7 +59,10 @@ update_all: makestuff $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
 local_site: update_all
 	$(MAKE) docs/index.html.go
 
-## all.time:
+old_site: gh-pages
+	$(MAKE) gh-pages/index.html.go
+
+push_all: all.time
 
 ######################################################################
 

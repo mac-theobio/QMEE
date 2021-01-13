@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>README</title>
+  <title>Importing_data</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -84,27 +84,12 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
-<h2 id="biology-708">Biology 708</h2>
-<p>The web site for Biology 708. The user-friendly view is <a href="https://mac-theobio.github.io/QMEE/index.html">here</a>.</p>
-<h2 id="workflow">Workflow</h2>
-<p><strong>Under construction</strong></p>
-<p>Directories with course content: * <repo>/ contains the index document for the website * admin contains administrative materials * topics contains an overview page for each topic (roughly a week (or optional week) of the course * lectures contains lecture material * tips contains additional material from us</p>
-<p>All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.</p>
-<p>Some make rules: * update_all is meant to remake the site * push_all should push the main directory and all of the active subdirectories * local_site opens a local-file-based version of the site * old_site opens a local-file-based version of the 2019 site from the gh-pages directory</p>
-<p>Here are some other directories that we currently have:</p>
-<ul>
-<li>data/</li>
-<li>figure/</li>
-<li>html/</li>
-<li>makestuff/</li>
-<li>oldSource/</li>
-<li>pix/</li>
-<li>topics/</li>
-</ul>
-<p>Here is a directory we should have (but we may want to think carefully about how to make things there):</p>
-<ul>
-<li>lectures/</li>
-</ul>
+<h1 id="reproducibility">Reproducibility</h1>
+<p>Once you get something to work, save a copy of the commands you are using in a file. When you are done, start R from scratch (you should avoid <em>ever</em> saving an R session from the interactive prompt when you type <code>q()</code>), and make sure that the commands you have saved do what you think.</p>
+<p>You may try running R in “vanilla” mode. This will stop it from trying to save its state to a default file, and also from automatically reading a default state.</p>
+<p><em>More on this subject later.</em></p>
+<h1 id="locality">Locality</h1>
+<p>Your R scripts are most portable and flexible if they don’t need paths to data files. The easiest way to do this is to put your R scripts and data in the same directory, and start R from this directory. Let us help you figure out how to do this on your machine.</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>
