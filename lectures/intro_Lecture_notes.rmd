@@ -1,20 +1,10 @@
 ---
 title: "Introduction to R"
 author: Jonathan Dushoff and Ben Bolker
-date: "`r format(Sys.time(),"%d %B %Y")`"
-slide_level: 3
-output: html_document
+date: 2015-2021
 ---
 
 <!-- rendering
- HTML:
-   rmarkdown::render("intro_Lecture_notes.rmd")
-   rmarkdown::render("intro_Lecture_notes.rmd",output_format="ioslides_presentation")
-   NOTE slide_level=3 doesn't do what I want! Makes section headers <3 into *section slides* ...
-
-   rmarkdown::ioslides_presentation("intro_Lecture_notes.rmd",header_level=3)
-
-
 https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_presentation
    -->
 
@@ -24,7 +14,6 @@ opts_chunk$set(results="hide")
 ```
 
 <!-- BMB: not sure what this stuff is for?  Was it hidden in a previous version?  How is it helpful? -->
-
 <!-- in markdown, two or more spaces at the end of a line specify a hard line break-->
 
 # Basics
@@ -93,10 +82,11 @@ str(char)
 logic <- TRUE ## No quotes
 str(logic)
 ```
+## Rstudio view
 
 You can also switch to the "Grid View" in the Environment tab in RStudio.
 
-![](pix/gridview.png)
+![](../pix/gridview.png)
 
 ## Other types
 
@@ -136,6 +126,8 @@ v+w
 
 R does not have any particular idea of individual numbers (or strings,
 etc.); you represent a number as a vector of length 1.
+
+JD calls this the Original Sin of S
 
 ## Lists
 
@@ -289,7 +281,7 @@ Similarly, you usually don't need to say `return` to return a function value ...
 
 Clarity and explicitness are worth more than saving a few keystrokes.
 
-* When R was invented, this was less clear
+* When R was invented, this was less clear than it is now
 
 ## Selecting
 
@@ -299,62 +291,3 @@ the object has dimensions, you can separate them with a comma.
 
 You can also select things by name, using the syntax `v["name"]` or
 `v[n]`, if `n` is a variable that contains the name. Use names instead of numbers whenever you can, because (1) your code will be easier to read (`x["temperature"]` instead of `x[21]`) and (2) your code will be more robust (e.g., if something changes so that temperature is now in position 22 rather than 21).
-
-## Selection example
-
-```{r indexing}
-# InsectSprays is a built-in data set in R
-class(InsectSprays)
-head(InsectSprays)
-names(InsectSprays)
- 
-# Select the first list element of InsectSprays
-InsectSprays[[1]]
- 
-# Select a subset of InsectSprays containing only the first list element
-InsectSprays[1]
- 
-# Select the first column of InsectSprays
-InsectSprays[, 1]
- 
-# Select part of the first column of InsectSprays
-InsectSprays[1:10, 1]
- 
-# Select the first list element of InsectSprays by name
-InsectSprays[["count"]]
- 
-# Use a convenient but sometimes dangerous short-cut for this
-InsectSprays$count
-```
-
-## Arcane
-
-You may have been surprised by the column-selection results. We used the
-subset operator, but got a single element instead. R noticed we only
-selected one thing, and "collapsed" the object for our "convenience".
-This sort of thing is a common problem in R, probably due to its rather
-ancient history, and the tension between structure and convenience
-(particularly convenience for interactive use).
-
-In programs, it is bad practice to let R do this (because it will
-confuse the program when the structure of your results changes). In this
-case, you can avoid it by selecting from the list.
-
-<!-- COMMENT
-
-Not worth bothering people with this on day 1 ???
-
-## Being explicit
-
-It's unfortunate that R makes you do stuff like this…
-
-```{r arcane}
-# A data frame
-InsectSprays[, 1:2]
-#  An inappropriate "collapse" to a simpler form
-InsectSprays[, 1]
-# Avoid inappropriate collapse
-InsectSprays[, 1, drop=FALSE]
-```
-
--->
