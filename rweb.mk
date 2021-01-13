@@ -11,10 +11,11 @@ docs:
 ../docs/$(dname):
 	$(mkdir)
 
+## html directory likewise
+## (pushed in repo root, this rule only applies in subdirectories)
 Ignore += html
 html:
-	(ls -d docs/$@ && ln -s docs/$@ .) \
-	|| ((cd .. && $(MAKE) $@) && (ln -s ../$@ .))
+	(ls -d $@ && ln -s $@ .)
 
 ######################################################################
 
