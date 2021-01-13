@@ -1,10 +1,8 @@
 ---
 title: Quantitative Methods in Ecology and Evolution
 ---
-<!--- This is how you make a comment
--->
 
-<!--- 
+<!--- COMMENT
 ## Current
 
 ### Each week:
@@ -24,7 +22,6 @@ Mon 3 April and Wed 5 April
 ### Final project
 
 * Email us to tell us when it's time to look
-<!-- COMMENT
 * _Tell us_ if you can't submit by Friday at noon
 * _Ask us_ if you can't submit by Tue at 9:30
 COMMENT -->
@@ -33,7 +30,7 @@ COMMENT -->
 
 ## News
 
-We will hold an organizational meeting at ...
+The first course meeting will be 
 
 ## Course information
 
@@ -42,7 +39,10 @@ We will hold an organizational meeting at ...
 
 ## Course schedule
 
-_This schedule is subject to change._
+Course meetings will be:
+
+* Tuesdays at 10:30
+* Xdays at 11:30
 
 ### Foundations
 

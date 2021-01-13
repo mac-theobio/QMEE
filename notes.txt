@@ -1,20 +1,13 @@
-Import flow
------------
 
-Do{
-* Make .new
-* Make .tmk
-* Check for new super-pages (pages with subpages)
-* Make patterns for the super-pages in mdtrim.pl and Makefile
-* touch tmk.pl
-} While super-pages have not been resolved
+Tonight:
+* add schedule to index
+* make topics directory and install at least the first topic
+* take a look and hand over to Bolker
 
-* Execute the make statement from the .tmk
+Tomorrow:
+* make lectures; make a lecture pipeline
 
-Cloning
--------
-
-The whole thing is very close to working without local.mk ... but not quite. The pages branch crashes first time it tries to branch. It would probably work if you just cat $PWD into local.mk after you clone. Or if you made in pages more than once ... -$(MAKE); $(MAKE) <branch>.
-
-But I'm going to make myself stop!
-
+data/
+lectures/
+admin/
+topics/
