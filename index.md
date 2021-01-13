@@ -3,27 +3,6 @@ title: Quantitative Methods in Ecology and Evolution
 ---
 
 <!--- COMMENT
-## Current
-
-### Each week:
-
-* A brief project report by email on Friday; let us know if you have any questions we can address
-
-### Presentations
-
-Mon 3 April and Wed 5 April
-
-* Let us know if you want to request a day or time
-* Your presentation should take 10 minutes or less: try to keep it clear and simple
-* Don't over-prepare; the presentation should be an informal overview and progress report
-	* Don't let the presentation preparation interfere with the actual project
-	* Don't even start preparing your presentation until the Wed or Fri before (depending on when you are presenting)
-
-### Final project
-
-* Email us to tell us when it's time to look
-* _Tell us_ if you can't submit by Friday at noon
-* _Ask us_ if you can't submit by Tue at 9:30
 COMMENT -->
 
 * This web page is __under construction__. Some material may current be leftover from previous instances of the course.
@@ -31,7 +10,11 @@ COMMENT -->
 ## Course information
 
 -   [Course description](admin/description.html)
+
 <!--- COMMENT
+2021 Jan 13 (Wed): moved a bunch of stuff we archived at the end of last semester to current.md
+
+We should edit and activate the Assignments below
 -   [Assignments](admin/assignments.html)
 COMMENT -->
 
@@ -40,7 +23,7 @@ COMMENT -->
 Course meetings will be on [our Team](https://teams.microsoft.com/l/team/19%3a21a7d8d05a1e4a69a238876af57b148b%40thread.tacv2/conversations?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772):
 
 * Tuesdays 9:30-11:20
-* Fridays 11:30-12:20
+* Thursdays 11:30-12:20
 
 There will also be some asynchronous content
 
