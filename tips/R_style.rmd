@@ -1,7 +1,7 @@
 ---
 title: "Bio 708/theobio style guide"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-bibliography: "qmee.bib"
+bibliography: "../qmee.bib"
 ---
 
 Follow Hadley Wickham's [style guide](http://adv-r.had.co.nz/Style.html), adapted from [Google's style guide](https://google.github.io/styleguide/Rguide.xml) (HW's link to Google is broken). Some of the differences between Google and HW are:
