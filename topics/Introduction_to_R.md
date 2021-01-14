@@ -46,9 +46,9 @@ Resources
     page](http://cran.r-project.org/manuals.html)
 
 *   Course material
-    *   [Lecture notes](../lectures/intro_R.html)
-    *   [tidyverse](../lectures/intro_tidyverse.html)
-    *   [Importing data](../tips/Importing_data.html)
+    *   Lecture notes ([slides](../lectures/intro_R.slides.html), [notes](../lectures/intro_R.notes.html))
+    *   tidyverse  ([slides](../lectures/intro_tidyverse.slides.html), [notes](../lectures/intro_tidyverse.notes.html))
+    *   [Importing data](../tips/Importing_data..html)
     *   [Running R](../tips/Running_R.html)
 
 Tuesday
