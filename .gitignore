@@ -242,3 +242,9 @@ private/
 .gitignore
 \#*
 .#*
+topics/docs
+tips/docs
+lectures/docs
+topics/html
+tips/html
+lectures/html
