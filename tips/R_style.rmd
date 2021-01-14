@@ -1,7 +1,7 @@
 ---
 title: "Bio 708/theobio style guide"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-bibliography: "../qmee.bib"
+bibliography: "qmee.bib"
 ---
 
 Follow Hadley Wickham's [style guide](http://adv-r.had.co.nz/Style.html), adapted from [Google's style guide](https://google.github.io/styleguide/Rguide.xml) (HW's link to Google is broken). Some of the differences between Google and HW are:
@@ -17,6 +17,7 @@ In addition:
 - don't use file names with spaces or parentheses (or other special characters such as `&`)
 - don't depend on case sensitivity for anything important
 - don't put `rm(list=ls())` at the top of your code [@bryan_project-oriented_2017]
+	- Instead, have the habit of restarting R (there's a hotkey in rstudio)
 - always use `TRUE` and `FALSE` rather than `T`/`F` (is this in the other style guides already???)
 - loading packages:
     - use `library()` instead of `require()` to load packages
