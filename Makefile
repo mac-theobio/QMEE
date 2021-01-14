@@ -64,6 +64,9 @@ old_site: gh-pages
 
 push_all: all.time
 
+dateup:
+	touch docs/*.html docs/*/*.html
+
 ######################################################################
 
 ## Old content
