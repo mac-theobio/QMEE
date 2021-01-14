@@ -23,8 +23,8 @@ md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
 
 mdhdocs = $(md:%.md=docs/%.html)
-rmdnotes = $(rmd:%.md=docs/%.notes.html)
-rmdslides = $(rmd:%.md=docs/%.slides.html)
+rmdnotes = $(rmd:%.rmd=docs/%.notes.html)
+rmdslides = $(rmd:%.rmd=docs/%.slides.html)
 
 update: $(mdhdocs) $(rmdnotes) $(rmdslides)
 
