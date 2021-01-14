@@ -46,7 +46,7 @@ Resources
     page](http://cran.r-project.org/manuals.html)
 
 *   Course material
-    *   [Lecture notes](intro_Lecture_notes.html)
+    *   [Lecture notes](intro_R.html)
     *   [tidyverse](intro_tidyverse.html)
     *   [Importing data](Importing_data.html)
     *   [Running R](Running_R.html)
