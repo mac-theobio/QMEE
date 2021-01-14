@@ -1,6 +1,6 @@
 ---
 title: "Bio 708/theobio style guide"
-date: `r format(Sys.time(),"%d %b %Y")`
+date: "`r format(Sys.time(), '%d %B %Y')`"
 bibliography: "qmee.bib"
 ---
 
