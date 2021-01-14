@@ -93,7 +93,7 @@ Sources += orphans.mk
 
 ### Makestuff
 
-Sources += Makefile README.md notes.txt TODO.md .gitignore
+Sources += Makefile README.md notes.txt TODO.md
 
 msrepo = https://github.com/dushoff
 ms = makestuff
