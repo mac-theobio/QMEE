@@ -290,6 +290,7 @@ guess and warn you if you wrongly try to use `=`, but not always ...)
 You may have noticed that we sometimes just type a variable's name in order to
 print its value. It's better
 practice to always say `print`, when that's what you want.
+
 * Clearer, and less fragile
 
 Similarly, you usually don't need to say `return(x)` to return a function value ... but you should. 
