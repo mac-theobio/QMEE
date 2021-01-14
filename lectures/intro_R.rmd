@@ -206,7 +206,7 @@ include:
 ## Style
 
 In addition to function naming there are lot of details (such as indentation) that make your code
-easier to read. Check out the [style guide](../tips/R_style.html)
+easier to read. Check out the [style guide](../tips/R_style.notes.html)
 
 # Compound objects
 
