@@ -1,7 +1,8 @@
 ---
 title: "Introduction to R"
-author: Jonathan Dushoff and Ben Bolker
-date: 2015-2021
+author: "Jonathan Dushoff and Ben Bolker"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+bibliography: "../qmee.bib"
 ---
 
 <!-- rendering
@@ -10,7 +11,7 @@ https://www.rdocumentation.org/packages/rmarkdown/versions/1.3/topics/ioslides_p
 
 ```{r opts,echo=FALSE}
 library(knitr)
-opts_chunk$set(results="hide")  
+opts_chunk$set(results="hide")   ## because we want to discuss the pieces
 ```
 
 <!-- BMB: not sure what this stuff is for?  Was it hidden in a previous version?  How is it helpful? -->
@@ -20,15 +21,15 @@ opts_chunk$set(results="hide")
 
 ## R is a programming language
 
-- You may or may not use R for programming tasks,  but it will help if you understand roughly how it works inside
+- You might not use R for programming,  but it will help if you understand roughly how it works inside
 - What is a program?
     - A program is a collection of simple instructions (read, write, send, manipulate, calculate) that should be executed in a logical order
     - A program's flow is controlled by *control structures* (instructions about what instruction to do next)
-    - What are some examples of programs, and how do they work?
+<!--    - What are some examples of programs, and how do they work?  -->
 
 ## Calculation
 
-R works as a calculator.
+R works as a (very fancy) calculator.
 
 ```{r arithmetic}
 2+2
@@ -55,10 +56,12 @@ order.
 ```{r assign}
 x <- 23
 print(x)
-x + 17
+x + 17        ## no assignment!
+print(x)
 y <- x + 17
-y
+y             ## symbol by itself is shorthand for "print"
 ```
+
 
 # Objects
 
@@ -82,6 +85,7 @@ str(char)
 logic <- TRUE ## No quotes
 str(logic)
 ```
+
 ## Rstudio view
 
 You can also switch to the "Grid View" in the Environment tab in RStudio.
@@ -112,8 +116,8 @@ R does math on vectors directly.
 <!-- this flavor of markdown / pandoc needs an empty line before an itemized list -->
 
 * If we add (for example) two vectors we add each pair of corresponding elements.
-* If we multiply a vector by a *scalar* (a single number) we multiply each element by the scalar.
-* Avoid arithmetic involving two vectors of different length
+* If we multiply a vector by a *scalar* (a single number, in R really just a vector of length 1!) we multiply each element by the scalar.
+* Arithmetic involving two vectors of different length is possible but dangerous (what happens??)
 
 ```{r vector_math}
 v <- 1:5
@@ -122,12 +126,15 @@ v+w
 2*w
 ```
 
+<!--
 ## No scalars
 
 R does not have any particular idea of individual numbers (or strings,
 etc.); you represent a number as a vector of length 1.
 
 JD calls this the Original Sin of S
+
+-->
 
 ## Lists
 
@@ -177,7 +184,7 @@ mean(x, trim=0.1)
 ## Function syntax
 
 `=` is a synonym for `<-` at the top level (and many people use it).
-Be aware that they are not synonyms inside a function call: `<-`
+Be aware that **they are not synonyms inside a function call**: `<-`
 still means assignment, but `=` is used to name an argument. `mean(x, trim <- 0.1)` **does not do what you think it does**.
 
 ## Variable names
@@ -189,11 +196,17 @@ R variable names have to start with a letter, and certain characters
 (particularly space characters) are not allowed. Good naming conventions
 include:
 
-* Using mostly letters, underscores (`_`) and dots (`.`)
-* Avoiding potentially confusing names like `l` or `O`.
-* Avoiding built-in names (like `c`, `t`, `list`, or `data`) for variables.
-* Making readable variable names using `camelCase`, `snake_case`, or `kebab.case`
-*   Avoiding `variableNamesThatAreExcessivelyLong`
+* Use mostly letters, underscores (`_`) and dots (`.`)
+* Avoid potentially confusing names like `l` or `O`.
+* Avoid built-in names (like `c`, `t`, `list`, or `data`) for variables.
+* Make readable variable names using `camelCase`, `snake_case`, or `kebab.case`
+*   Avoid `variableNamesThatAreExcessivelyLong`
+*   Be consistent! [@baath_state_2012]
+
+## Style
+
+In addition to function naming there are lot of details (such as indentation) that make your code
+easier to read. Check out the [style guide](../tips/R_style.html)
 
 # Compound objects
 
@@ -201,10 +214,10 @@ include:
 
 R is a sophisticated system that builds complicated structures on top of
 these simple objects. Hopefully we'll develop an intuition for more of
-that as we go along. People interested in nuts and bolts can also look
-at the (rather scary!) R language definition on the [R manuals
-page](http://cran.r-project.org/manuals.html). For now, we'll talk about
+that as we go along. For now, we'll talk about
 just a few structures.
+
+<!-- 
 
 ## Matrices
 
@@ -224,11 +237,13 @@ m*m
 # Matrix multiplication
 m %*% m
 ```
+-->
 
 ## Data frames
 
-Data frames are sets of lists organized into a rectangle (they look like, and
-can be used a like matrices, but don't have to be of a single "mode" -
+Data frames are lists of vectors organized into a rectangle (each column
+is a vector; the columns all have to be the same length and every column
+has to be homogeneous **but** every column can be a different mode:
 in particular you can mix numbers, factors (see below), dates, ...).
 
 We'll talk more about data frames when we start dealing with data.
@@ -237,8 +252,8 @@ We'll talk more about data frames when we start dealing with data.
 
 ## Factors
 
-Factors are used to describe items that can have a known set of values
-(gender, social class, etc.) - *categorical variables* in statistical
+Factors are used to describe items that can have a discrete, known set of values
+(ice cream flavour, species, social class, etc.) - **categorical variables** in statistical
 terms. We will also talk more about them later.
 
 # More stuff
@@ -255,7 +270,7 @@ v <- 1:10
 for (x in v) {
   print(x^2)
 }
-for (x in v){
+for (x in v) {
     if(x>=4) {
         print(x^2)
     }
@@ -264,30 +279,40 @@ for (x in v){
 
 ## Control syntax
 
-R uses `==` to test equality, and `!=` to test inequality. (R will often
+R uses `==` to test whether two objects are equal, and `!=` to test if they are not equal. (R will often
 guess and warn you if you wrongly try to use `=`, but not always ...)
 
 * Use `&` for "and", and `|` for "or" when testing vectors in parallel
-	* `&&` and `||` test single conditions; it's usually OK to stick to `&` and `|`.
+* `&&` and `||` test single conditions; if you are using `if()` you should use them, but you can usually get away with sticking to `&` and `|` if you're confused.
 
 ## Syntactic principles
 
-You may have noticed that we sometimes just state something in order to
+You may have noticed that we sometimes just type a variable's name in order to
 print its value. It's better
 practice to always say `print`, when that's what you want.
+
 * Clearer, and less fragile
 
-Similarly, you usually don't need to say `return` to return a function value ... but you should. 
+Similarly, you usually don't need to say `return(x)` to return a function value ... but you should. 
 
 Clarity and explicitness are worth more than saving a few keystrokes.
-
-* When R was invented, this was less clear than it is now
 
 ## Selecting
 
 You can select single elements from an R object using the element
 operator `[[]]`, and subsets using the subset operator `[]`. If
-the object has dimensions, you can separate them with a comma.
+the object has rows and columns, you can separate them with a comma.
 
 You can also select things by name, using the syntax `v["name"]` or
 `v[n]`, if `n` is a variable that contains the name. Use names instead of numbers whenever you can, because (1) your code will be easier to read (`x["temperature"]` instead of `x[21]`) and (2) your code will be more robust (e.g., if something changes so that temperature is now in position 22 rather than 21).
+
+# Philosophical principles
+
+---
+
+- you can't break anything with R: experiment!
+- periodically run your code from a clean R session to make sure it works from start to finish
+- don't ignore warning messages
+- **read** error messages (and Google them!) rather than guessing
+
+## References

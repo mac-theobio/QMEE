@@ -1,5 +1,6 @@
 ---
 title: "Week 1: Introduction to R"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
 
 If you have trouble with any of the steps below you can get help in class, or you can ask in the [MS Teams channel for software/programming help](https://teams.microsoft.com/l/channel/19%3a3c021513cf48476bb902c8350ef91e93%40thread.tacv2/Software%2520and%2520programming%2520help?groupId=265918a5-0ac6-41d8-95c9-b0b1563f87f5&tenantId=44376307-b429-42ad-8c25-28cd496f4772)
@@ -46,10 +47,10 @@ Resources
     page](http://cran.r-project.org/manuals.html)
 
 *   Course material
-    *   [Lecture notes](intro_Lecture_notes.html)
-    *   [tidyverse](intro_tidyverse.html)
-    *   [Importing data](Importing_data.html)
-    *   [Running R](Running_R.html)
+    *   Lecture notes ([slides](../lectures/intro_R.slides.html), [notes](../lectures/intro_R.notes.html))
+    *   tidyverse  ([slides](../lectures/intro_tidyverse.slides.html), [notes](../lectures/intro_tidyverse.notes.html))
+    *   [Importing data](../tips/Importing_data..html)
+    *   [Running R](../tips/Running_R.html)
 
 Tuesday
 =========

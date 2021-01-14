@@ -21,7 +21,7 @@ include ../rweb.mk
 
 ######################################################################
 
-update: intro_Lecture_notes.lecture intro_tidyverse.lecture
+update: intro_R.lecture intro_tidyverse.lecture
 
 ######################################################################
 

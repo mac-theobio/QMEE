@@ -11,6 +11,7 @@ vim_session:
 ######################################################################
 
 Sources += $(wildcard *.md)
+Sources += $(wildcard *.rmd)
 
 ## make should make a docs/ subdirectory here which maps to 
 ## an admin subdirectory in docs
