@@ -17,12 +17,12 @@ In addition:
 - don't use file names with spaces or parentheses (or other special characters such as `&`)
 - don't depend on case sensitivity for anything important
 - don't put `rm(list=ls())` at the top of your code [@bryan_project-oriented_2017]
-	- Instead, have the habit of restarting R (there's a hotkey in rstudio)
+	- Instead, have the habit of restarting R (`Session > Restart R` or via hotkey in RStudio)
 - always use `TRUE` and `FALSE` rather than `T`/`F` (is this in the other style guides already???)
 - loading packages:
     - use `library()` instead of `require()` to load packages
 	- load all of the packages you're going to use in a script at the top of the script
-	- don't use `install.packages()` in a script (unless it's commented out)
+	- don't use `install.packages()` in a script (unless it's commented out)	
 - surround multi-line expressions with parentheses instead of relying on R's rule that statements should be carried on to the next line when the line ends with a binary operator (usually `+`, `%>%`). For example,
 ```{r cont1,eval=FALSE}
 thing <- (thing %>%
