@@ -31,7 +31,7 @@ Sources += rweb.mk
 
 ######################################################################
 
-## Run things from lectures
+## Manual lectures
 
 lectures/docs/%.html: $(wildcard lectures/*.rmd)
 	cd lectures && $(MAKE) $*
@@ -66,6 +66,14 @@ push_all: all.time
 
 dateup:
 	touch docs/*.html docs/*/*.html
+
+######################################################################
+
+## Data index
+
+Sources += $(wildcard data/*.*)
+
+data/index.md:
 
 ######################################################################
 
