@@ -5,12 +5,17 @@ title: Quantitative Methods in Ecology and Evolution
 <!--- COMMENT
 COMMENT -->
 
-* This web page is __under construction__. Some material may current be leftover from previous instances of the course.
+* This web page is (permanently) __subject to change__.
 
 ## Course information
 
 - [Course description](admin/description.html)
 - [Information on assignments](admin/assignments.html)
+- Course material is in three places:
+   - here
+   - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
+   - classes and discussion forums on [MS Teams](https://teams.microsoft.com/l/team/19%3a21a7d8d05a1e4a69a238876af57b148b%40thread.tacv2/conversations?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772)
+   - communication will be by e-mail or on Teams
 
 ## Course schedule
 
