@@ -26,7 +26,7 @@ Before Tuesday
 
 * Unless you already have one, [sign up for a github account](https://github.com) (click the big green "Sign up for GitHub" button)
 	* You may want to read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
-* If you're on MacOS, try to [install XCode](https://developer.apple.com/download/).
+* If you're on MacOS, try to install XCode (following the instructions [here](https://happygitwithr.com/install-git.html#macos) or starting [here](https://developer.apple.com/download/)).
 * e-mail your GitHub account name to <bio708qmee@gmail.com>
 * Get as far as you can through the following steps:
     * Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan's [Happy Git with R](https://happygitwithr.com/)

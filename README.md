@@ -25,10 +25,9 @@ Consider using `make dateup` after pulling but before working; this will deal wi
 
 Here are some other directories that we currently have:
 
-* data/
-* figure/
-* html/
-* makestuff/
-* oldSource/
-* pix/
-* topics/
+* `data/` what it says
+* `pix/`  miscellaneous non-workflow-generated images
+* `oldSource/` 
+* `makestuff/` machinery
+* `html/` machinery
+
