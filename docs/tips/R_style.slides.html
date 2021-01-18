@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-01-15" />
+  <meta name="date" content="2021-01-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3195,7 +3195,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">15 January 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">17 January 2021</p>
           </hgroup>
   </slide>
 
@@ -3211,22 +3211,42 @@ slide:not(.current) .plotly.html-widget{
 <p>In addition:</p>
 
 <ul>
-<li>don’t use absolute paths (i.e. <code>C:\\Joe&#39;s Computer\\Important Stuff</code>)</li>
-<li>don’t use file names with spaces or parentheses (or other special characters such as <code>&amp;</code>)</li>
-<li>don’t depend on case sensitivity for anything important</li>
-<li>don’t put <code>rm(list=ls())</code> at the top of your code <span class="cite">(Bryan 2017)</span>
+<li>don’t use names of built-in R objects (especially <code>data</code>, but also: <code>sd</code>, <code>t</code>, <code>dt</code>, <code>df</code>, <code>I</code>, …) for your own variables. <code>fortunes::fortune(77)</code>:</li>
+</ul>
+
+<blockquote>
+<p>Firstly, don’t call your matrix &lsquo;matrix&rsquo;. Would you call your dog &lsquo;dog&rsquo;? Anyway, it might clash with the function &lsquo;matrix&rsquo;. [Barry Rowlingson, R-help (October 2004)]</p>
+</blockquote>
 
 <ul>
-<li>Instead, have the habit of restarting R (<code>Session &gt; Restart R</code> or via hotkey in RStudio)</li>
-</ul></li>
-<li>always use <code>TRUE</code> and <code>FALSE</code> rather than <code>T</code>/<code>F</code> (is this in the other style guides already???)</li>
+<li><strong>don’t</strong> use absolute paths (i.e. <code>C:\\Joe&#39;s Computer\\Important Stuff</code>)</li>
+<li><strong>don’t</strong> use spaces or other special characters (<code>&amp;</code>, <code>#</code>, <code>$</code>, parentheses) in file names (<code>_</code> and <code>.</code> are OK)</li>
+<li><strong>don’t</strong> leave interactive commands like <code>View()</code>, <code>head()</code>, <code>str()</code> in your code [unless commented out]</li>
 <li>loading packages:
 
 <ul>
 <li>use <code>library()</code> instead of <code>require()</code> to load packages</li>
 <li>load all of the packages you’re going to use in a script at the top of the script</li>
-<li>don’t use <code>install.packages()</code> in a script (unless it’s commented out)<br/></li>
+<li><strong>don’t</strong> use <code>install.packages()</code> in a script (unless it’s commented out)<br/></li>
+<li>don’t load a huge list of unnecessary packages (e.g. all of the ones used in class examples); try to load just the ones you need</li>
 </ul></li>
+<li><strong>don’t</strong> depend on case sensitivity for anything important</li>
+<li><strong>don’t</strong> put <code>rm(list=ls())</code> at the top of your code <span class="cite">(Bryan 2017)</span>
+
+<ul>
+<li>instead, get in the habit of restarting R (<code>Session &gt; Restart R</code> or via hotkey in RStudio)</li>
+</ul></li>
+<li>always use <code>TRUE</code> and <code>FALSE</code> rather than <code>T</code>/<code>F</code> (is this in the other style guides already???)</li>
+<li>don’t load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)</li>
+<li><strong>don’t</strong> use &ldquo;extreme tidyverse&rdquo;; e.g. <code>dd %&gt;% pull(x) %&gt;% mean()</code> instead of <code>mean(dd$x)</code></li>
+<li>use <code>count()</code> instead of <code>group_by(..)+summarize(count=n())</code>, <em>or</em> use base-R <code>table</code> [which also spreads the results]: <code>with(your_data,table(var1,var2))</code></li>
+<li>rename bad variable names (long, containing spaces or special characters) near the beginning of your script (with <code>dplyr::rename()</code>)</li>
+<li>use the <code>data=</code> argument whenever possible (e.g. <code>lm()</code>)</li>
+<li>use the <code>*_if()</code>, <code>*_at()</code>, <code>*_all()</code> versions of tidyverse functions (esp. <code>mutate</code> and <code>summarise</code>) to transform multiple columns</li>
+<li>use <code>stopifnot()</code> (or the <code>assertthat</code> package from the extended hadleyverse) to test conditions</li>
+<li>use log scales often, especially for morphometric measurements</li>
+<li>especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]</li>
+<li>use comma-separation to combine multiple <code>mutate()</code> steps</li>
 <li>surround multi-line expressions with parentheses instead of relying on R’s rule that statements should be carried on to the next line when the line ends with a binary operator (usually <code>+</code>, <code>%&gt;%</code>). For example,</li>
 </ul>
 

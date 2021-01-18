@@ -13,16 +13,32 @@ You can use whatever naming conventions you want but **be consistent**.
 
 In addition:
 
-- don't use absolute paths (i.e. `C:\\Joe's Computer\\Important Stuff`)
-- don't use file names with spaces or parentheses (or other special characters such as `&`)
-- don't depend on case sensitivity for anything important
-- don't put `rm(list=ls())` at the top of your code [@bryan_project-oriented_2017]
-	- Instead, have the habit of restarting R (`Session > Restart R` or via hotkey in RStudio)
-- always use `TRUE` and `FALSE` rather than `T`/`F` (is this in the other style guides already???)
+- don't use names of built-in R objects (especially `data`, but also: `sd`, `t`, `dt`, `df`, `I`, ...) for your own variables. `fortunes::fortune(77)`:
+
+> Firstly, don't call your matrix 'matrix'. Would you call your dog 'dog'? Anyway, it might clash with the function 'matrix'. [Barry Rowlingson, R-help (October 2004)]
+
+- **don't** use absolute paths (i.e. `C:\\Joe's Computer\\Important Stuff`)
+- **don't** use spaces or other special characters (`&`, `#`, `$`, parentheses) in file names (`_` and `.` are OK)
+- **don't** leave interactive commands like `View()`, `head()`, `str()` in your code [unless commented out]
 - loading packages:
     - use `library()` instead of `require()` to load packages
 	- load all of the packages you're going to use in a script at the top of the script
-	- don't use `install.packages()` in a script (unless it's commented out)	
+	- **don't** use `install.packages()` in a script (unless it's commented out)	
+	- don't load a huge list of unnecessary packages (e.g. all of the ones used in class examples); try to load just the ones you need
+- **don't** depend on case sensitivity for anything important
+- **don't** put `rm(list=ls())` at the top of your code [@bryan_project-oriented_2017]
+	- instead, get in the habit of restarting R (`Session > Restart R` or via hotkey in RStudio)
+- always use `TRUE` and `FALSE` rather than `T`/`F` (is this in the other style guides already???)
+- don't load your data straight from a URL (best to download and cache the file, in case your network connection is bad or the file disappears/changes)
+- **don't** use "extreme tidyverse"; e.g. `dd %>% pull(x) %>% mean()` instead of `mean(dd$x)`
+- use `count()` instead of `group_by(..)+summarize(count=n())`, *or* use base-R `table` [which also spreads the results]: `with(your_data,table(var1,var2))`
+- rename bad variable names (long, containing spaces or special characters) near the beginning of your script (with `dplyr::rename()`)
+- use the `data=` argument whenever possible (e.g. `lm()`)
+- use the `*_if()`, `*_at()`, `*_all()` versions of tidyverse functions (esp. `mutate` and `summarise`) to transform multiple columns
+- use `stopifnot()` (or the `assertthat` package from the extended hadleyverse) to test conditions
+- use log scales often, especially for morphometric measurements
+- especially when using a linear scale, adjust units so the range can be expressed with small numbers (e.g. 1-5 instead of 1,000,000 to 5,000,000) [or use ggplot scaling/axis break stuff]
+- use comma-separation to combine multiple `mutate()` steps
 - surround multi-line expressions with parentheses instead of relying on R's rule that statements should be carried on to the next line when the line ends with a binary operator (usually `+`, `%>%`). For example,
 ```{r cont1,eval=FALSE}
 thing <- (thing %>%

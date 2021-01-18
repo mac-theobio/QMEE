@@ -9,14 +9,8 @@ COMMENT -->
 
 ## Course information
 
--   [Course description](admin/description.html)
-
-<!--- COMMENT
-2021 Jan 13 (Wed): moved a bunch of stuff we archived at the end of last semester to current.md
-
-We should edit and activate the Assignments below
--   [Assignments](admin/assignments.html)
-COMMENT -->
+- [Course description](admin/description.html)
+- [Information on assignments](admin/assignments.html)
 
 ## Course schedule
 
@@ -25,7 +19,7 @@ Course meetings will be on [our Team](https://teams.microsoft.com/l/team/19%3a21
 * Tuesdays 9:30-11:20
 * Thursdays 11:30-12:20
 
-There will also be some asynchronous content
+There will also be some asynchronous content.
 
 ### Foundations
 
