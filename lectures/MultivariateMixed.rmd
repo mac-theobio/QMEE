@@ -92,7 +92,7 @@ lme4 does not (currently) have a natural syntax for multivariate responses, howe
 
 What we need to first do (for lme4) is to generate a single column that represents the numeric values for our response traits, and then a second variable that stores the trait type.
 
-<img src="../figure/the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;" />
+<img src="../pix/the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;" />
 
 ```{r melt}
 dll_melt <- (dll_data2
