@@ -21,6 +21,8 @@ Some make rules:
 * local_site opens a local-file-based version of the site
 * old_site opens a local-file-based version of the 2019 site from the gh-pages directory
 
+Consider using `make dateup` after pulling but before working; this will deal with time-stamp ambiguity and avoid attempts to remake things that you haven't worked on
+
 Here are some other directories that we currently have:
 
 * data/
@@ -30,7 +32,3 @@ Here are some other directories that we currently have:
 * oldSource/
 * pix/
 * topics/
-
-Here is a directory we should have (but we may want to think carefully about how to make things there):
-
-* lectures/
