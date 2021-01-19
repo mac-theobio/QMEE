@@ -1,0 +1,467 @@
+---
+title: Data management and cleaning
+author: Jonathan Dushoff
+---
+
+<!--- COMMENT
+2019 May 16 (Thu)
+Now making a separate version is statistics_talks repo
+-->
+
+## Goals
+
+* Introduce some principles of data management
+
+* Introduce some practical, modern tools 
+
+* Show some examples
+
+## Data analysis
+
+Data must be:
+
+* Organized
+
+* Cleaned
+
+* Manipulated
+
+* Analyzed
+
+The first three often take the most time, and this is often because researchers undervalue them.
+
+There's never time to do it right ... but there's always time to do it over!
+
+## Structured tools for dealing with data
+
+* dplyr
+* tidyr
+* readr
+
+```{r}
+library(tidyverse)
+```
+
+## A sample data set
+
+```{r village.R}
+villageTable <- read_csv("~/gitroot/malariaImmunity/garki_data/village.csv")
+```
+
+## A sample data set
+
+```{r villageSum.R}
+summary(villageTable)
+```
+
+## A sample data set
+
+```{r parasite.R}
+parasiteTable <- read_csv("~/gitroot/malariaImmunity/garki_data/parademo.csv")
+```
+
+## A sample data set
+
+```{r parasiteSum.R}
+summary(parasiteTable)
+```
+
+## Entering, maintaining and using data
+
+* These are different functions, and often call for different ways of formatting data
+
+* This is why we have computers
+
+## Data entry 
+
+* Convenient for users
+
+* Some amount of redundancy is good (to catch errors)
+	* Some amount of redundancy is good (to catch errors)
+
+* Often a "wide" format (related information on the same row)
+
+## Data use 
+
+* Scanning for patterns and problems
+
+* Making tables for publication
+
+* Making data frames for statistical analysis
+
+## Data maintenance
+
+* Your database is
+	* a logical construct
+		* The core of the data that we maintain and validate
+	* maybe also a software construct
+		* If you are using a database program
+
+* Data in the database is:
+	* Non-redundant
+	* Relational
+	* Often in a "long" format (to signal values that are comparable)
+
+## Redundancy
+
+You don't want any redundancy in your database (although you might for entry or analysis)
+
+* Removing redundancies is a great way to check data integrity
+
+* Non-redundant information can be updated conveniently
+	* and without introducing new errors
+	* and without introducing inconsistencies
+
+## Example
+
+```{r}
+head(parasiteTable)
+```
+
+## Tidy data
+
+* No redundancy
+
+* Break data into separate tables following the logic of the data
+
+* Clear "keys" to describe the information in each row
+	* Non-redundant, unique identifiers
+	* Village table has village (number) as the key
+	* Measurement table has id, survey as the key'
+
+## Relational
+
+Break data into logical tables
+
+* Information at the level where it belongs:
+	* Sampling event
+	* Individual
+	* Household
+	* Village
+	* Village group
+
+## Tidy example
+
+```{r echo=FALSE}
+load("~/gitroot/disease_model_talks/live.RData")
+sim <- as.tibble(sim)
+```
+
+```{r}
+print(sim)
+```
+
+## Gathering makes things tidy
+
+* Use long structure to mark things that are comparable, or have the same units
+
+```{r}
+longsim <-  gather(sim, class, people, S:R)
+print(longsim)
+```
+
+## Spreading can make things more human-readable
+
+```{r}
+print(spread(longsim, class, people))
+```
+
+## Flow
+
+* Put input data into a tidy, relational form
+	* Clean on the way
+	* This is your database, whether you use database software or not
+
+* Clean, maintain and merge data in the database
+
+* Export files for analysis, presentation, etc.
+	* You may wind up rebuilding files like the ones you started with
+	* They are now quality-checked, and may also be easier to update
+
+# Importing
+
+## Summarize
+
+* Check that numbers are numbers, dates are dates, etc.
+
+```{r}
+villageTable <- (villageTable
+	%>% mutate(village=as.factor(village))
+)
+summary(villageTable)
+```
+
+## List
+
+* Make lists of what occurs with what (and how many times)
+
+```{r}
+print(villageTable
+	%>% group_by(vname, vu)
+	%>% summarize(count = n())
+)
+```
+
+## ...
+
+* The computer is your friend
+
+```{r}
+print(villageTable
+	%>% group_by(vname, vu)
+	%>% summarize(count = n())
+	%>% filter(count>1)
+)
+```
+
+## ...
+
+* and you always want to check yourself
+
+```{r}
+print(villageTable
+	%>% group_by(vname)
+	%>% summarize(count = n())
+	%>% filter(count>1)
+)
+```
+
+## Making relational tables
+
+If we had data like the ```parasiteTable```, we would want to break it into
+
+* A table at the level of people
+
+* A table at the level of sampling events
+
+* A table at the level of measurements
+
+This process leads to improved clarity, __and improved cleaning__
+
+## Parasite table
+
+```{r}
+print(parasiteTable
+	%>% group_by(id, village, compound)
+	%>% summarize(count=n())
+)
+
+```
+
+
+## Parasite table
+
+```{r}
+print(parasiteTable
+	%>% group_by(id, village, compound)
+	%>% summarize(count=n())
+	%>% group_by(id)
+	%>% summarize(count=n())
+	%>% filter(count>1)
+	%>% arrange(desc(count))
+)
+
+```
+
+## Explore ranges
+
+```{r pophist.R}
+print(ggplot(villageTable, aes(x=population))
+	+ geom_histogram()
+)
+```
+
+## Explore ranges
+
+Show figure again?
+
+# Correction tables
+
+## Mistakes
+Let's say you find an obvious error in your data
+
+```{r echo=FALSE}
+ctab <- (data.frame(
+	country=(c("Kenya", "Uganda", "Ungada", "Vietnam"))
+	, continent=(c("Africa", "Africa", "Africa", "Asia"))
+	, count=(c(23, 31, 1, 16))
+))
+print(ctab)
+```
+
+How should you fix it?
+
+## A table
+
+A table:
+
+* respects the original data
+* records your decision
+* is transparent to yourself and others
+* __fixes the mistake again, if it happens again__
+
+```{r echo=FALSE}
+	cortab <- data.frame(country="Ungada", patchcountry="Uganda")
+	print(cortab)
+```
+
+* Make a csv with an editor or spreadsheet program
+
+## Patching
+
+* Fix the problem as far "upstream" as possible
+
+* Not the count table (as I'm doing here)
+
+```{r}
+patchTab <- (ctab
+	%>% left_join(cortab)
+)
+print(patchTab)
+```
+
+## ...
+
+```{r echo=FALSE}
+print(patchTab)
+```
+
+## NA logic is scary
+
+NA means "Something I don't know". You don't get the answers you expect if you compare things to NA:
+
+
+```{r}
+"Jonathan" == NA
+```
+
+## Finish the patch, being careful
+
+
+```{r}
+ctab <- (patchTab
+	%>% mutate(country=ifelse(is.na(patchcountry), country, patchcountry))
+	%>% select(-patchcountry)
+)
+print(ctab)
+```
+
+## Be careful-er
+
+```{r}
+ctab <- (patchTab
+	%>% mutate(country=ifelse(is.na(patchcountry), country, 
+		as.character(patchcountry)))
+	%>% select(-patchcountry)
+)
+print(ctab)
+```
+
+* Never be afraid to break pipes up or put them back together.
+
+## Factors
+
+* R likes to convert characters to factors
+
+* Factors can be useful, but they're more often weird
+
+* Be aware of this as a possible problem
+
+* The more you use tools from the tidy family, the less this will happen
+
+## Dictionary tables
+
+* You might want to summarize a factor variable into categories that you define
+
+* In this case you could use a similar table (Ungada $\to$ Uganda), but different logic
+	* You only want to keep the new version
+	* ... and check for cases where the original is not matched
+
+## Making dictionaries
+
+```{r echo=FALSE}
+religTab <- (
+	read.table("~/gitroot/Circumcision_and_behaviour/religion_basic.ccsv"
+		, sep=":", strip.white=TRUE, header=FALSE
+		, stringsAsFactors=FALSE, na.strings=""
+	)
+	%>% as.tibble()
+	%>% transmute(category=V2, code=V1)
+)
+```
+Print out all the codes for a particular variable, and see what you think of them
+
+```{r}
+print(religTab
+	%>% select(code)
+	%>% distinct()
+)
+```
+
+## Coders can be funny
+```{r}
+print(religTab
+	%>% select(code)
+	%>% distinct()
+	%>% filter(grepl("^M", code))
+)
+```
+
+## Build a dictionary
+
+You should start by editing the output from your previous step
+
+```{r}
+print(religTab)
+```
+
+## Using a dictionary
+
+Start the same way as before.
+
+```{r echo=FALSE}
+churchTab <- data.frame(
+	person = c("Ntombikayise", "Gao Zhong", "Mafalda", "Bill")
+	, religion = c("Mulsim", "Anglican", "Angler", "Roman catholic")
+)
+print(churchTab)
+```
+
+```{r}
+patchTab <- (churchTab
+	%>% left_join(religTab, by=c("religion"="code"))
+) %>% print()
+```
+
+### ...
+
+```{r echo=FALSE}
+print(patchTab)
+```
+
+## Dictionary replacement
+
+But use different logic for replacement
+
+```{r}
+catTab <- (patchTab
+	%>% mutate(religion=category)
+	%>% select(-category)
+) %>% print()
+```
+
+## Play with your data
+
+* Don't touch the original data
+* Make scripts and make sure that they are replicable
+* Don't be afraid to play, experiment, probe
+* You want to like your data-manipulation tools, and get your data as clean as possible
+
+## Summary
+
+* Let the computer serve you
+	* Input in the form that you want to input
+	* Manage in the tidy form that is efficient and logical
+	* Output in the way you want to output
+
+* Be aggressive about exploring, questioning and cleaning
