@@ -1,6 +1,5 @@
 
-## docs directory should be made by hand in repo root directory and pushed
-## Then it never needs to be made again
+## Original docs directory made by hand in repo root directory and pushed
 
 dname = $(notdir $(CURDIR))
 docs:

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Topic: Data management</title>
+  <title>More_bits_and_pieces</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -84,44 +84,51 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
-<header id="title-block-header">
-<h1 class="title">Topic: Data management</h1>
-</header>
-<h1 id="goals">Goals</h1>
+<h2 id="r-resources">R resources</h2>
 <ul>
-<li>We will discuss some principles of data management, data flow and reproducible research</li>
-<li>Participants will continue to practice with R, and will examine their data and make some products</li>
-</ul>
-<h1 id="resources">Resources</h1>
+<li>Basic help: <code>help(&quot;topic&quot;)</code>, <code>?&quot;topic</code></li>
+<li>Search all installed packages: <code>help.search()</code></li>
+<li>Find functions or objects containing a string: <code>apropos()</code></li>
+<li>Search all of CRAN: <code>library(&quot;sos&quot;);</code> <code>findFn(...)</code> (<strong>amazingly useful</strong>)</li>
+<li><a href="http://www.maths.lancs.ac.uk/~rowlings/R/TaskViews/">Task views</a>
 <ul>
-<li><a href="tips/Managing_data_in_R.html">Managing data in R</a>
-<ul>
-<li><a href="lectures/cleaning.html">Lecture notes</a>; <a href="lectures/cleaning.slides.html">slides</a></li>
+<li>Functionality for specific areas</li>
+<li>See especially <a href="http://cran.r-project.org/web/views/Phylogenetics.html">Phylogenetics</a>, <a href="http://cran.r-project.org/web/views/Environmetrics.html">Environmetrics</a> (ignore the silly name)</li>
+<li><code>ctv</code> package (installs all packages associated with a Task View)</li>
 </ul></li>
-<li><a href="tips/Managing_projects_in_R.html">Managing projects in R</a></li>
-<li><a href="tips/More_bits_and_pieces.html">More bits and pieces</a></li>
-</ul>
-<p>Also: <a href="http://openrefine.org">OpenRefine</a> (<a href="https://datacarpentry.org/OpenRefine-ecology-lesson/">Data Carpentry lesson</a>)</p>
-<h2 id="preparation">Preparation</h2>
-<p>In the second hour of Wednesday’s class we will be working to get you set up with Git and Github, following <a href="http://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
-<p>If possible, before Monday’s class:</p>
+<li>The <a href="http://www.ats.ucla.edu/stat/r/faq/">UCLA R FAQ</a> is very good</li>
+<li>Mailing lists and forums:
 <ul>
-<li>Register a GitHub account: you can just go straight to https://github.com to do this (by clicking on either of the green “Sign up” buttons). The one thing you may want to read first is <a href="http://happygitwithr.com/github-acct.html">this advice on picking a GitHub user name</a>.</li>
-<li>if you’re on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/). If you are using an old version of MacOS, ask for help.</li>
-<li>it will also be helpful to install the <code>tidyverse</code> suite of R packages:
+<li>general ground rules
 <ul>
-<li>within an R session, type <code>install.packages(&quot;tidyverse&quot;)</code></li>
-<li>(<em>or</em> you can do this via the package manager window in RStudio).</li>
+<li>browse/lurk before posting</li>
+<li>be clear about the focus of your question (e.g. r-help is not for stats questions)</li>
+<li>read the documentation as carefully as you can first; indicate what you’ve read</li>
+<li>“what have you tried?”</li>
+<li>provide a <strong>minimal workable example</strong> (e.g. see <a href="http://tinyurl.com/reproducible-000">here</a>)</li>
+</ul></li>
+<li><code>r-help@r-project.org</code> (also via <a href="http://news.gmane.org/gmane.comp.lang.r.general">Gmane interface</a>)</li>
+<li>also “SIG” (special interest groups), especially r-sig-phylo, r-sig-ecology</li>
+<li><a href="http://stackoverflow.com/questions/tagged/r">StackOverflow ([r</a> tag)], <a href="http://stats.stackexchange.com">CrossValidated</a></li>
+<li><a href="https://support.bioconductor.org/">Bioconductor support forum</a></li>
+<li><a href="https://twitter.com/search?q=%23rstats&amp;src=typd">#rstats</a> on Twitter</li>
+<li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
+<li><code>d-r-users@mcmaster.ca</code></li>
 </ul></li>
 </ul>
-<h1 id="exercise">Exercise</h1>
+<h2 id="phylogeneticbioinformatic-stuff">Phylogenetic/bioinformatic stuff</h2>
 <ul>
-<li>Examine the structure of the data you imported</li>
-<li>Examine the data for mistakes, and to make sure you understand the R classes</li>
-<li>Make one or two plots that might help you see whether your data have any errors or anomalies</li>
-<li>Describe what sort of investigations you might do with your data, and how you might break your project into replicable components: save this in your repo as a file called <code>README.md</code></li>
-<li>Make sure you know how to use <code>source</code>, <code>save</code> and <code>load</code> in R: finish a task, and then close R without saving your workspace and efficiently redo the task.</li>
-<li>See the <a href="admin/assignments.html">assignment instructions</a></li>
+<li>Use <code>setRepositories()</code> to easily add <a href="http://www.bioconductor.org/">Bioconductor</a> to your list of package repositories</li>
+<li><code>ape</code> package for most basic phylogenetic/sequence stuff
+<ul>
+<li><code>ape::read.GenBank</code></li>
+<li><code>DNAbin</code> data type</li>
+</ul></li>
+<li><code>taxize</code> and <code>traits</code> package for retrieving trees via Phylomatic
+<ul>
+<li><code>install.packages(&quot;devtools&quot;);</code> <code>install_github(&quot;traits&quot;)</code> (may need compilation tools; X<a href="http://cran.r-project.org/bin/windows/Rtools/">Rtools</a> for Windows, <a href="http://r.research.att.com/tools/">developer tools</a> for MacOS)</li>
+<li>then <code>library(&quot;phylomatic&quot;);</code> <code>?phylomatic</code></li>
+</ul></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

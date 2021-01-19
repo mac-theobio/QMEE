@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Topic: Data management</title>
+  <title>Managing_data_in_R</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -84,44 +84,109 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
-<header id="title-block-header">
-<h1 class="title">Topic: Data management</h1>
-</header>
-<h1 id="goals">Goals</h1>
+<h1 id="intro">Intro</h1>
+<h2 id="goals">Goals</h2>
+<p>You should be able to</p>
 <ul>
-<li>We will discuss some principles of data management, data flow and reproducible research</li>
-<li>Participants will continue to practice with R, and will examine their data and make some products</li>
-</ul>
-<h1 id="resources">Resources</h1>
+<li>read data into R</li>
+<li>understand and control how R represents those data
 <ul>
-<li><a href="tips/Managing_data_in_R.html">Managing data in R</a>
-<ul>
-<li><a href="lectures/cleaning.html">Lecture notes</a>; <a href="lectures/cleaning.slides.html">slides</a></li>
+<li>numbers, characters, factors, missing values</li>
 </ul></li>
-<li><a href="tips/Managing_projects_in_R.html">Managing projects in R</a></li>
-<li><a href="tips/More_bits_and_pieces.html">More bits and pieces</a></li>
+<li>examine the data visually, numerically, textually, etc.</li>
 </ul>
-<p>Also: <a href="http://openrefine.org">OpenRefine</a> (<a href="https://datacarpentry.org/OpenRefine-ecology-lesson/">Data Carpentry lesson</a>)</p>
-<h2 id="preparation">Preparation</h2>
-<p>In the second hour of Wednesday’s class we will be working to get you set up with Git and Github, following <a href="http://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
-<p>If possible, before Monday’s class:</p>
+<h2 id="representations">Representations</h2>
+<p>Numeric and character types are fairly straightforward, and you rarely have to worry about when and whether R represents things as integers or <em>floating point</em>. <em>Very occasionally</em> you will need to know that R is limited in its capacity to represent numbers of extremely large or small magnitude, and that floating-point computations are always approximate.</p>
+<p>You do need to know about <strong>factors</strong>, and to be aware when your variables are being treated as such.</p>
+<h2 id="missing-values">Missing values</h2>
+<p>When you input data, you need to be aware of <code>NA</code> (“not available”). Your read function has an option called <code>na.strings</code> which you can use to communicate between R and your CSV files, for example. You need to know that</p>
 <ul>
-<li>Register a GitHub account: you can just go straight to https://github.com to do this (by clicking on either of the green “Sign up” buttons). The one thing you may want to read first is <a href="http://happygitwithr.com/github-acct.html">this advice on picking a GitHub user name</a>.</li>
-<li>if you’re on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/). If you are using an old version of MacOS, ask for help.</li>
-<li>it will also be helpful to install the <code>tidyverse</code> suite of R packages:
+<li><code>NA==x</code> is always <code>NA</code></li>
+<li>use <code>is.na()</code> to test for <code>NA</code> values, <code>na.omit()</code> to drop them, and the optional <code>na.rm</code> argument in some functions (<code>mean</code>, <code>sum</code>, <code>median</code> …)</li>
+</ul>
+<h2 id="changing-representations">Changing representations</h2>
+<p>R has a big suite of functions for creating, testing and changing representations. These have names like <code>factor()</code>, <code>as.numeric()</code> and <code>is.character()</code>.</p>
+<h3 id="factors">Factors</h3>
+<p>Factors are logically variables with a fixed number of categories. In R they are represented as integer variables that have a “levels” attribute. In other words, each possible value of the factor is given an integer, and the variable carries around the code that allows translation from this integer to its meaning.</p>
+<p>This system has advantages:</p>
 <ul>
-<li>within an R session, type <code>install.packages(&quot;tidyverse&quot;)</code></li>
-<li>(<em>or</em> you can do this via the package manager window in RStudio).</li>
+<li>You can put the levels in an appropriate order; these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
+<li>You can specify the <em>contrasts</em> that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)</li>
+</ul>
+<p>… and disadvantages:</p>
+<ul>
+<li>It is potentially confusing
+<ul>
+<li><code>as.numeric(f)</code> is not the same as <code>as.numeric(as.character(f))</code></li>
+</ul></li>
+<li>Similar variables can have different sets of levels</li>
+</ul>
+<p>As a general rule, convert variables to factors <em>at the last possible time</em>, when you have already fixed typos; combined different data sets; etc.. The tidyverse functions <code>readr::read_csv()</code>, <code>readr::read_table()</code>, <code>readxl::read_xlsx()</code> will <strong>not</strong> automatically convert strings to factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data.</p>
+<h2 id="examination">Examination</h2>
+<p>You should think creatively, and early on, about how to check your data. Is it internally consistent? Are there extreme outliers? Are there typos? Are there certain values that really mean something else?</p>
+<p>An American Airlines memo about fuel reporting from the 1980s complained of multiple cases of:</p>
+<ul>
+<li>Reported departure fuel greater than aircraft capacity</li>
+<li>Reported departure fuel less than minimum required for trip</li>
+<li>Reported arrival fuel greater than reported departure fuel</li>
+<li>Difference between reported departure fuel and reported arrival fuel not within reasonable min/max bounds</li>
+</ul>
+<p>You should think about what you can test, and what you can fix if it’s broken.</p>
+<p>See <a href="http://lalashan.mcmaster.ca/theobio/mmed/index.php/Introduction_to_data_management_and_cleaning">The MMED data management lecture</a>.</p>
+<p>Graphical approaches are really useful for data cleaning; we will discuss this more later on.</p>
+<p>What R functions do you know that are useful for examination? What are your strategies?</p>
+<h2 id="manipulation">Manipulation</h2>
+<p>Even once your data are clean, there can still be a lot of work getting it into a format you want to use. “Data manipulation”, “munging”, or “wrangling” are the terms covering this activity. The RStudio folks have a useful <a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheat sheet</a>.</p>
+<p>This is a very, very hard, very general problem; everyone’s data problems and requirements are slightly different. But there are recurring themes.</p>
+<h2 id="specialized-data">Specialized data</h2>
+<p>Some data are in specialized formats, and often already cleaned. We will mention only in passing:</p>
+<ul>
+<li>phylogenetic trees</li>
+<li>sequence data</li>
+<li>maps, spatial data</li>
+</ul>
+<h2 id="tidying-data">Tidy(ing) data</h2>
+<p>Hadley Wickham has defined a concept of <a href="http://www.jstatsoft.org/v59/i10/paper">tidy data</a>, and has recently introduced the <code>tidyr</code> package.</p>
+<ul>
+<li>Each variable is in a column</li>
+<li>Each observation is in a row</li>
+<li>“Long” rather than “wide” form</li>
+<li>Sometimes duplicates data</li>
+<li>Statistical modeling tools and graphical tools (especially the <strong>ggplot2</strong> package) in R work best with long form</li>
+</ul>
+<h3 id="tools">Tools</h3>
+<h4 id="the-tidyverse">The tidyverse</h4>
+<ul>
+<li><code>tidyr</code> package (reshaping): <code>gather()</code>, <code>spread()</code></li>
+<li><code>dplyr</code> package:
+<ul>
+<li><code>mutate()</code></li>
+<li><code>select()</code></li>
+<li><code>filter()</code></li>
+<li><code>group_by()</code></li>
+<li><code>summarise()</code></li>
+<li><code>arrange()</code></li>
+<li><code>*_join()</code></li>
 </ul></li>
 </ul>
-<h1 id="exercise">Exercise</h1>
+<h4 id="base-r">base R</h4>
 <ul>
-<li>Examine the structure of the data you imported</li>
-<li>Examine the data for mistakes, and to make sure you understand the R classes</li>
-<li>Make one or two plots that might help you see whether your data have any errors or anomalies</li>
-<li>Describe what sort of investigations you might do with your data, and how you might break your project into replicable components: save this in your repo as a file called <code>README.md</code></li>
-<li>Make sure you know how to use <code>source</code>, <code>save</code> and <code>load</code> in R: finish a task, and then close R without saving your workspace and efficiently redo the task.</li>
-<li>See the <a href="admin/assignments.html">assignment instructions</a></li>
+<li><code>reshape()</code>: wide-to-long and vice versa</li>
+<li><code>merge()</code>: join data frames</li>
+<li><code>ave()</code>: compute averages by group</li>
+<li><code>subset()</code>, <code>[</code>-indexing: select obs and vars</li>
+<li><code>transform()</code>: modify variables and create new ones</li>
+<li><code>aggregate()</code>: split-apply-summarize</li>
+<li><code>split()</code>, <code>lapply()</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
+<li><code>sort()</code></li>
+</ul>
+<h2 id="manipulation-1">Manipulation</h2>
+<ul>
+<li><a href="CA_homicide.html">Canadian homicide rate example</a>
+<ul>
+<li><a href="data_index.html">Data files</a></li>
+</ul></li>
+<li>Simple <a href="Reshape_examples.html">Reshape examples</a></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

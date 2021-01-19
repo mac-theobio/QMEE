@@ -73,6 +73,7 @@ dateup:
 
 Sources += $(wildcard data/*.*)
 
+Sources += data.md
 data.filemerge: data.md 
 
 data_index: data.filemerge

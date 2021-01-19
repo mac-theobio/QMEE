@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Topic: Data management</title>
+  <title>Managing_projects_in_R</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -84,45 +84,100 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
-<header id="title-block-header">
-<h1 class="title">Topic: Data management</h1>
-</header>
-<h1 id="goals">Goals</h1>
+<h1 id="pipelines">Pipelines</h1>
+<p>One of the main concepts of this course is <strong>pipelines</strong>. This means that the various steps of your project are all carefully recorded and systematized. The basic idea is that you should be able to delete any results of computer calculations at any time, and then quickly re-do it.</p>
+<p>Ideally, your project should depend on:</p>
 <ul>
-<li>We will discuss some principles of data management, data flow and reproducible research</li>
-<li>Participants will continue to practice with R, and will examine their data and make some products</li>
+<li>Some data files</li>
+<li>Some scripts</li>
+<li>A <a href="co-ordination_tool.html">co-ordination tool</a> (a document, master script, or Makefile that describes all of the steps involved in all of your calculations)</li>
 </ul>
-<h1 id="resources">Resources</h1>
+<p>… and nothing else</p>
+<h2 id="advantages-of-pipelines">Advantages of pipelines</h2>
 <ul>
-<li><a href="tips/Managing_data_in_R.html">Managing data in R</a>
+<li>Clarity
 <ul>
-<li><a href="lectures/cleaning.html">Lecture notes</a>; <a href="lectures/cleaning.slides.html">slides</a></li>
+<li>Colleagues and collaborators can see exactly what you’ve done</li>
+<li>You can figure out exactly what you’ve done</li>
 </ul></li>
-<li><a href="tips/Managing_projects_in_R.html">Managing projects in R</a></li>
-<li><a href="tips/More_bits_and_pieces.html">More bits and pieces</a></li>
-</ul>
-<p>Also: <a href="http://openrefine.org">OpenRefine</a> (<a href="https://datacarpentry.org/OpenRefine-ecology-lesson/">Data Carpentry lesson</a>)</p>
-<h2 id="preparation">Preparation</h2>
-<p>In the second hour of Wednesday’s class we will be working to get you set up with Git and Github, following <a href="http://happygitwithr.com/">Happy Git and GitHub for the useR</a>.</p>
-<p>If possible, before Monday’s class:</p>
+<li><a href="http://reproducibleresearch.net/links/">Reproducibility</a>
 <ul>
-<li>Register a GitHub account: you can just go straight to https://github.com to do this (by clicking on either of the green “Sign up” buttons). The one thing you may want to read first is <a href="http://happygitwithr.com/github-acct.html">this advice on picking a GitHub user name</a>.</li>
-<li>if you’re on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/). If you are using an old version of MacOS, ask for help.</li>
-<li>it will also be helpful to install the <code>tidyverse</code> suite of R packages:
+<li>It’s easy for others to confirm your work</li>
+<li>Or modify or extend it</li>
+<li><a href="http://www.economist.com/node/21528593">A scary story about why we should practice and push for reproducible research</a></li>
+</ul></li>
+<li>Flexibility
 <ul>
-<li>within an R session, type <code>install.packages(&quot;tidyverse&quot;)</code></li>
-<li>(<em>or</em> you can do this via the package manager window in RStudio).</li>
+<li>You are less likely to be trapped by choices that you’ve made</li>
 </ul></li>
 </ul>
-<h1 id="exercise">Exercise</h1>
+<h2 id="automation">Automation</h2>
+<p>A corollary of the flexibility idea is that you should <em>automate</em> whenever possible. Cutting and pasting, or editing by hand, is not only tedious, error-prone and hard to replicate, it also traps you into depending on certain data sets. <strong>DRY</strong> (“don’t repeat yourself”) is a programming maxim.</p>
+<p>Some examples:</p>
 <ul>
-<li>Examine the structure of the data you imported</li>
-<li>Examine the data for mistakes, and to make sure you understand the R classes</li>
-<li>Make one or two plots that might help you see whether your data have any errors or anomalies</li>
-<li>Describe what sort of investigations you might do with your data, and how you might break your project into replicable components: save this in your repo as a file called <code>README.md</code></li>
-<li>Make sure you know how to use <code>source</code>, <code>save</code> and <code>load</code> in R: finish a task, and then close R without saving your workspace and efficiently redo the task.</li>
-<li>See the <a href="admin/assignments.html">assignment instructions</a></li>
+<li>You can do most of your quality-control and correction with clever scripts; even when you can’t be clever, it’s still probably worth coding your corrections in a script (rather than, for example, changing an Excel file that came out of the lab).</li>
+<li>As you develop your scripts, you will find yourself wanting to do various tasks in a repetitive way. You should get in the habitat of writing <strong>functions</strong> in R as you rework your script and realize that you are doing the same task (or nearly the same task) multiple times.</li>
+<li>You should use computer scripts to download data from the web when possible. This is possibly beyond the scope of this course (or maybe it could be added as an advanced topic).
+<ul>
+<li>R has tools for this, you can also check Perl and Python (5 years from now, we may be teaching this whole course in python).</li>
+</ul></li>
 </ul>
+<h1 id="r-tools-for-managing-projects">R tools for managing projects</h1>
+<h2 id="spreadsheets">Spreadsheets</h2>
+<p>R can read and write in spreadsheet form. Usually the best way to do this is with <code>read.csv</code> and <code>write.csv</code>. A good model for working in R is to read in raw data from spreadsheets and manipulate it in R.</p>
+<ul>
+<li>If somebody has done a trivial calculation in the spreadsheet, it’s usually better to redo it than to copy the answer</li>
+<li>If somebody has done a <em>non-trivial</em> calculation in the spreadsheet, it’s usually better to redo it than to copy the answer
+<ul>
+<li>It’s probably easier in R.</li>
+<li>Even if it’s harder in R this time, doing it once will enable you to do it in the future and save time (but see <a href="http://xkcd.com/1319/">this</a>).</li>
+<li>It’s usually better to do non-trivial calculations twice and make sure you get the same answer</li>
+<li>It’s very easy to mess things up in spreadsheets</li>
+<li>It <em>should</em> be harder to make silly mistakes in R – but in practice it doesn’t seem to be.</li>
+</ul></li>
+<li><a href="http://www.burns-stat.com/documents/tutorials/spreadsheet-addiction/">“spreadsheet addiction”</a></li>
+</ul>
+<p>Your goal in many cases should be to take raw data from a spreadsheet and manipulate entirely using scripts. The only time to put it back in a spreadsheet would be to share it with colleagues who want to play with your results</p>
+<ul>
+<li>Another option is to force these colleagues to learn R</li>
+</ul>
+<h2 id="metadata">Metadata</h2>
+<ul>
+<li>Data about the data</li>
+<li>Big topic</li>
+<li>Often saved in spreadsheet/lost in translation</li>
+<li><a href="https://github.com/ropensci/EML">ecological metadata language</a></li>
+<li>Discuss …</li>
+</ul>
+<h2 id="data-bases">Data bases</h2>
+<p>Large, or evolving data sets may need to use database tools. As of 2015,</p>
+<ul>
+<li>“small” means “fewer than 1000 observations/10 or 20 variables”. As long as you write reasonably efficient R programs, you shouldn’t have to worry about speed or memory at all.</li>
+<li>“medium” means “1000 to 100,000 observations/10-50 variables”. You may want to look into efficient data handling packages such as <strong>dplyr</strong> or <strong>data.table</strong></li>
+<li>“large” means millions of observations/1000s of variables. You may need to store your database in an external database application (R is very good at communicating with external databases). This means using <a href="Wikipedia:SQL.html">SQL</a> (a standard language for database queries) and a database server. Many free servers are available, including <a href="Wikipedia:MySQL.html">MySQL</a>.</li>
+</ul>
+<p><em>This is a possible advanced topic</em></p>
+<h2 id="r">R</h2>
+<p>If you are following the pipeline philosophy, it will be useful to make scripts that do discrete tasks, and depend on each others’ outputs.</p>
+<p>You can do this by using the R commands <code>load</code> and <code>save</code>: if you have an R script that you are happy with and is producing some nice variables, you can write <code>save(var1,</code> <code>var2,</code> <code>vars,</code> <code>file=&quot;happy.RData&quot;</code>, at the end of that script, and then <code>load(&quot;happy.RData&quot;)</code> at the beginning of some other scripts.</p>
+<p><em>How should you get more information about these commands?</em></p>
+<h1 id="co-ordination-tools">Co-ordination tools</h1>
+<p>You should try to have a pipeline-driven project where as many steps as possible are clearly documented and easily replicable.</p>
+<p>There are many, many techniques for this, and we will try not to get too deeply into it in the course (unless it’s a Requested Topic).</p>
+<p>Some of the tools that we like include:</p>
+<h3 id="r-markdown">R markdown</h3>
+<p>R markdown is a format that allows you to incorporate R code into your documents. This allows you to develop and document your project at the same time, and to allow your documentation to evolve directly into a document that can be submitted to a supervisory committee or a journal.</p>
+<p>RStudio makes a great platform for composing R markdown files, and there’s really good documentation on this format at the <a href="http://rmarkdown.rstudio.com/">RStudio web site</a>. To recap some of the most important features of R Markdown:</p>
+<ul>
+<li>relatively natural/easy formatting rules</li>
+<li>flexible output: HTML, PDF (even MS Word)</li>
+<li>automatically incorporate figures</li>
+<li>incorporate LaTeX equations</li>
+<li>caching for long computations</li>
+</ul>
+<h3 id="make">Make</h3>
+<p><a href="Wikipedia:Make_(software).html">make</a> is a system for controlling how files are made from other files. It is useful for making your project self-documenting: you write down the steps of your pipeline in a permanent fashion, in order to make them work.</p>
+<p>The <a href="http://www.gnu.org/software/make/manual/make.html">gnu make documentation</a> is very useful, but not necessarily easy to attack.</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>
