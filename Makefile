@@ -72,6 +72,7 @@ dateup:
 ## Data index
 ## data/ lives in docs/ so that it's part of the pages
 
+Ignore += data
 data: dir=docs
 data:
 	$(linkdir)
