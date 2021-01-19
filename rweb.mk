@@ -20,6 +20,7 @@ html:
 
 md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
+Sources += $(md) $(rmd)
 
 mdhdocs = $(md:%.md=docs/%.html)
 rmdnotes = $(rmd:%.rmd=docs/%.notes.html)
