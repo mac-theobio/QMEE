@@ -70,13 +70,18 @@ dateup:
 ######################################################################
 
 ## Data index
+## data/ lives in docs/ so that it's part of the pages
 
-Sources += $(wildcard data/*.*)
+data: dir=docs
+data:
+	$(linkdir)
+
+Sources += $(wildcard docs/data/*.*)
 
 Sources += data.md
-data.filemerge: data.md 
+## data.filemerge: data.md 
 
-data_index: data.filemerge
+data_index: data data.filemerge
 	$(MAKE) data/index.md
 
 ######################################################################
