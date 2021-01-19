@@ -73,7 +73,10 @@ dateup:
 
 Sources += $(wildcard data/*.*)
 
-data/index.md:
+data.filemerge: data.md 
+
+data_index: data.filemerge
+	$(MAKE) data/index.md
 
 ######################################################################
 
@@ -109,15 +112,14 @@ Sources += Makefile README.md notes.txt TODO.md
 msrepo = https://github.com/dushoff
 ms = makestuff
 
-# -include $(ms)/perl.def
+-include makestuff/perl.def
 
-Ignore += $(ms)
-## Sources += $(ms)
-Makefile: $(ms)/Makefile
-$(ms)/Makefile:
-	git clone $(msrepo)/$(ms)
+Ignore += makestuff
+Makefile: makestuff/Makefile
+makestuff/Makefile:
+	git clone $(msrepo)/makestuff
 
--include $(ms)/os.mk
+-include makestuff/os.mk
 
 -include makestuff/git.mk
 -include makestuff/visual.mk
