@@ -1,3 +1,6 @@
+
+data/index.html ## This is supposed to be suppressed downstream
+
 Something about lizards data/lizards.csv
 
 Data from the Garki project
@@ -17,7 +20,6 @@ data/ants.csv
 data/skewdat.csv
 data/multiv_brmsfit.rda
 data/CA_popdat.csv
-data/index.html
 data/CA_homicide.RData
 data/dll.csv
 data/cc2.rds

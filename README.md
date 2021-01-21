@@ -25,9 +25,19 @@ Some make rules:
 
 Consider using `make dateup` after pulling but before working; this will deal with time-stamp ambiguity and avoid attempts to remake things that you haven't worked on
 
+## Data directory
+
+You are meant to edit the file data.md. It will also edit itself, as follows.
+
+* If you refer to a file in the data directory (data/<fn.ext>) _before other words on a line_, it will take note of it and mark it MISSING if missing (only once; it can also remove the MISSING tag automatically)
+* If you fail to refer to a file in the data directory, it will be added under Untracked files
+
+From the weird hybrid file, the pipeline makes data_index.md (an intermediate) and then data/index.html (which is linked to docs). The index.html
+* makes _all_ of the `data/<fn.ext>` instances into _local_ links (since the index file is itself in data)
+	* this includes links to (recognized or unrecognized) MISSING files and links to Untracked files
+
 Here are some other directories that we currently have:
 
-* `data/` what it says
 * `pix/`  miscellaneous non-workflow-generated images
 * `oldSource/` 
 * `makestuff/` machinery
