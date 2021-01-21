@@ -100,8 +100,9 @@ data_index.md: data.md dataindex.pl
 	$(PUSHRO)
 
 ## data/index.html: data.md
+## data_index.md: data.md
 data/index.html: data_index.md
-	pandoc $< -o $@ --mathjax -s -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --self-contained
+	pandoc $< -o $@ --mathjax -s -f gfm -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --self-contained
 
 ######################################################################
 
