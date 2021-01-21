@@ -1,4 +1,6 @@
+Something about lizards
 [lizards.csv](lizards.csv)
+
 [portal_data_joined.csv](portal_data_joined.csv)
 [multiv_brmsfit.rda](multiv_brmsfit.rda)
 [skewdat.csv](skewdat.csv)
@@ -10,8 +12,9 @@
 [ants.csv](ants.csv)
 [CA_homicide.RData](CA_homicide.RData)
 [cc2.rds](cc2.rds)
-### Untracked files ###
-[village.csv](village.csv)
-[religion_basic.ccsv](religion_basic.ccsv)
-[parademo.csv](parademo.csv)
-[live.RData](live.RData)
+
+Data from the Garki project
+* [village.csv](village.csv)
+* [religion_basic.ccsv](religion_basic.ccsv)
+* [parademo.csv](parademo.csv)
+* [live.RData](live.RData)
