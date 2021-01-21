@@ -46,7 +46,7 @@ lectures/docs/%.html: $(wildcard lectures/*.rmd)
 
 ## Main update
 
-update: docs/index.html data/index.md
+update: docs/index.html data/index.html
 
 ## Subdirectories
 

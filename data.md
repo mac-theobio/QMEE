@@ -19,7 +19,6 @@ Other files from the cleaning lecture
 * data/dll.csv
 * data/ants.csv
 * data/CA_homicide.csv
-* data/multiv_brmsfit.rda
 * data/lizards.csv
 * data/CA_homicide.RData
 * data/cc2.rds
