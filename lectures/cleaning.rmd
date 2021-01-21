@@ -139,7 +139,7 @@ Break data into logical tables
 
 ```{r echo=FALSE}
 load("../data/live.RData")
-sim <- as.tibble(sim)
+sim <- as_tibble(sim)
 ```
 
 ```{r}
@@ -149,16 +149,18 @@ print(sim)
 ## Gathering makes things tidy
 
 * Use long structure to mark things that are comparable, or have the same units
+* `gather` has been replaced by pivot_longer
 
 ```{r}
-longsim <-  gather(sim, class, people, S:R)
+longsim <- pivot_longer(sim, cols=!time, names_to="class", values_to="people")
 print(longsim)
 ```
 
 ## Spreading can make things more human-readable
+* `spread` has been replaced by pivot_wider
 
 ```{r}
-print(spread(longsim, class, people))
+print(pivot_wider(longsim, names_from=class, values_from=people))
 ```
 
 ## Flow
@@ -380,7 +382,7 @@ religTab <- (
 		, sep=":", strip.white=TRUE, header=FALSE
 		, stringsAsFactors=FALSE, na.strings=""
 	)
-	%>% as.tibble()
+	%>% as_tibble()
 	%>% transmute(category=V2, code=V1)
 )
 ```
