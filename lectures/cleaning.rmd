@@ -1,12 +1,7 @@
 ---
 title: Data management and cleaning
-author: Jonathan Dushoff
+author: Jonathan Dushoff, Ben Bolker
 ---
-
-<!--- COMMENT
-2019 May 16 (Thu)
-Now making a separate version is statistics_talks repo
--->
 
 ## Goals
 
@@ -45,7 +40,7 @@ library(tidyverse)
 ## A sample data set
 
 ```{r village.R}
-villageTable <- read_csv("~/gitroot/malariaImmunity/garki_data/village.csv")
+villageTable <- read_csv("../data/village.csv")
 ```
 
 ## A sample data set
@@ -57,7 +52,7 @@ summary(villageTable)
 ## A sample data set
 
 ```{r parasite.R}
-parasiteTable <- read_csv("~/gitroot/malariaImmunity/garki_data/parademo.csv")
+parasiteTable <- read_csv("../data/parademo.csv")
 ```
 
 ## A sample data set
@@ -143,7 +138,7 @@ Break data into logical tables
 ## Tidy example
 
 ```{r echo=FALSE}
-load("~/gitroot/disease_model_talks/live.RData")
+load("../data/live.RData")
 sim <- as.tibble(sim)
 ```
 
@@ -381,7 +376,7 @@ print(ctab)
 
 ```{r echo=FALSE}
 religTab <- (
-	read.table("~/gitroot/Circumcision_and_behaviour/religion_basic.ccsv"
+	read.table("../data/religion_basic.ccsv"
 		, sep=":", strip.white=TRUE, header=FALSE
 		, stringsAsFactors=FALSE, na.strings=""
 	)
