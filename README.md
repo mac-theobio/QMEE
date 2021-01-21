@@ -1,4 +1,6 @@
-## Biology 708
+---
+title: "Biology 708/QMEE"
+---
 
 The web site for Biology 708. The user-friendly view is [here](https://mac-theobio.github.io/QMEE/index.html).
 

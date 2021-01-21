@@ -43,6 +43,8 @@ library(ggplot2); theme_set(theme_bw())
 if (packageVersion("broom.mixed")<"0.2.4") stop("need broom.mixed >= 0.2.4")
 ```
 
+##
+
 Get data (previously downloaded from http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv but ? now bit-rotted?)
 
 
@@ -79,6 +81,8 @@ $$
 
 where $\mathbf{b}$ is a set of Gaussian variables with a variance-covariance matrix $\mathbf{\Sigma}$ which we estimate.
 
+---
+
 Suppose we have observations of $m$ individuals, with $p$ different observations
 (traits, or time points, or types of measurement, or ...) for each individual.
 The way we're going to make this work is to expand ("melt", or `gather()` or `pivot_longer()` if we're using `tidyr`) the data set to be $mp$ observations long, then treat each individual (which was previously a single row of the data set but now comprises $p$ rows) as a group (we'll call this `units`):
@@ -107,7 +111,9 @@ dll_melt <- (dll_data2
 
 (in case you're familiar with current-day tidyverse: `gather()` is an earlier version of `pivot_longer()`, which is now recommended).
 
-And we can take a look at how this has changed the structure of the data from a **wide** format:
+---
+
+Look at how this has changed the structure of the data from a **wide** format:
 ```{r head_wide}
 head(dll_data) # original wide
 ```
@@ -243,11 +249,15 @@ saveRDS(cc2, file="../data/cc2.rds")
 
 Another option is the `MCMCglmm` package, which has a natural interface for general multivariate mixed models.  It takes a while to get used to the interface, but here is an example. Please check out [here](https://cran.r-project.org/web/packages/MCMCglmm/index.html) for more information about the package, and [here](https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf) for an overview of how to use it.
 
+---
+
 First I find it easier (given the interface of MCMCglmm) to create a formula with the response variables and predictors. This is only for the fixed effects part of the model.
 ```{r mod_fm}
 fmla.MMLM1  <- cbind(femur_s, tibia_s, tarsus_s, SCT_s) ~
     trait:(genotype*temp) - 1
 ```
+
+---
 
 Now we need to let `MCMCglmm` know which family (i.e. distribution) the response variables are. Since all are normal (Gaussian), we can specify it the following way.
 
@@ -255,12 +265,16 @@ Now we need to let `MCMCglmm` know which family (i.e. distribution) the response
 fam.test <- rep("gaussian", 4 )
 ```
 
-Since `MCMCglmm` is fundamentally a Bayesian approach, it needs a prior. If you provide no prior by default, it tries a "flat" prior, although this rarely works. In this case I am providing a not-quite-flat prior, but just for the random effects of line and for the residual variances (could also provide them for the fixed effects). Choosing priors for variances and covariances can sometimes be tricky, and for the moment is too much to chew on in this class, so we will use the default prior distributions (inverse-Wishart is what it is called if you really care). If you want to get deep into this, come chat with me. I also have some simple tutorials where I draw out the effects of various common priors for variances and covariances.
+---
+
+Since `MCMCglmm` is fundamentally a Bayesian approach, it needs a prior. If you provide no prior by default, it tries a "flat" prior, although this rarely works. In this case we provide not-quite-flat priors **only** for the random effects of line and for the residual variances (could also provide them for the fixed effects). Choosing priors for variances and covariances is tricky (and too technical for right now), so we will use the default prior distributions (*inverse-Wishart*). Ian Dworkin has some simple tutorials where he draws out the effects of various common priors for variances and covariances.
 
 ```{r prior} 
 prior.model.1 <- list( R = list(V=diag(4)/4, nu=0.004),  
                        G = list(G1=list(V=diag(4)/4, nu=0.004)))
 ```
+
+---
 
 Let's take a quick look at the prior 
 
@@ -268,6 +282,8 @@ Let's take a quick look at the prior
 ```{r prior_glimpse}
 prior.model.1
 ```
+
+---
 
 The `R` matrix prior is for the residuals. This is $\mathbf{R}_{4,4}$ as we have 4 traits in the VCV matrix. We have have non-zero variances for each trait as the mode for the prior, and 0 for covariances. However this is a weak prior, so even small amounts of data will largely overcome the pull of the prior. Another sensible approach we have used is to make the prior proportional to the overall observed VCV, as there is a large literature on the proportionality of covariance matrices for morphology. This may not be sensible for other types of multivariate response measures.
 
