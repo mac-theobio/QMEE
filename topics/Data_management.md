@@ -13,8 +13,8 @@ Goals
 Resources
 =========
 
+- [Lecture notes](../lectures/cleaning.notes.html); [slides](../lectures/cleaning.slides.html)
 -   [Managing data in R](../tips/Managing_data_in_R.html)
-	- [Lecture notes](../lectures/cleaning.notes.html); [slides](../lectures/cleaning.slides.html)
 -   [Managing projects in R](../tips/Managing_projects_in_R.html)
 -   [More bits and pieces](../tips/More_bits_and_pieces.html)
 
