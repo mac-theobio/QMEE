@@ -1,0 +1,64 @@
+Catholic: Catholic/Orthodox
+Orthodox: Catholic/Orthodox
+Roman catholic: Catholic/Orthodox
+Adventist: Christian
+Anglican: Christian
+Anglican Church: Christian
+Apostolic Sect: Christian
+Aventist: Christian
+CCAP: Christian
+Charismatic: Christian
+Christrian: Christian
+Chrétienne: Christian
+Eglise du 7e jour: Christian
+Elcin: Christian
+Envagelic: Christian
+Evangelist: Christian
+Evangelical: Christian
+^Christian: Christian
+Jehovah: Christian
+Jehovah Witness: Christian
+kimbanguist: Christian
+Methodist: Christian
+New apostolic: Christian
+Pentecostal: Christian
+Protestant: Christian
+Protestant/Anglican: Christian
+Protestant/ Christian: Christian
+Salvation Army: Christian
+Seventh Day: Christian
+Seventh-day adventist: Christian
+SDA: Christian
+Baptist: Christian
+^Zion: Christian
+Zionist: Christian
+Islam: Muslim
+Islamic: Muslim
+Moslem: Muslim
+Muslem: Muslim
+Mulsim: Muslim
+Muslim: Muslim
+Muslum: Muslim
+Musualmane: Muslim
+African religion: None/Other
+Animist: None/Other
+Animiste: None/Other
+Anytime message: None/Other
+Bahai: None/Other
+Bisaka: None/Other
+Hindu: None/Other
+Jeova: None/Other
+Mana: None/Other
+Mungu: None/Other
+None: None/Other
+No religion: None/Other
+^Other: None/Other
+Sans religion: None/Other
+Traditional: None/Other
+Traditionnal: None/Other
+Traditionalist: None/Other
+Traditionnal/animist: None/Other
+United faith: None/Other
+Not responded: NA
+# TZ has no religion; score it as its own religion: 	levels(religion) <- c(levels(religion), "Tanzanian")
+

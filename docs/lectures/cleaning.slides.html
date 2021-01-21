@@ -29,7 +29,7 @@
       // Author information
       presenters: [
             {
-        name:  'Jonathan Dushoff' ,
+        name:  'Jonathan Dushoff, Ben Bolker' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -3191,11 +3191,6 @@ slide:not(.current) .plotly.html-widget{
           </hgroup>
   </slide>
 
-<!--- COMMENT
-2019 May 16 (Thu)
-Now making a separate version is statistics_talks repo
--->
-
 <slide class=""><hgroup><h2>Goals</h2></hgroup><article  id="goals">
 
 <ul>
@@ -3242,7 +3237,7 @@ Now making a separate version is statistics_talks repo
 
 </article></slide><slide class=""><hgroup><h2>A sample data set</h2></hgroup><article  id="a-sample-data-set">
 
-<pre class = 'prettyprint lang-r'>villageTable &lt;- read_csv(&quot;~/gitroot/malariaImmunity/garki_data/village.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>villageTable &lt;- read_csv(&quot;../data/village.csv&quot;)</pre>
 
 <pre >## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -3288,7 +3283,7 @@ Now making a separate version is statistics_talks repo
 
 </article></slide><slide class=""><hgroup><h2>A sample data set</h2></hgroup><article  id="a-sample-data-set-2">
 
-<pre class = 'prettyprint lang-r'>parasiteTable &lt;- read_csv(&quot;~/gitroot/malariaImmunity/garki_data/parademo.csv&quot;)</pre>
+<pre class = 'prettyprint lang-r'>parasiteTable &lt;- read_csv(&quot;../data/parademo.csv&quot;)</pre>
 
 <pre >## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -3301,13 +3296,13 @@ Now making a separate version is statistics_talks repo
 ## ℹ Use `spec()` for the full column specifications.</pre>
 
 <pre >## Warning: 58129 parsing failures.
-## row      col   expected     actual                                                file
-##  96 datep    valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-##  96 dateexam valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## 108 datep    valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## 108 dateexam valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## 119 datep    valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## ... ........ .......... .......... ...................................................
+## row      col   expected     actual                   file
+##  96 datep    valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+##  96 dateexam valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## 108 datep    valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## 108 dateexam valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## 119 datep    valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## ... ........ .......... .......... ......................
 ## See problems(...) for more details.</pre>
 
 </article></slide><slide class=""><hgroup><h2>A sample data set</h2></hgroup><article  id="a-sample-data-set-3">

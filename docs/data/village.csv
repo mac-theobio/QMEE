@@ -1,0 +1,181 @@
+area,village,grid,fup,vname,vu,grouped1,grouped2,scattered1,scattered2,population
+A1,154,6F,5,Rafin Marke,Raf,54,0,0,0,402
+A1,155,6F,5,Kukar Maikiya,Raf,61,0,0,0,523
+A1,153,6F,5,Kawari,Raf,15,1,20,0,230
+A1,953,6F,5,Kawari II,Raf,0,0,54,0,375
+A1,218,8E,7,Nasakar,Kar,83,2,0,0,468
+A1,213,8E,7,Kargo Kudu,Kar,0,0,55,0,381
+A1,220,8E,7,Bakan Sabara,Kar,31,0,0,0,170
+A1,920,8E,7,Bakan Sabara II,Kar,0,0,7,0,35
+A2,305,10D,8,Ungwar Duhuwa,Gar,22,0,22,0,154
+A2,306,9D,8,Kafin Giye,Gar,0,0,11,0,49
+A2,308,9D,8,Gunzara,Gar,23,1,21,0,297
+A2,304,9C,8,Jaya,Gar,87,4,19,0,507
+A2,602,10C,8,Dan Habu,Bud,19,0,8,0,89
+A2,604,10C,8,Koyoma,Bud,35,0,0,0,119
+A2,657,10C,8,Kundubu,Say,17,0,4,0,83
+A2,353,9C,8,Balalashi,Dok,29,4,2,0,199
+A2,352,9C,8,Gutsatsi,Dok,0,0,0,0,50
+A2,351,9D,8,Tsale,Dok,46,1,0,0,229
+A2,356,8D,6,Rai Rai Dok.,Dok,0,0,34,0,234
+A2,357,8C,6,Koguram Sabuwa,Dok,44,1,1,0,381
+A2,358,8C,6,Tinbin Galadima,Dok,26,1,0,0,124
+A2,359,8C,6,Duhuwar Tinbi,Dok,43,0,0,0,203
+A2,370,7C,6,Kusa,Dok,40,2,20,0,160
+A2,361,7C,6,Faca Faca,Dok,0,0,11,0,222
+A2,365,7C,6,Danbagin Kanawa,Dok,20,0,1,0,111
+A2,364,7C,6,Chaheunawa,Dok,32,1,6,0,181
+A2,372,7C,6,Ba'wa,Dok,0,0,25,0,140
+A2,371,6C,6,Dakace,Dok,49,0,4,0,347
+A2,56,6C,6,Dukawa,Kit,49,3,29,0,428
+A2,54,7C,6,Mukawa,Kit,15,0,0,0,76
+A2,55,7C,6,Matsari,Kit,68,0,5,0,399
+A2,373,8C,6,Sako,Kit,20,0,6,0,125
+A2,52,8D,6,Rai Rai Kit,Kit,0,0,21,0,122
+A2,51,8D,6,Dususu,Kit,22,0,0,0,200
+A2,951,8D,6,Dususu II,Kit,0,0,17,0,116
+A2,66,6D,6,Kita,Kit,75,0,0,0,528
+A2,65,6D,6,Jarmawa,Kit,68,3,0,0,406
+A2,64,6D,5,Malamawa,Kit,41,2,8,0,230
+A2,2,7D,7,Danbuzu,Jan,0,0,11,0,50
+A2,1,7E,7,Jangari,Jan,44,1,23,0,357
+A2,3,7D,7,Ufala Jan.,Jan,0,0,16,0,151
+A2,67,7D,7,Ufala Kit.,Kit,0,0,21,0,151
+A2,4,6E,5,Tagwaye,Jan,50,0,0,0,375
+A2,226,7F,5,Tagwaye Sabon Gar,Kar,15,0,0,0,60
+A2,5,6E,5,Farjak,Kar,0,0,22,0,129
+A2,6,6E,5,Kutu,Kar,53,2,40,0,532
+A2,152,5E,5,Danbarage,Raf,74,1,8,0,540
+A2,156,,5,Danbarage II,Raf,14,0,2,0,80
+A2,554,5F,5,Rafin Jatau,Aju,26,0,9,0,122
+A2,555,5F,5,Knadage,Aju,60,1,1,0,349
+A2,207,6F,5,Duhuwar Dinya,Kar,31,0,29,0,464
+A2,208,6F,5,Galadimawa,Kar,22,0,60,0,663
+A2,212,7F,7,Kargo,Kar,255,5,0,0,0
+A2,222,7F,7,Kargo Gagarawa,Kar,17,0,20,0,0
+A2,223,7F,7,Kargo Yama,Kar,0,0,71,0,0
+A2,224,7F,7,Kargo Gabas,Kar,12,0,33,0,2556
+A2,214,8F,7,Giyaiya,Kar,0,0,22,0,181
+A2,217,8F,7,Ganjin Kanawa,Kar,15,0,0,0,96
+A2,221,8F,7,Garin Malam,Kar,41,1,0,0,214
+A2,216,8G,7,Tankari,Kar,58,1,9,0,323
+A2,219,8E,7,Adinis Fulanin,Kar,0,0,10,0,114
+A2,307,9E,7,Dakau,Gar,0,0,46,1,256
+A2,313,9E,7,Jema,Gar,0,0,14,0,31
+A2,312,9E,7,Gunki,Gar,0,0,15,0,79
+A2,311,8E,7,Gidan Daro,Gar,0,0,14,1,64
+A2,310,8E,7,Gidan Auta,Gar,0,0,34,0,171
+A2,309,8D,7,Gwadayawa,Gar,17,1,4,0,106
+A2,254,9E,7,Gugareyi,Kay,25,1,3,0,124
+A2,256,8D,8,Koguram Tsohuwa,Kay,45,2,0,0,174
+A2,255,9D,8,Daurawa,Kay,0,0,37,0,175
+B,605,11D,8,Gugareji/U.Makera,Bud,64,5,1,0,300
+B,611,11D,8,Gidan Dawa,Bud,21,0,0,0,100
+B,606,11D,8,Duhuwar Kuka,Bud,37,1,0,0,137
+B,603,11D,8,Tsakitau,Bud,10,1,18,0,142
+B,608,12D,8,Maiwando,Bud,36,1,38,0,283
+B,609,12D,8,Maigagafa,Bud,78,5,5,0,405
+B,610,12C,8,Buduru,Bud,71,1,20,0,455
+B,607,11C,8,Jabtawa Bud.,Bud,41,2,23,0,339
+B,655,11B,8,Sayori,Say,140,6,0,0,744
+B,653,11B,8,Maigatari,Say,42,0,3,0,220
+B,656,11B,8,Gusguru,Say,0,0,32,0,179
+B,652,10B,8,Gidan Gashi,Say,36,1,24,0,231
+B,654,11C,8,Jabtawa Say.,Say,0,0,16,0,49
+B,651,10C,8,Gidan Baki,Say,36,3,0,0,145
+B,354,9C,8,Mai Kanbu,Dok,0,0,40,0,236
+B,355,8B,8,Yakureshi,Dok,49,2,0,0,188
+B,362,8C,6,Sabon Gari,Dok,70,1,0,0,269
+B,363,8C,6,Zangon,Dok,48,0,0,0,314
+B,366,8B,6,Doko,Dok,188,3,0,0,1060
+B,367,7B,6,Danbagajin Fulani,Dok,0,0,42,0,223
+B,368,7B,6,Anju,Dok,18,0,0,0,129
+B,369,7B,6,Kabawa Dok.,Dok,119,1,17,0,466
+B,401,6B,3,Kabawa Sug.,Sug,0,0,13,0,77
+B,402,6B,3,Kwai Kwayu Sug.,Sug,0,0,24,0,154
+B,411,6C,3,Karaye,Sug,85,4,34,0,395
+B,403,6B,3,Tawailawa,Sug,0,0,11,0,54
+B,405,5B,3,Arindi,Sug,0,0,12,0,27
+B,410,5C,3,Bargaza,Sug,62,1,4,0,219
+B,406,5C,3,Wale Wale,Sug,62,3,2,0,236
+B,404,5B,3,Kashin Ganji,Sug,47,1,6,0,335
+B,408,4B,3,Sugungum,Sug,83,2,0,0,653
+B,407,4C,3,Daurawa,Sug,15,1,17,0,200
+B,419,4C,3,Daurawa II,Sug,19,0,33,0,250
+B,409,4B,3,Karama,Sug,36,1,0,0,225
+B,455,4C,3,Batakashi,Sug/Kar,32,0,0,0,220
+B,412,4B,3,Sabon Gari Sug.,Sug,5,0,0,0,25
+B,451,4B,3,Ungwar Ganji,Kan,68,5,0,0,486
+B,452,4B,3,Gwalawa,Kan/Rin,61,1,0,0,360
+B,453,4B,3,Dan Karoji,Kan,43,0,3,0,606
+B,454,3B,3,Hatsi Kaurumi,Kan,18,0,0,0,222
+B,457,3C,3,Kanyar Maikaho,Kan,105,3,3,0,923
+B,458,3C,3,Kanyar Bantsoro,Kan,10,0,2,0,99
+B,460,4C,3,Ungwar Saidu,Kan,0,0,33,0,250
+B,461,4D,3,Larabawa,Kan,0,0,13,0,84
+B,57,6C,3,Dankuma,Kit,64,4,20,0,479
+B,58,5C,3,Tsoro,Kit,0,0,8,0,55
+B,59,5C,3,Gangara,Kit,96,2,0,0,605
+B,60,5D,3,Mauroni,Kit,0,0,27,0,252
+B,61,5D,3,Asayaya,Kit,45,2,0,0,220
+B,62,5D,3,Gasfala,Kit,0,0,12,0,84
+B,63,6D,3,Guntiel,Kit,0,0,4,0,39
+B,101,5C,3,Dan Musa,Dak,21,1,13,0,126
+B,102,4C,3,Makangawa,Dak,99,3,17,0,706
+B,105,4C,3,Gyartai,Dak,0,0,6,0,30
+B,103,4D,3,Maigora,Dak,13,0,0,0,105
+B,104,4D,3,Ungwar Shage,Dak,0,0,33,0,230
+B,106,4D,3,Dakidaka,Dak,69,0,0,0,713
+B,10,4D,3,Fadikabara,Jan,20,0,4,0,150
+B,11,4D,3,Sabon Gari,Jan,23,0,0,0,100
+B,9,5D,3,Dan Bako,Jan,54,0,0,0,392
+B,8,5D,3,Ungwar Jae,Jan,0,0,46,0,238
+B,561,5F,4,Ganga,Aju,0,0,117,0,688
+B,558,5G,4,Aduwa,Aju,81,1,2,0,437
+B,560,4G,4,Dandubulo,Aju,11,1,46,0,342
+B,567,4H,4,Digawa,Aju,15,0,3,0,100
+B,564,4G,4,Kyassari Baba,Aju,14,0,88,0,614
+B,562,4G,4,Tuya,Aju,52,1,0,0,253
+B,566,4H,4,Gidon Dudu,Aju,38,0,0,0,176
+B,563,5G,4,Kyassari Kanawa,Aju,22,0,3,0,175
+B,565,5G,4,Kyassari Fulanin,Aju,0,0,51,0,291
+B,202,5G,4,Ungwar Balco,Kar,108,0,0,0,704
+B,205,6G,4,Dunkumi,Kar,96,0,6,0,520
+B,201,5G,4,Hucin Fulanin,Kar,0,0,33,0,174
+B,225,6G,4,Madan Gala,Kar,34,1,0,0,170
+B,203,6G,4,Ungwar Ciroma,Kar,0,0,44,0,218
+B,206,6G,4,Ganjin Fulanin,Kar,0,0,51,0,413
+B,209,7G,4,Gidan Dogo,Kar,55,3,0,0,256
+B,215,8G,7,Danzabuwa,Kar,32,1,0,0,292
+B,251,9F,91,Kaya,Kay,98,0,36,0,568
+B,252,9F,7,Gana,Kay,74,0,0,0,278
+B,253,10E,92,Masheme,Kay,72,0,19,0,445
+B,301,9B,8,Garki,Gar,550,10,61,0,2304
+B,302,10E,8,Pankami,Gar,55,1,13,0,346
+B,303,10D,8,Dan Iya,Gar,43,1,0,0,205
+Babura,967,4H,4,Gangara Manga,Kirg,36,0,0,0,250
+Banzoma,964,7G,4,Kyarangi,Kirg,0,0,37,0,200
+Banzoma,963,7G,4,Kirgi Fulanin,Kirg,24,0,0,0,150
+Banzoma,962,8G,7,Gangara Kirg.,Turk,7,0,3,0,60
+Banzoma,960,8G,7,Malamawa Masari,Turk,0,0,0,0,0
+Banzoma,966,8G,7,Garin Babushe,Turk,10,0,0,0,120
+Ringim,904,5A,3,Gidan Lagge,K.Bab,54,1,0,0,267
+Ringim,903,4A,3,Galaga,K.Bab,0,0,45,0,188
+Ringim,907,5A,3,Budai I,K.Bab,15,0,0,0,0
+Ringim,908,5B,3,Budai II,K.Bab,36,1,0,0,228
+Ringim,906,5A,3,T. Malam Mati,K.Bab,15,0,0,0,100
+Ringim,911,6A,3,Tsabare,Amag,74,2,0,0,404
+Ringim,910,6B,3,Kwai Kwayu,K.Bab,49,1,29,0,335
+Ringim,922,6B,3,Mairimi,K.Bab,0,0,28,0,144
+Ringim,912,6B,3,Gidan Malam,Amag,13,0,0,0,60
+Ringim,921,7B,6,Gidan Ali,Amag,128,2,14,0,747
+Ringim,913,7B,6,Kukar Kutur,Amag,40,1,11,0,300
+Ringim,915,8B,6,Dorazai,Amag,101,1,0,0,541
+Ringim,916,8A,6,Gurgunya,Chik,52,3,0,0,300
+Ringim,923,9B,6,Maikanbu,K.Gaz,0,0,47,0,261
+C,553,4F,2,Ajura,Aju,45,0,25,0,431
+C,552,4F,2,Nabanawa,Aju,92,0,12,0,668
+C,802,3C,1,Kwaru,Jir,33,0,1,0,199
+C,801,3C,1,BariBari,Jir,29,0,0,0,171
+C,806,3C,1,Tafin Sale,Jir,0,0,44,0,323
+B,456,4C,3,Ungwar Gumba,Kan,0,0,39,0,252

@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Jonathan Dushoff" />
+<meta name="author" content="Jonathan Dushoff, Ben Bolker" />
 
 
 <title>Data management and cleaning</title>
@@ -479,15 +479,11 @@ summary {
 
 
 <h1 class="title toc-ignore">Data management and cleaning</h1>
-<h4 class="author">Jonathan Dushoff</h4>
+<h4 class="author">Jonathan Dushoff, Ben Bolker</h4>
 
 </div>
 
 
-<!--- COMMENT
-2019 May 16 (Thu)
-Now making a separate version is statistics_talks repo
--->
 <div id="goals" class="section level2">
 <h2>Goals</h2>
 <ul>
@@ -527,7 +523,7 @@ Now making a separate version is statistics_talks repo
 </div>
 <div id="a-sample-data-set" class="section level2">
 <h2>A sample data set</h2>
-<pre class="r"><code>villageTable &lt;- read_csv(&quot;~/gitroot/malariaImmunity/garki_data/village.csv&quot;)</code></pre>
+<pre class="r"><code>villageTable &lt;- read_csv(&quot;../data/village.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -571,7 +567,7 @@ Now making a separate version is statistics_talks repo
 </div>
 <div id="a-sample-data-set-2" class="section level2">
 <h2>A sample data set</h2>
-<pre class="r"><code>parasiteTable &lt;- read_csv(&quot;~/gitroot/malariaImmunity/garki_data/parademo.csv&quot;)</code></pre>
+<pre class="r"><code>parasiteTable &lt;- read_csv(&quot;../data/parademo.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -582,13 +578,13 @@ Now making a separate version is statistics_talks repo
 ## )
 ## ℹ Use `spec()` for the full column specifications.</code></pre>
 <pre><code>## Warning: 58129 parsing failures.
-## row      col   expected     actual                                                file
-##  96 datep    valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-##  96 dateexam valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## 108 datep    valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## 108 dateexam valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## 119 datep    valid date 0000-00-00 &#39;~/gitroot/malariaImmunity/garki_data/parademo.csv&#39;
-## ... ........ .......... .......... ...................................................
+## row      col   expected     actual                   file
+##  96 datep    valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+##  96 dateexam valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## 108 datep    valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## 108 dateexam valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## 119 datep    valid date 0000-00-00 &#39;../data/parademo.csv&#39;
+## ... ........ .......... .......... ......................
 ## See problems(...) for more details.</code></pre>
 </div>
 <div id="a-sample-data-set-3" class="section level2">
