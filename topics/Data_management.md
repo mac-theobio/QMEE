@@ -13,25 +13,12 @@ Goals
 Resources
 =========
 
--   [Managing data in R](tips/Managing_data_in_R.html)
-	- [Lecture notes](lectures/cleaning.html); [slides](lectures/cleaning.slides.html)
--   [Managing projects in R](tips/Managing_projects_in_R.html)
--   [More bits and pieces](tips/More_bits_and_pieces.html)
+-   [Managing data in R](../tips/Managing_data_in_R.html)
+	- [Lecture notes](../lectures/cleaning.notes.html); [slides](../lectures/cleaning.slides.html)
+-   [Managing projects in R](../tips/Managing_projects_in_R.html)
+-   [More bits and pieces](../tips/More_bits_and_pieces.html)
 
 Also: [OpenRefine](http://openrefine.org)  ([Data Carpentry lesson](https://datacarpentry.org/OpenRefine-ecology-lesson/))
-
-Preparation
------------
-
-In the second hour of Wednesday's class we will be working to get you set up with Git and Github, following [Happy Git and GitHub for the useR](http://happygitwithr.com/). 
-
-If possible, before Monday's class:
-
-- Register a GitHub account: you can just go straight to https://github.com to do this (by clicking on either of the green "Sign up" buttons). The one thing you may want to read first is [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html).
-- if you're on MacOS, it would be helpful to install XCode ahead of time (https://developer.apple.com/download/). If you are using an old version of MacOS, ask for help.
-- it will also be helpful to install the `tidyverse` suite of R packages: 
-  * within an R session, type `install.packages("tidyverse")`
-  * (*or* you can do this via the package manager window in RStudio).
 
 Exercise
 ========
