@@ -2,9 +2,12 @@ Something about lizards data/lizards.csv
 
 Data from the Garki project
 
-* data/village.csv
+* data/village.csv ## Village table
+* data/parademo.csv ## parasitology and demography
+
+Other files from the cleaning lecture
+
 * data/religion_basic.ccsv
-* data/parademo.csv
 * data/live.RData
 
 ### Untracked files ###
@@ -15,7 +18,7 @@ data/CA_homicide.csv
 data/skewdat.csv
 data/contrasts2.RData
 data/CA_homicide.RData
-data/index.md
+MISSING data/index.md: data/index.md
 data/cc2.rds
 data/lizards.csv
 data/ants.csv
