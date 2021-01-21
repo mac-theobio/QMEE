@@ -21,7 +21,6 @@ read.csv("eggplant_survey.csv")
 
 For lots of opinions and thoughts on R coding style, see [here](R_style.html)
 
-
 Weights and rubrics
 -----------
 
