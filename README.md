@@ -36,6 +36,10 @@ From the weird hybrid file, the pipeline makes data_index.md (an intermediate) a
 * makes _all_ of the `data/<fn.ext>` instances into _local_ links (since the index file is itself in data)
 	* this includes links to (recognized or unrecognized) MISSING files and links to Untracked files
 
+You can update the data.md page through most kinds of auto-update (e.g., make update, make update_all, make sync), or just by saying make data_index.md (but there's no obvious reason to look at data_index.md, it is an intermediate towards data/index.html)
+
+The usual style is to _keep_ the files identified as Untracked when the script is run, but delete the word Untracked (so you can notice if new Untracked files show up)
+
 Here are some other directories that we currently have:
 
 * `pix/`  miscellaneous non-workflow-generated images

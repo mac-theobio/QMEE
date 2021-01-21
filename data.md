@@ -1,31 +1,27 @@
 
-data/index.html ## This is supposed to be suppressed downstream
+data/index.html ## Leave this here; it should be suppressed downstream
 
 Something about lizards data/lizards.csv
 
 Data from the Garki project
-* Village table: data/village.csv
-* Parasitology and demography data/parademo.csv
+* data/village.csv: Village table
+* data/parademo.csv: Parasitology and demography
 
 Other files from the cleaning lecture
 * data/religion_basic.ccsv
+* MISSING: data/religion_advanced.ccsv
 * data/live.RData
 
-### Untracked files ###
+### Older files ###
 
-data/portal_data_joined.csv
-data/lizards.csv
-data/contrasts2.RData
-data/ants.csv
-data/skewdat.csv
-data/multiv_brmsfit.rda
-data/CA_popdat.csv
-data/CA_homicide.RData
-data/dll.csv
-data/cc2.rds
-data/CA_homicide.csv
-
-### Untracked files ###
-
-data/parademo.csv
-data/village.csv
+* data/portal_data_joined.csv
+* data/contrasts2.RData
+* data/dll.csv
+* data/ants.csv
+* data/CA_homicide.csv
+* data/multiv_brmsfit.rda
+* data/lizards.csv
+* data/CA_homicide.RData
+* data/cc2.rds
+* data/skewdat.csv
+* data/CA_popdat.csv
