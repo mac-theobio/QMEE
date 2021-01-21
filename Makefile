@@ -34,7 +34,9 @@ Sources += rweb.mk
 ## Manual lectures
 
 lectures/docs/%.html: $(wildcard lectures/*.rmd)
-	cd lectures && $(MAKE) $*
+	cd lectures && $(MAKE) docs/$*.html
+
+## lectures/docs/cleaning.notes.html: lectures/cleaning.rmd
 
 ## lectures/docs/intro_Lecture_notes.slides.html: lectures/intro_Lecture_notes.rmd
 ## lectures/docs/intro_Lecture_notes.notes.html: lectures/intro_Lecture_notes.rmd

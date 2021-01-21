@@ -779,11 +779,6 @@ summary {
 </div>
 <div id="tidy-example" class="section level2">
 <h2>Tidy example</h2>
-<pre><code>## Warning: `as.tibble()` is deprecated as of tibble 2.0.0.
-## Please use `as_tibble()` instead.
-## The signature and semantics have changed, see `?as_tibble`.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <pre class="r"><code>print(sim)</code></pre>
 <pre><code>## # A tibble: 1,001 x 4
 ##     time       S     I       R
@@ -804,40 +799,44 @@ summary {
 <h2>Gathering makes things tidy</h2>
 <ul>
 <li>Use long structure to mark things that are comparable, or have the same units</li>
+<li><code>gather</code> has been replaced by pivot_longer</li>
 </ul>
-<pre class="r"><code>longsim &lt;-  gather(sim, class, people, S:R)
+<pre class="r"><code>longsim &lt;- pivot_longer(sim, cols=!time, names_to=&quot;class&quot;, values_to=&quot;people&quot;)
 print(longsim)</code></pre>
 <pre><code>## # A tibble: 3,003 x 3
 ##     time class  people
 ##    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
 ##  1   0   S     390000 
-##  2   0.1 S     389991 
-##  3   0.2 S     389981.
-##  4   0.3 S     389971.
-##  5   0.4 S     389959.
-##  6   0.5 S     389947.
-##  7   0.6 S     389934.
-##  8   0.7 S     389920.
-##  9   0.8 S     389904.
-## 10   0.9 S     389888.
+##  2   0   I        100 
+##  3   0   R     389900 
+##  4   0.1 S     389991 
+##  5   0.1 I        108 
+##  6   0.1 R     389901 
+##  7   0.2 S     389981.
+##  8   0.2 I        117.
+##  9   0.2 R     389902.
+## 10   0.3 S     389971.
 ## # … with 2,993 more rows</code></pre>
 </div>
 <div id="spreading-can-make-things-more-human-readable" class="section level2">
 <h2>Spreading can make things more human-readable</h2>
-<pre class="r"><code>print(spread(longsim, class, people))</code></pre>
+<ul>
+<li><code>spread</code> has been replaced by pivot_wider</li>
+</ul>
+<pre class="r"><code>print(pivot_wider(longsim, names_from=class, values_from=people))</code></pre>
 <pre><code>## # A tibble: 1,001 x 4
-##     time     I       R       S
-##    &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1   0    100  389900  390000 
-##  2   0.1  108  389901  389991 
-##  3   0.2  117. 389902. 389981.
-##  4   0.3  126. 389903. 389971.
-##  5   0.4  136. 389905. 389959.
-##  6   0.5  147. 389906. 389947.
-##  7   0.6  159. 389907. 389934.
-##  8   0.7  171. 389909. 389920.
-##  9   0.8  185. 389911. 389904.
-## 10   0.9  200. 389912. 389888.
+##     time       S     I       R
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1   0   390000   100  389900 
+##  2   0.1 389991   108  389901 
+##  3   0.2 389981.  117. 389902.
+##  4   0.3 389971.  126. 389903.
+##  5   0.4 389959.  136. 389905.
+##  6   0.5 389947.  147. 389906.
+##  7   0.6 389934.  159. 389907.
+##  8   0.7 389920.  171. 389909.
+##  9   0.8 389904.  185. 389911.
+## 10   0.9 389888.  200. 389912.
 ## # … with 991 more rows</code></pre>
 </div>
 <div id="flow" class="section level2">
