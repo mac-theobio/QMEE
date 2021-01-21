@@ -87,12 +87,19 @@ data:
 Sources += $(wildcard docs/data/*.*)
 
 Sources += data.md
+Ignore += data_index.md
 
+## Edit data.md page; it's also supposed to edit itself
+## To mark MISSING files and append UNTRACKED ones
 data.md: $(wildcard data/*.*sv data/*.rd* data/*.RData)
 	$(touch)
-data/index.md: data.md dataindex.pl
+data_index.md: data.md dataindex.pl
 	- $(MAKE) data data.filemerge
 	$(PUSH)
+
+## data/index.html: data.md
+data/index.html: data_index.md
+	pandoc $< -o $@ --mathjax -s -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --self-contained
 
 ######################################################################
 
