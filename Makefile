@@ -86,6 +86,7 @@ data:
 
 Sources += $(wildcard docs/data/*.*)
 
+Sources += $(wildcard *.pl)
 Sources += data.md
 Ignore += data_index.md
 
@@ -93,9 +94,10 @@ Ignore += data_index.md
 ## To mark MISSING files and append UNTRACKED ones
 data.md: $(wildcard data/*.*sv data/*.rd* data/*.RData)
 	$(touch)
+## Don't edit (might be read-only to remind you)
 data_index.md: data.md dataindex.pl
 	- $(MAKE) data data.filemerge
-	$(PUSH)
+	$(PUSHRO)
 
 ## data/index.html: data.md
 data/index.html: data_index.md
