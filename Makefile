@@ -26,8 +26,9 @@ Ignore += index.html
 docs/index.html: index.md
 	pandoc $< -o $@ --mathjax -s -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --self-contained
 
+## Try suppressing rweb in main directory 2021 Jan 21 (Thu)
 Sources += rweb.mk
--include rweb.mk
+## -include rweb.mk
 
 ######################################################################
 
@@ -42,6 +43,10 @@ lectures/docs/%.html: $(wildcard lectures/*.rmd)
 ## lectures/docs/intro_Lecture_notes.notes.html: lectures/intro_Lecture_notes.rmd
 
 ######################################################################
+
+## Main update
+
+update: docs/index.html data/index.md
 
 ## Subdirectories
 
@@ -82,10 +87,12 @@ data:
 Sources += $(wildcard docs/data/*.*)
 
 Sources += data.md
-## data.filemerge: data.md 
 
-data_index: data data.filemerge
-	$(MAKE) data/index.md
+data.md: $(wildcard data/*.*sv data/*.rd* data/*.RData)
+	$(touch)
+data/index.md: data.md dataindex.pl
+	- $(MAKE) data data.filemerge
+	$(PUSH)
 
 ######################################################################
 
