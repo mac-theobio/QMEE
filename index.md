@@ -28,9 +28,9 @@ There will also be some asynchronous content.
 
 ### Foundations
 
-* [Introduction to R](topics/Introduction_to_R.html) Week of 12 Jan
-* [Data management](topics/Data_management.html) Week of 19 Jan
-* [Visualization](topics/Visualization.html) Week of 26 Jan
+* [Introduction to R](topics/Introduction_to_R.html)
+* [Data management](topics/Data_management.html) 
+* [Visualization](topics/Visualization.html)
 * [Statistical philosophy](topics/Statistical_philosophy.html) Week of 2 Feb
 
 ### Basic Statistics
