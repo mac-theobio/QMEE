@@ -68,5 +68,5 @@ Install JAGS (and either `rjags` or `R2jags`). Use `jags` to fit a Bayesian mode
 
 - [JAGS examples with categorical variables and interactions](lizards_bayes.R) (you'll need [this R file](named_list.R) too)
 
-* See the [assignment instructions](admin/assignments.html)
+* See the [assignment instructions](../admin/assignments.html)
 

@@ -73,4 +73,4 @@ Assignment
 
 Input some piece of this data (use some public data set if your real data set is not quickly available) into `R`, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work by running them from beginning to end in a **clean R session** (in RStudio you can "Restart R", then "Run All" from the "Run" icon above the script window) before submitting by emailing the name of your main script to us at <bio708qmee@gmail.com>.
 
-* See the [assignment instructions](admin/assignments.html)
+* See the [assignment instructions](../admin/assignments.html)
