@@ -65,3 +65,5 @@ Draw **and discuss** at least one of each of the following:
 
 The assignment is due by sometime on Mon. 18 Feb.
 
+* See the [assignment instructions](admin/assignments.html)
+

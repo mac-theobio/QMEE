@@ -51,3 +51,4 @@ Assignment
     or you can use a classic test if you explain clearly how it
     corresponds to a permutation test. Best would be to use both.
 
+* See the [assignment instructions](admin/assignments.html)
