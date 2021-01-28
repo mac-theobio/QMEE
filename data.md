@@ -25,6 +25,5 @@ Other files from the cleaning lecture
 * data/CA_popdat.csv
 
 ### Untracked files ###
-
-* data/multiv_brmsfit.rda
-* data/skewdat.csv
+data/multiv_brmsfit.rda
+data/skewdat.csv

@@ -17,6 +17,7 @@ Resources
 -   [Managing data in R](../tips/Managing_data_in_R.html)
 -   [Managing projects in R](../tips/Managing_projects_in_R.html)
 -   [More bits and pieces](../tips/More_bits_and_pieces.html)
+-   [Summarise and text tables](../tips/summarise_and_text_tables.R)
 
 Also: [OpenRefine](http://openrefine.org)  ([Data Carpentry lesson](https://datacarpentry.org/OpenRefine-ecology-lesson/))
 
