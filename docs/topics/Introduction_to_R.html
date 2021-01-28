@@ -6,12 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Topic: Introduction to R</title>
   <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
   </style>
   <style type="text/css">
 body {
@@ -71,6 +69,9 @@ text-align: center;
 margin-bottom: 2ex;
 }
 </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -83,7 +84,6 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
-
 <header id="title-block-header">
 <h1 class="title">Topic: Introduction to R</h1>
 <p class="date">Jan 2021</p>
@@ -91,12 +91,12 @@ margin-bottom: 2ex;
 <p>If you have trouble with any of the steps below you can get help in class, or you can ask in the <a href="https://teams.microsoft.com/l/channel/19%3a369591fac9f94ed3a283cbd329633c0a%40thread.tacv2/Software%2520and%2520programming%2520help?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&amp;tenantId=44376307-b429-42ad-8c25-28cd496f4772">MS Teams channel for software/programming help</a></p>
 <h2 id="before-thursday">Before Thursday</h2>
 <ul>
-<li><p>Install and run the free (and open-source) program <code>R</code> from the links at the top of <a href="http://cran.r-project.org/">the Comprehensive R Archive Network</a>.</p>
+<li>Install and run the free (and open-source) program <code>R</code> from the links at the top of <a href="http://cran.r-project.org/">the Comprehensive R Archive Network</a>.
 <ul>
 <li>If you have an older version of R (&lt; 4.0.3), <em>please update to the latest version</em>.</li>
 </ul></li>
 <li><p>Install and run the free and open-source R development environment <code>RStudio</code> from the Download button at the <a href="http://www.rstudio.com/ide/">RStudio web site</a>. You should get the “desktop” version.</p></li>
-<li><p>install the <code>tidyverse</code> suite of R packages:</p>
+<li>install the <code>tidyverse</code> suite of R packages:
 <ul>
 <li>within an R session, type <code>install.packages(&quot;tidyverse&quot;)</code></li>
 <li>(<em>or</em> use the package manager window in RStudio).</li>
@@ -123,7 +123,7 @@ margin-bottom: 2ex;
 <h1 id="resources">Resources</h1>
 <ul>
 <li><p>The official Introduction to R on the <a href="http://cran.r-project.org/manuals.html">R manuals page</a></p></li>
-<li><p>Course material</p>
+<li>Course material
 <ul>
 <li>Lecture notes (<a href="../lectures/intro_R.slides.html">slides</a>, <a href="../lectures/intro_R.notes.html">notes</a>)</li>
 <li>tidyverse (<a href="../lectures/intro_tidyverse.slides.html">slides</a>, <a href="../lectures/intro_tidyverse.notes.html">notes</a>)</li>
@@ -149,6 +149,9 @@ COMMENT -->
 <li>Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and add a paragraph to the <code>README.md</code> file in your course repo describing it. Please give us some context for the data and describe the <strong>biological</strong> questions you would hope to answer (if you also want to translate your biological questions into statistical questions that’s fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).</li>
 </ul>
 <p>Input some piece of this data (use some public data set if your real data set is not quickly available) into <code>R</code>, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work by running them from beginning to end in a <strong>clean R session</strong> (in RStudio you can “Restart R”, then “Run All” from the “Run” icon above the script window) before submitting by emailing the name of your main script to us at <a href="mailto:bio708qmee@gmail.com" class="email">bio708qmee@gmail.com</a>.</p>
+<ul>
+<li>See the <a href="admin/assignments.html">assignment instructions</a></li>
+</ul>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>
