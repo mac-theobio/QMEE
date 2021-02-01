@@ -15,13 +15,14 @@ Resources
 =========
 
 -   Course material
-    -   [ Lecture notes](Visualization_Lecture_notes.html)
-    -   [ R code: homicide example](CA_homicide_pix.html)
-    -   [ R code: contraception example](Visualization_Contraception.html)
+    -   [Overview lecture](../lectures/Visualization.notes.html)
+    -   [R code: homicide lecture](../lectures/CA_homicide.notes.html)
+    -   [R code: homicide pitctures](../tips/CA_homicide_pix.notes.html)
+    -   [R code: contraception example](../lectures/Contraception.notes.html)
 
 -   [ggplot](http://ggplot2.org)
 -   [Cleveland hierarchy](http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555)
--   Graphics design pioneer [Edward Tufte](https://www.edwardtufte.com/tufte/)
+-   [Resources from graphics pioneer Edward Tufte](https://www.edwardtufte.com/tufte/)
 
 Exercise
 ========
@@ -33,7 +34,4 @@ Exercise
 
 * See the [assignment instructions](../admin/assignments.html)
 
-You should put your code on GitHub in some form. Make sure that the
-code has no local commands (like `setwd()`) and just runs from beginning
-to end. You can test this by clearing your R workspace and running it
-from beginning to end.
+You should put your code on GitHub in some form. Make sure that your code has no absolute paths, and runs from beginning to end when you restart R (use "source" so you don't skip over errors by accident).
