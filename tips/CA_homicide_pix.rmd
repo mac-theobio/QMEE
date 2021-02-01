@@ -3,9 +3,9 @@ title: "Data Vis example: homicide data"
 date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 ---
 
-Load data from previous computations (can be downloaded from [here](data/CA_homicide.RData)):
+Load data from previous computations (can be downloaded from [here](../data/CA_homicide.RData)):
 ```{r getdat}
-load("data/CA_homicide.RData")
+load("../data/CA_homicide.RData")
 ```
 
 One of the advantages of long format is that it allows us to use some of R's more powerful graphics tools such as the `ggplot2` and `lattice` packages (and it's what most statistics packages expect):
