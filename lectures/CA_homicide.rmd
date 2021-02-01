@@ -25,8 +25,8 @@ Read data.
 
 ```{r getdat, message=FALSE}
 library(tidyverse)
-dat <- read_csv("data/CA_homicide.csv", col_types=cols())
-popdat <- read_csv("data/CA_popdat.csv", col_types=cols())
+dat <- read_csv("../data/CA_homicide.csv", col_types=cols())
+popdat <- read_csv("../data/CA_popdat.csv", col_types=cols())
 ```
 
 These data are in wide format:
