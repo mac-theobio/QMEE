@@ -6,10 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Visualization</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
   </style>
   <style type="text/css">
 body {
@@ -69,9 +71,6 @@ text-align: center;
 margin-bottom: 2ex;
 }
 </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -84,6 +83,7 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
+
 <h1 id="intro">Intro</h1>
 <p>We will be talking about visualizing your data, with an emphasis on <code>ggplot2</code>, which is based on the Grammar of Graphics.</p>
 <h1 id="goals">Goals</h1>
@@ -97,17 +97,20 @@ margin-bottom: 2ex;
 <li>Course material
 <ul>
 <li><a href="../lectures/Visualization.notes.html">Overview lecture</a></li>
-<li><a href="../lectures/CA_homicide.notes.html">R code: homicide lecture</a></li>
-<li><a href="../tips/CA_homicide_pix.notes.html">R code: homicide pitctures</a></li>
-<li><a href="../lectures/Contraception.notes.html">R code: contraception example</a></li>
+<li><a href="../lectures/CA_homicide.notes.html">Canadian homicide</a></li>
+<li><a href="../lectures/Contraception.notes.html">contraception</a></li>
 </ul></li>
-<li><a href="http://ggplot2.org">ggplot</a></li>
-<li><a href="http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555">Cleveland hierarchy</a></li>
-<li><a href="https://www.edwardtufte.com/tufte/">Resources from graphics pioneer Edward Tufte</a></li>
+<li>ggplot:
+<ul>
+<li><a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">cheat sheet</a></li>
+<li><a href="https://www.r-graph-gallery.com/ggplot2-package.html">gallery</a></li>
+<li><a href="https://exts.ggplot2.tidyverse.org/">extensions</a></li>
+<li><a href="https://ggplot2-book.org/">book (3d edition)</a></li>
+</ul></li>
 </ul>
 <h1 id="exercise">Exercise</h1>
 <ul>
-<li>Construct some (i.e., more than one) ggplots using your data. Discuss:
+<li>Construct some (i.e., more than one) ggplots using your data. (If you already made one for a previous assignment, try making another.) Discuss:
 <ul>
 <li>what you are trying to show</li>
 <li>some of the choices that you have made</li>

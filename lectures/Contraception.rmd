@@ -3,6 +3,11 @@ title: "Data Vis example: Contraception data"
 date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 ---
 
+```{r setup, include=FALSE}
+##  bmb needs this to get transparency rendered properly
+knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
+```
+
 
 ```{r pkgs,message=FALSE}
 library(mlmRev) ## for contraception data
@@ -115,9 +120,13 @@ scary.
 
 Use a generalized additive model (takes some more tweaking, see `k` parameter!)
 ```{r gam}
-g5 + geom_smooth(aes(lty=urban),method="gam",
-                 method.args=list(family="binomial"),
-                 formula=y~s(x,k=20),
-                 alpha=0.1)
+print(g3
+      + aes(y=as.numeric(use)-1)
+      + geom_smooth(aes(lty=urban,y=as.numeric(use)-1),
+                    method="gam",
+                    method.args=list(family="binomial"),
+                    formula=y~s(x,k=5),
+                    alpha=0.1)
+)
 ```
 

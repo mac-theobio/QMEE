@@ -16,18 +16,19 @@ Resources
 
 -   Course material
     -   [Overview lecture](../lectures/Visualization.notes.html)
-    -   [R code: homicide lecture](../lectures/CA_homicide.notes.html)
-    -   [R code: homicide pitctures](../tips/CA_homicide_pix.notes.html)
-    -   [R code: contraception example](../lectures/Contraception.notes.html)
+    -   [Canadian homicide](../lectures/CA_homicide.notes.html)
+    -   [contraception](../lectures/Contraception.notes.html)
 
--   [ggplot](http://ggplot2.org)
--   [Cleveland hierarchy](http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555)
--   [Resources from graphics pioneer Edward Tufte](https://www.edwardtufte.com/tufte/)
+-   ggplot:
+    - [cheat sheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+	- [gallery](https://www.r-graph-gallery.com/ggplot2-package.html)
+	- [extensions](https://exts.ggplot2.tidyverse.org/)
+	- [book (3d edition)](https://ggplot2-book.org/)
 
 Exercise
 ========
 
-* Construct some (i.e., more than one) ggplots using your data. Discuss:
+* Construct some (i.e., more than one) ggplots using your data. (If you already made one for a previous assignment, try making another.) Discuss:
 	* what you are trying to show
 	* some of the choices that you have made
 	* the basis for these choices (e.g., Cleveland hierarchy, proximity of comparisons, or other principles of graphical communication) 
