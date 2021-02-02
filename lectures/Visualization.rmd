@@ -27,9 +27,13 @@ Goal: find patterns (& problems) in data, explore hypotheses
 * canned routines for standard tasks, flexibility for non-standard tasks
 * manipulate to visualize: summarize on the fly
 
-## Exploration cycle
+## Visualization cycle
 
 ![](../pix/hadley_cycle.jpg) [HW on Twitter](https://twitter.com/hadleywickham/status/784780387180425217)
+
+* Don't "snoop"!
+	* Separate response variables from predictors
+	* Look at residuals but not fits
 
 ## diagnostic plots
 
