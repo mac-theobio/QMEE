@@ -36,11 +36,14 @@ Sources += rweb.mk
 
 lectures/docs/%.html: $(wildcard lectures/*.rmd)
 	cd lectures && $(MAKE) docs/$*.html
+tips/docs/%.html: $(wildcard tips/*.rmd)
+	cd tips && $(MAKE) docs/$*.html
 
-## lectures/docs/cleaning.notes.html: lectures/cleaning.rmd
 
-## lectures/docs/intro_Lecture_notes.slides.html: lectures/intro_Lecture_notes.rmd
-## lectures/docs/intro_Lecture_notes.notes.html: lectures/intro_Lecture_notes.rmd
+## lectures/docs/Visualization.notes.html: lectures/Visualization.rmd
+## lectures/docs/Visualization.slides.html: lectures/Visualization.rmd
+
+## tips/docs/R_style.notes.html: tips/R_style.rmd
 
 ######################################################################
 
