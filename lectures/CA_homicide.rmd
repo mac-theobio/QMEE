@@ -4,6 +4,15 @@ date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
 author: Ben Bolker
 ---
 
+```{r setup, include=FALSE}
+##  bmb needs this to get transparency rendered properly
+knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
+```
+
+This is a joint example of (1) rearranging data and (2) graphing data.
+
+# Rearranging data
+
 ## Read data in wide format and play with it
 
 Data are originally from [here](http://www.statcan.gc.ca/tables-tableaux/sum-som/l01/cst01/legal12b-eng.htm) (it might be possible to *scrape* this data set using the `XML` package ...).
@@ -21,10 +30,11 @@ popdat[,2] <- as.numeric(gsub(",","",
                             gsub("^700[0-9]+000+","",popdat[,2])))
 write.csv(popdat,file="popdat.csv",row.names=FALSE)
 ```
-Read data.
+Read data (from two separate files).
 
 ```{r getdat, message=FALSE}
 library(tidyverse)
+## using col_types=cols() suppresses the messages about which type is which
 dat <- read_csv("../data/CA_homicide.csv", col_types=cols())
 popdat <- read_csv("../data/CA_popdat.csv", col_types=cols())
 ```
@@ -34,22 +44,29 @@ These data are in wide format:
 head(dat)
 ```
 
+Note that `read_csv()` has **not** modified the column names to make
+them legal R variables names (`read.csv()` will do that by default:
+use `check.names=FALSE` to suppress this)
+
 What if we want combine other information?
 ```{r regiondat}
-head(rdat <- data_frame(Place=dat$Place,
+rdat <- tibble(Place=dat$Place,
       Region=c("all",rep("Atlantic",4),
-             rep("East",2),
-             rep("West",4),
-             rep("North",3))))
+               rep("East",2),
+               rep("West",4),
+               rep("North",3)))
+head(rdat)
 ```
 
 Let's start by converting the data to long form:
 ```{r gather}
 sdat <- (dat
-    %>% gather(year,homicides,-Place,convert=TRUE)
+    %>% pivot_longer(names_to="year",values_to="homicides",-Place,
+                     names_transform=list(year=as.numeric))
 )
+head(sdat)
 ```
-(we use `convert=TRUE` to convert the years back to numeric values)
+(we use `names_transform` to convert the years back to numeric values)
 
 Now combine all three data sets (`full_join` will automatically
 match all columns with identical names across the data sets,
@@ -75,17 +92,21 @@ If we want summary statistics from the full data set we can do
 ```{r fullsum,results="hide"}
 sdat2 %>%
     group_by(Place) %>%
-    summarise(mean=mean(homicides))
+    summarise(homicides=mean(homicides))
+## fancier
 sdat2 %>%
     group_by(year) %>%
-    summarise(mean=mean(homicides))
+    summarise(across(homicides,list(mean=mean,sd=sd)))
 ```
 
 One more useful technique is reordering factors (representing categorical variables) in a sensible way.  Right now the 'places' (provinces, territories, etc.) are ordered alphabetically, R's default.
 
 ```{r reorder}
 sdat3 <- sdat2 %>%
-    mutate(Place=reorder(factor(Place),Pop_2011))
+    mutate(Place=forcats::fct_reorder(Place,Pop_2011))
+## equivalent
+sdat3 <- sdat2 %>%
+    mutate(across(Place,~forcats::fct_reorder(.,Pop_2011)))
 ```
 This will be useful in the future, but is different from the **order the data frame is stored in**, which we can modify via `arrange()` (use `desc(Pop_2011)` to arrange in descending order of population):
 
@@ -99,31 +120,152 @@ This will be useful in the future, but is different from the **order the data fr
 I can also summarise by combinations of variables:
 ```{r sumcomb}
 sdat3 %>% group_by(year,Region) %>%
-      summarise(mean=mean(homicides))
+    summarise(across(homicides,mean),.groups="drop")
 ```
 
-What if I want the mean and standard error?  R doesn't have a built-in "standard error of the mean" function so I define one on the fly:
+What if I want the mean and standard error?  R doesn't have a built-in "standard error of the mean" function so I define one when I need it:
 
 ```{r meanse}
 sem <- function(x) { sd(x)/sqrt(length(x)) }
 region_avgs <- sdat3 %>% group_by(year,Region) %>%
-    summarise(mean=mean(homicides,na.rm=TRUE),
-              sem=sem(homicides))
+    summarise(across(homicides,list(mean=~mean(.,na.rm=TRUE),
+                                    sem=sem)),
+              .groups="drop")
+head(region_avgs)
 ```
 
-What if I want to check the variables to see why they're `NA`?
+**Question: why do I have NA values?**
+
+Drilling down to check some values:
 
 ```{r check}
 sdat3 %>% filter(year==2007 & Region=="all")
 ```
 
-Sometimes it's useful to be able to go from long to wide format. `spread()` is the opposite of `gather()`: we specify a column in the current data set to spread out into new columns (`key`) and a column to use as the vales for the table (`value`)
+Sometimes it's useful to be able to go from long to wide format. `pivot_wider()` is the opposite of `pivot_longer()`: we specify a column in the current data set to spread out into new columns (`key`) and a column to use as the vales for the table (`value`)
 
 ```{r}
-region_avgs %>% select(-sem) %>%
-    spread(key=Region,value=mean)
+(region_avgs
+    %>% select(-homicides_sem)
+    %>% pivot_wider(names_from=Region,values_from=homicides_mean)
+)
 ```
 
-For analysis in R, it is generally best to keep your data in long format and `spread()` it to wide as necessary.
 
+Save the results:
+
+```{r save}
+saveRDS(sdat3,file="../data/CA_homicide.rds")
+```
+
+For analysis in R, it is generally best to keep your data in long format and `pivot_wider()` it as necessary (e.g. when creating a human-readable table for output).
+
+# Pictures
+
+Load data from previous computations (can also get it [here](../data/CA_homicide.rds)
+```{r getdat2}
+mdat <- readRDS("../data/CA_homicide.rds")
+```
+
+One of the advantages of long format is that it allows us to use some of R's more powerful graphics tools such as the `ggplot2` and `lattice` packages (and it's what most statistics packages expect):
+
+```{r ggplot1,message=FALSE}
+library(ggplot2)
+theme_set(theme_bw())  ## black-and-white theme
+## set up basic plot:
+p1 <- ggplot(mdat,aes(year,homicides,colour=Place))
+```
+
+Unlike base plots (which can only be saved/replayed through the RStudio interface), `ggplot` produces an R object which can then be printed (=displayed in a graphics window), or saved (or exported to a graphics file via `ggsave()`):
+
+```{r ggplot2}
+print(p1+geom_line())
+```
+
+We could add both lines and points:
+```{r ggplot3}
+print(p1+geom_line() +geom_point())
+```
+
+Might be better on a log scale, with a sensible y-axis label:
+```{r ggplot4}
+p1L <- (p1
+    + geom_line()
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
+)
+print(p1L)
+```
+
+(Zero values get squashed against the lower axis)
+
+Maybe we don't care about time at all:
+```{r boxplot}
+b1 <- (ggplot(mdat,aes(x=Place,y=homicides,
+                       colour=Region))
+    + geom_boxplot(outlier.colour=NULL)  ## set outlier points to same colour as boxes
+    + scale_y_log10()
+    + labs(y="Homicides per 100,000 population")
+)
+print(b1)
+```
+
+The x-axis tick labels overlap enough to be unreadable (unless we resize the
+plot to be ridiculously long and narrow).
+
+We could rotate them 90 degrees to be vertical:
+```{r vertlabels}
+b1_vertlabels <- b1+theme(axis.text.x=element_text(angle=90))
+print(b1_vertlabels)
+```
+
+
+In general if you want to tweak a `ggplot` plot, Google it or
+search the [ggplot theme documentation](https://ggplot2.tidyverse.org/reference/theme.html) or the [ggplot cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf) for more information ...
+
+Rotating the whole plot is less familiar, but arguably better.
+Here I'm also (1) changing the colour palette
+and (2) changing the order of the `Place` variable, using `%+%` to
+substitute a different set of data into an existing plot:
+
+```{r coord_flip,message=FALSE,warning=FALSE}
+mdat_sort <- mdat %>% mutate(across(Place,~forcats::fct_reorder(.,homicides)))
+print(b1
+      %+% mdat_sort  ## substitute sorted data
+      + coord_flip()      ## rotate entire plot
+      + xlab("")          ## x-label redundant
+      + scale_colour_brewer(palette="Dark2") ## change palette
+      )
+```
+
+Maybe we want to make our line graph less busy: 
+```{r facet_wrap,warning=FALSE}
+print(p1L+facet_wrap(~Region))
+```
+
+We could also code population size by line width:
+```{r plot3, warning=FALSE}
+p2 <- (ggplot(mdat,
+             aes(year,homicides,colour=Region,size=Pop_2011,
+                 group=Place))
+    + geom_line(alpha=0.5)
+    + scale_y_log10()
+    + scale_size_continuous(trans="log10")
+    + labs(y="Homicides per 100,000 population")
+)
+print(p2)
+```
+
+Using the [directlabels](http://directlabels.r-forge.r-project.org/) package:
+
+```{r directlabels,message=FALSE, warning=FALSE}
+library(directlabels)
+print(p1L
+    + expand_limits(x=2014)  ## add a little more space
+    + geom_dl(aes(label=Place),method="last.bumpup") 
+    + theme(legend.position="none")  ## don't need the legend any more
+)
+```
+
+We'd have to work a little harder to avoid clipping the "Yukon" label ...
 
