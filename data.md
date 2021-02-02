@@ -1,6 +1,8 @@
 
 data/index.html ## Leave this here; it should be suppressed downstream
 
+[pretty version of this page](index.html)
+
 Data on *Anolis* lizards from Schoener 1970 (*Ecology*)
 * data/lizards.csv
 
@@ -19,11 +21,13 @@ Other files from the cleaning lecture
 * data/contrasts2.RData
 * data/dll.csv
 * data/ants.csv: data on ant habitats from Gotelli and Ellison
-* data/CA_homicide.csv: Canadian homicide data
-* data/CA_homicide.RData: Canadian homicide data (R format)
-* data/CA_popdat.csv: Canadian population information
+* Canada data:
+    * data/CA_homicide.csv: Canadian homicide data
+	* data/CA_popdat.csv: Canadian population information
+    * data/CA_homicide.rds: Canadian homicide data (processed)
 * data/cc2.rds
 
 ### Untracked files ###
-data/multiv_brmsfit.rda
+data/CA_homicide.RData
 data/skewdat.csv
+data/multiv_brmsfit.rda
