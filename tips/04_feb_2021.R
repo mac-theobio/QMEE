@@ -39,6 +39,13 @@ dd %>% replace_all_blank()
 ##  * how clear are the code snippets to you?
 ##  * how clear are the code snippets to the other people who might read your code?
 
+
+(dd
+    %>% mutate(across(is.character,~na_if(trimws(.),"")))
+    %>% remove_empty(c("rows","cols"))
+)
+
+
 remove_empty(dd,c("rows","cols"))
 
 emptyrows2 <- function(x) {
