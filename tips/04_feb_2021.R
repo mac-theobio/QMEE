@@ -10,10 +10,34 @@ dd[-(6:7),-3]
 dd[1:5,1:2]
 ##
 
+## the old way
 dd %>% mutate_if(is.character,
                  ~replace(., which(!nzchar(.)),NA))
+
+## this is the new way, with across()
 dd %>% mutate(across(is.character,
-      ~replace(., which(!nzchar(.)),NA)))
+                     ~replace(., which(!nzchar(.)),NA)))
+
+## or if you're going to do this a lot:
+## defining a  function up front to do this can make everything easier
+replace_blank <- function(x,replace_val=NA_character_) {
+    replace(x, which(!nzchar(x)), replace_val)
+}
+
+dd %>% mutate_if(is.character,replace_blank)
+dd %>% mutate(across(is.character, replace_blank))
+
+## I could also wrap this up in another level of functions
+replace_all_blank <- function(data,x) {
+    mutate(data,x,across(is.character, replace_blank))
+}
+dd %>% replace_all_blank()
+
+## Should you bother with this level of modularization?
+## It depends:
+##  * how often are you doing this transformation?
+##  * how clear are the code snippets to you?
+##  * how clear are the code snippets to the other people who might read your code?
 
 remove_empty(dd,c("rows","cols"))
 
@@ -25,7 +49,7 @@ emptyrows2 <- function(x) {
         })
 }
 emptyrows2(dd)
-dd <- dd[!emptyrows2(dd),]
+dd[!emptyrows2(dd),]
 
 
 ## the importance of clean/sensible data coding standards
