@@ -52,7 +52,7 @@ pictures easier than model
 
 * A picture is worth 1000 words
 - coefficient plots: replacement for tables [@gelman_lets_2002]; `dotwhisker::dwplot`
-- also: tests of inference @wickham_graphical_2010
+- also: tests of inference [@wickham_graphical_2010]
 
 # Explanation
 
@@ -95,7 +95,7 @@ pictures easier than model
 -   basic commands:
     -   `plot()`, `lines()` and `points()` 
     -   `legend()`, `axis()` (for decoration)
-    -   other kinds of graphs: `matplot()` for multi-series plots, `boxplot()` for box plots, `hist()` for histograms, `contour()` and `image()`, `pairs`, ...
+    -   other kinds of graphs: `matplot()` for multi-series plots, `boxplot()` for box plots, `hist()` for histograms, `contour()` and `image()`, `pairs()`, ...
     -   `par(mfrow)`, `layout()` for multiple plots on a page
     -   useful packages: `car` (for `scatterplot()`, `scatterplotMatrix()`), `plotrix` (miscellaneous "plot tricks")
 
@@ -111,7 +111,8 @@ pictures easier than model
 -   **data**
 -   **mappings**: between variables in the data frame and **aesthetics**, or graphical attributes
 (x position, y position, size, colour ...)
--   first two show up as (e.g.) `ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))`
+-   first two show up as (e.g.)  
+`ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))`
 -   **geoms**:
    - simple: `geom_point`, `geom_line`
 
@@ -132,7 +133,7 @@ pictures easier than model
 ## General strategies
 - primary response as y axis
 - most important predictor as x axis
-	*(or substitute most important continuous or many-category predictor)
+	- (or substitute most important continuous or many-category predictor)
 - next (categorical) predictors as groupings (preferably colour/shape) 
 - next (categorical) predictors as facets
 
@@ -143,9 +144,12 @@ pictures easier than model
 * flip axes to display labels better (ggplot: `coord_flip()`, `ggstance()` package)
 * Use transparency to include important but potentially distracting detail
 * Do category levels need to be *identified* or just *distinguished*?
+
+---
+
 * Order categorical variables meaningfully ("What's wrong with Alabama?"): `forcats::fct_reorder()`, `forcats::fct_infreq()`
 * Choose *population variation* (standard deviations, boxplots) vs. *estimate variation* (standard errors, mean $\pm$ 2 SE, boxplot notches)
-* Choose colors carefully (`RColorBrewer`/[ColorBrewer](colorbrewer2.org/), [IWantHue](http://tools.medialab.sciences-po.fr/iwanthue/)): respect dichromats and B&W printouts
+* Choose colors carefully (`RColorBrewer`/[ColorBrewer](colorbrewer2.org/), [IWantHue](http://tools.medialab.sciences-po.fr/iwanthue/)), `colorspace`, `viridis` packages: respect dichromats and B&W printouts
 * visual design (tweaking) vs. reproducibility (e.g. `ggrepel`, `directlabels` packages)
 
 ## challenges:
@@ -160,9 +164,10 @@ pictures easier than model
 
 ## Data size affects graphic choices
 
-* **small** show all points, possibly dodged/jittered, with some summary statistics: dotplot, beeswarm. Simple trends (linear/GLM)
-* **medium** boxplots, loess, histograms, GAM (or linear regression)
-* **large** modern nonparametrics: violin plots, hexbin plots, kernel densities: computational burden, and display overlapping problems, relevant
+* **small:** show all points, possibly dodged/jittered, with some summary statistics: dotplot, beeswarm. Simple trends (linear/GLM)
+* **medium:** boxplots, loess, histograms, GAM (or linear regression)
+* **large:** modern nonparametrics: violin plots, hexbin plots, kernel densities
+computational burden, and display overlapping problems, relevant
 * combinations or overlays where appropriate (beanplot)
 
 ## Bits and pieces

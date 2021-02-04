@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -3111,67 +3124,68 @@ slide:not(.current) .plotly.html-widget{
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-            a.sourceLine { display: inline-block; line-height: 1.25; }
-    a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-    a.sourceLine:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode { white-space: pre; position: relative; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    code.sourceCode { white-space: pre-wrap; }
-    a.sourceLine { text-indent: -1em; padding-left: 1em; }
-    }
-    pre.numberSource a.sourceLine
-      { position: relative; left: -4em; }
-    pre.numberSource a.sourceLine::before
-      { content: attr(title);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; pointer-events: all; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {  }
-    @media screen {
-    a.sourceLine::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+            pre > code.sourceCode { white-space: pre; position: relative; }
+            pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+            pre > code.sourceCode > span:empty { height: 1.2em; }
+            code.sourceCode > span { color: inherit; text-decoration: inherit; }
+            div.sourceCode { margin: 1em 0; }
+            pre.sourceCode { margin: 0; }
+            @media screen {
+            div.sourceCode { overflow: auto; }
+            }
+            @media print {
+            pre > code.sourceCode { white-space: pre-wrap; }
+            pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+            }
+            pre.numberSource code
+              { counter-reset: source-line 0; }
+            pre.numberSource code > span
+              { position: relative; left: -4em; counter-increment: source-line; }
+            pre.numberSource code > span > a:first-child::before
+              { content: counter(source-line);
+                position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                border: none; display: inline-block;
+                -webkit-touch-callout: none; -webkit-user-select: none;
+                -khtml-user-select: none; -moz-user-select: none;
+                -ms-user-select: none; user-select: none;
+                padding: 0 4px; width: 4em;
+                color: #aaaaaa;
+              }
+            pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+            div.sourceCode
+              {   }
+            @media screen {
+            pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+            }
+            code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code span.at { color: #7d9029; } /* Attribute */
+            code span.bn { color: #40a070; } /* BaseN */
+            code span.bu { } /* BuiltIn */
+            code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code span.ch { color: #4070a0; } /* Char */
+            code span.cn { color: #880000; } /* Constant */
+            code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code span.dt { color: #902000; } /* DataType */
+            code span.dv { color: #40a070; } /* DecVal */
+            code span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code span.ex { } /* Extension */
+            code span.fl { color: #40a070; } /* Float */
+            code span.fu { color: #06287e; } /* Function */
+            code span.im { } /* Import */
+            code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code span.op { color: #666666; } /* Operator */
+            code span.ot { color: #007020; } /* Other */
+            code span.pp { color: #bc7a00; } /* Preprocessor */
+            code span.sc { color: #4070a0; } /* SpecialChar */
+            code span.ss { color: #bb6688; } /* SpecialString */
+            code span.st { color: #4070a0; } /* String */
+            code span.va { color: #19177c; } /* Variable */
+            code span.vs { color: #4070a0; } /* VerbatimString */
+            code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
         
   </style>
 
@@ -3188,7 +3202,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">09:26 02 February 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">11:22 04 February 2021</p>
           </hgroup>
   </slide>
 
@@ -3257,7 +3271,7 @@ slide:not(.current) .plotly.html-widget{
 <ul>
 <li>A picture is worth 1000 words</li>
 <li>coefficient plots: replacement for tables <span class="cite">(Gelman, Pasarica, and Dodhia 2002)</span>; <code>dotwhisker::dwplot</code></li>
-<li>also: tests of inference <span class="cite">Wickham et al. (2010)</span></li>
+<li>also: tests of inference <span class="cite">(Wickham et al. 2010)</span></li>
 </ul>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Explanation</h2></hgroup><article  id="explanation">
@@ -3316,7 +3330,7 @@ slide:not(.current) .plotly.html-widget{
 <ul>
 <li><code>plot()</code>, <code>lines()</code> and <code>points()</code></li>
 <li><code>legend()</code>, <code>axis()</code> (for decoration)</li>
-<li>other kinds of graphs: <code>matplot()</code> for multi-series plots, <code>boxplot()</code> for box plots, <code>hist()</code> for histograms, <code>contour()</code> and <code>image()</code>, <code>pairs</code>, …</li>
+<li>other kinds of graphs: <code>matplot()</code> for multi-series plots, <code>boxplot()</code> for box plots, <code>hist()</code> for histograms, <code>contour()</code> and <code>image()</code>, <code>pairs()</code>, …</li>
 <li><code>par(mfrow)</code>, <code>layout()</code> for multiple plots on a page</li>
 <li>useful packages: <code>car</code> (for <code>scatterplot()</code>, <code>scatterplotMatrix()</code>), <code>plotrix</code> (miscellaneous &ldquo;plot tricks&rdquo;)</li>
 </ul></li>
@@ -3336,7 +3350,7 @@ slide:not(.current) .plotly.html-widget{
 <ul>
 <li><strong>data</strong></li>
 <li><strong>mappings</strong>: between variables in the data frame and <strong>aesthetics</strong>, or graphical attributes (x position, y position, size, colour …)</li>
-<li>first two show up as (e.g.) <code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
+<li>first two show up as (e.g.)<br/><code>ggplot(my_data,aes(x=age,y=rootgrowth,colour=phosphate))</code></li>
 <li><strong>geoms</strong>:</li>
 <li>simple: <code>geom_point</code>, <code>geom_line</code></li>
 </ul>
@@ -3361,7 +3375,11 @@ slide:not(.current) .plotly.html-widget{
 
 <ul>
 <li>primary response as y axis</li>
-<li>most important predictor as x axis *(or substitute most important continuous or many-category predictor)</li>
+<li>most important predictor as x axis
+
+<ul>
+<li>(or substitute most important continuous or many-category predictor)</li>
+</ul></li>
 <li>next (categorical) predictors as groupings (preferably colour/shape)</li>
 <li>next (categorical) predictors as facets</li>
 </ul>
@@ -3374,9 +3392,14 @@ slide:not(.current) .plotly.html-widget{
 <li>flip axes to display labels better (ggplot: <code>coord_flip()</code>, <code>ggstance()</code> package)</li>
 <li>Use transparency to include important but potentially distracting detail</li>
 <li>Do category levels need to be <em>identified</em> or just <em>distinguished</em>?</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
+
+<ul>
 <li>Order categorical variables meaningfully (&ldquo;What’s wrong with Alabama?&rdquo;): <code>forcats::fct_reorder()</code>, <code>forcats::fct_infreq()</code></li>
 <li>Choose <em>population variation</em> (standard deviations, boxplots) vs. <em>estimate variation</em> (standard errors, mean \(\pm\) 2 SE, boxplot notches)</li>
-<li>Choose colors carefully (<code>RColorBrewer</code>/<a href='colorbrewer2.org/' title=''>ColorBrewer</a>, <a href='http://tools.medialab.sciences-po.fr/iwanthue/' title=''>IWantHue</a>): respect dichromats and B&amp;W printouts</li>
+<li>Choose colors carefully (<code>RColorBrewer</code>/<a href='colorbrewer2.org/' title=''>ColorBrewer</a>, <a href='http://tools.medialab.sciences-po.fr/iwanthue/' title=''>IWantHue</a>), <code>colorspace</code>, <code>viridis</code> packages: respect dichromats and B&amp;W printouts</li>
 <li>visual design (tweaking) vs. reproducibility (e.g. <code>ggrepel</code>, <code>directlabels</code> packages)</li>
 </ul>
 
@@ -3395,9 +3418,9 @@ slide:not(.current) .plotly.html-widget{
 </article></slide><slide class=""><hgroup><h2>Data size affects graphic choices</h2></hgroup><article  id="data-size-affects-graphic-choices">
 
 <ul>
-<li><strong>small</strong> show all points, possibly dodged/jittered, with some summary statistics: dotplot, beeswarm. Simple trends (linear/GLM)</li>
-<li><strong>medium</strong> boxplots, loess, histograms, GAM (or linear regression)</li>
-<li><strong>large</strong> modern nonparametrics: violin plots, hexbin plots, kernel densities: computational burden, and display overlapping problems, relevant</li>
+<li><strong>small:</strong> show all points, possibly dodged/jittered, with some summary statistics: dotplot, beeswarm. Simple trends (linear/GLM)</li>
+<li><strong>medium:</strong> boxplots, loess, histograms, GAM (or linear regression)</li>
+<li><strong>large:</strong> modern nonparametrics: violin plots, hexbin plots, kernel densities computational burden, and display overlapping problems, relevant</li>
 <li>combinations or overlays where appropriate (beanplot)</li>
 </ul>
 
@@ -3414,7 +3437,7 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class=""><hgroup><h2>References</h2></hgroup><article  id="references" class="unnumbered">
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-gelman_lets_2002">
 <p>Gelman, Andrew, Cristian Pasarica, and Rahul Dodhia. 2002. “Let’s Practice What We Preach: Turning Tables into Graphs.” <em>The American Statistician</em> 56 (2): 121–30. <a href='http://www.tandfonline.com/doi/abs/10.1198/000313002317572790' title=''>http://www.tandfonline.com/doi/abs/10.1198/000313002317572790</a>.</p></div>
 
