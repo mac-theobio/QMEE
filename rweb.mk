@@ -40,9 +40,10 @@ update: $(mdhdocs) $(rmdnotes) $(rmdslides)
 site_header = html/header.html
 site_footer = html/footer.html
 site_css = html/qmee.css
+site_bib = ../qmee.bib
 site_args = --self-contained
 ## mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) --css $(site_css) $(site_args)
-mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) $(site_args)
+mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) $(site_args) --bibliography=$(site_bib)
 docs/%.html: %.md
 	$(MAKE) html docs
 	$(mds)
