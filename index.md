@@ -31,7 +31,7 @@ There will also be some asynchronous content.
 * [Introduction to R](topics/Introduction_to_R.html)
 * [Data management](topics/Data_management.html) 
 * [Visualization](topics/Visualization.html)
-* [Statistical philosophy](topics/Statistical_philosophy.html) Week of 2 Feb
+* [Statistical philosophy](topics/Statistical_philosophy.html)
 
 ### Basic Statistics
 
