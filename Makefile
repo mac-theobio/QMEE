@@ -88,6 +88,7 @@ data:
 	$(linkdir)
 
 Sources += $(wildcard docs/data/*.*)
+Ignore += docs/legacy
 
 Sources += $(wildcard *.pl)
 Sources += data.md
