@@ -20,8 +20,8 @@ approaches.
 Resources
 ---------
 
-* [Lecture notes](https://github.com/dushoff/statistics_talks/blob/master/git_push/philosophy.handouts.pdf)
-	* [Slides](https://github.com/dushoff/statistics_talks/blob/master/git_push/philosophy.draft.pdf)
+* [Lecture notes](https://github.com/dushoff/statistics_talks/blob/master/outputs/qmee_phil.handouts.pdf)
+	* [Slides](https://github.com/dushoff/statistics_talks/blob/master/outputs/qmee_phil.draft.pdf)
 
 Assignment
 ----------
