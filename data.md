@@ -28,6 +28,5 @@ Other files from the cleaning lecture
 * data/cc2.rds
 
 ### Untracked files ###
-data/multiv_brmsfit.rda
 data/skewdat.csv
-MISSING: data/CA_homicide.RData
+data/multiv_brmsfit.rda

@@ -26,7 +26,7 @@ Resources
 Assignment
 ----------
 
--   Answer the [MMV question](MMV.html).  Get help where you need it, but write up the answer by yourself.
+-   Answer the [MMV question](../assignments/MMV.html).  Get help where you need it, but write up the answer by yourself.
 -   Formulate a hypothesis about your data, and discuss how you would test it statistically.
 
 See [the assignment page](../admin/assignments.html) to submit. For this case there are two separate assignments, so you should email us the names of two files on your repo. Don't submit in a proprietary format, like Word. Plain text is best, PDF is also OK.
