@@ -26,7 +26,7 @@ Other files from the cleaning lecture
 	* data/CA_popdat.csv: Canadian population information
     * data/CA_homicide.rds: Canadian homicide data (processed)
 * data/cc2.rds
+* data/skewdat.csv: data on reproductive skew in fish from Paczolt et al 2015 *J. Heredity*
 
 ### Untracked files ###
-data/skewdat.csv
 data/multiv_brmsfit.rda

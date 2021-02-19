@@ -20,19 +20,8 @@ permutation test.
 Resources
 =========
 
--   [Permutations_Lecture notes](Permutations_Lecture_notes.html)
--   [more permutation code examples](permutation_examples.html): 
-
--   R stuff
-    -   [R's "conditional inference" (coin)
-        package](http://cran.r-project.org/web/packages/coin/index.html)
-        -- Very cool, and a little intimidating.
-    -   [Information about "permute" and "vegan"
-        packages](http://ucfagls.wordpress.com/2011/10/04/permute-a-package-for-generating-restricted-permutations/).
-        These seem to be more about generating permutations than doing
-        permutation tests
-    -   [gtools](http://cran.r-project.org/web/packages/gtools/index.html)
-
+-   [Permutations lecture notes](Permutations_Lecture_notes.html)
+-   [Permutation coding examples](lectures/permutation_examples.notes.html)
 
 -   Stuff from JD
     -   [Counting and plotting
