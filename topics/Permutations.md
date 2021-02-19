@@ -7,7 +7,7 @@ Introduction
 ============
 
 Classical statistics was developed partly under the [lamppost
-theory](lamppost_theory.html): people did not used to have
+theory](../tips/lamppost_theory.html): people did not used to have
 powerful computers, and therefore there were only certain kinds of
 statistics that they could do.
 
