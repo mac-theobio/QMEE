@@ -20,8 +20,8 @@ permutation test.
 Resources
 =========
 
--   [Permutations lecture notes](Permutations_Lecture_notes.html)
--   [Permutation coding examples](lectures/permutation_examples.notes.html)
+-   [Permutations lecture notes](../lectures/Permutations_Lecture_notes.html)
+-   [Permutation coding examples](../lectures/permutation_examples.notes.html)
 
 -   Stuff from JD
     -   [Counting and plotting
