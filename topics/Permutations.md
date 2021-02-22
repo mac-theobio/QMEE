@@ -24,10 +24,9 @@ Resources
 -   [Permutation coding examples](../lectures/permutation_examples.notes.html)
 
 -   Stuff from JD
-    -   [Counting and plotting
-        permutations](http://lalashan.mcmaster.ca/theobio/math/index.php/Permutation_tests)
+    -   [Counting and plotting permutations (under construction! needs vpn and probably not worth it for now)](http://lalashan.mcmaster.ca/theobio/math/index.php/Permutation_tests)
     -   [Confidence intervals for the mean of a symmetric
-        variable](http://lalashan.mcmaster.ca/ecostats/permmean.pdf)
+        variable](../tips/permmean.pdf)
 
 Assignment
 ==========
