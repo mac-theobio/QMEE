@@ -60,7 +60,7 @@ COMMENT -->
 The last part of the schedule will be determined through discussions
 with the participants. If you have suggestions or requests, let us know.
 
-We may choose one or more additional [statistical topics](topics.html), or focus on programming and project design questions, or go into depth about one or more research projects.
+We may choose one or more additional [statistical topics](topics/additional.html), or focus on programming and project design questions, or go into depth about one or more research projects.
 
 <!-- COMMENT
 ### Extras
