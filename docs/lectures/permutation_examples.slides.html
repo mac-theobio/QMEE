@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-02-19" />
+  <meta name="date" content="2021-02-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3203,7 +3203,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">19 February 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">23 February 2021</p>
           </hgroup>
   </slide>
 
@@ -3265,11 +3265,11 @@ for (i in 1:nsim) {
     perm &lt;- sample(nrow(ants))
     bdat &lt;- transform(ants,colonies=colonies[perm])
     ## compute &amp; store difference in means; store the value
-    res[i] &lt;- mean(bdat[bdat$place==&quot;field&quot;,&quot;colonies&quot;])-
-        mean(bdat[bdat$place==&quot;forest&quot;,&quot;colonies&quot;])
+    res[i] &lt;- mean(bdat$colonies[bdat$place==&quot;field&quot;])-
+        mean(bdat$colonies[bdat$place==&quot;forest&quot;])
 }
-obs &lt;- mean(ants[ants$place==&quot;field&quot;,&quot;colonies&quot;])-
-    mean(ants[ants$place==&quot;forest&quot;,&quot;colonies&quot;])
+obs &lt;- mean(ants$colonies[ants$place==&quot;field&quot;])-
+        mean(ants$colonies[ants$place==&quot;forest&quot;])
 ## append the observed value to the list of results
 res &lt;- c(res,obs)</pre>
 
@@ -3294,12 +3294,14 @@ res[i] &lt;- agg$colonies[1]-agg$colonies[2]</pre>
 
 <p>or tidyverse:</p>
 
-<pre class = 'prettyprint lang-r'>(bdat
+<pre class = 'prettyprint lang-r'>res[i] &lt;- (bdat
     %&gt;% group_by(colonies)
     %&gt;% summarise(colonies=mean(colonies))
     %&gt;% pull(colonies)  ## extract a single column
     %&gt;% diff()          ## difference between elements
 )</pre>
+
+<p>If you want to be very fancy/tidyverse-ish, check out <code>purrr::map_dbl(1:n, ~ ...)</code></p>
 
 <p>Since there aren’t actually that many possible outcomes, we could plot them this way instead of using a histogram:</p>
 
@@ -3555,7 +3557,7 @@ sumfun_diffmean(ants)  ## test</pre>
 
 <p>Can we trust this regression? Let’s try a permutation test.</p>
 
-<p>Since all the \(x\) (<code>Size</code>) values are unique, there are a total of 31! (factorial) possible permutations, or 8.2^{33}, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out …)</p>
+<p>Since all the \(x\) (<code>Size</code>) values are unique, there are a total of 31! (factorial) possible permutations, or \(8.2\times 10^{33}\), way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out …)</p>
 
 <!-- what is the funny calculation above?? -->
 

@@ -67,11 +67,11 @@ for (i in 1:nsim) {
     perm <- sample(nrow(ants))
     bdat <- transform(ants,colonies=colonies[perm])
     ## compute & store difference in means; store the value
-    res[i] <- mean(bdat[bdat$place=="field","colonies"])-
-        mean(bdat[bdat$place=="forest","colonies"])
+    res[i] <- mean(bdat$colonies[bdat$place=="field"])-
+        mean(bdat$colonies[bdat$place=="forest"])
 }
-obs <- mean(ants[ants$place=="field","colonies"])-
-    mean(ants[ants$place=="forest","colonies"])
+obs <- mean(ants$colonies[ants$place=="field"])-
+        mean(ants$colonies[ants$place=="forest"])
 ## append the observed value to the list of results
 res <- c(res,obs)
 ```
@@ -98,13 +98,15 @@ res[i] <- agg$colonies[1]-agg$colonies[2]
 or tidyverse:
 
 ```{r tidy_agg,eval=FALSE}
-(bdat
+res[i] <- (bdat
     %>% group_by(colonies)
     %>% summarise(colonies=mean(colonies))
     %>% pull(colonies)  ## extract a single column
     %>% diff()          ## difference between elements
 )
 ```
+
+If you want to be very fancy/tidyverse-ish, check out `purrr::map_dbl(1:n, ~ ...)`
 
 Since there aren't actually that many possible outcomes,
 we could plot them this way instead of using a histogram:
@@ -321,7 +323,7 @@ summary(lm(skew~Size,data=skewdat))
 Can we trust this regression? Let's try a permutation test.
 
 Since all the $x$ (`Size`) values
-are unique, there are a total of `r nrow(skewdat)`! (factorial) possible permutations, or `r 1e32*round(factorial(nrow(skewdat))*1e-32)`, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out ...)
+are unique, there are a total of `r nrow(skewdat)`! (factorial) possible permutations, or $`r 1e32*round(factorial(nrow(skewdat))*1e-32)`$, way too many to do by brute force (insert calculations here about what fraction of the job we will have done by the time the sun burns out ...)
 
 <!-- what is the funny calculation above?? -->
 
@@ -349,7 +351,7 @@ I tried a few times with 2000 replicates and found that the results varied betwe
 We could also use `lmPerm` for this:
 
 ```{r lmPerm_regr}
-summary(lmp(skew~Size,data=skewdat))
+summary(lmp(skew~Size,data=skewdat, maxIter=16000, Ca=1e-3))
 ```
 
 Or `coin`:
@@ -358,7 +360,7 @@ Or `coin`:
 independence_test(skew~Size,data=skewdat,teststat="scalar",
                   distribution="asymptotic")
 independence_test(skew~Size,data=skewdat,teststat="scalar",
-                  distribution=approximate(nresample=9999))
+                  distribution=approximate(nresample=16000))
 ```
 
 Since the standard error of an estimated proportion is $\sqrt{p(1-p)/n}$, the *coefficient of variation* (ratio of the standard error to the mean estimate, $p$) is $\sqrt{(1-p)/(pn)}$.  Thus for an observed $p$-value, if we want to get the coefficient of variation down to a specified level $c$ (say 5%, so the confidence intervals are approximately $\pm$ 10% of the estimated $p$-value) then we need to take $n$ large enough so that $c = \sqrt{(1-p)/(pn)}$, or $n \approx (1-p)/(p c^2)$; if $p$ is small then this is further approximated by $1/(p c^2)$ (e.g. for a $p$-value of 0.05 accurate within $c=0.05$, we need $1/(0.5 \cdot 0.5^2) = 1/(0.5^3) = 20^3 = 8000$ samples (slightly fewer since we have neglected the $1-p$ term). If we wanted a similarly accurate value for our current answer, with a $p$-value about half as large, we would need twice as many samples.
