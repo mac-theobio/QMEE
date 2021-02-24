@@ -42,6 +42,7 @@ tips/docs/%.html: $(wildcard tips/*.rmd)
 
 ## lectures/docs/Visualization.notes.html: lectures/Visualization.rmd
 ## lectures/docs/Visualization.slides.html: lectures/Visualization.rmd
+## lectures/docs/Permutations_overview.notes.html: lectures/Permutations_overview.rmd ##
 
 ## tips/docs/R_style.notes.html: tips/R_style.rmd
 
