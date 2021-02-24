@@ -20,7 +20,7 @@ permutation test.
 Resources
 =========
 
--   [Permutations lecture notes](../lectures/Permutations_Lecture_notes.html)
+-   [Permutations lecture notes (cleaned a bit)](../lectures/Permutations_overview.notes.html)
 -   [Permutation coding examples](../lectures/permutation_examples.notes.html)
 
 -   Stuff from JD
