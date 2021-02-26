@@ -1,23 +1,25 @@
 ---
-title: Linear models
+title: Generalized linear models
 author: Jonathan Dushoff and Ben Bolker
 ---
 
 Introduction
 ============
 
-Linear models are a kind of [lamppost](lamppost_theory.html): a
-very powerful set of tools for solving certain kinds of problems, using
-certain kinds of assumptions.
+Generalized linear models generalize the idea of linear models (!) by adding:
+
+* a family (the responses don't have to be normally distributed)
+* a link function (the linear predictor and the effect can be on different scales)
+
+Like linear models, they are a very powerful set of tools depending on very specific assumptions, but at least they're more flexible than linear models.
 
 Class materials
 ===============
 
--   [Main lecture notes](Linear_model_lecture.html)
-    -   [slide version](Linear_model_lecture.slides.html)
--   [Parameters](Linear_model_parameters.html)
--   [Testing](Linear_model_tests.html)
+-   [Main lecture notes](Generalized_linear_models.html)
+    -   [slide version](Generalized_linear_models.slides.html)
 
+<!--- This is how you make a comment
 Resources
 =========
 
@@ -49,13 +51,8 @@ Resources
     -   ["The arcsine is
         asinine"](http://www.esajournals.org/doi/full/10.1890/10-0340.1):
         Warton and Hui on not arcsine-transforming proportion data
+-->
 
-
--   Discussion
-    -   [Hurlbert's classic Pseudo-replication
-        paper](http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf)
-    -   [Exegeses on linear
-        models](http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf) (advanced)
 
 Assignment
 ==========
@@ -67,4 +64,6 @@ Draw **and discuss** at least one of each of the following:
 * inferential plot (e.g., a coefficient plot, or something from `emmeans` or `effects`)
 
 The assignment is due by sometime on Mon. 18 Feb.
+
+* See the [assignment instructions](../admin/assignments.html)
 
