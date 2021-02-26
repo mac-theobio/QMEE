@@ -36,42 +36,28 @@ There will also be some asynchronous content.
 ### Basic Statistics
 
 - [Permutations](topics/Permutations.html)
-- [Linear models](topics/Linear_models.html)
-- [Bayesian statistics](topics/Bayesian_statistics.html)
+- [Linear models](topics/Linear_models.html) <!-- week of March 1 -->
+- [Bayesian statistics](topics/Bayesian_statistics.html) <!-- week of March 8 -->
 <!-- COMMENT
 COMMENT -->
 
 ### Additional topics
 
-<!-- COMMENT
-* Generalized linear models
-* Mixed models
-* Multivariate responses
-* Linear model parameters
-* Penalized regression
+(links may be broken at present)
 
-- [Generalized linear models](Generalized_linear_models.html)
-- [Mixed models](Mixed_models.html)
+- [Generalized linear models](Generalized_linear_models.html)  <!-- week of March 15 -->
+- [Mixed models](Mixed_models.html) <!-- week of March 22 -->
+
+(plus one more, probably social network analysis or multivariate responses)
+
+<!-- ? social network analysis -->
+
+<!-- COMMENT
+
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
-COMMENT -->
 
-The last part of the schedule will be determined through discussions
-with the participants. If you have suggestions or requests, let us know.
-
-We may choose one or more additional [statistical topics](topics/additional.html), or focus on programming and project design questions, or go into depth about one or more research projects.
-
-<!-- COMMENT
-### Extras
-
--   [Multiple comparisons](Multiple_comparisons.html)
-COMMENT -->
-
-<!-- COMMENT
-## Other 
-
-* [Git issues](git_issues.html)
 COMMENT -->
 
 ## Faculty
