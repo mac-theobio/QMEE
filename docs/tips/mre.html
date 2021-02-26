@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>data_index</title>
+  <title>Minimal reproducible examples</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -13,64 +13,6 @@
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
   </style>
-  <style type="text/css">
-body {
-margin: auto;
-padding-right: 1em;
-padding-left: 1em;
-max-width: 66em; border-left: 1px solid black;
-border-right: 1px solid black;
-color: black;
-font-family: Verdana, sans-serif;
-font-size: 100%;
-line-height: 140%;
-}
-pre {
-border: 1px dotted gray;
-background-color: #ececec;
-color: #1111111;
-padding: 0.5em;
-}
-code {
-font-family: monospace;
-}
-h1, h2, h3, h4, h5 { font-family: verdana;
-font-weight: bold;
-border-bottom: 1px dotted black;
-color: #444400; }
-h1 {
-font-size: 150%;
-color: #0000DD
-}
-h2 {
-font-size: 130%;
-}
-h3 {
-font-size: 110%;
-}
-h1.title {
-font-size: 200%;
-font-weight: bold;
-padding-top: 0.2em;
-padding-bottom: 0.2em;
-text-align: left;
-border: none;
-text-align: center;
-}
-dt code {
-font-weight: bold;
-}
-dd p {
-margin-top: 0;
-}
-#footer {
-padding-top: 1em;
-font-size: 100%;
-color: gray;
-text-align: center;
-margin-bottom: 2ex;
-}
-</style>
 </head>
 <body>
 <header class="site-header">
@@ -84,38 +26,51 @@ margin-bottom: 2ex;
 </div>
 </header>
 
-<p>Data on <em>Anolis</em> lizards from Schoener 1970 (<em>Ecology</em>)</p>
+<header id="title-block-header">
+<h1 class="title">Minimal reproducible examples</h1>
+</header>
+<p>When you ask a question we (JD and/or BB) will often say “Can you send me a (minimal) <strong>reproducible</strong> example?” (these are sometimes called “reprexes” or abbreviated MWE (minimal working example) or MRE (ditto, reproducible)).</p>
 <ul>
-<li><a href="lizards.csv">lizards.csv</a></li>
-</ul>
-<p>Data from the Garki project</p>
+<li><strong>Reproducible</strong> means something we can run for ourselves to replicate your problem on our computers. <em>Sometimes</em> we can just look at your code and see what’s wrong, but most of the time we can’t. In particular,
 <ul>
-<li><a href="village.csv">village.csv</a>: Village table</li>
-<li><a href="parademo.csv">parademo.csv</a>: Parasitology and demography</li>
-</ul>
-<p>Other files from the cleaning lecture</p>
+<li>you should be able to run your code in a clean R session and see the same problem.
 <ul>
-<li><a href="religion_basic.ccsv">religion_basic.ccsv</a></li>
-<li>MISSING: <a href="religion_advanced.ccsv">religion_advanced.ccsv</a></li>
-<li><a href="live.RData">live.RData</a></li>
-</ul>
-<h3 id="older-files">Older files</h3>
-<ul>
-<li><a href="portal_data_joined.csv">portal_data_joined.csv</a>: data from the Portal project</li>
-<li><a href="contrasts2.RData">contrasts2.RData</a></li>
-<li><a href="dll.csv">dll.csv</a></li>
-<li><a href="ants.csv">ants.csv</a>: data on ant habitats from Gotelli and Ellison</li>
-<li>Canada data:
-<ul>
-<li><a href="CA_homicide.csv">CA_homicide.csv</a>: Canadian homicide data</li>
-<li><a href="CA_popdat.csv">CA_popdat.csv</a>: Canadian population information</li>
-<li><a href="CA_homicide.rds">CA_homicide.rds</a>: Canadian homicide data (processed)</li>
+<li>If you can’t get to the place where the problem occurs when you rerun the code (e.g. because of unloaded data or unloaded packages causes an error before that point), then we certainly can’t</li>
+<li>It helps if you can tell us <em>specifically</em> what error/warning/wrong answer you’re getting (see below)</li>
 </ul></li>
-<li><a href="cc2.rds">cc2.rds</a></li>
-<li><a href="skewdat.csv">skewdat.csv</a>: data on reproductive skew in fish from Paczolt et al 2015 <em>J. Heredity</em></li>
+</ul></li>
+<li><strong>Minimal</strong> means to do whatever you can to make your example <em>short</em>, to save us the trouble of digging through/running lots of code to find the problem.</li>
+<li>Some further resources.
+<ul>
+<li>Many of these resources emphasize creating <strong>self-contained</strong> MREs, i.e. not depending on external data files etc.. That’s less important for this course, where JD/BB have access to your Github repository. You can tell us e.g. “my MRE is in file ‘mre.R’, it uses ‘mydata.csv’, everything is on my repository”. Self-contained MREs are better - they’re generally shorter, and anyone in the course can try them out without access to your repo if you post them to the Teams channel - but not absolutely necessary for this course.</li>
+</ul></li>
+<li><a href="https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example">R-specific Stack Overflow question about reproducible examples</a></li>
+<li><a href="https://stackoverflow.com/help/minimal-reproducible-example">General Stack Overflow page on MREs</a></li>
+<li><a href="https://make-a-reprex-please.netlify.app/#1">presentation by Sharla Gelfand</a></li>
+<li>the <a href="https://CRAN.R-project.org/package=reprex">reprex package</a>, an R package for creating reprexes (<a href="https://reprex.tidyverse.org/">web page</a>)</li>
+<li>a <strong>very old</strong> (but famous) post on <a href="www.catb.org/~esr/faqs/smart-questions.html">“how to ask questions the smart way”</a> (mostly more general about asking advice on technical forums)</li>
 </ul>
-<h3 id="untracked-files">Untracked files</h3>
-<p><a href="multiv_brmsfit.rda">multiv_brmsfit.rda</a></p>
+<hr />
+<p>The <code>fortunes</code> R package is a compendium of R-related snark.</p>
+<p><code>fortunes::fortune(&quot;picketing&quot;)</code></p>
+<p>The phrase “does not work” is not very helpful, it can mean quite a few things including:</p>
+<ul>
+<li>Your computer exploded.</li>
+<li>No explosion, but smoke is pouring out the back and microsoft’s “NoSmoke” utility is not compatible with your power supply.</li>
+<li>The computer stopped working.</li>
+<li>The computer sits around on the couch all day eating chips and watching talk shows.</li>
+<li>The computer has started picketing your house shouting catchy slogans and demanding better working conditions and an increase in memory.</li>
+<li>Everything went dark and you cannot check the cables on the back of the computer because the lights are off due to the power outage.</li>
+<li>R crashed, but the other programs are still working.</li>
+<li>R gave an error message and stopped processing your code after running for a while.</li>
+<li>R gave an error message without running any of your code (and is waiting for your next command).</li>
+<li>R is still running your code and the time has exceeded your patience so you think it has hung.</li>
+<li>R completed and returned a result, but also gave warnings.</li>
+<li>R completed your command, but gave an incorrect answer.</li>
+<li>R completed your command but the answer is different from what you expect (but is correct according to the documentation).</li>
+</ul>
+<p>There are probably others. Running your code I think the answer is the last one.</p>
+<p>Greg Snow, R-help (April 2012)</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>
