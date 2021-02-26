@@ -53,8 +53,8 @@ COMMENT -->
 - [Generalized linear models](Generalized_linear_models.html)
 - [Mixed models](Mixed_models.html)
 - [Multivariate responses](Multivariate_responses.html)
-- [Linear model parameters] (parameters.html)
-- [Penalized regression] (penalized.html)
+- [Linear model parameters](parameters.html)
+- [Penalized regression](penalized.html)
 COMMENT -->
 
 The last part of the schedule will be determined through discussions
