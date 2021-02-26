@@ -133,7 +133,7 @@ author: Jonathan Dushoff
 
 * [Rabies examples](http://www.pnas.org/content/104/18/7717.full)
 
-[![Cross-country correlation](http://lalashan.mcmaster.ca/theobio/bio_708/images/d/d9/Weighted_Mantel.jpg)](http://lalashan.mcmaster.ca/theobio/bio_708/images/d/d9/Weighted_Mantel.jpg)
+[![Cross-country correlation](../pix/Weighted_Mantel.jpg)](../pix/Weighted_Mantel.jpg)
 
 # More applications
 
