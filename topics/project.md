@@ -1,6 +1,15 @@
 ---
-title: Final project
+title: Project tasks
 ---
+
+<!-- COMMENT
+
+Write up a paragraph describing a data set and some ideas for a project, and post it to 	WHERE?
+
+COMMENT -->
+
+<!--- COMMENT
+Not updated 2021 Feb 25 (Thu)
 
 Your final project is due on Tuesday 23 April at noon. You should discuss and perform a group of statistical analyses. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth three (3) ordinary assignments.
 
@@ -73,6 +82,7 @@ It is OK to adapt existing text from your assignments, but both partners should 
 * Add your data to the project
 * Start cleaning, coding and analyzing!
 	* Again, it's OK to reuse stuff, but you should go over it together before moving on.
+COMMENT -->
 
 <!-- COMMENT
 * Add a master script, in the style of [Dushoff's script from class](https://github.com/mac-theobio/QMEE_2017/blob/master/dushoff/master.R) (this is in the private repo; you can use the link if you are logged in to github, or you can view it locally in the course repo).
