@@ -5,74 +5,15 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
-  <title>Generalized linear models</title>
+  <title>Linear models</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
   </style>
-  <style type="text/css">
-body {
-margin: auto;
-padding-right: 1em;
-padding-left: 1em;
-max-width: 66em; border-left: 1px solid black;
-border-right: 1px solid black;
-color: black;
-font-family: Verdana, sans-serif;
-font-size: 100%;
-line-height: 140%;
-}
-pre {
-border: 1px dotted gray;
-background-color: #ececec;
-color: #1111111;
-padding: 0.5em;
-}
-code {
-font-family: monospace;
-}
-h1, h2, h3, h4, h5 { font-family: verdana;
-font-weight: bold;
-border-bottom: 1px dotted black;
-color: #444400; }
-h1 {
-font-size: 150%;
-color: #0000DD
-}
-h2 {
-font-size: 130%;
-}
-h3 {
-font-size: 110%;
-}
-h1.title {
-font-size: 200%;
-font-weight: bold;
-padding-top: 0.2em;
-padding-bottom: 0.2em;
-text-align: left;
-border: none;
-text-align: center;
-}
-dt code {
-font-weight: bold;
-}
-dd p {
-margin-top: 0;
-}
-#footer {
-padding-top: 1em;
-font-size: 100%;
-color: gray;
-text-align: center;
-margin-bottom: 2ex;
-}
-</style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -85,66 +26,48 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
+
 <header id="title-block-header">
-<h1 class="title">Generalized linear models</h1>
+<h1 class="title">Linear models</h1>
 <p class="author">Jonathan Dushoff and Ben Bolker</p>
 </header>
 <h1 id="introduction">Introduction</h1>
-<p>Generalized linear models generalize the idea of linear models (!) by adding:</p>
-<ul>
-<li>a family (the responses don’t have to be normally distributed)</li>
-<li>a link function (the linear predictor and the effect can be on different scales)</li>
-</ul>
-<p>Like linear models, they are a very powerful set of tools depending on very specific assumptions, but at least they’re more flexible than linear models.</p>
+<p>Linear models are a kind of <a href="lamppost_theory.html">lamppost</a>: a very powerful set of tools for solving certain kinds of problems, using certain kinds of assumptions.</p>
 <h1 id="class-materials">Class materials</h1>
 <ul>
-<li><a href="Generalized_linear_models.html">Main lecture notes</a>
+<li><a href="../lectures/Linear_models.notes.html">Main lecture notes</a>
 <ul>
-<li><a href="Generalized_linear_models.slides.html">slide version</a></li>
+<li><a href="../lectures/Linear_models.slides.html">slide version</a></li>
+</ul></li>
+<li><a href="../lectures/Linear_model_parameters.html">Parameters</a></li>
+</ul>
+<h1 id="resources">Resources</h1>
+<ul>
+<li>Introductory
+<ul>
+<li><a href="http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R">The model section from the R intro book</a></li>
+<li><a href="http://plantecology.syr.edu/fridley/bio793/lm.html">Fridley examples and guidelines</a></li>
+<li><a href="http://data.princeton.edu/R/linearModels.html">Rodriguez introduction</a></li>
+<li><a href="http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf">Bolker book</a> (see Sec. 9.2)</li>
+<li><a href="http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf">Faraway linear models</a> book draft
+<ul>
+<li><a href="http://www.maths.bath.ac.uk/~jjf23/LMR/">Book home page</a></li>
+</ul></li>
+<li><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf">Hector et al</a> on ANOVA for unbalanced data (i.e. “type III sums of squares” revisited)</li>
+<li><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full">Schielzeth</a> (2010) on centering and scaling in linear models</li>
+<li><a href="http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2">Murtaugh</a> (2007) on averaging in analysis of nested designs</li>
+</ul></li>
+<li>Discussion
+<ul>
+<li><a href="http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf">Hurlbert’s classic Pseudo-replication paper</a></li>
+<li><a href="http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf">Exegeses on linear models</a> (advanced)</li>
 </ul></li>
 </ul>
-<!--- This is how you make a comment
-Resources
-=========
-
--   Introductory
-    -   [The model section from the R intro
-        book](http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R)
-    -   [Fridley examples and
-        guidelines](http://plantecology.syr.edu/fridley/bio793/lm.html)
-    -   [Rodriguez
-        introduction](http://data.princeton.edu/R/linearModels.html)
-    -   [Bolker
-        book](http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf)
-        (see Sec. 9.2)
-    -   [Faraway linear
-        models](http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf)
-        book draft
-        -   [Book home page](http://www.maths.bath.ac.uk/~jjf23/LMR/)
-    -   [Hector et
-        al](http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf)
-        on ANOVA for unbalanced data (i.e. "type III sums of
-        squares" revisited)
-    -   [Schielzeth](http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full) (2010)
-        on centering and scaling in linear models
-    -   [Murtaugh](http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2) (2007)
-        on averaging in analysis of nested designs
-    -   [O'Hara and
-        Kotze](http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00021.x/full) (2010)
-        on not log-transforming count data
-    -   ["The arcsine is
-        asinine"](http://www.esajournals.org/doi/full/10.1890/10-0340.1):
-        Warton and Hui on not arcsine-transforming proportion data
--->
 <h1 id="assignment">Assignment</h1>
 <p>Make a linear model for one or more of your hypotheses. Draw <strong>and discuss</strong> at least one of each of the following:</p>
 <ul>
 <li>diagnostic plot</li>
 <li>inferential plot (e.g., a coefficient plot, or something from <code>emmeans</code> or <code>effects</code>)</li>
-</ul>
-<p>The assignment is due by sometime on Mon. 18 Feb.</p>
-<ul>
-<li>See the <a href="../admin/assignments.html">assignment instructions</a></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">
