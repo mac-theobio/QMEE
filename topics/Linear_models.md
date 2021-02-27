@@ -6,7 +6,7 @@ author: Jonathan Dushoff and Ben Bolker
 Introduction
 ============
 
-Linear models are a kind of [lamppost](lamppost_theory.html): a
+Linear models are a kind of [lamppost](../tips/lamppost_theory.html): a
 very powerful set of tools for solving certain kinds of problems, using
 certain kinds of assumptions.
 
@@ -15,7 +15,7 @@ Class materials
 
 -   [Main lecture notes](../lectures/Linear_models.notes.html)
     -   [slide version](../lectures/Linear_models.slides.html)
--   [Parameters](../lectures/Linear_model_parameters.html)
+-   [Parameters](../lectures/Linear_model_parameters.notes.html)
 
 Resources
 =========
