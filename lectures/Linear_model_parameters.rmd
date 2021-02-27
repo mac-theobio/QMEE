@@ -105,16 +105,16 @@ dwplot(lm0)
 Some data on lizard perching behaviour (`brglm` package; Schoener 1970 *Ecology* **51**:408-418). (Ignore the fact that these are proportions/GLM would be better ...)
 
 ```{r echo=FALSE,message=FALSE}
-if (!file.exists("data/lizards.csv")) {
+if (!file.exists("../data/lizards.csv")) {
    require("brglm")
    data(lizards)
    lizards <- transform(lizards,N=grahami+opalinus,
                      gfrac=grahami/(grahami+opalinus))
-   write.csv(lizards,file="data/lizards.csv")
+   write.csv(lizards,file="../data/lizards.csv")
 }
 ```
 ```{r fakelizards}
-lizards <- read.csv("data/lizards.csv")
+lizards <- read.csv("../data/lizards.csv")
 ```
 
 Response is number of *Anolis grahami* lizards found on perches in particular conditions.
