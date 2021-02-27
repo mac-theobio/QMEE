@@ -31,29 +31,35 @@
 </header>
 <p>When you ask a question we (JD and/or BB) will often say “Can you send me a (minimal) <strong>reproducible</strong> example?” (these are sometimes called “reprexes” or abbreviated MWE (minimal working example) or MRE (ditto, reproducible)).</p>
 <ul>
-<li><strong>Reproducible</strong> means something we can run for ourselves to replicate your problem on our computers. <em>Sometimes</em> we can just look at your code and see what’s wrong, but most of the time we can’t. In particular,
+<li><p><strong>Reproducible</strong> means something we can run for ourselves to replicate your problem on our computers. <em>Sometimes</em> we can just look at your code and see what’s wrong, but most of the time we can’t. In particular:</p>
 <ul>
-<li>you should be able to run your code in a clean R session and see the same problem.
+<li>you should be able to run your code in a <strong>clean R session</strong> (RStudio: <code>Session &gt; Restart R</code>) and see the same problem.
 <ul>
-<li>If you can’t get to the place where the problem occurs when you rerun the code (e.g. because of unloaded data or unloaded packages causes an error before that point), then we certainly can’t</li>
-<li>It helps if you can tell us <em>specifically</em> what error/warning/wrong answer you’re getting (see below)</li>
+<li>make sure you don’t encounter any errors before the location of your main problem (e.g. because of unloaded data or unloaded packages causes an error before that point)</li>
+<li>please tell us <em>specifically</em> what error/warning/wrong answer you’re getting<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
 </ul></li>
 </ul></li>
-<li><strong>Minimal</strong> means to do whatever you can to make your example <em>short</em>, to save us the trouble of digging through/running lots of code to find the problem.</li>
-<li>Some further resources.
+<li><p><strong>Minimal</strong> means to do whatever you can to make your example <em>short</em>, to save us the trouble of digging through/running lots of code to find the problem.</p></li>
+<li><p>Some further resources.</p>
+<p>Many of these resources emphasize creating <strong>self-contained</strong> MREs, i.e. not depending on external data files etc.. That’s less important for this course, where JD/BB have access to your Github repository. You can tell us e.g. “my MRE is in file ‘mre.R’, it uses ‘mydata.csv’, everything is on my repository”. Self-contained MREs are better - they’re generally shorter, and anyone in the course can try them out without access to your repo if you post them to the Teams channel - but not absolutely necessary for this course.</p>
 <ul>
-<li>Many of these resources emphasize creating <strong>self-contained</strong> MREs, i.e. not depending on external data files etc.. That’s less important for this course, where JD/BB have access to your Github repository. You can tell us e.g. “my MRE is in file ‘mre.R’, it uses ‘mydata.csv’, everything is on my repository”. Self-contained MREs are better - they’re generally shorter, and anyone in the course can try them out without access to your repo if you post them to the Teams channel - but not absolutely necessary for this course.</li>
-</ul></li>
 <li><a href="https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example">R-specific Stack Overflow question about reproducible examples</a></li>
 <li><a href="https://stackoverflow.com/help/minimal-reproducible-example">General Stack Overflow page on MREs</a></li>
 <li><a href="https://make-a-reprex-please.netlify.app/#1">presentation by Sharla Gelfand</a></li>
 <li>the <a href="https://CRAN.R-project.org/package=reprex">reprex package</a>, an R package for creating reprexes (<a href="https://reprex.tidyverse.org/">web page</a>)</li>
 <li>a <strong>very old</strong> (but famous) post on <a href="www.catb.org/~esr/faqs/smart-questions.html">“how to ask questions the smart way”</a> (mostly more general about asking advice on technical forums)</li>
+</ul></li>
 </ul>
+<section class="footnotes" role="doc-endnotes">
 <hr />
-<p>The <code>fortunes</code> R package is a compendium of R-related snark.</p>
-<p><code>fortunes::fortune(&quot;picketing&quot;)</code></p>
-<p>The phrase “does not work” is not very helpful, it can mean quite a few things including:</p>
+<ol>
+<li id="fn1" role="doc-endnote">The <code>fortunes</code> R package is a compendium of R-related snark. If you like snark, read on. <!-- apparently I need manual paragraphs <p> to keep this footnote together (ugh) -->
+<p>
+<code>fortunes::fortune(&quot;picketing&quot;)</code>
+<p>
+<blockquote>
+The phrase “does not work” is not very helpful, it can mean quite a few things including:
+<p>
 <ul>
 <li>Your computer exploded.</li>
 <li>No explosion, but smoke is pouring out the back and microsoft’s “NoSmoke” utility is not compatible with your power supply.</li>
@@ -67,10 +73,16 @@
 <li>R is still running your code and the time has exceeded your patience so you think it has hung.</li>
 <li>R completed and returned a result, but also gave warnings.</li>
 <li>R completed your command, but gave an incorrect answer.</li>
-<li>R completed your command but the answer is different from what you expect (but is correct according to the documentation).</li>
+<li>R completed your command but the answer is different from what you expect (but is correct according to the documentation).
+<p>
+There are probably others. Running your code I think the answer is the last one.
+<p>
+Greg Snow, R-help (April 2012)</li>
 </ul>
-<p>There are probably others. Running your code I think the answer is the last one.</p>
-<p>Greg Snow, R-help (April 2012)</p>
+</blockquote>
+<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
+</ol>
+</section>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>
