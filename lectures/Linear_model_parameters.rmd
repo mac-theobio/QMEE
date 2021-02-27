@@ -9,7 +9,8 @@ knit_hooks$set(basefig=function(before, options, envir) {
                        par(bty="l",las=1)
                    } else { }
                })
-opts_chunk$set(fig.width=6,fig.height=4,fig.align="center",tidy=FALSE)
+opts_chunk$set(fig.width=6,fig.height=4,fig.align="center",tidy=FALSE,
+               dev.args = list(png = list(type = "cairo")))
 ``` 
 
 ## Model parameters: definitions
@@ -142,6 +143,7 @@ Start with the `time` variable.
 If we leave the factors alphabetical then $\beta_1$="early", $\beta_2$="late"-"early", $\beta_3$="midday"-"early".  Change the order of the levels:
 ```{r reordertime}
 lizards <- mutate(lizards,
+        light=factor(light),
         time=factor(time,
             levels=c("early","midday","late")))
 ```
