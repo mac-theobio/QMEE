@@ -33,13 +33,13 @@ There's never time to do it right ... but there's always time to do it over!
 * tidyr
 * readr
 
-```{r}
+```{r tidyverse}
 library(tidyverse)
 ```
 
 ## A sample data set
 
-```{r village.R}
+```{r village}
 villageTable <- read_csv("../data/village.csv")
 ```
 
@@ -51,7 +51,7 @@ summary(villageTable)
 
 ## A sample data set
 
-```{r parasite.R}
+```{r parasite}
 parasiteTable <- read_csv("../data/parademo.csv")
 ```
 

@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
-  <title>Linear models</title>
+  <title>Minimal reproducible examples</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -28,56 +27,62 @@
 </header>
 
 <header id="title-block-header">
-<h1 class="title">Linear models</h1>
-<p class="author">Jonathan Dushoff and Ben Bolker</p>
+<h1 class="title">Minimal reproducible examples</h1>
 </header>
-<h1 id="introduction">Introduction</h1>
-<p>Linear models are a kind of <a href="lamppost_theory.html">lamppost</a>: a very powerful set of tools for solving certain kinds of problems, using certain kinds of assumptions.</p>
-<h1 id="class-materials">Class materials</h1>
+<p>When you ask a question we (JD and/or BB) will often say “Can you send me a (minimal) <strong>reproducible</strong> example?” (these are sometimes called “reprexes” or abbreviated MWE (minimal working example) or MRE (ditto, reproducible)).</p>
 <ul>
-<li><a href="../lectures/Linear_models.notes.html">Main lecture notes</a>
+<li><p><strong>Reproducible</strong> means something we can run for ourselves to replicate your problem on our computers. <em>Sometimes</em> we can just look at your code and see what’s wrong, but most of the time we can’t. In particular:</p>
 <ul>
-<li><a href="../lectures/Linear_models.slides.html">slide version</a></li>
+<li>you should be able to run your code in a <strong>clean R session</strong> (RStudio: <code>Session &gt; Restart R</code>) and see the same problem.
+<ul>
+<li>make sure you don’t encounter any errors before the location of your main problem (e.g. because of unloaded data or unloaded packages causes an error before that point)</li>
+<li>please tell us <em>specifically</em> what error/warning/wrong answer you’re getting<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
 </ul></li>
-<li><a href="../lectures/Linear_model_parameters.html">Parameters</a></li>
-</ul>
-<h1 id="resources">Resources</h1>
-<ul>
-<li>Introductory
-<ul>
-<li><a href="http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R">The model section from the R intro book</a></li>
-<li><a href="http://plantecology.syr.edu/fridley/bio793/lm.html">Fridley examples and guidelines</a></li>
-<li><a href="http://data.princeton.edu/R/linearModels.html">Rodriguez introduction</a></li>
-<li><a href="http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf">Bolker book</a> (see Sec. 9.2)</li>
-<li><a href="http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf">Faraway linear models</a> book draft
-<ul>
-<li><a href="http://www.maths.bath.ac.uk/~jjf23/LMR/">Book home page</a></li>
 </ul></li>
-<li><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf">Hector et al</a> on ANOVA for unbalanced data (i.e. “type III sums of squares” revisited)</li>
-<li><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full">Schielzeth</a> (2010) on centering and scaling in linear models</li>
-<li><a href="http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2">Murtaugh</a> (2007) on averaging in analysis of nested designs</li>
-<<<<<<< HEAD
-<li><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00021.x/full">O’Hara and Kotze</a> (2010) on not log-transforming count data</li>
-<li><a href="http://www.esajournals.org/doi/full/10.1890/10-0340.1">“The arcsine is asinine”</a>: Warton and Hui on not arcsine-transforming proportion data</li>
-=======
->>>>>>> 5f47bf04fc4349f45d5b2773a78c424eeb67bff2
-</ul></li>
-<li>Discussion
+<li><p><strong>Minimal</strong> means to do whatever you can to make your example <em>short</em>, to save us the trouble of digging through/running lots of code to find the problem.</p></li>
+<li><p>Some further resources.</p>
+<p>Many of these resources emphasize creating <strong>self-contained</strong> MREs, i.e. not depending on external data files etc.. That’s less important for this course, where JD/BB have access to your Github repository. You can tell us e.g. “my MRE is in file ‘mre.R’, it uses ‘mydata.csv’, everything is on my repository”. Self-contained MREs are better - they’re generally shorter, and anyone in the course can try them out without access to your repo if you post them to the Teams channel - but not absolutely necessary for this course.</p>
 <ul>
-<li><a href="http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf">Hurlbert’s classic Pseudo-replication paper</a></li>
-<li><a href="http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf">Exegeses on linear models</a> (advanced)</li>
+<li><a href="https://stackoverflow.com/questions/5963269/how-to-make-a-great-r-reproducible-example">R-specific Stack Overflow question about reproducible examples</a></li>
+<li><a href="https://stackoverflow.com/help/minimal-reproducible-example">General Stack Overflow page on MREs</a></li>
+<li><a href="https://make-a-reprex-please.netlify.app/#1">presentation by Sharla Gelfand</a></li>
+<li>the <a href="https://CRAN.R-project.org/package=reprex">reprex package</a>, an R package for creating reprexes (<a href="https://reprex.tidyverse.org/">web page</a>)</li>
+<li>a <strong>very old</strong> (but famous) post on <a href="www.catb.org/~esr/faqs/smart-questions.html">“how to ask questions the smart way”</a> (mostly more general about asking advice on technical forums)</li>
 </ul></li>
 </ul>
-<h1 id="assignment">Assignment</h1>
-<p>Make a linear model for one or more of your hypotheses. Draw <strong>and discuss</strong> at least one of each of the following:</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote">The <code>fortunes</code> R package is a compendium of R-related snark. If you like snark, read on. <!-- apparently I need manual paragraphs <p> to keep this footnote together (ugh) -->
+<p>
+<code>fortunes::fortune(&quot;picketing&quot;)</code>
+<p>
+<blockquote>
+The phrase “does not work” is not very helpful, it can mean quite a few things including:
+<p>
 <ul>
-<li>diagnostic plot</li>
-<li>inferential plot (e.g., a coefficient plot, or something from <code>emmeans</code> or <code>effects</code>)</li>
+<li>Your computer exploded.</li>
+<li>No explosion, but smoke is pouring out the back and microsoft’s “NoSmoke” utility is not compatible with your power supply.</li>
+<li>The computer stopped working.</li>
+<li>The computer sits around on the couch all day eating chips and watching talk shows.</li>
+<li>The computer has started picketing your house shouting catchy slogans and demanding better working conditions and an increase in memory.</li>
+<li>Everything went dark and you cannot check the cables on the back of the computer because the lights are off due to the power outage.</li>
+<li>R crashed, but the other programs are still working.</li>
+<li>R gave an error message and stopped processing your code after running for a while.</li>
+<li>R gave an error message without running any of your code (and is waiting for your next command).</li>
+<li>R is still running your code and the time has exceeded your patience so you think it has hung.</li>
+<li>R completed and returned a result, but also gave warnings.</li>
+<li>R completed your command, but gave an incorrect answer.</li>
+<li>R completed your command but the answer is different from what you expect (but is correct according to the documentation).
+<p>
+There are probably others. Running your code I think the answer is the last one.
+<p>
+Greg Snow, R-help (April 2012)</li>
 </ul>
-<<<<<<< HEAD
-<p>The assignment is due by sometime on Mon. 18 Feb.</p>
-=======
->>>>>>> 5f47bf04fc4349f45d5b2773a78c424eeb67bff2
+</blockquote>
+<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></li>
+</ol>
+</section>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>
