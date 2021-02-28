@@ -38,7 +38,8 @@ lectures/docs/%.html: $(wildcard lectures/*.rmd)
 	cd lectures && $(MAKE) docs/$*.html
 tips/docs/%.html: $(wildcard tips/*.rmd)
 	cd tips && $(MAKE) docs/$*.html
-
+assignments/docs/%.html: $(wildcard assignments/*.md)
+	cd assignments && $(MAKE) docs/$*.html
 
 ## lectures/docs/Visualization.notes.html: lectures/Visualization.rmd
 ## lectures/docs/Visualization.slides.html: lectures/Visualization.rmd
@@ -58,7 +59,7 @@ update: docs/index.html data/index.html
 	cd $* && $(MAKE) update
 
 subdirs += admin topics
-subdirs += lectures tips
+subdirs += lectures tips assignments
 
 ######################################################################
 
