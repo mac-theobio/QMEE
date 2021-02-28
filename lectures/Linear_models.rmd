@@ -35,9 +35,9 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 
 ## Assumptions
  
-- *Response variables* are linear functions of *input variables*, in turn based on *predictor variables*
-     - One or more input variables per predictor variable
-     - Each input variable is associated with an estimated parameter (more about this later)
+- *Response variables* are linear functions of *predictor (derived) variables*, in turn based on *input (observed) variables*
+     - One or more predictor variables per input variable
+     - Each predictor variable is associated with an estimated parameter (more about this later)
 - Independence
 - *Errors* or *residuals* are Normally distributed
      - In other words, the difference between our model *predictions*
@@ -50,8 +50,7 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 - Leads naturally to a *least squares* fit - minimize the squared differences between predictions and observations
 - LS fits have a lot of nice properties, including partitioning, and finding the middle
 - Solution is a simple (!?) matrix equation
-- Sensitive to some violations of assumptions - anomalous events have a larger effect than they should (**robust** models)
-- Alternatives
+- Sensitive to some violations of assumptions - anomalous events have a larger effect than they should
  
 ## One-parameter variables
  
@@ -73,18 +72,15 @@ input variable (parameter) associated with a single predictor variable
 - Non-linear response to a predictor variable
     - Might be able to use a linear model! $Y = a + bX + cX^2$ is linear
 in $a$ and $b$ (the unknowns)
-        - Polynomial issues: use either *orthogonal polynomials* (`poly` in R, e.g. `y  ~ poly(x,2)`) or splines (`splines::ns()`, or `mgcv` package)
+    - Polynomials can be problematic: use either *orthogonal polynomials* (`poly` in R, e.g. `y  ~ poly(x,2)`) or splines (`splines::ns()`, or `mgcv` package)
 
-## Interpreting multi-parameter variables is hard
- 
+## Multi-parameter variables are hard
+
+- If you're just trying to control for it, include it in the model and then ignore it!
 - Can (and should) get a $p$ value for the variable as a whole
-- But we can only get CIs on the parameters --- and there are
-different ways to parameterize (*contrasts*)
-- Think clearly about the *scientific* questions you have for this variable
-- If you're just trying to control for it, just put it in and then ignore it!
-- If you do have a clear scientific question, you should be able to
-construct *contrasts* in such a way that you can test it.
-- If you must, do pairwise comparisons, test each pair of variables for differences and make an `aabbc` list
+- But we can only get CIs on the parameters --- and there are different ways to parameterize (*contrasts*)
+     - If you do have (a) clear scientific question(s), you can set up contrasts that allow you to test it/them (we can help)
+     - If you must, do pairwise comparisons, test each pair of variables for differences and make an `aabbc` list (more later)
 
 ## Interactions
  
@@ -92,9 +88,9 @@ construct *contrasts* in such a way that you can test it.
 relationship between another predictor and the response variable
 - Interpreting *main effects* in the presence
 of interactions is tricky (*principle of marginality*)
-- Your estimate of the effect of variable $B$ is no longer constant
+- Your estimate of the effect of variable $B$ now varies
 - You need to pick a fixed point, or average in some way
-- Example: $Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1*X_2$
+- Example: $Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1 X_2$
 - The response to $X_1$ is $Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1$  
 the response to $X_1$ *depends on* the value of $X_2$.
  
