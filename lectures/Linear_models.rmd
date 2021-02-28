@@ -217,7 +217,7 @@ thinking about probabilities: 1%:10% as 10%:?
  
 - log-lin, lin-log and log-log for various sorts of exponential and
 power relationships
-- Box-Cox and Yeo-Johnson (see example page)
+- Box-Cox and [related transformations](https://www.rdocumentation.org/packages/car/versions/3.0-10/topics/bcPower)
 - Avoid classical 'transform then linear model' recommendations for
      - probability data (logistic, arcsin or arcsin-square root) [@warton_arcsine_2011]
 		or count data (log, log(1+x) or square root) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
@@ -226,14 +226,9 @@ power relationships
 ## Deciding whether to transform
  
 - It's **not OK** to pick transformations based on trying different
-ones and looking at P values
-- It's probably OK to decide based on a measure of Normality of
-residuals, however
-    - *Box-Cox transformation* tries out transformations of the form
-	$(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to
-	log-transformation)
-    - *additivity and variance stabilizing transformations* (Tibshirani)
-	are a fancier way to transform
+ones and looking at $p$ values
+- *Box-Cox transformation* tries out transformations of the form
+$(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positive* data only)
  
 # Tools for fitting and inference
 
@@ -241,27 +236,21 @@ residuals, however
 
 - `lm` fits a linear model
 - `summary` prints statistics associated with the *parameters* that were fitted
-- `dotwhisker::dwplot()` is useful for *visualizing* these
+- `dotwhisker::dwplot()` plots a **coefficient table** [@gelman_lets_2002]
 - `car::Anova()` and `drop1()` will find $p$ values that test the effect of
-variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models.
+variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models (less useful)
 
-## Multiple comparisons
- 
-- One standard of practice is to take a variable-level P value and
-then evaluate patterns in the response to significant variables
-- Straightforward, but maybe not conservative
-- `emmeans::pairs()` (see [emmeans vignette on comparisons](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html) or `multcomp::glht()`
- 
 ## Plotting
 
-- `plot` can be applied to an `lm` object to give you a set of diagnostic tests.
-- `predict` can give predicted values, and standard errors.
-- `simulate` simulates values from the fitted model
-- Try `methods(class="lm")` to see all the possibilities ...
+- `plot` applied to an `lm` object gives you **diagnostic** plots
 - In `ggplot`, `geom_smooth(method="lm")` fits a linear model
 	to each group of data (i.e.  each group that you have identified by
 	plotting it in a different colour, within a different facet, etc.
-- `effects`, `emmeans`, `sjPlot` packages ... (mostly plotting inferences only, not overlaying observed points with predictions)
+- `effects`, `emmeans`, `sjPlot` packages ...
+- tools:
+    - `predict` gives predicted values, and standard errors.
+    - `simulate` simulates values from the fitted model
+    - `methods(class="lm")` shows lots of possibilities
 
 # Examples
 
@@ -270,26 +259,44 @@ then evaluate patterns in the response to significant variables
 [data](../data/lizards.csv) 
 
 ```{r tests1}
-lizards <- read.csv("../data/lizards.csv")
+lizards <- read.csv("../data/lizards.csv", stringsAsFactors=TRUE)
 lizards$time <- factor(lizards$time,levels=c("early","midday","late"))
 lmint <- lm(grahami~light*time, data=lizards)
 lmboth <- lm(grahami~light + time, data=lizards)
 lmlight <- lm(grahami~light, data=lizards)
 lmtime <- lm(grahami~time, data=lizards)
-summary(lmboth)
 ```
 
 
-## Tests
+## Summary
+
+```{r sum_lizards}
+summary(lmboth)
+```
+
+## Test time by comparing with light model (dropping time)
 
 ```{r tests1B}
-## Test time by comparing with light model (dropping time)
 anova(lmboth, lmlight, test="F")
+```
+
 ## Test light (identical to test in summary()
+
+```{r test_light}
 anova(lmboth, lmtime, test="F")
 ## In this simple case, drop1 and car::Anova
 ##  will do exactly the same thing we did above
+```
+
+## Test both
+
+```{r drop1}
 drop1(lmboth, test="F")
+```
+
+## Better anova table
+
+```{r car_anova}
 car::Anova(lmboth)
 ```
 
@@ -297,32 +304,43 @@ car::Anova(lmboth)
 
 ```{r test2}
 print(summary(lmint))
-## Test time by comparing with light model (drop time AND interaction)
-anova(lmint, lmlight, test="F")
-## Test light
-anova(lmint, lmtime, test="F")
-## drop1 now tests the whole interaction, also very useful
-drop1(lmint, test="F")
-car::Anova(lmint)  ## 'type II'; drop interaction before testing
-car::Anova(lmint, type='III')  ## 'type III'; test time at baseline light & v. versa
 ```
+
+# Multiple comparisons
 
 ## Multiple comparisons
 
-Some notes on the theory behind multiple comparisons.
+- Multiple comparisons are tricky
+- can get away without them for a linear model (use variable-level $p$ values) *unless you want to do pairwise comparisons*. 
+- Unlike variable-level tests, MCs depend on how you set up your model (i.e. centering of continuous variables, contrasts of categorical variables)
 
-Multiple comparisons are tricky, and you probably don't need to do them.  Unlike variable-level tests, they will depend on how you parameterize your model.  Your results for a given multi-level variable can even depend on how you parameterize other variables.
+## MC example
 
 ```{r multcomp,message=FALSE}
 library(multcomp)
 print(mc <- glht(lmboth, linfct=mcp(time="Tukey")))
+```
+
+## compact letter displays
+
+There is a tradition of figuring out which *pairs* of treatments are significantly different and assigning a letter to each such "not-clearly-not-equivalent" group. If you need to do this to make your supervisor happy, you can [use ggpubr](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/). `multcomp` can do the basic computations too.
+
+```{r mc_cld}
 cld(mc)
 ```
 
+## Pairwise comparisons with emmeans
+
+See [emmeans vignette on comparisons](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html)
+
 ```{r emmeans,message=FALSE}
 library(emmeans)
-print(e1 <- emmeans(lmboth, "time"))
+e1 <- emmeans(lmboth, "time")
 pairs(e1)
 ```
 
+## Just look at the picture?
+
+```{r empix,fig.height=3}
+print(pairs(e1))
 ## References
