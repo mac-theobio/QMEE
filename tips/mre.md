@@ -8,6 +8,7 @@ When you ask a question we (JD and/or BB) will often say "Can you send me a (min
    * you should be able to run your code in a **clean R session** (RStudio: `Session > Restart R`)  and see the same problem. 
         * make sure you don't encounter any errors before the location of your main problem (e.g. because of unloaded data or unloaded packages causes an error before that point)
 		* please tell us *specifically* what error/warning/wrong answer you're getting[^1]
+   * if you e-mail/post your code as *text* (i.e., cut and paste from your script file)
 * **Minimal** means to do whatever you can to make your example *short*, to save us the trouble of digging through/running lots of code to find the problem.
 * Some further resources.  
   
