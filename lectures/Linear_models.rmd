@@ -314,7 +314,7 @@ print(summary(lmint))
 
 ```{r multcomp,message=FALSE}
 library(multcomp)
-print(mc <- glht(lmboth, linfct=mcp(time="Tukey")))
+summary(mc <- glht(lmboth, linfct=mcp(time="Tukey")))
 ```
 
 ## compact letter displays
@@ -338,7 +338,7 @@ pairs(e1)
 ## Just look at the picture?
 
 ```{r empix,fig.height=3}
-print(pairs(e1))
+plot(e1)
 ```
 
 ## References
