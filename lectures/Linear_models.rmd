@@ -339,4 +339,6 @@ pairs(e1)
 
 ```{r empix,fig.height=3}
 print(pairs(e1))
+```
+
 ## References
