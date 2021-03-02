@@ -13,7 +13,7 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 ## History
  
 - ANOVA, ANCOVA, regression, $t$ test are **all (part of) the same thing**, the **general** linear model ([twitter thread](https://twitter.com/MaartenvSmeden/status/1365036506751135746))
-- "linear model" (`lm` in R), as opposed to to distinguish it from the *generalized* linear model (`glm` in R)
+- "linear model" (`lm` in R), to distinguish it from the *generalized* linear model (`glm` in R)
 - Unfortunately SAS calls it `PROC GLM`
 
 ## (part of) the statistical universe
@@ -69,15 +69,15 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 - With more than two categories, there is more than one
 input variable (parameter) associated with a single predictor variable
     - Why can't we just code them, for example as 0, 1, 2?
-- Non-linear response to a predictor variable
-    - Might be able to use a linear model! $Y = a + bX + cX^2$ is linear
-in $a$ and $b$ (the unknowns)
-    - Polynomials can be problematic: use either *orthogonal polynomials* (`poly` in R, e.g. `y  ~ poly(x,2)`) or splines (`splines::ns()`, or `mgcv` package)
+- Non-linear response to an input variable
+    - We can often use linear models for non-linear responses! $Y = a + bX + cX^2$ is linear in $a$ and $b$ (the unknowns)
+    	- Polynomials can be unstable: consider *orthogonal polynomials* (`poly` in R, e.g. `y  ~ poly(x,2)`) or splines (`splines::ns()`, or `mgcv` package)
+- Non-linear responses usually have more than one predictor variable per input variable
 
 ## Multi-parameter variables are hard
 
 - If you're just trying to control for it, include it in the model and then ignore it!
-- Can (and should) get a $p$ value for the variable as a whole
+- Otherwise, you can (and should) get a $p$ value for the variable as a whole
 - But we can only get CIs on the parameters --- and there are different ways to parameterize (*contrasts*)
      - If you do have (a) clear scientific question(s), you can set up contrasts that allow you to test it/them (we can help)
      - If you must, do pairwise comparisons, test each pair of variables for differences and make an `aabbc` list (more later)
