@@ -2,12 +2,29 @@
 title: Final project
 ---
 
+## next milestone
+
 by **12 March**: you should
 
 * decide which data set/which questions you are going to pursue
-* pick a short name for your project (letters, numbers, and underscores only please) and create a new repository with this name; whoever creates it should invite the other people and @bbolker and @dushoff.
+* pick a short name for your project (letters, numbers, and underscores only please) and create a new repository with this name; whoever creates it should invite the other project participant(s) as well as `@bbolker` and `@dushoff`.
 * upload your data (if possible)
 * write a `README.md` file for your repository that says briefly what you plan to do and says where the data is/are
+
+---
+
+## Later steps  
+
+## Presentations
+
+During the last week (or so) of classes you will present your project to the class. The presentation time slots will 
+be about 10-15 minutes (details to follow). Please plan to finish on time. Time is short, and we want to be able to comment when appropriate.
+
+The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.
+
+### Writeup 
+
+In the final project writeup (which will be due after the end of classes, **approximately** April 27), you should introduce a scientific question and present the results of a group of statistical analyses. that answer the question. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth three (3) ordinary assignments.
 
 ---
 
