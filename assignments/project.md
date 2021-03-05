@@ -2,6 +2,15 @@
 title: Final project
 ---
 
+by **12 March**: you should
+
+* decide which data set/which questions you are going to pursue
+* pick a short name for your project (letters, numbers, and underscores only please) and create a new repository with this name; whoever creates it should invite the other people and @bbolker and @dushoff.
+* upload your data (if possible)
+* write a `README.md` file for your repository that says briefly what you plan to do and says where the data is/are
+
+---
+
 Please write up a *short* (1-2 paragraph) proposal for a group project in biological data analysis and post it to the ["project descriptions" channel on Teams](https://teams.microsoft.com/l/channel/19%3ae5bc4646fdd24b209ebcd76e98a98977%40thread.tacv2/project%2520descriptions?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772) by Monday 1 Mar at __noon__.
 
 Your project should focus on the biological questions you want to answer, and the data that you have to answer them with; it can say a little about the quantitative/statistical techniques you will use, if you already have ideas in that direction. 

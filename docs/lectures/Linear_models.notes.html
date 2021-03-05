@@ -449,7 +449,7 @@ pre code {
 <div id="multi-parameter-variables" class="section level2">
 <h2>Multi-parameter variables</h2>
 <ul>
-<li>With more than two categories, there is more than one input variable (parameter) associated with a single predictor variable
+<li>With more than two categories, there is more than one predictor variable (parameter) associated with a single input variable
 <ul>
 <li>Why can’t we just code them, for example as 0, 1, 2?</li>
 </ul></li>
@@ -801,9 +801,9 @@ summary(mc &lt;- glht(lmboth, linfct=mcp(time=&quot;Tukey&quot;)))</code></pre>
 ## 
 ## Linear Hypotheses:
 ##                     Estimate Std. Error t value Pr(&gt;|t|)  
-## midday - early == 0   13.137      7.106   1.849   0.1808  
-## late - early == 0     -9.500      6.853  -1.386   0.3677  
-## late - midday == 0   -22.638      7.106  -3.186   0.0129 *
+## midday - early == 0   13.137      7.106   1.849    0.181  
+## late - early == 0     -9.500      6.853  -1.386    0.367  
+## late - midday == 0   -22.638      7.106  -3.186    0.013 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</code></pre>
