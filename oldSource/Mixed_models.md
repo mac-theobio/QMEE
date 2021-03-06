@@ -1,4 +1,4 @@
----
+--
 title: "Mixed models"
 author: Jonathan Dushoff and Ben Bolker
 ---
@@ -7,14 +7,14 @@ author: Jonathan Dushoff and Ben Bolker
 
 * [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models.
 
-* [Bolker chapter from Fox et al.](http://ms.mcmaster.ca/~bolker/misc/private/14-Fox-Chap13.pdf) (on private repo, you need to be signed in)
+* [Bolker chapter from Fox et al.](http://ms.mcmaster.ca/~bolker/misc/private/14-Fox-Chap13.pdf)(Ask us for password)
 
 ## Intro
 
 Mixed models are models which combine "random" and "fixed" effects.
 
 -   Fixed effects are effects whose parameters we wish to estimate
-    -   The slope of a phosphorous response
+    -   The slope of a phosphorus response
     -   The difference in shield thickness between males and females
 
 -   Random effects are effects that we wish to account for without
