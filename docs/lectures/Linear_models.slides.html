@@ -3292,7 +3292,7 @@ slide:not(.current) .plotly.html-widget{
 </article></slide><slide class=""><hgroup><h2>Multi-parameter variables</h2></hgroup><article  id="multi-parameter-variables">
 
 <ul>
-<li>With more than two categories, there is more than one input variable (parameter) associated with a single predictor variable
+<li>With more than two categories, there is more than one predictor variable (parameter) associated with a single input variable
 
 <ul>
 <li>Why can’t we just code them, for example as 0, 1, 2?</li>
@@ -3458,8 +3458,8 @@ aa &lt;- broom::augment(m1) %&gt;% mutate(n=1:n())
 <li>One way to deal with problems in model assumptions is by transforming one or more of your variables</li>
 <li>Transformations are not cheating: a transformed scale may be as natural (or more natural) a way to think about your data as your original scale</li>
 <li>The linear scale (no transformation) often has direct meaning, if you are adding things up or scaling them (as in our ant example)</li>
-<li>The log scale is often the best scale for thinking about physical quantities: 1:10 as 10:?</li>
-<li>The <em>log odds</em>, or <em>logit</em>, scale is often the best scale for thinking about probabilities: 1%:10% as 10%:?</li>
+<li>The log scale is often the best scale for thinking about physical quantities: 1 is to 10 as 10 is to?</li>
+<li>The <em>log odds</em>, or <em>logit</em>, scale is often the best scale for thinking about probabilities: 1% is to 10% as 10% is to ?</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Transformation tradeoffs</h2></hgroup><article  id="transformation-tradeoffs">
@@ -3484,7 +3484,8 @@ aa &lt;- broom::augment(m1) %&gt;% mutate(n=1:n())
 <li>Avoid classical &lsquo;transform then linear model&rsquo; recommendations for
 
 <ul>
-<li>probability data (logistic, arcsin or arcsin-square root) <span class="cite">(Warton and Hui 2011)</span> or count data (log, log(1+x) or square root) <span class="cite">(O’Hara and Kotze 2010; Ives 2015; Warton et al. 2016; Morrissey and Ruxton 2020)</span></li>
+<li>probability data (logistic, arcsin or arcsin-square root) <span class="cite">(Warton and Hui 2011)</span></li>
+<li>or count data (log, log(1+x) or square root) <span class="cite">(O’Hara and Kotze 2010; Ives 2015; Warton et al. 2016; Morrissey and Ruxton 2020)</span></li>
 <li>Generally better to respect the structure of these data with a GLM</li>
 </ul></li>
 </ul>
@@ -3672,9 +3673,9 @@ summary(mc &lt;- glht(lmboth, linfct=mcp(time=&quot;Tukey&quot;)))</pre>
 ## 
 ## Linear Hypotheses:
 ##                     Estimate Std. Error t value Pr(&gt;|t|)  
-## midday - early == 0   13.137      7.106   1.849   0.1810  
+## midday - early == 0   13.137      7.106   1.849   0.1812  
 ## late - early == 0     -9.500      6.853  -1.386   0.3676  
-## late - midday == 0   -22.638      7.106  -3.186   0.0127 *
+## late - midday == 0   -22.638      7.106  -3.186   0.0132 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## (Adjusted p values reported -- single-step method)</pre>

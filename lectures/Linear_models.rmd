@@ -67,7 +67,7 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 ## Multi-parameter variables
  
 - With more than two categories, there is more than one
-input variable (parameter) associated with a single predictor variable
+predictor variable (parameter) associated with a single input variable
     - Why can't we just code them, for example as 0, 1, 2?
 - Non-linear response to an input variable
     - We can often use linear models for non-linear responses! $Y = a + bX + cX^2$ is linear in $a$ and $b$ (the unknowns)
@@ -203,9 +203,9 @@ original scale
 - The linear scale (no transformation) often has direct meaning, if
 you are adding things up or scaling them (as in our ant example)
 - The log scale is often the best scale for thinking about physical
-quantities: 1:10 as 10:?
+quantities: 1 is to 10 as 10 is to?
 - The *log odds*, or *logit*, scale is often the best scale for
-thinking about probabilities: 1%:10% as 10%:?
+thinking about probabilities: 1% is to 10% as 10% is to ?
  
 ## Transformation tradeoffs
  
@@ -223,7 +223,7 @@ power relationships
 - Box-Cox and [related transformations](https://www.rdocumentation.org/packages/car/versions/3.0-10/topics/bcPower)
 - Avoid classical 'transform then linear model' recommendations for
      - probability data (logistic, arcsin or arcsin-square root) [@warton_arcsine_2011]
-		or count data (log, log(1+x) or square root) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
+	 - or count data (log, log(1+x) or square root) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
 	 - Generally better to respect the structure of these data with a GLM
  
 ## Deciding whether to transform
