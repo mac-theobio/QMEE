@@ -224,7 +224,7 @@ knitr::opts_chunk$set(echo=TRUE)
 ```
 
 ```{r aids_ex_1.R,fig.width=10,fig.height=5}
-aids <- read.csv("aids.csv")
+aids <- read.csv("../data/aids.csv")
 aids <- transform(aids, date=year+(quarter-1)/4)
 gg0 <- ggplot(aids,aes(date,cases))+geom_point()
 ```
