@@ -33,11 +33,15 @@ There will also be some asynchronous content.
 * [Visualization](topics/Visualization.html)
 * [Statistical philosophy](topics/Statistical_philosophy.html)
 
-### Basic Statistics
+### Statistics
 
 - [Permutations](topics/Permutations.html)
 - [Linear models](topics/Linear_models.html) <!-- week of March 1 -->
-- [Bayesian statistics](topics/Bayesian_statistics.html) <!-- week of March 8 -->
+- [Generalized linear models (additional)](topics/Generalized_linear_models.html)  <!-- week of March 8 -->
+- [Mixed models (additional)](topics/Mixed_models.html) <!-- week of March 15 -->
+- [Bayesian statistics](topics/Bayesian_statistics.html) <!-- week of March 22 -->
+- One more topic? Social network analysis? Multivariate responses
+
 <!-- COMMENT
 COMMENT -->
 
@@ -45,10 +49,6 @@ COMMENT -->
 
 (links may be broken at present)
 
-- [Generalized linear models](Generalized_linear_models.html)  <!-- week of March 15 -->
-- [Mixed models](Mixed_models.html) <!-- week of March 22 -->
-
-(plus one more, probably social network analysis or multivariate responses)
 
 <!-- ? social network analysis -->
 
