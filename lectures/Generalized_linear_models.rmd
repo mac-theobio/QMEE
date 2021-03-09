@@ -279,11 +279,10 @@ par(op)  ## restore parameter settings
 acf(residuals(g1)) ## check autocorrelation
 ```
 
-```{r dharma}
+```{r dharma, message=FALSE}
 library(DHARMa)
-g1_nb <- MASS::glm.nb(cases~date,aids)
 g0 <- update(g1, family=poisson)
-plot(simulateResiduals(g1_nb))
+plot(simulateResiduals(g0))
 ```
 
 ## ggplot: try quadratic model
