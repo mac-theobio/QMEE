@@ -16,8 +16,8 @@ Like linear models, they are a very powerful set of tools depending on very spec
 Class materials
 ===============
 
--   [Main lecture notes](Generalized_linear_models.html)
-    -   [slide version](Generalized_linear_models.slides.html)
+-   [Main lecture notes](../lectures/Generalized_linear_models.notes.html)
+    -   [slide version](../lectures/Generalized_linear_models.slides.html)
 
 Assignment
 ==========
