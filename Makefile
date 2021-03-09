@@ -79,6 +79,8 @@ pushup: update_all all.time
 dateup:
 	touch docs/*.html docs/*/*.html
 
+syncup: update_all pull dateup all.time
+
 ######################################################################
 
 ## Data index
