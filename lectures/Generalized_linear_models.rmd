@@ -166,7 +166,7 @@ par(op)
 	- e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
 	      - `plogis(0)=` `r round(plogis(0),2)`
 	      - `plogis(0+1)=` `r round(plogis(1),2)`
- - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); [here](http://www.mypolyuweb.hk/~sjpolit/logisticregression.html); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false))
+ - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false))
 			  
 ## inference
 
@@ -220,7 +220,7 @@ par(op)
 - non-standard link functions
 - visualization (hard because of overlaps: try `stat_sum`, `position="jitter"`, `geom_dotplot`,
 ([beeswarm plot](http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
-- see also: GLM extensions talk ([source](https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd), [html](http://htmlpreview.github.com/bbolker/iiscvisit/master/workshops/glm_extensions.html))
+- see also: GLM extensions talk ([source](https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd))
 
 ## Common(est?) `glm()` problems
 
