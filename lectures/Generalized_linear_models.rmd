@@ -2,11 +2,13 @@
 title: "Generalized linear models"
 author: Ben Bolker and Jonathan Dushoff
 date: "`r format(Sys.time(), '%d %B %Y')`"
+bibliography: ../qmee.bib
 ---
 
 ```{r pkgs,message=FALSE,echo=FALSE}
 library(ggplot2); theme_set(theme_bw())
-knitr::opts_chunk$set(echo=FALSE)
+knitr::opts_chunk$set(echo=FALSE,
+                      dev.args = list(png = list(type = "cairo")))
 ```
 
 # Basics
@@ -58,14 +60,14 @@ if (!file.exists(fn)) {
 } else load(fn)
 ```       
 
-```{r gscrapepix,message=FALSE,width=6,height=4}
+```{r gscrapepix,message=FALSE,fig.width=6,fig.height=3}
 d <- data.frame(n=names(gscrape),v=gscrape)
 d$n <- reorder(d$n,d$v)
-ggplot(d,aes(x=v,y=n))+geom_point(size=5)+
-    xlim(0.5e4,2e6)+
-    scale_x_log10(limits=c(1e4,2e6))+
-    geom_text(aes(label=v),colour="red",vjust=2)+
-    labs(y="",x="Google Scholar hits")
+print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
+      + scale_x_log10(expand=expansion(0.1,0))
+      + geom_text(aes(label=v),colour="red",vjust=2)
+      + labs(y="",x="Google Scholar hits")
+      )
 ```
 
 ## Link functions
@@ -96,15 +98,28 @@ Model setup is the same as linear models
 - contrasts
 - multivariable regression vs ANOVA vs ANCOVA vs ...
 
-but fit on the linear predictor (effect, link) scale
+but the linear relationship is set up on the link scale
+
+## log/exponential function (`log`/`exp`): count data
+
+``` {r logpic, echo=FALSE,fig.width=8,fig.height=4}
+par(las=1,bty="l")
+op <- par(mfrow=c(1,2),oma=c(0,3,0,0),xpd=NA,mgp=c(2,1,0))
+curve(exp(x),from=-4,to=4,xlab="x (log-counts)",ylab="counts", main="inverse-link")
+curve(log(x),from=exp(-4),to=exp(4),xlab="x (counts)",ylab="log(x)",
+      main="link")
+par(op)
+```
+
 
 ## logit/logistic function (`qlogis`/`plogis`)
 
-``` {r logit-pic.R, echo=FALSE,fig.width=8,fig.height=4}
+``` {r logitpic, echo=FALSE,fig.width=8,fig.height=4}
 par(las=1,bty="l")
-par(mfrow=c(1,2),oma=c(0,3,0,0),xpd=NA)
-curve(plogis(x),from=-4,to=4,xlab="x (log-odds)",ylab="logistic(x)\n(probability)")
-curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(x)")
+op <- par(mfrow=c(1,2),oma=c(0,3,0,0),xpd=NA)
+curve(plogis(x),from=-4,to=4,xlab="x (log-odds)",ylab="logistic(x)\n(probability)", main="inverse-link")
+curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(x)", main="link")
+par(op)
 ```
 
 ## diagnostics
@@ -114,19 +129,19 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type="response"))`)
 - residuals are *Pearson residuals* by default [`(obs-exp)/sqrt(V(exp))`]
 - predicted values on the effect scale by default: use `type="response"` to back-transform
-- see also `DHARMa::simulateResiduals(model,plot=TRUE)`
+- see also `DHARMa` package `simulateResiduals(model,plot=TRUE)`
 
 ## overdispersion
 
 - too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (Ratio >1.2 worrisome; ratio>3, v. worrisome (check your model & data!)
-- quasi-likelihood models (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
-- negative binomial etc.
+- **quasi-likelihood models** (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
 - alternatives:
     - Poisson $\to$ negative binomial (`MASS::glm.nb`)
 	- binomial $\to$ beta-binomial (`glmmTMB` package)
 - overdispersion **not relevant** for
     - binary responses
 	- families with estimated scale parameters (Gaussian, Gamma, NB, ...)
+	- models that already account for it (NB, quasi-likelihood)
 
 ## parameter interpretation
 
@@ -136,9 +151,15 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
      - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
 	 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change per change in input"
 
----
+## logit link
 
-- logit link: **depends on baseline probability**
+- log odds
+- odds = $p/(1-p)$ (1% probability is 1:99; 50% = 1:1)
+- effect of 1 unit change = **multiply** by **odds ratio** (neutral=1)
+- ... or add **log-odds** = logit (neutral=0)
+
+## interpreting logit scale
+- effect on the prob scale **depends on baseline probability**
     - low baseline prob: like log link
     - high baseline prob: prop. change in (1-prob)
 	- medium prob: absolute change $\approx \beta/4$
@@ -153,15 +174,15 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 	- approximate, can be way off if parameters have extreme values (*Hauck-Donner effect*/*complete separation*)
 	- asymptotic (finite-size correction/"degrees of freedom" are hard, usually ignored)
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
-- AIC
+- AIC etc.
 
 ## Model procedures
 
-- formula similar to `lm` (but specifies relationship on linear predictor scale)
-- specify family; maybe specify link
+- formula like `lm` (but specifies relationship on link scale)
+- specify family (variance-mean), link (nonlinearity)
 - always do Poisson, binomial regression on *counts*, never proportions (although can specify response as a proportion if you also give $N$ as the `weights` argument)
-- Use *offsets* to address unequal sampling
-- **always check for overdispersion** *unless* (1) already using quasilikelihood or (2) using binary data
+    - Use *offsets* to address unequal sampling
+- **always check for overdispersion** if necessary (Poisson/binomial $N>1$)
 - if you want to quote values on the original scale, confidence intervals need to be back-transformed; *never back-transform standard errors alone*
 
 ## binomial models
@@ -169,9 +190,9 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 - for Poisson, Bernoulli (0/1) responses we only need one piece of information
 - how do we specify denominator ($N$ in $k/N$)?
 - traditional R: response is two-column matrix `cbind(successes,failures)` [**not** `cbind(successes,total)`]
-- also allowed: response is proportion ($k/N$), also specify `weights=N`
-- if equal for all cases and specified on the fly need to replicate:  
-`glm(p~...,data,weights=rep(N,nrow(data)))`
+- also allowed: response is proportion ($k/N$), also specify `weights=N`  
+(if equal for all cases and specified on the fly need to replicate:  
+`glm(p~...,data,weights=rep(N,nrow(data)))`)
 
 ## offsets
 
@@ -187,7 +208,7 @@ curve(qlogis(x),from=plogis(-4),to=plogis(4),xlab="x (probability)",ylab="logit(
 
 - `ggplot2`
     - `geom_smooth(method="glm", method.args=list(family=...))`
-- `dotwhisker`, `emmeans`, `effects` all work
+- `dotwhisker`, `emmeans`, `effects`, `sjPlot`
     - need to interpret parameters appropriately
     - means may be computed on link *or* response scale
 
@@ -212,16 +233,18 @@ using `glm()` for linear models (unnecessary)
 - using $(k,N)$ rather than $(k,N-k)$ in binomial models
 - worrying about overdispersion unnecessarily (binary/Gamma)
 - back-transforming SEs rather than CIs
-- ignoring random effects
 - Poisson for *underdispersed* responses
+- ignoring random effects
 
 # Example
 
-## AIDS (Australia: Dobson & Barnett)
+## AIDS in Australia [@dobson_introduction_2008]
 
 ```{r nowecho,echo=FALSE}
 knitr::opts_chunk$set(echo=TRUE)
 ```
+
+data [here](../data/aids.csv)
 
 ```{r aids_ex_1.R,fig.width=10,fig.height=5}
 aids <- read.csv("../data/aids.csv")
@@ -233,6 +256,7 @@ gg0 <- ggplot(aids,aes(date,cases))+geom_point()
 
 ```{r ggplot1,fig.width=10,fig.height=5}
 gg1 <- gg0 + geom_smooth(method="glm",colour="red",
+                         formula=y~x,
                          method.args=list(family="quasipoisson"))
 ```
 
@@ -245,8 +269,8 @@ summary(g1)
 
 ## Diagnostics (`plot(g1)`)
 
-```{r diagplot,echo=FALSE,fig.width=8,fig.height=8}
-op <- par(mfrow=c(2,2), mar=c(2,2,1,1), mgp=c(1.5, 1, 0)) ## set 2x2 grid of plots
+```{r diagplot,echo=FALSE,fig.width=6,fig.height=6}
+op <- par(mfrow=c(2,2), mar=c(2.5,2.1,1.4,1.1), mgp=c(1.5, 1, 0)) ## set 2x2 grid of plots
 plot(g1) ## ugh
 par(op)  ## restore parameter settings
 ```
@@ -255,17 +279,18 @@ par(op)  ## restore parameter settings
 acf(residuals(g1)) ## check autocorrelation
 ```
 
-## ggplot: check out quadratic model
-
-```{r ggplot2,fig.width=10,fig.height=5}
-gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
-                       method.args=list(family="quasipoisson"))
+```{r dharma}
+library(DHARMa)
+g1_nb <- MASS::glm.nb(cases~date,aids)
+g0 <- update(g1, family=poisson)
+plot(simulateResiduals(g1_nb))
 ```
 
-## on log scale
+## ggplot: try quadratic model
 
-```{r ggplot3,fig.width=10,fig.height=5}
-gg2+scale_y_log10()
+```{r ggplot2,fig.width=6,fig.height=4}
+print(gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
+                             method.args=list(family="quasipoisson")))
 ```
 
 ## improved model
@@ -289,3 +314,5 @@ par(op)  ## restore parameter settings
 ```{r acf2}
 acf(residuals(g2)) ## check autocorrelation
 ```
+
+## References
