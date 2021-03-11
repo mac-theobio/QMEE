@@ -18,7 +18,7 @@ Directories with course content:
 All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.
 
 Some make rules:
-* I'm now using syncup when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily. It will open an editor for you if you've changed things (set variable MSEDITOR to control)
+* I'm now using syncup when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily. NOTE: It will open an editor for you if you've changed things (set variable MSEDITOR to control)
 * update_all is meant to remake the site
 * push_all should push the main directory and all of the active subdirectories
 * local_site opens a local-file-based version of the site
