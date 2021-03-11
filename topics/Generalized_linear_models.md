@@ -19,6 +19,8 @@ Class materials
 -   [Main lecture notes](../lectures/Generalized_linear_models.notes.html)
     -   [slide version](../lectures/Generalized_linear_models.slides.html)
 
+* [More odds](../tips/moreOdds.html)
+
 Assignment
 ==========
 
