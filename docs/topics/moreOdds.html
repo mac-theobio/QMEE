@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
-  <title>Generalized linear models</title>
+  <title>moreOdds</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -27,32 +26,25 @@
 	</div>
 </div>
 </header>
-<header id="title-block-header">
-<h1 class="title">Generalized linear models</h1>
-<p class="author">Jonathan Dushoff and Ben Bolker</p>
-</header>
-<h1 id="introduction">Introduction</h1>
-<p>Generalized linear models generalize the idea of linear models (!) by adding:</p>
+<h2 id="arrest-risk">Arrest risk</h2>
+<p>Black people account for an estimated:</p>
 <ul>
-<li>a family (the responses don’t have to be normally distributed)</li>
-<li>a link function (the linear predictor and the effect can be on different scales)</li>
+<li><p>20% of recreational drug users</p></li>
+<li><p>50% of possession arrests.</p></li>
 </ul>
-<p>Like linear models, they are a very powerful set of tools depending on very specific assumptions, but at least they’re more flexible than linear models.</p>
-<h1 id="class-materials">Class materials</h1>
+<p>What is the ratio of arrest risks between Black people and others?</p>
+<h2 id="disease-risk">Disease risk</h2>
+<p>The rapid MMV test gives a positive result:</p>
 <ul>
-<li><a href="../lectures/Generalized_linear_models.notes.html">Main lecture notes</a>
-<ul>
-<li><a href="../lectures/Generalized_linear_models.slides.html">slide version</a></li>
-</ul></li>
-<li><a href="../tips/moreOdds.html">More odds</a></li>
+<li><p>100% of the time for people with the virus</p></li>
+<li><p>5% of the time for people without the virus</p></li>
 </ul>
-<h1 id="assignment">Assignment</h1>
-<p>Make a <em>generalized</em> linear model for one or more of your hypotheses. Draw <strong>and discuss</strong> at least one of each of the following:</p>
+<p>The population</p>
 <ul>
-<li>diagnostic plot</li>
-<li>inferential plot (e.g., a coefficient plot, or something from <code>emmeans</code> or <code>effects</code>)</li>
+<li><p>has a prevalence of 1%</p></li>
+<li><p>is tested <em>at random</em></p></li>
 </ul>
-<p>See the <a href="../admin/assignments.html">assignment instructions</a></p>
+<p>What is the probability that a person with a positive test has MMV?</p>
 <div id="footer">
 	<div style="text-align:center">
 		<a href="../index.html">Course home page</a>

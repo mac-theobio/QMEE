@@ -18,11 +18,12 @@ Directories with course content:
 All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.
 
 Some make rules:
-* I'm now using syncup when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily. NOTE: It will open an editor for you if you've changed things (set variable MSEDITOR to control)
-* update_all is meant to remake the site
-* push_all should push the main directory and all of the active subdirectories
-* local_site opens a local-file-based version of the site
-* old_site opens a local-file-based version of the 2019 site from the gh-pages directory
+* syncup: I now use this when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily. 
+* update_all: remake the site
+* pushup: remake the site; push the main directory and all of the active subdirectories (sometimes with separate commits)
+* local_site: remake the site and open a local-file-based version
+* old_site: open a local-file-based version of the 2019 site from the gh-pages directory
+* NOTE that rules which commit will open an editor for you (set variable MSEDITOR to control editor identity)
 
 Consider using `make dateup` after pulling but before working; this will deal with time-stamp ambiguity and avoid attempts to remake things that you haven't worked on
 

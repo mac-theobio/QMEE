@@ -45,7 +45,7 @@ There will also be some asynchronous content.
 <!-- COMMENT
 COMMENT -->
 
-### Additional topics
+### More topics
 
 (links may be broken at present)
 
