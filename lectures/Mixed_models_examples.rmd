@@ -187,7 +187,7 @@ extract_eq(lm3)
 ## How to simplify?
 
 - remove random effects
-- simplify random effects
+- simplify random effects [@bates_parsimonious_2015;@matuschek_balancing_2017;@barr_random_2013]
    - drop slopes
    - force correlations to zero (use `1+x||g` to fit intercept and slope independently)
    
