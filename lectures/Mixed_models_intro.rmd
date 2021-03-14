@@ -3,12 +3,6 @@ title: "Mixed models"
 author: Jonathan Dushoff and Ben Bolker
 ---
 
-## Resources
-
-* [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models.
-
-* [Bolker chapter from Fox et al.](http://ms.mcmaster.ca/~bolker/misc/private/14-Fox-Chap13.pdf)(Ask us for password)
-
 ## Intro
 
 Mixed models are models which combine "random" and "fixed" effects.
@@ -26,7 +20,7 @@ Mixed models are models which combine "random" and "fixed" effects.
 
 The "modern" approach to mixed models involves explicitly estimating "random" parameters and their variances (see below).
 
-Compared to the [classic ANOVA approach](Mixed_models_Classic_approach.html) to mixed models, the modern approach is:
+Compared to the [classic ANOVA approach](../tips/Mixed_models_Classic_approach.html) to mixed models, the modern approach is:
 
 * conceptually clear
 * flexible
@@ -93,8 +87,8 @@ There is sometimes controversy about when it is appropriate to model a predictor
 
 ## inferential questions
 
-The choice to make something a random effect often has
-more effect on your inferences about *other* variables than on your
+The choice to make something a random effect will affect
+your inferences about *other* variables than on your
 inferences about the focal variable
 
 -   Inferring using a fixed effect means we are inferring across the
@@ -113,7 +107,7 @@ Spruce trees
 
 * May not have enough data to do a random effects analysis
 * Our _statistical_ inference is then limited to the areas we studied
-* Whether we can broaden our _scientific_ inference is a science question (not stats)
+* Whether we can broaden our _scientific_ inference is a scientific question (not statistical)
 
 ## Practical questions
 
@@ -213,6 +207,4 @@ and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)
     GLMMs
 -   many other special-purpose packages
 
-* [examples](Mixed_models_examples.html)
-* [Bolker FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
 
