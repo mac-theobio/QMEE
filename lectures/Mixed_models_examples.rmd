@@ -3,12 +3,15 @@ title: "Mixed model examples"
 output:
   html_document:
     code_folding: hide
+bibliography: ../qmee.bib	
+author: Ben Bolker
 ---
 
 ```{r pkgs,message=FALSE}
 ## fitting
 library(lme4)
 library(glmmTMB)
+library(lattice)
 ## diagnostics etc.
 library(broom.mixed)
 library(DHARMa)
@@ -45,24 +48,26 @@ y ~ x + (1|g)+(0+x|g)      | Independent slope and intercept
 
 ```{r mmex1}
 q0 <- (ggplot(sleepstudy, aes(Days, Reaction, colour = Subject))
-    + geom_point())  ## points only, use later
+    + geom_point())  ## points only
 print(q0+geom_line())
 ```
 
-(Alternatives; connect, don't colour; separate individuals into separate facets ... for scatterplots, try `ggalt::geom_encircle()`. See examples [here](https://bbolker.github.io/goettingen_2019/notes/datavis.html) as well.)
+(Alternatives; connect, don't colour; suppress legend; separate individuals into separate facets ... for scatterplots, try `ggalt::geom_encircle()`. See examples [here](https://bbolker.github.io/goettingen_2019/notes/datavis.html) as well.)
 
 ## Basic model fits
 
 ```{r mmex2,message=FALSE}
 library(lme4)
 ## per-group fit (fixed)
-lm1 <- lmList(Reaction~Days|Subject, data=sleepstudy) 
+lm1 <- lmList(Reaction~Days|Subject, data=sleepstudy)  ## stratified
+lm1B <- lm(Reaction~Days*Subject, data=sleepstudy)     ## fixed effect
 ## random intercept
-lm2 <- lmer(Reaction~Days+(1|Subject),
-            data=sleepstudy)
+lm2 <- lmer(Reaction~Days+(1|Subject), data=sleepstudy)
 ## random slopes
 lm3 <- lmer(Reaction~Days+(1+Days|Subject), data=sleepstudy) 
 ```
+
+Should generally use random slopes where possible, i.e. when at least some individuals are measured on more than 1 day [@schielzeth_conclusions_2009]
 
 ## Compute predictions
 
@@ -87,26 +92,50 @@ plot_grid(q0+geom_line(data=pp2)+ggtitle("random intercept"),
 
 - more do-it-yourself
 
-```{r,fig.keep="none"}
+```{r diag,fig.keep="none"}
 plot(lm3)  ## fitted vs residual
 ## scale-location
 plot(lm3, sqrt(abs(resid(.))) ~ fitted(.),
      type=c("p","smooth"), col.line="red")
+## Q-Q plots
+qqmath(lm3)
 ## or:
 aa <- augment(lm3)
+names(aa)
 ## and then use ggplot.
 ```
 
 Or use `DHARMa::simulateResiduals(lm3, plot=TRUE)`.
 
 
+## coefficient plots
+
+Use `broom.mixed` (in conjunction with `dotwhisker::dwplot`)
+
+- use `tidy` directly for more control (`?tidy.merMod`)
+- may want to specify `effects="fixed"`, `conf.int=TRUE`, `conf.method="profile"` (for CIs on random effects parameters)
+
+```{r coefplots, results="hide", fig.keep="none"}
+library(dotwhisker)
+library(broom.mixed)
+tt <- tidy(lm3, conf.int=TRUE, conf.method="profile")
+dwplot(tt)
+```
+
+## random effects plots
+
+```{r replot, fig.keep="none", results="hide"}
+lattice::dotplot(ranef(lm3))
+lattice::qqmath(ranef(lm3))
+```
+
 ## post-hoc stuff
 
-`emmeans`, `effects`, `car::Anova()`
+`emmeans`, `effects`, `car::Anova()`, `drop1`, etc. all work ...
 
 ## model choice considerations
 
-- what is the maximal model?
+- what is the **maximal model**?
 - Which effects vary *within* which groups?
 - If effects don't vary within groups, then we *can't* estimate among-group variation in the effect
      - convenient
@@ -115,7 +144,7 @@ Or use `DHARMa::simulateResiduals(lm3, plot=TRUE)`.
 
 ---
 
-Maximal model **often won't work**
+Maximal model **often won't actually work**
 
 e.g.
 
@@ -142,11 +171,18 @@ $$
 \right)
 $$
 
+`equatiomatic` packages:
+
+```{r equatiomatic, results="asis"}
+library(equatiomatic)
+extract_eq(lm3)
+```
+
 ## What is a practical model?
 
-- Fits aren't **singular**
+- Avoid **singular** fits
 - singular = zero variances, +/- 1 correlations
-- More subtle for larger models: `isSingular(model)`
+- More subtle for larger models: use `isSingular(model)`
 
 ## How to simplify?
 
@@ -173,10 +209,21 @@ names(ss)
 ss$fixef
 ```
 
-## Integration techniques
+## GLMMs: integration techniques
 
 - PQL, Laplace, AGQ
 - fast/flexible/inaccurate $\to$ slow/inflexible/accurate
 - **amount of data per group** is what matters
     - number of points, info per point (binary vs count)
 - set `nAGQ=` to a larger value (1=Laplace; 25 should be more than enough)
+
+## GLMMs: more details
+
+- `glmer` pretty reliable
+- `glmmTMB` more flexible, faster on extended models (NB etc.)
+
+## Other resources
+
+- the [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
+
+## References
