@@ -1,5 +1,5 @@
 ---
-title: Generalized linear models
+title: Mixed models
 author: Ben Bolker and Jonathan Dushoff 
 ---
 
