@@ -1,5 +1,5 @@
 --
-title: "Mixed models"
+title: Mixed models
 author: Jonathan Dushoff and Ben Bolker
 ---
 
