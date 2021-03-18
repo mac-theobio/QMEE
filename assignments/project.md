@@ -4,6 +4,10 @@ title: Final project
 
 ## Next milestone
 
+by **19 March**: you should update your README with thoughts and questions about next steps; you should also start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also a good place to record plans for how you will proceed with your analysis (for example, "if the diagnostic plots look OK, we will look at the summary table and use the clarity of the response to phosphorus as our main outcome".
+
+## Previous milestone
+
 by **12 March**: you should
 
 * decide which data set/which questions you are going to pursue
