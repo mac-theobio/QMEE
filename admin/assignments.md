@@ -2,6 +2,8 @@
 title: Assignments
 ---
 
+[Project information](assignments/projects.html)
+
 General
 -------
 
