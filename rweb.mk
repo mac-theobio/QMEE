@@ -1,6 +1,8 @@
 
 ## Original docs directory made by hand in repo root directory and pushed
 
+## This is for the sub-docs directories; fights with the git.mk rule
+## Probably better to give it a different name, like subdocs, for future
 dname = $(notdir $(CURDIR))
 docs:
 	$(MAKE) ../docs/$(dname)

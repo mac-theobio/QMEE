@@ -10,7 +10,7 @@ COMMENT -->
 ## Course information
 
 - [Course description](admin/description.html)
-- [Project information](assignments/projects.html)
+- [Project information](assignments/project.html)
 - [Information on assignments](admin/assignments.html)
 - Course material is in three places:
    - here
