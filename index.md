@@ -46,14 +46,14 @@ There will also be some asynchronous content.
 <!-- COMMENT
 COMMENT -->
 
+<!-- COMMENT
+
 ### More topics
 
 (links may be broken at present)
 
 
 <!-- ? social network analysis -->
-
-<!-- COMMENT
 
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html)
