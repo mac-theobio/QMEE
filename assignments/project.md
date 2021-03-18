@@ -1,10 +1,11 @@
 ---
 title: Final project
+bibliography: ../qmee.bib
 ---
 
 ## Next milestone
 
-by **19 March**: you should update your README with thoughts and questions about next steps; you should also start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also a good place to record plans for how you will proceed with your analysis (for example, "if the diagnostic plots look OK, we will look at the summary table and use the clarity of the response to phosphorus as our main outcome".
+by **19 March**: you should update your README with thoughts and questions about next steps; you should also start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also A good place to record plans for how you will proceed with your analysis (for example, "if the diagnostic plots look OK, we will look at the summary table and use the clarity of the response to phosphorus as our main outcome". (See @simmons_false-positive_2011.)
 
 ## Previous milestone
 
@@ -51,3 +52,5 @@ Feel free to reach out to the instructors if you want to clarify the parameters 
 
 We will assign you to groups based on interests and make recommendations about which of the proposals from that group are the most feasible and appropriate for this course.
 
+
+## References
