@@ -179,7 +179,6 @@ how.
 	sampling for you
 
 * We will give you examples
-	* [Bayesian regression example](Bayesian_regression_example.html) using rjags
 
 # Sampling from the posterior
 
@@ -188,9 +187,3 @@ how.
 * Once you have calculated (or estimated) a Bayesian posterior, you can calculate whatever you want!
 	* In particular, you can attach a probability to any combination of the parameters
 	* You can simulate a model forward in time and get credible intervals not only for the parameters, but what you expect to happen
-
-## Live coding example
-
-* [R script](fev.R)
-* [model file](fev.bug)
-
