@@ -92,7 +92,6 @@ data:
 	$(linkdir)
 
 Sources += $(wildcard docs/data/*.*)
-Ignore += docs/legacy
 
 Sources += $(wildcard *.pl)
 Sources += data.md
@@ -111,6 +110,22 @@ data_index.md: data.md dataindex.pl
 ## data_index.md: data.md
 data/index.html: data_index.md
 	pandoc $< -o $@ --mathjax -s -f gfm -B html/header.html -A html/footer.html --css html/qmee.css --self-contained
+
+######################################################################
+
+## code is on the front side now (like data) 2021 Mar 19 (Fri)
+
+Ignore += code
+code: dir=docs
+code:
+	$(linkdir)
+Sources += $(wildcard docs/code/*.*)
+
+######################################################################
+
+## Dushoff lectures that live elsewhere
+
+Ignore += docs/legacy
 
 ######################################################################
 
