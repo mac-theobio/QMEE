@@ -69,10 +69,10 @@ Finally, BUGS/JAGS thinks in terms of "precision" $\tau=1/\sigma^2$, which is co
 
 ## R2jags
 
-The `bugs` file is [here](bayes.bug).
+The `bugs` file is [here](../code/bayes.bug).
 
 ``` {r bayes_r2jags.R, echo=FALSE, message=FALSE}
-jags1 <- jags(model.file='bayes.bug',
+jags1 <- jags(model.file='../code/bayes.bug',
               parameters=c("ma","mb","mc","int"),
               data = list('a' = a, 'b' = b, 'c' = c, 'N'=N, 'y'=y),
               n.chains = 4,
