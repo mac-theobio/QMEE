@@ -22,8 +22,8 @@ Resources
 ---------
 
 -   Material
-    -   [Bayesian statistics/Lecture notes](Bayesian_statistics_Lecture_notes.html)
-    -   [Bayesian regression example](Bayesian_example.html)
+    -   [Bayesian statistics/Lecture notes](../lectures/Bayesian_statistics_Lecture_notes.html)
+    -   [Bayesian regression example](../lectures/Bayesian_example.html)
 
 -   Introductory
     -   [Standing statistics right side
