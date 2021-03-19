@@ -1,28 +1,28 @@
 ---
 title: "Bayesian example"
 author: Jonathan Dushoff and Ben Bolker
-date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 ---
 
 ## setup
 
 ```{r pkgs,message=FALSE}
-library("arm")
+library("lattice") ## built-in
+## model-fitting
 library("R2jags")
+library("rstanarm")
+library("arm")        ## for coefplot, bayesglm
+## handling fitted models (diagnostics & inference)
 library("coda")
 library("emdbook")    ## for lump.mcmc.list() and as.mcmc.bugs()
-library("arm")        ## for coefplot, bayesglm
-library("lattice")
-library("rstanarm")
 library("dotwhisker")
 library("broom.mixed")
-## may need remotes::install("bbolker/broom.mixed")
 library("ggplot2"); theme_set(theme_bw())
 ```
 
 # Generate fake data
 
-``` {r series.R, echo=FALSE}
+``` {r series}
 set.seed(411)
 N <- 40
 ## predictor variables
@@ -31,17 +31,24 @@ b <- runif(N)
 c <- runif(N)
 y <- rnorm(N,mean=2+1*a+4*b+1*c,sd=1)
 dat <- data.frame(y,a,b,c)
+```
+
+---
+
+```{r summary_series}
 print(summary(dat))
 ```
+
+---
 
 The nice thing about Bayesian models in JAGS etc. is that we
 use essentially the same *forward* specification (to simulate
 data given parameters) as the *backward* specification (to estimate
 parameters given data).
 
-# Fit a regular linear model
+## Fit a (frequentist) linear model
 
-``` {r lm.R}
+``` {r lm}
 summary(lm(y~a+b+c,data=dat))
 ```
 
@@ -51,9 +58,11 @@ summary(lm(y~a+b+c,data=dat))
 
 `bayesglm` fits a "cheap" (maximum *a posteriori*) model. See `prior.mean`, `prior.scale`, `prior.df` parameters for specifying *independent* priors on the parameters (also see `scaled`)
 
-``` {r bayesglm.R, message=FALSE}
-summary(bayesglm(y~a+b+c,data=dat))
+``` {r bayesglm, message=FALSE}
+summary(b1 <- bayesglm(y~a+b+c,data=dat)) ## LINEAR model
+b2 <- bayesglm(y~a+b+c,data=dat, prior.scale=1)
 ```
+## 
 
 ## With BUGS/JAGS
 
@@ -63,15 +72,11 @@ For the error variance, we also have to pick something that's always positive.
 
 Finally, BUGS/JAGS thinks in terms of "precision" $\tau=1/\sigma^2$, which is confusing, but you can get used to it. It's best to start by guessing what you think a "large" standard deviation would be, then taking $1/\sigma^2$ to get the relevant value of $\tau.$ A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of $10^{-6}$. The normal priors below have low precision, so they have high variance.
 
-## rjags
-
-`rjags` offers a slightly lower-level (more powerful/flexible, but harder) interface to JAGS. I rarely use it.
-
 ## R2jags
 
 The `bugs` file is [here](../code/bayes.bug).
 
-``` {r bayes_r2jags.R, echo=FALSE, message=FALSE}
+``` {r bayes_r2jags, echo=FALSE, message=FALSE}
 jags1 <- jags(model.file='../code/bayes.bug',
               parameters=c("ma","mb","mc","int"),
               data = list('a' = a, 'b' = b, 'c' = c, 'N'=N, 'y'=y),
@@ -83,7 +88,7 @@ jags1 <- jags(model.file='../code/bayes.bug',
 
 ### Examine the chains and output
 
-``` {r coda2.R, echo=TRUE}
+``` {r coda2, echo=TRUE}
 bb <- jags1$BUGSoutput  ## extract the "BUGS output" component
 mm <- as.mcmc.bugs(bb)  ## convert it to an "mcmc" object that coda can handle
 plot(jags1)             ## large-format graph
@@ -110,7 +115,7 @@ The second approach is a little bit harder to understand but generalizes to more
 
 - `bayesglm` from the `arm` package
 
-``` {r coda3.R, echo=FALSE,message=FALSE}
+``` {r coda3, echo=FALSE,message=FALSE}
 mmL <- emdbook::lump.mcmc.list(mm)  ## convert to a single long chain
 colMeans(mmL)   ## which one is biggest? b ...
 ## test the probability that it is really the biggest
