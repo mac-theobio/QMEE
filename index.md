@@ -41,25 +41,15 @@ There will also be some asynchronous content.
 - [Generalized linear models (additional)](topics/Generalized_linear_models.html)  <!-- week of March 8 -->
 - [Mixed models (additional)](topics/Mixed_models.html) <!-- week of March 15 -->
 - [Bayesian statistics](topics/Bayesian_statistics.html) <!-- week of March 22 -->
-- One more topic? Social network analysis? Multivariate responses
+- One more topic? Social network analysis? Multivariate responses?
 
 <!-- COMMENT
-COMMENT -->
-
-<!-- COMMENT
-
-### More topics
-
-(links may be broken at present)
-
-
-<!-- ? social network analysis -->
 
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html)
 - [Penalized regression] (penalized.html)
 
-COMMENT -->
+-->
 
 ## Faculty
 
