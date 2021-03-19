@@ -22,8 +22,10 @@ Resources
 ---------
 
 -   Material
-    -   [Bayesian statistics/Lecture notes](../lectures/Bayesian_statistics_Lecture_notes.html)
-    -   [Bayesian regression example](../lectures/Bayesian_example.html)
+	-   [Overview](../lectures/Bayesian_overview.slides.html)
+		-   [Notes version](../lectures/Bayesian_overview.notes.html)
+	-   [Example](../lectures/Bayesian_example.slides.html)
+		-   [Notes version](../lectures/Bayesian_example.notes.html)
 
 -   Introductory
     -   [Standing statistics right side
@@ -47,6 +49,7 @@ Resources
     of intellectual
     [Calvinball](http://en.wikipedia.org/wiki/Calvin_and_Hobbes#Calvinball)")
 - [Translating Probability Density Functions: From R to BUGS and Back Again](https://journal.r-project.org/archive/2013-1/lebauer-dietze-bolker.pdf), LeBauer et al. 2013
+
 -   Software
     -   [JAGS](http://mcmc-jags.sourceforge.net/) (Just Another Gibbs
     Sampler); software for doing Bayesian MCMC estimation
@@ -60,6 +63,10 @@ Resources
     -   [coda](http://cran.r-project.org/web/packages/coda/index.html)
         (**co**nvergence **d**i**a**gnostics) is an R package for analyzing
         MCMC fits.
+
+* Example from an earlier class
+	* [R script](../code/fev.R)
+	* [model file](../code/fev.bug)
 
 Assignment
 ----------
