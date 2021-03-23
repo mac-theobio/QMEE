@@ -66,14 +66,14 @@ Resources
 
 * Example from an earlier class
 	* [R script](../code/fev.R)
-	* [model file](../code/fev.bug)
-
+	* [model file](../code/fev.bug
+)
 Assignment
 ----------
 
 Install JAGS (and either `rjags` or `R2jags`). Use `jags` to fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
 
-- [JAGS examples with categorical variables and interactions](code/lizards_bayes.R)
+- [JAGS examples with categorical variables and interactions](../code/lizards_bayes.R)
 
 * See the [assignment instructions](../admin/assignments.html)
 
