@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
 
-<meta name="date" content="2021-03-22" />
+<meta name="date" content="2021-03-23" />
 
 <title>Bayesian example</title>
 
@@ -364,7 +364,7 @@ pre code {
 
 <h1 class="title toc-ignore">Bayesian example</h1>
 <h4 class="author">Jonathan Dushoff and Ben Bolker</h4>
-<h4 class="date">22 March 2021</h4>
+<h4 class="date">23 March 2021</h4>
 
 </div>
 
@@ -443,16 +443,22 @@ dat &lt;- data.frame(y,a,b,c)</code></pre>
 <h2>R2jags</h2>
 <p>The <code>bugs</code> file is <a href="../code/bayes.bug">here</a>.</p>
 <pre><code>## model {
-##  for (i in 1:N){
+##  for (i in 1:N) {
 ##      y[i] ~ dnorm(pred[i], tau)
 ##      pred[i] &lt;- ma*a[i] + mb*b[i] + mc*c[i] + int
 ##  }
+##  ## priors (&quot;vague&quot;/&quot;flat&quot;/&quot;weak&quot;/&quot;uninformative&quot;)
 ##  ma ~ dnorm(0, .0001)
 ##  mb ~ dnorm(0, .0001)
 ##  mc ~ dnorm(0, .0001)
 ##  int ~ dnorm(0, .0001)
 ##  tau ~ dgamma(.001, .001)
 ## }</code></pre>
+<pre class="r"><code>jags1 &lt;- jags(model.file=&#39;../code/bayes.bug&#39;,
+              parameters=c(&quot;ma&quot;,&quot;mb&quot;,&quot;mc&quot;,&quot;int&quot;),
+              data = namedList(a, b, c, N, y),
+              n.chains = 4,
+              inits=NULL)</code></pre>
 <pre><code>## Compiling model graph
 ##    Resolving undeclared variables
 ##    Allocating nodes

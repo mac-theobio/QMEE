@@ -73,7 +73,7 @@ The `bugs` file is [here](../code/bayes.bug).
 cat(readLines("../code/bayes.bug"),sep="\n")
 ```
 
-``` {r bayes_r2jags, echo=FALSE, message=FALSE}
+``` {r bayes_r2jags, message=FALSE}
 jags1 <- jags(model.file='../code/bayes.bug',
               parameters=c("ma","mb","mc","int"),
               data = namedList(a, b, c, N, y),

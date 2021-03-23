@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2021-03-22" />
+  <meta name="date" content="2021-03-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3203,7 +3203,7 @@ slide:not(.current) .plotly.html-widget{
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">22 March 2021</p>
+            <p style="margin-top: 6px; margin-left: -2px;">23 March 2021</p>
           </hgroup>
   </slide>
 
@@ -3291,16 +3291,23 @@ dat &lt;- data.frame(y,a,b,c)</pre>
 <p>The <code>bugs</code> file is <a href='../code/bayes.bug' title=''>here</a>.</p>
 
 <pre >## model {
-##  for (i in 1:N){
+##  for (i in 1:N) {
 ##      y[i] ~ dnorm(pred[i], tau)
 ##      pred[i] &lt;- ma*a[i] + mb*b[i] + mc*c[i] + int
 ##  }
+##  ## priors (&quot;vague&quot;/&quot;flat&quot;/&quot;weak&quot;/&quot;uninformative&quot;)
 ##  ma ~ dnorm(0, .0001)
 ##  mb ~ dnorm(0, .0001)
 ##  mc ~ dnorm(0, .0001)
 ##  int ~ dnorm(0, .0001)
 ##  tau ~ dgamma(.001, .001)
 ## }</pre>
+
+<pre class = 'prettyprint lang-r'>jags1 &lt;- jags(model.file=&#39;../code/bayes.bug&#39;,
+              parameters=c(&quot;ma&quot;,&quot;mb&quot;,&quot;mc&quot;,&quot;int&quot;),
+              data = namedList(a, b, c, N, y),
+              n.chains = 4,
+              inits=NULL)</pre>
 
 <pre >## Compiling model graph
 ##    Resolving undeclared variables
