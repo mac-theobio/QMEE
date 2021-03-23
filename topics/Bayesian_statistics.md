@@ -73,7 +73,7 @@ Assignment
 
 Install JAGS (and either `rjags` or `R2jags`). Use `jags` to fit a Bayesian model to your data, in some way that at least roughly makes sense. Discuss your prior assumptions, and compare your simple fit to an analogous frequentist fit.
 
-- [JAGS examples with categorical variables and interactions](lizards_bayes.R) (you'll need [this R file](named_list.R) too)
+- [JAGS examples with categorical variables and interactions](code/lizards_bayes.R)
 
 * See the [assignment instructions](../admin/assignments.html)
 
