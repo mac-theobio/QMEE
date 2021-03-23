@@ -18,6 +18,7 @@ library("emdbook")    ## for lump.mcmc.list() and as.mcmc.bugs()
 library("dotwhisker")
 library("broom.mixed")
 library("ggplot2"); theme_set(theme_bw())
+namedList <- lme4:::namedList  ## utility
 ```
 
 # Generate fake data
@@ -54,21 +55,13 @@ summary(lm(y~a+b+c,data=dat))
 
 # Bayesian analysis
 
-## With bayesglm
-
-`bayesglm` fits a "cheap" (maximum *a posteriori*) model. See `prior.mean`, `prior.scale`, `prior.df` parameters for specifying *independent* priors on the parameters (also see `scaled`)
-
-``` {r bayesglm, message=FALSE}
-summary(b1 <- bayesglm(y~a+b+c,data=dat)) ## LINEAR model
-b2 <- bayesglm(y~a+b+c,data=dat, prior.scale=1)
-```
-## 
-
 ## With BUGS/JAGS
 
 We need priors for the four regression parameters, and for the error variance.  The BUGS/JAGS framework does not let us use improper priors, so we have to pick things that we think are "wide" enough.
 
 For the error variance, we also have to pick something that's always positive.
+
+---
 
 Finally, BUGS/JAGS thinks in terms of "precision" $\tau=1/\sigma^2$, which is confusing, but you can get used to it. It's best to start by guessing what you think a "large" standard deviation would be, then taking $1/\sigma^2$ to get the relevant value of $\tau.$ A plausible rule of thumb might be 10 times the expected value of your parameter. For example, if you expected that the difference between masses of two species might be 100g, you could use a prior with a standard deviation of 1000g or a precision of $10^{-6}$. The normal priors below have low precision, so they have high variance.
 
@@ -76,10 +69,14 @@ Finally, BUGS/JAGS thinks in terms of "precision" $\tau=1/\sigma^2$, which is co
 
 The `bugs` file is [here](../code/bayes.bug).
 
+```{r bugsfile,echo=FALSE}
+cat(readLines("../code/bayes.bug"),sep="\n")
+```
+
 ``` {r bayes_r2jags, echo=FALSE, message=FALSE}
 jags1 <- jags(model.file='../code/bayes.bug',
               parameters=c("ma","mb","mc","int"),
-              data = list('a' = a, 'b' = b, 'c' = c, 'N'=N, 'y'=y),
+              data = namedList(a, b, c, N, y),
               n.chains = 4,
               inits=NULL)
 ```
@@ -88,7 +85,7 @@ jags1 <- jags(model.file='../code/bayes.bug',
 
 ### Examine the chains and output
 
-``` {r coda2, echo=TRUE}
+``` {r coda2, echo=TRUE, fig.keep="none", warning=FALSE}
 bb <- jags1$BUGSoutput  ## extract the "BUGS output" component
 mm <- as.mcmc.bugs(bb)  ## convert it to an "mcmc" object that coda can handle
 plot(jags1)             ## large-format graph
@@ -99,6 +96,17 @@ print(dwplot(jags1))              ## estimate + credible interval plot
 ```
 
 The `lump.mcmc.list` function from the `emdbook` package can be useful for converting a set of MCMC chains into a single long chain.
+
+``` {r coda3, echo=FALSE,message=FALSE, eval=FALSE}
+mmL <- emdbook::lump.mcmc.list(mm)  ## convert to a single long chain
+colMeans(mmL)   ## which one is biggest? b ...
+## test the probability that it is really the biggest
+mean((mmL[,"mb"] > mmL[,"ma"]) & (mmL[,"mb"] > mmL[,"mc"]))
+## or (alternatively -- this would be good if you had lots of categories)
+meanschain <- mmL[,-(1:2)]
+maxval <- apply(meanschain,1,which.max)
+mean(maxval==2)
+```
 
 ## Further notes
 
@@ -111,24 +119,43 @@ Implementing models with categorical variables (say, a t-test or an ANOVA) is a 
 
 The second approach is a little bit harder to understand but generalizes to more complicated situations, and gives you answers that will more closely match the analogous analyses in R (e.g. using `lm`).
 
-### Built-in Bayesian modeling techniques
+# Built-in Bayesian modeling techniques
 
-- `bayesglm` from the `arm` package
+## With bayesglm
 
-``` {r coda3, echo=FALSE,message=FALSE}
-mmL <- emdbook::lump.mcmc.list(mm)  ## convert to a single long chain
-colMeans(mmL)   ## which one is biggest? b ...
-## test the probability that it is really the biggest
-mean((mmL[,"mb"] > mmL[,"ma"]) & (mmL[,"mb"] > mmL[,"mc"]))
-## or (alternatively -- this would be good if you had lots of categories)
-meanschain <- mmL[,-(1:2)]
-maxval <- apply(meanschain,1,which.max)
-mean(maxval==2)
+`bayesglm` fits a "cheap" (maximum *a posteriori*) model. See `prior.mean`, `prior.scale`, `prior.df` arguments for specifying *independent* priors on the parameters (also see `scaled` argument)
+
+---
+
+``` {r bayesglm, message=FALSE}
+summary(b1 <- bayesglm(y~a+b+c,data=dat)) ## LINEAR model
+b2 <- bayesglm(y~a+b+c,data=dat, prior.scale=0.1)
+dotwhisker::dwplot(list(flat=b1,shrunk=b2)) + geom_vline(xintercept=0,lty=2)
 ```
 
-```{r}
-lms <- stan_lm(y~a+b+c,data=dat, prior=R2(0.2))
+
+## rstanarm
+
+```{r rstanarm,message=FALSE,warning=FALSE}
+lms <- stan_lm(y~a+b+c,data=dat, prior=R2(0.2),
+               seed=101,
+               refresh=0  ## quiet!
+               )
 dwplot(lms)
 ```
 
-Similar to ‘lm’ or ‘aov’ but with novel regularizing priors on the model parameters that are driven by prior beliefs about R^2, the proportion of variance in the outcome attributable to the predictors in a linear model.
+(warnings suppressed).
+
+Similar to ‘lm’ or ‘aov’ but with regularizing priors on the model parameters that are driven by prior beliefs about $R^2$, the proportion of variance in the outcome attributable to the predictors in a linear model.
+
+Beware "divergent transitions"!
+
+## Others
+
+- `MCMCglmm`: mixed models including phylogenetic etc.
+- `brms`: `rstanarm` on steroids (compile it yourself)
+- `blme`: `lme4` + priors (deterministic/MAP)
+- `INLA`: fancy spatial stuff (deterministic/MAP)
+
+- [Bayesian task view](https://cran.r-project.org/web/views/Bayesian.html) (see [here](https://www.maths.lancs.ac.uk/~rowlings/R/TaskViews/) for a posterior joke)
+
