@@ -95,7 +95,11 @@ title: Bayesian approaches
 
 * But for Bayesian analysis, we can pretend that there is
 
-	* Using this sort of improper prior poses no problems (over and above the problems of specifying a uniform prior in the first place), as long as we can guarantee that the posterior distribution exists
+	* This is conceptually cool, and _usually_ works out fine
+
+	* Must be able to guarantee that the _posterior_ distribution exists
+
+	* Also need to choose a scale for your uniform prior
 
 ## Statistical models
 
@@ -140,13 +144,20 @@ title: Bayesian approaches
 	* $(rT)^{N-1} \exp(-rT)$, which gives a Gamma distribution
 	     with mean $N/T$ (the observed rate), and CV $1/\sqrt{N}$.
 
+## Analytic solutions
 
-This example is in the category of "easy problems"; the math is a bit
+* This example is in the category of "easy problems"; the math is a bit
 hard (Calc II level), but no harder than the equivalent math for a
 frequentist approach, and the actual procedure is easy once you know
 how.
 
+* Bayesian problems with analytic solutions can be straightforward conceptually and computationally
+
+* Easier to propagate error than with a frequentist model
+
 # MCMC methods
+
+## What about hard problems?
 
 * Bayesian methods are very flexible
 
