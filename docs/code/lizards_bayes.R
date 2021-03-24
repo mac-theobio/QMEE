@@ -4,6 +4,7 @@ library(R2jags)
 library(coda)
 library(broom.mixed)
 
+## utility for constructing an automatically named list
 named_list <- lme4:::namedList
 
 lizards <- (read_csv("data/lizards.csv")
@@ -11,15 +12,15 @@ lizards <- (read_csv("data/lizards.csv")
     %>% mutate_if(is.character,factor)
 )
 
-source("named_list.R")
-
+## create list of data
 lizdat1 <- with(lizards,
-               named_list(N=nrow(lizards),
-                          ntime=length(levels(time)),
-                          time=as.numeric(time),
-                          grahami))
+               named_list(N=nrow(lizards),            ## total obs
+                          ntime=length(levels(time)), ## number of categories
+                          time=as.numeric(time),      ## numeric index
+                          grahami))                   ## lizard count
 
 
+## you can embed BUGS/JAGS 
 ## model with the main effect of time
 ## parameterized by group means
 timemodel1 <- function() {
@@ -27,9 +28,10 @@ timemodel1 <- function() {
         ## Poisson model
         logmean[i] <- b_time[time[i]]    ## predicted log(counts)
         pred[i] <- exp(logmean[i])       ## predicted counts
+        ## use log-link so that we never end up with negative predicted values
         grahami[i] ~ dpois(pred[i])
     }
-    ## define priors in a loop
+    ## define priors for all parameters in a loop
     for (i in 1:ntime) {
         b_time[i] ~ dnorm(0,0.001)
     }
@@ -40,7 +42,8 @@ j1 <- jags(data=lizdat1,
            parameters=c("b_time"),
            model.file=timemodel1)
 
-tidy(j1,conf.int=TRUE, conf.method="quantile")
+## extract Bayesian CIs
+broom.mixed::tidy(j1,conf.int=TRUE, conf.method="quantile")
 
 ## model with the main effect of time
 ## treatment contrasts
