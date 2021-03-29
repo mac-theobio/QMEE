@@ -153,4 +153,18 @@ j2 <- jags(data=lizdat1,
            inits=NULL,
            parameters=c("b_time","b_avg"),
            model.file=lightmodel2)
+
+## these parameters are undetermined
 tidy(j2, conf.int=TRUE, conf.method="quantile")
+
+library(emdbook)
+mm0 <- as.mcmc.bugs(j2$BUGSoutput)
+lattice::xyplot(mm0)
+mm1 <- lump.mcmc.list(mm0)
+pairs(as.matrix(mm1),gap=FALSE)
+## all parameters are perfectly correlated
+
+## we can recover the means of the groups, but it's a pain
+summary(mm1[,"b_avg"]+mm1[,"b_time[1]"])
+summary(mm1[,"b_avg"]+mm1[,"b_time[2]"])
+summary(mm1[,"b_avg"]+mm1[,"b_time[3]"])
