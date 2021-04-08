@@ -13,9 +13,15 @@ The presentation does not have to be a finished work. Outline your scientific qu
 
 Please plan to finish on time. Time is short, and we want to be able to comment when appropriate.
 
+The presentation is worth two ordinary assignments. 
+
 ## Writeup 
 
-In the final project writeup (which will be due after the end of classes, **approximately** April 27), you should introduce a scientific question and present the results of a group of statistical analyses. that answer the question. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth three (3) ordinary assignments. 
+In the final project writeup, you should introduce a scientific question and present the results of a group of statistical analyses. that answer the question. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future.
+
+The final project is due at noon on Wed 27 Apr. It is worth four ordinary assignments. 
+
+
 
 ## Previous milestones
 
