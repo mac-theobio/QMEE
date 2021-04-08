@@ -3,11 +3,21 @@ title: Final project
 bibliography: ../qmee.bib
 ---
 
-## Next milestone
+## Presentations
 
-by **19 March**: you should update your README with thoughts and questions about next steps; you should also start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also A good place to record plans for how you will proceed with your analysis (for example, "if the diagnostic plots look OK, we will look at the summary table and use the clarity of the response to phosphorus as our main outcome". (See @simmons_false-positive_2011.)
+We will have presentations on Tue 13 Apr. Presentation slots will be assigned at random. Schedule will be posted Tue morning.
 
-## Previous milestone
+You should plan to talk for 10-12 minutes and take questions for 3-5 minutes. 
+
+The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.
+
+Please plan to finish on time. Time is short, and we want to be able to comment when appropriate.
+
+## Writeup 
+
+In the final project writeup (which will be due after the end of classes, **approximately** April 27), you should introduce a scientific question and present the results of a group of statistical analyses. that answer the question. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth three (3) ordinary assignments. 
+
+## Previous milestones
 
 by **12 March**: you should
 
@@ -16,20 +26,7 @@ by **12 March**: you should
 * upload your data (if possible)
 * write a `README.md` file for your repository that says briefly what you plan to do and says where the data is/are
 
----
-
-## Later steps  
-
-### Presentations
-
-During the last week (or so) of classes you will present your project to the class. The presentation time slots will 
-be about 10-15 minutes (details to follow). Please plan to finish on time. Time is short, and we want to be able to comment when appropriate.
-
-The presentation does not have to be a finished work. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. Include one or two results (or preliminary results), if possible.
-
-### Writeup 
-
-In the final project writeup (which will be due after the end of classes, **approximately** April 27), you should introduce a scientific question and present the results of a group of statistical analyses. that answer the question. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future. The final project is worth three (3) ordinary assignments. 
+by **19 March**: you should update your README with thoughts and questions about next steps; you should also start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also A good place to record plans for how you will proceed with your analysis (for example, "if the diagnostic plots look OK, we will look at the summary table and use the clarity of the response to phosphorus as our main outcome". (See @simmons_false-positive_2011.)
 
 Your writeup should be posted to your repository as a PDF file. Please do **not** include R code in your writeup. All analyses should be clearly documented and reproducible; your `README.md` file should describe the location of code and data files, and the steps necessary to reproduce the analyses.
 
