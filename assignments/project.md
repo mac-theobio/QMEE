@@ -19,9 +19,7 @@ The presentation is worth two ordinary assignments.
 
 In the final project writeup, you should introduce a scientific question and present the results of a group of statistical analyses. that answer the question. You don't need to write a formal paper, but you should present both the scientific and statistical background clearly. Discuss what choices you made, and if necessary what further statistical steps you should take in the future.
 
-The final project is due at noon on Wed 27 Apr. It is worth four ordinary assignments. 
-
-
+The final project is due at noon on Wed 28 Apr. It is worth four ordinary assignments. 
 
 ## Previous milestones
 
