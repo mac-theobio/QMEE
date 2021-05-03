@@ -74,7 +74,7 @@ local_site: update_all
 old_site: gh-pages
 	$(MAKE) gh-pages/index.html.go
 
-pushup: update_all all.time
+pushup: update_all
 
 dateup:
 	touch docs/*.html docs/*/*.html
