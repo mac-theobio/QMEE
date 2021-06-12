@@ -2,6 +2,7 @@
 title: "Multivariate modeling via mixed models"
 author: "Ian Dworkin and Ben Bolker"
 date: "`r format(Sys.time(),'%d %b %Y')`"
+bibliography: ../qmee.bib
 output: 
   html_document: 
     number_sections: yes
@@ -43,9 +44,11 @@ library(ggplot2); theme_set(theme_bw())
 if (packageVersion("broom.mixed")<"0.2.4") stop("need broom.mixed >= 0.2.4")
 ```
 
-##
+## data
 
-Get data (previously downloaded from http://datadryad.org/bitstream/handle/10255/dryad.8377/dll.csv but ? now bit-rotted?)
+This is an old *Drosophila melanogaster* data set from Ian Dworkin's PhD work [@dworkin_evidence_2005]. This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study Dworkin measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).
+
+Get data from https://doi.org/10.5061/dryad.8376 or [this repo](https://mac-theobio.github.io/QMEE/data/dll.csv):
 
 
 ```{r get_data}
@@ -433,8 +436,12 @@ This takes a long time! ($\approx 40$ minutes, even computing the chains in para
 	- more convenient outputs
 - other options: `glmmTMB`, `brms` ...
 
+
 **FIXME**:
 
 - sort out random effects tidying
 - set wildtype as baseline level
 - check out convergence warnings with nloptwrap vs bobyqa (why is `allFit` not working?)
+
+## References
+

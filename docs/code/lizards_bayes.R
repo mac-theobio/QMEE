@@ -164,7 +164,8 @@ mm1 <- lump.mcmc.list(mm0)
 pairs(as.matrix(mm1),gap=FALSE)
 ## all parameters are perfectly correlated
 
-## we can recover the means of the groups, but it's a pain
+## we can recover the means of the groups, but it's a
 summary(mm1[,"b_avg"]+mm1[,"b_time[1]"])
+plot(density(mm1[,"b_avg"]+mm1[,"b_time[1]"]))
 summary(mm1[,"b_avg"]+mm1[,"b_time[2]"])
 summary(mm1[,"b_avg"]+mm1[,"b_time[3]"])

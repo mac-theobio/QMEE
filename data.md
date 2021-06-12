@@ -22,12 +22,12 @@ Other files from the cleaning lecture
     * data/CA_homicide.rds: Canadian homicide data (processed)
 * data/skewdat.csv: data on reproductive skew in fish from Paczolt et al 2015 *J. Heredity*
 * data/aids.csv: data on Australian AIDS cases from Dobson and Barnett
+* data/dll.csv: data for mixed model example (from Dworkin 2011 *Evolution and Development*)
 
 ### Older files ###
 
 * data/portal_data_joined.csv: data from the Portal project
 * data/contrasts2.RData
-* data/dll.csv
 * data/cc2.rds
 
 ### Untracked files ###
