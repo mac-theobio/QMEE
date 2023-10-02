@@ -7,6 +7,8 @@ COMMENT -->
 
 * This web page is (permanently) __subject to change__.
 
+Some dates may be left over from our previous (Winter 2021) offering of the course.
+
 ## Course information
 
 - [Course description](admin/description.html)
@@ -15,15 +17,12 @@ COMMENT -->
 - Course material is in three places:
    - here
    - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
-   - classes and discussion forums on [MS Teams](https://teams.microsoft.com/l/team/19%3a21a7d8d05a1e4a69a238876af57b148b%40thread.tacv2/conversations?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772)
-   - communication will be by e-mail or on Teams
+   - classes and discussion forums: locations TBA
+   - communication will be by e-mail (to `bio708qmee@gmail.com`)
 
 ## Course schedule
 
-Course meetings will be on [our Team](https://teams.microsoft.com/l/team/19%3a21a7d8d05a1e4a69a238876af57b148b%40thread.tacv2/conversations?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772):
-
-* Tuesdays 9:30-11:20
-* Thursdays 11:30-12:20
+TBA
 
 There will also be some asynchronous content.
 
@@ -37,11 +36,12 @@ There will also be some asynchronous content.
 ### Statistics
 
 - [Permutations](topics/Permutations.html)
-- [Linear models](topics/Linear_models.html) <!-- week of March 1 -->
-- [Generalized linear models (additional)](topics/Generalized_linear_models.html)  <!-- week of March 8 -->
-- [Mixed models (additional)](topics/Mixed_models.html) <!-- week of March 15 -->
-- [Bayesian statistics](topics/Bayesian_statistics.html) <!-- week of March 22 -->
-- One more topic? Social network analysis? Multivariate responses?
+- [Linear models](topics/Linear_models.html)
+- [Generalized linear models (additional)](topics/Generalized_linear_models.html)
+- [Mixed models (additional)](topics/Mixed_models.html)
+- [Bayesian statistics](topics/Bayesian_statistics.html)
+
+Additional topics TBD/TBA
 
 <!-- COMMENT
 
@@ -55,4 +55,3 @@ There will also be some asynchronous content.
 
 -   [Jonathan Dushoff](http://www.biology.mcmaster.ca/dushoff/)
 -   [Ben Bolker](http://www.math.mcmaster.ca/~bolker/)
-
