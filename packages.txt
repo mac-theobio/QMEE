@@ -1,0 +1,33 @@
+## fdfind -e R -e Rmd -e Rnw -x grep "^library" | sed -e 's/library(//' | \
+##    sed -e 's/).*//' | tr -d "'" | tr -d '"' | sort | uniq
+arm
+brms
+broom
+broom.mixed
+car
+coda
+## coefplot2
+coin
+corrplot
+dotwhisker
+dplyr
+effects
+emdbook
+geomorph
+ggplot2
+gtools
+knitr
+lattice
+lme4
+lmPerm
+MASS
+MCMCglmm
+plyr
+pwr
+R2jags
+readr
+reshape2
+tidyr
+tidyverse
+## wwiki
+
