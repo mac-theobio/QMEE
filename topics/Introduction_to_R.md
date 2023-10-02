@@ -1,16 +1,16 @@
 ---
 title: "Topic: Introduction to R"
-date: Jan 2021
+date: Jan 2024
 ---
 
-If you have trouble with any of the steps below you can get help in class, or you can ask in the [MS Teams channel for software/programming help](https://teams.microsoft.com/l/channel/19%3a369591fac9f94ed3a283cbd329633c0a%40thread.tacv2/Software%2520and%2520programming%2520help?groupId=f81633df-ce5f-48f1-81b3-bedfdab309ab&tenantId=44376307-b429-42ad-8c25-28cd496f4772)
+If you have trouble with any of the steps below you can get help in class, or you can ask in ???
 
 
 Before Thursday
 ----------------
 
 *   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
-	 * If you have an older version of R (< 4.0.3), *please update to the latest version*.
+	 * If you have an older version of R (< 4.3.1), *please update to the latest version*.
 
 * Install and run the free and open-source R
     development environment `RStudio` from the Download button at the
