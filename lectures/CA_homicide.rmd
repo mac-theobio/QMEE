@@ -258,11 +258,14 @@ print(p2)
 
 Using the [directlabels](http://directlabels.r-forge.r-project.org/) package:
 
+<!-- https://tdhock.github.io/directlabels/docs/lineplot/posfuns/last.bumpup.html -->
+
 ```{r directlabels,message=FALSE, warning=FALSE}
 library(directlabels)
+last.bumpup <- list("last.points","bumpup")
 print(p1L
     + expand_limits(x=2014)  ## add a little more space
-    + geom_dl(aes(label=Place),method="last.bumpup") 
+    + geom_dl(aes(label=Place), method="last.bumpup") 
     + theme(legend.position="none")  ## don't need the legend any more
 )
 ```

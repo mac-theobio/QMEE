@@ -92,7 +92,10 @@ plot(jags1)             ## large-format graph
 ## plot(mm)                ## trace + density plots, same as above
 xyplot(mm,layout=c(2,3))  ## prettier trace plot
 densityplot(mm,layout=c(2,3)) ## prettier density plot
-print(dwplot(jags1))              ## estimate + credible interval plot
+## print(dwplot(jags1))              ## estimate + credible interval plot
+tt_jags <- tidy(jags1, conf.int = TRUE)
+gg_jags <- ggplot(tt_jags, aes(estimate, term, xmin = conf.low, xmax = conf.high)) + geom_pointrange()
+print(gg_jags)
 ```
 
 The `lump.mcmc.list` function from the `emdbook` package can be useful for converting a set of MCMC chains into a single long chain.
@@ -141,7 +144,10 @@ lms <- stan_lm(y~a+b+c,data=dat, prior=R2(0.2),
                seed=101,
                refresh=0  ## quiet!
                )
-dwplot(lms)
+## dwplot(lms)
+tt_rstanarm <- tidy(lms, conf.int = TRUE)
+gg_rstanarm <- gg_jags %+% tt_rstanarm
+print(gg_rstanarm)
 ```
 
 (warnings suppressed).
