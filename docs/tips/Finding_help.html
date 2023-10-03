@@ -6,11 +6,158 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>R resources</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
+html {
+line-height: 1.5;
+font-family: Georgia, serif;
+font-size: 20px;
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 1em;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+font-size: 85%;
+margin: 0;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -26,54 +173,76 @@
 	</div>
 </div>
 </header>
+
 <header id="title-block-header">
 <h1 class="title">R resources</h1>
 </header>
 <ul>
 <li>Basic help: <code>help(&quot;topic&quot;)</code>, <code>?&quot;topic</code></li>
-<li>Search all packages that you have installed: <code>help.search()</code></li>
-<li>Find functions or objects containing a string: <code>apropos()</code></li>
-<li>Search all of CRAN (full-text): <code>library(&quot;sos&quot;);</code> <code>findFn(...)</code> useful**)</li>
-<li><a href="https://cran.r-project.org/web/views/">Task views</a> (a cute alternative view <a href="http://www.maths.lancs.ac.uk/~rowlings/R/TaskViews/">here</a>)
+<li>Search all packages that you have installed:
+<code>help.search()</code></li>
+<li>Find functions or objects containing a string:
+<code>apropos()</code></li>
+<li>Search all of CRAN (full-text): <code>library(&quot;sos&quot;);</code>
+<code>findFn(...)</code> useful**)</li>
+<li><a href="https://cran.r-project.org/web/views/">Task views</a> (a
+cute alternative view <a href="http://www.maths.lancs.ac.uk/~rowlings/R/TaskViews/">here</a>)
 <ul>
 <li>Functionality for specific areas</li>
-<li>See especially <a href="http://cran.r-project.org/web/views/Phylogenetics.html">Phylogenetics</a>, <a href="http://cran.r-project.org/web/views/Environmetrics.html">Environmetrics</a> (“Analysis of Ecological and Environmental Data”)</li>
-<li><code>ctv</code> package (installs all packages associated with a Task View)</li>
+<li>See especially <a href="http://cran.r-project.org/web/views/Phylogenetics.html">Phylogenetics</a>,
+<a href="http://cran.r-project.org/web/views/Environmetrics.html">Environmetrics</a>
+(“Analysis of Ecological and Environmental Data”)</li>
+<li><code>ctv</code> package (installs all packages associated with a
+Task View)</li>
 </ul></li>
-<li>The <a href="http://www.ats.ucla.edu/stat/r/faq/">UCLA R FAQ</a> is very good</li>
+<li>The <a href="http://www.ats.ucla.edu/stat/r/faq/">UCLA R FAQ</a> is
+very good</li>
 <li>Mailing lists and forums:
 <ul>
 <li>general ground rules for mailing lists etc.
 <ul>
 <li>browse/lurk before posting</li>
-<li>be clear about the focus of your question (e.g. r-help is not for stats questions)</li>
-<li>read the documentation as carefully as you can first; indicate what you’ve read</li>
+<li>be clear about the focus of your question (e.g. r-help is not for
+stats questions)</li>
+<li>read the documentation as carefully as you can first; indicate what
+you’ve read</li>
 <li>“what have you tried?”</li>
 <li>provide a <strong>minimal workable example</strong> (e.g. see <a href="http://tinyurl.com/reproducible-000">here</a>)</li>
 </ul></li>
-<li><a href="https://www.r-project.org/mail.html">R mailing lists</a> will answer questions, have searchable archives
+<li><a href="https://www.r-project.org/mail.html">R mailing lists</a>
+will answer questions, have searchable archives
 <ul>
 <li>main list <a href="https://stat.ethz.ch/mailman/listinfo/r-help">r-help@r-project.org</a></li>
-<li>also “SIG” (special interest groups), especially <a href="https://stat.ethz.ch/mailman/listinfo/r-sig-phylo">r-sig-phylo</a>, <a href="https://stat.ethz.ch/mailman/listinfo/r-sig-ecology">r-sig-ecology</a></li>
-<li>in Google you can add <code>site:</code> qualifiers, e.g. <code>&quot;site:stat.ethz.ch/pipermail/r-sig-ecology NMDS&quot;</code></li>
+<li>also “SIG” (special interest groups), especially <a href="https://stat.ethz.ch/mailman/listinfo/r-sig-phylo">r-sig-phylo</a>,
+<a href="https://stat.ethz.ch/mailman/listinfo/r-sig-ecology">r-sig-ecology</a></li>
+<li>in Google you can add <code>site:</code> qualifiers,
+e.g. <code>&quot;site:stat.ethz.ch/pipermail/r-sig-ecology NMDS&quot;</code></li>
 </ul></li>
-<li><a href="http://stackoverflow.com/questions/tagged/r">StackOverflow ([r</a> tag)], <a href="http://stats.stackexchange.com">CrossValidated</a></li>
-<li><a href="https://support.bioconductor.org/">Bioconductor support forum</a></li>
-<li><a href="https://twitter.com/search?q=%23rstats&amp;src=typd">#rstats</a> on Twitter</li>
+<li><a href="http://stackoverflow.com/questions/tagged/r">StackOverflow
+([r</a> tag)], <a href="http://stats.stackexchange.com">CrossValidated</a></li>
+<li><a href="https://support.bioconductor.org/">Bioconductor support
+forum</a></li>
+<li><a href="https://twitter.com/search?q=%23rstats&amp;src=typd">#rstats</a>
+on Twitter</li>
 <li><a href="http://www.r-bloggers.com/">R-bloggers</a></li>
 <li><code>d-r-users@mcmaster.ca</code></li>
 </ul></li>
 </ul>
-<h2 id="phylogeneticbioinformatic-stuff">Phylogenetic/bioinformatic stuff</h2>
+<h2 id="phylogeneticbioinformatic-stuff">Phylogenetic/bioinformatic
+stuff</h2>
 <ul>
-<li>Install the <code>BiocManager</code> package from CRAN, then <code>BiocManager::install()</code></li>
-<li>Use <code>setRepositories()</code> to easily add <a href="http://www.bioconductor.org/">Bioconductor</a> to your list of package repositories</li>
-<li><code>ape</code> package (CRAN) for most basic phylogenetic/sequence stuff
+<li>Install the <code>BiocManager</code> package from CRAN, then
+<code>BiocManager::install()</code></li>
+<li>Use <code>setRepositories()</code> to easily add <a href="http://www.bioconductor.org/">Bioconductor</a> to your list of
+package repositories</li>
+<li><code>ape</code> package (CRAN) for most basic phylogenetic/sequence
+stuff
 <ul>
 <li><code>ape::read.GenBank</code></li>
 <li><code>DNAbin</code> data type</li>
 </ul></li>
-<li><code>brranching</code>, <code>taxize</code>, <code>traits</code> packages for retrieving trees and species traits</li>
+<li><code>brranching</code>, <code>taxize</code>, <code>traits</code>
+packages for retrieving trees and species traits</li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

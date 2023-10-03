@@ -1,7 +1,7 @@
 
 data/index.html ## Leave this here; it should be suppressed downstream
 
-[pretty version of this page](index.html)
+MISSING: index.html)
 
 Data on *Anolis* lizards from Schoener 1970 (*Ecology*)
 * data/lizards.csv
@@ -30,9 +30,6 @@ Other files from the cleaning lecture
 * data/contrasts2.RData
 * data/cc2.rds
 
-### Untracked files ###
+### Untracked files ### (1)
 
-data/multiv_brmsfit.rda
-
-
-
+* data/multiv_brmsfit.rda

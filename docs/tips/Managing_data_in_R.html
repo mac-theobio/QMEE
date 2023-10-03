@@ -6,67 +6,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Managing_data_in_R</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
+html {
+line-height: 1.5;
+font-family: Georgia, serif;
+font-size: 20px;
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
 body {
-margin: auto;
-padding-right: 1em;
-padding-left: 1em;
-max-width: 66em; border-left: 1px solid black;
-border-right: 1px solid black;
-color: black;
-font-family: Verdana, sans-serif;
-font-size: 100%;
-line-height: 140%;
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
 }
-pre {
-border: 1px dotted gray;
-background-color: #ececec;
-color: #1111111;
-padding: 0.5em;
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 1em;
 }
-code {
-font-family: monospace;
-}
-h1, h2, h3, h4, h5 { font-family: verdana;
-font-weight: bold;
-border-bottom: 1px dotted black;
-color: #444400; }
 h1 {
-font-size: 150%;
-color: #0000DD
+font-size: 1.8em;
 }
-h2 {
-font-size: 130%;
 }
-h3 {
-font-size: 110%;
+@media print {
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
 }
-h1.title {
-font-size: 200%;
-font-weight: bold;
-padding-top: 0.2em;
-padding-bottom: 0.2em;
-text-align: left;
-border: none;
-text-align: center;
+p, h2, h3 {
+orphans: 3;
+widows: 3;
 }
-dt code {
-font-weight: bold;
+h2, h3, h4 {
+page-break-after: avoid;
 }
-dd p {
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
 margin-top: 0;
 }
-#footer {
-padding-top: 1em;
-font-size: 100%;
-color: gray;
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+font-size: 85%;
+margin: 0;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
 text-align: center;
-margin-bottom: 2ex;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
 }
 </style>
   <!--[if lt IE 9]>
@@ -84,6 +173,7 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
+
 <h1 id="intro">Intro</h1>
 <h2 id="goals">Goals</h2>
 <p>You should be able to</p>
@@ -96,67 +186,116 @@ margin-bottom: 2ex;
 <li>examine the data visually, numerically, textually, etc.</li>
 </ul>
 <h2 id="representations">Representations</h2>
-<p>Numeric and character types are fairly straightforward, and you rarely have to worry about when and whether R represents things as integers or <em>floating point</em>. <em>Very occasionally</em> you will need to know that R is limited in its capacity to represent numbers of extremely large or small magnitude, and that floating-point computations are always approximate.</p>
-<p>You do need to know about <strong>factors</strong>, and to be aware when your variables are being treated as such.</p>
+<p>Numeric and character types are fairly straightforward, and you
+rarely have to worry about when and whether R represents things as
+integers or <em>floating point</em>. <em>Very occasionally</em> you will
+need to know that R is limited in its capacity to represent numbers of
+extremely large or small magnitude, and that floating-point computations
+are always approximate.</p>
+<p>You do need to know about <strong>factors</strong>, and to be aware
+when your variables are being treated as such.</p>
 <h2 id="missing-values">Missing values</h2>
-<p>When you input data, you need to be aware of <code>NA</code> (“not available”). Your read function has an option called <code>na.strings</code> which you can use to communicate between R and your CSV files, for example. You need to know that</p>
+<p>When you input data, you need to be aware of <code>NA</code> (“not
+available”). Your read function has an option called
+<code>na.strings</code> which you can use to communicate between R and
+your CSV files, for example. You need to know that</p>
 <ul>
 <li><code>NA==x</code> is always <code>NA</code></li>
-<li>use <code>is.na()</code> to test for <code>NA</code> values, <code>na.omit()</code> to drop them, and the optional <code>na.rm</code> argument in some functions (<code>mean</code>, <code>sum</code>, <code>median</code> …)</li>
+<li>use <code>is.na()</code> to test for <code>NA</code> values,
+<code>na.omit()</code> to drop them, and the optional <code>na.rm</code>
+argument in some functions (<code>mean</code>, <code>sum</code>,
+<code>median</code> …)</li>
 </ul>
 <h2 id="changing-representations">Changing representations</h2>
-<p>R has a big suite of functions for creating, testing and changing representations. These have names like <code>factor()</code>, <code>as.numeric()</code> and <code>is.character()</code>.</p>
+<p>R has a big suite of functions for creating, testing and changing
+representations. These have names like <code>factor()</code>,
+<code>as.numeric()</code> and <code>is.character()</code>.</p>
 <h3 id="factors">Factors</h3>
-<p>Factors are logically variables with a fixed number of categories. In R they are represented as integer variables that have a “levels” attribute. In other words, each possible value of the factor is given an integer, and the variable carries around the code that allows translation from this integer to its meaning.</p>
+<p>Factors are logically variables with a fixed number of categories. In
+R they are represented as integer variables that have a “levels”
+attribute. In other words, each possible value of the factor is given an
+integer, and the variable carries around the code that allows
+translation from this integer to its meaning.</p>
 <p>This system has advantages:</p>
 <ul>
-<li>You can put the levels in an appropriate order; these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models</li>
-<li>You can specify the <em>contrasts</em> that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)</li>
+<li>You can put the levels in an appropriate order; these govern the
+order in which the categories are presented when summarizing the data,
+plotting graphs, or printing the output of statistical models</li>
+<li>You can specify the <em>contrasts</em> that R will use when building
+statistical models (i.e. which levels or comparisons of levels to
+compare)</li>
 </ul>
 <p>… and disadvantages:</p>
 <ul>
 <li>It is potentially confusing
 <ul>
-<li><code>as.numeric(f)</code> is not the same as <code>as.numeric(as.character(f))</code></li>
+<li><code>as.numeric(f)</code> is not the same as
+<code>as.numeric(as.character(f))</code></li>
 </ul></li>
 <li>Similar variables can have different sets of levels</li>
 </ul>
-<p>As a general rule, convert variables to factors <em>at the last possible time</em>, when you have already fixed typos; combined different data sets; etc.. The tidyverse functions <code>readr::read_csv()</code>, <code>readr::read_table()</code>, <code>readxl::read_xlsx()</code> will <strong>not</strong> automatically convert strings to factors. You can set <code>options(stringsAsFactors=FALSE)</code> to disable R’s default behaviour of converting character data to factors when you use <code>read.table()</code> or <code>read.csv()</code> to read in data.</p>
+<p>As a general rule, convert variables to factors <em>at the last
+possible time</em>, when you have already fixed typos; combined
+different data sets; etc.. The tidyverse functions
+<code>readr::read_csv()</code>, <code>readr::read_table()</code>,
+<code>readxl::read_xlsx()</code> will <strong>not</strong> automatically
+convert strings to factors. You can set
+<code>options(stringsAsFactors=FALSE)</code> to disable R’s default
+behaviour of converting character data to factors when you use
+<code>read.table()</code> or <code>read.csv()</code> to read in
+data.</p>
 <h2 id="examination">Examination</h2>
-<p>You should think creatively, and early on, about how to check your data. Is it internally consistent? Are there extreme outliers? Are there typos? Are there certain values that really mean something else?</p>
-<p>An American Airlines memo about fuel reporting from the 1980s complained of multiple cases of:</p>
+<p>You should think creatively, and early on, about how to check your
+data. Is it internally consistent? Are there extreme outliers? Are there
+typos? Are there certain values that really mean something else?</p>
+<p>An American Airlines memo about fuel reporting from the 1980s
+complained of multiple cases of:</p>
 <ul>
 <li>Reported departure fuel greater than aircraft capacity</li>
 <li>Reported departure fuel less than minimum required for trip</li>
 <li>Reported arrival fuel greater than reported departure fuel</li>
-<li>Difference between reported departure fuel and reported arrival fuel not within reasonable min/max bounds</li>
+<li>Difference between reported departure fuel and reported arrival fuel
+not within reasonable min/max bounds</li>
 </ul>
-<p>You should think about what you can test, and what you can fix if it’s broken.</p>
-<p>Graphical approaches are really useful for data cleaning; we will discuss this more later on.</p>
-<p>What R functions do you know that are useful for examination? What are your strategies?</p>
+<p>You should think about what you can test, and what you can fix if
+it’s broken.</p>
+<p>Graphical approaches are really useful for data cleaning; we will
+discuss this more later on.</p>
+<p>What R functions do you know that are useful for examination? What
+are your strategies?</p>
 <h2 id="manipulation">Manipulation</h2>
-<p>Even once your data are clean, there can still be a lot of work getting it into a format you want to use. “Data manipulation”, “munging”, or “wrangling” are the terms covering this activity. The RStudio folks have a useful <a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheat sheet</a>.</p>
-<p>This is a very, very hard, very general problem; everyone’s data problems and requirements are slightly different. But there are recurring themes.</p>
+<p>Even once your data are clean, there can still be a lot of work
+getting it into a format you want to use. “Data manipulation”,
+“munging”, or “wrangling” are the terms covering this activity. The
+RStudio folks have a useful <a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheat
+sheet</a>.</p>
+<p>This is a very, very hard, very general problem; everyone’s data
+problems and requirements are slightly different. But there are
+recurring themes.</p>
 <h2 id="specialized-data">Specialized data</h2>
-<p>Some data are in specialized formats, and often already cleaned. We will mention only in passing:</p>
+<p>Some data are in specialized formats, and often already cleaned. We
+will mention only in passing:</p>
 <ul>
 <li>phylogenetic trees</li>
 <li>sequence data</li>
 <li>maps, spatial data</li>
 </ul>
 <h2 id="tidying-data">Tidy(ing) data</h2>
-<p>Hadley Wickham has defined a concept of <a href="http://www.jstatsoft.org/v59/i10/paper">tidy data</a>, and has recently introduced the <code>tidyr</code> package.</p>
+<p>Hadley Wickham has defined a concept of <a href="http://www.jstatsoft.org/v59/i10/paper">tidy data</a>, and has
+recently introduced the <code>tidyr</code> package.</p>
 <ul>
 <li>Each variable is in a column</li>
 <li>Each observation is in a row</li>
 <li>“Long” rather than “wide” form</li>
 <li>Sometimes duplicates data</li>
-<li>Statistical modeling tools and graphical tools (especially the <strong>ggplot2</strong> package) in R work best with long form</li>
+<li>Statistical modeling tools and graphical tools (especially the
+<strong>ggplot2</strong> package) in R work best with long form</li>
 </ul>
 <h3 id="tools">Tools</h3>
 <h4 id="the-tidyverse">The tidyverse</h4>
 <ul>
-<li><code>tidyr</code> package (reshaping): <code>gather()</code>, <code>spread()</code></li>
+<li><code>tidyr</code> package (reshaping): <code>gather()</code>,
+<code>spread()</code></li>
 <li><code>dplyr</code> package:
 <ul>
 <li><code>mutate()</code></li>
@@ -173,10 +312,12 @@ margin-bottom: 2ex;
 <li><code>reshape()</code>: wide-to-long and vice versa</li>
 <li><code>merge()</code>: join data frames</li>
 <li><code>ave()</code>: compute averages by group</li>
-<li><code>subset()</code>, <code>[</code>-indexing: select obs and vars</li>
+<li><code>subset()</code>, <code>[</code>-indexing: select obs and
+vars</li>
 <li><code>transform()</code>: modify variables and create new ones</li>
 <li><code>aggregate()</code>: split-apply-summarize</li>
-<li><code>split()</code>, <code>lapply()</code>, <code>do.call(rbind())</code>: split-apply-combine</li>
+<li><code>split()</code>, <code>lapply()</code>,
+<code>do.call(rbind())</code>: split-apply-combine</li>
 <li><code>sort()</code></li>
 </ul>
 <!--- COMMENT
