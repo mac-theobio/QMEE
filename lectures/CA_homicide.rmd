@@ -35,8 +35,8 @@ Read data (from two separate files).
 ```{r getdat, message=FALSE}
 library(tidyverse)
 ## using col_types=cols() suppresses the messages about which type is which
-dat <- read_csv("../data/CA_homicide.csv", col_types=cols())
-popdat <- read_csv("../data/CA_popdat.csv", col_types=cols())
+dat <- read_csv("../docs/data/CA_homicide.csv", col_types=cols())
+popdat <- read_csv("../docs/data/CA_popdat.csv", col_types=cols())
 ```
 
 These data are in wide format:
@@ -155,16 +155,16 @@ Sometimes it's useful to be able to go from long to wide format. `pivot_wider()`
 Save the results:
 
 ```{r save}
-saveRDS(sdat3,file="../data/CA_homicide.rds")
+saveRDS(sdat3,file="../docs/data/CA_homicide.rds")
 ```
 
 For analysis in R, it is generally best to keep your data in long format and `pivot_wider()` it as necessary (e.g. when creating a human-readable table for output).
 
 # Pictures
 
-Load data from previous computations (can also get it [here](../data/CA_homicide.rds)
+Load data from previous computations (can also get it [here](../docs/data/CA_homicide.rds)
 ```{r getdat2}
-mdat <- readRDS("../data/CA_homicide.rds")
+mdat <- readRDS("../docs/data/CA_homicide.rds")
 ```
 
 One of the advantages of long format is that it allows us to use some of R's more powerful graphics tools such as the `ggplot2` and `lattice` packages (and it's what most statistics packages expect):
