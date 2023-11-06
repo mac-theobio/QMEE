@@ -12,11 +12,11 @@ vim_session:
 
 Sources += $(wildcard *.rmd)
 
-## make should make a docs/ subdirectory here which maps to 
+## make should make a subdocs/ subdirectory here which maps to 
 ## an subdirectory in docs
 ## make update should make html from the md files it finds here
 
-Ignore += docs
+Ignore += subdocs
 include ../rweb.mk
 
 ######################################################################
