@@ -3,8 +3,7 @@
 
 ## Make things into subdocs, which should be a link to docs/dirname 
 dname = $(notdir $(CURDIR))
-subdocs:
-	$(MAKE) ../docs/$(dname)
+subdocs: | ../docs/$(dname)
 	ls -d ../docs/$(dname)
 	ln -s ../docs/$(dname) $@
 
