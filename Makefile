@@ -86,6 +86,8 @@ syncup: update_all pull dateup all.time
 ## Data index
 ## data/ lives in docs/ so that it's part of the pages
 
+Makefile: | data
+
 Ignore += data
 data: dir=docs
 data:
@@ -108,7 +110,7 @@ data_index.md: data.md dataindex.pl
 
 ## data/index.html: data.md
 ## data_index.md: data.md
-data/index.html: data_index.md | data
+data/index.html: data_index.md
 	pandoc $< -o $@ --mathjax -s -f gfm -B html/header.html -A html/footer.html --css html/qmee.css --self-contained
 
 ######################################################################
