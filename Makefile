@@ -66,7 +66,7 @@ subdirs += lectures tips assignments
 Ignore += $(subdirs)
 alldirs += $(subdirs)
 
-update_all: makestuff $(subdirs:%=%.makestuff) $(subdirs:%=%.update) update
+update_all: $(subdirs:%=%.update) update
 
 local_site: update_all
 	$(MAKE) docs/index.html.go

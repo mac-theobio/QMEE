@@ -6,168 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Topic: Introduction to R</title>
   <style>
-html {
-color: #1a1a1a;
-background-color: #fdfdfd;
-}
-body {
-margin: 0 auto;
-max-width: 36em;
-padding-left: 50px;
-padding-right: 50px;
-padding-top: 50px;
-padding-bottom: 50px;
-hyphens: auto;
-overflow-wrap: break-word;
-text-rendering: optimizeLegibility;
-font-kerning: normal;
-}
-@media (max-width: 600px) {
-body {
-font-size: 0.9em;
-padding: 12px;
-}
-h1 {
-font-size: 1.8em;
-}
-}
-@media print {
-html {
-background-color: white;
-}
-body {
-background-color: transparent;
-color: black;
-font-size: 12pt;
-}
-p, h2, h3 {
-orphans: 3;
-widows: 3;
-}
-h2, h3, h4 {
-page-break-after: avoid;
-}
-}
-p {
-margin: 1em 0;
-}
-a {
-color: #1a1a1a;
-}
-a:visited {
-color: #1a1a1a;
-}
-img {
-max-width: 100%;
-}
-svg {
-height: auto;
-max-width: 100%;
-}
-h1, h2, h3, h4, h5, h6 {
-margin-top: 1.4em;
-}
-h5, h6 {
-font-size: 1em;
-font-style: italic;
-}
-h6 {
-font-weight: normal;
-}
-ol, ul {
-padding-left: 1.7em;
-margin-top: 1em;
-}
-li > ol, li > ul {
-margin-top: 0;
-}
-blockquote {
-margin: 1em 0 1em 1.7em;
-padding-left: 1em;
-border-left: 2px solid #e6e6e6;
-color: #606060;
-}
-code {
-font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-font-size: 85%;
-margin: 0;
-hyphens: manual;
-}
-pre {
-margin: 1em 0;
-overflow: auto;
-}
-pre code {
-padding: 0;
-overflow: visible;
-overflow-wrap: normal;
-}
-.sourceCode {
-background-color: transparent;
-overflow: visible;
-}
-hr {
-background-color: #1a1a1a;
-border: none;
-height: 1px;
-margin: 1em 0;
-}
-table {
-margin: 1em 0;
-border-collapse: collapse;
-width: 100%;
-overflow-x: auto;
-display: block;
-font-variant-numeric: lining-nums tabular-nums;
-}
-table caption {
-margin-bottom: 0.75em;
-}
-tbody {
-margin-top: 0.5em;
-border-top: 1px solid #1a1a1a;
-border-bottom: 1px solid #1a1a1a;
-}
-th {
-border-top: 1px solid #1a1a1a;
-padding: 0.25em 0.5em 0.25em 0.5em;
-}
-td {
-padding: 0.125em 0.5em 0.25em 0.5em;
-}
-header {
-margin-bottom: 4em;
-text-align: center;
-}
-#TOC li {
-list-style: none;
-}
-#TOC ul {
-padding-left: 1.3em;
-}
-#TOC > ul {
-padding-left: 0;
-}
-#TOC a:not(:hover) {
-text-decoration: none;
-}
-code{white-space: pre-wrap;}
-span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
-div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-
-ul.task-list[class]{list-style: none;}
-ul.task-list li input[type="checkbox"] {
-font-size: inherit;
-width: 0.8em;
-margin: 0 0.8em 0.2em -1.6em;
-vertical-align: middle;
-}
-</style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
 </head>
 <body>
 <header class="site-header">
@@ -185,109 +30,69 @@ vertical-align: middle;
 <h1 class="title">Topic: Introduction to R</h1>
 <p class="date">Jan 2024</p>
 </header>
-<p>If you have trouble with any of the steps below you can get help in
-class, or you can ask in ???</p>
+<p>If you have trouble with any of the steps below you can get help in class, or you can ask in ???</p>
 <h2 id="before-thursday">Before Thursday</h2>
 <ul>
-<li><p>Install and run the free (and open-source) program <code>R</code>
-from the links at the top of <a href="http://cran.r-project.org/">the
-Comprehensive R Archive Network</a>.</p>
+<li><p>Install and run the free (and open-source) program <code>R</code> from the links at the top of <a href="http://cran.r-project.org/">the Comprehensive R Archive Network</a>.</p>
 <ul>
-<li>If you have an older version of R (&lt; 4.3.1), <em>please update to
-the latest version</em>.</li>
+<li>If you have an older version of R (&lt; 4.3.1), <em>please update to the latest version</em>.</li>
 </ul></li>
-<li><p>Install and run the free and open-source R development
-environment <code>RStudio</code> from the Download button at the <a href="http://www.rstudio.com/ide/">RStudio web site</a>. You should get
-the “desktop” version.</p></li>
+<li><p>Install and run the free and open-source R development environment <code>RStudio</code> from the Download button at the <a href="http://www.rstudio.com/ide/">RStudio web site</a>. You should get the “desktop” version.</p></li>
 <li><p>install the <code>tidyverse</code> suite of R packages:</p>
 <ul>
-<li>within an R session, type
-<code>install.packages(&quot;tidyverse&quot;)</code></li>
+<li>within an R session, type <code>install.packages(&quot;tidyverse&quot;)</code></li>
 <li>(<em>or</em> use the package manager window in RStudio).</li>
 </ul></li>
 </ul>
 <h2 id="before-tuesday">Before Tuesday</h2>
 <ul>
-<li>Unless you already have one, <a href="https://github.com">sign up
-for a github account</a> (click the big green “Sign up for GitHub”
-button)
+<li>Unless you already have one, <a href="https://github.com">sign up for a github account</a> (click the big green “Sign up for GitHub” button)
 <ul>
-<li>You may want to read <a href="http://happygitwithr.com/github-acct.html">this advice on picking
-a GitHub user name</a> first.</li>
+<li>You may want to read <a href="http://happygitwithr.com/github-acct.html">this advice on picking a GitHub user name</a> first.</li>
 </ul></li>
-<li>If you’re on MacOS, try to install XCode (following the instructions
-<a href="https://happygitwithr.com/install-git.html#macos">here</a> or
-starting <a href="https://developer.apple.com/download/">here</a>).</li>
+<li>If you’re on MacOS, try to install XCode (following the instructions <a href="https://happygitwithr.com/install-git.html#macos">here</a> or starting <a href="https://developer.apple.com/download/">here</a>).</li>
 <li>e-mail your GitHub account name to <a href="mailto:bio708qmee@gmail.com" class="email">bio708qmee@gmail.com</a></li>
 <li>Get as far as you can through the following steps:
 <ul>
-<li>Read and follow the directions in chapters 1-7 (most of them are
-short!) in Jenny Bryan’s <a href="https://happygitwithr.com/">Happy Git
-with R</a></li>
+<li>Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan’s <a href="https://happygitwithr.com/">Happy Git with R</a></li>
 </ul></li>
 </ul>
 <h1 id="goals">Goals</h1>
 <ul>
-<li><p>An introduction to the R environment, and some basic principles
-of scripting and programming</p></li>
-<li><p>Participants will install and run R, write a script, and read
-some data</p></li>
+<li><p>An introduction to the R environment, and some basic principles of scripting and programming</p></li>
+<li><p>Participants will install and run R, write a script, and read some data</p></li>
 </ul>
 <h1 id="resources">Resources</h1>
 <ul>
-<li><p>The official Introduction to R on the <a href="http://cran.r-project.org/manuals.html">R manuals
-page</a></p></li>
+<li><p>The official Introduction to R on the <a href="http://cran.r-project.org/manuals.html">R manuals page</a></p></li>
 <li><p>Course material</p>
 <ul>
-<li>Lecture notes (<a href="../lectures/intro_R.slides.html">slides</a>,
-<a href="../lectures/intro_R.notes.html">notes</a>)</li>
+<li>Lecture notes (<a href="../lectures/intro_R.slides.html">slides</a>, <a href="../lectures/intro_R.notes.html">notes</a>)</li>
 <li>tidyverse (<a href="../lectures/intro_tidyverse.slides.html">slides</a>, <a href="../lectures/intro_tidyverse.notes.html">notes</a>)</li>
 <li><a href="../tips/Importing_data.html">Importing data</a></li>
 <li><a href="../tips/Running_R.html">Running R</a></li>
 </ul></li>
 </ul>
 <h1 id="tuesday">Tuesday</h1>
-<p>Our goal for Tuesday’s class is to set up repos, experiment with
-committing, pushing and pulling, and share with the instructors.</p>
+<p>Our goal for Tuesday’s class is to set up repos, experiment with committing, pushing and pulling, and share with the instructors.</p>
 <ul>
-<li>E-mail your GitHub user name to <code>bio708qmee@gmail.com</code>,
-if you haven’t already done so.</li>
+<li>E-mail your GitHub user name to <code>bio708qmee@gmail.com</code>, if you haven’t already done so.</li>
 <li>Work through chapters 9 and 12 in <a href="https://happygitwithr.com/">Happy Git with R</a></li>
 <li>Make a directory on the github repo called <code>QMEE</code>
 <ul>
 <li>Be aware that your repo is publicly readable by default.</li>
 </ul></li>
-<li>add Jonathan Dushoff (<code>@dushoff</code>) and Ben Bolker
-(<code>@bbolker</code>) as collaborators (<code>Settings</code> &gt;
-<code>Collaborators</code> (left margin) &gt;
-<code>Add collaborator</code>)</li>
+<li>add Jonathan Dushoff (<code>@dushoff</code>) and Ben Bolker (<code>@bbolker</code>) as collaborators (<code>Settings</code> &gt; <code>Collaborators</code> (left margin) &gt; <code>Add collaborator</code>)</li>
 </ul>
 <!--- COMMENT
 COMMENT -->
 <h1 id="assignment">Assignment</h1>
 <ul>
-<li>Choose a data set that might be fun for you to explore for examples
-in this class (and possibly for the class project). Acquire the data (or
-make a plan to acquire it), and add a paragraph to the
-<code>README.md</code> file in your course repo describing it. Please
-give us some context for the data and describe the
-<strong>biological</strong> questions you would hope to answer (if you
-also want to translate your biological questions into statistical
-questions that’s fine, but you should always start by framing the
-biological questions; the translation from biological to statistical
-questions is one of the hardest parts of data analysis).</li>
+<li>Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and add a paragraph to the <code>README.md</code> file in your course repo describing it. Please give us some context for the data and describe the <strong>biological</strong> questions you would hope to answer (if you also want to translate your biological questions into statistical questions that’s fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).</li>
 </ul>
-<p>Input some piece of this data (use some public data set if your real
-data set is not quickly available) into <code>R</code>, and do a
-substantive calculation using the data. You should upload a text file or
-spreadsheet, and an R script that reads it and does the calculation. You
-should confirm that these work by running them from beginning to end in
-a <strong>clean R session</strong> (in RStudio you can “Restart R”, then
-“Run All” from the “Run” icon above the script window) before submitting
-by emailing the name of your main script to us at <a href="mailto:bio708qmee@gmail.com" class="email">bio708qmee@gmail.com</a>.</p>
+<p>Input some piece of this data (use some public data set if your real data set is not quickly available) into <code>R</code>, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work by running them from beginning to end in a <strong>clean R session</strong> (in RStudio you can “Restart R”, then “Run All” from the “Run” icon above the script window) before submitting by emailing the name of your main script to us at <a href="mailto:bio708qmee@gmail.com" class="email">bio708qmee@gmail.com</a>.</p>
 <ul>
-<li>See the <a href="../admin/assignments.html">assignment
-instructions</a></li>
+<li>See the <a href="../admin/assignments.html">assignment instructions</a></li>
 </ul>
 <div id="footer">
 	<div style="text-align:center">

@@ -1,10 +1,9 @@
 
 ## Original docs directory made by hand in repo root directory and pushed
 
-## This is for the sub-docs directories; fights with the git.mk rule
-## Probably better to give it a different name, like subdocs, for future
+## Make things into subdocs, which should be a link to docs/dirname 
 dname = $(notdir $(CURDIR))
-docs:
+subdocs:
 	$(MAKE) ../docs/$(dname)
 	ls -d ../docs/$(dname)
 	ln -s ../docs/$(dname) $@
@@ -24,9 +23,9 @@ md = $(wildcard *.md)
 rmd = $(wildcard *.rmd)
 Sources += $(md) $(rmd)
 
-mdhdocs = $(md:%.md=docs/%.html)
-rmdnotes = $(rmd:%.rmd=docs/%.notes.html)
-rmdslides = $(rmd:%.rmd=docs/%.slides.html)
+mdhdocs = $(md:%.md=subdocs/%.html)
+rmdnotes = $(rmd:%.rmd=subdocs/%.notes.html)
+rmdslides = $(rmd:%.rmd=subdocs/%.slides.html)
 
 update: $(mdhdocs) $(rmdnotes) $(rmdslides)
 
@@ -34,7 +33,7 @@ update: $(mdhdocs) $(rmdnotes) $(rmdslides)
 ## I've been turning on and off the automake for .rmd
 ## If it's on we don't need this rule much
 
-%.lecture: docs/%.notes.html docs/%.slides.html ;
+%.lecture: subdocs/%.notes.html subdocs/%.slides.html ;
 
 ######################################################################
 
@@ -46,8 +45,7 @@ site_bib = ../qmee.bib
 site_args = --self-contained
 ## mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) --css $(site_css) $(site_args)
 mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) $(site_args) --bibliography=$(site_bib)
-docs/%.html: %.md
-	$(MAKE) html docs
+subdocs/%.html: %.md | html subdocs
 	$(mds)
 
 ######################################################################
@@ -65,15 +63,13 @@ io = input="$<", output_file="$(notdir $@)"
 ## renderthere = output_file="$(notdir $@)", output_dir="$(dir $@)"
 mvrule = $(MVF) $(notdir $@) $@
 
-.PRECIOUS: docs/%.notes.html
-docs/%.notes.html: %.rmd
-	$(MAKE) html docs
+.PRECIOUS: subdocs/%.notes.html
+subdocs/%.notes.html: %.rmd | html subdocs
 	$(notesrule)
 	$(mvrule)
 
-.PRECIOUS: docs/%.slides.html
-docs/%.slides.html: %.rmd
-	$(MAKE) html docs
+.PRECIOUS: subdocs/%.slides.html
+subdocs/%.slides.html: %.rmd | html subdocs
 	$(slidesrule)
 	$(mvrule)
 

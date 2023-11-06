@@ -1,4 +1,4 @@
----
+--
 title: "Statistical philosophy"
 nocite: |
   @gelman_statistical_2014, @dushoff_i_2019, @davidoff_standing_1999, @pigliucci_reject_2004, @berger_could_2003, @mccullagh_what_2002, @gerber_publication_2008, @goldacre_statistical_2011, @nieuwenhuis_erroneous_2011, @gelman_difference_2006
