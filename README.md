@@ -29,6 +29,8 @@ Consider using `make dateup` after pulling but before working; this will deal wi
 
 ## Data directory
 
+data is version-controlled at docs/data. Avoid adding vc stuff to data/ directly. This can work for a while, but will definitely confuse new clones.
+
 You are meant to edit the file data.md. It will also edit itself, as follows.
 
 * If you refer to a file in the data directory (data/<fn.ext>) _before other words on a line_, it will take note of it and mark it MISSING if missing (only once; it can also remove the MISSING tag automatically)
