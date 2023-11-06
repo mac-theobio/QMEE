@@ -60,7 +60,10 @@ notesrule = echo 'rmarkdown::render($(io))' | R --vanilla
 slidesrule = echo 'rmarkdown::render($(io), $(slideargs))' | R --vanilla
 io = input="$<", output_file="$(notdir $@)"
 ## renderthere = output_file="$(notdir $@)", output_dir="$(dir $@)"
+
+## Testing why this sometimes does not expand
 mvrule = $(MVF) $(notdir $@) $@
+mvrule = /bin/mv -f $(notdir $@) $@
 
 .PRECIOUS: subdocs/%.notes.html
 subdocs/%.notes.html: %.rmd | html subdocs
