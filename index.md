@@ -7,7 +7,7 @@ COMMENT -->
 
 * This web page is (permanently) __subject to change__.
 
-Some dates may be left over from our previous (Winter 2021) offering of the course.
+Some information may be left over from our previous (Winter 2021) offering of the course.
 
 ## Course information
 
@@ -22,7 +22,7 @@ Some dates may be left over from our previous (Winter 2021) offering of the cour
 
 ## Course schedule
 
-TBA
+Tues 11:30-12:20, Thurs 9:30-11:20. Location will (eventually) be posted on Mosaic.
 
 There will also be some asynchronous content.
 

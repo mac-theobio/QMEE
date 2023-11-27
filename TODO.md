@@ -1,6 +1,16 @@
 # TODO
 
-Garden of forking
+## Meta
+
+Clean up TODO file (delete resolved/no-longer-relevant items: most entries here are very old)
+
+Decide on appropriate venue for TODO items
+
+Don't forget to cross-check with `TODO.md` in the private repo
+
+## Miscellaneous
+
+Garden of forking (¿¿ what does this mean ?? add material on Gelman and Loken 2014 "garden of forking paths" paper ??)
 
 Find and link assignment guidelines
 
@@ -24,6 +34,7 @@ Find and link assignment guidelines
   * somebody says they can't click
 
 ## Assignments
+
 - read & respond to student assignments (how are we coordinating this?)
   - JD will do a task script
 
@@ -38,7 +49,10 @@ Find and link assignment guidelines
 
 * parentheses for spanning and print for printing in tidyverse intro
 
-## Admin
+## Admin/makestuff
+
+Resolve `[WARNING] Deprecated: --self-contained. use --embed-resources --standalone` warning
+
 
 ######################################################################
 
