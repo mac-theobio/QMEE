@@ -1,5 +1,5 @@
 ---
-title: Quantitative Methods in Ecology and Evolution
+title: Quantitative Methods in Ecology and Evolution (winter 2024)
 ---
 
 <!--- COMMENT
@@ -7,9 +7,10 @@ COMMENT -->
 
 * This web page is (permanently) __subject to change__.
 
+
 Some information may be left over from our previous (Winter 2021) offering of the course.
 
-## Course information
+## Course information (
 
 - [Course description](admin/description.html)
 - [Project information](assignments/project.html)
