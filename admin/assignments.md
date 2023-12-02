@@ -38,4 +38,3 @@ Weights and rubrics
    - first draft of project 15%
    - in-class presentation of final project 15%
    - written final project 15% (you will get feedback and have a chance to make improvements between the presentation and the final submission of the written project)
-

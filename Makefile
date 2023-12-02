@@ -24,7 +24,7 @@ Sources += index.md current.md
 Ignore += index.html
 
 docs/index.html: index.md
-	pandoc $< -o $@ --mathjax -s -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --self-contained
+	pandoc $< -o $@ --mathjax -s -B html/mainheader.html -A html/mainfooter.html --css html/qmee.css --embed-resources --standalone
 
 ## Try suppressing rweb in main directory 2021 Jan 21 (Thu)
 Sources += rweb.mk

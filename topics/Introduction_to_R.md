@@ -3,14 +3,14 @@ title: "Topic: Introduction to R"
 date: Jan 2024
 ---
 
-If you have trouble with any of the steps below you can get help in class, or you can ask in ???
+If you have trouble with any of the steps below you can get help in class, or you can ask in (venue TBA)
 
 
 Before Thursday
 ----------------
 
 *   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
-	 * If you have an older version of R (< 4.3.1), *please update to the latest version*.
+	 * If you have an older version of R (< 4.3.2), *please update to the latest version*.
 
 * Install and run the free and open-source R
     development environment `RStudio` from the Download button at the
@@ -60,7 +60,7 @@ Our goal for Tuesday's class is to set up repos, experiment with committing, pus
 * E-mail your GitHub user name to `bio708qmee@gmail.com`, if you haven't already done so.
 * Work through chapters 9 and 12 in [Happy Git with R](https://happygitwithr.com/)
 * Make a directory on the github repo called `QMEE`
-	* Be aware that your repo is publicly readable by default.
+	* Be aware that your repo is publicly readable by default (you can make it private if you want)
 * add Jonathan Dushoff (`@dushoff`) and Ben Bolker (`@bbolker`) as collaborators (`Settings` > `Collaborators` (left margin) > `Add collaborator`)
 
 <!--- COMMENT
