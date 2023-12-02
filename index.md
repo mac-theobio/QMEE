@@ -1,5 +1,5 @@
 ---
-title: Quantitative Methods in Ecology and Evolution<br>(winter 2024)
+title: Quantitative Methods in Ecology and Evolution<br><br>(winter 2024)
 ---
 
 <!--- COMMENT
