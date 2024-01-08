@@ -18,14 +18,14 @@ Some information may be left over from our previous (Winter 2021) offering of th
 - Course material is in three places:
    - here
    - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
-   - classes and discussion forums: locations TBA
-   - communication will be by e-mail (to `bio708qmee@gmail.com`)
+   - venues/forums for online discussion: TBD/TBA
+- communication by e-mail (to `bio708qmee@gmail.com`) is preferred
 
 ## Course schedule
 
-Tues 11:30-12:20, Thurs 9:30-11:20. Location will (eventually) be posted on Mosaic.
+Tues 11:30-12:20, Thurs 9:30-11:20. Class locations are posted on Mosaic, or ask the instructors.
 
-There will also be some asynchronous content.
+There may also be some asynchronous content.
 
 ### Foundations
 
