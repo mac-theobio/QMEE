@@ -94,7 +94,7 @@ You can also switch to the "Grid View" in the Environment tab in RStudio.
 
 ## Other types
 
-R objects are divided into *types*. Other than the ones above, we're mostly interested in *vectors*, *lists* and *functions*.
+At the simplest level, R objects are divided into *types*. Other than the ones above, we're mostly interested in *vectors*, *lists* and *functions*.
 
 ## Vectors
 
