@@ -31,7 +31,7 @@ Before Thursday
 
 * Get as far as you can through the following steps:
     * Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan's [Happy Git with R](https://happygitwithr.com/); sections 6 ("Install Git") and 7 ("Introduce yourself to Git") are the only ones that actually involve new setup steps
-* Read @wilson_good_2017
+* Read @wilson_good_2017 (see References, below)
 	
 Goals
 =====
