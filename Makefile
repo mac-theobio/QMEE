@@ -19,7 +19,7 @@ Sources += $(wildcard html/*.*)
 
 ## docs/index.html: index.md
 
-## Current is for stashing stuff that's not current now, but was current before
+## current.md is for stashing stuff that's not current now, but was current before
 Sources += index.md current.md
 Ignore += index.html
 
