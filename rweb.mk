@@ -41,7 +41,7 @@ site_header = html/header.html
 site_footer = html/footer.html
 site_css = html/qmee.css
 site_bib = ../qmee.bib
-site_args = --self-contained
+site_args = --embed-resources --standalone --citeproc
 ## mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) --css $(site_css) $(site_args)
 mds = pandoc $< -o $@ --mathjax -s -B $(site_header) -A $(site_footer) $(site_args) --bibliography=$(site_bib)
 subdocs/%.html: %.md | html subdocs
