@@ -158,7 +158,9 @@ Sources += orphans.mk
 
 ### Makestuff
 
-Sources += Makefile README.md notes.txt TODO.md
+Sources += Makefile README.md notes.txt
+
+## TODO.md moved to private repo
 
 msrepo = https://github.com/dushoff
 ms = makestuff

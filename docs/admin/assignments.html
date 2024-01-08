@@ -229,9 +229,6 @@ code span.va { color: #19177c; }
 code span.vs { color: #4070a0; } 
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -248,18 +245,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <header id="title-block-header">
 <h1 class="title">Assignments</h1>
 </header>
-<p><a href="assignments/projects.html">Project information</a></p>
+<!-- COMMENT
+
+[Project information](assignments/projects.html)
+
+-->
 <h2 id="general">General</h2>
 <p>For the first few weeks of the course, there will be a short
-assignment every week. You are advised to start on these on ??? (whether
-we’ve said exactly what the assignment is by then or not). We will
-typically work on them or talk about them in class during the week. They
-are technically due ???. This is to encourage you to finish quickly if
-you can, and move on with your life, not to give you pressure.</p>
-<p>If your assignment will be late, please email us
-(<code>bio708qmee@gmail.com</code>) by ??? to let us know when you will
-hand it in. This should be before ???, unless we give permission for
-special circumstances.</p>
+assignment every week. You are advised to start on these on Monday
+(whether we’ve said exactly what the assignment is by then or not). We
+will typically work on them or talk about them in class during the week.
+They are technically due Fri at 4:30 PM. This is to encourage you to
+finish quickly if you can, and move on with your life, not to give you
+pressure.</p>
+<p>If your assignment will be late, please email us <a href="mailto:bio708qmee@gmail.com">bio708qmee@gmail.com</a> by Friday
+afternoon to let us know when you will hand it in. This should be before
+Monday at noon, unless we give permission for special circumstances.</p>
 <ul>
 <li><p>The actual content of your assignment should be posted to your
 GitHub repo</p></li>
@@ -269,8 +270,11 @@ assignment is not done until you do this. To submit an
 assignment:</p></li>
 <li><p>Tell us the main file we should be looking at, including the
 <em>relative path</em> from the main repo directory, e.g,
-<code>dushoff/add.R</code> Other files that are relevant can simply be
+<code>hw1/add.R</code> Other files that are relevant can simply be
 mentioned in the script, e.g.:</p></li>
+<li><p>Tell us what working directory you run the script from (this will
+typically be either the main repo directory, or the assignment
+directory)</p></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;eggplant_survey.csv&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the histotypes (see README.md)</span></span></code></pre></div>
@@ -296,7 +300,8 @@ of the written project)</li>
 </ul></li>
 </ul>
 <div id="footer">
-	<div style="text-align:center">
+  <div style="text-align:center">
+    <hr>
 		<a href="../index.html">Course home page</a>
 		         
 		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
