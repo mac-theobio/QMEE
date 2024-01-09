@@ -6,13 +6,165 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Visualization</title>
   <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -27,24 +179,30 @@
 </header>
 
 <h1 id="intro">Intro</h1>
-<p>We will be talking about visualizing your data, with an emphasis on <code>ggplot2</code>, which is based on the Grammar of Graphics.</p>
+<p>We will be talking about visualizing your data, with an emphasis on
+<code>ggplot2</code>, which is based on the Grammar of Graphics.</p>
 <h1 id="goals">Goals</h1>
 <ul>
-<li>Participants will learn to think broadly about effective uses of visualization</li>
-<li>Participants will learn about the Cleveland hierarchy and research on effective visualization techniques</li>
+<li>Participants will learn to think broadly about effective uses of
+visualization</li>
+<li>Participants will learn about the Cleveland hierarchy and research
+on effective visualization techniques</li>
 <li>Participants will be introduced to <a href="http://ggplot2.org">ggplot2</a></li>
 </ul>
 <h1 id="resources">Resources</h1>
 <ul>
 <li>Course material
 <ul>
-<li><a href="../lectures/Visualization.notes.html">Overview lecture</a></li>
-<li><a href="../lectures/CA_homicide.notes.html">Canadian homicide</a></li>
+<li><a href="../lectures/Visualization.notes.html">Overview
+lecture</a></li>
+<li><a href="../lectures/CA_homicide.notes.html">Canadian
+homicide</a></li>
 <li><a href="../lectures/Contraception.notes.html">contraception</a></li>
 </ul></li>
 <li>ggplot:
 <ul>
-<li><a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">cheat sheet</a></li>
+<li><a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf">cheat
+sheet</a></li>
 <li><a href="https://www.r-graph-gallery.com/ggplot2-package.html">gallery</a></li>
 <li><a href="https://exts.ggplot2.tidyverse.org/">extensions</a></li>
 <li><a href="https://ggplot2-book.org/">book (3d edition)</a></li>
@@ -52,17 +210,24 @@
 </ul>
 <h1 id="exercise">Exercise</h1>
 <ul>
-<li>Construct some (i.e., more than one) ggplots using your data. (If you already made one for a previous assignment, try making another.) Discuss:
+<li>Construct some (i.e., more than one) ggplots using your data. (If
+you already made one for a previous assignment, try making another.)
+Discuss:
 <ul>
 <li>what you are trying to show</li>
 <li>some of the choices that you have made</li>
-<li>the basis for these choices (e.g., Cleveland hierarchy, proximity of comparisons, or other principles of graphical communication)</li>
+<li>the basis for these choices (e.g., Cleveland hierarchy, proximity of
+comparisons, or other principles of graphical communication)</li>
 </ul></li>
-<li>See the <a href="../admin/assignments.html">assignment instructions</a></li>
+<li>See the <a href="../admin/assignments.html">assignment
+instructions</a></li>
 </ul>
-<p>You should put your code on GitHub in some form. Make sure that your code has no absolute paths, and runs from beginning to end when you restart R (use “source” so you don’t skip over errors by accident).</p>
+<p>You should put your code on GitHub in some form. Make sure that your
+code has no absolute paths, and runs from beginning to end when you
+restart R (use “source” so you don’t skip over errors by accident).</p>
 <div id="footer">
-	<div style="text-align:center">
+  <div style="text-align:center">
+    <hr>
 		<a href="../index.html">Course home page</a>
 		         
 		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>
