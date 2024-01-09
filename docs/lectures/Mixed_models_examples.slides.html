@@ -3385,40 +3385,11 @@ lattice::qqmath(ranef(lm3))</pre>
 
 <p><code>equatiomatic</code> packages:</p>
 
-<pre class = 'prettyprint lang-r'>library(equatiomatic)
-extract_eq(lm3)</pre>
-
-<p>\[
-\begin{aligned}
-  \operatorname{Reaction}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1j[i]}(\operatorname{Days}), \sigma^2 \right) \\    
-\left(
-  \begin{array}{c} 
-    \begin{aligned}
-      &amp;\alpha_{j} \\
-      &amp;\beta_{1j}
-    \end{aligned}
-  \end{array}
-\right)
-  &amp;\sim N \left(
-\left(
-  \begin{array}{c} 
-    \begin{aligned}
-      &amp;\mu_{\alpha_{j}} \\
-      &amp;\mu_{\beta_{1j}}
-    \end{aligned}
-  \end{array}
-\right)
-, 
-\left(
-  \begin{array}{cc}
-     \sigma^2_{\alpha_{j}} &amp; \rho_{\alpha_{j}\beta_{1j}} \\ 
-     \rho_{\beta_{1j}\alpha_{j}} &amp; \sigma^2_{\beta_{1j}}
-  \end{array}
-\right)
- \right)
-    \text{, for Subject j = 1,} \dots \text{,J}
-\end{aligned}
-\]</p>
+<pre class = 'prettyprint lang-r'>## remotes::install_github(&#39;datalorax/equatiomatic&#39;)
+if (require(&quot;equatomatic&quot;, quietly = TRUE)) {
+    library(equatiomatic)
+    extract_eq(lm3)
+}</pre>
 
 </article></slide><slide class=""><hgroup><h2>What is a practical model?</h2></hgroup><article  id="what-is-a-practical-model">
 

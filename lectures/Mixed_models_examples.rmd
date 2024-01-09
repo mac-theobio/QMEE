@@ -174,8 +174,11 @@ $$
 `equatiomatic` packages:
 
 ```{r equatiomatic, results="asis"}
-library(equatiomatic)
-extract_eq(lm3)
+## remotes::install_github('datalorax/equatiomatic')
+if (require("equatomatic", quietly = TRUE)) {
+    library(equatiomatic)
+    extract_eq(lm3)
+}
 ```
 
 ## What is a practical model?
