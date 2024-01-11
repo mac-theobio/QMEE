@@ -50,7 +50,6 @@ Resources
 
 *   Course material
     *   Lecture notes ([slides](../lectures/intro_R.slides.html), [notes](../lectures/intro_R.notes.html))
-    *   tidyverse  ([slides](../lectures/intro_tidyverse.slides.html), [notes](../lectures/intro_tidyverse.notes.html))
     *   [Importing data](../tips/Importing_data.html)
     *   [Running R](../tips/Running_R.html)
 
