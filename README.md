@@ -48,5 +48,5 @@ Here are some other directories that we currently have:
 * `pix/`  miscellaneous non-workflow-generated images
 * `oldSource/` 
 * `makestuff/` machinery
-* `html/` machinery
+* `html/` style stuff
 
