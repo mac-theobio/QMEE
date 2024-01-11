@@ -71,6 +71,12 @@ R keeps track of a variety of objects. You can see all of the objects
 you've defined by typing `ls()` (short for "list": the parentheses
 mean that you are calling a *function*; more on this later), or looking in the "Environment" tab in RStudio.
 
+## Rstudio view
+
+You can also switch to the "Grid View" in the Environment tab in RStudio.
+
+![](../pix/gridview.png)
+
 ## Values
 
 In addition to numbers, R has other kinds of values. The main ones we're interested in are `character`, `numeric` and `logical` (ie., `TRUE` or `FALSE`). `str()` (short for "structure") is one way to figure out what your R object is. 
@@ -85,12 +91,6 @@ str(char)
 logic <- TRUE ## No quotes
 str(logic)
 ```
-
-## Rstudio view
-
-You can also switch to the "Grid View" in the Environment tab in RStudio.
-
-![](../pix/gridview.png)
 
 ## Other types
 
@@ -263,33 +263,40 @@ terms. We will also talk more about them later.
 Control structures in R include:
 
 -  loops: we will use `for`, `lapply` and `apply`, among others. `lapply` stands for **l**ist **apply**.
--   conditionals: `if` and `ifelse`. Use `ifelse` with care!
+	- tidyverse also has `apply` analogs
+-   conditionals:
+	* `if` controls program flow 
+	* `ifelse` operates on vectors, and can be tricky – _use with care!_
+
+----------------------------------------------------------------------
 
 ```{r control}
 v <- 1:10
-for (x in v) {
-  print(x^2)
+for (i in v) {
+  print(i^2)
 }
-for (x in v) {
-    if(x>=4) {
-        print(x^2)
+for (i in v) {
+    if(i>=4) {
+        print(i^2)
     }
 }
+
+y <- ifelse(v>4, v^2, v)
+print(y)
 ```
 
 ## Control syntax
 
-R uses `==` to test whether two objects are equal, and `!=` to test if they are not equal. (R will often
-guess and warn you if you wrongly try to use `=`, but not always ...)
+R uses `==` to test whether two objects are equal, and `!=` to test if they are not equal.
 
-* Use `&` for "and", and `|` for "or" when testing vectors in parallel
-* `&&` and `||` test single conditions; if you are using `if()` you should use them, but you can usually get away with sticking to `&` and `|` if you're confused.
+### Boolean operators
+
+* Use `&` for "and", and `|` for "or" operate on vectors, they go well with `ifelse()`
+* `&&` and `||` expect single conditions; they go well with `if()`.
 
 ## Syntactic principles
 
-You may have noticed that we sometimes just type a variable's name in order to
-print its value. It's better
-practice to always say `print`, when that's what you want.
+You may have noticed that we sometimes just type a variable's name in order to print its value. It's better practice to always say `print`, when that's what you want.
 
 * Clearer, and less fragile
 
@@ -305,6 +312,8 @@ the object has rows and columns, you can separate them with a comma.
 
 You can also select things by name, using the syntax `v["name"]` or
 `v[n]`, if `n` is a variable that contains the name. Use names instead of numbers whenever you can, because (1) your code will be easier to read (`x["temperature"]` instead of `x[21]`) and (2) your code will be more robust (e.g., if something changes so that temperature is now in position 22 rather than 21).
+
+`x[[21]]` and `x[21]` are usually synonyms: the latter “collapses” to the former. If you get in the habit of using single brackets for selecting, you could get burned – not often, but maybe hard. What's the advantage?
 
 # Philosophical principles
 
