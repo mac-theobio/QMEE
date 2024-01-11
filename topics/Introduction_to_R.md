@@ -61,7 +61,7 @@ Our goal for Thursday's class is to set up repos, experiment with committing, pu
 
 * E-mail your GitHub user name to `bio708qmee@gmail.com`, if you haven't already done so.
 * Work through chapters 9 and 12 in [Happy Git with R](https://happygitwithr.com/)
-* Make a directory on the github repo called `QMEE`
+* Make a github repo called `QMEE`
 	* Be aware that your repo is publicly readable by default (you can make it private if you want)
 * add Jonathan Dushoff (`@dushoff`) and Ben Bolker (`@bbolker`) as collaborators (`Settings` > `Collaborators` (left margin) > `Add collaborator`)
 
