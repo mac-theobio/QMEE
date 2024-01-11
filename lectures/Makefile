@@ -1,4 +1,4 @@
-## This is 708/admin
+## This is 708/lectures
 
 current: target
 -include target.mk
@@ -18,10 +18,6 @@ Sources += $(wildcard *.rmd)
 
 Ignore += subdocs
 include ../rweb.mk
-
-######################################################################
-
-update: intro_R.lecture intro_tidyverse.lecture
 
 ######################################################################
 
