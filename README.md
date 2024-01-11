@@ -19,14 +19,12 @@ All of these directories follow the same rules to farm out material to correspon
 
 Some make rules:
 * syncup: I now use this when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily.  Do this _instead_ of pull.
-	* If you've pulled already, it might be OK to do dateup instead
+	* If you've pulled already, it should be OK to `make dateup` instead
 * update_all: remake the site
 * pushup: remake the site; push the main directory and all of the active subdirectories (sometimes with separate commits)
 * local_site: remake the site and open a local-file-based version
 * old_site: open a local-file-based version of the 2019 site from the gh-pages directory
 * NOTE that rules which commit will open an editor for you (set variable MSEDITOR to control editor identity)
-
-Consider using `make dateup` after pulling but before working; this will deal with time-stamp ambiguity and avoid attempts to remake things that you haven't worked on
 
 ## Data directory
 

@@ -32,20 +32,23 @@ Sources += rweb.mk
 
 ######################################################################
 
-## Manual lectures
+## Manual visualizations
+## Not clear why we have wildcards here
 
-lectures/docs/%.html: $(wildcard lectures/*.rmd)
-	cd lectures && $(MAKE) docs/$*.html
-tips/docs/%.html: $(wildcard tips/*.rmd)
-	cd tips && $(MAKE) docs/$*.html
-assignments/docs/%.html: $(wildcard assignments/*.md)
-	cd assignments && $(MAKE) docs/$*.html
+lectures/subdocs/%.html: $(wildcard lectures/*.rmd)
+	cd lectures && $(MAKE) subdocs/$*.html
+tips/subdocs/%.html: $(wildcard tips/*.rmd)
+	cd tips && $(MAKE) subdocs/$*.html
+assignments/subdocs/%.html: $(wildcard assignments/*.md)
+	cd assignments && $(MAKE) subdocs/$*.html
+topics/subdocs/%.html: $(wildcard topics/*.md)
+	cd topics && $(MAKE) subdocs/$*.html
 
-## lectures/docs/Visualization.notes.html: lectures/Visualization.rmd
-## lectures/docs/Visualization.slides.html: lectures/Visualization.rmd
-## lectures/docs/Permutations_overview.notes.html: lectures/Permutations_overview.rmd ##
+## lectures/subdocs/intro_R.slides.html: lectures/intro_R.rmd
 
-## tips/docs/R_style.notes.html: tips/R_style.rmd
+## tips/subdocs/R_style.notes.html: tips/R_style.rmd
+
+## topics/subdocs/Introduction_to_R.html: topics/Introduction_to_R.md
 
 ######################################################################
 
