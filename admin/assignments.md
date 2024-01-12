@@ -26,7 +26,7 @@ read.csv("eggplant_survey.csv")
 ## Plot the histotypes (see README.md)
 ```
 
-For lots of opinions and thoughts on R coding style, see [here](R_style.html)
+For lots of opinions and thoughts on R coding style, see [here](../tips/R_style.notes.html)
 
 Weights and rubrics
 -----------
