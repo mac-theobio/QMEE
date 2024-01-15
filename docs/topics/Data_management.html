@@ -195,27 +195,41 @@ their data and make some products</li>
 R</a></li>
 <li><a href="../tips/Managing_projects_in_R.html">Managing projects in
 R</a></li>
-<li><a href="../tips/Finding_help.html">Ways to find help</a></li>
-<li><a href="../tips/summarise_and_text_tables.R">Summarise and text
-tables</a></li>
+<li><a href="../tips/Finding_help.html">Ways to find help</a>
+<!-- COMMENT
+-   [Summarise and text tables](../tips/summarise_and_text_tables.R)
+--></li>
 </ul>
 <p>Also: <a href="http://openrefine.org">OpenRefine</a> (<a href="https://datacarpentry.org/OpenRefine-ecology-lesson/">Data
 Carpentry lesson</a>)</p>
 <h1 id="exercise">Exercise</h1>
+<p><em>See the <a href="../admin/assignments.html">assignment
+instructions</a></em></p>
 <ul>
 <li>Examine the structure of the data you imported</li>
 <li>Examine the data for mistakes, and to make sure you understand the R
 classes</li>
 <li>Make one or two plots that might help you see whether your data have
-any errors or anomalies</li>
-<li>Describe what sort of investigations you might do with your data,
-and how you might break your project into replicable components: save
-this in your repo as a file called <code>README.md</code></li>
-<li>Make sure you know how to use <code>source</code>, <code>save</code>
-and <code>load</code> in R: finish a task, and then close R without
-saving your workspace and efficiently redo the task.</li>
-<li>See the <a href="../admin/assignments.html">assignment
-instructions</a></li>
+any errors or anomalies
+<ul>
+<li>Report your results; fix any mistakes that you conveniently can</li>
+</ul></li>
+<li>Use the <code>saveRDS</code> function in R to save a clean (or
+clean-ish) version of your data
+<ul>
+<li>Use the ignore functionality in git – do not in general put “made”
+objects into your repo</li>
+</ul></li>
+<li>Write a separate script that reads in your <code>.rds</code> file
+and does something with it: either a calculation or a plot</li>
+<li>In your <code>README.md</code> file:
+<ul>
+<li>Describe your two scripts – what they do, where they are, what
+directory they should be run from.</li>
+<li>Discuss what sort of investigations you are thinking you might do
+with your data, and how you might break your project into replicable
+components</li>
+</ul></li>
 </ul>
 <div id="footer">
   <div style="text-align:center">
