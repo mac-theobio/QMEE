@@ -33,7 +33,7 @@ There's never time to do it right ... but there's always time to do it over!
 * tidyr
 * readr
 
-```{r tidyverse}
+```{r tidyverse, message=FALSE}
 library(tidyverse)
 ```
 
