@@ -89,7 +89,7 @@ syncup: update_all pull dateup all.time
 ## Data index
 ## data/ lives in docs/ so that it's part of the pages
 
-Makefile: | data
+Makefile: | data code
 
 Ignore += data
 data: dir=docs
