@@ -3,5 +3,11 @@
 library(readr)
 library(dplyr)
 
-parasiteTable <- read_csv("data/parademo.csv")
+## FIXME: look for info in documentation about Dec the zero-th
+parasiteTable <- read_csv("data/parademo.csv"
+	, na = c("", "NA", "0000-00-00", "1972-12-00")
+)
 
+problems(parasiteTable)
+
+summary(parasiteTable)

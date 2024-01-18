@@ -44,7 +44,13 @@ You can update the data.md page through most kinds of auto-update (e.g., make up
 
 The usual style is to _keep_ the files identified as Untracked when the script is run, but delete the word Untracked (so you can notice if new Untracked files show up)
 
-Here are some other directories that we currently have:
+## Code directory
+
+Code directory is also meant to be a symbolic link. Like the data directory, if you git add to code (instead of docs/code), it will work fine but mess things up for future fresh clones.
+
+The point is to have code think that it's on the "code side" (since we edit it), but also be visible on the web side.
+
+## Other directories
 
 * `pix/`  miscellaneous non-workflow-generated images
 * `oldSource/` 

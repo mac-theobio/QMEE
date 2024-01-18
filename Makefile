@@ -131,6 +131,9 @@ Sources += $(wildcard docs/code/*.*)
 parademo_clean.Rout: code/parademo_clean.R 
 	$(pipeR)
 
+village_clean.Rout: code/village_clean.R 
+	$(pipeR)
+
 ######################################################################
 
 ## Dushoff lectures that live elsewhere
