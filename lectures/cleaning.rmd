@@ -199,14 +199,21 @@ print(villageTable
 )
 ```
 
+## Better counting
+
+```{r}
+print(villageTable
+	%>% count(vname, vu, name="count")
+)
+```
+
 ## ...
 
 * The computer is your friend
 
 ```{r}
 print(villageTable
-	%>% group_by(vname, vu)
-	%>% summarize(count = n())
+	%>% count(vname, vu, name="count")
 	%>% filter(count>1)
 )
 ```
@@ -217,8 +224,7 @@ print(villageTable
 
 ```{r}
 print(villageTable
-	%>% group_by(vname)
-	%>% summarize(count = n())
+	%>% count(vname, name="count")
 	%>% filter(count>1)
 )
 ```
@@ -239,8 +245,7 @@ This process leads to improved clarity, __and improved cleaning__
 
 ```{r}
 print(parasiteTable
-	%>% group_by(id, village, compound)
-	%>% summarize(count=n())
+	%>% count(id, village, compound, name="count")
 )
 
 ```
@@ -250,10 +255,8 @@ print(parasiteTable
 
 ```{r}
 print(parasiteTable
-	%>% group_by(id, village, compound)
-	%>% summarize(count=n())
-	%>% group_by(id)
-	%>% summarize(count=n())
+	%>% count(id, village, compound, name="count")
+	%>% count(id, name="count")
 	%>% filter(count>1)
 	%>% arrange(desc(count))
 )
@@ -267,10 +270,6 @@ print(ggplot(villageTable, aes(x=population))
 	+ geom_histogram()
 )
 ```
-
-## Explore ranges
-
-Show figure again?
 
 # Correction tables
 
@@ -360,11 +359,11 @@ print(ctab)
 
 * R likes to convert characters to factors
 
-* Factors can be useful, but they're more often weird
+* Factors can be useful, but they're also often weird
 
 * Be aware of this as a possible problem
 
-* The more you use tools from the tidy family, the less this will happen
+* The more you use tools from the tidy family, the less factor weirdness you will encounter
 
 ## Dictionary tables
 
