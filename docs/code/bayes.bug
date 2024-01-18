@@ -1,9 +1,8 @@
 model {
-	for (i in 1:N) {
-		y[i] ~ dnorm(pred[i], tau)
+	for (i in 1:N){
+		y[i] ~ dnorm(pred[i],tau)
 		pred[i] <- ma*a[i] + mb*b[i] + mc*c[i] + int
 	}
-	## priors ("vague"/"flat"/"weak"/"uninformative")
 	ma ~ dnorm(0, .0001)
 	mb ~ dnorm(0, .0001)
 	mc ~ dnorm(0, .0001)
