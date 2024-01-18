@@ -128,6 +128,11 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+parademo_clean.Rout: code/parademo_clean.R 
+	$(pipeR)
+
+######################################################################
+
 ## Dushoff lectures that live elsewhere
 
 Ignore += docs/legacy
@@ -176,6 +181,8 @@ makestuff/Makefile:
 	git clone $(msrepo)/makestuff
 
 -include makestuff/os.mk
+
+-include makestuff/pipeR.mk
 
 -include makestuff/git.mk
 -include makestuff/visual.mk

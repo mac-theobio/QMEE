@@ -3068,21 +3068,18 @@ var loadDeck = function(event) {
   });
 };
 
-if (!window.Shiny) {
-  // If Shiny is loaded, the slide deck is initialized in ioslides template
-
-  if (document.readyState !== "loading" &&
-      document.querySelector('slides') === null) {
-    // if the document is done loading but our element hasn't yet appeared, defer
-    // loading of the deck
-    window.setTimeout(function() {
-      loadDeck(null);
-    }, 0);
-  } else {
-    // still loading the DOM, so wait until it's finished
-    document.addEventListener("DOMContentLoaded", loadDeck);
-  }
+if (document.readyState !== "loading" &&
+    document.querySelector('slides') === null) { 
+  // if the document is done loading but our element hasn't yet appeared, defer
+  // loading of the deck
+  window.setTimeout(function() {
+    loadDeck(null);
+  }, 0);
+} else {
+  // still loading the DOM, so wait until it's finished
+  document.addEventListener("DOMContentLoaded", loadDeck);
 }
+
 
 
 </script>
@@ -3096,9 +3093,6 @@ font-style: italic;
 }
 summary {
 display: list-item;
-}
-details > summary > p:only-child {
-display: inline;
 }
 slides > slide {
 -webkit-transition: all 0.4s ease-in-out;
@@ -3125,7 +3119,7 @@ div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -3281,10 +3275,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <pre class = 'prettyprint lang-r'>parasiteTable &lt;- read_csv(&quot;../data/parademo.csv&quot;)</pre>
 
-<pre >## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
-##   dat &lt;- vroom(...)
-##   problems(dat)</pre>
+<pre >## Warning: One or more parsing issues, see `problems()` for details</pre>
 
 <pre >## Rows: 138197 Columns: 39
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -3650,6 +3641,27 @@ summary(villageTable)</pre>
 ## 10 Balalashi       Dok       1
 ## # ℹ 170 more rows</pre>
 
+</article></slide><slide class=""><hgroup><h2>Better counting</h2></hgroup><article  id="better-counting">
+
+<pre class = 'prettyprint lang-r'>print(villageTable
+    %&gt;% count(vname, vu, name=&quot;count&quot;)
+)</pre>
+
+<pre >## # A tibble: 180 × 3
+##    vname           vu    count
+##    &lt;chr&gt;           &lt;chr&gt; &lt;int&gt;
+##  1 Adinis Fulanin  Kar       1
+##  2 Aduwa           Aju       1
+##  3 Ajura           Aju       1
+##  4 Anju            Dok       1
+##  5 Arindi          Sug       1
+##  6 Asayaya         Kit       1
+##  7 Ba&#39;wa           Dok       1
+##  8 Bakan Sabara    Kar       1
+##  9 Bakan Sabara II Kar       1
+## 10 Balalashi       Dok       1
+## # ℹ 170 more rows</pre>
+
 </article></slide><slide class=""><hgroup><h2>…</h2></hgroup><article  id="section">
 
 <ul>
@@ -3657,16 +3669,11 @@ summary(villageTable)</pre>
 </ul>
 
 <pre class = 'prettyprint lang-r'>print(villageTable
-    %&gt;% group_by(vname, vu)
-    %&gt;% summarize(count = n())
+    %&gt;% count(vname, vu, name=&quot;count&quot;)
     %&gt;% filter(count&gt;1)
 )</pre>
 
-<pre >## `summarise()` has grouped output by &#39;vname&#39;. You can override using the
-## `.groups` argument.</pre>
-
 <pre >## # A tibble: 0 × 3
-## # Groups:   vname [0]
 ## # ℹ 3 variables: vname &lt;chr&gt;, vu &lt;chr&gt;, count &lt;int&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>…</h2></hgroup><article  id="section-1">
@@ -3676,8 +3683,7 @@ summary(villageTable)</pre>
 </ul>
 
 <pre class = 'prettyprint lang-r'>print(villageTable
-    %&gt;% group_by(vname)
-    %&gt;% summarize(count = n())
+    %&gt;% count(vname, name=&quot;count&quot;)
     %&gt;% filter(count&gt;1)
 )</pre>
 
@@ -3702,15 +3708,10 @@ summary(villageTable)</pre>
 </article></slide><slide class=""><hgroup><h2>Parasite table</h2></hgroup><article  id="parasite-table">
 
 <pre class = 'prettyprint lang-r'>print(parasiteTable
-    %&gt;% group_by(id, village, compound)
-    %&gt;% summarize(count=n())
+    %&gt;% count(id, village, compound, name=&quot;count&quot;)
 )</pre>
 
-<pre >## `summarise()` has grouped output by &#39;id&#39;, &#39;village&#39;. You can override using the
-## `.groups` argument.</pre>
-
 <pre >## # A tibble: 13,656 × 4
-## # Groups:   id, village [12,852]
 ##       id village compound count
 ##    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
 ##  1     1     801      401    16
@@ -3728,16 +3729,11 @@ summary(villageTable)</pre>
 </article></slide><slide class=""><hgroup><h2>Parasite table</h2></hgroup><article  id="parasite-table-1">
 
 <pre class = 'prettyprint lang-r'>print(parasiteTable
-    %&gt;% group_by(id, village, compound)
-    %&gt;% summarize(count=n())
-    %&gt;% group_by(id)
-    %&gt;% summarize(count=n())
+    %&gt;% count(id, village, compound, name=&quot;count&quot;)
+    %&gt;% count(id, name=&quot;count&quot;)
     %&gt;% filter(count&gt;1)
     %&gt;% arrange(desc(count))
 )</pre>
-
-<pre >## `summarise()` has grouped output by &#39;id&#39;, &#39;village&#39;. You can override using the
-## `.groups` argument.</pre>
 
 <pre >## # A tibble: 756 × 2
 ##       id count
@@ -4047,11 +4043,6 @@ print(ctab)</pre>
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
-    }
-    if (window.Shiny) {
-      // Initialize slides when this script appears on the page, since it
-      // indicates that the <slides> markup has been fully loaded.
-      window.loadDeck();
     }
   })();
 </script>

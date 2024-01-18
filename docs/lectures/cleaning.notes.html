@@ -255,7 +255,6 @@ if (window.hljs) {
 
 
 
-
 <style type="text/css">
 .main-container {
 max-width: 940px;
@@ -277,9 +276,6 @@ outline: none;
 summary {
 display: list-item;
 }
-details > summary > p:only-child {
-display: inline;
-}
 pre code {
 padding: 0;
 }
@@ -298,17 +294,23 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+content: "";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "\e258";
-font-family: 'Glyphicons Halflings';
+content: "";
 border: none;
+}
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "";
+font-family: 'Glyphicons Halflings';
+display: inline-block;
+padding: 10px;
+border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -426,10 +428,7 @@ over!</p>
 <div id="a-sample-data-set-2" class="section level2">
 <h2>A sample data set</h2>
 <pre class="r"><code>parasiteTable &lt;- read_csv(&quot;../data/parademo.csv&quot;)</code></pre>
-<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
-##   dat &lt;- vroom(...)
-##   problems(dat)</code></pre>
+<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
 <pre><code>## Rows: 138197 Columns: 39
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -776,20 +775,36 @@ summary(villageTable)</code></pre>
 ## 10 Balalashi       Dok       1
 ## # ℹ 170 more rows</code></pre>
 </div>
+<div id="better-counting" class="section level2">
+<h2>Better counting</h2>
+<pre class="r"><code>print(villageTable
+    %&gt;% count(vname, vu, name=&quot;count&quot;)
+)</code></pre>
+<pre><code>## # A tibble: 180 × 3
+##    vname           vu    count
+##    &lt;chr&gt;           &lt;chr&gt; &lt;int&gt;
+##  1 Adinis Fulanin  Kar       1
+##  2 Aduwa           Aju       1
+##  3 Ajura           Aju       1
+##  4 Anju            Dok       1
+##  5 Arindi          Sug       1
+##  6 Asayaya         Kit       1
+##  7 Ba&#39;wa           Dok       1
+##  8 Bakan Sabara    Kar       1
+##  9 Bakan Sabara II Kar       1
+## 10 Balalashi       Dok       1
+## # ℹ 170 more rows</code></pre>
+</div>
 <div id="section" class="section level2">
 <h2>…</h2>
 <ul>
 <li>The computer is your friend</li>
 </ul>
 <pre class="r"><code>print(villageTable
-    %&gt;% group_by(vname, vu)
-    %&gt;% summarize(count = n())
+    %&gt;% count(vname, vu, name=&quot;count&quot;)
     %&gt;% filter(count&gt;1)
 )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;vname&#39;. You can override using the
-## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 0 × 3
-## # Groups:   vname [0]
 ## # ℹ 3 variables: vname &lt;chr&gt;, vu &lt;chr&gt;, count &lt;int&gt;</code></pre>
 </div>
 <div id="section-1" class="section level2">
@@ -798,8 +813,7 @@ summary(villageTable)</code></pre>
 <li>and you always want to check yourself</li>
 </ul>
 <pre class="r"><code>print(villageTable
-    %&gt;% group_by(vname)
-    %&gt;% summarize(count = n())
+    %&gt;% count(vname, name=&quot;count&quot;)
     %&gt;% filter(count&gt;1)
 )</code></pre>
 <pre><code>## # A tibble: 2 × 2
@@ -823,13 +837,9 @@ cleaning</strong></p>
 <div id="parasite-table" class="section level2">
 <h2>Parasite table</h2>
 <pre class="r"><code>print(parasiteTable
-    %&gt;% group_by(id, village, compound)
-    %&gt;% summarize(count=n())
+    %&gt;% count(id, village, compound, name=&quot;count&quot;)
 )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;id&#39;, &#39;village&#39;. You can override using the
-## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 13,656 × 4
-## # Groups:   id, village [12,852]
 ##       id village compound count
 ##    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
 ##  1     1     801      401    16
@@ -847,15 +857,11 @@ cleaning</strong></p>
 <div id="parasite-table-1" class="section level2">
 <h2>Parasite table</h2>
 <pre class="r"><code>print(parasiteTable
-    %&gt;% group_by(id, village, compound)
-    %&gt;% summarize(count=n())
-    %&gt;% group_by(id)
-    %&gt;% summarize(count=n())
+    %&gt;% count(id, village, compound, name=&quot;count&quot;)
+    %&gt;% count(id, name=&quot;count&quot;)
     %&gt;% filter(count&gt;1)
     %&gt;% arrange(desc(count))
 )</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;id&#39;, &#39;village&#39;. You can override using the
-## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 756 × 2
 ##       id count
 ##    &lt;dbl&gt; &lt;int&gt;

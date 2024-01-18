@@ -14,6 +14,7 @@ Directories with course content:
 * topics contains an overview page for each topic (roughly a week (or optional week) of the course
 * lectures contains lecture material
 * tips contains additional material from us
+* code for live coding that we want to share with people (right now 2024 Jan 17 has only bayes.bug?, probably ready from elsewhere)
 
 All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.
 
