@@ -3068,21 +3068,18 @@ var loadDeck = function(event) {
   });
 };
 
-if (!window.Shiny) {
-  // If Shiny is loaded, the slide deck is initialized in ioslides template
-
-  if (document.readyState !== "loading" &&
-      document.querySelector('slides') === null) {
-    // if the document is done loading but our element hasn't yet appeared, defer
-    // loading of the deck
-    window.setTimeout(function() {
-      loadDeck(null);
-    }, 0);
-  } else {
-    // still loading the DOM, so wait until it's finished
-    document.addEventListener("DOMContentLoaded", loadDeck);
-  }
+if (document.readyState !== "loading" &&
+    document.querySelector('slides') === null) { 
+  // if the document is done loading but our element hasn't yet appeared, defer
+  // loading of the deck
+  window.setTimeout(function() {
+    loadDeck(null);
+  }, 0);
+} else {
+  // still loading the DOM, so wait until it's finished
+  document.addEventListener("DOMContentLoaded", loadDeck);
 }
+
 
 
 </script>
@@ -3243,7 +3240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <pre class = 'prettyprint lang-r'>villageTable &lt;- read_csv(&quot;../data/village.csv&quot;)</pre>
 
 <pre >## Rows: 180 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (4): area, grid, vname, vu
 ## dbl (7): village, fup, grouped1, grouped2, scattered1, scattered2, population
@@ -3281,13 +3278,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <pre class = 'prettyprint lang-r'>parasiteTable &lt;- read_csv(&quot;../data/parademo.csv&quot;)</pre>
 
-<pre >## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
+<pre >## Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
 ##   dat &lt;- vroom(...)
 ##   problems(dat)</pre>
 
 <pre >## Rows: 138197 Columns: 39
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl  (36): id, village, compound, survey, person, sch, _add, tribe, hght, sl...
 ## date  (3): datecoll, datep, dateexam
@@ -4048,11 +4044,6 @@ print(ctab)</pre>
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
-    }
-    if (window.Shiny) {
-      // Initialize slides when this script appears on the page, since it
-      // indicates that the <slides> markup has been fully loaded.
-      window.loadDeck();
     }
   })();
 </script>

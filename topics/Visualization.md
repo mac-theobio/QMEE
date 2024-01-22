@@ -15,7 +15,7 @@ Resources
 =========
 
 -   Course material
-    -   [Overview lecture](../lectures/Visualization.notes.html)
+    -   Overview lecture ([notes](../lectures/Visualization.notes.html), [slides](../lectures/Visualization.slides.html))
     -   [Canadian homicide](../lectures/CA_homicide.notes.html)
     -   [contraception](../lectures/Contraception.notes.html)
 

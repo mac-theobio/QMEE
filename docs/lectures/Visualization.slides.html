@@ -3068,21 +3068,18 @@ var loadDeck = function(event) {
   });
 };
 
-if (!window.Shiny) {
-  // If Shiny is loaded, the slide deck is initialized in ioslides template
-
-  if (document.readyState !== "loading" &&
-      document.querySelector('slides') === null) {
-    // if the document is done loading but our element hasn't yet appeared, defer
-    // loading of the deck
-    window.setTimeout(function() {
-      loadDeck(null);
-    }, 0);
-  } else {
-    // still loading the DOM, so wait until it's finished
-    document.addEventListener("DOMContentLoaded", loadDeck);
-  }
+if (document.readyState !== "loading" &&
+    document.querySelector('slides') === null) { 
+  // if the document is done loading but our element hasn't yet appeared, defer
+  // loading of the deck
+  window.setTimeout(function() {
+    loadDeck(null);
+  }, 0);
+} else {
+  // still loading the DOM, so wait until it's finished
+  document.addEventListener("DOMContentLoaded", loadDeck);
 }
+
 
 
 </script>
@@ -3202,7 +3199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">09:08 09 January 2024</p>
+            <p style="margin-top: 6px; margin-left: -2px;">10:36 22 January 2024</p>
           </hgroup>
   </slide>
 
@@ -3324,7 +3321,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <ul>
 <li>advantages: speed, simplicity, breadth</li>
-<li>disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation</li>
+<li>disadvantages: lack of structure, canvas (draw-and-forget) metaphor</li>
 <li>basic commands:
 
 <ul>
@@ -3336,14 +3333,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Lattice graphics</h2></hgroup><article  id="lattice-graphics">
+<!--
+## Lattice graphics
 
-<ul>
-<li>alternative, higher-level graphing interface</li>
-<li><code>xyplot</code> (with <code>type=</code> one or more of <code>&quot;p&quot;</code>, <code>&quot;l&quot;</code>, <code>&quot;r&quot;</code>,<code>&quot;smooth&quot;</code>, <code>&quot;a&quot;</code> …), <code>bwplot</code></li>
-<li>Disadvantages: tricky to customize</li>
-<li>Advantages: abstraction (relative to base graphics), speed (relative to <code>ggplot</code>), banking (aspect ratio control), shingles, faceting, 3D plots</li>
-</ul>
+- alternative, higher-level graphing interface
+- `xyplot` (with `type=` one or more of `"p"`, `"l"`, `"r"`,`"smooth"`, `"a"` ...), `bwplot`
+-   Disadvantages: tricky to customize
+-   Advantages: abstraction (relative to base graphics), speed (relative to `ggplot`), banking (aspect ratio control), shingles, faceting, 3D plots
+
+-->
 
 </article></slide><slide class=""><hgroup><h2><a href='http://ggplot2.org' title=''>ggplot(2)</a></h2></hgroup><article  id="ggplot2">
 
@@ -3478,11 +3476,6 @@ Data</span>.”</span> <a href='https://www.youtube.com/watch?v=fSgEeI2Xpdc' tit
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
-    }
-    if (window.Shiny) {
-      // Initialize slides when this script appears on the page, since it
-      // indicates that the <slides> markup has been fully loaded.
-      window.loadDeck();
     }
   })();
 </script>

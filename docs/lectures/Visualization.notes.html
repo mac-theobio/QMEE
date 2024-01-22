@@ -374,7 +374,7 @@ display: none;
 
 <h1 class="title toc-ignore">Data Visualization in R</h1>
 <h4 class="author">Jonathan Dushoff and Ben Bolker</h4>
-<h4 class="date">09:07 09 January 2024</h4>
+<h4 class="date">10:36 22 January 2024</h4>
 
 </div>
 
@@ -510,8 +510,8 @@ accurately</li>
 <h2>Base graphics</h2>
 <ul>
 <li>advantages: speed, simplicity, breadth</li>
-<li>disadvantages: lack of structure, canvas metaphor, clunkiness,
-fragmentation</li>
+<li>disadvantages: lack of structure, canvas (draw-and-forget)
+metaphor</li>
 <li>basic commands:
 <ul>
 <li><code>plot()</code>, <code>lines()</code> and
@@ -528,20 +528,15 @@ a page</li>
 “plot tricks”)</li>
 </ul></li>
 </ul>
-</div>
-<div id="lattice-graphics" class="section level2">
-<h2>Lattice graphics</h2>
-<ul>
-<li>alternative, higher-level graphing interface</li>
-<li><code>xyplot</code> (with <code>type=</code> one or more of
-<code>&quot;p&quot;</code>, <code>&quot;l&quot;</code>,
-<code>&quot;r&quot;</code>,<code>&quot;smooth&quot;</code>, <code>&quot;a&quot;</code> …),
-<code>bwplot</code></li>
-<li>Disadvantages: tricky to customize</li>
-<li>Advantages: abstraction (relative to base graphics), speed (relative
-to <code>ggplot</code>), banking (aspect ratio control), shingles,
-faceting, 3D plots</li>
-</ul>
+<!--
+## Lattice graphics
+
+- alternative, higher-level graphing interface
+- `xyplot` (with `type=` one or more of `"p"`, `"l"`, `"r"`,`"smooth"`, `"a"` ...), `bwplot`
+-   Disadvantages: tricky to customize
+-   Advantages: abstraction (relative to base graphics), speed (relative to `ggplot`), banking (aspect ratio control), shingles, faceting, 3D plots
+
+-->
 </div>
 <div id="ggplot2" class="section level2">
 <h2><a href="http://ggplot2.org">ggplot(2)</a></h2>
