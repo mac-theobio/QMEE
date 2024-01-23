@@ -34,7 +34,7 @@ check_model(m2)
 
 ###### Inferential
 
-## This is super-weird -- because we are comparing predictors with different units
+## This is super-weird – because we are comparing predictors with different units
 print(dwplot(m2))
 
 ## Scale the predictors for comparison, add a line for zero effect for reference
