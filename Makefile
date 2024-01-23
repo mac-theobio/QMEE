@@ -134,6 +134,9 @@ parademo_clean.Rout: code/parademo_clean.R
 village_clean.Rout: code/village_clean.R 
 	$(pipeR)
 
+cars.Rout: code/cars.R
+	$(pipeR)
+
 ######################################################################
 
 ## Dushoff lectures that live elsewhere
