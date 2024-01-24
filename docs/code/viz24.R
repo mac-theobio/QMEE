@@ -1,8 +1,6 @@
 ## BB and JD don't really love the default grey background
-## In any case, you should pick the theme *you* like (or write
-##  your own: see e.g. https://emanuelaf.github.io/own-ggplot-theme.html)
-##  and set it at the top of your script so that all your plots inherit
-##  the same theme
+## You can pick a theme you like and set it at the top
+## so that all your plots inherit the same theme
 
 library(ggplot2); theme_set(theme_bw())
 library(performance)
