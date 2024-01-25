@@ -137,6 +137,9 @@ village_clean.Rout: code/village_clean.R
 cars.Rout: code/cars.R
 	$(pipeR)
 
+tmp.Rout: tmp.R
+	$(pipeR)
+
 ######################################################################
 
 homRead.Rout: code/homRead.R
