@@ -139,16 +139,16 @@ cars.Rout: code/cars.R
 
 ######################################################################
 
-hom1.Rout: hom1.R
+homRead.Rout: code/homRead.R
 	$(pipeR)
 
-hom2.Rout: hom2.R hom1.Rout
+homMerge.Rout: code/homMerge.R homRead.Rout
 	$(pipeR)
 
-hom3.Rout: hom3.R hom2.Rout
+homScatter.Rout: code/homScatter.R homMerge.Rout
 	$(pipeR)
 
-hom4.Rout: hom4.R hom2.Rout
+homBox.Rout: code/homBox.R homMerge.Rout
 	$(pipeR)
 
 ######################################################################
