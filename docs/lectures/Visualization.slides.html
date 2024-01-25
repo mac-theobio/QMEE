@@ -3068,21 +3068,18 @@ var loadDeck = function(event) {
   });
 };
 
-if (!window.Shiny) {
-  // If Shiny is loaded, the slide deck is initialized in ioslides template
-
-  if (document.readyState !== "loading" &&
-      document.querySelector('slides') === null) {
-    // if the document is done loading but our element hasn't yet appeared, defer
-    // loading of the deck
-    window.setTimeout(function() {
-      loadDeck(null);
-    }, 0);
-  } else {
-    // still loading the DOM, so wait until it's finished
-    document.addEventListener("DOMContentLoaded", loadDeck);
-  }
+if (document.readyState !== "loading" &&
+    document.querySelector('slides') === null) { 
+  // if the document is done loading but our element hasn't yet appeared, defer
+  // loading of the deck
+  window.setTimeout(function() {
+    loadDeck(null);
+  }, 0);
+} else {
+  // still loading the DOM, so wait until it's finished
+  document.addEventListener("DOMContentLoaded", loadDeck);
 }
+
 
 
 </script>
@@ -3096,9 +3093,6 @@ font-style: italic;
 }
 summary {
 display: list-item;
-}
-details > summary > p:only-child {
-display: inline;
 }
 slides > slide {
 -webkit-transition: all 0.4s ease-in-out;
@@ -3125,7 +3119,7 @@ div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -3202,7 +3196,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">14:03 24 January 2024</p>
+            <p style="margin-top: 6px; margin-left: -2px;">22:33 24
+January 2024</p>
           </hgroup>
   </slide>
 
@@ -3438,7 +3433,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 </article></slide><slide class=""><hgroup><h2>References</h2></hgroup><article  id="references" class="unnumbered">
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-gelman_lets_2002" class="csl-entry">
 <p>Gelman, Andrew, Cristian Pasarica, and Rahul Dodhia. 2002. <span>
 “Let’s Practice What We Preach: Turning Tables into Graphs.”</span> <em>The American Statistician</em> 56 (2): 121–30. <a href='http://www.tandfonline.com/doi/abs/10.1198/000313002317572790' title=''>http://www.tandfonline.com/doi/abs/10.1198/000313002317572790</a>.</p></div>
@@ -3479,11 +3474,6 @@ Data</span>.”</span> <a href='https://www.youtube.com/watch?v=fSgEeI2Xpdc' tit
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
-    }
-    if (window.Shiny) {
-      // Initialize slides when this script appears on the page, since it
-      // indicates that the <slides> markup has been fully loaded.
-      window.loadDeck();
     }
   })();
 </script>

@@ -30,6 +30,7 @@ Other files from the cleaning lecture
 * data/contrasts2.RData
 * data/cc2.rds
 
-### Untracked files ### (1)
+### Untracked files ### (2)
 
 * data/multiv_brmsfit.rda
+* data/canadaRegions.csv
