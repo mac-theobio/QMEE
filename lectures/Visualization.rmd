@@ -31,7 +31,7 @@ Goal: find patterns (& problems) in data, explore hypotheses
 
 ![](../pix/hadley_cycle.jpg) [HW on Twitter](https://twitter.com/hadleywickham/status/784780387180425217)
 
-* Don't "snoop"!
+* Avoiding **snooping**:
 	* Separate response variables from predictors
 	* Look at residuals but not fits
 
@@ -43,8 +43,7 @@ Goal: find patterns (& problems) in data, explore hypotheses
 * plot methods: generic (e.g. residuals vs fitted) vs specific (e.g. residuals vs predictors)
 * predictions (intuitive) vs residuals (amplifies/zooms in on discrepancies)
 	* looking for **absence** of patterns in residuals
-* evaluating neglected features (e.g. spatial, temporal autocorrelation):  
-pictures easier than model
+* `performance::check_model()`, `DHARMa` packages
 
 # Inference
 
@@ -91,7 +90,7 @@ pictures easier than model
 ## Base graphics
 
 -   advantages: speed, simplicity, breadth
--   disadvantages: lack of structure, canvas metaphor, clunkiness, fragmentation
+-   disadvantages: lack of structure, canvas (draw-and-forget) metaphor
 -   basic commands:
     -   `plot()`, `lines()` and `points()` 
     -   `legend()`, `axis()` (for decoration)
@@ -99,12 +98,15 @@ pictures easier than model
     -   `par(mfrow)`, `layout()` for multiple plots on a page
     -   useful packages: `car` (for `scatterplot()`, `scatterplotMatrix()`), `plotrix` (miscellaneous "plot tricks")
 
+<!--
 ## Lattice graphics
 
 - alternative, higher-level graphing interface
 - `xyplot` (with `type=` one or more of `"p"`, `"l"`, `"r"`,`"smooth"`, `"a"` ...), `bwplot`
 -   Disadvantages: tricky to customize
 -   Advantages: abstraction (relative to base graphics), speed (relative to `ggplot`), banking (aspect ratio control), shingles, faceting, 3D plots
+
+-->
 
 ## [ggplot(2)](http://ggplot2.org)
 

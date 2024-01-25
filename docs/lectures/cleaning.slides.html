@@ -3094,6 +3094,9 @@ font-style: italic;
 summary {
 display: list-item;
 }
+details > summary > p:only-child {
+display: inline;
+}
 slides > slide {
 -webkit-transition: all 0.4s ease-in-out;
 -moz-transition: all 0.4s ease-in-out;
@@ -3119,7 +3122,7 @@ div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -3237,7 +3240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <pre class = 'prettyprint lang-r'>villageTable &lt;- read_csv(&quot;../data/village.csv&quot;)</pre>
 
 <pre >## Rows: 180 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (4): area, grid, vname, vu
 ## dbl (7): village, fup, grouped1, grouped2, scattered1, scattered2, population
@@ -3275,10 +3278,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <pre class = 'prettyprint lang-r'>parasiteTable &lt;- read_csv(&quot;../data/parademo.csv&quot;)</pre>
 
-<pre >## Warning: One or more parsing issues, see `problems()` for details</pre>
+<pre >## Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
+##   dat &lt;- vroom(...)
+##   problems(dat)</pre>
 
 <pre >## Rows: 138197 Columns: 39
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl  (36): id, village, compound, survey, person, sch, _add, tribe, hght, sl...
 ## date  (3): datecoll, datep, dateexam

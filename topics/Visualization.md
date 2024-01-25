@@ -15,7 +15,7 @@ Resources
 =========
 
 -   Course material
-    -   [Overview lecture](../lectures/Visualization.notes.html)
+    -   Overview lecture ([notes](../lectures/Visualization.notes.html), [slides](../lectures/Visualization.slides.html))
     -   [Canadian homicide](../lectures/CA_homicide.notes.html)
     -   [contraception](../lectures/Contraception.notes.html)
 
@@ -24,6 +24,9 @@ Resources
 	- [gallery](https://www.r-graph-gallery.com/ggplot2-package.html)
 	- [extensions](https://exts.ggplot2.tidyverse.org/)
 	- [book (3d edition)](https://ggplot2-book.org/)
+
+- 2024
+	* [JD version of Tuesday live lecture material](../code/viz24.R)
 
 Exercise
 ========
