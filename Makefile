@@ -136,6 +136,20 @@ village_clean.Rout: code/village_clean.R
 
 ######################################################################
 
+hom1.Rout: hom1.R
+	$(pipeR)
+
+hom2.Rout: hom2.R hom1.Rout
+	$(pipeR)
+
+hom3.Rout: hom3.R hom2.Rout
+	$(pipeR)
+
+hom4.Rout: hom4.R hom2.Rout
+	$(pipeR)
+
+######################################################################
+
 ## Dushoff lectures that live elsewhere
 
 Ignore += docs/legacy
