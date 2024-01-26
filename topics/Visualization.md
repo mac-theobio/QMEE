@@ -27,6 +27,10 @@ Resources
 
 - 2024
 	* [JD version of Tuesday live lecture material](../code/viz24.R)
+	* JD Thursday scripts:
+		[read](../code/homRead.R);
+		[merge](../code/homMerge.R);
+		[scatter plots](../code/homScatter.R)
 
 Exercise
 ========
