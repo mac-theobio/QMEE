@@ -50,7 +50,8 @@ rates <- (widedat
 summary(rates)
 
 ## rates and places represent my current relational DB (tidy, non-repetitive)
-## Do another merge both to check, and to make a file for a particular use (visualization_
+## Do another merge both to check, and to make a file for a particular use (visualization, in this case)
 
 ## save creates an environment, typically uses rda
+## We put it in a tmp/ subdirectory because we don't want to save these files; we want to regenerate them (and check that they can be generated on different platforms). You should ignore tmp/ in git.
 save(places, rates, file="tmp/homRead.rda")

@@ -154,6 +154,9 @@ homScatter.Rout: code/homScatter.R homMerge.Rout
 homBox.Rout: code/homBox.R homMerge.Rout
 	$(pipeR)
 
+## Crib page; some usable stuff but not very different from the rmd
+## code/homDump.R
+
 ######################################################################
 
 ## Dushoff lectures that live elsewhere
