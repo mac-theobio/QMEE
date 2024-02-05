@@ -31,6 +31,10 @@ Resources
 Assignment
 ==========
 
+See [linear models topic page](Linear_models.html).
+
+<!-- 
+
 -   Formulate two different hypotheses about your data, and describe how
     you would test them with two different permutation tests. Challenge
     yourself to come up with conceptually different tests, if this is
@@ -40,3 +44,5 @@ Assignment
     corresponds to a permutation test. Best would be to use both.
 
 * See the [assignment instructions](../admin/assignments.html)
+
+-->
