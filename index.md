@@ -36,8 +36,7 @@ There may also be some asynchronous content.
 
 ### Statistics
 
-- [Permutations](topics/Permutations.html)
-- [Linear models](topics/Linear_models.html)
+- [Permutations](topics/Permutations.html) and [Linear models](topics/Linear_models.html)
 - [Generalized linear models (additional)](topics/Generalized_linear_models.html)
 - [Mixed models (additional)](topics/Mixed_models.html)
 - [Bayesian statistics](topics/Bayesian_statistics.html)
