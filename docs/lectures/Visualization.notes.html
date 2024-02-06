@@ -251,6 +251,7 @@ if (window.hljs) {
 
 
 
+
 <style type="text/css">
 
 div.csl-bib-body { }
@@ -298,6 +299,9 @@ outline: none;
 summary {
 display: list-item;
 }
+details > summary > p:only-child {
+display: inline;
+}
 pre code {
 padding: 0;
 }
@@ -316,23 +320,17 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before {
-content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "\e259";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "";
-border: none;
-}
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "";
+content: "\e258";
 font-family: 'Glyphicons Halflings';
-display: inline-block;
-padding: 10px;
-border-right: 1px solid #ddd;
+border: none;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -375,7 +373,7 @@ display: none;
 
 <h1 class="title toc-ignore">Data Visualization in R</h1>
 <h4 class="author">Jonathan Dushoff and Ben Bolker</h4>
-<h4 class="date">22:33 24 January 2024</h4>
+<h4 class="date">10:43 06 February 2024</h4>
 
 </div>
 
