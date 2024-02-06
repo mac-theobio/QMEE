@@ -59,7 +59,7 @@ predictor variable (parameter) associated with a single input variable
     	- For complex smooth curves better to use *splines* (`splines::ns()`, or `mgcv` package)
 - More than one predictor variable per input variable
 
-## Multi-parameter variables are hard
+## Multi-parameter variables are hard to interpret
 
 - If you're just trying to control for it, include it in the model and then ignore it!
 - Otherwise, you can (and should) get a $p$ value for the variable as a whole
@@ -81,7 +81,7 @@ the response to $X_1$ *depends on* the value of $X_2$.
  
 ## An experimental example
  
-- You want to know whether a drug treatment changes the
+- You want to know whether (how!)  a drug treatment changes the
 	metabolism of some rabbits
 - You're using adult, prime-aged rabbits and keeping them under
 	controlled conditions, so you don't expect their metabolism to
