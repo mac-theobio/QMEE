@@ -165,7 +165,7 @@ par(op)
 
 ## performance::check_model()
 
-```{r perf, fig.height = 10, fig.width = 6}
+```{r perf, fig.height = 10, fig.width=8, out.width="50%" }
 performance::check_model(m1)
 ```
 
