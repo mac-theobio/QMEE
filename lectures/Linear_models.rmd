@@ -225,7 +225,7 @@ $(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positi
 - `summary` prints statistics associated with the *parameters* that were fitted
 - `dotwhisker::dwplot()` plots a **coefficient table** [@gelman_lets_2002]; `by_2sd=TRUE` automatically scales continuous predictors
 - `car::Anova()` and `drop1()` will find $p$ values that test the effect of
-variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models (less useful)
+variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models (only needed for specialized comparisons)
 - `broom::tidy()` gives you tidy coefficient tables; consider `conf.int = TRUE`
 
 ## Plotting
@@ -265,13 +265,13 @@ summary(lmboth)
 ## Test time by comparing with light model (dropping time)
 
 ```{r tests1B}
-anova(lmboth, lmlight, test="F")
+anova(lmboth, lmlight)
 ```
 
 ## Test light (identical to test in summary()
 
 ```{r test_light}
-anova(lmboth, lmtime, test="F")
+anova(lmboth, lmtime)
 ## In this simple case, drop1 and car::Anova
 ##  will do exactly the same thing we did above
 ```
