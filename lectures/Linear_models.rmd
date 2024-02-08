@@ -12,34 +12,19 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
  
 ## History
  
-- ANOVA, ANCOVA, regression, $t$ test are **all (part of) the same thing**, the **general** linear model ([twitter thread](https://twitter.com/MaartenvSmeden/status/1365036506751135746))
+- ANOVA, ANCOVA, regression, $t$ test are **all (part of) the same thing**, the **general** linear model ([twitter thread](https://twitter.com/MaartenvSmeden/status/1365036506751135746), [cheat sheet](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf))
 - "linear model" (`lm` in R), to distinguish it from the *generalized* linear model (`glm` in R)
 - Unfortunately SAS calls it `PROC GLM`
 
-## (part of) the statistical universe
-
-![](../pix/models-glmm.png)
-
-## Extensions [@faraway_extending_2016]
- 
-- **Generalized** linear models
-    - (Some) non-linear relationships
-    - Non-normal response *families* (binomial, Poisson, ...)
- - **Mixed** models incorporate *random effects*
-    - Categories in data represent samples from a population
-    - e.g. species, sites, genes ... experimental blocks
- - Generalized **additive** models (GAMs)
-    - much broader range of non-linear relationships
- 
 # Basic theory
 
 ## Assumptions
  
 - *Response variables* are linear functions of *predictor (derived) variables*, in turn based on *input (observed) variables*
      - One or more predictor variables per input variable
-     - Each predictor variable is associated with an estimated parameter (more about this later)
+     - Estimate a parameter for the effect of each predictor variable (more later)
 - Independence
-- *Errors* or *residuals* are Normally distributed
+- *Errors* or *residuals* are Normally distributed with constant variance
      - In other words, the difference between our model *predictions*
        and our observations is Normal
      - *not* assuming the marginal distribution is Normal
@@ -47,10 +32,10 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
  
 ## Machinery
  
-- Leads naturally to a *least squares* fit - minimize the squared differences between predictions and observations
-- LS fits have a lot of nice properties, including partitioning, and finding the middle
+- *Least squares* fit - minimize the squared differences between predictions and observations
+- LS fits have lots of nice properties
 - Solution is a simple (!?) matrix equation
-- Sensitive to some violations of assumptions - anomalous events have a larger effect than they should
+- Sensitive to some violations of assumptions - e.g. anomalous events have a strong effect
  
 ## One-parameter variables
  
@@ -62,7 +47,7 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
      - difference in predicted value between levels, or
     	code the categories as 0, 1 ... (*dummy variables*)
 - Parameters are (usually) easy to interpret
-- Think in terms of *confidence intervals* for the parameter
+- *Confidence intervals* for the parameter
  
 ## Multi-parameter variables
  
@@ -70,11 +55,11 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 predictor variable (parameter) associated with a single input variable
     - Why can't we just code them, for example as 0, 1, 2?
 - Non-linear response to an input variable
-    - We can often use linear models for non-linear responses! $Y = a + bX + cX^2$ is linear in $a$ and $b$ (the unknowns)
-    	- Polynomials can be unstable: consider *orthogonal polynomials* (`poly` in R, e.g. `y  ~ poly(x,2)`) or splines (`splines::ns()`, or `mgcv` package)
-- Non-linear responses usually have more than one predictor variable per input variable
+    - Linear models can work for non-linear responses! e.g. $Y = a + bX + cX^2$ (predictors are 1, $X$, $X^2$)
+    	- For complex smooth curves better to use *splines* (`splines::ns()`, or `mgcv` package)
+- More than one predictor variable per input variable
 
-## Multi-parameter variables are hard
+## Multi-parameter variables are hard to interpret
 
 - If you're just trying to control for it, include it in the model and then ignore it!
 - Otherwise, you can (and should) get a $p$ value for the variable as a whole
@@ -96,7 +81,7 @@ the response to $X_1$ *depends on* the value of $X_2$.
  
 ## An experimental example
  
-- You want to know whether a drug treatment changes the
+- You want to know whether (how!)  a drug treatment changes the
 	metabolism of some rabbits
 - You're using adult, prime-aged rabbits and keeping them under
 	controlled conditions, so you don't expect their metabolism to
@@ -146,7 +131,7 @@ variables, or more
 - This may make your life harder, but it's worth it for the karma
      - 	There are techniques to deal with multiple predictors (e.g.,
 ridge or lasso regression)
-     - 	There are ways to estimate sensible main effects in the presence of
+     - 	good ways to estimate sensible main effects in the presence of
 interactions (centering variables [@schielzeth_simple_2010]; "sum-to-zero contrasts")
  
 ## Diagnostics
@@ -164,35 +149,26 @@ assumptions, it is good to evaluate them
 
 ## Default plots in R
 
-```{r diag_setup,include=FALSE}
-op <- par(mfrow=c(2,2),mar=c(2,3,1.5,1),mgp=c(2,1,0))
-```
-
 ```{r diagplots}
 skewdata <- read.csv("../data/skewdat.csv")
 m1 <- lm(skew~Size, data=skewdata)
-plot(m1,id.n=4)
 ```
 
-```{r diag_restore, include=FALSE}
-par(op)
+```{r fakeplot, eval = FALSE}
+plot(m1, id.n=4)
 ```
 
-You can also use `broom::augment()` to get all the pieces (fitted, residuals, etc.) that you need to construct these plots for yourself.
-
----
-
-```{r plotstuff}
-library(dplyr)
-library(ggplot2); theme_set(theme_bw())
-aa <- broom::augment(m1) %>% mutate(n=1:n())
-(ggplot(skewdata, aes(Size,skew))
-    + geom_point(aes(colour=abs(aa$.resid)>0.1))
-    + geom_smooth(method="lm")
-    + scale_colour_manual(values=c("black","red"))
-)
+```{r realplot, echo = FALSE}
+par(mfrow=c(2,2), mar=c(2,3,1.5,1), mgp=c(2,1,0))
+plot(m1, id.n=4)
 ```
- 
+
+## performance::check_model()
+
+```{r perf, fig.height = 10, fig.width=8, out.width="50%" }
+performance::check_model(m1)
+```
+
 ## Transformations
  
 - One way to deal with problems in model assumptions is by
@@ -204,8 +180,8 @@ original scale
 you are adding things up or scaling them (as in our ant example)
 - The log scale is often the best scale for thinking about physical
 quantities: 1 is to 10 as 10 is to?
-- The *log odds*, or *logit*, scale is often the best scale for
-thinking about probabilities: 1% is to 10% as 10% is to ?
+<!-- - The *log odds*, or *logit*, scale is often the best scale for
+thinking about probabilities: 1% is to 10% as 10% is to ? -->
  
 ## Transformation tradeoffs
  
@@ -232,16 +208,25 @@ power relationships
 ones and looking at $p$ values
 - *Box-Cox transformation* tries out transformations of the form
 $(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positive* data only)
- 
+- see `MASS::boxcox()` or `car::powerTransform()`
+
+## Collinearity
+
+- ignore common advice about "variance inflation factors"
+- simply throwing away correlated predictors is snoop-y and unstable
+- other solutions: PCA, *a priori* choice
+- @dormannCollinearity2012, @grahamConfronting2003, @morrisseyMultiple2018a, @vanhoveCollinearity2021
+
 # Tools for fitting and inference
 
 ## Basic tools
 
 - `lm` fits a linear model
 - `summary` prints statistics associated with the *parameters* that were fitted
-- `dotwhisker::dwplot()` plots a **coefficient table** [@gelman_lets_2002]
+- `dotwhisker::dwplot()` plots a **coefficient table** [@gelman_lets_2002]; `by_2sd=TRUE` automatically scales continuous predictors
 - `car::Anova()` and `drop1()` will find $p$ values that test the effect of
 variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models (less useful)
+- `broom::tidy()` gives you tidy coefficient tables; consider `conf.int = TRUE`
 
 ## Plotting
 
@@ -309,6 +294,15 @@ car::Anova(lmboth)
 print(summary(lmint))
 ```
 
+## Sum-to-zero contrasts
+
+If you want to make comparisons you should centre continuous input variables and use *sum-to-zero* contrasts for factors:
+
+```{r test3}
+lmint_c <- update(lmint, contrasts = list(time = contr.sum, light = contr.sum))
+print(summary(lmint_c))
+```
+
 # Multiple comparisons
 
 ## Multiple comparisons
@@ -317,20 +311,9 @@ print(summary(lmint))
 - can get away without them for a linear model (use variable-level $p$ values) *unless you want to do pairwise comparisons*. 
 - Unlike variable-level tests, MCs depend on how you set up your model (i.e. centering of continuous variables, contrasts of categorical variables)
 
-## MC example
-
-```{r multcomp,message=FALSE}
-library(multcomp)
-summary(mc <- glht(lmboth, linfct=mcp(time="Tukey")))
-```
-
 ## compact letter displays
 
-There is a tradition of figuring out which *pairs* of treatments are significantly different and assigning a letter to each such "not-clearly-not-equivalent" group. If you need to do this to make your supervisor happy, you can [use ggpubr](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/). `multcomp` can do the basic computations too.
-
-```{r mc_cld}
-cld(mc)
-```
+There is a tradition of figuring out which *pairs* of treatments are significantly different and assigning a letter to each such "not-clearly-not-equivalent" group. If you need to do this to make your supervisor happy, you can [use ggpubr](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/). The `multcomp` package can do the basic computations too.
 
 ## Pairwise comparisons with emmeans
 
@@ -338,14 +321,35 @@ See [emmeans vignette on comparisons](https://cran.r-project.org/web/packages/em
 
 ```{r emmeans,message=FALSE}
 library(emmeans)
-e1 <- emmeans(lmboth, "time")
-pairs(e1)
+library(ggplot2); theme_set(theme_bw())
+e1 <- emmeans(lmboth, spec = ~ time)
+plot(pairs(e1)) + geom_vline(xintercept = 0, lty = 2)
 ```
 
-## Just look at the picture?
+## Expected marginal means plot
 
-```{r empix,fig.height=3}
+Or you could just look at the picture:
+
+```{r em2}
 plot(e1)
 ```
+
+# Generalizations
+
+## (part of) the statistical universe
+
+![](../pix/models-glmm.png)
+
+## Extensions [@faraway_extending_2016]
+ 
+- **Generalized** linear models
+    - (Some) non-linear relationships
+    - Non-normal response *families* (binomial, Poisson, ...)
+ - **Mixed** models incorporate *random effects*
+    - Categories in data represent samples from a population
+    - e.g. species, sites, genes ... experimental blocks
+ - Generalized **additive** models (GAMs)
+    - much broader range of non-linear relationships
+ 
 
 ## References

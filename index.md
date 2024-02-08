@@ -55,5 +55,6 @@ Additional topics TBD/TBA
 
 -   [Jonathan Dushoff](http://www.biology.mcmaster.ca/dushoff/)
 -   [Ben Bolker](http://www.math.mcmaster.ca/~bolker/)
+-   [Ian Dworkin for a bit](https://dworkinlab.github.io/)
 
 [data directory](data/index.html)
