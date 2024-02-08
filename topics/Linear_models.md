@@ -45,7 +45,9 @@ Assignment
 
 Formulate a clear hypothesis about your data.
 
+<!-- COMMENT
 Discuss how you could test this hypothesis with a permutation test (but you don't need to do this).
+COMMENT -->
 
 Make a linear model for your hypothesis. 
 Draw **and discuss** at least one of each of the following:
