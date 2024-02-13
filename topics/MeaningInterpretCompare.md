@@ -6,7 +6,7 @@ author: "Ian Dworkin"
 Introduction
 ============
 
-Getting the computer to fit a linear model is the relatively straightforward part. Knowing that what you have done is **meaningful** with respect to the measurements you have used, making your model estimates (coefficients) **interpretable** to help you understand the model output, and determining the best measures of effect to make your results **comparable** within your model, and to other estimates in the scientific literature is a key part of this. 
+Getting the computer to fit a linear model is relatively straightforward. Spending the time and making sure  what you plan to do is **meaningful** with respect to the measurements you have used, making your model estimates (coefficients) **interpretable** to help you understand the model output, and determining the best measures of effect to make your results **comparable** within your model, and to other estimates in the scientific literature is a key part of this. 
 
  In some sense the whole week  is to get you to  focus on the question *"What is the difference?"* (or "what are the differences?"), and to make sure the differences (and their associated uncertainties) are meaningful, interpretable and comparable. This is generally much better than asking questions like "Is there a difference?" ("are there differences?"). These latter questions are often much less useful, and more likely to result in bad habits in terms of data modeling, statistical inference and using these to answer biological questions.
 
