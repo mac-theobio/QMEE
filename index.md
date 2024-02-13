@@ -33,7 +33,7 @@ There may also be some asynchronous content.
 * [Data management](topics/Data_management.html) 
 * [Visualization](topics/Visualization.html)
 * [Statistical philosophy](topics/Statistical_philosophy.html)
-* Meaning and measurement
+* [Meaningful, interpretable and comparable](topics/MeaningInterpretCompare.html)
 
 ### Statistics
 
