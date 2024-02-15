@@ -1,0 +1,346 @@
+---
+title: "Effect sizes"
+author: "Ian Dworkin"
+date: "`r format(Sys.time(),'%d %b %Y')`"
+output:
+  html_document:
+    toc: yes
+    number_sections: yes
+    keep_md: yes
+  pdf_document:
+    toc: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(list(digits = 3, show.signif.stars = F, show.coef.Pvalues = FALSE))
+```
+
+# Thinking about effect sizes.
+
+
+## Introduction
+
+For most of the tutorial we are going to stick to the two group type evaluation (i.e. extending on a "t-test" like scenario), but focusing on estimating meaningful effect sizes.
+
+
+## loading libraries.
+
+If you have not installed these before, you may need to do first (you only need to install them once).
+
+```{r}
+library(effectsize)
+library(emmeans)
+library(ggplot2)
+library(ggbeeswarm)
+library(dabestr)
+```
+
+We are using some new R libraries today. Both [effectsize](https://easystats.github.io/effectsize/)
+ and [dabestr](https://www.estimationstats.com/#/) (also see [here](https://github.com/ACCLAB/dabestr)) that will help with making the estimates and the plotting. As we get to some more advanced models, some of the tools in [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/) will help. Eventually we will also use both the effects library and emmeans library for complex models.
+ 
+ 
+## functions we will use in todays class
+
+
+
+```{r}
+lm_out <- function(x = modname) {
+    cbind(as.matrix(summary(x)$coef[,1:3]),
+          as.matrix(confint(x)) )}
+```
+
+
+## Back to our favourite data
+
+```{r}
+sct_data  <- read.csv("http://beaconcourse.pbworks.com/f/dll.csv",
+                       h = T, stringsAsFactors = TRUE)
+
+sct_data <- na.omit(sct_data)
+```
+
+
+Today we are going to work with a subset of the data so we can focus on some of the questions. Specifically only with the flies reared at 25C from a single strain (line). This will result in a pretty modest sample size within each group, but useful for our purposes.
+
+```{r}
+str(sct_data)
+with(sct_data, table( line, genotype, temp))
+
+sct_dat_subset <- sct_data[sct_data$temp == 25 & sct_data$line == "line-7",]
+
+sct_dat_subset <- droplevels(sct_dat_subset)
+
+dim(sct_dat_subset)
+
+with(sct_dat_subset, 
+     table(genotype))
+
+sct_dat_subset$genotype <- relevel(sct_dat_subset$genotype, "wt") # explain in class
+```
+
+
+## quick plot of the data
+
+```{r}
+ggplot(sct_dat_subset, aes(y = SCT, x = genotype, color = genotype)) +
+  geom_quasirandom(dodge.width = 0.25, cex = 2, alpha = 0.8)
+
+
+ggplot(sct_dat_subset, aes(y = tarsus, x = genotype, color = genotype)) +
+  geom_quasirandom(dodge.width = 0.25, cex = 2, alpha = 0.8)
+```
+
+
+
+## t-tests
+
+1. Run t-tests to compare differences between genotypes for the two response variables (SCT and tarsus). Anything that seems pretty important that is missing when you print out the results (`print`)
+
+
+```{r}
+sct_t_test <- t.test(SCT ~ genotype, 
+                    alternative = "two.sided",
+                    data = sct_dat_subset)
+
+
+print(sct_t_test)
+
+tarsus_t_test <- t.test(tarsus ~ genotype, 
+                    alternative = "two.sided",
+                    data = sct_dat_subset)
+
+print(tarsus_t_test)
+```
+
+2. Do you know what "kind" of t-test this is (in terms of the samples)?
+
+
+
+3. Figure out how to extract just the t-statistic and degrees of freedom from this object. Indeed, if you can, write a little function to extract the t-statistic, df, confidence intervals, estimate and standard error only.
+
+
+```{r}
+t_useful_bits <- function(t_object) {
+  return(c( 
+           t_object$estimate,
+           difference = as.numeric(diff(t_object$estimate)),
+           SE = t_object$stderr,
+           CI = t_object$conf.int[1:2],
+           t_object$statistic, 
+           t_object$parameter))}
+```
+
+
+
+```{r}
+t_useful_bits(sct_t_test)
+t_useful_bits(tarsus_t_test)
+```
+
+4. Repeat this, but using the lm function. What do each of the coefficients (`coef`) mean in each model? How does it compare to the t-tests.
+
+```{r}
+sct_mod1 <- lm(SCT ~ genotype, 
+               data = sct_dat_subset)
+
+tarsus_mod1 <- lm(tarsus ~ genotype, 
+               data = sct_dat_subset)
+
+coef(sct_mod1)
+coef(tarsus_mod1)
+```
+
+
+5. Instead of running `summary` on the model object, use the `lm_out` function I wrote above. What is the difference? Why did I do this?
+
+```{r}
+lm_out(sct_mod1)
+
+lm_out(tarsus_mod1)
+```
+
+
+## How does this help us?
+
+We have compares the effects of genotype on two traits? But how do we know which (if any) is having a big effect or a small effect? One is in count of bristles, one in length in mm. So it is pretty hard to compare. So perhaps a use of standardized effect sizes may be useful.
+
+
+## Gardner-Altman estimation plots
+
+Let's first use [dabestr](https://www.estimationstats.com) to compute the differences and then use a [Garnder-Altman estimation plot](https://en.wikipedia.org/wiki/Estimation_statistics#Gardner-Altman_plot) from [Gardner and Altman 1986](https://www.bmj.com/content/bmj/292/6522/746.full.pdf) (British Medical Journal 292:746).
+
+
+```{r}
+unpaired_mean_diff_SCT <- dabest(sct_dat_subset, x = genotype, y = SCT,
+                             idx = c("wt", "Dll"),
+                             paired = FALSE) %>% 
+                      mean_diff()
+
+
+unpaired_mean_diff_SCT
+
+
+unpaired_mean_diff_SCT$result
+
+plot(unpaired_mean_diff_SCT)
+```
+
+
+```{r}
+unpaired_mean_diff_tarsus <- dabest(sct_dat_subset, x = genotype, y = tarsus,
+                             idx = c("wt", "Dll"),
+                             paired = FALSE) %>% 
+                      mean_diff()
+
+
+unpaired_mean_diff_tarsus
+
+plot(unpaired_mean_diff_tarsus)
+```
+
+
+## standardized measures of effect
+
+Or we can (using dabest) do *Cohen's d* or *Hedges's g*. Importantly in dabest the *Hedges g* is just the bias corrected version of *Cohen's d*. For this data set (since sample sizes are not too small), the differences do not matter much. Usually best to use *Hedge's g* if you are not sure though.
+
+```{r}
+unpaired_cohend_SCT <- dabest(sct_dat_subset, x = genotype, y = SCT,
+                             idx = c("wt", "Dll"),
+                             paired = FALSE) %>% 
+                      cohens_d()
+
+unpaired_cohend_SCT
+
+unpaired_g_SCT <- dabest(sct_dat_subset, x = genotype, y = SCT,
+                             idx = c("wt", "Dll"),
+                             paired = FALSE) %>% 
+                      hedges_g()
+
+unpaired_g_SCT
+
+plot(unpaired_g_SCT)
+```
+
+
+```{r}
+unpaired_cohend_tarsus <- dabest(sct_dat_subset, x = genotype, y = tarsus,
+                             idx = c("wt", "Dll"),
+                             paired = FALSE) %>% 
+                      cohens_d()
+
+unpaired_cohend_tarsus
+
+
+unpaired_g_tarsus <- dabest(sct_dat_subset, x = genotype, y = tarsus,
+                             idx = c("wt", "Dll"),
+                             paired = FALSE) %>% 
+                      hedges_g()
+
+
+unpaired_g_tarsus
+
+
+plot(unpaired_g_tarsus)
+```
+
+
+
+### what does this tell us?
+
+Looking at these plots we can say (relative to the variation in the traits) that the effect the mutant allele has on the number of SCT is much greater than on the length of the leg segment (for this strain anyways). That is we can use this to understand something of the pleiotropic effects of the mutation.
+
+How much greater?
+
+```{r}
+unpaired_g_SCT$result$difference/unpaired_g_tarsus$result$difference
+```
+
+About 3 times greater effect (relative to the pooled standard deviation of each trait).
+
+
+## What if we wanted to compare just to the variation in the control group.
+
+Normally we would have decided all of this in advance of collecting data and modeling. But for purposes of getting a sense of how things may (or may not) change, let's try doing this just using the standard deviation of the control group (the wild type).
+
+```{r}
+SCT_means <- with(sct_dat_subset, 
+                  tapply(SCT, INDEX = genotype, mean))
+
+SCT_sd <- with(sct_dat_subset, 
+                  tapply(SCT, INDEX = genotype, sd))
+
+tarsus_means <- with(sct_dat_subset, 
+                  tapply(tarsus, INDEX = genotype, mean))
+
+tarsus_sd <- with(sct_dat_subset, 
+                  tapply(tarsus, INDEX = genotype, sd))
+
+Glass_delta_SCT <- diff(SCT_means)/SCT_sd["wt"]
+
+Glass_delta_tarsus <- diff(tarsus_means)/tarsus_sd["wt"]
+
+
+Glass_delta_SCT
+Glass_delta_tarsus
+
+Glass_delta_SCT/Glass_delta_tarsus
+```
+
+About 3.5 times greater in effect on SCT compared to the length of the tarsus. Take a look and see if you can figure out why this differs from Hedge's g
+
+
+
+dabest has pretty limited effect sizes AVAILABLE, so the effectsize library is generally a more useful choice (but does not use bootstrapped CIs or makes pretty plots). So we will switch to effectsize. One somewhat odd thing is that for `glass_delta` it is the second group that is used for the standard deviation so we need to switch the releveling. The slight differences in values is because of some bias correction that I think is applied.
+
+```{r}
+sct_dat_subset$genotype_rev <- relevel(sct_dat_subset$genotype, "Dll")
+
+glass_delta(SCT ~ genotype_rev, data = sct_dat_subset)
+
+glass_delta(tarsus ~ genotype_rev, data = sct_dat_subset)
+```
+
+
+## How about scaling by the mean of the control group?
+
+Another common approach would be to scale by the mean of the control group. There may be a pre-built function, but I could not find it, so let's just hard code it.
+
+
+```{r}
+diff_mean_scaled_SCT <- diff(SCT_means)/SCT_means["wt"]
+
+diff_mean_scaled_tarsus <- diff(tarsus_means)/tarsus_means["wt"]
+
+diff_mean_scaled_SCT 
+
+diff_mean_scaled_tarsus
+
+diff_mean_scaled_SCT/diff_mean_scaled_tarsus
+```
+
+
+Using the mean standardized measure of effect gives us a somewhat different picture, where the effects of the mutant allele on SCT number is approximately 5.8 times greater than the effect on the length of the tarsus. Often the mean scaled measures can be more difficult to interpret (even if they are pretty easy to compare), so use with some degree of caution. 
+
+Obviously (and I said it above, but it bears repeating), for a real analysis the appropriate measure of effect sizes would have been determined *a priori* along with what values of the measure would likely be deemed biologically relevant. In addition to our readings, there is a nice, but brief discussion of some of this [here](https://easystats.github.io/effectsize/articles/interpret.html).
+
+## emmeans can do this all as well
+
+Flexible, but not super-intuitive (for emmeans, which is usually pretty good.)
+
+See `?eff_size`
+```{r}
+summary(sct_mod1)
+
+emm1 <- emmeans(sct_mod1, ~genotype)
+emm1
+
+eff1 <- eff_size(emm1, sigma = sd(sct_mod1$residuals), edf = 50)
+
+eff1
+sqrt(2/50) # relative accuracy of sigma
+
+```
+

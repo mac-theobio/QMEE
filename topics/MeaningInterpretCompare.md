@@ -25,6 +25,9 @@ Class materials
 
 -   [slides on measurement theory](../lectures/BIO708_Measurement_and_Meaning.pdf)
 -   [script for interpretability](../lectures/Intepreting_lm_output_Feb13_2024_short.html)
+-   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
+-   [script for effect sizes](../lectures/BIO708_EffectSizes.html)
+
 
 Resources
 =========
