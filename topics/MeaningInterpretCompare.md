@@ -42,4 +42,4 @@ Resources
 Assignment
 ==========
 
-TBD
+-   [Assignment, due Feb 23rd](../docs/assignments/BIO708_2024_Assignment_MIC.pdf)
