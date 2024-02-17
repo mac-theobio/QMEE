@@ -28,6 +28,20 @@ For most of the tutorial we are going to stick to the two group type evaluation 
 
 ## loading libraries.
 
+### PLEASE NOTE the dabestr library seems to have a bug
+
+Temporary fix (thanks Ben)
+
+Install (just once) using the line below (uncomment it)
+```{r}
+#remotes::install_github("bbolker/dabestr", ref="unpaired_unbalanced")
+```
+
+
+```{r}
+library(dabestr)
+```
+
 If you have not installed these before, you may need to do first (you only need to install them once).
 
 ```{r}
@@ -35,23 +49,21 @@ library(effectsize)
 library(emmeans)
 library(ggplot2)
 library(ggbeeswarm)
-library(dabestr)
 ```
 
 We are using some new R libraries today. Both [effectsize](https://easystats.github.io/effectsize/)
  and [dabestr](https://www.estimationstats.com/#/) (also see [here](https://github.com/ACCLAB/dabestr)) that will help with making the estimates and the plotting. As we get to some more advanced models, some of the tools in [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/) will help. Eventually we will also use both the effects library and emmeans library for complex models.
  
- 
+
+
 ## functions we will use in todays class
 
-
-
+A nice set of outputs from a linear model
 ```{r}
 lm_out <- function(x = modname) {
     cbind(as.matrix(summary(x)$coef[,1:3]),
           as.matrix(confint(x)) )}
 ```
-
 
 ## Back to our favourite data
 
@@ -168,37 +180,68 @@ lm_out(tarsus_mod1)
 We have compares the effects of genotype on two traits? But how do we know which (if any) is having a big effect or a small effect? One is in count of bristles, one in length in mm. So it is pretty hard to compare. So perhaps a use of standardized effect sizes may be useful.
 
 
+## Effect sizes
+
+We will compute a few of the effect sizes we discussed in lecture. We are going to use the functions in the `effectsize` library for this.
+
+For simple experimental designs the `effectsize` library is generally a more useful choice than `dabestr` (but does not use bootstrapped CIs or makes pretty plots). Indeed it has many many options. One somewhat odd thing is that for `glass_delta` (where we used the standard deviation of the "control" group), it is the second group that is used for the standard deviation so we need to switch the releveling. Slight differences between the two libraries in values is because of some bias correction that I think is applied.
+
+Again, all of this (how we are scaling our differences) would be determined *a priori*. For this tutorial I am just showing you how to do it.
+
+We will focus on *Hedges' g* as it is the "sample size corrected" version of *Cohen's D*.
+```{r}
+sct_dat_subset$genotype_rev <- relevel(sct_dat_subset$genotype, "Dll")
+
+hedges_g(SCT ~ genotype_rev, data = sct_dat_subset)
+hedges_g(tarsus ~ genotype_rev, data = sct_dat_subset)
+```
+We will discuss below how this helps us to compare the influence of genotype on these two very different types of traits.
+
+
+We can also compute regular *Cohen's d* or *Glass's delta* (SD of control group is used for scaling)
+```{r}
+cohens_d(SCT ~ genotype_rev, data = sct_dat_subset)
+cohens_d(tarsus ~ genotype_rev, data = sct_dat_subset)
+
+glass_delta(SCT ~ genotype_rev, data = sct_dat_subset)
+glass_delta(tarsus ~ genotype_rev, data = sct_dat_subset)
+```
+
+
 ## Gardner-Altman estimation plots
 
 Let's first use [dabestr](https://www.estimationstats.com) to compute the differences and then use a [Garnder-Altman estimation plot](https://en.wikipedia.org/wiki/Estimation_statistics#Gardner-Altman_plot) from [Gardner and Altman 1986](https://www.bmj.com/content/bmj/292/6522/746.full.pdf) (British Medical Journal 292:746).
 
 
 ```{r}
-unpaired_mean_diff_SCT <- dabest(sct_dat_subset, x = genotype, y = SCT,
-                             idx = c("wt", "Dll"),
-                             paired = FALSE) %>% 
-                      mean_diff()
+dim(sct_dat_subset)
 
 
-unpaired_mean_diff_SCT
+# needs a tibble
+sct_dat_subset_tb <- tibble::tibble(sct_dat_subset)
 
+diff_SCT <- load(data = sct_dat_subset_tb, 
+                               x = genotype, y = SCT,
+                             idx = c("wt", "Dll")) 
 
-unpaired_mean_diff_SCT$result
+mean_diff_SCT <- mean_diff(diff_SCT) # get mean difference
 
-plot(unpaired_mean_diff_SCT)
+mean_diff_SCT
+
+dabest_plot(mean_diff_SCT)
 ```
 
 
 ```{r}
-unpaired_mean_diff_tarsus <- dabest(sct_dat_subset, x = genotype, y = tarsus,
-                             idx = c("wt", "Dll"),
-                             paired = FALSE) %>% 
-                      mean_diff()
+diff_tarsus <- load(data = sct_dat_subset_tb, 
+                               x = genotype, y = tarsus,
+                             idx = c("wt", "Dll")) 
 
+mean_diff_tarsus <- mean_diff(diff_tarsus) # get mean difference
 
-unpaired_mean_diff_tarsus
+mean_diff_tarsus
 
-plot(unpaired_mean_diff_tarsus)
+dabest_plot(mean_diff_tarsus)
 ```
 
 
@@ -206,47 +249,24 @@ plot(unpaired_mean_diff_tarsus)
 
 Or we can (using dabest) do *Cohen's d* or *Hedges's g*. Importantly in dabest the *Hedges g* is just the bias corrected version of *Cohen's d*. For this data set (since sample sizes are not too small), the differences do not matter much. Usually best to use *Hedge's g* if you are not sure though.
 
+we have to use `dabestr::functionName` as both packages have functions with the same name.
+
 ```{r}
-unpaired_cohend_SCT <- dabest(sct_dat_subset, x = genotype, y = SCT,
-                             idx = c("wt", "Dll"),
-                             paired = FALSE) %>% 
-                      cohens_d()
+G_SCT <- dabestr::hedges_g(diff_SCT)
 
-unpaired_cohend_SCT
+G_SCT
 
-unpaired_g_SCT <- dabest(sct_dat_subset, x = genotype, y = SCT,
-                             idx = c("wt", "Dll"),
-                             paired = FALSE) %>% 
-                      hedges_g()
-
-unpaired_g_SCT
-
-plot(unpaired_g_SCT)
+dabest_plot(G_SCT)
 ```
 
 
 ```{r}
-unpaired_cohend_tarsus <- dabest(sct_dat_subset, x = genotype, y = tarsus,
-                             idx = c("wt", "Dll"),
-                             paired = FALSE) %>% 
-                      cohens_d()
+G_tarsus <- dabestr::hedges_g(diff_tarsus)
 
-unpaired_cohend_tarsus
+G_tarsus
 
-
-unpaired_g_tarsus <- dabest(sct_dat_subset, x = genotype, y = tarsus,
-                             idx = c("wt", "Dll"),
-                             paired = FALSE) %>% 
-                      hedges_g()
-
-
-unpaired_g_tarsus
-
-
-plot(unpaired_g_tarsus)
+dabest_plot(G_tarsus)
 ```
-
-
 
 ### what does this tell us?
 
@@ -255,7 +275,7 @@ Looking at these plots we can say (relative to the variation in the traits) that
 How much greater?
 
 ```{r}
-unpaired_g_SCT$result$difference/unpaired_g_tarsus$result$difference
+1.476/0.479
 ```
 
 About 3 times greater effect (relative to the pooled standard deviation of each trait).
@@ -292,18 +312,6 @@ Glass_delta_SCT/Glass_delta_tarsus
 About 3.5 times greater in effect on SCT compared to the length of the tarsus. Take a look and see if you can figure out why this differs from Hedge's g
 
 
-
-dabest has pretty limited effect sizes AVAILABLE, so the effectsize library is generally a more useful choice (but does not use bootstrapped CIs or makes pretty plots). So we will switch to effectsize. One somewhat odd thing is that for `glass_delta` it is the second group that is used for the standard deviation so we need to switch the releveling. The slight differences in values is because of some bias correction that I think is applied.
-
-```{r}
-sct_dat_subset$genotype_rev <- relevel(sct_dat_subset$genotype, "Dll")
-
-glass_delta(SCT ~ genotype_rev, data = sct_dat_subset)
-
-glass_delta(tarsus ~ genotype_rev, data = sct_dat_subset)
-```
-
-
 ## How about scaling by the mean of the control group?
 
 Another common approach would be to scale by the mean of the control group. There may be a pre-built function, but I could not find it, so let's just hard code it.
@@ -328,9 +336,13 @@ Obviously (and I said it above, but it bears repeating), for a real analysis the
 
 ## emmeans can do this all as well
 
-Flexible, but not super-intuitive (for emmeans, which is usually pretty good.)
+For models with complexity of multiple predictors, continuous predictors, interactions etc, `emmeans` can probably handle what you want. It is very flexivle, but not super-intuitive (for `emmeans`, which is usually pretty good.)
 
 See `?eff_size`
+
+Even though you are scaling by `sigma` in the function, you could use other measures.
+
+Note that for complex models, a reasonable measure of the `pooled sd` is just the standard deviation of the residuals (sometimes called the residual standard error)
 ```{r}
 summary(sct_mod1)
 
