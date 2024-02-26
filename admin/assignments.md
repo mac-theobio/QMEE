@@ -2,11 +2,7 @@
 title: Assignments
 ---
 
-<!-- COMMENT
-
-[Project information](assignments/projects.html)
-
--->
+[Project information](projects.html)
 
 General
 -------
