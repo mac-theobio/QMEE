@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo=FALSE,
 	- other (Normal (`"gaussian"`), Gamma)
 - default family for `glm` is Gaussian
 
-## Most GLMs are logistic
+## Most GLMs are logistic regression
 
 ```{r echo=FALSE}
 sscrape <- function(string="logistic+regression") {
@@ -72,19 +72,18 @@ print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
 
 ## Link functions
 
-- on what scale are the data linear?
-- link function goes from *data scale* (bounded) to *effect scale* (unbounded)
+- on what scale are the relationship(s) between predictor(s) and response linear?
+- link function goes from *data* scale (counts, proportions etc.) to *effect* or *link* or *linear predictor* scale
     - Poisson=log; binomial=logit
 - *inverse link* function goes from effect scale to data scale
     - Poisson=exponential; binomial=logistic
 - each family has a default "canonical" link (sensible + nice math)
-    - default usually OK (except: use `family=Gamma(link="log")`)
-    - probit vs. logit link for binomial family; mostly cultural
+    - default usually OK (*except*: use `family=Gamma(link="log")`)
 
 ## Machinery
 
-- "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ describes patterns on the link (effect) scale
-- Fit doesn't transform the responses: instead applies *inverse* link function to the linear predictor 
+- "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ describes patterns on the link scale
+- Fit **doesn't transform the responses**: instead applies *inverse* link function to the linear predictor 
     - instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
 - this is good, because the observed value of $y$ might be zero
     - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)
@@ -96,6 +95,7 @@ Model setup is the same as linear models
 
 - categorical vs. continuous predictors
 - contrasts
+- interactions
 - multivariable regression vs ANOVA vs ANCOVA vs ...
 
 but the linear relationship is set up on the link scale
@@ -125,11 +125,11 @@ par(op)
 ## diagnostics
 
 - harder than linear models: `plot` is still somewhat useful
-- binary data especially hard (e.g. `arm::binnedplot`)
+- binary data especially hard
 - goodness of fit tests, $R^2$ etc. hard (can always compute `cor(observed,predict(model, type="response"))`)
 - residuals are *Pearson residuals* by default [`(obs-exp)/sqrt(V(exp))`]
 - predicted values on the effect scale by default: use `type="response"` to back-transform
-- see also `DHARMa` package `simulateResiduals(model,plot=TRUE)`
+- `performance::check_model()`, `DHARMa` package are OK (`simulateResiduals(model,plot=TRUE)`)
 
 ## overdispersion
 
@@ -146,10 +146,10 @@ par(op)
 ## parameter interpretation
 
 - as with linear models (change in response per change in input)
-- but on *effect* scale
+- but on *link* scale
 - log link: proportional for small $\beta$, changes
      - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
-	 - $\beta=3 \to$ "$(e^3)$=`r round(exp(3))`-fold change per change in input"
+	 - $\beta=3 \to$ "$(e^3) \approx$ `r round(exp(3))`-fold change per change in input"
 
 ## logit link
 
@@ -159,26 +159,27 @@ par(op)
 - ... or add **log-odds** = logit (neutral=0)
 
 ## interpreting logit scale
+
 - effect on the prob scale **depends on baseline probability**
     - low baseline prob: like log link
     - high baseline prob: prop. change in (1-prob)
 	- medium prob: absolute change $\approx \beta/4$
-	- e.g. $\beta_0=0$, $\beta_1=1$; estimated $\Delta$ prob $\approx$ 0.25
-	      - `plogis(0)=` `r round(plogis(0),2)`
-	      - `plogis(0+1)=` `r round(plogis(1),2)`
+	- e.g. going from log-odds of 0 to 1; estimated $\Delta$ prob $\approx$ 0.25
+      - `plogis(0)=` `r round(plogis(0),2)`
+      - `plogis(0+1)=` `r round(plogis(1),2)`
  - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false))
 			  
 ## inference
 
 - Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
-	- approximate, can be way off if parameters have extreme values (*Hauck-Donner effect*/*complete separation*)
+	- approximate, can be way off if parameters have extreme values (*complete separation*)
 	- asymptotic (finite-size correction/"degrees of freedom" are hard, usually ignored)
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC etc.
 
 ## Model procedures
 
-- formula like `lm` (but specifies relationship on link scale)
+- formula like `lm`
 - specify family (variance-mean), link (nonlinearity)
 - always do Poisson, binomial regression on *counts*, never proportions (although can specify response as a proportion if you also give $N$ as the `weights` argument)
     - Use *offsets* to address unequal sampling
@@ -254,16 +255,22 @@ gg0 <- ggplot(aids,aes(date,cases))+geom_point()
 
 ## Easy GLMs with ggplot
 
-```{r ggplot1,fig.width=10,fig.height=5}
+```{r ggplot1}
 gg1 <- gg0 + geom_smooth(method="glm",colour="red",
                          formula=y~x,
                          method.args=list(family="quasipoisson"))
 ```
 
+## results
+
+```{r print-ggplot1, echo = FALSE}
+print(gg1)
+```
+
 ## Equivalent code
 
 ```{r aids_model_1.R,results="hide"}
-g1 <- glm(cases~date,aids,family=quasipoisson(link="log"))
+g1 <- glm(cases~date, data = aids, family=quasipoisson(link="log"))
 summary(g1)
 ```
 
@@ -275,9 +282,13 @@ plot(g1) ## ugh
 par(op)  ## restore parameter settings
 ```
 
+## autocorrelation function
+
 ```{r acf1}
 acf(residuals(g1)) ## check autocorrelation
 ```
+
+## DHARMa
 
 ```{r dharma, message=FALSE}
 library(DHARMa)
@@ -292,12 +303,12 @@ print(gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
                              method.args=list(family="quasipoisson")))
 ```
 
+(see [here](https://stackoverflow.com/a/30000214/190277), [here](https://stackoverflow.com/a/31473582/190277) for information on `poly()`)
+
 ## improved model
 
 ``` {r aids_model_2.R}
 g2 <- update(g1,.~poly(date,2))
-summary(g2)
-anova(g1,g2,test="F") ## for quasi-models specifically
 ```
 
 ## new diagnostics
@@ -312,6 +323,13 @@ par(op)  ## restore parameter settings
 
 ```{r acf2}
 acf(residuals(g2)) ## check autocorrelation
+```
+
+## inference
+
+```{r inf2}
+summary(g2)
+anova(g1,g2,test="F") ## for quasi-models specifically
 ```
 
 ## References
