@@ -13,7 +13,7 @@ Some information may be left over from our previous (Winter 2021) offering of th
 ## Course information
 
 - [Course description](admin/description.html)
-- [Project information](admin/project.html)
+- [Project information](admin/projects.html)
 - [Information on assignments](admin/assignments.html)
 - Course material is in three places:
    - here
