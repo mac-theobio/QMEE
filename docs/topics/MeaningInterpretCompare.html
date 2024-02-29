@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Jonathan Dushoff and Ben Bolker" />
-  <title>Linear models</title>
+  <meta name="author" content="Ian Dworkin" />
+  <title>Meaningful, interpretable and comparable estimates</title>
   <style>
 html {
 color: #1a1a1a;
@@ -183,68 +183,75 @@ vertical-align: middle;
 </header>
 
 <header id="title-block-header">
-<h1 class="title">Linear models</h1>
-<p class="author">Jonathan Dushoff and Ben Bolker</p>
+<h1 class="title">Meaningful, interpretable and comparable
+estimates</h1>
+<p class="author">Ian Dworkin</p>
 </header>
 <h1 id="introduction">Introduction</h1>
-<p>Linear models are a kind of <a href="../tips/lamppost_theory.html">lamppost</a>: a very powerful set of
-tools for solving certain kinds of problems, using certain kinds of
-assumptions.</p>
+<p>Getting the computer to fit a linear model is relatively
+straightforward. Spending the time and making sure what you plan to do
+is <strong>meaningful</strong> with respect to the measurements you have
+used, making your model estimates (coefficients)
+<strong>interpretable</strong> to help you understand the model output,
+and determining the best measures of effect to make your results
+<strong>comparable</strong> within your model, and to other estimates in
+the scientific literature is a key part of this.</p>
+<p>In some sense the whole week is to get you to focus on the question
+<em>“What is the difference?”</em> (or “what are the differences?”), and
+to make sure the differences (and their associated uncertainties) are
+meaningful, interpretable and comparable. This is generally much better
+than asking questions like “Is there a difference?” (“are there
+differences?”). These latter questions are often much less useful, and
+more likely to result in bad habits in terms of data modeling,
+statistical inference and using these to answer biological
+questions.</p>
+<h1 id="goals-for-this-week">Goals for this week</h1>
+<ul>
+<li><p>Making estimates meaningful: What you measure, and how it impacts
+how you model data, and derive meaning from model estimates.</p></li>
+<li><p>Making estimates interpretable: How simple “transformations” like
+mean-centring and standardization (z-transformation) predictor variables
+can aid in interpretation.</p></li>
+<li><p>Making estimates comparable: How to make your model estimates
+(coefficients) both within your experiment, and (hopefully) to enable
+meaningful comparisons with the broader literature.</p></li>
+</ul>
 <h1 id="class-materials">Class materials</h1>
 <ul>
-<li><a href="../lectures/Linear_models.notes.html">Main lecture
-notes</a>
-<ul>
-<li><a href="../lectures/Linear_models.slides.html">slide
-version</a></li>
-</ul></li>
-<li><a href="../lectures/Linear_model_parameters.notes.html">Parameters</a></li>
+<li><a href="../lectures/BIO708_Measurement_and_Meaning.pdf">slides on
+measurement theory</a></li>
+<li><a href="../lectures/Intepreting_lm_output_Feb13_2024_short.html">script
+for interpretability</a></li>
+<li><a href="../lectures/BIO708_EffectSizes_Svelte.pdf">slides on effect
+sizes</a></li>
+<li><a href="../lectures/BIO708_EffectSizes.html">script for effect
+sizes</a></li>
 </ul>
 <h1 id="resources">Resources</h1>
 <ul>
 <li>Introductory
 <ul>
-<li><a href="http://cran.r-project.org/doc/manuals/R-intro.html#Statistical-models-in-R">The
-model section from the R intro book</a></li>
-<li><a href="http://plantecology.syr.edu/fridley/bio793/lm.html">Fridley
-examples and guidelines</a></li>
-<li><a href="http://data.princeton.edu/R/linearModels.html">Rodriguez
-introduction</a></li>
-<li><a href="http://www.math.mcmaster.ca/~bolker/emdbook/Bolker_proofs.pdf">Bolker
-book</a> (see Sec. 9.2)</li>
-<li><a href="http://cran.r-project.org/doc/contrib/Faraway-PRA.pdf">Faraway
-linear models</a> book draft
-<ul>
-<li><a href="http://www.maths.bath.ac.uk/~jjf23/LMR/">Book home
-page</a></li>
-</ul></li>
-<li><a href="http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf">Hector
-et al</a> on ANOVA for unbalanced data (i.e. “type III sums of squares”
-revisited)</li>
+<li><a href="https://doi.org/10.1016/j.tree.2023.08.005">Voje et
+al. 2023</a> on representational measurement theory and
+meaning(<strong>N</strong>ominal, <strong>O</strong>rdinal,
+<strong>I</strong>nterval, <strong>R</strong>atio)</li>
 <li><a href="https://doi.org/10.1111/j.2041-210X.2010.00012.x">Schielzeth</a>
-(2010) on centering and scaling in linear models</li>
-<li><a href="http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2">Murtaugh</a>
-(2007) on averaging in analysis of nested designs</li>
+(2010) on centering and scaling in linear models (interpretability)</li>
+<li><a href="https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1469-185X.2007.00027.x">Nakagawa
+and Cuthill 2007</a> on effect sizes (and their confidence intervals)
+and how to make good use of them in biology (comparability)</li>
 </ul></li>
-<li>Discussion
-<ul>
-<li><a href="http://www.uvm.edu/~ngotelli/Bio%20264/Hurlbert.pdf">Hurlbert’s
-classic Pseudo-replication paper</a></li>
-<li><a href="http://www.stats.ox.ac.uk/pub/MASS3/Exegeses.pdf">Exegeses
-on linear models</a> (advanced)</li>
-</ul></li>
+<li><a href="https://matthewbjane.quarto.pub/">Open source book on
+effect sizes, with examples in R</a>. Also useful chapter on
+benchmarking in this.</li>
+<li><a href="https://www.youtube.com/watch?v=eJI0kNXmonk">Watch this
+video by Megan Higgs</a> which discusses benchmarking (critical stuff at
+about 8:40 in)</li>
 </ul>
 <h1 id="assignment">Assignment</h1>
-<p>Formulate a clear hypothesis about your data.</p>
-<!-- COMMENT
-Discuss how you could test this hypothesis with a permutation test (but you don't need to do this).
-COMMENT -->
-<p>Make a linear model for your hypothesis. Draw <strong>and
-discuss</strong> at least one of each of the following:</p>
 <ul>
-<li>diagnostic plot</li>
-<li>inferential plot (e.g., a coefficient plot, or something from
-<code>emmeans</code> or <code>effects</code>)</li>
+<li><a href="../docs/assignments/BIO708_2024_Assignment_MIC.pdf">Assignment,
+due Feb 23rd</a></li>
 </ul>
 <div id="footer">
   <div style="text-align:center">

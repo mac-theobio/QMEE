@@ -13,7 +13,7 @@ Some information may be left over from our previous (Winter 2021) offering of th
 ## Course information
 
 - [Course description](admin/description.html)
-- [Project information](assignments/project.html)
+- [Project information](admin/projects.html)
 - [Information on assignments](admin/assignments.html)
 - Course material is in three places:
    - here
@@ -33,6 +33,7 @@ There may also be some asynchronous content.
 * [Data management](topics/Data_management.html) 
 * [Visualization](topics/Visualization.html)
 * [Statistical philosophy](topics/Statistical_philosophy.html)
+* [Meaningful, interpretable and comparable](topics/MeaningInterpretCompare.html)
 
 ### Statistics
 
@@ -55,5 +56,6 @@ Additional topics TBD/TBA
 
 -   [Jonathan Dushoff](http://www.biology.mcmaster.ca/dushoff/)
 -   [Ben Bolker](http://www.math.mcmaster.ca/~bolker/)
+-   [Ian Dworkin for a bit](https://dworkinlab.github.io/)
 
 [data directory](data/index.html)
