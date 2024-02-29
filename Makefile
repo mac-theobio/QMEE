@@ -45,6 +45,8 @@ topics/subdocs/%.html: $(wildcard topics/*.md)
 	cd topics && $(MAKE) subdocs/$*.html
 
 ## lectures/subdocs/intro_R.slides.html: lectures/intro_R.rmd
+## lectures/subdocs/Permutations.notes.html: lectures/Permutations.rmd
+## lectures/subdocs/Permutations.slides.html: lectures/Permutations.rmd
 
 ## tips/subdocs/R_style.notes.html: tips/R_style.rmd
 

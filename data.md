@@ -29,10 +29,12 @@ Other
 ## Mysterious
 * data/multiv_brmsfit.rda
 
+## Fake vitamin data (from JD's Statistics Talks repo)
+* data/vitamins_data.rds
+
 ### Older files ###
 
 * data/portal_data_joined.csv: data from the Portal project
 * data/contrasts2.RData
 * data/cc2.rds
 * data/CA_homicide.rds: Canadian homicide data (processed, from 2021)
-
