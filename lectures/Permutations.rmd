@@ -43,7 +43,7 @@ author: Jonathan Dushoff, Ben Bolker
 
 ## Hybrid approach
 
-* Use a permutation P value as a sanity check on your more-powerful, assumptino-based approach
+* Use a permutation P value as a sanity check on your more-powerful, assumption-based approach
 
 * If P values look pretty similar (especially if they're not too small), your main approach may be fine
 
@@ -63,7 +63,7 @@ author: Jonathan Dushoff, Ben Bolker
 
 ## How to compare
 
-* Enumerate all of the possibilites (if possible)
+* Enumerate all of the possibilities (if possible)
 
 * Simulate at least 1999 possibilities (also, if possible, you can do less if it's really necessary)
 
@@ -89,7 +89,7 @@ author: Jonathan Dushoff, Ben Bolker
 
 * What is the best way to interpret a significant permutation result?
 
-* If the difference in growth had been significant we would conclude that that difference is due to _something_ real about the systems (ie., not due to chance).
+* If the difference in growth had been significant we would conclude that that difference is due to _something_ real about the systems (i.e., not due to chance).
 
 	* If we want to conclude that _mean_ growth is greater in the treatment group, we already need to assume something about distributions!
 
