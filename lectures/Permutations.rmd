@@ -31,11 +31,11 @@ author: Jonathan Dushoff, Ben Bolker
 
 ## But
 
-* Who says P values are what we want?
+* We don't want to focus on P values!
 
 * It is often possible to associate confidence intervals with permutation tests, but:
 
-	* Additional assumptions are always needed
+	* Additional assumptions are (almost) always needed
 
 	* Flexibility is dramatically reduced
 
@@ -47,7 +47,7 @@ author: Jonathan Dushoff, Ben Bolker
 
 * If P values look pretty similar (especially if they're not too small), your main approach may be fine
 
-* I've never seen somebody journal criteria for this – you could be a trend-setter
+* I've never seen somebody use a statistical journal to track criteria for this – you could be a trend-setter
 
 	* and we can help if you want
 
@@ -164,6 +164,10 @@ author: Jonathan Dushoff, Ben Bolker
 # Practice
 
 ## In progress …
+
+## Mantel test
+
+* WWBBD? `ape::mantel.test`
 
 # Summary
 
