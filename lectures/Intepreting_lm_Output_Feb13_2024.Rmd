@@ -1,0 +1,943 @@
+---
+title: "InterpretingOutput_LinearModels"
+author: "Ian Dworkin"
+date: "`r format(Sys.time(),'%d %b %Y')`"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: yes
+    fig_caption: yes
+    keep_md: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(list(digits = 3, show.signif.stars = F, show.coef.Pvalues = FALSE))
+```
+
+
+# Interpreting output of general linear (mixed) models
+
+**And how to help prepare your data to make it easier**
+
+
+## R libraries we need
+
+
+Please install if you don't have these 
+
+
+```{r}
+library(lme4)
+library(emmeans)
+library(effects)
+library(car)
+library(ggplot2)
+```
+
+## Background
+
+Even after we have developed some skills in statistical modeling (understanding estimation, uncertainty, design matrices etc), the *REALLY HARD PART* is often just making sense of what the model is (and is not) telling us. This is a skill you will use for the rest of your life in many different contexts.
+
+The good news is that other than some basic "training" all you really need to do it well is practice it as you would any skill. The downside, is that like any skill, is it definitely takes some real practice.
+
+
+## The data we will work with today.
+
+We will be using this data (so read it in).
+
+You will need to [download](https://github.com/mac-theobio/QMEE/blob/master/docs/data/dll.csv) it first. Put it in the data folder. If you already have the repo it should be in the data folder.
+
+
+online copy here as well.
+ 
+```{r}
+sct_data  <- read.csv("https://mac-theobio.github.io/QMEE/data/dll.csv",
+                       h = T, stringsAsFactors = TRUE)
+```
+
+
+## Data provenance and description
+
+This data is from an [old paper](https://onlinelibrary.wiley.com/doi/10.1111/j.1525-142X.2005.05010.x), but from a kind of experiment we still often use, so it provides a useful template for this.
+
+In this experiment I:
+
+- Was testing a theory about the evolution of canalization, using a system to release cryptic genetic variation. 
+
+- Introduced the *Dll[11]* mutation into about 25 different wild type strains via backcrossing. This mutation has some dominant phenotypes affecting leg (among other) traits, including length of segments and the number of sex comb teeth (in males).
+
+- Reared flies from each of these strains and three different temperatures.
+
+- Collected both *Dll[+]* and *Dll[11]* individuals from each of the strains from each of the temperature treatments.
+
+- For each individual, a single first (pro-thoracic) leg was dissected and three leg segments were measured along with the number of sex comb teeth.
+
+
+## What we will be using the data for.
+
+- We are going to examine how the number of sex comb teeth is influenced by the effects of overall (leg) size, rearing temperature, genotype at the *Dll*  (either *+*/*wt* or *11*/*mutant*) and genetic background (the 25 or so wild type strains). Indeed we will (hopefully) get to where we can examine how these factors all interact and interpret the output from the models
+
+
+## We are not going to do any major "data checks" today
+
+ What we always should start with is some EDC (Exploratory Data Checks). Sometimes called EDA (analysis). i.e. to look for outliers (and check to see if they are real data points, transcription errors etc), accidental data duplications etc...
+ 
+ However, for the moment we will assume that this has been done (it has) so we can proceed to the main goal of the workshop today. The only thing we will do is remove cells with missing data. It is not always necessary to do this (many approaches take missing data into account well).
+ 
+```{r}
+sct_data <- na.omit(sct_data) 
+
+str(sct_data)
+
+sct_data$genotype <- relevel(sct_data$genotype, "wt") # make wt reference level
+```
+
+**Please note** Temperature (currently an integer) is in $^{\circ}C$. Lengths for femur, tibia and tarsus are all in $mm$.
+
+**PLEASE NOTE**. We will model counts of SCT as a response. For those of you with some background already you may be wondering WHY I am fitting a standard linear model assuming that the response varies continuously (and with assumptions of normality). While you would not be wrong to think that a model assuming a poisson or negative binomial (with a log link) would make the most sense, for ease of interpretation we are putting that aside for the moment. Also, I will leave it as an exercise for you to realize that for the parameter estimates, this assumption is fine, and will not change things very much (and for this particular data set has a modest impact on uncertainty of our estimates as well.)
+
+## Very simply model 
+
+We will start by examining a very simple model. We will want to fit one of the simplest types of general linear models, the *linear regression*. In this case we want to regress the number of sex comb teeth (SCT) onto the length of the tarsus (which is the part of the leg that the SCT is on).
+
+But what we don't know is whether there is any relationship with how big the fly is (or the leg of the fly) and how many sex comb teeth occur in the comb.
+
+We can start by taking a quick look.
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus)) +
+     geom_jitter(width = 0, height = 0.3, alpha = 0.2, color = "blue") +
+     xlab("tarsus length (mm)") +
+     theme_light()
+```
+
+Please note I have added some jitter (noise) to the SCT values, so we can get a better sense of the observations.
+
+## Take a look at the data and making a checklist
+
+What I want you to do in small groups (say 2-3 people) is to start by looking at the data a bit and think about the relationship for the model you will want to fit.
+
+Make a checklist of what you want to be able interpret from the model after you fit it. What sorts of things might help to make it easier to interpret?
+
+
+## looking at the range of values for the data
+
+It is important to start by examining the range over which the data occurs. We can do this in tabular form, and with simple plots. This will help us as we interpret the amount of change we observe in both the predictor and the response.
+
+```{r}
+range(sct_data$SCT) # min and max values.
+quantile(sct_data$SCT)
+
+range(sct_data$tarsus)
+
+quantile(sct_data$tarsus, 
+         probs = c(0, 0.025, 0.5, 0.975, 1))
+```
+
+## Fitting the model as is
+
+Let's go ahead and fit our very simple model, a *linear regression* of SCT number (our response) onto tarsus length in $mm$ (our predictor).
+
+**Note** I have explicitly written out a term for the intercept (the "1") while this is there by default (so you don't to write it out), we will be later fitting some models without an intercept, so it will be useful to keep track of.
+
+```{r}
+model1 <- lm(SCT ~ 1 + tarsus, data = sct_data)
+model1_alt <- lm(SCT ~ tarsus, data = sct_data)
+
+#model1_wtf <- lm(SCT ~ -1 + tarsus, data = sct_data) # no intercept
+#model1_wtf_alt <- lm(SCT ~ 0 + tarsus, data = sct_data) # no intercept
+```
+
+You may immediately want to look at the estimates and start making inferences.
+
+```{r}
+summary(model1)
+```
+
+In your groups take a few minutes to try and decipher this table and what it is telling you. What is each column telling you? How about the row for "Intercept" and "tarsus"?
+
+For the moment what we really care about are the estimated coefficients and their confidence intervals
+
+```{r}
+coef(model1)
+
+confint(model1)
+```
+
+### first example of the model matrix (design matrix)
+
+Sometimes it is good to look "under the hood" and see what is going on. As we discussed in class (or will shortly), the design matrix of the predictors is a central piece of this, and worth spending some time trying to understand.
+
+Let's take a look at the first six rows of the design matrix for our model
+
+```{r}
+head(model.matrix(~ 1 + sct_data$tarsus))
+```
+
+The first column column of ones corresponds to our intercept. That is, our intercept estimate is multipled by "1" (so no change). 
+
+The second column in the design matrix is just the values of the tarsus lengths (in mm) for our sample. Compare the values above in the second column to the first six values for tarsus length among the observations.
+
+```{r}
+head(sct_data$tarsus)
+```
+
+So the coefficient we are estimating for the slope (the second coefficient in the model) would be multiplied by these values.
+
+### graphical examination of model fit onto the observed data
+
+We can also do a quick look graphically by updating the plot with the best fit line, and the 95% confidence band around the best fit line.
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus)) +
+        geom_jitter(width = 0, height = 0.2, alpha = 0.2) +
+        geom_smooth(method = lm) +
+     xlab("tarsus length (mm)") +
+     theme_light()
+```
+
+What are these telling us? Interpret the intercept and the slope. How easy is this to interpret? Why?
+
+
+## Making the slope interpretable.
+
+The slope of the line (also called the estimated parameter or coefficient) is telling us that for every 1 *unit* increase in tarsus length we get 26.9 more SCT. Does this make sense? Take a look at the plot once again.
+
+As you can see from the plot (and below), the range of SCT goes from 6-22. 
+So an increase of 26.9 SCT is greater than the entire range of values we observe for SCT. So this is clearly challenging to interpret.
+
+
+```{r}
+range(sct_data$SCT)
+```
+
+### Are your variables in sensible units?
+
+To help us interpret the output of our models, we always want to have all our variables (response and predictors) to be in sensible units. "sensible" can mean many things depending on our goals (as we will see), BUT we definitely want them to be interpretable.
+
+The problem here is what then? Take a minute..
+
+#### $mm$ as a sensible unit for tarsus length?
+
+Looking at the plot it should be clear that the range of tarsus lengths spans from about $0.1 mm$ to about $0.25mm$. So only about $0.15mm$ in total. So a *unit* (1) change in $mm$ is about 6.7 times larger than our entire range of values for tarsus length.
+
+```{r}
+range(sct_data$tarsus)
+diff(range(sct_data$tarsus))
+```
+
+So what might we do?
+ 
+### Solution 1: More sensible units.
+
+Since slopes are change **per unit**, why don't we use units that are more sensible?
+
+An obvious choice would be to use micrometres ($\mu m$) instead of $mm$. i.e. just multiply our measure by 1000.
+
+
+```{r}
+sct_data$tarsus_microM <- (sct_data$tarsus)*1000
+
+model2 <- lm(SCT ~ tarsus_microM, data = sct_data)
+summary(model2)
+```
+
+You will notice that these are the same estimates, just 1000X smaller. But, by making this change, the variable is in more interpretable units making the slope of the line much easier to interpret.
+
+```{r}
+coef(model2)
+```
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus_microM)) +
+        geom_jitter(width = 0, height = 0.2, alpha = 0.2) +
+        geom_smooth( method = lm) +
+     xlab("tarsus length (micrometres)") +
+     theme_light()
+```
+
+Now, for every unit (1 $\mu m$) increase in the length of the tarsus, there is an increase of 0.02 SCT. Put another way we expect that (1 divided by this slope=  `r 1/coef(model2)[2]`), i.e. an increase of ~37$\mu m$ we would get an average increase of 1 SCT.  Is this a lot? a little? One way of gauging this is (as also really shown in the plot) is asking about the range of variation in tarsus length.
+
+```{r}
+range_tarsus <- diff(range(sct_data$tarsus_microM))
+range_tarsus
+```
+
+So from the smallest tarsus to the largest we would expect that this would result in a predicted increase in: 
+
+```{r}
+range_tarsus * coef(model2)[2]
+```
+
+About 4 SCT. Is this a lot or a little? Well how much variation do we see for SCT?
+
+```{r}
+sd(sct_data$SCT)
+```
+
+So the maximum effect in SCT number due to changes in the length of tarsus (from smallest to largest) is a bit bigger than 2 standard deviations.
+
+While it is not (fully) the point of todays workshop, measures like the coefficient of determination ($R^2$) are meant to capture some of this
+ 
+```{r}
+summary(model2)
+```
+ 
+Variation in tarsus length accounts for about 8.7% of the variation in SCT. More on this later.
+ 
+## The intercept
+
+The other wacky aspect of our coefficient is that our intercept has a value of 6.08. What does that mean? Does that make sense?
+Let's take a look:
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus_microM)) +
+        geom_jitter(width = 0, height = 0.2, alpha = 0.2) +
+        xlim(0, 260) +
+        geom_smooth( method = lm, fullrange = TRUE) +
+     xlab("tarsus length (micrometres)") +
+     theme_light()
+```
+
+
+### Making the intercept easier to interpret
+
+The fairly obvious issue (once you stare at the plot) is to realize that the intercept is the predicted number of SCT when the length of the tarsus is 0. That hopefully is a very weird notion. How can you have 6 SCT on something with zero length?
+
+More generally this is a problem of extrapolating outside of the range of data. This causes issues. But it has some very easy solutions.
+
+So how might you "change" something to help make the intercept easier to interpret?
+
+There are a couple of options that are sensible. One would be to subtract the smallest value of tarsus length from all observations. So then the intercept would represent the predicted number of SCT for the smallest tarsus length in the sample.
+
+However the common approach is to "mean-centre" predictors (in this case the tarsus length). Compute the mean value for the tarsus length and subtract that from all measured values for the tarsus.
+
+
+This is (for a number of reasons) the most sensible approach. This is also very important if you have interactions in your model (see your readings).
+
+```{r}
+mean(sct_data$tarsus_microM)
+
+sct_data$tarsus_microM_centered <- sct_data$tarsus_microM - mean(sct_data$tarsus_microM)
+
+round(mean(sct_data$tarsus_microM_centered))
+```
+
+(note you can also use this below)
+
+```{r}
+#sct_data$tarsus_microM_centered <- scale(sct_data$tarsus_microM, center = T, scale = F)
+```
+
+This is (for a number of reasons) the most sensible approach. This is also very important if you have interactions in your model (see your readings).
+
+All this has done is shift the data distribution over:
+
+```{r}
+par(mfrow = c(1, 2))
+plot(density(sct_data$tarsus_microM), 
+     main = "", col = "blue",
+     xlab = "tarsus length (mm)")
+
+plot(density(sct_data$tarsus_microM_centered), 
+     main = "", col = "red",
+     xlab = "tarsus length, centred (mm)")
+par(mfrow = c(1, 1))
+```
+
+But otherwise no changes.
+
+How does this help? Let's take a look by using the centred tarsus length as our predictor:
+
+```{r}
+model3 <- lm(SCT ~ 1 + tarsus_microM_centered, data = sct_data)
+summary(model3)
+```
+
+
+You will notice the slope has not changed, only the intercept. The new value (`r coef(model3)[1]`) represents the predicted number of SCT at the mean value of tarsus, 188 $\mu m$. This value (188 $\mu m$) is now represented at our "0" point for this predictor. So for a fly with the average tarsus length (188 $\mu m$), it is predicted to have about 11.13 SCT (so 11).
+
+Again, the model fit just shifts everything, but otherwise exactly the same. i.e. same slope (and uncertainty with it), same $R^2$ values, etc..
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus_microM_centered)) +
+        geom_jitter(width = 0, height = 0.25, alpha = 0.25) +
+        geom_smooth( method = lm) +
+     xlab("tarsus length, centred (micrometres)") +
+     theme_light()
+```
+
+So with just a few simple changes (changing the units and centring our predictor), we can make a lot more sense about our model output. Awesome.
+
+## Adding in the factor for genotype to the model.
+
+Let's take a look at the data again, but this time introducing in whether the individual has a mutant or wild-type allele for *Dll*. This is in the factor `genotype`.
+
+FYI am purposefully NOT fitting a linear model **yet** (i.e. standard slope of regression) in the plot below since that is what we are working towards. So we know we are going to fit the model below, but let's just get a sense of where we are going with it.
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus_microM_centered, color = genotype)) +
+        geom_jitter(width = 0, height = 0.2, alpha = 0.25) +
+        geom_smooth( method = loess)
+```
+
+Don't worry about the details of the curvature. What I want you to notice is it looks like being either mutant ($Dll^{11}$) or wild type ($Dll^{+}$) at the *Dll* gene clearly changes the relationship between how many SCT an individual has and the length of the tarsus. 
+
+Describe what you see going on here in these relationships. How are they similar? Different?
+
+### Looking at just the genotypic effects
+
+Before we jump into fitting both tarsus length and genotypic effects (*wt* and *Dll*) together in a model, let's start with something we have seen before in a couple of different contexts. I will re-introduce the statistical model allowing us to evaluate the different effect the mutant allele (compared to the wild type allele) has on SCT number but now in the context of a linear model. 
+
+###  just examining the differences between the means
+
+```{r}
+means_genotype <- with(sct_data, tapply(SCT, genotype, mean))
+
+print(means_genotype, digits = 3)
+
+difference_between_means <- diff(means_genotype) # 
+names(difference_between_means) <- "difference"
+difference_between_means
+```
+
+
+#### We have seen this before as a t-test
+
+
+```{r}
+SCT_genotype_t <- t.test(SCT ~ genotype, data = sct_data)
+```
+
+We can output each group mean as estimated in the t-test and their difference (i.e. the numerator of the t-test):
+
+```{r}
+SCT_genotype_t$estimate # each group mean
+
+as.numeric(diff(SCT_genotype_t$estimate))
+```
+
+We can also get the output for the standard error (the denominator) of the estimated difference and the 95% confidence intervals of the difference:
+
+```{r}
+SCT_genotype_t$stderr
+SCT_genotype_t$conf.int
+```
+
+and of course the t-statistic (the difference divided by the standard error):
+
+```{r}
+SCT_genotype_t$statistic
+
+# which is the same as
+-as.numeric(diff(SCT_genotype_t$estimate))/SCT_genotype_t$stderr
+```
+
+
+### Now let us take a look at it using the linear model (lm) function
+
+Let's examine the same relationship (estimating the difference between mean number of SCT for the *wt* allele and the *Dll[11]* mutant allele). This time we will use the tools of the general linear model, just like with the regressions we were fitting above.
+
+```{r}
+model_just_genotype <- lm(SCT ~  1 + genotype, 
+             data = sct_data)
+
+coef(model_just_genotype)
+```
+
+You will see that the two estimated coefficients that are output are the "intercept" which is the just the mean number of SCT for the *wt* allele. Then we also get the difference (just like we computed above for the t test) between the mean number of SCT for the two different alleles.
+
+Before we go on let's just look at the full summary of the model and discuss it in class. Note the very small $R^2$ despite having very low uncertainty in our estimates.
+
+```{r}
+summary(model_just_genotype)
+
+confint(model_just_genotype)
+```
+
+We can also get a sense (like with the simple linear regressions above) of the design matrix, and how the treatment contrast coding works for this simple example.
+
+For instance, the first six observations are all the *Dll* mutant allele (one of the levels of the `genotype` factor). See what the design matrix looks that.
+```{r}
+head(sct_data$genotype)
+head(model.matrix(model_just_genotype))
+```
+
+As it turns out the final 6 observations are all the *wt* allele (the reference level for `genotype). Compare these to the design matrix for those observations:
+
+```{r}
+tail(sct_data$genotype)
+tail(model.matrix(model_just_genotype))
+```
+
+So all observations have a 1 in the intercept column (just like with the simple linear regression example above), while the second column has the value of 0 for each sample that is *wt* and a 1 for each sample that is *Dll*. Or put another way, this second column can be interpreted as "is Dll?", with the answer of 1 if `TRUE` and 0 if `FALSE`.
+
+### Treatment contrast coding for a factor (with 2 levels)
+
+For our estimated coefficients our "intercept" just represents the mean number of SCT for our reference level of *wt*:
+
+```{r}
+coef(model_just_genotype)[1]
+```
+
+Since the second coefficient represents the difference between the means of the two genotypes, we can compute the mean of the *Dll* genotype by adding the two coefficients together:
+
+```{r}
+coef(model_just_genotype)
+
+as.numeric(coef(model_just_genotype)[1] + coef(model_just_genotype)[2])
+
+# Or more succinctly for this example
+sum(coef((model_just_genotype)))
+```
+
+Compare these to the values we calculated using the t-test or just computing the means, they are all the same.
+
+### adding in some tools to help interprate estimates (and plot them)
+
+While this example is straightforward since we only need to add the two coefficients together to get the mean of the *Dll* genotype, for more complex models this is not always the case. So I am going to bring in some R packages that will be helpful down the road, but explain them for this simple example.
+
+While there are a number of libraries that can help with this. The three most useful are emmeans, effects and afex. For simple models it does not matter which one you choose as they will largely give you the same output. However for more complex models the outputs (not results usually, just how they are presented) can depend on what you need.
+
+In this case they provide you with the means, along with the SE and confidence intervals. They also both have some plotting options.
+
+First is emmeans, showing how to use the function to create an emmeans object and how to use that to look at the contrast (which is just the difference as we computed before in this simple case) and an example plot:
+
+```{r}
+emm_mod_geno <- emmeans(model_just_genotype, ~ genotype)
+emm_mod_geno
+
+plot(emm_mod_geno, xlab = "mean SCT")
+
+pairs(emm_mod_geno)
+```
+
+Now something pretty similar but using the effects library. Pretty much the same, just reporting slightly differently. Once we get to more complex models, the use of each package will become apparent (but probably emmeans is the one to focus on learning. Really great)
+
+```{r}
+eff_mod_geno <- as.data.frame(effect("genotype", 
+                                     model_just_genotype)) # data frame for ease of use
+eff_mod_geno
+
+plot(effect("genotype", model_just_genotype))
+```
+
+### fitting a model with predictors for tarsus length and for genotype
+
+Now that we have that under our hat, we can fit a model with both the continuous predictor of tarsus length and the categorical factor of genotype in a single linear model. In the "old days" this used to be called an analysis of covariance (ANCOVA), but as we can see it is just another, slightly more complex general linear model.
+
+First we will start (especially based on figures we just looked at) with a naive model where we account for just mutant allele, and the effect of tarsus. We will get to a slightly more sophisticated model shortly.
+
+```{r}
+model5 <- lm(SCT ~  1 + tarsus_microM_centered + genotype, 
+             data = sct_data)
+
+summary(model5)
+
+coef(model5)
+confint(model5)
+```
+
+We now have a new row in our model output for `genotype`. What do each of these coefficients mean?
+
+- the intercept is the predicted number of SCT for the reference level (*WT*) of genotype. So WT individuals whose tarsus length is close to the mean have the expected value of 10.8 (~11) SCT.
+
+- genotypeDll is the contrast between the overall WT mean (intercept) and the mutant allele, *when tarsus length is at its mean*. So to compute the mean number of SCT for the *Dll* mutant:
+
+```{r}
+coef(model5)
+
+as.numeric(coef(model5)[1] + coef(model5)[3])
+```
+
+As before the coefficient for the tarsus:
+
+```{r}
+coef(model5)[2]
+```
+
+Is the "slope" of the relationship between SCT and tarsus length. So for every $\mu m$ increase in tarsus length, how many additional SCT do we expect to see on average. It may be more useful to ask how many $\mu m$ increase would we need to have an (average) increase by 1 SCT?
+
+```{r}
+as.numeric(1/coef(model5)[2])
+```
+
+So for every ~36 $\mu m$ increase in the length of the tarsus, we expect to see an (on average) increase of 1 SCT.
+
+### Design matrix for the model
+
+It is useful to take a peak at it and see that really it is just the combination of the "regression" and "ANOVA" models we fit before. First we will look at the values for both tarsus length and genotype for the first six observations, and compare them to the design matrix for the same observations:
+
+```{r}
+head(sct_data[, c(10,3)])
+head(model.matrix(model5))
+```
+
+Just like before, just in a single design matrix.
+
+```{r}
+tail(sct_data[, c(10,3)])
+tail(model.matrix(model5))
+```
+
+### Using emmeans and effects 
+
+This model has a bit more going on, so now using the helpful emmeans and effects packages may be more useful.
+
+```{r}
+emm_mod5 <- emmeans(model5, ~ genotype)
+emm_mod5
+
+plot(emm_mod5, xlab = "mean SCT")
+
+pairs(emm_mod5)
+```
+
+
+The estimates have not really changed very much between the genotypes. There are a number of reasons for this, primarily because A) there is lots of data to estimate these effects, and b) the contribution of genotype and tarsus length to the number of SCT is somewhat independent ( not totally... discussion for a future class).
+
+You will notice that the call to `emmeans` above to did not give us an estimate for the coefficient associated with tarsus length. In `emmeans`, for quantitative predictors it uses a second function, `emtrends` to pull those out. It is important to note that while `emmeans` does not automatically output them, the estimates have have been adjusted appropriately for the quantitative predictors (of tarsus length in this case).
+
+
+```{r}
+emmt_mod5 <- emtrends(model5, ~ genotype, var = "tarsus_microM_centered " )
+emmt_mod5
+```
+
+This  reports back the one "slope" we got from the coefficients before `r coef(model5)[2]`. Note that even though it reports slopes for both genotypes, these are exactly the same. That is because in the model we fit (model5) we assumed they have a common slope. We will return to this assumption a bit later (when we fit our first model with an interaction term).
+
+In effects, there are a variety of ways of plotting this and extracting the relevant information, using the `allEffects` function. can be a useful way of getting it all (if that is what you need)
+
+```{r}
+as.data.frame(allEffects(model5))
+
+plot(allEffects(model5))
+```
+
+You will note that for the effects of tarsus it is not giving us back the slope we estimated, but instead the expected number of SCT for different values of tarsus length, along with the confidence intervals at those estimates. This is particularly useful for plotting (not shown at the moment).
+
+### Having coefficients on similar scales can help interpretation. alot!
+
+One issue we have is that our units for tarsus are in $\mu m$. But genotype is a factor (mutant or wild-type for the design matrix 0/1). So comparing the coefficients for each is apples to oranges. Depending on the model, this may not matter. But often it does. So what do you do if you need to compare them?
+
+### z-transformations
+
+ You have probably heard in your stats class about z-transformations (standardization). This is a way to help make your different predictors a bit more comparable. We have already done the first step by mean centring the predictor. You can also then *scale* the variable by its standard deviation. That way a unit change is in units of SD of the variable. Better yet this will be the case for any variable.
+ 
+ 
+You **CAN** (but we won't, I will explain below) also z-transform factors (like genotype, sex etc). But as we will see, for a simple two level factor, we ought to be able to interpret both pretty well.
+ 
+ One note about using z-transformations. It is very useful within a data set, but as the standard deviation for the same phenotype may change among data sets, it is not directly comparable across data sets (rubber ruler effect). Still, within the context of a model and a given data set, this can help a lot in understanding the relative contribution of various predictors in your model.
+ 
+ Instead of manually transforming our predictor (tarsus_length) we will just use the `scale` function. Note that we have both center and scale set to TRUE.
+ 
+```{r}
+sd(sct_data$tarsus_microM)
+
+sct_data$tarsus_Z <- scale(sct_data$tarsus, center = T, scale = T)
+
+sd(sct_data$tarsus_Z)
+```
+
+So now let's use this in the same model (keeping in mind a unit change in tarsus length represents a change of 18 $\mu m$) and examine it like we did for the previous model:
+
+```{r}
+model6 <- lm(SCT ~  1 + tarsus_Z + genotype, 
+             data = sct_data)
+
+summary(model6)
+
+as.data.frame(allEffects(model6))
+plot(allEffects(model6))
+
+emmt_mod6 <- emtrends(model6, ~ genotype, var = "tarsus_Z " )
+emmt_mod6
+```
+
+So a 1 standard deviation increase in tarsus length (corresponding to 18 $\mu m$) has approximately the same impact on the number of SCT as going from the wild type allele of *Dll* to the mutant allele (*Dll[11]*).
+
+### plot
+
+```{r}
+plot(allEffects(model6))
+```
+
+```{r}
+plot(emmeans(model6, ~ genotype))
+```
+
+Let's go through what these are each showing. In particular let us look at the estimates that `emmeans` and `effects` both provide compared to the coefficients from the model (given that we used a treatment contrast design matrix).
+
+```{r}
+emm_mod6 <- emmeans(model6, ~ genotype)
+emm_mod6
+
+eff_mod6 <- as.data.frame(effect("genotype", model6)) # making into data frame for ease of use
+print(eff_mod6)
+```
+
+## Linear models with interactions between predictors
+
+### Fitting an interaction between tarsus length and genotype.
+
+Going back to the plot we started with it looked like there was different relationships between SCT and tarsus length, depending on whether the genotype was wild type or mutant. Well  our model6 does not account for that. It assumes that both genotypes share the same relationship in terms of `SCT ~ tarsus`. So let's relax that assumption and allow for different relationships. This is a form of an *interaction* in the linear model.
+
+**Can you remember what this might look like in the design matrix**? We will go through this below, but it may be useful to stop for a second and draw out the model with interactions. 
+
+
+Let's now go and fit the model with the interaction. A few syntax notes (again see chapter 11 of "An Introduction to R" in the R help for a review of model syntax). Most relevant for the model is knowng that the `*` expands it to (tarsus_microM_Z + genotype + tarsus_microM_Z:genotype).
+
+```{r}
+model7 <- lm(SCT ~  1 + tarsus_Z*genotype, 
+             data = sct_data)
+
+summary(model7)
+
+# same model
+model7_alt1 <- lm(SCT ~  1 + tarsus_Z + genotype + tarsus_Z:genotype, 
+             data = sct_data)
+
+coef(model7_alt1)
+
+# also the same
+model7_alt2 <- lm(SCT ~  1 + (tarsus_Z + genotype)^2, 
+             data = sct_data)
+
+coef(model7_alt2)
+```
+
+Remember that we are currently using the default treatment contrasts in R. So that not only are we getting the slope and intercept for the wild type allele of the genotype factor (*wt*), but also the contrast in the intercept and slope for the mutant in comparison to the wild type. 
+
+Before we dive into making sense of the individual coefficients and how to make sense of them, let's actually look at a pretty helpful plot of the relationship between SCT and tarsus length, but with the model fits allowing for different slopes for each level of genotype (*Dll* and *wt*) as described by our interaction in the model above.
+
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus_Z, color = genotype)) +
+        geom_jitter(width = 0, height = 0.2, alpha = 0.2) +
+        scale_color_hue(l = 40, c = 35) +
+        geom_smooth( method = lm) +
+     xlab("tarsus length, z-transformed") +
+     theme_light()
+```
+
+It is  clear that the magnitude of the slope for the *Dll* genotype appears to greater. We can still see the difference in mean number of SCT between the two genotypes. With this in mind, let's try to understand what is going on with both the design matrix, and then the estimated coefficients.
+
+### Design matrix for a model with interactions
+
+First let us just review what the design matrix looked like for the previous model **without** the interaction between genotype and tarsus length.
+
+Here are the first three and last three observations from the data set and corresponding rows of the design matrix:
+
+```{r}
+sct_data[c(1:3, 1915:1918), c(11,3)]
+model.matrix(model6)[c(1:3, 1916:1918),]
+```
+
+As we discussed above, in addition to the intercept we just have two columns, one with the values of the tarsus length (standardized lengths shown), and an indicator column for genotype which we can interpret as "Is *Dll*?", with a value of 1 (TRUE) when an observations is *Dll* for the genotype factor and a value of 0 (FALSE) when it has a value of *wt*.
+
+So how do we go from here to a design matrix for our linear model with an interaction to allow us to fit independent slopes for the SCT ~ tarsus relationship for each genotype? It turns out that all it takes to do this is to multiply our columns of the design matrix that are relevant to this and form a new column in the design matrix for this. In this case the second column of the design matrix (`tarsus_Z`) and the third column (`genotypeDll`) will be multipled together. Let's take a look at the same observations (and corresponding rows) for the model *with the interaction*:
+
+```{r}
+sct_data[c(1:3, 1915:1918), c(11,3)]
+model.matrix(model7)[c(1:3, 1916:1918),]
+```
+
+
+Our new column has the name of the two columns used in the interaction (`tarsus_Z:genotypeDll`), with the interaction (`:`) operator between them. Since the indicator variable column `genotypeDll` is 1 for an observation that has the *Dll* mutant allele, the new column for the interaction will just have the same value as we see in the `tarsus_Z` column of the design matrix. However, for observations that are *wt* multiplying by 0 results in a value of 0 in the interaction column of the design matrix. In effect this sets up a *treatment contrast* for the slope of the relationship between SCT ~ tarsus. What does this mean. Well we have already dealt with the idea of the treatment contrast in the previous models, where the intercept represents the mean number of SCT for the reference level (`wt`) of the `genotype` factor. But let's go through the coefficients:
+
+```{r}
+coef(model7)
+```
+
+ The first coefficient `r coef(model7)[1]` labeled `intercept` represents the estimated mean number of SCT for the *wt* allele (at the mean of tarsus length since that variable is centered at the mean).
+ 
+ As we saw before the `genotypeDll` coefficient `r coef(model7)[3]` represents the "contrast between *Dll* and *wt*. In particular in this case, how many more SCT (on average) we would expect an individual with the *Dll* genotype would have relative to an individual with the *wt* genotype.  We can see that here
+ 
+```{r}
+as.numeric(coef(model7)[1] + coef(model7)[3])
+```
+
+We can compare these values with the estimated means from the model using emmeans:
+
+```{r}
+emmeans(model7, ~ genotype| tarsus_Z )
+```
+
+We are in a similar situation interpreting the coefficients representing the slope of the relationship between SCT and tarsus_Z as an estimate for the reference level and contrasts with that estimate for all other levels of that factor. For the reference level (*wt*) the slope of the relationship is the `tarsus_Z` coefficient:
+
+```{r}
+coef(model7)[2]
+```
+
+The `tarsus_Z:genotypeDll` coefficient (`r coef(model7)[4]`) represents the contrast for the *Dll* genotype from *wt* for the slope of the relationship between SCT ~ tarsus length. So in this case this is telling us that the slope of the relationship between SCT ~ tarsus is (`r coef(model7)[4]`) greater than the slope of this relationship for *wt* (`r coef(model7)[2]`). So the slope of the relationship for the *Dll* mutant allele is the sum of these values:
+
+```{r}
+as.numeric(coef(model7)[2] + coef(model7)[4])
+```
+
+We can compare these values to what we get using the `emtrends` function which provides these estimates in an easier to understand way:
+
+```{r}
+emtrends(model7, ~ genotype, var = "tarsus_Z" )
+```
+
+What does this all tell us? It appears as if the slope of the relationship between SCT ~ tarsus length is $4 \times$ greater for *Dll* than the *wt*! That is seemingly a very large change. Given how large the sample size of this experiment this is unlikely to be due to a sampling artefact, but I will admit I don't really understand this. As we will later see, once we account for some additional factors in our model this relationship moderates somewhat, but it is still quite interesting!
+
+While I think the ggplot with the observed data and the linear fits is good visual representation of what is going on, let's take a look at a few other plots.
+
+```{r}
+plot(allEffects(model7))
+```
+
+We can use the emtrends function to help us see this. emtrends gives us the slope of the relationship for each genotype (and a plot of those slopes)
+```{r}
+emtrends(model7, ~ genotype, var = "tarsus_Z" )
+plot(emtrends(model7, ~ genotype, var = "tarsus_Z" ))
+```
+
+
+the emmeans function will give us the difference between the genotypes at a particular tarsus length ( at a value of tarsus_Z = 0, so at the mean of tarsus length...)
+```{r}
+emmeans(model7, ~ genotype| tarsus_Z )
+plot(emmeans(model7, ~ genotype| tarsus_Z ))
+```
+
+Let's look more completely at the data
+
+```{r}
+summary(model7)
+```
+
+So keep in mind that we are still only accounting for about 15% of all of the variation in the data set despite seeing clear evidence for the influence of the mutant allele on both the mean number of SCT and its relationship with tarsus length.
+
+### Model diagnostics
+
+This will not be discussed in BIO708, 2024. But it is here if it is helpful
+
+
+Let's take a look at some quick model diagnostics (in terms of model assessment)
+```{r}
+#sct_data$mod7_fit <- fitted(model7)
+#sct_data$mod7_resid <- residuals(model7)
+
+#ggplot(sct_data, aes( y = mod7_fit, x = SCT, col = genotype)) + 
+#  geom_jitter(width = 0.15, alpha = 0.2)
+
+# assessing independence w predictors.
+#ggplot(sct_data, aes( y = mod7_resid, x = mod7_fit, col = genotype)) + 
+#  geom_jitter(width = 0.15, alpha = 0.2)
+
+# but not this (Ask students to discuss these latter two plots)
+#ggplot(sct_data, aes( y = mod7_resid, x = SCT, col = genotype)) + 
+#  geom_jitter(width = 0.15, alpha = 0.2)
+
+#plot(model7)
+```
+
+## For next week (or sometime in the future)
+
+Let's add rearing temperature (temp) into the model. Often when we do temperature manipulations we do a whole range of temperatures. So we may be interested in treating temperature as a continuous predictor. However, in this study there are only two rearing temperatures. So we can treat it as either a factor or continuous and it will largely not alter the interpretation too much.
+
+```{r}
+table(sct_data$temp)
+
+sct_data$temp <- as.factor(sct_data$temp)
+```
+
+The relationships start to look very complicated. BUT they are based on less data each, so we have more uncertainty in each. However, broadly speaking it looks like this is a temperature sensitive mutation, that influences the relationship between SCT and tarsus length. But understanding the relative magnitude of these effects will be our task below.
+
+```{r}
+ggplot(sct_data, aes(y = SCT, x = tarsus_Z, color = genotype:temp)) +
+        geom_jitter(width = 0, height = 0.2, alpha = 0.25) +
+        geom_smooth( method = lm)
+```
+
+We are now adding a third variable, so things can get pretty complicated. Indeed, I am going to jump straight to the third order interaction. But you may wish to try some of the simpler models (without such interactions) to practice interpreting the coefficients.
+
+```{r}
+model8 <- lm(SCT ~  1 + tarsus_Z*genotype*temp, 
+             data = sct_data)
+
+summary(model8)
+```
+
+Predicted values at different values of tarsus length across both temperature and genotype.
+
+```{r}
+allEffects(model8)
+plot(allEffects(model8))
+```
+
+
+We can look at how the slope of the relationships between SCT and tarsus vary by both genotype and temperature.
+```{r}
+emtrends(model8, ~ genotype + temp, var = "tarsus_Z" ) # the slopes
+plot(emtrends(model8, ~ genotype|temp, var = "tarsus_Z" ))
+```
+
+We can also focus on the differences between groups (from genotype and temp) but measured at a common tarsus size (in this case the mean). This is a pretty complicated one to interpret because the differences DO depend on tarsus length, so I would use this very carefully.
+
+```{r}
+emmeans(model8, ~ genotype + temp| tarsus_Z )
+plot(emmeans(model8, ~ genotype + temp| tarsus_Z ))
+```
+
+However, all of these give a clear indication that the effect of the Dll mutation is more severe when flies are reared at 25C compared with 30C.
+
+The keen eyed among you may have noticed something. Some of the terms from the model are *not significant*. 
+
+```{r}
+summary(model8)
+
+Anova(model8)
+```
+
+Most of the time, this is not the major focus (and I would keep the terms in the model). However, some argue (akin to a minimally adequate model) that if the higher order interactions are not significant, then they should be dropped, and the model refit. In this case the 3rd order term is not small in magnitude even if it there is a high degree of uncertainty associated with its estimate. I don't usually like the approach of dropping and refitting (borders on data dredging/model torturing), but in some cases it can help simplify some of the analyses. But in presence of interactions, one always needs to be careful interpreting main effects.
+
+Here is another R shortcut to fit models with interactions, up to and including all 2nd order interactions.
+
+```{r}
+model9 <- lm(SCT ~  1 + (tarsus_Z + genotype + temp)^2, 
+             data = sct_data)
+
+summary(model9)
+```
+
+Again, using some of the functions from the effects library and the emmeans library can really help interpreting what is going on.
+
+The "slopes" of the relationshup between SCT and tarsus for each genotype and temperature. 
+
+```{r}
+emtrends(model9, ~ genotype + temp, var = "tarsus_Z" ) # the slopes
+plot(emtrends(model9, ~ genotype | temp, var = "tarsus_Z" ))
+
+plot(emtrends(model8, ~ genotype | temp, var = "tarsus_Z" )) # with 3rd order
+```
+
+This does have some effects on the model estimates, so these two models don't give quite the same "answer". So it does depend on what you had A) planned originally and B) the goals of the analysis.
+
+## mixed models
+
+```{r}
+model10 <- lmer(SCT ~  1 + (tarsus_Z + genotype)^25 + (0 + genotype | line), 
+             data = sct_data, subset = temp == "25")
+
+summary(model10)
+```
+
+```{r}
+plot(allEffects(model10))
+
+plot(predictorEffects(model10, ~ tarsus_Z))
+
+# as.data.frame(predictorEffects(model10, ~ tarsus_Z))
+```
+
+```{r}
+emtrends(model10, ~ genotype, var = "tarsus_Z" ) # the slopes
+plot(emtrends(model10, ~ genotype, var = "tarsus_Z" ))
+```

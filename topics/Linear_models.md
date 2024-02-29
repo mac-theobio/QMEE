@@ -31,7 +31,7 @@ Resources
         -   [Book home page](http://www.maths.bath.ac.uk/~jjf23/LMR/)
     -   [Hector et al](http://onlinelibrary.wiley.com/doi/10.1111/j.1365-2656.2009.01634.x/pdf)
         on ANOVA for unbalanced data (i.e. "type III sums of squares" revisited)
-    -   [Schielzeth](http://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00012.x/full) (2010)
+    -   [Schielzeth](https://doi.org/10.1111/j.2041-210X.2010.00012.x) (2010)
         on centering and scaling in linear models
     -   [Murtaugh](http://www.esajournals.org/doi/abs/10.1890/0012-9658%282007%2988%5B56:SACIED%5D2.0.CO;2) (2007)
         on averaging in analysis of nested designs
@@ -43,7 +43,11 @@ Resources
 Assignment
 ==========
 
-Formulate a clear hypothesis about your data. Discuss how you could test this hypothesis with a permutation test (but you don't need to do this).
+Formulate a clear hypothesis about your data.
+
+<!-- COMMENT
+Discuss how you could test this hypothesis with a permutation test (but you don't need to do this).
+COMMENT -->
 
 Make a linear model for your hypothesis. 
 Draw **and discuss** at least one of each of the following:
