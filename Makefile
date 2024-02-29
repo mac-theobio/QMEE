@@ -131,7 +131,7 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
-australia.Rout: australia.R
+australia.Rout: code/australia.R
 	$(pipeR)
 
 parademo_clean.Rout: code/parademo_clean.R 
