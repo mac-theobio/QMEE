@@ -48,7 +48,7 @@ topics/subdocs/%.html: $(wildcard topics/*.md)
 
 ## tips/subdocs/R_style.notes.html: tips/R_style.rmd
 
-## topics/subdocs/Introduction_to_R.html: topics/Introduction_to_R.md
+## topics/subdocs/Permutations.html: topics/Permutations.md
 
 ######################################################################
 
