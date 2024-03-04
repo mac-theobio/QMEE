@@ -3059,21 +3059,18 @@ var loadDeck = function(event) {
   });
 };
 
-if (!window.Shiny) {
-  // If Shiny is loaded, the slide deck is initialized in ioslides template
-
-  if (document.readyState !== "loading" &&
-      document.querySelector('slides') === null) {
-    // if the document is done loading but our element hasn't yet appeared, defer
-    // loading of the deck
-    window.setTimeout(function() {
-      loadDeck(null);
-    }, 0);
-  } else {
-    // still loading the DOM, so wait until it's finished
-    document.addEventListener("DOMContentLoaded", loadDeck);
-  }
+if (document.readyState !== "loading" &&
+    document.querySelector('slides') === null) { 
+  // if the document is done loading but our element hasn't yet appeared, defer
+  // loading of the deck
+  window.setTimeout(function() {
+    loadDeck(null);
+  }, 0);
+} else {
+  // still loading the DOM, so wait until it's finished
+  document.addEventListener("DOMContentLoaded", loadDeck);
 }
+
 
 
 </script>
@@ -3142,7 +3139,9 @@ ul.task-list{list-style: none;}
 </tr>
 </table>
 
-<slide class=""><hgroup><h2>Intro</h2></hgroup><article  id="intro">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Intro</h2></hgroup><article  id="intro">
+
+</article></slide><slide class=""><hgroup><h2>Intro</h2></hgroup><article  id="intro-1">
 
 <p>Mixed models are models which combine &ldquo;random&rdquo; and &ldquo;fixed&rdquo; effects.</p>
 
@@ -3428,11 +3427,6 @@ ul.task-list{list-style: none;}
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
-    }
-    if (window.Shiny) {
-      // Initialize slides when this script appears on the page, since it
-      // indicates that the <slides> markup has been fully loaded.
-      window.loadDeck();
     }
   })();
 </script>
