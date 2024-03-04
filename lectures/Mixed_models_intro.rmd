@@ -1,11 +1,9 @@
---
+---
 title: Mixed models
-author: Jonathan Dushoff and Ben Bolker
+author: Jonathan Dushoff, Ben Bolker
 ---
 
-# Intro
-
-## Intro
+## Introduction
 
 Mixed models are models which combine "random" and "fixed" effects.
 
