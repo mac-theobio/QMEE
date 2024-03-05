@@ -100,7 +100,7 @@ inferences about the focal variable
 
 __Influenza vaccination experiment__
 
-* Year as a fixed effect: did vaccination "help" on average over these years (with a particular set of flu strains, etc.
+* Year as a fixed effect: did vaccination "help" on average over these years (with a particular set of flu strains, etc.)
 * Year as random effect: will vaccination "help" on average over a wider set of years (assuming observed years are representative)
 
 __Spruce trees__
@@ -130,6 +130,8 @@ __Spruce trees__
 
 * Random slopes are often conceptually appealing, but computationally challenging
 	* There is a (questionable) culture of not worrying about them
+	
+* Conceptually we are thinking about _interactions_ between a fixed effect (e.g., level of acidity) and a _grouping variable_ (spruce trees)
 
 ## Fitting
 
