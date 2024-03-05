@@ -3294,7 +3294,7 @@ ul.task-list{list-style: none;}
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Interactions</h2></hgroup><article  id="interactions">
+</article></slide><slide class=""><hgroup><h2>Random slopes</h2></hgroup><article  id="random-slopes">
 
 <ul>
 <li>Are only intercepts affected by random factors, or also responses?
@@ -3302,7 +3302,7 @@ ul.task-list{list-style: none;}
 <ul>
 <li>e.g., spruce trees</li>
 </ul></li>
-<li>Interactions are often conceptually appealing, but computationally challenging
+<li>These can be hard to fit
 
 <ul>
 <li>There is a (questionable) culture of not worrying about them</li>
@@ -3348,7 +3348,7 @@ ul.task-list{list-style: none;}
 </ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>R-side modeling: we impose a covariance structure on the residuals</h2></hgroup><article  id="r-side-modeling-we-impose-a-covariance-structure-on-the-residuals">
+</article></slide><slide class=""><hgroup><h2>R-side modeling: we impose a covariance structure on the <em>residuals</em></h2></hgroup><article  id="r-side-modeling-we-impose-a-covariance-structure-on-the-residuals">
 
 <ul>
 <li>Arbitrary variance-covariance structure (time, space, etc.)
@@ -3400,7 +3400,7 @@ ul.task-list{list-style: none;}
 <li><code>aov + Error()</code> term: <em>classical</em> designs</li>
 <li><code>lme</code> (<code>nlme</code> package): older, better documented, more stable, does R-side models, complex variance structures, gives denominator df/\(p\) values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster, does crossed random effects, GLMMs</li>
-<li>many other special-purpose packages</li>
+<li><a href='https://cran.r-project.org/web/views/MixedModels.html' title=''>many others (see task view)</a></li>
 </ul></article></slide>
 
 

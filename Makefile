@@ -50,8 +50,6 @@ topics/subdocs/%.html: $(wildcard topics/*.md)
 
 ## tips/subdocs/R_style.notes.html: tips/R_style.rmd
 
-## topics/subdocs/Permutations.html: topics/Permutations.md
-
 ######################################################################
 
 ## Main update

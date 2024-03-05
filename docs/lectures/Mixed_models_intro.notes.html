@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Jonathan Dushoff, Ben Bolker" />
 
 
-<title>Mixed_models_intro.knit</title>
+<title>Mixed models</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,24 +349,14 @@ display: none;
 
 
 
+<h1 class="title toc-ignore">Mixed models</h1>
+<h4 class="author">Jonathan Dushoff, Ben Bolker</h4>
 
 </div>
 
 
-<table>
-<tbody>
-<tr class="odd">
-<td>title: Mixed models</td>
-</tr>
-<tr class="even">
-<td>author: Jonathan Dushoff and Ben Bolker</td>
-</tr>
-</tbody>
-</table>
-<div id="intro" class="section level1">
-<h1>Intro</h1>
-<div id="intro-1" class="section level2">
-<h2>Intro</h2>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
 <p>Mixed models are models which combine “random” and “fixed”
 effects.</p>
 <ul>
@@ -523,15 +514,14 @@ variance (&gt;5, preferably &gt;10)?</li>
 </ul></li>
 </ul>
 </div>
-<div id="interactions" class="section level2">
-<h2>Interactions</h2>
+<div id="random-slopes" class="section level2">
+<h2>Random slopes</h2>
 <ul>
 <li>Are only intercepts affected by random factors, or also responses?
 <ul>
 <li>e.g., spruce trees</li>
 </ul></li>
-<li>Interactions are often conceptually appealing, but computationally
-challenging
+<li>These can be hard to fit
 <ul>
 <li>There is a (questionable) culture of not worrying about them</li>
 </ul></li>
@@ -562,7 +552,6 @@ this is properly reflected in your scientific conclusions.</p>
 population they were sampled from</li>
 </ul>
 </div>
-</div>
 <div id="residual-structure-and-group-structure" class="section level1">
 <h1>Residual structure and group structure</h1>
 <div id="standard-random-effects-we-attach-a-random-effect-to-the-group" class="section level2">
@@ -581,7 +570,7 @@ together</li>
 </div>
 <div id="r-side-modeling-we-impose-a-covariance-structure-on-the-residuals" class="section level2">
 <h2>R-side modeling: we impose a covariance structure on the
-residuals</h2>
+<em>residuals</em></h2>
 <ul>
 <li>Arbitrary variance-covariance structure (time, space, etc.)
 <ul>
@@ -638,7 +627,8 @@ structures, gives denominator df/<span class="math inline">\(p\)</span>
 values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster,
 does crossed random effects, GLMMs</li>
-<li>many other special-purpose packages</li>
+<li><a href="https://cran.r-project.org/web/views/MixedModels.html">many
+others (see task view)</a></li>
 </ul>
 </div>
 </div>
