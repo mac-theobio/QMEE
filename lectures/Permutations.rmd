@@ -125,13 +125,9 @@ author: Jonathan Dushoff, Ben Bolker
 
 ## Time and space
 
-* [Mantel tests](https://en.wikipedia.org/wiki/Mantel_test) are permutation tests
-
-	* So is [Fisher's exact test](https://en.wikipedia.org/wiki/Fisher%27s_exact_test) (this has a weird approach to P values, and JD doesn't like it)
-
 * [Rabies examples](http://www.pnas.org/content/104/18/7717.full)
 
-[![Cross-country correlation](../pix/Weighted_Mantel.jpg)](../pix/Weighted_Mantel.jpg)
+<img src="../pix/Weighted_Mantel.jpg" width=80%>
 
 ## Animal behavior
 
@@ -188,5 +184,4 @@ author: Jonathan Dushoff, Ben Bolker
 * May take a lot of computer time
 
 * Often hard to obtain confidence intervals
-
 

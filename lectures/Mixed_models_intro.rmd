@@ -123,12 +123,12 @@ Spruce trees
 	* Limit your inference
 	* Try an even more advanced approach (usually Bayesian)
 
-## Interactions
+## Random slopes
 
 * Are only intercepts affected by random factors, or also responses?
 	* e.g., spruce trees 
 
-* Interactions are often conceptually appealing, but computationally challenging
+* These can be hard to fit
 	* There is a (questionable) culture of not worrying about them
 
 ## Fitting
@@ -162,7 +162,7 @@ is properly reflected in your scientific conclusions.
 	* You and I are in the same country, but not the same village
 	* But the model doesn't understand if our villages are close together
 
-## R-side modeling: we impose a covariance structure on the residuals
+## R-side modeling: we impose a covariance structure on the _residuals_
 
 * Arbitrary variance-covariance structure (time, space, etc.)
 	* I am very close to Ben, and sort of close to you
@@ -205,6 +205,6 @@ and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)
     values
 -   `(g)lmer` (`lme4` package): newer, faster, does crossed random effects,
     GLMMs
--   many other special-purpose packages
+-   [many others (see task view)](https://cran.r-project.org/web/views/MixedModels.html)
 
 
