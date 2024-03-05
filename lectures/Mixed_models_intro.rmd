@@ -128,7 +128,7 @@ Spruce trees
 * Are only intercepts affected by random factors, or also responses?
 	* e.g., spruce trees 
 
-* These can be hard to fit
+* Interactions are often conceptually appealing, but computationally challenging
 	* There is a (questionable) culture of not worrying about them
 
 ## Fitting

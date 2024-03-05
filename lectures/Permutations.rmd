@@ -122,7 +122,6 @@ author: Jonathan Dushoff, Ben Bolker
 
 * What kinds of tests could we do to see whether the algae are correlated with nutrient levels?
 
-
 ## Time and space
 
 * [Rabies examples](http://www.pnas.org/content/104/18/7717.full)
@@ -159,11 +158,15 @@ author: Jonathan Dushoff, Ben Bolker
 
 # Practice
 
-## In progress …
-
 ## Mantel test
 
 * WWBBD? `ape::mantel.test`
+
+## Packages
+
+* coin, lmPerm, gtools
+
+* [Examples](permutation_examples.notes.html)
 
 # Summary
 
