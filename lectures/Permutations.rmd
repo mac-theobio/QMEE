@@ -130,7 +130,7 @@ author: Jonathan Dushoff, Ben Bolker
 
 ## Animal behavior
 
-* Observe behavior of different individual animals.  Evaluate observed statistics of (for example) tendency of bachelors to wander off from groups
+* Observe behavior of different individual animals.  Evaluate observed statistics of (for example) tendency of bachelor zebras to wander off from groups
 
 	* Classic tests don't account for individual propensities
 

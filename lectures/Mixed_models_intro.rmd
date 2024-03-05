@@ -98,12 +98,12 @@ inferences about the focal variable
 
 ## Examples
 
-We measure effects of an influenza vaccination experiment for several years
+__Influenza vaccination experiment__
 
 * Year as a fixed effect: did vaccination "help" on average over these years (with a particular set of flu strains, etc.
 * Year as random effect: will vaccination "help" on average over a wider set of years (assuming observed years are representative)
 
-Spruce trees
+__Spruce trees__
 
 * May not have enough data to do a random effects analysis
 * Our _statistical_ inference is then limited to the areas we studied
@@ -128,7 +128,7 @@ Spruce trees
 * Are only intercepts affected by random factors, or also responses?
 	* e.g., spruce trees 
 
-* Interactions are often conceptually appealing, but computationally challenging
+* Random slopes are often conceptually appealing, but computationally challenging
 	* There is a (questionable) culture of not worrying about them
 
 ## Fitting
@@ -144,7 +144,7 @@ models. You just need to specify which effects are random.
 ## Too few levels
 
 If you have something that should be a random-effect predictor, but you
-don't have enough levels, you can't fit a mixed model
+don't have enough levels, you can't fit a modern mixed model
 
 It's OK to treat your random effect as a fixed effect, as long as this
 is properly reflected in your scientific conclusions.
