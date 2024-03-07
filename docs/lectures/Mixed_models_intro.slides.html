@@ -3260,7 +3260,7 @@ ul.task-list{list-style: none;}
 <p><strong>Influenza vaccination experiment</strong></p>
 
 <ul>
-<li>Year as a fixed effect: did vaccination &ldquo;help&rdquo; on average over these years (with a particular set of flu strains, etc.</li>
+<li>Year as a fixed effect: did vaccination &ldquo;help&rdquo; on average over these years (with a particular set of flu strains, etc.)</li>
 <li>Year as random effect: will vaccination &ldquo;help&rdquo; on average over a wider set of years (assuming observed years are representative)</li>
 </ul>
 
@@ -3307,6 +3307,7 @@ ul.task-list{list-style: none;}
 <ul>
 <li>There is a (questionable) culture of not worrying about them</li>
 </ul></li>
+<li>Conceptually we are thinking about <em>interactions</em> between a fixed effect (e.g., level of acidity) and a <em>grouping variable</em> (spruce trees)</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Fitting</h2></hgroup><article  id="fitting">
@@ -3391,16 +3392,23 @@ ul.task-list{list-style: none;}
 <li>what do I do when I have more than 2 treatment levels per block?</li>
 </ul></li>
 <li>GLMMs: PQL, Laplace, Gauss-Hermite</li>
+</ul>
+
+<p><em>Or</em>:</p>
+
+<ul>
 <li>Bayesian approach: put a combined prior on the parameters</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Practical details in R</h2></hgroup><article  id="practical-details-in-r">
 
 <ul>
+<li><ul>
 <li><code>aov + Error()</code> term: <em>classical</em> designs</li>
 <li><code>lme</code> (<code>nlme</code> package): older, better documented, more stable, does R-side models, complex variance structures, gives denominator df/\(p\) values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster, does crossed random effects, GLMMs</li>
 <li><a href='https://cran.r-project.org/web/views/MixedModels.html' title=''>many others (see task view)</a></li>
+</ul></li>
 </ul></article></slide>
 
 
