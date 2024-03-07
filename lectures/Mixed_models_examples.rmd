@@ -15,6 +15,9 @@ library(lattice)
 ## diagnostics etc.
 library(broom.mixed)
 library(DHARMa)
+library(performance)
+library(sjPlot)
+library(dotwhisker)
 ##
 library(ggplot2); theme_set(theme_bw())
 library(cowplot)
@@ -27,19 +30,19 @@ library(cowplot)
 
 ## Formulae
 
-```
+
 Formula  |                  Meaning
 -------------------------|------------------------------------
-y ~ x                    |  No random effects
-y ~ x + (1|g)            |  The intercept is a random effect
-y ~ x + (1|site/block)   |   Nested random effects (block within site)
-y ~ x + (1|site) + (1|year)| Crossed random effects
-y ~ x + (1|site:block)     | Interaction (only block within site)
-y ~ x + site + (1|site:block) | Fixed site, random block within site
-y ~ x + (x|g)              | Intercept and slope are random effects
-y ~ (x|g)                  | Zero slope on average (weird!)
-y ~ x + (1|g)+(0+x|g)      | Independent slope and intercept
-```
+`y ~ x`                    |  No random effects
+`y ~ x + (1|g)`            |  The intercept is a random effect
+`y ~ x + (1|site/block)`   |   Nested random effects (block within site)
+`y ~ x + (1|site) + (1|year)` | Crossed random effects
+`y ~ x + (1|site:block)`     | Interaction (only block within site)
+`y ~ x + site + (1|site:block)` | Fixed site, random block within site
+`y ~ x + (x|g)`              | Intercept and slope are random effects
+`y ~ (x|g)`                  | Zero slope on average (weird!)
+`y ~ x + (1|g)+(0+x|g)`     | Independent slope and intercept
+
 
 ## Look at the data
 
@@ -72,10 +75,10 @@ Should generally use random slopes where possible, i.e. when at least some indiv
 ## Compute predictions
 
 ```{r preds}
-pp <- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
-pp1 <- cbind(pp,Reaction=predict(lm1,newdata=pp))
-pp2 <- cbind(pp,Reaction=predict(lm2,newdata=pp))
-pp3 <- cbind(pp,Reaction=predict(lm3,newdata=pp))
+pp <- expand.grid(Days=0:9, Subject=levels(sleepstudy$Subject))
+pp1 <- cbind(pp, Reaction=predict(lm1,newdata=pp))
+pp2 <- cbind(pp, Reaction=predict(lm2,newdata=pp))
+pp3 <- cbind(pp, Reaction=predict(lm3,newdata=pp))
 ```
 
 ## plot predictions
@@ -105,7 +108,9 @@ names(aa)
 ## and then use ggplot.
 ```
 
-Or use `DHARMa::simulateResiduals(lm3, plot=TRUE)`.
+Or use `DHARMa::simulateResiduals(lm3, plot=TRUE)`,
+or `performance::check_model()`
+
 
 
 ## coefficient plots
@@ -116,8 +121,6 @@ Use `broom.mixed` (in conjunction with `dotwhisker::dwplot`)
 - may want to specify `effects="fixed"`, `conf.int=TRUE`, `conf.method="profile"` (for CIs on random effects parameters)
 
 ```{r coefplots, results="hide", fig.keep="none"}
-library(dotwhisker)
-library(broom.mixed)
 tt <- tidy(lm3, conf.int=TRUE, conf.method="profile")
 dwplot(tt)
 ```
@@ -128,6 +131,8 @@ dwplot(tt)
 lattice::dotplot(ranef(lm3))
 lattice::qqmath(ranef(lm3))
 ```
+
+Or `sjPlot::plot_model()`
 
 ## post-hoc stuff
 
@@ -175,7 +180,7 @@ $$
 
 ```{r equatiomatic, results="asis"}
 ## remotes::install_github('datalorax/equatiomatic')
-if (require("equatomatic", quietly = TRUE)) {
+if (require("equatiomatic", quietly = TRUE)) {
     library(equatiomatic)
     extract_eq(lm3)
 }

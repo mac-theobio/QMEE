@@ -3068,21 +3068,18 @@ var loadDeck = function(event) {
   });
 };
 
-if (!window.Shiny) {
-  // If Shiny is loaded, the slide deck is initialized in ioslides template
-
-  if (document.readyState !== "loading" &&
-      document.querySelector('slides') === null) {
-    // if the document is done loading but our element hasn't yet appeared, defer
-    // loading of the deck
-    window.setTimeout(function() {
-      loadDeck(null);
-    }, 0);
-  } else {
-    // still loading the DOM, so wait until it's finished
-    document.addEventListener("DOMContentLoaded", loadDeck);
-  }
+if (document.readyState !== "loading" &&
+    document.querySelector('slides') === null) { 
+  // if the document is done loading but our element hasn't yet appeared, defer
+  // loading of the deck
+  window.setTimeout(function() {
+    loadDeck(null);
+  }, 0);
+} else {
+  // still loading the DOM, so wait until it's finished
+  document.addEventListener("DOMContentLoaded", loadDeck);
 }
+
 
 
 </script>
@@ -3212,6 +3209,9 @@ library(lattice)
 ## diagnostics etc.
 library(broom.mixed)
 library(DHARMa)
+library(performance)
+library(sjPlot)
+library(dotwhisker)
 ##
 library(ggplot2); theme_set(theme_bw())
 library(cowplot)</pre>
@@ -3225,17 +3225,50 @@ library(cowplot)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Formulae</h2></hgroup><article  id="formulae">
 
-<pre >Formula  |                  Meaning
--------------------------|------------------------------------
-y ~ x                    |  No random effects
-y ~ x + (1|g)            |  The intercept is a random effect
-y ~ x + (1|site/block)   |   Nested random effects (block within site)
-y ~ x + (1|site) + (1|year)| Crossed random effects
-y ~ x + (1|site:block)     | Interaction (only block within site)
-y ~ x + site + (1|site:block) | Fixed site, random block within site
-y ~ x + (x|g)              | Intercept and slope are random effects
-y ~ (x|g)                  | Zero slope on average (weird!)
-y ~ x + (1|g)+(0+x|g)      | Independent slope and intercept</pre>
+<table class = 'rmdtable'>
+<col width="40.983607%" />
+<col width="59.016393%" />
+<tr class="header">
+<th align="left">Formula</th>
+<th align="left">Meaning</th>
+</tr>
+<tr class="odd">
+<td align="left"><code>y ~ x</code></td>
+<td align="left">No random effects</td>
+</tr>
+<tr class="even">
+<td align="left"><code>y ~ x + (1|g)</code></td>
+<td align="left">The intercept is a random effect</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>y ~ x + (1|site/block)</code></td>
+<td align="left">Nested random effects (block within site)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>y ~ x + (1|site) + (1|year)</code></td>
+<td align="left">Crossed random effects</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>y ~ x + (1|site:block)</code></td>
+<td align="left">Interaction (only block within site)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>y ~ x + site + (1|site:block)</code></td>
+<td align="left">Fixed site, random block within site</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>y ~ x + (x|g)</code></td>
+<td align="left">Intercept and slope are random effects</td>
+</tr>
+<tr class="even">
+<td align="left"><code>y ~ (x|g)</code></td>
+<td align="left">Zero slope on average (weird!)</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>y ~ x + (1|g)+(0+x|g)</code></td>
+<td align="left">Independent slope and intercept</td>
+</tr>
+</table>
 
 </article></slide><slide class=""><hgroup><h2>Look at the data</h2></hgroup><article  id="look-at-the-data">
 
@@ -3267,10 +3300,10 @@ lm3 &lt;- lmer(Reaction~Days+(1+Days|Subject), data=sleepstudy) </pre>
 
 </article></slide><slide class=""><hgroup><h2>Compute predictions</h2></hgroup><article  id="compute-predictions">
 
-<pre class = 'prettyprint lang-r'>pp &lt;- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
-pp1 &lt;- cbind(pp,Reaction=predict(lm1,newdata=pp))
-pp2 &lt;- cbind(pp,Reaction=predict(lm2,newdata=pp))
-pp3 &lt;- cbind(pp,Reaction=predict(lm3,newdata=pp))</pre>
+<pre class = 'prettyprint lang-r'>pp &lt;- expand.grid(Days=0:9, Subject=levels(sleepstudy$Subject))
+pp1 &lt;- cbind(pp, Reaction=predict(lm1,newdata=pp))
+pp2 &lt;- cbind(pp, Reaction=predict(lm2,newdata=pp))
+pp3 &lt;- cbind(pp, Reaction=predict(lm3,newdata=pp))</pre>
 
 </article></slide><slide class=""><hgroup><h2>plot predictions</h2></hgroup><article  id="plot-predictions">
 
@@ -3304,7 +3337,7 @@ names(aa)</pre>
 
 <pre class = 'prettyprint lang-r'>## and then use ggplot.</pre>
 
-<p>Or use <code>DHARMa::simulateResiduals(lm3, plot=TRUE)</code>.</p>
+<p>Or use <code>DHARMa::simulateResiduals(lm3, plot=TRUE)</code>, or <code>performance::check_model()</code></p>
 
 </article></slide><slide class=""><hgroup><h2>coefficient plots</h2></hgroup><article  id="coefficient-plots">
 
@@ -3315,9 +3348,7 @@ names(aa)</pre>
 <li>may want to specify <code>effects=&quot;fixed&quot;</code>, <code>conf.int=TRUE</code>, <code>conf.method=&quot;profile&quot;</code> (for CIs on random effects parameters)</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>library(dotwhisker)
-library(broom.mixed)
-tt &lt;- tidy(lm3, conf.int=TRUE, conf.method=&quot;profile&quot;)</pre>
+<pre class = 'prettyprint lang-r'>tt &lt;- tidy(lm3, conf.int=TRUE, conf.method=&quot;profile&quot;)</pre>
 
 <pre >## Computing profile confidence intervals ...
 ## Computing profile confidence intervals ...</pre>
@@ -3328,6 +3359,8 @@ tt &lt;- tidy(lm3, conf.int=TRUE, conf.method=&quot;profile&quot;)</pre>
 
 <pre class = 'prettyprint lang-r'>lattice::dotplot(ranef(lm3))
 lattice::qqmath(ranef(lm3))</pre>
+
+<p>Or <code>sjPlot::plot_model()</code></p>
 
 </article></slide><slide class=""><hgroup><h2>post-hoc stuff</h2></hgroup><article  id="post-hoc-stuff">
 
@@ -3383,10 +3416,42 @@ lattice::qqmath(ranef(lm3))</pre>
 <p><code>equatiomatic</code> packages:</p>
 
 <pre class = 'prettyprint lang-r'>## remotes::install_github(&#39;datalorax/equatiomatic&#39;)
-if (require(&quot;equatomatic&quot;, quietly = TRUE)) {
+if (require(&quot;equatiomatic&quot;, quietly = TRUE)) {
     library(equatiomatic)
     extract_eq(lm3)
 }</pre>
+
+<p>\[
+\begin{aligned}
+  \operatorname{Reaction}_{i}  &amp;\sim N \left(\alpha_{j[i]} + \beta_{1j[i]}(\operatorname{Days}), \sigma^2 \right) \\    
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &amp;\alpha_{j} \\
+      &amp;\beta_{1j}
+    \end{aligned}
+  \end{array}
+\right)
+  &amp;\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &amp;\mu_{\alpha_{j}} \\
+      &amp;\mu_{\beta_{1j}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{j}} &amp; \rho_{\alpha_{j}\beta_{1j}} \\ 
+     \rho_{\beta_{1j}\alpha_{j}} &amp; \sigma^2_{\beta_{1j}}
+  \end{array}
+\right)
+ \right)
+    \text{, for Subject j = 1,} \dots \text{,J}
+\end{aligned}
+\]</p>
 
 </article></slide><slide class=""><hgroup><h2>What is a practical model?</h2></hgroup><article  id="what-is-a-practical-model">
 
@@ -3479,7 +3544,7 @@ names(ss)</pre>
 
 </article></slide><slide class=""><hgroup><h2>References</h2></hgroup><article  id="references" class="unnumbered">
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-barr_random_2013" class="csl-entry">
 <p>Barr, Dale J., Roger Levy, Christoph Scheepers, and Harry J. Tily. 2013. <span>
 “Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.”</span> <em>Journal of Memory and Language</em> 68 (3): 255–78. <a href='https://doi.org/10.1016/j.jml.2012.11.001' title=''>https://doi.org/10.1016/j.jml.2012.11.001</a>.</p></div>
@@ -3524,11 +3589,6 @@ I</span> Error and Power in Linear Mixed Models.”</span> <em>Journal of Memory
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
-    }
-    if (window.Shiny) {
-      // Initialize slides when this script appears on the page, since it
-      // indicates that the <slides> markup has been fully loaded.
-      window.loadDeck();
     }
   })();
 </script>

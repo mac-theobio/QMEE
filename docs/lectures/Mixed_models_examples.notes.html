@@ -334,6 +334,7 @@ if (window.hljs) {
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
+margin-bottom: 0em;
 }
 .hanging div.csl-entry {
 margin-left:2em;
@@ -472,6 +473,9 @@ library(lattice)
 ## diagnostics etc.
 library(broom.mixed)
 library(DHARMa)
+library(performance)
+library(sjPlot)
+library(dotwhisker)
 ##
 library(ggplot2); theme_set(theme_bw())
 library(cowplot)</code></pre>
@@ -486,17 +490,56 @@ material from Bolker book chapter</a> (source code <a href="https://github.com/b
 </div>
 <div id="formulae" class="section level2">
 <h2>Formulae</h2>
-<pre><code>Formula  |                  Meaning
--------------------------|------------------------------------
-y ~ x                    |  No random effects
-y ~ x + (1|g)            |  The intercept is a random effect
-y ~ x + (1|site/block)   |   Nested random effects (block within site)
-y ~ x + (1|site) + (1|year)| Crossed random effects
-y ~ x + (1|site:block)     | Interaction (only block within site)
-y ~ x + site + (1|site:block) | Fixed site, random block within site
-y ~ x + (x|g)              | Intercept and slope are random effects
-y ~ (x|g)                  | Zero slope on average (weird!)
-y ~ x + (1|g)+(0+x|g)      | Independent slope and intercept</code></pre>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="59%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formula</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>y ~ x</code></td>
+<td>No random effects</td>
+</tr>
+<tr class="even">
+<td><code>y ~ x + (1|g)</code></td>
+<td>The intercept is a random effect</td>
+</tr>
+<tr class="odd">
+<td><code>y ~ x + (1|site/block)</code></td>
+<td>Nested random effects (block within site)</td>
+</tr>
+<tr class="even">
+<td><code>y ~ x + (1|site) + (1|year)</code></td>
+<td>Crossed random effects</td>
+</tr>
+<tr class="odd">
+<td><code>y ~ x + (1|site:block)</code></td>
+<td>Interaction (only block within site)</td>
+</tr>
+<tr class="even">
+<td><code>y ~ x + site + (1|site:block)</code></td>
+<td>Fixed site, random block within site</td>
+</tr>
+<tr class="odd">
+<td><code>y ~ x + (x|g)</code></td>
+<td>Intercept and slope are random effects</td>
+</tr>
+<tr class="even">
+<td><code>y ~ (x|g)</code></td>
+<td>Zero slope on average (weird!)</td>
+</tr>
+<tr class="odd">
+<td><code>y ~ x + (1|g)+(0+x|g)</code></td>
+<td>Independent slope and intercept</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="look-at-the-data" class="section level2">
 <h2>Look at the data</h2>
@@ -528,10 +571,10 @@ some individuals are measured on more than 1 day <span class="citation">(Schielz
 </div>
 <div id="compute-predictions" class="section level2">
 <h2>Compute predictions</h2>
-<pre class="r"><code>pp &lt;- expand.grid(Days=0:9,Subject=levels(sleepstudy$Subject))
-pp1 &lt;- cbind(pp,Reaction=predict(lm1,newdata=pp))
-pp2 &lt;- cbind(pp,Reaction=predict(lm2,newdata=pp))
-pp3 &lt;- cbind(pp,Reaction=predict(lm3,newdata=pp))</code></pre>
+<pre class="r"><code>pp &lt;- expand.grid(Days=0:9, Subject=levels(sleepstudy$Subject))
+pp1 &lt;- cbind(pp, Reaction=predict(lm1,newdata=pp))
+pp2 &lt;- cbind(pp, Reaction=predict(lm2,newdata=pp))
+pp3 &lt;- cbind(pp, Reaction=predict(lm3,newdata=pp))</code></pre>
 </div>
 <div id="plot-predictions" class="section level2">
 <h2>plot predictions</h2>
@@ -560,7 +603,8 @@ names(aa)</code></pre>
 ##  [7] &quot;.cooksd&quot;  &quot;.fixed&quot;   &quot;.mu&quot;      &quot;.offset&quot;  &quot;.sqrtXwt&quot; &quot;.sqrtrwt&quot;
 ## [13] &quot;.weights&quot; &quot;.wtres&quot;</code></pre>
 <pre class="r"><code>## and then use ggplot.</code></pre>
-<p>Or use <code>DHARMa::simulateResiduals(lm3, plot=TRUE)</code>.</p>
+<p>Or use <code>DHARMa::simulateResiduals(lm3, plot=TRUE)</code>, or
+<code>performance::check_model()</code></p>
 </div>
 <div id="coefficient-plots" class="section level2">
 <h2>coefficient plots</h2>
@@ -573,9 +617,7 @@ names(aa)</code></pre>
 <code>conf.int=TRUE</code>, <code>conf.method=&quot;profile&quot;</code> (for CIs
 on random effects parameters)</li>
 </ul>
-<pre class="r"><code>library(dotwhisker)
-library(broom.mixed)
-tt &lt;- tidy(lm3, conf.int=TRUE, conf.method=&quot;profile&quot;)</code></pre>
+<pre class="r"><code>tt &lt;- tidy(lm3, conf.int=TRUE, conf.method=&quot;profile&quot;)</code></pre>
 <pre><code>## Computing profile confidence intervals ...
 ## Computing profile confidence intervals ...</code></pre>
 <pre class="r"><code>dwplot(tt)</code></pre>
@@ -584,6 +626,7 @@ tt &lt;- tidy(lm3, conf.int=TRUE, conf.method=&quot;profile&quot;)</code></pre>
 <h2>random effects plots</h2>
 <pre class="r"><code>lattice::dotplot(ranef(lm3))
 lattice::qqmath(ranef(lm3))</code></pre>
+<p>Or <code>sjPlot::plot_model()</code></p>
 </div>
 <div id="post-hoc-stuff" class="section level2">
 <h2>post-hoc stuff</h2>
@@ -641,10 +684,42 @@ distribution:</li>
 \]</span></p>
 <p><code>equatiomatic</code> packages:</p>
 <pre class="r"><code>## remotes::install_github(&#39;datalorax/equatiomatic&#39;)
-if (require(&quot;equatomatic&quot;, quietly = TRUE)) {
+if (require(&quot;equatiomatic&quot;, quietly = TRUE)) {
     library(equatiomatic)
     extract_eq(lm3)
 }</code></pre>
+<p><span class="math display">\[
+\begin{aligned}
+  \operatorname{Reaction}_{i}  &amp;\sim N \left(\alpha_{j[i]} +
+\beta_{1j[i]}(\operatorname{Days}), \sigma^2 \right) \\    
+\left(
+  \begin{array}{c}
+    \begin{aligned}
+      &amp;\alpha_{j} \\
+      &amp;\beta_{1j}
+    \end{aligned}
+  \end{array}
+\right)
+  &amp;\sim N \left(
+\left(
+  \begin{array}{c}
+    \begin{aligned}
+      &amp;\mu_{\alpha_{j}} \\
+      &amp;\mu_{\beta_{1j}}
+    \end{aligned}
+  \end{array}
+\right)
+,
+\left(
+  \begin{array}{cc}
+     \sigma^2_{\alpha_{j}} &amp; \rho_{\alpha_{j}\beta_{1j}} \\
+     \rho_{\beta_{1j}\alpha_{j}} &amp; \sigma^2_{\beta_{1j}}
+  \end{array}
+\right)
+\right)
+    \text{, for Subject j = 1,} \dots \text{,J}
+\end{aligned}
+\]</span></p>
 </div>
 <div id="what-is-a-practical-model" class="section level2">
 <h2>What is a practical model?</h2>
@@ -738,7 +813,7 @@ FAQ</a></li>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="unnumbered">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-barr_random_2013" class="csl-entry">
 Barr, Dale J., Roger Levy, Christoph Scheepers, and Harry J. Tily. 2013.
 <span>“Random Effects Structure for Confirmatory Hypothesis Testing:
