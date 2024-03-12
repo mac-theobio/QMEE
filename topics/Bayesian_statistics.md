@@ -21,11 +21,8 @@ intelligently.
 Resources
 ---------
 
--   Material
-	-   [Overview](../lectures/Bayesian_overview.slides.html)
-		-   [Notes version](../lectures/Bayesian_overview.notes.html)
-	-   [Example](../lectures/Bayesian_example.slides.html)
-		-   [Notes version](../lectures/Bayesian_example.notes.html)
+- Lectures
+	* [Intro](https://bbolker.github.io/bbmisc/bayes/intro.html)
 
 -   Introductory
     -   [Standing statistics right side
@@ -68,6 +65,13 @@ Resources
 	* [R script](../code/fev.R)
 	* [model file](../code/fev.bug
 )
+
+
+-   Previous lectures
+	-   [Overview](../lectures/Bayesian_overview.slides.html)
+		-   [Notes version](../lectures/Bayesian_overview.notes.html)
+	-   [Example](../lectures/Bayesian_example.slides.html)
+		-   [Notes version](../lectures/Bayesian_example.notes.html)
 
 Assignment
 ----------
