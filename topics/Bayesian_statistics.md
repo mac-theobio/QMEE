@@ -23,6 +23,8 @@ Resources
 
 - Lectures
 	* [Intro](https://bbolker.github.io/bbmisc/bayes/intro.html)
+	* [Examples](https://bbolker.github.io/bbmisc/bayes/examples.html)
+	* [Priors](https://bbolker.github.io/bbmisc/bayes/priors.html)
 
 -   Introductory
     -   [Standing statistics right side
