@@ -24,8 +24,6 @@ Class materials
 -   [script for simple simulations](../lectures/TeachingSimulationsBasics.Rmd)
 -   [html for simple simulations](../docs/lectures/TeachingSimulationsBasics.html)
 
-
-
 Resources
 =========
 -   Will add some
