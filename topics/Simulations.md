@@ -15,7 +15,7 @@ Goals
 
 - Simulations great for figuring for common needs like power analysis.
 
-- Simulations also can play key roles in statistical inferences (like the parametric bootatrap)
+- Simulations also can play key roles in statistical inferences (like the parametric bootstrap)
 
 
 Class materials
