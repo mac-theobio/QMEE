@@ -45,7 +45,7 @@ topics/subdocs/%.html: $(wildcard topics/*.md)
 	cd topics && $(MAKE) subdocs/$*.html
 
 ## lectures/subdocs/Mixed_models_intro.slides.html: lectures/Mixed_models_intro.rmd
-## lectures/subdocs/Permutations.notes.html: lectures/Permutations.rmd
+## lectures/subdocs/Simulations.notes.html: lectures/Simulations.rmd
 ## lectures/subdocs/Permutations.slides.html: lectures/Permutations.rmd
 
 ## tips/subdocs/R_style.notes.html: tips/R_style.rmd
