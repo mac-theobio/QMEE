@@ -26,7 +26,7 @@ bibliography: ../qmee.bib
 ## Approach
 
 * Simulate some data under several hypotheses (null, one or more alternatives)
-* Do a statistical test and exam the results
+* Do a statistical test and examine the results
 * Once you're happy, wrap these steps in a function and repeat a couple of thousand times
 
 ## Evaluation
