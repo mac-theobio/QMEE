@@ -197,16 +197,23 @@ and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)
     -   analogy: paired $t$-test
     -   what do I do when I have more than 2 treatment levels per block?
 -   GLMMs: PQL, Laplace, Gauss-Hermite
+
+_Or_:
+
 -   Bayesian approach: put a combined prior on the parameters
 
 ## Practical details in R
 
--   `aov + Error()` term: _classical_ designs
--   `lme` (`nlme` package): older, better documented, more stable, does
-    R-side models, complex variance structures, gives denominator df/$p$
-    values
--   `(g)lmer` (`lme4` package): newer, faster, does crossed random effects,
-    GLMMs
--   [many others (see task view)](https://cran.r-project.org/web/views/MixedModels.html)
+
+* Classical designs
+	-   `aov + Error()` term
+
+* Modern methods
+	-   `lme` (`nlme` package): older, better documented, more stable, does
+		 R-side models, complex variance structures, gives denominator df/$p$
+		 values
+	-   `(g)lmer` (`lme4` package): newer, faster, does crossed random effects,
+		 GLMMs
+	-   [many others (see task view)](https://cran.r-project.org/web/views/MixedModels.html)
 
 

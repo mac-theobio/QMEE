@@ -617,13 +617,21 @@ variance</li>
 block?</li>
 </ul></li>
 <li>GLMMs: PQL, Laplace, Gauss-Hermite</li>
+</ul>
+<p><em>Or</em>:</p>
+<ul>
 <li>Bayesian approach: put a combined prior on the parameters</li>
 </ul>
 </div>
 <div id="practical-details-in-r" class="section level2">
 <h2>Practical details in R</h2>
 <ul>
-<li><code>aov + Error()</code> term: <em>classical</em> designs</li>
+<li>Classical designs
+<ul>
+<li><code>aov + Error()</code> term</li>
+</ul></li>
+<li>Modern methods
+<ul>
 <li><code>lme</code> (<code>nlme</code> package): older, better
 documented, more stable, does R-side models, complex variance
 structures, gives denominator df/<span class="math inline">\(p\)</span>
@@ -632,6 +640,7 @@ values</li>
 does crossed random effects, GLMMs</li>
 <li><a href="https://cran.r-project.org/web/views/MixedModels.html">many
 others (see task view)</a></li>
+</ul></li>
 </ul>
 </div>
 </div>

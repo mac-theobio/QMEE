@@ -7,9 +7,6 @@ COMMENT -->
 
 * This web page is (permanently) __subject to change__.
 
-
-Some information may be left over from our previous (Winter 2021) offering of the course.
-
 ## Course information
 
 - [Course description](admin/description.html)
@@ -42,12 +39,15 @@ There may also be some asynchronous content.
 - [Mixed models (additional)](topics/Mixed_models.html)
 - [Bayesian statistics](topics/Bayesian_statistics.html)
 
-Additional topics TBD/TBA
+### Additional topics
+
+- [Simulating data in statistics](topics/Simulations.html) 
 
 <!-- COMMENT
 
+ TBD/TBA
 - [Multivariate responses](Multivariate_responses.html)
-- [Linear model parameters] (parameters.html)
+- [Linear model parameters] (parameters.html) [Probably covered in LM topic now? 2024 Mar 19 (Tue)]
 - [Penalized regression] (penalized.html)
 
 -->

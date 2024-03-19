@@ -21,11 +21,11 @@ intelligently.
 Resources
 ---------
 
--   Material
-	-   [Overview](../lectures/Bayesian_overview.slides.html)
-		-   [Notes version](../lectures/Bayesian_overview.notes.html)
-	-   [Example](../lectures/Bayesian_example.slides.html)
-		-   [Notes version](../lectures/Bayesian_example.notes.html)
+- Lectures
+	* [Intro](https://bbolker.github.io/bbmisc/bayes/intro.html)
+	* [Examples](https://bbolker.github.io/bbmisc/bayes/examples.html)
+	* [Priors](https://bbolker.github.io/bbmisc/bayes/priors.html)
+	* [Dushoff additional pictures](https://github.com/bbolker/bbmisc/blob/master/bayes/outputs/quantiles.Rout.pdf)
 
 -   Introductory
     -   [Standing statistics right side
@@ -68,6 +68,13 @@ Resources
 	* [R script](../code/fev.R)
 	* [model file](../code/fev.bug
 )
+
+
+-   Previous lectures
+	-   [Overview](../lectures/Bayesian_overview.slides.html)
+		-   [Notes version](../lectures/Bayesian_overview.notes.html)
+	-   [Example](../lectures/Bayesian_example.slides.html)
+		-   [Notes version](../lectures/Bayesian_example.notes.html)
 
 Assignment
 ----------

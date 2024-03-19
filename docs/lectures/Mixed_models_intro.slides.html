@@ -3392,16 +3392,29 @@ ul.task-list{list-style: none;}
 <li>what do I do when I have more than 2 treatment levels per block?</li>
 </ul></li>
 <li>GLMMs: PQL, Laplace, Gauss-Hermite</li>
+</ul>
+
+<p><em>Or</em>:</p>
+
+<ul>
 <li>Bayesian approach: put a combined prior on the parameters</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Practical details in R</h2></hgroup><article  id="practical-details-in-r">
 
 <ul>
-<li><code>aov + Error()</code> term: <em>classical</em> designs</li>
+<li>Classical designs
+
+<ul>
+<li><code>aov + Error()</code> term</li>
+</ul></li>
+<li>Modern methods
+
+<ul>
 <li><code>lme</code> (<code>nlme</code> package): older, better documented, more stable, does R-side models, complex variance structures, gives denominator df/\(p\) values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster, does crossed random effects, GLMMs</li>
 <li><a href='https://cran.r-project.org/web/views/MixedModels.html' title=''>many others (see task view)</a></li>
+</ul></li>
 </ul></article></slide>
 
 

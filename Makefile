@@ -1,5 +1,5 @@
 # QMEE
-# https://mac-theobio.github.io/QMEE/?version=123
+# https://mac-theobio.github.io/QMEE/?version=122
 
 ### Hooks for the editor to set the default target
 current: target
@@ -45,7 +45,7 @@ topics/subdocs/%.html: $(wildcard topics/*.md)
 	cd topics && $(MAKE) subdocs/$*.html
 
 ## lectures/subdocs/Mixed_models_intro.slides.html: lectures/Mixed_models_intro.rmd
-## lectures/subdocs/Permutations.notes.html: lectures/Permutations.rmd
+## lectures/subdocs/Simulations.notes.html: lectures/Simulations.rmd
 ## lectures/subdocs/Permutations.slides.html: lectures/Permutations.rmd
 
 ## tips/subdocs/R_style.notes.html: tips/R_style.rmd
@@ -129,6 +129,9 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+sims.Rout: code/sims.R
+	$(pipeR)
+
 australia.Rout: code/australia.R
 	$(pipeR)
 
@@ -139,9 +142,6 @@ village_clean.Rout: code/village_clean.R
 	$(pipeR)
 
 cars.Rout: code/cars.R
-	$(pipeR)
-
-tmp.Rout: tmp.R
 	$(pipeR)
 
 ######################################################################
@@ -180,6 +180,9 @@ gh-pages:
 	$(MAKE) $@.branchdir
 
 ##################################################################
+
+## A partial, automatic list of deleted files
+Sources += germ.md
 
 ## A bunch of confusing rmd rules
 Sources += pages.mk
