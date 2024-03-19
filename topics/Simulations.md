@@ -1,12 +1,6 @@
 ---
 title: "Using simulations in statistics"
-author: "Ian Dworkin"
 ---
-
-Introduction
-============
-
-Currently a stub! Based on the semi-improvised tutorial on March 14th, 2024.
 
 Goals 
 ===================
@@ -20,6 +14,8 @@ Goals
 
 Class materials
 ===============
+
+* [Lecture](../lectures/Simulations.notes.html); ([Slide version)](../lectures/Simulations.slides.html)
 
 -   [Ian's simple simulations](../lectures/TeachingSimulationsBasics.html)
 	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/TeachingSimulationsBasics.Rmd)
