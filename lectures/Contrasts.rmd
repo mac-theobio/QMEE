@@ -26,15 +26,16 @@ options(digits = 3, show.signif.stars = FALSE, show.coef.Pvalues = TRUE)
 ## custom functions
 
 
-```{r,  results='hide'}
+```{r lm-out,  results='hide'}
 lm_out <- function(x = modname) {
     cbind(as.matrix(summary(x)$coef[,1:3]),
           as.matrix(confint(x)) )}
 ```
 
 
-## Libraries
-```{r, results='hide'}
+## Load packages
+
+```{r pkgs, results='hide', message = FALSE}
 library(lme4)
 library(emmeans)
 library(car)
@@ -56,14 +57,14 @@ Alternatively a common situation is where you are fitting models with multiple c
 ![Iris](https://upload.wikimedia.org/wikipedia/commons/a/a7/Irissetosa1.jpg)
 
 
-```{r}
+```{r load-data}
 data(iris)
 ```
 
 
 ### The iris data
 
-```{r}
+```{r check-iris}
 head(iris)
 
 with(iris, table(Species))
@@ -73,7 +74,7 @@ with(iris, table(Species))
 ### quick plot of the iris data
 
 
-```{r}
+```{r iris-plot}
 ggplot(iris, aes(y = Sepal.Length, x = Petal.Length, col = Species)) +
    geom_point()
 ```
@@ -81,33 +82,33 @@ ggplot(iris, aes(y = Sepal.Length, x = Petal.Length, col = Species)) +
 
 ### Let's consider this situation
 
- (this "question" is made up to facilitate the anaysis!)
+ (this "question" is made up to facilitate the analysis!)
  
  While we want to compare the differences between species for these morphological traits, we are specifically interested in in comparisons of *versicolor* to the other two species. So how may we do this?
  
  
 ### What if we just fit a linear model (simple one way ANOVA)?
-```{r}
+```{r lm1}
 mod1 <- lm(Sepal.Length ~ Species,
            data = iris)
 ```
 
 We can examine the anova table
-```{r}
+```{r iris_anova}
 anova(mod1)
 ```
 
-But all this really tells us is that there is variation among species (that exceeds expectations based on variation amnong individuals within species).
+But all this really tells us is that there is variation among species (that exceeds expectations based on variation among individuals within species).
 
 
 We can look at the summary to get the coefficients
-```{r}
+```{r iris-summary}
 summary(mod1)
 ```
 
 Let's make the output simpler and a bit more useful to the task at hand
 
-```{r}
+```{r iris-lmout}
 lm_out(mod1)
 ```
 
@@ -121,7 +122,7 @@ We want to see if *versicolor* is different than either of the other two species
 ### A couple of ways of thinking about this that may help
 
 Let's compute mean sepal length by species
-```{r}
+```{r meansepal-by-species}
 SL_means_Species <- with(iris, 
      tapply(Sepal.Length, Species, mean))
 
@@ -131,7 +132,7 @@ SL_means_Species
 
 As this is such a simple model (just a single factor) these means will be the same as the predicted values from the models:
 
-```{r}
+```{r compare-means}
 species_predictedVals <- unique(predict(mod1))
 
 names(species_predictedVals) <- c("setosa", "versicolor", "virginica")
@@ -141,7 +142,7 @@ species_predictedVals
 
 
 differences between means can be estimated simply:
-```{r}
+```{r mean-diffs}
 SL_means_Species["versicolor"] - SL_means_Species["setosa"]
 
 SL_means_Species["virginica"] - SL_means_Species["setosa"]
@@ -151,34 +152,31 @@ So we can see that the treatment contrasts in the linear model are (in this simp
 
 ### These are not the difference(s) we are looking for!
 
-
 ![droids](https://media.giphy.com/media/l2JJKs3I69qfaQleE/giphy.gif) 
-
-
 
 But we are not interested in the difference between setosa and the other two species, but in comparisons to versicolor.
 
 
-## Reviewing (or introducting) ourselves to the "design matrix"
+## Reviewing (or introducing) ourselves to the "design matrix"
 
 
 ###
 
 It may help to remind ourselves of the design matrix ($\mathbf{X}$) for our linear model. In `R` we use the `model.matrix()` function to look at this.
 
-```{r}
+```{r modelmat}
 head(model.matrix( ~ iris$Species))
 ```
 
 Or more usefully, we only need to print out one row for each species, since each individual within a species is the same for the predictor.
 
-```{r}
+```{r meancomp2}
 unique(model.matrix( ~ iris$Species))
 ```
 
 
-While R can be somewhat confusing on this, you can use the `contrasts` function to also peak at this
-```{r}
+While R can be somewhat confusing on this, you can use the `contrasts` function to also peek at this
+```{r check-contrasts}
 Smat <- contrasts(as.factor(iris$Species))
 ```
 
@@ -186,7 +184,7 @@ Note that the first column (of all 1s) is missing from this. That first column r
 
 Let's add the intercept back on
 
-```{r}
+```{r add-intercept}
 Smat <- cbind(1, Smat)
 
 Smat
@@ -196,7 +194,7 @@ So we see that `lm` by default, is using the estimated mean of the first species
 
 But it sometimes helps to think about this in terms of the contrasts between estimates (in this case the means) *per se*. To do this we just use the `solve` function in `R` which does a bit of linear algebra (inverts the matrix). 
 
-```{r}
+```{r invert}
 Lmat <- solve(Smat)
 
 Lmat
@@ -210,25 +208,24 @@ Now we focus more on each row.
 - The third row says that the contrast it is giving us is the difference between the estimated means of *virginica* and *setosa*.
 
 Let's take a look
-```{r}
+```{r predictvals}
 species_predictedVals
 ```
 
 For *versicolor*
-```{r}
+```{r versicolor-diff}
 species_predictedVals[2] - species_predictedVals[1]
 ```
 
 For *virginica*
-```{r}
+```{r virginica-diff}
 species_predictedVals[3] - species_predictedVals[1]
 ```
 
 which is the same as the estimates in the second and third rows of our model output
-```{r}
+```{r mod1-lmout}
 lm_out(mod1)
 ```
-
 
 Importantly, in statistics we describe the values in the matrix (`Lmat`) that we inverted as the contrast coefficients. 
 
@@ -239,25 +236,24 @@ So how we set up the design matrix actually influences the default contrasts we 
 One easy fix for this without having to think about custom contrasts at all (yet!) is to re-level our factor so that the base level is versicolor:
 
 
-```{r}
+```{r relevel}
 iris$Species2 <- relevel(iris$Species, "versicolor")
 ```
 
 
 we can look at two rows each for the three species
-```{r}
+```{r relevel-ex}
 model.matrix(~iris$Species2)[c(1:2,51:52, 101:102),]
 ```
 
 or using `contrasts`
-```{r}
+```{r relevel-contrasts}
 cbind(1, contrasts(as.factor(iris$Species2)))
 ```
 
-
 Now if we fit the same model, just with *versicolor* representing the intercept
 
-```{r}
+```{r relevel-refit}
 mod1_alt <- lm(Sepal.Length ~ Species2,
            data = iris)
 
@@ -270,14 +266,14 @@ Why did this work? Because we re-organized the design matrix a bit.
 
 
 Our initial design matrix had this format
-```{r}
+```{r modelmat-0}
 unique(model.matrix(mod1))
 ```
 
 
 When we changed the reference level, the intercept was now *versicolor* instead of *setosa*. 
 
-```{r}
+```{r new-modelmat}
 unique(model.matrix(mod1_alt))
 ```
 
@@ -289,25 +285,25 @@ This solution works for simple cases. It is not particularly useful for more com
 What if I wanted to compare the difference between *versicolor* and the other two species? How should I go about doing that?
 
 Here are the predicted values again:
-```{r}
+```{r predvals-again}
 species_predictedVals
 ```
 
 One way of thinking about this is comparing the predicted value of *versicolor* to the mean of the predicted values of the other two species
 
 
-```{r}
+```{r predvals-comp}
 species_predictedVals["versicolor"] - mean(species_predictedVals[c("setosa", "virginica")])
 ```
 
 
 Mathematically,
 
-$$ 1 \times \hat{\mu}_{veriscolor}  - \frac{1}{2} \times\hat{\mu}_{setosa} - \frac{1}{2} \times\hat{\mu}_{virginica}$$
+$$ 1 \times \hat{\mu}_{versicolor}  - \frac{1}{2} \times\hat{\mu}_{setosa} - \frac{1}{2} \times\hat{\mu}_{virginica}$$
 
 i.e
 
-$$ 1 \times \hat{\mu}_{veriscolor}  - \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
+$$ 1 \times \hat{\mu}_{versicolor}  - \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
 
 with coefficients
 
@@ -330,7 +326,7 @@ sum(contrast_vector_example)
 This is the same as saying if the predicted value of *setosa* was the same as the mean of the predicted values of the other two species, the difference should be zero. 
 
 
-$$ \hat{\mu}_{veriscolor}  \approxeq \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
+$$ \hat{\mu}_{versicolor}  \approxeq \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
 
 This is an example of a custom contrast. 
 $$(1, -\frac{1}{2}, -\frac{1}{2})$$ 
@@ -383,11 +379,11 @@ Unfortunately using these effectively with base R requires a few additional alge
 
 ## using emmeans
 
-While you can write out custom contrasts, I find it really a pain in the but, so use emmeans!
+While you can write out custom contrasts, I find it really a pain in the butt, so use `emmeans`!
 
 
 ### Getting the estimated means and their confidence intervals with emmeans
-```{r}
+```{r emm1}
 summary(mod1)
 
 spp_em <- emmeans(mod1, ~Species)   # means
@@ -400,8 +396,10 @@ plot(spp_em) +
 
 
 ### Setting up our custom contrasts in emmeans
+
 We can use the `contrast` function (note, not `contrasts` with an **s** at the end) and provide these to get the contrasts we are interested in.
-```{r}
+
+```{r emm_custom1}
 iris_custom_contrasts <- contrast(spp_em, 
          list(versicolor_VS_others = versicolor_VS_others, 
               virginica_VS_setosa = c(1, 0, -1)))
@@ -411,14 +409,15 @@ iris_custom_contrasts
 
 
 emmeans is even more useful, making it straightforward to get confidence intervals for the contrasts!
-```{r}
+
+```{r emm_confint}
 confint(iris_custom_contrasts )
 ```
 
 
-Which can be plotted easily (ggplot2 object)
+Which can be plotted easily (`ggplot2` object)
 
-```{r}
+```{r emm-plot-custom}
 plot(iris_custom_contrasts) +
          geom_vline(xintercept = 0, lty = 2 , alpha = 0.5) +
          theme_bw() +
@@ -464,7 +463,7 @@ The data is from an artificial selection experiment in *Drosophila melanogaster*
 
 We have been investigating trait specific changes in sexual size dimorphism, and how it compares to what is observed in the control lineages (where the ancestral pattern of female biased size dimorphism occurs). So we are interested in particular in the effects of the interaction between sex and selective treatment. How best to examine this?
 
-A subset of the data from this experiment is available in the same github repository as "contrast_tutorial_dat.RData"
+A subset of the data from this experiment is available in the same github repository as `contrast_tutorial_dat.RData`
 
 ### The data
 ```{r}
@@ -494,12 +493,12 @@ ggplot(size_dat,
 
 Here is the  model we used for the study for this trait. I will briefly discuss it with you, but importantly you will see it is more complicated than our toy example above.
 
-### review: Why log tranform the response variable?
+### review: Why log transform the response variable?
 **Note:** with the model that I am multiplying thorax length by 1000 (to convert to $\mu m$) and then using a $log_2$ transformation on it.
 
 Why am I doing the log transformation in the first place?
 
-I am doing the transformation directly in the model call itself. This is not necessary, but emmeans will recognize this, and facilitates backtransformation of our estimates.
+I am doing the transformation directly in the model call itself. This is not necessary, but emmeans will recognize this, and facilitates back-transformation of our estimates.
 
 
 ### The model
@@ -550,7 +549,7 @@ plot(thorax_emm,
 ```
 
 
-#### side note: Backtransforming in emmeans
+#### side note: Back-transforming in emmeans
 Like I mentioned emmeans can recognize the log2 transformation, so if you prefer the measures or plots in $\mu m$ response scale.
 
 ```{r}
