@@ -38,3 +38,7 @@ Other
 * data/contrasts2.RData
 * data/cc2.rds
 * data/CA_homicide.rds: Canadian homicide data (processed, from 2021)
+
+### Untracked files ### (1)
+
+* data/contrast_tutorial_dat.RData
