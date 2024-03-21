@@ -293,7 +293,7 @@ Here are the predicted values again:
 species_predictedVals
 ```
 
-One way of thinking about this is comparing the predicted value of *setosa* to the mean of the predicted values of the other two species
+One way of thinking about this is comparing the predicted value of *versicolor* to the mean of the predicted values of the other two species
 
 
 ```{r}
