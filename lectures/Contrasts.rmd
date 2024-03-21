@@ -1,5 +1,6 @@
 ---
 title: "Introduction to contrasts, and using emmeans in R"
+bibliography: "../qmee.bib"
 author: "Ian Dworkin"
 date: "`r format(Sys.time(),'%d %b %Y')`"
 output:
@@ -480,7 +481,7 @@ head(size_dat)
 
 ### A quick visual summary
 
-```{r}
+```{r beeswarm, fig.width = 14, out.width="100%"}
 ggplot(size_dat, 
        aes( y = length, x = selection:sex, col = sex, shape = replicate)) +
   geom_quasirandom(alpha = 0.8, size = 1.4) +
@@ -537,30 +538,34 @@ This is where contrasts become SO useful!
 
 #### Estimated marginal means 
 First, just the estimated means, for each sex, by selective regime
-```{r}
+```{r marg-means-plot, fig.width = 14}
 thorax_emm <- emmeans(mod1_thorax, specs = ~ sex | selection)
 
 thorax_emm
 
+## rotate strip labels:
+## https://stackoverflow.com/questions/40484090/rotate-switched-facet-labels-in-ggplot2-facet-grid
+rot_strips <-   theme_bw() +
+    theme(text = element_text(size = 16),
+          strip.text.y.right = element_text(angle = 0))
+
 plot(thorax_emm,
-     xlab = "model estimates, thorax length, log2 microM") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+     xlab = "model estimates, thorax length, log2 µm") +
+    rot_strips
 ```
 
 
 #### side note: Back-transforming in emmeans
 Like I mentioned emmeans can recognize the log2 transformation, so if you prefer the measures or plots in $\mu m$ response scale.
 
-```{r}
+```{r fig.width = 14}
 thorax_emm_response <- emmeans(mod1_thorax, specs = ~ sex | selection, type = "response")
 
 thorax_emm_response
 
 plot(thorax_emm_response,
-     xlab = "model estimates, thorax length, microM") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+     xlab = "model estimates, thorax length, µm") +
+    rot_strips
 ```
 
 
@@ -583,16 +588,15 @@ confint(SSD_contrasts_treatment)
 ```{r}
 plot(SSD_contrasts_treatment) + 
   geom_vline(xintercept = 0, lty = 2, alpha = 0.5) + 
-  labs(x = "sexual size dimorphism") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+    labs(x = "sexual size dimorphism") +
+    rot_strips
 ```
 
 
 ### The interaction contrast
 But what we really want is to see how dimorphism changes in the selected treatments, relative to the controls. This is the interaction contrast (contrast of contrasts)
 
-```{r}
+```{r fig.width = 14}
 thorax_ssd <- emmeans(mod1_thorax,  pairwise ~ sex*selection) # warning is letting you know these are not of general use. We only do this as we are forming an interaction contrast.
 
 thorax_ssd_contrasts <- contrast(thorax_ssd[[1]], 
@@ -606,9 +610,9 @@ confint(thorax_ssd_contrasts)
 
 plot(thorax_ssd_contrasts) + 
   geom_vline(xintercept = 0, lty = 2, alpha = 0.5) + 
-  labs(x = "change in SSD relative to control lineages", y = "comparison") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+    labs(x = "change in SSD relative to control lineages", y = "comparison") +
+    theme_bw() + theme(text = element_text(size = 16))
+
 ```
 
 
@@ -628,4 +632,8 @@ Chapter 5 of the book by Irizarry and Love, Data Analysis for the Life Sciences 
 overview of contrast codings 
 https://rpubs.com/timflutre/tuto_contrasts
 
+@schadHow2018
 
+https://bbolker.github.io/mixedmodels-misc/notes/contrasts.pdf
+
+## references
