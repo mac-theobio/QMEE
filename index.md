@@ -42,6 +42,7 @@ There may also be some asynchronous content.
 Additional topics TBD/TBA
 
 - [Simulating data in statistics](topics/Simulations.html) 
+
 <!-- COMMENT
 
 - [Multivariate responses](Multivariate_responses.html)
