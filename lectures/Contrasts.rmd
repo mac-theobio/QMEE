@@ -467,7 +467,7 @@ A subset of the data from this experiment is available in the same github reposi
 
 ### The data
 ```{r}
-load("./contrast_tutorial_dat.RData")
+load("../data/contrast_tutorial_dat.RData")
 
 size_dat <- contrast_tutorial_dat
 ```

@@ -220,7 +220,7 @@ pairs(spp_em, exclude = 2)
 
 
 ## -----------------------------------------------------------------------------
-load("./contrast_tutorial_dat.RData")
+load("../data/contrast_tutorial_dat.RData")
 
 size_dat <- contrast_tutorial_dat
 
