@@ -38,6 +38,7 @@ There may also be some asynchronous content.
 - [Generalized linear models (additional)](topics/Generalized_linear_models.html)
 - [Mixed models (additional)](topics/Mixed_models.html)
 - [Bayesian statistics](topics/Bayesian_statistics.html)
+- [Custom contrasts](topics/Contrasts.html)
 
 ### Additional topics
 
