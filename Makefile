@@ -169,8 +169,10 @@ homBox.Rout: code/homBox.R homMerge.Rout
 docs/code/%.lecture.R: lectures/%.rmd
 	R --vanilla -e 'library("knitr"); knit("$<", output="$@", tangle=TRUE)'
 
-## Dushoff lectures that live elsewhere
+Contrast_test.Rout: code/Contrast_test.R
+	$(pipeR)
 
+## Dushoff lectures that live elsewhere
 Ignore += docs/legacy
 
 ######################################################################
