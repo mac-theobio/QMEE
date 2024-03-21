@@ -1,12 +1,6 @@
 ---
 title: "Using simulations in statistics"
-author: "Ian Dworkin"
 ---
-
-Introduction
-============
-
-Currently a stub! Based on the semi-improvised tutorial on March 14th, 2024.
 
 Goals 
 ===================
@@ -15,17 +9,19 @@ Goals
 
 - Simulations great for figuring for common needs like power analysis.
 
-- Simulations also can play key roles in statistical inferences (like the parametric bootatrap)
+- Simulations also can play key roles in statistical inferences (like the parametric bootstrap)
 
 
 Class materials
 ===============
 
--   [script for simple simulations](../lectures/TeachingSimulationsBasics.Rmd)
--   [html for simple simulations](../docs/lectures/TeachingSimulationsBasics.html)
+* [Lecture](../lectures/Simulations.notes.html); ([Slide version)](../lectures/Simulations.slides.html)
 
-
+-   [Ian's simple simulations](../lectures/TeachingSimulationsBasics.html)
+	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/TeachingSimulationsBasics.Rmd)
 
 Resources
 =========
--   Will add some
+
+* [faux package](https://debruine.github.io/faux/)
+* Chapter 5 of [Ecological Models and Data in R (Bolker)](https://math.mcmaster.ca/~bolker/emdbook/book.pdf)
