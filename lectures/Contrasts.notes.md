@@ -31,26 +31,13 @@ lm_out <- function(x = modname) {
 ```
 
 
-## Libraries
+## Load packages
+
 
 ```r
 library(lme4)
-```
-
-```
-## Loading required package: Matrix
-```
-
-```r
 library(emmeans)
 library(car)
-```
-
-```
-## Loading required package: carData
-```
-
-```r
 library(ggplot2)
 library(ggbeeswarm)
 ```
@@ -112,12 +99,12 @@ ggplot(iris, aes(y = Sepal.Length, x = Petal.Length, col = Species)) +
    geom_point()
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/iris-plot-1.png)<!-- -->
 
 
 ### Let's consider this situation
 
- (this "question" is made up to facilitate the anaysis!)
+ (this "question" is made up to facilitate the analysis!)
  
  While we want to compare the differences between species for these morphological traits, we are specifically interested in in comparisons of *versicolor* to the other two species. So how may we do this?
  
@@ -144,7 +131,7 @@ anova(mod1)
 ## Residuals 147   39.0    0.27
 ```
 
-But all this really tells us is that there is variation among species (that exceeds expectations based on variation amnong individuals within species).
+But all this really tells us is that there is variation among species (that exceeds expectations based on variation among individuals within species).
 
 
 We can look at the summary to get the coefficients
@@ -252,15 +239,12 @@ So we can see that the treatment contrasts in the linear model are (in this simp
 
 ### These are not the difference(s) we are looking for!
 
-
 ![droids](https://media.giphy.com/media/l2JJKs3I69qfaQleE/giphy.gif) 
-
-
 
 But we are not interested in the difference between setosa and the other two species, but in comparisons to versicolor.
 
 
-## Reviewing (or introducting) ourselves to the "design matrix"
+## Reviewing (or introducing) ourselves to the "design matrix"
 
 
 ###
@@ -297,7 +281,7 @@ unique(model.matrix( ~ iris$Species))
 ```
 
 
-While R can be somewhat confusing on this, you can use the `contrasts` function to also peak at this
+While R can be somewhat confusing on this, you can use the `contrasts` function to also peek at this
 
 ```r
 Smat <- contrasts(as.factor(iris$Species))
@@ -392,7 +376,6 @@ lm_out(mod1)
 ## Speciesvirginica      1.58     0.1030   15.37 1.379   1.79
 ```
 
-
 Importantly, in statistics we describe the values in the matrix (`Lmat`) that we inverted as the contrast coefficients. 
 
 So how we set up the design matrix actually influences the default contrasts we get as the model coefficients. But what if those are not the contrasts we want? Do we need to change the design matrix?  Not necessarily. Once we have the estimates, we can fit our custom contrasts. But first, let's go through an example where we do change the design matrix.
@@ -436,7 +419,6 @@ cbind(1, contrasts(as.factor(iris$Species2)))
 ## setosa     1      1         0
 ## virginica  1      0         1
 ```
-
 
 Now if we fit the same model, just with *versicolor* representing the intercept
 
@@ -522,11 +504,11 @@ species_predictedVals["versicolor"] - mean(species_predictedVals[c("setosa", "vi
 
 Mathematically,
 
-$$ 1 \times \hat{\mu}_{veriscolor}  - \frac{1}{2} \times\hat{\mu}_{setosa} - \frac{1}{2} \times\hat{\mu}_{virginica}$$
+$$ 1 \times \hat{\mu}_{versicolor}  - \frac{1}{2} \times\hat{\mu}_{setosa} - \frac{1}{2} \times\hat{\mu}_{virginica}$$
 
 i.e
 
-$$ 1 \times \hat{\mu}_{veriscolor}  - \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
+$$ 1 \times \hat{\mu}_{versicolor}  - \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
 
 with coefficients
 
@@ -560,7 +542,7 @@ sum(contrast_vector_example)
 This is the same as saying if the predicted value of *setosa* was the same as the mean of the predicted values of the other two species, the difference should be zero. 
 
 
-$$ \hat{\mu}_{veriscolor}  \approxeq \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
+$$ \hat{\mu}_{versicolor}  \approxeq \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
 
 This is an example of a custom contrast. 
 $$(1, -\frac{1}{2}, -\frac{1}{2})$$ 
@@ -637,7 +619,7 @@ Unfortunately using these effectively with base R requires a few additional alge
 
 ## using emmeans
 
-While you can write out custom contrasts, I find it really a pain in the but, so use emmeans!
+While you can write out custom contrasts, I find it really a pain in the butt, so use `emmeans`!
 
 
 ### Getting the estimated means and their confidence intervals with emmeans
@@ -686,11 +668,13 @@ plot(spp_em) +
   theme(text = element_text(size = 16))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/emm1-1.png)<!-- -->
 
 
 ### Setting up our custom contrasts in emmeans
+
 We can use the `contrast` function (note, not `contrasts` with an **s** at the end) and provide these to get the contrasts we are interested in.
+
 
 ```r
 iris_custom_contrasts <- contrast(spp_em, 
@@ -709,6 +693,7 @@ iris_custom_contrasts
 
 emmeans is even more useful, making it straightforward to get confidence intervals for the contrasts!
 
+
 ```r
 confint(iris_custom_contrasts )
 ```
@@ -722,7 +707,7 @@ confint(iris_custom_contrasts )
 ```
 
 
-Which can be plotted easily (ggplot2 object)
+Which can be plotted easily (`ggplot2` object)
 
 
 ```r
@@ -732,7 +717,7 @@ plot(iris_custom_contrasts) +
          theme(text = element_text(size = 20))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/emm-plot-custom-1.png)<!-- -->
 
 
 ### Flexibility with emmeans for many types of contrasts
@@ -792,7 +777,7 @@ plot(pairs(spp_em)) +
          xlab("Estimated difference in Sepal Lengths")
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-39-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 and, usefully we could have gotten our setosa VS virginica (i.e. excluding versicolor) comparison this way
 
@@ -814,7 +799,7 @@ The data is from an artificial selection experiment in *Drosophila melanogaster*
 
 We have been investigating trait specific changes in sexual size dimorphism, and how it compares to what is observed in the control lineages (where the ancestral pattern of female biased size dimorphism occurs). So we are interested in particular in the effects of the interaction between sex and selective treatment. How best to examine this?
 
-A subset of the data from this experiment is available in the same github repository as "contrast_tutorial_dat.RData"
+A subset of the data from this experiment is available in the same github repository as `contrast_tutorial_dat.RData`
 
 ### The data
 
@@ -854,17 +839,17 @@ ggplot(size_dat,
   theme(text = element_text(size = 18))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 
 Here is the  model we used for the study for this trait. I will briefly discuss it with you, but importantly you will see it is more complicated than our toy example above.
 
-### review: Why log tranform the response variable?
+### review: Why log transform the response variable?
 **Note:** with the model that I am multiplying thorax length by 1000 (to convert to $\mu m$) and then using a $log_2$ transformation on it.
 
 Why am I doing the log transformation in the first place?
 
-I am doing the transformation directly in the model call itself. This is not necessary, but emmeans will recognize this, and facilitates backtransformation of our estimates.
+I am doing the transformation directly in the model call itself. This is not necessary, but emmeans will recognize this, and facilitates back-transformation of our estimates.
 
 
 ### The model
@@ -1004,10 +989,10 @@ plot(thorax_emm,
   theme(text = element_text(size = 16))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-47-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 
-#### side note: Backtransforming in emmeans
+#### side note: Back-transforming in emmeans
 Like I mentioned emmeans can recognize the log2 transformation, so if you prefer the measures or plots in $\mu m$ response scale.
 
 
@@ -1051,7 +1036,7 @@ plot(thorax_emm_response,
   theme(text = element_text(size = 16))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-48-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
 
 ### contrasts for sexual dimorphism
@@ -1127,7 +1112,7 @@ plot(SSD_contrasts_treatment) +
   theme(text = element_text(size = 16))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-50-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 
 ### The interaction contrast
@@ -1180,7 +1165,7 @@ plot(thorax_ssd_contrasts) +
   theme(text = element_text(size = 16))
 ```
 
-![](Contrasts.notes_files/figure-html/unnamed-chunk-51-1.png)<!-- -->
+![](Contrasts.notes_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 
 
