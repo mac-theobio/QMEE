@@ -19,6 +19,7 @@ Class materials
 
 -   [Ian's simple simulations](../lectures/TeachingSimulationsBasics.html)
 	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/TeachingSimulationsBasics.Rmd)
+-   [Ian's example power analysis via simulation with a regression R file](https://github.com/mac-theobio/QMEE/blob/master/docs/code/SimulationPowerAnalysis_lm.R)	
 
 Resources
 =========
