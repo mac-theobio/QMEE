@@ -153,15 +153,14 @@ So we can see that the treatment contrasts in the linear model are (in this simp
 
 ### These are not the difference(s) we are looking for!
 
-![droids](https://media.giphy.com/media/l2JJKs3I69qfaQleE/giphy.gif) 
+![NotTheDroidsYouAreLookingFor](https://media.giphy.com/media/l2JJKs3I69qfaQleE/giphy.gif) 
 
-But we are not interested in the difference between setosa and the other two species, but in comparisons to versicolor.
+
+But we are not interested in the difference between *setosa* and the other two species, but in comparisons to *versicolor*.
 
 
 ## Reviewing (or introducing) ourselves to the "design matrix"
 
-
-###
 
 It may help to remind ourselves of the design matrix ($\mathbf{X}$) for our linear model. In `R` we use the `model.matrix()` function to look at this.
 
@@ -176,12 +175,14 @@ unique(model.matrix( ~ iris$Species))
 ```
 
 
-While R can be somewhat confusing on this, you can use the `contrasts` function to also peek at this
+While R can be somewhat confusing on this, you can use the `contrasts` function to also peek at this:
+
 ```{r check-contrasts}
 Smat <- contrasts(as.factor(iris$Species))
 ```
 
 Note that the first column (of all 1s) is missing from this. That first column represents what? 
+
 
 Let's add the intercept back on
 
@@ -202,13 +203,14 @@ Lmat
 ```
 
 
-Now we focus more on each row.
+Now we consider each row (instead of column like the design matrix)
 
 - The second row says that the contrast it is giving us is the difference between the estimated means of *versicolor* and *setosa*.
 
 - The third row says that the contrast it is giving us is the difference between the estimated means of *virginica* and *setosa*.
 
 Let's take a look
+
 ```{r predictvals}
 species_predictedVals
 ```
@@ -228,7 +230,7 @@ which is the same as the estimates in the second and third rows of our model out
 lm_out(mod1)
 ```
 
-Importantly, in statistics we describe the values in the matrix (`Lmat`) that we inverted as the contrast coefficients. 
+Importantly, in statistics we describe the values in the matrix (`Lmat`) that we inverted as *contrast coefficients*. 
 
 So how we set up the design matrix actually influences the default contrasts we get as the model coefficients. But what if those are not the contrasts we want? Do we need to change the design matrix?  Not necessarily. Once we have the estimates, we can fit our custom contrasts. But first, let's go through an example where we do change the design matrix.
 
@@ -306,7 +308,7 @@ i.e
 
 $$ 1 \times \hat{\mu}_{versicolor}  - \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
 
-with coefficients
+with (contrast) coefficients
 
 $$ (1,- \frac{1}{2}, - \frac{1}{2} )$$
 
@@ -329,28 +331,30 @@ This is the same as saying if the predicted value of *setosa* was the same as th
 
 $$ \hat{\mu}_{versicolor}  \approxeq \frac{1}{2} (\hat{\mu}_{setosa} + \hat{\mu}_{virginica})$$
 
-This is an example of a custom contrast. 
+This is an example of a custom contrast. With:
+
 $$(1, -\frac{1}{2}, -\frac{1}{2})$$ 
-represents the contrasts coefficients
+
+representing the contrasts coefficients.
 
 ### Contrast coefficients
 
 We can construct our contrast coefficients with a few basic "rules" (See Crawley pg 368-369). For each particular contrast we want to set it up so that:
 
-- Treatments to be lumped together (like setosa and virginica) get the same sign ($+$ or $-$)
+- Treatments to be lumped together (like *setosa* and *virginica*) get the same sign ($+$ or $-$)
 - Groups of means to be contrasted get opposite signs
 - a contrast coefficient of $0$ is used if that factor level is to be excluded from the comparison
 - The sum of the contrasts coefficients (usually) add up to zero
 
-When we are examining more than one contrast from a particular model, we often would like to only have *orthogonal contrasts*, where each contrast is uncorrelated (linearly independent) of all other contrasts. To do so we:  
+When we are examining more than one contrast from a particular model, we often would like to only have *orthogonal contrasts*, where each contrast is uncorrelated (linearly independent) of all other contrasts. To do so we make sure:  
 
 - The sum of the contrasts coefficients, for a particular contrast (always) add up to zero
 - The cross-product of the coefficients, for any pair of contrasts, sum to zero. (show example to explain)
 
-### Ok, great?
+### How does this help me get the estimates I want?
 
 Well a couple of issues. First the way I just wrote this, is annoying for anything but a toy problem like this. 
-More importantly I want to be able to assess the uncertainty in this difference I computed. That means some fiddly algebra with the standard errors for each estimate.   
+More importantly I want to be able to assess the uncertainty in this difference I computed. That means some fiddly algebra with the standard errors for each estimate. 
 
 
 ### custom contrasts in base R.
@@ -376,11 +380,11 @@ setosa_virginica <- c(1, 0, -1)  # setosa VS virginica
 versicolor_VS_others <- c(-0.5, 1, -0.5)
 ```
 
-Unfortunately using these effectively with base R requires a few additional algebraic steps, which we want to avoid for now. So let's use emmeans which can take care of all of this for us.
+Unfortunately using these effectively with base R requires a few additional algebraic steps, which we want to avoid for now. So let's use the `emmeans` library, which takes care of all of this for us.
 
 ## using emmeans
 
-While you can write out custom contrasts, I find it really a pain in the butt, so use `emmeans`!
+
 
 
 ### Getting the estimated means and their confidence intervals with emmeans
@@ -409,7 +413,7 @@ iris_custom_contrasts
 ```
 
 
-emmeans is even more useful, making it straightforward to get confidence intervals for the contrasts!
+`emmeans` is even more useful, making it straightforward to get confidence intervals for the contrasts!
 
 ```{r emm_confint}
 confint(iris_custom_contrasts )
@@ -423,26 +427,32 @@ plot(iris_custom_contrasts) +
          geom_vline(xintercept = 0, lty = 2 , alpha = 0.5) +
          theme_bw() +
          theme(text = element_text(size = 20))
-         
 ```
 
 
 ### Flexibility with emmeans for many types of contrasts
-This approach allows much more flexibility. see `?contrast-methods`
 
-Importantly and helpfully, for broader sets of contrasts emmeans does much automatically
+This approach allows much more flexibility. see `?"contrast-methods"`. Furthermore emmeans has excellent vignettes in the help which can guide you a great deal.
 
-If we had *a priori* (really important!), planned to compare all species to each other we could use this
+Importantly and helpfully, for broader sets of contrasts emmeans does much automatically.
+
+If we had *a priori* (really important!), planned to compare all species to each other we could use this. 
 
 ```{r}
 contrast(spp_em, method = "pairwise")
+```
 
-pairs(spp_em) # same as above, just a shortcut function.
+For pairwise comparisons there is a shortcut function as well.
+
+```{r}
+pairs(spp_em) 
 
 confint(pairs(spp_em))
 ```
 
-Note how it automatically adjusts for the multiple comparisons in this case!
+It automatically adjusts for the multiple comparisons in this case of doing pairwise comparisons.
+
+As we discussed in class. Doing all pairwise comparisons is probably **not** something you want, and rarely makes for good science either. Certainly, it is not consistent with the statistical philosophy we are trying to instill. Instead, we strongly advocate focusing on your (small?) set of planned (*a priori*) comparisons.
 
 ```{r}
 plot(pairs(spp_em)) +
@@ -450,7 +460,9 @@ plot(pairs(spp_em)) +
          xlab("Estimated difference in Sepal Lengths")
 ```
 
-and, usefully we could have gotten our setosa VS virginica (i.e. excluding versicolor) comparison this way
+
+The pairs function does allow us to focus on fewer comparisons thankfully. We could have gotten our *setosa* VS *virginica* (i.e. excluding *versicolor*) comparison this way:
+
 ```{r}
 pairs(spp_em, exclude = 2)
 ```
