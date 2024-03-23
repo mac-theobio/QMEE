@@ -198,13 +198,14 @@ plot(iris_custom_contrasts) +
          geom_vline(xintercept = 0, lty = 2 , alpha = 0.5) +
          theme_bw() +
          theme(text = element_text(size = 20))
-         
 
 
 ## -----------------------------------------------------------------------------
 contrast(spp_em, method = "pairwise")
 
-pairs(spp_em) # same as above, just a shortcut function.
+
+## -----------------------------------------------------------------------------
+pairs(spp_em) 
 
 confint(pairs(spp_em))
 
@@ -222,6 +223,8 @@ pairs(spp_em, exclude = 2)
 ## -----------------------------------------------------------------------------
 load("../data/contrast_tutorial_dat.RData")
 
+#load("contrast_tutorial_dat.RData")
+
 size_dat <- contrast_tutorial_dat
 
 
@@ -229,7 +232,7 @@ size_dat <- contrast_tutorial_dat
 head(size_dat)
 
 
-## -----------------------------------------------------------------------------
+## ----beeswarm, fig.width = 14, out.width="100%"-------------------------------
 ggplot(size_dat, 
        aes( y = length, x = selection:sex, col = sex, shape = replicate)) +
   geom_quasirandom(alpha = 0.8, size = 1.4) +
@@ -250,29 +253,58 @@ Anova(mod1_thorax)
 
 
 ## -----------------------------------------------------------------------------
-summary(mod1_thorax)
+round(summary(mod1_thorax)$coef, digits = 4)
 
 
-## -----------------------------------------------------------------------------
+## ----marg-means-plot, fig.width = 14------------------------------------------
 thorax_emm <- emmeans(mod1_thorax, specs = ~ sex | selection)
 
 thorax_emm
 
+## rotate strip labels:
+## https://stackoverflow.com/questions/40484090/rotate-switched-facet-labels-in-ggplot2-facet-grid
+rot_strips <-   theme_bw() +
+    theme(text = element_text(size = 16),
+          strip.text.y.right = element_text(angle = 0))
+
 plot(thorax_emm,
-     xlab = "model estimates, thorax length, log2 microM") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+     xlab = "model estimates, thorax length, log2 µm") +
+    rot_strips
 
 
-## -----------------------------------------------------------------------------
-thorax_emm_response <- emmeans(mod1_thorax, specs = ~ sex | selection, type = "response")
+## ----fig.width = 14-----------------------------------------------------------
+thorax_emm_response <- emmeans(mod1_thorax, 
+                               specs = ~ sex | selection, type = "response")
 
 thorax_emm_response
 
+
+## -----------------------------------------------------------------------------
+F_control_log2 <- as.data.frame(thorax_emm[1,])
+
+F_control_log2
+
+
+## -----------------------------------------------------------------------------
+F_control_log2 <- c(F_control_log2$emmean,
+                    F_control_log2$lower.CL,
+                    F_control_log2$upper.CL)
+
+F_control_log2
+
+
+## -----------------------------------------------------------------------------
+2^F_control_log2
+
+
+## -----------------------------------------------------------------------------
+thorax_emm_response[1,]
+
+
+## ----fig.width = 14-----------------------------------------------------------
 plot(thorax_emm_response,
-     xlab = "model estimates, thorax length, microM") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+     xlab = "model estimates, thorax length, µm") +
+    rot_strips
 
 
 ## -----------------------------------------------------------------------------
@@ -289,12 +321,11 @@ confint(SSD_contrasts_treatment)
 ## -----------------------------------------------------------------------------
 plot(SSD_contrasts_treatment) + 
   geom_vline(xintercept = 0, lty = 2, alpha = 0.5) + 
-  labs(x = "sexual size dimorphism") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+    labs(x = "sexual size dimorphism") +
+    rot_strips
 
 
-## -----------------------------------------------------------------------------
+## ----fig.width = 14-----------------------------------------------------------
 thorax_ssd <- emmeans(mod1_thorax,  pairwise ~ sex*selection) # warning is letting you know these are not of general use. We only do this as we are forming an interaction contrast.
 
 thorax_ssd_contrasts <- contrast(thorax_ssd[[1]], 
@@ -302,13 +333,31 @@ thorax_ssd_contrasts <- contrast(thorax_ssd[[1]],
                                  by = NULL)
 
 
+## ----fig.width = 14-----------------------------------------------------------
 thorax_ssd_contrasts
 
 confint(thorax_ssd_contrasts)
 
+
+## ----fig.width = 14-----------------------------------------------------------
 plot(thorax_ssd_contrasts) + 
   geom_vline(xintercept = 0, lty = 2, alpha = 0.5) + 
-  labs(x = "change in SSD relative to control lineages", y = "comparison") +
-  theme_bw() +
-  theme(text = element_text(size = 16))
+    labs(x = "change in SSD relative to control lineages (log2)", y = "comparison") +
+    theme_bw() + theme(text = element_text(size = 16))
+
+
+## -----------------------------------------------------------------------------
+
+thorax_ssd_contrasts_ratios <- contrast(thorax_ssd[[1]], 
+                                 interaction = c(selection = "trt.vs.ctrl1", sex = "pairwise"),
+                                 by = NULL,type = "response")
+
+confint(thorax_ssd_contrasts_ratios)
+
+
+## ----fig.width = 14-----------------------------------------------------------
+plot(thorax_ssd_contrasts_ratios) + 
+  geom_vline(xintercept = 1, lty = 2, alpha = 0.5) + 
+    labs(x = "change in SSD relative to control lineages (ratio)", y = "comparison") +
+    theme_bw() + theme(text = element_text(size = 16))
 
