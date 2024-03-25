@@ -21,8 +21,8 @@ Class materials
 	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/TeachingSimulationsBasics.Rmd)
 -   [Ian's example power analysis via simulation with a regression R file](https://github.com/mac-theobio/QMEE/blob/master/docs/code/SimulationPowerAnalysis_lm.R)	
 
-* [Jonathan's simulation code](
-code/sims.R
+* [Jonathan's simulation code](code/sims.R)
+
 Resources
 =========
 
