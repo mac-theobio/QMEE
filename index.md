@@ -42,6 +42,7 @@ There may also be some asynchronous content.
 ### Additional topics
 
 - [Simulating data in statistics](topics/Simulations.html) 
+- [Contrasts](topics/Contrasts.html) 
 
 <!-- COMMENT
 

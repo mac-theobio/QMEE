@@ -163,8 +163,16 @@ homBox.Rout: code/homBox.R homMerge.Rout
 
 ######################################################################
 
-## Dushoff lectures that live elsewhere
+## Push Dworkin code
 
+## docs/code/Contrasts.lecture.R: lectures/Contrasts.rmd
+docs/code/%.lecture.R: lectures/%.rmd
+	R --vanilla -e 'library("knitr"); knit("$<", output="$@", tangle=TRUE)'
+
+Contrast_test.Rout: code/Contrast_test.R
+	$(pipeR)
+
+## Dushoff lectures that live elsewhere
 Ignore += docs/legacy
 
 ######################################################################

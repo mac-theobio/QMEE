@@ -1,2 +1,3 @@
 assignments/project.md: 2024-03-11
 tmp.R: 2024-03-18
+lectures/Contrasts.notes.md: 2024-03-23
