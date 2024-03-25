@@ -20,6 +20,8 @@ Class materials
 -   [Ian's simple simulations](../lectures/TeachingSimulationsBasics.html)
 	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/TeachingSimulationsBasics.Rmd)
 
+* [Jonathan's simulation code](
+code/sims.R
 Resources
 =========
 
