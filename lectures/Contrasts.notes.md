@@ -2,7 +2,7 @@
 title: "Introduction to contrasts, and using emmeans in R"
 bibliography: "../qmee.bib"
 author: "Ian Dworkin"
-date: "25 Mar 2024"
+date: "27 Mar 2024"
 output:
   html_document:
     keep_md: true
