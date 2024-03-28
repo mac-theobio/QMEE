@@ -129,10 +129,16 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+sims.Rout: code/sims.R
+	$(pipeR)
+
+simlist.Rout: simlist.R sims.Rout
+	$(pipeR)
+
 testsims.Rout: code/testsims.R
 	$(pipeR)
 
-sims.Rout: code/sims.R
+simCIs.Rout: simCIs.R testsims.rds
 	$(pipeR)
 
 australia.Rout: code/australia.R

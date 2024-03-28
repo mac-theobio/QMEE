@@ -1,10 +1,11 @@
 library(glmmTMB)
 library(dplyr)
+library(purrr)
 
-set.seed(101)
+library(shellpipes)
 
 sim <- function(nGroup, days, β0, β_treat, β_day
-	, sdint, sdslope, corr, sdres
+	, sdint, sdslope, corr, sdres, ...
 ){
 	nBats <- nGroup*2
 	batID <- as.factor(1:nBats)
@@ -40,11 +41,23 @@ fit <- function(dat){
 		, data=dat
 		, family = "gaussian"
 	)
-	summary(fit)
-	confint(fit)
+	## summary(fit)
+	return(confint(fit))
+}
+
+simCIs <- function(simfun, fitfun, ...)
+{
+	dat <- simfun(...)
+	fit <- as.data.frame(fitfun(dat))
+	return(data.frame(vname = row.names(fit)
+		, est = fit$Est
+		, low = fit$"2.5"
+	))
 }
 
 ######################################################################
+
+numSims <- 10
 
 set.seed(2134)
 s0 <- sim(nGroup=3, days=seq(3, 60, by=3)
@@ -52,4 +65,16 @@ s0 <- sim(nGroup=3, days=seq(3, 60, by=3)
 	, sdint=3, sdslope=0.1, corr=0, sdres=2
 )
 
-fit(s0)
+simCIs(sim, fit, nGroup=3, days=seq(3, 60, by=3)
+	, β0=10, β_treat=10, β_day=2
+	, sdint=3, sdslope=0.1, corr=0, sdres=2
+)
+
+ciList <- map(.x=1:numSims, .f=simCIs
+	, simfun=sim, fitfun=fit
+	, nGroup=3, days=seq(3, 60, by=3)
+	, β0=10, β_treat=10, β_day=2
+	, sdint=3, sdslope=0.1, corr=0, sdres=2
+)
+
+rdsSave(ciList)
