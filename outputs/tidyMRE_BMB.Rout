@@ -1,0 +1,153 @@
+
+R Under development (unstable) (2024-03-25 r86192) -- "Unsuffered Consequences"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(glmmTMB)
+> library(dplyr)
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+> library(purrr)
+> library(broom.mixed)
+> 
+> ## These ...'s aren't the best practice; should figure out more about map
+> sim <- function(groupSize, days, β0, β_treat, β_day
++ 	, sdint, sdslope, corr, sdres=2, ...
++ ){
++ 
++ 	nBats <- groupSize*2 ## Treatment and control
++ 
++ 	batID <- as.factor(1:nBats) ## Make this look less like a number with paste()
++ 	treatment <- as.factor(rep(c("control", "exercise"), each=groupSize))
++ 
++ 	tdat <- data.frame(batID, treatment)
++ 
++ 	dat <- expand.grid(batID=batID, day=days)
++ 
++ 	dat <- full_join(dat, tdat, by="batID")
++ 
++ 	y <- simulate_new( ~ 1 + treatment + day + (1 + day | batID)
++ 		, nsim = 1
++ 		, family = "gaussian"
++ 		, newdata = dat
++ 		, newparams = list(
++ 			beta = c(β0, β_treat, β_day)
++ 			, theta = c(log(sdint), log(sdslope), corr)
++ 			, betad = log(sdres)
++ 		)
++ 	)
++ 
++ 	dat$flightTime <- y[[1]]
++ 	return(dat)
++ }
+> 
+> fit <- function(dat){
++ 	return(glmmTMB(flightTime ~ 1 + treatment + day + (1 + day | batID)
++ 		, data=dat
++ 		, family = "gaussian"
++ 	))
++ }
+> 
+> simCIs <- function(simfun, fitfun, ...){
++ 	dat <- simfun(...)
++ 	fit <- fitfun(dat)
++ 	return(as.data.frame(tidy(fit, conf.int=TRUE)))
++ 	c <- as.data.frame(confint(fit))
++ }
+> 
+> set.seed(101)
+> 
+> sessionInfo()
+R Under development (unstable) (2024-03-25 r86192)
+Platform: x86_64-pc-linux-gnu
+Running under: Pop!_OS 22.04 LTS
+
+Matrix products: default
+BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0
+
+locale:
+ [1] LC_CTYPE=en_CA.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_CA.UTF-8        LC_COLLATE=en_CA.UTF-8    
+ [5] LC_MONETARY=en_CA.UTF-8    LC_MESSAGES=en_CA.UTF-8   
+ [7] LC_PAPER=en_CA.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_CA.UTF-8 LC_IDENTIFICATION=C       
+
+time zone: America/Toronto
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] broom.mixed_0.2.9.5 purrr_1.0.2         dplyr_1.1.4        
+[4] glmmTMB_1.1.9      
+
+loaded via a namespace (and not attached):
+ [1] sandwich_3.1-0      utf8_1.2.4          future_1.33.2      
+ [4] generics_0.1.3      tidyr_1.3.1         lattice_0.22-6     
+ [7] listenv_0.9.1       lme4_1.1-35.2       digest_0.6.35      
+[10] magrittr_2.0.3      grid_4.4.0          estimability_1.5   
+[13] mvtnorm_1.2-4       Matrix_1.7-0        backports_1.4.1    
+[16] survival_3.5-8      multcomp_1.4-25     mgcv_1.9-1         
+[19] fansi_1.0.6         TH.data_1.1-2       codetools_0.2-19   
+[22] numDeriv_2016.8-1.1 cli_3.6.2           rlang_1.1.3        
+[25] parallelly_1.37.1   splines_4.4.0       tools_4.4.0        
+[28] parallel_4.4.0      nloptr_2.0.3        coda_0.19-4.1      
+[31] minqa_1.2.6         forcats_1.0.0       boot_1.3-30        
+[34] globals_0.16.3      broom_1.0.5         vctrs_0.6.5        
+[37] R6_2.5.1            zoo_1.8-12          lifecycle_1.0.4    
+[40] emmeans_1.10.0      MASS_7.3-60.2       furrr_0.3.1        
+[43] pkgconfig_2.0.3     pillar_1.9.0        glue_1.7.0         
+[46] Rcpp_1.0.12         tibble_3.2.1        tidyselect_1.2.1   
+[49] xtable_1.8-4        nlme_3.1-164        TMB_1.9.10         
+[52] compiler_4.4.0     
+> 
+> print(try(simCIs(simfun=sim, fitfun=fit
++ 	, groupSize = 15, days=seq(3, 60, by=3)
++ 	, β0=10, β_treat=10, β_day=2
++ 	, sdint=3, sdslope=0.1, corr=0, sdres=2
++ )))
+    effect component    group                 term    estimate  std.error
+1    fixed      cond     <NA>          (Intercept) 10.38018237 0.70098336
+2    fixed      cond     <NA>    treatmentexercise  9.90870946 0.97283537
+3    fixed      cond     <NA>                  day  1.96284477 0.01766592
+4 ran_pars      cond    batID      sd__(Intercept)  2.61697356         NA
+5 ran_pars      cond    batID              sd__day  0.09352647         NA
+6 ran_pars      cond    batID cor__(Intercept).day -0.21475437         NA
+7 ran_pars      cond Residual      sd__Observation  1.91906813         NA
+  statistic      p.value conf.low conf.high
+1  14.80803 1.299952e-49 9.006280 11.754085
+2  10.18539 2.304297e-24 8.001987 11.815432
+3 111.10911 0.000000e+00 1.928220  1.997469
+4        NA           NA 1.807961  2.037003
+5        NA           NA       NA        NA
+6        NA           NA       NA        NA
+7        NA           NA       NA        NA
+> 
+> proc.time()
+   user  system elapsed 
+  1.677   0.524   1.940 
