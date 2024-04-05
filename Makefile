@@ -135,10 +135,7 @@ projects.Rout: code/projects.R
 sims.Rout: code/sims.R
 	$(pipeR)
 
-testsims.Rout: code/testsims.R
-	$(pipeR)
-
-simCIs.Rout: simCIs.R testsims.rds
+tidyMRE.Rout: code/tidyMRE.R
 	$(pipeR)
 
 australia.Rout: code/australia.R
