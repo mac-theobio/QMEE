@@ -11,7 +11,7 @@
 
 <meta name="author" content="Ben Bolker and Jonathan Dushoff" />
 
-<meta name="date" content="2024-03-27" />
+<meta name="date" content="2025-12-26" />
 
 <title>Generalized linear models</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Generalized linear models</h1>
 <h4 class="author">Ben Bolker and Jonathan Dushoff</h4>
-<h4 class="date">27 March 2024</h4>
+<h4 class="date">26 December 2025</h4>
 
 </div>
 
@@ -455,8 +455,12 @@ values</li>
 <p>For example:</p>
 <pre class="r"><code>data(&quot;sleepstudy&quot;, package = &quot;lme4&quot;)
 set.seed(101)
-library(glmmTMB)
-y &lt;- simulate_new( ~ Days + (Days | Subject),
+library(glmmTMB)</code></pre>
+<pre><code>## Warning in checkDepPackageVersion(dep_pkg = &quot;TMB&quot;): Package version inconsistency detected.
+## glmmTMB was built with TMB version 1.9.10
+## Current TMB version is 1.9.16
+## Please re-install glmmTMB from source or restore original &#39;TMB&#39; package (see &#39;?reinstalling&#39; for more information)</code></pre>
+<pre class="r"><code>y &lt;- simulate_new( ~ Days + (Days | Subject),
                   nsim = 1,
                   family = &quot;gaussian&quot;,
                   newdata = sleepstudy, ## covariates

@@ -4,7 +4,9 @@ title: "Biology 708/QMEE"
 
 The web site for Biology 708. The user-friendly view is [here](https://mac-theobio.github.io/QMEE/index.html).
 
+<!-- COMMENT
 [Zoom link for 2024](https://mcmaster.zoom.us/j/95509320544)
+-->
 
 ## Workflow
 
