@@ -23,7 +23,7 @@ Directories with editble course content:
 All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.
 
 Some make rules:
-* syncup: I now use this when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily.  Do this _instead_ of pull.
+* syncup: Use this instead of pull when starting to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily.
 	* If you've pulled already, it should be OK to `make dateup` instead
 * update_all: remake the site
 * push_all: remake the site; push the main directory and all of the active subdirectories (sometimes with separate commits)
