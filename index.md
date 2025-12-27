@@ -15,8 +15,8 @@ COMMENT -->
 - Course material is in three places:
    - here
    - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
-   - venues/forums for online discussion: TBD/TBA
-- communication by e-mail (to `bio708qmee@gmail.com`) is preferred
+   - venues/forums for online discussion: _to be discused_
+- Or reach us by [e-mail to `bio708qmee@gmail.com`](mailto:bio708qmee@gmail.com)
 
 ## Course schedule
 
@@ -46,7 +46,6 @@ Open for discussion; _let us know if you have suggestions_.
 <!-- COMMENT
 - [Simulating data in statistics](topics/Simulations.html) 
 - [Contrasts](topics/Contrasts.html) 
-
 
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html) [Probably covered in LM topic now? 2024 Mar 19 (Tue)]
