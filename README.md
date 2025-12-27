@@ -15,10 +15,10 @@ __Under construction__
 Directories with editble course content:
 * <repo>/ contains the index document for the website
 * admin contains administrative materials
-* topics contains an overview page for each topic (roughly a week (or optional week) of the course
+* topics contains an overview page for each topic (roughly a week of the course
 * lectures contains lecture material
 * tips contains additional material from us
-* code for live coding that we want to share with people (currently has only bayes.bug?, probably ready from elsewhere)
+* code for live coding that we want to share with people
 
 All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.
 
@@ -28,7 +28,6 @@ Some make rules:
 * update_all: remake the site
 * push_all: remake the site; push the main directory and all of the active subdirectories (sometimes with separate commits)
 * local_site: remake the site and open a local-file-based version
-* old_site: open a local-file-based version of the 2019 site from the gh-pages directory
 * NOTE that rules which commit will open an editor for you (set variable MSEDITOR to control editor identity)
 
 ## Data directory
