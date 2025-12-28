@@ -1,17 +1,16 @@
 ---
 title: "Topic: Introduction to R"
-date: Jan 2024
+date: Jan 2026
 bibliography: "../qmee.bib"
 ---
 
-If you have trouble with any of the steps below you can get help in class, or you can ask in (venue TBA)
-
+If you have trouble with any of the steps below you can get help in class, or you can ask in (venue __TBD__)
 
 Before Tuesday
 ----------------
 
 *   Install and run the free (and open-source) program `R` from the links at the top of [the Comprehensive R Archive Network](http://cran.r-project.org/).
-	 * If you have an older version of R (< 4.3.2), *please update to the latest version*.
+	 * If you have an older version of R (< 4.5.0), *please update to the latest version*.
 
 * Install and run the free and open-source R
     development environment `RStudio` from the Download button at the
@@ -26,7 +25,7 @@ Before Tuesday
 	* You may want to read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
 * e-mail your GitHub account name to <bio708qmee@gmail.com>
 
-Before Thursday
+Before Friday
 ----------------
 
 * Get as far as you can through the following steps:
@@ -53,10 +52,10 @@ Resources
     *   [Importing data](../tips/Importing_data.html)
     *   [Running R](../tips/Running_R.html)
 
-Thursday
+Friday
 =========
 
-Our goal for Thursday's class is to set up repos, experiment with committing, pushing and pulling, and share with the instructors.
+Our goal for Friday's class is to set up repos, experiment with committing, pushing and pulling, and share with the instructors.
 
 * E-mail your GitHub user name to `bio708qmee@gmail.com`, if you haven't already done so.
 * Work through chapters 9 and 12 in [Happy Git with R](https://happygitwithr.com/)
@@ -70,9 +69,9 @@ COMMENT -->
 Assignment
 ==========
 
-* Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and add a paragraph to the `README.md` file in your course repo describing it. Please give us some context for the data and describe the **biological** questions you would hope to answer (if you also want to translate your biological questions into statistical questions that's fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the hardest parts of data analysis).
+* Choose a data set that might be fun for you to explore for examples in this class (and possibly for the class project). Acquire the data (or make a plan to acquire it), and add a paragraph to the `README.md` file in your course repo describing it. Please give us some context for the data and describe the **biological** questions you would hope to answer (if you also want to translate your biological questions into statistical questions that's fine, but you should always start by framing the biological questions; the translation from biological to statistical questions is one of the most important parts of data analysis).
 
-Input some piece of this data (use some public data set if your real data set is not quickly available) into `R`, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work by running them from beginning to end in a **clean R session** (in RStudio you can "Restart R", then "Run All" from the "Run" icon above the script window) before submitting by emailing the name of your main script to us at <bio708qmee@gmail.com>.
+Input some piece of this data (use some public data set if your real data set is not quickly available) into R, and do a substantive calculation using the data. You should upload a text file or spreadsheet, and an R script that reads it and does the calculation. You should confirm that these work by running them from beginning to end in a **clean R session** (in RStudio you can "Restart R", then "Run All" from the "Run" icon above the script window) before submitting by emailing the name of your main script to us at <bio708qmee@gmail.com>.
 
 * See the [assignment instructions](../admin/assignments.html)
 

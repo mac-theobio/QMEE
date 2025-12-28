@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2024-03-27" />
+  <meta name="date" content="2025-12-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3203,7 +3203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">27 March 2024</p>
+            <p style="margin-top: 6px; margin-left: -2px;">26 December 2025</p>
           </hgroup>
   </slide>
 
@@ -3283,8 +3283,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <pre class = 'prettyprint lang-r'>data(&quot;sleepstudy&quot;, package = &quot;lme4&quot;)
 set.seed(101)
-library(glmmTMB)
-y &lt;- simulate_new( ~ Days + (Days | Subject),
+library(glmmTMB)</pre>
+
+<pre >## Warning in checkDepPackageVersion(dep_pkg = &quot;TMB&quot;): Package version inconsistency detected.
+## glmmTMB was built with TMB version 1.9.10
+## Current TMB version is 1.9.16
+## Please re-install glmmTMB from source or restore original &#39;TMB&#39; package (see &#39;?reinstalling&#39; for more information)</pre>
+
+<pre class = 'prettyprint lang-r'>y &lt;- simulate_new( ~ Days + (Days | Subject),
                   nsim = 1,
                   family = &quot;gaussian&quot;,
                   newdata = sleepstudy, ## covariates

@@ -4,29 +4,30 @@ title: "Biology 708/QMEE"
 
 The web site for Biology 708. The user-friendly view is [here](https://mac-theobio.github.io/QMEE/index.html).
 
+<!-- COMMENT
 [Zoom link for 2024](https://mcmaster.zoom.us/j/95509320544)
+-->
 
 ## Workflow
 
 __Under construction__
 
-Directories with course content:
+Directories with editble course content:
 * <repo>/ contains the index document for the website
 * admin contains administrative materials
-* topics contains an overview page for each topic (roughly a week (or optional week) of the course
+* topics contains an overview page for each topic (roughly a week of the course
 * lectures contains lecture material
 * tips contains additional material from us
-* code for live coding that we want to share with people (right now 2024 Jan 17 has only bayes.bug?, probably ready from elsewhere)
+* code for live coding that we want to share with people
 
 All of these directories follow the same rules to farm out material to corresponding subdirectories of docs/ which is where the github.io pages are served.
 
 Some make rules:
-* syncup: I now use this when I start to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily.  Do this _instead_ of pull.
+* syncup: Use this instead of pull when starting to work. It's supposed to merge work (including rendered products) without doing rendering unnecessarily.
 	* If you've pulled already, it should be OK to `make dateup` instead
 * update_all: remake the site
 * push_all: remake the site; push the main directory and all of the active subdirectories (sometimes with separate commits)
 * local_site: remake the site and open a local-file-based version
-* old_site: open a local-file-based version of the 2019 site from the gh-pages directory
 * NOTE that rules which commit will open an editor for you (set variable MSEDITOR to control editor identity)
 
 ## Data directory

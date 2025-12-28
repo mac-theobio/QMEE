@@ -1,5 +1,5 @@
 ---
-title: Quantitative Methods in Ecology and Evolution<br><br>(winter 2024)
+title: Quantitative Methods in Ecology and Evolution<br><br>(winter 2026)
 ---
 
 <!--- COMMENT
@@ -15,12 +15,12 @@ COMMENT -->
 - Course material is in three places:
    - here
    - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
-   - venues/forums for online discussion: TBD/TBA
-- communication by e-mail (to `bio708qmee@gmail.com`) is preferred
+   - venues/forums for online discussion: _to be discused_
+- Or reach us by [e-mail to `bio708qmee@gmail.com`](mailto:bio708qmee@gmail.com)
 
 ## Course schedule
 
-Tues 11:30-12:20, Thurs 9:30-11:20. Class locations are posted on Mosaic, or ask the instructors.
+Tues 8:30-10:20, Fri 9:30-11:20. Class locations are posted on Mosaic, or ask the instructors.
 
 There may also be some asynchronous content.
 
@@ -41,12 +41,12 @@ There may also be some asynchronous content.
 
 ### Additional topics
 
+Open for discussion; _let us know if you have suggestions_.
+
+<!-- COMMENT
 - [Simulating data in statistics](topics/Simulations.html) 
 - [Contrasts](topics/Contrasts.html) 
 
-<!-- COMMENT
-
- TBD/TBA
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html) [Probably covered in LM topic now? 2024 Mar 19 (Tue)]
 - [Penalized regression] (penalized.html)
@@ -57,6 +57,8 @@ There may also be some asynchronous content.
 
 -   [Jonathan Dushoff](http://www.biology.mcmaster.ca/dushoff/)
 -   [Ben Bolker](http://www.math.mcmaster.ca/~bolker/)
+<!-- COMMENT
 -   [Ian Dworkin for a bit](https://dworkinlab.github.io/)
+-->
 
 [data directory](data/index.html)

@@ -37,7 +37,7 @@ Resources
         on centering and scaling in linear models (interpretability)
      -   [Nakagawa and Cuthill 2007](https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1469-185X.2007.00027.x) on effect sizes (and their confidence intervals) and how to make good use of them in biology (comparability)
    -   [Open source book on effect sizes, with examples in R](https://matthewbjane.quarto.pub/). Also useful chapter on benchmarking in this.
-   -   [Watch this video by Megan Higgs](https://www.youtube.com/watch?v=eJI0kNXmonk) which discusses benchmarking (critical stuff at about 8:40 in)
+   -   [Higgs 2024](https://critical-inference.com/quantitative-backdrop/) which discusses benchmarking quantitative effects. 
 
 Assignment
 ==========
