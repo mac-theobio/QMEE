@@ -3,9 +3,6 @@ title: "Introduction to R"
 author: "Jonathan Dushoff and Ben Bolker"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 bibliography: "../qmee.bib"
-output: 
-  ioslides_presentation:
-    css: 'scrollable_slides.css'
 ---
 
 <!-- rendering
