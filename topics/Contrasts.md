@@ -15,7 +15,7 @@ Class materials
 ===============
 
 * [Lecture](../lectures/Contrasts.notes.html)
-	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/Contrasts_QMEE_2024.Rmd)
+	* [Rmd file](https://github.com/mac-theobio/QMEE/blob/master/lectures/Contrasts_QMEE.Rmd)
 	* [R file](../code/Contrasts.lecture.R)
 	* [data](../data/contrast_tutorial_dat.RData)
 
