@@ -42,4 +42,4 @@ Resources
 Assignment
 ==========
 
--   [Assignment, due Feb 23rd](../docs/assignments/BIO708_2024_Assignment_MIC.pdf)
+-   Assignment, due Feb 23rd (see `docs/assignments/BIO708_2024_Assignment_MIC.pdf` in repo)

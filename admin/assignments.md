@@ -32,9 +32,9 @@ You are allowed to use generative AI/large language models (Claude, ChatGPT, Gem
 - you are (of course) personally responsible for all material you submit (we will be extremely grumpy if we encounter weird code or writing that doesn't seem to come from you ...)
 - you must always cite GenAI use (see [citation guide](https://libguides.mcmaster.ca/cite-gen-ai)), including which LLM you used and what your prompts were
 - we strongly discourage you from overuse of LLMs, especially when you're learning R or basic stats
-		- Ted Chiang says ["Using ChatGPT to complete assignments is like bringing a forklift into the weight room; you will never improve your cognitive fitness that way."](https://www.newyorker.com/culture/the-weekend-essay/why-ai-isnt-going-to-make-art?_ga=2.144189297.550054202.1766947110-2077085066.1766947110)
-		- Andrew Heiss's [“AI, LLMs,- BS, and Vibe Coding.”](https://datavizs25.classes.andrewheiss.com/resource/ai-bs.html#vibe-coding-and-learning) says
-		> If you know what you’re doing, and you mistrust everything the LLM spits out, and hand-check everything it says, vibe coding can save you some time. HOWEVER it is (1) potentially dangerous, and (2) bad for learning.
+  - Ted Chiang says ["Using ChatGPT to complete assignments is like bringing a forklift into the weight room; you will never improve your cognitive fitness that way."](https://www.newyorker.com/culture/the-weekend-essay/why-ai-isnt-going-to-make-art?_ga=2.144189297.550054202.1766947110-2077085066.1766947110)
+  - Andrew Heiss's [“AI, LLMs,- BS, and Vibe Coding.”](https://datavizs25.classes.andrewheiss.com/resource/ai-bs.html#vibe-coding-and-learning) says
+	> If you know what you’re doing, and you mistrust everything the LLM spits out, and hand-check everything it says, vibe coding can save you some time. HOWEVER it is (1) potentially dangerous, and (2) bad for learning.
 - of course, these guidelines (citation, personal responsibility) apply to material taken from Stack Overflow or other forums
 
 Weights and rubrics
