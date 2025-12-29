@@ -70,13 +70,13 @@ Goal: find patterns (& problems) in data, explore hypotheses
 
 ## Cleveland hierarchy
 
-- [Cleveland hierarchy](http://sfew.websitetoolbox.com/post/clevelands-graphical-features-hierarchy-4598555): position, length, angle, area, volume, colour: also see @rauser_how_2016
+- [Cleveland hierarchy](https://priceonomics.com/how-william-cleveland-turned-data-visualization/): position, length, angle, area, volume, colour: also see @rauser_how_2016
 ![cleveland](../pix/data_vis_1.png)
 
 ## Aesthetics
 
 - [Edward Tufte](http://en.wikipedia.org/wiki/Edward_tufte): chartjunk, data- and non-data-ink, small multiples, direct labeling, ...
-- graphics fascists: [dynamite plots](http://emdbolker.wikidot.com/blog:dynamite), [pie charts](http://wnnnww.qualia.hr/pie-chart-controversy/), [dual-axes plots](http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf) ...
+- graphics fascists: [dynamite plots](http://emdbolker.wikidot.com/blog:dynamite), [pie charts](https://scc.ms.unimelb.edu.au/resources/data-visualisation-and-exploration/no_pie-charts), [dual-axes plots](http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf) ...
 
 ## other ideas
 
@@ -108,7 +108,7 @@ Goal: find patterns (& problems) in data, explore hypotheses
 
 -->
 
-## [ggplot(2)](http://ggplot2.org)
+## [ggplot(2)](https://ggplot2.tidyverse.org/)
 
 -   **data**
 -   **mappings**: between variables in the data frame and **aesthetics**, or graphical attributes
@@ -175,7 +175,7 @@ computational burden, and display overlapping problems, relevant
 ## Bits and pieces
 
 * ggplot2 [extensions](https://www.ggplot2-exts.org)
-- [Cookbook for R: Graphs](http://wiki.stdout.org/rcookbook/Graphs/), [R Graph Gallery](http://gallery.r-enthusiasts.com/), [R Graphics Cookbook](http://shop.oreilly.com/product/0636920023135.do) ($$)
+- [Cookbook for R: Graphs](https://www.cookbook-r.com/Graphs/), [R Graph Gallery](http://gallery.r-enthusiasts.com/), [R Graphics Cookbook](http://shop.oreilly.com/product/0636920023135.do) ($$)
 - Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations
 - Andrew Gelman's blog: Infovis vs. statistical graphics
 -   [Paul Krugman on axes starting from zero](http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/)
