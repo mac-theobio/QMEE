@@ -285,7 +285,7 @@ sessionInfo()
 ## Other refs
 
 - http://sas-and-r.blogspot.com/2010/10/example-89-contrasts.html
-- [`gmodels::fit.contrast()`](http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/gmodels/html/fit.contrast.html) (show parameter estimates based on re-fitting models with new contrasts), [`rms::contrast.rms()`](http://hosho.ees.hokudai.ac.jp/~kubo/Rdoc/library/rms/html/contrast.html) (ditto, for `rms`-based fits)
+- [`gmodels::fit.contrast()`](https://search.r-project.org/CRAN/refmans/gmodels/html/fit.contrast.html) (show parameter estimates based on re-fitting models with new contrasts), [`rms::contrast.rms()`](https://search.r-project.org/CRAN/refmans/rms/html/contrast.html) (ditto, for `rms`-based fits)
 - http://www.ats.ucla.edu/stat/r/library/contrast_coding.htm
 - Crawley *Statistical Computing: An Introduction to Data Analysis
 using S-PLUS*, chapter 18

@@ -2,7 +2,7 @@
 title: "Introduction to contrasts, and using emmeans in R"
 bibliography: "../qmee.bib"
 author: "Ian Dworkin"
-date: "26 Dec 2025"
+date: "28 Dec 2025"
 output:
   html_document:
     keep_md: true
@@ -692,7 +692,7 @@ iris_custom_contrasts
 ```
 ##  contrast             estimate     SE  df t.ratio p.value
 ##  versicolor_VS_others    0.139 0.0892 147   1.560  0.1212
-##  virginica_VS_setosa    -1.582 0.1030 147 -15.370  <.0001
+##  virginica_VS_setosa    -1.582 0.1030 147 -15.370 <0.0001
 ```
 
 
@@ -740,9 +740,9 @@ contrast(spp_em, method = "pairwise")
 
 ```
 ##  contrast               estimate    SE  df t.ratio p.value
-##  setosa - versicolor      -0.930 0.103 147  -9.030  <.0001
-##  setosa - virginica       -1.582 0.103 147 -15.370  <.0001
-##  versicolor - virginica   -0.652 0.103 147  -6.330  <.0001
+##  setosa - versicolor      -0.930 0.103 147  -9.030 <0.0001
+##  setosa - virginica       -1.582 0.103 147 -15.370 <0.0001
+##  versicolor - virginica   -0.652 0.103 147  -6.330 <0.0001
 ## 
 ## P value adjustment: tukey method for comparing a family of 3 estimates
 ```
@@ -756,9 +756,9 @@ pairs(spp_em)
 
 ```
 ##  contrast               estimate    SE  df t.ratio p.value
-##  setosa - versicolor      -0.930 0.103 147  -9.030  <.0001
-##  setosa - virginica       -1.582 0.103 147 -15.370  <.0001
-##  versicolor - virginica   -0.652 0.103 147  -6.330  <.0001
+##  setosa - versicolor      -0.930 0.103 147  -9.030 <0.0001
+##  setosa - virginica       -1.582 0.103 147 -15.370 <0.0001
+##  versicolor - virginica   -0.652 0.103 147  -6.330 <0.0001
 ## 
 ## P value adjustment: tukey method for comparing a family of 3 estimates
 ```
@@ -800,7 +800,7 @@ pairs(spp_em, exclude = 2)
 
 ```
 ##  contrast           estimate    SE  df t.ratio p.value
-##  setosa - virginica    -1.58 0.103 147 -15.370  <.0001
+##  setosa - virginica    -1.58 0.103 147 -15.370 <0.0001
 ```
 
 
@@ -854,7 +854,7 @@ ggplot(size_dat,
   theme(text = element_text(size = 18))
 ```
 
-<img src="Contrasts.notes_files/figure-html/beeswarm-1.png" width="100%" />
+<img src="Contrasts.notes_files/figure-html/beeswarm-1.png" alt="" width="100%" />
 
 
 Here is the  model we used for the study for this trait. I will briefly discuss it with you, but importantly you will see it is more complicated than our simple example above with the iris data.

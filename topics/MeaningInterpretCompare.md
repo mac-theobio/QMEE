@@ -24,7 +24,7 @@ Class materials
 ===============
 
 -   [slides on measurement theory](../lectures/BIO708_Measurement_and_Meaning.pdf)
--   [script for interpretability](../lectures/Intepreting_lm_output_Feb13_2024_short.html)
+-   [script for interpretability](../lectures/Interpreting_lm_Output.html)
 -   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
 -   [script for effect sizes](../lectures/BIO708_EffectSizes.html)
 
@@ -42,4 +42,4 @@ Resources
 Assignment
 ==========
 
--   [Assignment, due Feb 23rd](../docs/assignments/BIO708_2024_Assignment_MIC.pdf)
+-   Assignment, due Feb 23rd (see `docs/assignments/BIO708_2024_Assignment_MIC.pdf` in repo)

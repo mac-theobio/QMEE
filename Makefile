@@ -13,6 +13,10 @@ vim_session:
 Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
 Sources += $(wildcard html/*.*)
 
+Ignore += cleaning.pdf
+cleaning.pdf: lectures/cleaning.rmd
+	pandoc -s -o $@ $<
+
 ######################################################################
 
 ## Root content
