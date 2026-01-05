@@ -10,8 +10,8 @@ COMMENT -->
 ## Course information
 
 - [Course description](admin/description.html)
-- [Project information](admin/projects.html)
 - [Information on assignments](admin/assignments.html)
+- [Project information](admin/projects.html)
 - Course material is in three places:
    - here
    - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
