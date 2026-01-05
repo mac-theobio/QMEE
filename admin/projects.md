@@ -3,6 +3,35 @@ title: Final project
 bibliography: ../qmee.bib
 ---
 
+The final project is a group activity. The first step will be to identify a biological question and some data to answer it with.
+
+## Project proposals (March 3)
+
+Please write up a *short* (1-2 paragraph) proposal for a group project in biological data analysis and post it to a venue (TBD) by March 3.
+
+Your project should focus on the biological questions you want to answer, and the data that you have to answer them with; it can say a little about the quantitative/statistical techniques you will use, if you already have ideas in that direction. 
+
+* If you have data to use, it must be shareable at least with the instructors and with other students working on your project (and you must be able to share the *results* of your analysis with the whole class)
+* If you don't have access to any data (yet), or your data are sensitive/private, you can:
+    * try to get similar data from a colleague, or from a published analysis
+	* structure your problem around a simulation analysis, i.e. construct randomized 'data' that will help you understand whether/how a particular set of statistical techniques actually works when analyzing data with a given effect size and noise level
+
+The more interesting and engaging your writeup is, the more likely that someone else will want to work on your data with you. If you do **not** want to work on the question that you proposed, please state that clearly in your proposal.
+
+This is supposed to be an initial set of ideas; you're not required to do exactly what you describe here (e.g. if it turns out to be infeasible, or something else ends up being more interesting).
+
+Feel free to reach out to the instructors if you want to clarify the parameters of the assignment.
+
+We will help organize groups based on interests and make recommendations about which of the proposals from that group are the most feasible and appropriate for this course.
+
+## Future milestones
+
+* decide on groups, data set, set up GitHub repo with README file
+* updated README.md, data-analysis journal, analysis plan
+* presentations (in class)
+* final write-up (end of term)
+
+<!--
 ## Tasks
 
 by **15 March** you should:
@@ -38,21 +67,5 @@ Your writeup should be posted to your repository as a PDF file. Please do **not*
 
 The writeup is due at noon on **Thu 25 April**. It is worth four ordinary assignments. 
 
-## Project proposals
 
-Please write up a *short* (1-2 paragraph) proposal for a group project in biological data analysis and post it to [the Project descriptions Teams channel](https://teams.microsoft.com/_#/school/conversations/Project%20descriptions?threadId=19:2caac1e29b2d4380931e4b6b0c396aa3@thread.tacv2&ctx=channel) by Mon 4 Mar.
-
-Your project should focus on the biological questions you want to answer, and the data that you have to answer them with; it can say a little about the quantitative/statistical techniques you will use, if you already have ideas in that direction. 
-
-* If you have data to use, it must be shareable at least with the instructors and with other students working on your project (and you must be able to share the *results* of your analysis with the whole class)
-* If you don't have access to any data (yet), or your data are sensitive/private, you can:
-    * try to get similar data from a colleague, or from a published analysis
-	* structure your problem around a simulation analysis, i.e. construct randomized 'data' that will help you understand whether/how a particular set of statistical techniques actually works when analyzing data with a given effect size and noise level
-
-The more interesting and engaging your writeup is, the more likely that someone else will want to work on your data with you. If you do **not** want to work on the question that you proposed, please state that clearly in your proposal.
-
-This is supposed to be an initial set of ideas; you're not required to do exactly what you describe here (e.g. if it turns out to be infeasible, or something else ends up being more interesting).
-
-Feel free to reach out to the instructors if you want to clarify the parameters of the assignment.
-
-We will help organize groups based on interests and make recommendations about which of the proposals from that group are the most feasible and appropriate for this course.
+-->

@@ -42,4 +42,4 @@ Exercise
 
 * See the [assignment instructions](../admin/assignments.html)
 
-You should put your code on GitHub in some form. Make sure that your code has no absolute paths, and runs from beginning to end when you restart R (use "source" so you don't skip over errors by accident).
+Put your code on GitHub in some form. Make sure your code has no absolute paths, and runs from beginning to end when you restart R (use `source(...)` so you don't skip over errors by accident; see ['running R'](../tips/Running_R.html))
