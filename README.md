@@ -12,7 +12,7 @@ The web site for Biology 708. The user-friendly view is [here](https://mac-theob
 
 __Under construction__
 
-Directories with editble course content:
+Directories with editable course content:
 * <repo>/ contains the index document for the website
 * admin contains administrative materials
 * topics contains an overview page for each topic (roughly a week of the course
