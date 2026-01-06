@@ -20,9 +20,9 @@ COMMENT -->
 
 ## Course schedule
 
-Tues 8:30-10:20, Fri 9:30-11:20. Class locations are posted on Mosaic, or ask the instructors.
+Tues 8:30-10:20, Fri 9:30-10:20. Class locations are posted on Mosaic, or ask the instructors.
 
-There may also be some asynchronous content.
+Lecture recordings should  be available via Echo360: please e-mail us to request access.
 
 ### Foundations
 
