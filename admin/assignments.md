@@ -15,7 +15,7 @@ If your assignment will be late, please email us [bio708qmee@gmail.com](mailto:b
 - Submit your assignment (i.e. tell us you have finished) **by email** to [bio708qmee@gmail.com](mailto:bio708qmee@gmail.com). Your assignment is not done until you do this. To submit an assignment:
 
 * Tell us the main file we should be looking at, including the _relative path_ from the main repo directory, e.g, `hw1/add.R`
-* Other files that are relevant can simply be mentioned in the script, e.g.:
+* Other relevant files can simply be mentioned in the script, e.g.:
 ``` r
 read.csv("eggplant_survey.csv")
 ## Plot the histotypes (see README.md)
