@@ -15,7 +15,7 @@ COMMENT -->
 - Course material is in three places:
    - here
    - you can find the 'source code' for any material here on the [GitHub repository](https://github.com/mac-theobio/QMEE)
-   - venues/forums for online discussion: _to be discused_
+   - venues/forums for online discussion: [Teams channel](https://teams.microsoft.com/l/channel/19%3ACs0i-5Wh74XUe2aMPXcowmdfFiWQVwSfW-cCKkyZ4Eg1%40thread.tacv2/General?groupId=66df2d5c-0968-4512-8c3b-fcae2fbac9dc&tenantId=44376307-b429-42ad-8c25-28cd496f4772)
 - Or reach us by [e-mail to `bio708qmee@gmail.com`](mailto:bio708qmee@gmail.com)
 
 ## Course schedule
