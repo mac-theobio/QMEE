@@ -13,6 +13,7 @@ vim_session:
 Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
 Sources += $(wildcard html/*.*)
 
+## Not clear why we have this when we also have .html versions
 Ignore += cleaning.pdf
 cleaning.pdf: lectures/cleaning.rmd
 	pandoc -s -o $@ $<
