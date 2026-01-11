@@ -2,6 +2,7 @@
 title: Project tasks
 ---
 
+
 <!-- COMMENT
 
 Write up a paragraph describing a data set and some ideas for a project, and post it to 	WHERE?
@@ -65,6 +66,8 @@ The presentation does not have to be a finished work. Outline your scientific qu
 * Knoops, Paul Peter; Flett, Lucas
 	* Drosophila Sequences
 COMMENT -->
+
+<!-- COMMENT 
 
 ## Getting started
 

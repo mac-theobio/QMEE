@@ -18,18 +18,18 @@ Before Tuesday
     "desktop" version. (If you already have a preferred R coding environment you're
 	welcome to use it instead.)
 
-* install the `tidyverse` suite of R packages: 
-  * within an R session, type `install.packages("tidyverse")`
+* install `tidyverse` and `ratdat` R packages
+  * within an R session, type `install.packages(c("tidyverse", "ratdat"))`
   * (*or* use the package manager window in RStudio).
 * Unless you already have one, [sign up for a github account](https://github.com) (click the big green "Sign up for GitHub" button)
-	* You may want to read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
+	* Read [this advice on picking a GitHub user name](http://happygitwithr.com/github-acct.html) first.
 * e-mail your GitHub account name to <bio708qmee@gmail.com>
 
 Before Friday
 ----------------
 
 * Get as far as you can through the following steps:
-    * Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan's [Happy Git with R](https://happygitwithr.com/); sections 6 ("Install Git") and 7 ("Introduce yourself to Git") are the only ones that actually involve new setup steps
+    * Read and follow the directions in chapters 1-7 (most of them are short!) in Jenny Bryan's [Happy Git with R](https://happygitwithr.com/); chapters 6 ("Install Git") and 7 ("Introduce yourself to Git") are the only ones that actually involve new setup steps
 * Read @wilson_good_2017 (see References, below)
 	
 Goals
