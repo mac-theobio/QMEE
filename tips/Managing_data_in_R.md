@@ -23,8 +23,8 @@ variables are being treated as such.
 ## Missing values
 
 When you input data, you need to be aware of `NA` ("not available"). Your
-read function has an option called `na.strings` which you can use to
-communicate between R and your CSV files, for example. You need to know
+read function has an option called `na.strings` (base R, `read.*`) or `na` (tidyverse, `read_*`) which you can use to
+communicate between R and your CSV files, for example specifying that "*" denotes a missing values in a spreadsheet. You need to know
 that
 
 - `NA==x` is always `NA`
@@ -132,6 +132,10 @@ introduced the `tidyr` package.
     -   `summarise()`
     -   `arrange()`
 	-   `*_join()`
+
+See part 4 of [data carpentry for ecologists](https://datacarpentry.github.io/R-ecology-lesson/working-with-data.html) lesson, especially pivoting pictures, e.g. `sp_by_plot_wide %>% pivot_longer(cols = -species_id, names_to = "PLOT", values_to = "MEAN_WT")`:
+
+![](../pix/pivot_longer.png)
 
 #### base R
 
