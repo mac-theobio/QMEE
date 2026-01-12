@@ -216,18 +216,24 @@ representations. These have names like <code>factor()</code>,
 <code>as.numeric()</code> and <code>is.character()</code>.</p>
 <h3 id="factors">Factors</h3>
 <p>Factors are logically variables with a fixed number of categories. In
-R they are represented as integer variables that have a “levels”
-attribute. In other words, each possible value of the factor is given an
-integer, and the variable carries around the code that allows
-translation from this integer to its meaning.</p>
+R they are represented as integer variables that have a
+<code>levels()</code> attribute. In other words, each possible value of
+the factor is given an integer, and the variable carries around the code
+that allows translation from this integer to its meaning.</p>
 <p>This system has advantages:</p>
 <ul>
 <li>You can put the levels in an appropriate order; these govern the
 order in which the categories are presented when summarizing the data,
 plotting graphs, or printing the output of statistical models</li>
+<li>R automatically constructs <em>dummy variables</em> for regression
+models
+<ul>
 <li>You can specify the <em>contrasts</em> that R will use when building
 statistical models (i.e. which levels or comparisons of levels to
 compare)</li>
+</ul></li>
+<li>Preserves metadata (e.g. {‘control’, ‘treatment’} variable rather
+than {0,1})</li>
 </ul>
 <p>… and disadvantages:</p>
 <ul>
@@ -238,16 +244,9 @@ compare)</li>
 </ul></li>
 <li>Similar variables can have different sets of levels</li>
 </ul>
-<p>As a general rule, convert variables to factors <em>at the last
-possible time</em>, when you have already fixed typos; combined
-different data sets; etc.. The tidyverse functions
-<code>readr::read_csv()</code>, <code>readr::read_table()</code>,
-<code>readxl::read_xlsx()</code> will <strong>not</strong> automatically
-convert strings to factors. You can set
-<code>options(stringsAsFactors=FALSE)</code> to disable R’s default
-behaviour of converting character data to factors when you use
-<code>read.table()</code> or <code>read.csv()</code> to read in
-data.</p>
+<p>As a general rule, convert variables to factors <em>as late as
+possible</em>, when you have already fixed typos; combined different
+data sets; etc..</p>
 <h2 id="examination">Examination</h2>
 <p>You should think creatively, and early on, about how to check your
 data. Is it internally consistent? Are there extreme outliers? Are there
@@ -267,12 +266,15 @@ it’s broken.</p>
 discuss this more later on.</p>
 <p>What R functions do you know that are useful for examination? What
 are your strategies?</p>
+<p>If you’ve decided on a check, embed <code>stopifnot()</code> (or
+<code>assertthat</code> package) in your code to throw an error if
+something unexpected happens</p>
 <h2 id="manipulation">Manipulation</h2>
 <p>Even once your data are clean, there can still be a lot of work
 getting it into a format you want to use. “Data manipulation”,
 “munging”, or “wrangling” are the terms covering this activity. The
-RStudio folks have a useful <a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheat
-sheet</a>.</p>
+RStudio folks have a useful <a href="https://web.archive.org/web/20190413142317/http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheat
+sheet</a></p>
 <p>This is a very, very hard, very general problem; everyone’s data
 problems and requirements are slightly different. But there are
 recurring themes.</p>
@@ -293,13 +295,18 @@ recently introduced the <code>tidyr</code> package.</p>
 <li>“Long” rather than “wide” form</li>
 <li>Sometimes duplicates data</li>
 <li>Statistical modeling tools and graphical tools (especially the
-<strong>ggplot2</strong> package) in R work best with long form</li>
+<code>ggplot2</code> package) in R work best with long form</li>
 </ul>
 <h3 id="tools">Tools</h3>
 <h4 id="the-tidyverse">The tidyverse</h4>
 <ul>
-<li><code>tidyr</code> package (reshaping): <code>gather()</code>,
-<code>spread()</code></li>
+<li><code>tidyr</code> package
+<ul>
+<li><code>pivot_longer()</code>, <code>pivot_wider()</code>
+(reshaping)</li>
+<li>other data management utilities: <code>separate()</code>,
+<code>replace_na()</code></li>
+</ul></li>
 <li><code>dplyr</code> package:
 <ul>
 <li><code>mutate()</code></li>

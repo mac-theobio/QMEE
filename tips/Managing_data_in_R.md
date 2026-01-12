@@ -39,7 +39,7 @@ representations. These have names like `factor()`, `as.numeric()` and
 ### Factors
 
 Factors are logically variables with a fixed number of categories. In R
-they are represented as integer variables that have a "levels"
+they are represented as integer variables that have a `levels()`
 attribute. In other words, each possible value of the factor is given an
 integer, and the variable carries around the code that allows
 translation from this integer to its meaning.
@@ -47,7 +47,9 @@ translation from this integer to its meaning.
 This system has advantages:
 
 * You can put the levels in an appropriate order; these govern the order in which the categories are presented when summarizing the data, plotting graphs, or printing the output of statistical models
-* You can specify the *contrasts* that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)
+* R automatically constructs *dummy variables* for regression models
+    * You can specify the *contrasts* that R will use when building statistical models (i.e. which levels or comparisons of levels to compare)
+* Preserves metadata (e.g. {'control', 'treatment'} variable rather than {0,1})
 
 ... and disadvantages:
 
@@ -56,10 +58,7 @@ This system has advantages:
         `as.numeric(as.character(f))`
 * Similar variables can have different sets of levels
 
-As a general rule, convert variables to factors *at the last possible time*, when you have already fixed typos; combined different data sets; etc.. The tidyverse functions `readr::read_csv()`, `readr::read_table()`, `readxl::read_xlsx()` will **not** automatically convert strings to factors. You can set
-`options(stringsAsFactors=FALSE)` to disable R's default behaviour of
-converting character data to factors when you use `read.table()` or
-`read.csv()` to read in data. 
+As a general rule, convert variables to factors *as late as possible*, when you have already fixed typos; combined different data sets; etc..
 
 ## Examination
 
@@ -83,12 +82,14 @@ discuss this more later on.
 What R functions do you know that are useful for examination? What are
 your strategies?
 
+If you've decided on a check, embed `stopifnot()` (or `assertthat` package) in your code to throw an error if something unexpected happens
+
 ## Manipulation
 
 Even once your data are clean, there can still be a lot of work getting
 it into a format you want to use. "Data manipulation", "munging", or
 "wrangling" are the terms covering this activity. The RStudio folks have
-a useful [cheat sheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf).
+a useful [cheat sheet](https://web.archive.org/web/20190413142317/http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 This is a very, very hard, very general problem; everyone's data
 problems and requirements are slightly different. But there are
@@ -114,13 +115,15 @@ introduced the `tidyr` package.
 -   "Long" rather than "wide" form
 -   Sometimes duplicates data
 -   Statistical modeling tools and graphical tools (especially the
-    **ggplot2** package) in R work best with long form
+    `ggplot2` package) in R work best with long form
 
 ### Tools
 
 #### The tidyverse
 
--   `tidyr` package (reshaping): `gather()`, `spread()`
+-   `tidyr` package
+    - `pivot_longer()`, `pivot_wider()`  (reshaping)
+    - other data management utilities: `separate()`, `replace_na()`
 -   `dplyr` package:
     -   `mutate()`
     -   `select()`
