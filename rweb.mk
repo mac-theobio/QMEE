@@ -52,11 +52,9 @@ subdocs/%.html: %.md | html subdocs
 ## Make products from .rmd
 
 hpan = c("-B", "$(site_header)", "-A", "$(site_footer)")
-noteargs = output_format=rmarkdown::html_document()
 noteargs = output_format=rmarkdown::html_document(pandoc_args=$(hpan), css="$(site_css)")
 slideargs = output_format=rmarkdown::ioslides_presentation(css="scrollable_slides.css")
 notesrule = echo 'rmarkdown::render($(io), $(noteargs))' | R --vanilla
-## notesrule = echo 'rmarkdown::render($(io))' | R --vanilla
 slidesrule = echo 'rmarkdown::render($(io), $(slideargs))' | R --vanilla
 io = input="$<", output_file="$(notdir $@)"
 ## renderthere = output_file="$(notdir $@)", output_dir="$(dir $@)"
