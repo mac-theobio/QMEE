@@ -65,7 +65,7 @@ Spreadsheets
 ------------
 
 R can read and write in spreadsheet form. Usually the best way to do
-this is with `read.csv` and `write.csv`. A good model for working in R
+this is with `read.csv` and `write.csv` (or their tidyverse analogs). A good model for working in R
 is to read in raw data from spreadsheets and manipulate it in R.
 
 -   If somebody has done a trivial calculation in the spreadsheet, it's
@@ -103,20 +103,20 @@ Metadata
 Data bases
 ----------
 
-Large, or evolving data sets may need to use database tools. As of 2015,
+Large, or evolving data sets may need to use database tools. As of 2020,
 
--   "small" means "fewer than 1000 observations/10 or 20 variables". As
+-   "small" means "fewer than 10K observations/10-20 variables". As
     long as you write reasonably efficient R programs, you shouldn't
     have to worry about speed or memory at all.
--   "medium" means "1000 to 100,000 observations/10-50 variables". You
+-   "medium" means "10K to 100K/10-50 variables". You
     may want to look into efficient data handling packages such as
-    **dplyr** or **data.table**
+    `dplyr`, `data.table`, or `arrow`.
 -   "large" means millions of observations/1000s of variables. You may
     need to store your database in an external database application (R
     is very good at communicating with external databases). This means
     using [ SQL](Wikipedia:SQL.html) (a standard language for
     database queries) and a database server. Many free servers are
-    available, including [ MySQL](Wikipedia:MySQL.html).
+    available, including [ MySQL](Wikipedia:MySQL.html). `dbplyr`, `duckdbplyr` are good tools for this (see [here](https://github.com/bbolker/stat794_bigdata) as well, or ask us)
 
 *This is a possible advanced topic*
 
@@ -126,11 +126,12 @@ R
 If you are following the pipeline philosophy, it will be useful to make
 scripts that do discrete tasks, and depend on each others' outputs.
 
-You can do this by using the R commands `load` and `save`: if you have
-an R script that you are happy with and is producing some nice
-variables, you can write `save(var1,` `var2,` `vars,`
-`file="happy.RData"`, at the end of that script, and then
-`load("happy.RData")` at the beginning of some other scripts.
+You can do this by using the R commands `readRDS()`/`saveRDS()`;
+if an R script produces an object you want to re-use, you can write
+`saveRDS(var1, "var1.rds")` at the end of that script, and then
+`var1 <- readRDS("var1.rds")` at the beginning of other scripts.
+(You can use `save()`/`load()` similarly to save/re-load several
+objects at a time.)
 
 *How should you get more information about these commands?*
 
@@ -160,6 +161,9 @@ important features of R Markdown:
 -   incorporate LaTeX equations
 -   caching for long computations
 
+[quarto](https://quarto.org/) is a newer/fancier version of R markdown (but
+not a big difference unless your pipeline also uses Python or other non-R languages).
+
 ### Make
 
 [ make](Wikipedia:Make_(software).html) is a system for
@@ -168,4 +172,6 @@ your project self-documenting: you write down the steps of your pipeline
 in a permanent fashion, in order to make them work.
 
 The [gnu make documentation](http://www.gnu.org/software/make/manual/make.html) is very useful, but not necessarily easy to attack.
+
+The [targets package](https://books.ropensci.org/targets/) is a similar, R-specific tool.
 
