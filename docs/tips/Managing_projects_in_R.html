@@ -6,72 +6,165 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Managing_projects_in_R</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
-  </style>
-  <style type="text/css">
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
 body {
-margin: auto;
-padding-right: 1em;
-padding-left: 1em;
-max-width: 66em; border-left: 1px solid black;
-border-right: 1px solid black;
-color: black;
-font-family: Verdana, sans-serif;
-font-size: 100%;
-line-height: 140%;
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
 }
-pre {
-border: 1px dotted gray;
-background-color: #ececec;
-color: #1111111;
-padding: 0.5em;
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
 }
-code {
-font-family: monospace;
-}
-h1, h2, h3, h4, h5 { font-family: verdana;
-font-weight: bold;
-border-bottom: 1px dotted black;
-color: #444400; }
 h1 {
-font-size: 150%;
-color: #0000DD
+font-size: 1.8em;
 }
-h2 {
-font-size: 130%;
 }
-h3 {
-font-size: 110%;
+@media print {
+html {
+background-color: white;
 }
-h1.title {
-font-size: 200%;
-font-weight: bold;
-padding-top: 0.2em;
-padding-bottom: 0.2em;
-text-align: left;
-border: none;
-text-align: center;
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
 }
-dt code {
-font-weight: bold;
+p, h2, h3 {
+orphans: 3;
+widows: 3;
 }
-dd p {
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
 margin-top: 0;
 }
-#footer {
-padding-top: 1em;
-font-size: 100%;
-color: gray;
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+background-color: #1a1a1a;
+border: none;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
 text-align: center;
-margin-bottom: 2ex;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
 }
 </style>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -84,13 +177,20 @@ margin-bottom: 2ex;
 	</div>
 </div>
 </header>
+
 <h1 id="pipelines">Pipelines</h1>
-<p>One of the main concepts of this course is <strong>pipelines</strong>. This means that the various steps of your project are all carefully recorded and systematized. The basic idea is that you should be able to delete any results of computer calculations at any time, and then quickly re-do it.</p>
+<p>One of the main concepts of this course is
+<strong>pipelines</strong>. This means that the various steps of your
+project are all carefully recorded and systematized. The basic idea is
+that you should be able to delete any results of computer calculations
+at any time, and then quickly re-do it.</p>
 <p>Ideally, your project should depend on:</p>
 <ul>
 <li>Some data files</li>
 <li>Some scripts</li>
-<li>A <a href="co-ordination_tool.html">co-ordination tool</a> (a document, master script, or Makefile that describes all of the steps involved in all of your calculations)</li>
+<li>A <a href="co-ordination_tool.html">co-ordination tool</a> (a
+document, master script, or Makefile that describes all of the steps
+involved in all of your calculations)</li>
 </ul>
 <p>… and nothing else</p>
 <h2 id="advantages-of-pipelines">Advantages of pipelines</h2>
@@ -104,7 +204,8 @@ margin-bottom: 2ex;
 <ul>
 <li>It’s easy for others to confirm your work</li>
 <li>Or modify or extend it</li>
-<li><a href="http://www.economist.com/node/21528593">A scary story about why we should practice and push for reproducible research</a></li>
+<li><a href="http://www.economist.com/node/21528593">A scary story about
+why we should practice and push for reproducible research</a></li>
 </ul></li>
 <li>Flexibility
 <ul>
@@ -112,32 +213,59 @@ margin-bottom: 2ex;
 </ul></li>
 </ul>
 <h2 id="automation">Automation</h2>
-<p>A corollary of the flexibility idea is that you should <em>automate</em> whenever possible. Cutting and pasting, or editing by hand, is not only tedious, error-prone and hard to replicate, it also traps you into depending on certain data sets. <strong>DRY</strong> (“don’t repeat yourself”) is a programming maxim.</p>
+<p>A corollary of the flexibility idea is that you should
+<em>automate</em> whenever possible. Cutting and pasting, or editing by
+hand, is not only tedious, error-prone and hard to replicate, it also
+traps you into depending on certain data sets. <strong>DRY</strong>
+(“don’t repeat yourself”) is a programming maxim.</p>
 <p>Some examples:</p>
 <ul>
-<li>You can do most of your quality-control and correction with clever scripts; even when you can’t be clever, it’s still probably worth coding your corrections in a script (rather than, for example, changing an Excel file that came out of the lab).</li>
-<li>As you develop your scripts, you will find yourself wanting to do various tasks in a repetitive way. You should get in the habitat of writing <strong>functions</strong> in R as you rework your script and realize that you are doing the same task (or nearly the same task) multiple times.</li>
-<li>You should use computer scripts to download data from the web when possible. This is possibly beyond the scope of this course (or maybe it could be added as an advanced topic).
+<li>You can do most of your quality-control and correction with clever
+scripts; even when you can’t be clever, it’s still probably worth coding
+your corrections in a script (rather than, for example, changing an
+Excel file that came out of the lab).</li>
+<li>As you develop your scripts, you will find yourself wanting to do
+various tasks in a repetitive way. You should get in the habitat of
+writing <strong>functions</strong> in R as you rework your script and
+realize that you are doing the same task (or nearly the same task)
+multiple times.</li>
+<li>You should use computer scripts to download data from the web when
+possible. This is possibly beyond the scope of this course (or maybe it
+could be added as an advanced topic).
 <ul>
-<li>R has tools for this, you can also check Perl and Python (5 years from now, we may be teaching this whole course in python).</li>
+<li>R has tools for this, you can also check Perl and Python (5 years
+from now, we may be teaching this whole course in python).</li>
 </ul></li>
 </ul>
-<h1 id="r-tools-for-managing-projects">R tools for managing projects</h1>
+<h1 id="r-tools-for-managing-projects">R tools for managing
+projects</h1>
 <h2 id="spreadsheets">Spreadsheets</h2>
-<p>R can read and write in spreadsheet form. Usually the best way to do this is with <code>read.csv</code> and <code>write.csv</code>. A good model for working in R is to read in raw data from spreadsheets and manipulate it in R.</p>
+<p>R can read and write in spreadsheet form. Usually the best way to do
+this is with <code>read.csv</code> and <code>write.csv</code> (or their
+tidyverse analogs). A good model for working in R is to read in raw data
+from spreadsheets and manipulate it in R.</p>
 <ul>
-<li>If somebody has done a trivial calculation in the spreadsheet, it’s usually better to redo it than to copy the answer</li>
-<li>If somebody has done a <em>non-trivial</em> calculation in the spreadsheet, it’s usually better to redo it than to copy the answer
+<li>If somebody has done a trivial calculation in the spreadsheet, it’s
+usually better to redo it than to copy the answer</li>
+<li>If somebody has done a <em>non-trivial</em> calculation in the
+spreadsheet, it’s usually better to redo it than to copy the answer
 <ul>
 <li>It’s probably easier in R.</li>
-<li>Even if it’s harder in R this time, doing it once will enable you to do it in the future and save time (but see <a href="http://xkcd.com/1319/">this</a>).</li>
-<li>It’s usually better to do non-trivial calculations twice and make sure you get the same answer</li>
+<li>Even if it’s harder in R this time, doing it once will enable you to
+do it in the future and save time (but see <a href="http://xkcd.com/1319/">this</a>).</li>
+<li>It’s usually better to do non-trivial calculations twice and make
+sure you get the same answer</li>
 <li>It’s very easy to mess things up in spreadsheets</li>
-<li>It <em>should</em> be harder to make silly mistakes in R – but in practice it doesn’t seem to be.</li>
+<li>It <em>should</em> be harder to make silly mistakes in R – but in
+practice it doesn’t seem to be.</li>
 </ul></li>
-<li><a href="http://www.burns-stat.com/documents/tutorials/spreadsheet-addiction/">“spreadsheet addiction”</a></li>
+<li><a href="http://www.burns-stat.com/documents/tutorials/spreadsheet-addiction/">“spreadsheet
+addiction”</a></li>
 </ul>
-<p>Your goal in many cases should be to take raw data from a spreadsheet and manipulate entirely using scripts. The only time to put it back in a spreadsheet would be to share it with colleagues who want to play with your results</p>
+<p>Your goal in many cases should be to take raw data from a spreadsheet
+and manipulate entirely using scripts. The only time to put it back in a
+spreadsheet would be to share it with colleagues who want to play with
+your results</p>
 <ul>
 <li>Another option is to force these colleagues to learn R</li>
 </ul>
@@ -146,28 +274,57 @@ margin-bottom: 2ex;
 <li>Data about the data</li>
 <li>Big topic</li>
 <li>Often saved in spreadsheet/lost in translation</li>
-<li><a href="https://github.com/ropensci/EML">ecological metadata language</a></li>
+<li><a href="https://github.com/ropensci/EML">ecological metadata
+language</a></li>
 <li>Discuss …</li>
 </ul>
 <h2 id="data-bases">Data bases</h2>
-<p>Large, or evolving data sets may need to use database tools. As of 2015,</p>
+<p>Large, or evolving data sets may need to use database tools. As of
+2020,</p>
 <ul>
-<li>“small” means “fewer than 1000 observations/10 or 20 variables”. As long as you write reasonably efficient R programs, you shouldn’t have to worry about speed or memory at all.</li>
-<li>“medium” means “1000 to 100,000 observations/10-50 variables”. You may want to look into efficient data handling packages such as <strong>dplyr</strong> or <strong>data.table</strong></li>
-<li>“large” means millions of observations/1000s of variables. You may need to store your database in an external database application (R is very good at communicating with external databases). This means using <a href="Wikipedia:SQL.html">SQL</a> (a standard language for database queries) and a database server. Many free servers are available, including <a href="Wikipedia:MySQL.html">MySQL</a>.</li>
+<li>“small” means “fewer than 10K observations/10-20 variables”. As long
+as you write reasonably efficient R programs, you shouldn’t have to
+worry about speed or memory at all.</li>
+<li>“medium” means “10K to 100K/10-50 variables”. You may want to look
+into efficient data handling packages such as <code>dplyr</code>,
+<code>data.table</code>, or <code>arrow</code>.</li>
+<li>“large” means millions of observations/1000s of variables. You may
+need to store your database in an external database application (R is
+very good at communicating with external databases). This means using <a href="Wikipedia:SQL.html">SQL</a> (a standard language for database
+queries) and a database server. Many free servers are available,
+including <a href="Wikipedia:MySQL.html">MySQL</a>. <code>dbplyr</code>,
+<code>duckdbplyr</code> are good tools for this (see <a href="https://github.com/bbolker/stat794_bigdata">here</a> as well, or
+ask us)</li>
 </ul>
 <p><em>This is a possible advanced topic</em></p>
 <h2 id="r">R</h2>
-<p>If you are following the pipeline philosophy, it will be useful to make scripts that do discrete tasks, and depend on each others’ outputs.</p>
-<p>You can do this by using the R commands <code>load</code> and <code>save</code>: if you have an R script that you are happy with and is producing some nice variables, you can write <code>save(var1,</code> <code>var2,</code> <code>vars,</code> <code>file=&quot;happy.RData&quot;</code>, at the end of that script, and then <code>load(&quot;happy.RData&quot;)</code> at the beginning of some other scripts.</p>
-<p><em>How should you get more information about these commands?</em></p>
+<p>If you are following the pipeline philosophy, it will be useful to
+make scripts that do discrete tasks, and depend on each others’
+outputs.</p>
+<p>You can do this by using the R commands
+<code>readRDS()</code>/<code>saveRDS()</code>; if an R script produces
+an object you want to re-use, you can write
+<code>saveRDS(var1, &quot;var1.rds&quot;)</code> at the end of that script, and
+then <code>var1 &lt;- readRDS(&quot;var1.rds&quot;)</code> at the beginning of
+other scripts. (You can use <code>save()</code>/<code>load()</code>
+similarly to save/re-load several objects at a time.)</p>
+<p><em>How should you get more information about these
+commands?</em></p>
 <h1 id="co-ordination-tools">Co-ordination tools</h1>
-<p>You should try to have a pipeline-driven project where as many steps as possible are clearly documented and easily replicable.</p>
-<p>There are many, many techniques for this, and we will try not to get too deeply into it in the course (unless it’s a Requested Topic).</p>
+<p>You should try to have a pipeline-driven project where as many steps
+as possible are clearly documented and easily replicable.</p>
+<p>There are many, many techniques for this, and we will try not to get
+too deeply into it in the course (unless it’s a Requested Topic).</p>
 <p>Some of the tools that we like include:</p>
 <h3 id="r-markdown">R markdown</h3>
-<p>R markdown is a format that allows you to incorporate R code into your documents. This allows you to develop and document your project at the same time, and to allow your documentation to evolve directly into a document that can be submitted to a supervisory committee or a journal.</p>
-<p>RStudio makes a great platform for composing R markdown files, and there’s really good documentation on this format at the <a href="http://rmarkdown.rstudio.com/">RStudio web site</a>. To recap some of the most important features of R Markdown:</p>
+<p>R markdown is a format that allows you to incorporate R code into
+your documents. This allows you to develop and document your project at
+the same time, and to allow your documentation to evolve directly into a
+document that can be submitted to a supervisory committee or a
+journal.</p>
+<p>RStudio makes a great platform for composing R markdown files, and
+there’s really good documentation on this format at the <a href="http://rmarkdown.rstudio.com/">RStudio web site</a>. To recap some
+of the most important features of R Markdown:</p>
 <ul>
 <li>relatively natural/easy formatting rules</li>
 <li>flexible output: HTML, PDF (even MS Word)</li>
@@ -175,11 +332,22 @@ margin-bottom: 2ex;
 <li>incorporate LaTeX equations</li>
 <li>caching for long computations</li>
 </ul>
+<p><a href="https://quarto.org/">quarto</a> is a newer/fancier version
+of R markdown (but not a big difference unless your pipeline also uses
+Python or other non-R languages).</p>
 <h3 id="make">Make</h3>
-<p><a href="Wikipedia:Make_(software).html">make</a> is a system for controlling how files are made from other files. It is useful for making your project self-documenting: you write down the steps of your pipeline in a permanent fashion, in order to make them work.</p>
-<p>The <a href="http://www.gnu.org/software/make/manual/make.html">gnu make documentation</a> is very useful, but not necessarily easy to attack.</p>
+<p><a href="Wikipedia:Make_(software).html">make</a> is a system for
+controlling how files are made from other files. It is useful for making
+your project self-documenting: you write down the steps of your pipeline
+in a permanent fashion, in order to make them work.</p>
+<p>The <a href="http://www.gnu.org/software/make/manual/make.html">gnu
+make documentation</a> is very useful, but not necessarily easy to
+attack.</p>
+<p>The <a href="https://books.ropensci.org/targets/">targets package</a>
+is a similar, R-specific tool.</p>
 <div id="footer">
-	<div style="text-align:center">
+  <div style="text-align:center">
+    <hr>
 		<a href="../index.html">Course home page</a>
 		         
 		<a href="mailto:bio708qmee@gmail.com">Email the profs</a>

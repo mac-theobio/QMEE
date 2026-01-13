@@ -13,6 +13,7 @@ vim_session:
 Sources += $(wildcard docs/*.html) $(wildcard docs/*/*.html)
 Sources += $(wildcard html/*.*)
 
+## Not clear why we have this when we also have .html versions
 Ignore += cleaning.pdf
 cleaning.pdf: lectures/cleaning.rmd
 	pandoc -s -o $@ $<
@@ -48,7 +49,7 @@ assignments/subdocs/%.html: $(wildcard assignments/*.md)
 topics/subdocs/%.html: $(wildcard topics/*.md)
 	cd topics && $(MAKE) subdocs/$*.html
 
-## lectures/subdocs/Mixed_models_intro.slides.html: lectures/Mixed_models_intro.rmd
+## lectures/subdocs/cleaning.slides.html: lectures/cleaning.rmd
 ## lectures/subdocs/Simulations.notes.html: lectures/Simulations.rmd
 ## lectures/subdocs/Permutations.slides.html: lectures/Permutations.rmd
 

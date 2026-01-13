@@ -14,6 +14,7 @@ title: "R resources"
         [Environmetrics](http://cran.r-project.org/web/views/Environmetrics.html) ("Analysis of Ecological and Environmental Data")
     -   `ctv` package (installs all packages associated with a
         Task View)
+- **Ask us, or your peers, on the Teams channel**
 -   The [UCLA R FAQ](http://www.ats.ucla.edu/stat/r/faq/) is very good
 -   Mailing lists and forums:
     -   general ground rules for mailing lists etc.
@@ -33,8 +34,8 @@ title: "R resources"
         (\[r](http://stackoverflow.com/questions/tagged/r) tag)\],
         [CrossValidated](http://stats.stackexchange.com)
     -   [Bioconductor support forum](https://support.bioconductor.org/)
-    -   [\#rstats](https://twitter.com/search?q=%23rstats&src=typd) on
-        Twitter
+    -   [\#rstats](https://bsky.app/search?q=%23rstats) on
+        Bluesky
     -   [R-bloggers](http://www.r-bloggers.com/)
     -   `d-r-users@mcmaster.ca`
 
