@@ -3212,6 +3212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <li><strong>DRY</strong> = &ldquo;don’t repeat yourself&rdquo;. Encapsulate common stuff in functions, or use tidyverse magic (<a href='https://dplyr.tidyverse.org/reference/across.html' title=''>across</a>)</li>
 <li><strong>never use absolute paths</strong></li>
 <li>don’t use file names with spaces or parens</li>
+<li>use <code>stopifnot()</code> for assertions</li>
 <li>don’t mask built-in R objects (<code>t</code>, <code>c</code>, <code>data</code>, …)</li>
 <li>don’t depend on case sensitivity</li>
 <li>don’t put <code>rm(list=ls())</code> at the top of your code (see <a href='https://tidyverse.org/blog/2017/12/workflow-vs-script/' title=''>commentary by Jenny Bryan</a>)</li>
