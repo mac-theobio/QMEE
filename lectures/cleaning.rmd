@@ -171,7 +171,6 @@ print(longsim)
 ```
 
 ## Wide data is often more readable
-* `spread` has been replaced by pivot_wider
 
 ```{r}
 print(pivot_wider(longsim, names_from=class, values_from=people))
