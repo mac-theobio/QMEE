@@ -1,0 +1,37 @@
+---
+title: "Biology 708: quantitative methods in ecology and evolution"
+date: today
+---
+
+
+## Course web site
+
+https://mac-theobio.github.io/QMEE
+
+## Course description
+
+This course focuses on realistic quantitative modeling of lab and field
+data.  The main activity is learning to fit models to data using a
+statistical package and programming language called R. In this applied
+context, the course will visit a variety of philosophical topics:
+parsimony vs. realism, Bayesian vs. frequentist statistics, estimation
+vs. hypothesis testing. The course will enhance your ability to ask
+interesting biological questions with a quantitative flavor; and to
+construct, parameterize, and test models for your own data.
+
+## 
+
+```{r echo = FALSE}
+library(pander)
+read.csv("topics.tsv") |> pander(split.cells = 10, split.table = Inf, justify="left")
+```
+
+After the midterm break at least half of class time is used for group work and instructor assistance with projects.
+
+## Assessments
+
+* participation (forum and in-class) 10%
+* weekly assignments 45%
+* first draft of project 15%
+* in-class presentation of final project 15%
+* written final project 15% (you will get feedback and have a chance to make improvements between the presentation and the final submission of the written project)
