@@ -1,0 +1,10 @@
+week,topic,contents	
+1,Introduction to R,Data types; variable naming; flow control; functions. Intro to GitHub
+2,Data management,Principles of data management and data cleaning; relational tables; workflows
+3,Visualization,Data viz principles; data viz design; data viz in R (ggplot2)
+4,Statistical philosophy,Principles of statistical inference; statistical clarity; p-values and confidence intervals; non-inferiority; frequentist vs. Bayesian inference
+5,Permutations,Permutation-based inference
+6,Linear models,Assumptions; interactions; diagnostics; transformations; R tools for diagnostics/ plots/inference
+7,Generalized linear models,Basics; link and variance functions; diagnostics; inference
+8,Mixed models,Principles;random vs. fixed effects; estimation / diagnostics / inference
+9,Bayesian statistics,Principles; choosing priors; MCMC diagnostics and inference

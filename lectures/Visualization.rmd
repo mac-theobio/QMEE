@@ -172,13 +172,46 @@ Goal: find patterns (& problems) in data, explore hypotheses
 computational burden, and display overlapping problems, relevant
 * combinations or overlays where appropriate (beanplot)
 
+## Examples
+
+```{r plot_ex, echo = FALSE, message = FALSE, fig.width = 8}
+library(cowplot)
+library(ggplot2); theme_set(theme_bw())
+library(ggbeeswarm)
+data("OrchardSprays")
+g0 <- ggplot(OrchardSprays, aes(x=treatment, y=decrease))
+mkplot <- function(type, ...) {
+  geom <- get(paste0("geom_", type))
+  g1 <- g0 + geom(...) + labs(title = type)
+  g1 
+}
+o_sum <- OrchardSprays |> dplyr::summarise(dplyr::across(decrease, .fns = list(mean = mean, se = \(x) sqrt(sd(x)/dplyr::n()))), .by = treatment)
+plot_list <- list(point = mkplot("point")
+                  , jitter = mkplot("jitter", width = 0.1)
+                  , beeswarm = mkplot("beeswarm")
+                  , boxplot = mkplot("boxplot", fill = "gray")
+                  , violin = mkplot("violin", fill = "gray"))
+plot_list <- c(plot_list,
+               list(mean_2se = (g0
+                                + geom_pointrange(data = o_sum, aes(y=decrease_mean
+                                                    , ymin = decrease_mean-2*decrease_se
+                                                    , ymax = decrease_mean+2*decrease_se),
+                                                  size = 0.1, lwd = 0.5)
+                                + labs(title = "mean ± 2SE"))
+                    )
+               )
+plot_grid(plotlist = plot_list, nrow = 2)
+```
+
 ## Bits and pieces
 
 * ggplot2 [extensions](https://www.ggplot2-exts.org)
 - [Cookbook for R: Graphs](https://www.cookbook-r.com/Graphs/), [R Graph Gallery](http://gallery.r-enthusiasts.com/), [R Graphics Cookbook](http://shop.oreilly.com/product/0636920023135.do) ($$)
-- Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations
+- Exporting graphics: bitmap (PNG, JPEG) vs vector (SVG, PDF) representations; see [notes](https://bbolker.github.io/bbmisc/graphics_formats.html)
 - Andrew Gelman's blog: Infovis vs. statistical graphics
 -   [Paul Krugman on axes starting from zero](http://krugman.blogs.nytimes.com/2011/09/14/axes-of-evil/)
-- Beyond 2D: `googleVis`, `Rggobi`, `rgl`, `Mondrian`, ...
+- Beyond 2D: `plotly`, `rgl`, `rayshader` ...
+- Animation/interactive graphics: `plotly`, `ggiraph`
+- JD & BB's [course materials on data visualization](https://mac-theobio.github.io/DataViz/)
 
 ## References
