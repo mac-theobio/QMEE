@@ -169,7 +169,6 @@ Goal: find patterns (& problems) in data, explore hypotheses
 * **small:** show all points, possibly dodged/jittered, with some summary statistics: dotplot, beeswarm. Simple trends (linear/GLM)
 * **medium:** boxplots, loess, histograms, GAM (or linear regression)
 * **large:** modern nonparametrics: violin plots, hexbin plots, kernel densities
-computational burden, and display overlapping problems, relevant
 * combinations or overlays where appropriate (beanplot)
 
 ## Examples
