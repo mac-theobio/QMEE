@@ -76,7 +76,7 @@ Goal: find patterns (& problems) in data, explore hypotheses
 ## Aesthetics
 
 - [Edward Tufte](http://en.wikipedia.org/wiki/Edward_tufte): chartjunk, data- and non-data-ink, small multiples, direct labeling, ...
-- controversial stuff: [dynamite plots](http://emdbolker.wikidot.com/blog:dynamite), [pie charts](https://scc.ms.unimelb.edu.au/resources/data-visualisation-and-exploration/no_pie-charts), [dual-axes plots](http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf) ...
+- controversial stuff: [dynamite plots](http://emdbolker.wikidot.com/blog:dynamite), [pie charts](https://scc.ms.unimelb.edu.au/resources/data-visualisation-and-exploration/no_pie-charts), [dual-axes plots](http://www.perceptualedge.com/articles/visual_business_intelligence/dual-scaled_axes.pdf) ... ([source1](https://chandoo.org/wp/why-3d-pie-charts-are-evil/), [source2](https://simplystatistics.org/posts/2019-02-21-dynamite-plots-must-die/))
 
 ```{r badstuff,echo=FALSE, out.width = "100%"}
 knitr::include_graphics("../pix/bad_plots.png")
