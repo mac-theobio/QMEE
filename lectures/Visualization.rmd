@@ -45,13 +45,36 @@ Goal: find patterns (& problems) in data, explore hypotheses
 	* looking for **absence** of patterns in residuals
 * `performance::check_model()`, `DHARMa` packages
 
+## visual diagnostics
+
+```{r echo=FALSE}
+library(ggExtra)
+library(ggplot2); theme_set(theme_minimal())
+
+set.seed(101)
+dd <- as.data.frame(MASS::mvrnorm(100,mu=c(0,0),
+              Sigma=matrix(c(1,0.8,0.8,1),2)))
+dd <- setNames(rbind(dd,c(-2,2)),c("x","y"))
+dd$special <- c(rep("no",100),"yes")
+p <- ggplot(dd, aes(x, y,
+                    colour=special)) + geom_point(size=5)+
+    scale_colour_manual(values=c("black","red"),guide="none")+
+    labs(x="",y="")
+ggMarginal(p, type = "histogram")
+```
+
 # Inference
 
 ## What is your model telling you?
 
 * A picture is worth 1000 words
 - coefficient plots: replacement for tables [@gelman_lets_2002]; `dotwhisker::dwplot`
-- also: tests of inference [@wickham_graphical_2010]
+
+## Tables vs figures
+
+```{r echo = FALSE, out.width = "100%"}
+knitr::include_graphics("../pix/tab_vs_fig.png")
+```
 
 # Explanation
 
