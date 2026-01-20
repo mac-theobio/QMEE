@@ -134,6 +134,9 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+bananas.Rout: code/bananas.R
+	$(pipeR)
+
 projects.Rout: code/projects.R
 	$(pipeR)
 
