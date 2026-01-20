@@ -3,7 +3,7 @@ data/index.html ## Leave this here; it should be suppressed downstream
 
 MISSING: index.html)
 
-FAO banana data behind pix/bananas.png)
+FAO banana data behind pix/bananas.png
 * data/bananas.tsv
 
 Data on *Anolis* lizards from Schoener 1970 (*Ecology*)
