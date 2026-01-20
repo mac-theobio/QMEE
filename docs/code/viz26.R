@@ -5,7 +5,6 @@ library(dplyr)
 #### pix/bananasbananas.webp
 bf <- read_tsv("data/bananas.tsv")
 
-str(bf)
-
 summary(bf |> mutate(across(where(is.character), factor)))
+
 
