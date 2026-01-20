@@ -3,10 +3,11 @@ library(dplyr)
 library(directlabels)
 library(scales)
 
-bf <- read.delim("data/bananas.tsv") |>
+data_url <- "https://mac-theobio.github.io/QMEE/data/bananas.tsv"
+bf <- read.delim(data_url) |>
   rename(Production = "Value")
 
-(ggplot(bf, aes(Year, Production)) +
+print(ggplot(bf, aes(Year, Production)) +
    geom_line(aes(group = Country)) +
    ## using point shapes 21-25 gives fillable points (circle, square, etc.)
    ## size = 3 makes the points a little bigger
