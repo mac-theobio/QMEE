@@ -4,6 +4,7 @@ data/index.html ## Leave this here; it should be suppressed downstream
 MISSING: index.html)
 
 FAO banana data behind pix/bananas.png)
+* data/bananas.tsv
 
 Data on *Anolis* lizards from Schoener 1970 (*Ecology*)
 * data/lizards.csv
@@ -43,6 +44,3 @@ Other
 * data/cc2.rds
 * data/CA_homicide.rds: Canadian homicide data (processed, from 2021)
 
-### Untracked files ### (1)
-
-* data/bananas.tsv
