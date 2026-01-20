@@ -34,7 +34,10 @@ There's never time to do it right ... but there's always time to do it over!
 * readr
 
 ```{r tidyverse, message=FALSE}
-library(tidyverse)
+## library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(readr)
 ```
 
 ## A sample data set
@@ -51,6 +54,12 @@ summary(villageTable)
 
 ## A sample data set
 
+```{r villageSumClear.R}
+summary(villageTable |> mutate_if(is.character, as.factor))
+```
+
+## A sample data set
+
 ```{r parasite}
 parasiteTable <- read_csv("../data/parademo.csv")
 ```
@@ -58,7 +67,9 @@ parasiteTable <- read_csv("../data/parademo.csv")
 ## A sample data set
 
 ```{r parasiteSum.R}
-summary(parasiteTable)
+(parasiteTable |> mutate(across(where(is.character), as.factor)) 
+	|> summary()
+)
 ```
 
 ## Entering, maintaining and using data
@@ -135,6 +146,9 @@ Break data into logical tables
 	* Village
 	* Village group
 
+* Keys link diferent tables
+	* The gender, height, birthdate fields from the Individual table can be linked to the Event table when needed
+
 ## Tidy example
 
 ```{r echo=FALSE}
@@ -146,22 +160,23 @@ sim <- as_tibble(sim)
 print(sim)
 ```
 
-## Gathering makes things tidy
+## Long data is often tidier
 
 * Use long structure to mark things that are comparable, or have the same units
-* `gather` has been replaced by pivot_longer
+* We often use ```pivot_longer``` to make things tidier
 
 ```{r}
 longsim <- pivot_longer(sim, cols=!time, names_to="class", values_to="people")
 print(longsim)
 ```
 
-## Spreading can make things more human-readable
-* `spread` has been replaced by pivot_wider
+## Wide data is often more readable
 
 ```{r}
 print(pivot_wider(longsim, names_from=class, values_from=people))
 ```
+
+Also necessary for many analyses
 
 ## Flow
 
@@ -266,6 +281,7 @@ print(parasiteTable
 ## Explore ranges
 
 ```{r pophist.R}
+library(ggplot2)
 print(ggplot(villageTable, aes(x=population))
 	+ geom_histogram()
 )
@@ -356,8 +372,6 @@ print(ctab)
 * Never be afraid to break pipes up or put them back together.
 
 ## Factors
-
-* R likes to convert characters to factors
 
 * Factors can be useful, but they're also often weird
 
