@@ -3,6 +3,8 @@ data/index.html ## Leave this here; it should be suppressed downstream
 
 MISSING: index.html)
 
+FAO banana data behind pix/bananas.png)
+
 Data on *Anolis* lizards from Schoener 1970 (*Ecology*)
 * data/lizards.csv
 
@@ -12,7 +14,6 @@ Data from the Garki project
 
 Other files from the cleaning lecture
 * data/religion_basic.ccsv
-* MISSING: data/religion_advanced.ccsv
 * data/live.RData
 
 Canada homicide data (visualization sessions):
