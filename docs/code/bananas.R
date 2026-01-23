@@ -1,3 +1,11 @@
 library(readr)
+library(dplyr)
 
-read_tsv("data/bananas.tsv")
+## Data from FAO; plot used to be famous among Ben
+#### pix/bananasbananas.webp
+bf <- read_tsv("data/bananas.tsv")
+
+str(bf)
+
+summary(bf |> mutate(across(where(is.character), factor)))
+

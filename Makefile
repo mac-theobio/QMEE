@@ -134,6 +134,13 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+viz26.Rout: code/viz26.R
+	$(pipeR)
+
+viz24.Rout: code/viz24.R
+	$(pipeR)
+
+## Prepping for viz26, probably don't need this?
 bananas.Rout: code/bananas.R
 	$(pipeR)
 
@@ -190,6 +197,10 @@ Contrast_test.Rout: code/Contrast_test.R
 Ignore += docs/legacy
 
 ######################################################################
+
+## Pictures
+
+Sources += $(wildcard pix/*.png pix/*.jpg pix/*.webp)
 
 ## Old content
 

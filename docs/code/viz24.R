@@ -5,6 +5,7 @@
 library(ggplot2); theme_set(theme_bw())
 library(performance)
 library(dotwhisker)
+library(see)
 
 ###### Exploratory
 ## It doesn't hurt to remind everyone you're printing the ggplot
@@ -13,12 +14,12 @@ library(dotwhisker)
 ## ... maybe combine with method="lm"
 print(ggplot(mtcars)
 	+ aes(x=disp, y=mpg)
-        + geom_point()
-      	## + aes(color=cyl)            ## numeric: colour ramp
+	+ geom_point()
+	## + aes(color=cyl)            ## numeric: colour ramp
 	## + aes(color=as.factor(cyl)) ## categorical: discrete colours
 	## + geom_smooth(method="lm")  ## regression line
 	+ geom_smooth()                ## loess (default)
-      )
+)
 
 ## if you want to plot a smooth line that's constrained to be positive or
 ## between 0 and 1 (e.g. for proportion data), use a GLM (method = "glm")
