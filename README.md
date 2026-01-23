@@ -28,6 +28,7 @@ Some make rules:
    * update_all: remake the site
 * push_all: remake the site; push the main directory and all of the active subdirectories (sometimes with separate commits)
 * local_site: remake the site and open a local-file-based version
+
 * NOTE that rules which commit will open an editor for you (set variable MSEDITOR to control editor identity)
 
 ## Data directory
