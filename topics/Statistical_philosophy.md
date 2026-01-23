@@ -26,7 +26,7 @@ Resources
 Assignment
 ----------
 
-Not yet decided
+Pick one paper in your field. It can be a paper from your lab group or just a paper that you like. Carefully read any sections of the paper that report the results of statistical tests (including tests of assumptions; effects of nuisance parameters/covariates; and the primary scientific inferences). Write a document that gives the bibliographic reference of the paper and, for at least three of the tests done by the authors, (1) quote their presentation of the test results; (2) describe the issues, if any, with their presentation; (3) write a revised statement that more accurately reflects what inferences we should make from the results. Table 1 of @dushoff_i_2019 may be useful (although you are not required to use "clarity" language).
 
 <!-- COMMENT
 
@@ -44,5 +44,6 @@ See [the assignment page](../admin/assignments.html) to submit. For this case th
 We have listed a bunch of additional readings below: feel free to dip in!
 
 You can also check out this fun web site on [spurious correlations](http://www.tylervigen.com/spurious-correlations)
+
 
 ## References
