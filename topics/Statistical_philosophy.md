@@ -20,14 +20,20 @@ approaches.
 Resources
 ---------
 
-* [Lecture notes](https://github.com/dushoff/statistics_talks/blob/master/outputs/qmee_phil.handouts.pdf)
-	* [Slides](https://github.com/dushoff/statistics_talks/blob/master/outputs/qmee_phil.draft.pdf)
+* [Lecture notes](https://github.com/dushoff/statistics_talks/blob/4d3b5c/outputs/philosophy.handouts.pdf)
+	* [Slides](https://github.com/dushoff/statistics_talks/blob/4d3b5c/outputs/philosophy.slides.pdf)
 
 Assignment
 ----------
 
+Not yet decided
+
+<!-- COMMENT
+
 -   Answer the [MMV question](../assignments/MMV.html).  Get help where you need it, but write up the answer by yourself.
 -   Formulate a hypothesis about your data, and discuss how you would test it statistically.
+
+COMMENT -->
 
 See [the assignment page](../admin/assignments.html) to submit. For this case there are two separate assignments, so you should email us the names of two files on your repo. Don't submit in a proprietary format, like Word. Plain text is best, PDF is also OK.
 
