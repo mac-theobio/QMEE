@@ -22,6 +22,7 @@ Resources
 
 * [Lecture notes](https://github.com/dushoff/statistics_talks/blob/4d3b5c/outputs/philosophy.handouts.pdf)
 	* [Slides](https://github.com/dushoff/statistics_talks/blob/4d3b5c/outputs/philosophy.slides.pdf)
+* Power analysis ([notes](../lectures/power_analysis.notes.html), [slides](../lectures/power_analysis.slides.html))
 
 Assignment
 ----------
