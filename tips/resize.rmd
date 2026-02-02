@@ -1,0 +1,40 @@
+---
+title: "sizing graphs"
+---
+
+## considerations
+
+* virtual 'size' of figure
+* size of figure in text
+* aspect ratio (height/width)
+
+## ways to output figures
+
+* "Save" button in RStudio
+* `pdf(); ...; dev.off()` (or the same for `png()`, etc.)
+* `ggsave()` [automatically saves *most recent* ggplot, but can specify a `gg*` object]
+
+## virtual/'physical' size
+
+* dimension arguments `width`, `height` in `pdf()`, `png()`, etc. (different units!)
+* `width`, `height` in `ggsave` (always inches!)
+* can also control text, etc. sizes with e.g. `cex` (base R) or `theme_*(base_size = ...)` (ggplot2)
+* chunk options: `fig.width`, `fig.height` (Rmarkdown), `fig-width`, `fig-height` (quarto) (can set these to a default spec in a document, in YAML header or via `knitr::opts_chunk()`)
+* **decreasing** the physical size of a figure **increases** the relative size of text, lines, etc.
+* [your axis labels are probably too small](https://clauswilke.com/blog/2013/09/10/the-axis-labels-are-too-damn-small/)
+
+## output size
+
+* size on the page
+* **larger** output size = relatively **smaller** text/lines/etc.
+* `out.height`/`out.width` (Rmarkdown)
+
+> Height of the plot in the output document, which can be different from its physical fig-height, i.e., plots can be scaled in the output document. Depending on the output format, this option can take special values. For example, for LaTeX output, it can be 3in, or 8cm; for HTML, it can be 300px [OR "50%"]
+
+## figuring it out
+
+* trial and error
+* fancy stuff
+   * https://cran.r-project.org/web/packages/r2resize/vignettes/introduction_r2resize.html
+   * https://rpubs.com/oobianom/add-resize-images-tables-in-rmarkdown-quarto-r
+   * https://github.com/EmilHvitfeldt/quarto-revealjs-editable
