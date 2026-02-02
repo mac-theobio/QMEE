@@ -45,6 +45,8 @@ Assignment
 
 Describe your data and one or more of your questions from the point of view of measurement theory, guided by the steps in [Voje et al. 2023](https://doi.org/10.1016/j.tree.2023.08.005) Figure 1 (note that this is _not_ the same as Figure I). That is: describe the theoretical context, relevant attributes, what you will measure on what kind of scale, and how this will affect your statistical analyses.
 
+Also, for at least one comparison discuss how you will decide whether a difference is “important” -- you could specify a cutoff level, or describe how you will investigate this question further.
+
 <!-- COMMENT
 -   Assignment, due Feb 23rd (see `docs/assignments/BIO708_2024_Assignment_MIC.pdf` in repo)
 COMMENT -->
