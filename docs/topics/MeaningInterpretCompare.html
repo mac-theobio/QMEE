@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Ian Dworkin" />
+  <meta name="author" content="Based on ideas from Ian Dworkin" />
   <title>Meaningful, interpretable and comparable estimates</title>
   <style>
 html {
@@ -59,6 +59,10 @@ a:visited {
 color: #1a1a1a;
 }
 img {
+max-width: 100%;
+}
+svg {
+height: auto;
 max-width: 100%;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -162,6 +166,9 @@ margin: 0 0.8em 0.2em -1.6em;
 vertical-align: middle;
 }
 </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
 </head>
 <body>
 <header class="site-header">
@@ -178,7 +185,7 @@ vertical-align: middle;
 <header id="title-block-header">
 <h1 class="title">Meaningful, interpretable and comparable
 estimates</h1>
-<p class="author">Ian Dworkin</p>
+<p class="author">Based on ideas from Ian Dworkin</p>
 </header>
 <h1 id="introduction">Introduction</h1>
 <p>Getting the computer to fit a linear model is relatively
@@ -212,13 +219,11 @@ meaningful comparisons with the broader literature.</p></li>
 <h1 id="class-materials">Class materials</h1>
 <ul>
 <li><a href="../lectures/BIO708_Measurement_and_Meaning.pdf">slides on
-measurement theory</a></li>
-<li><a href="../lectures/Interpreting_lm_Output.html">script for
-interpretability</a></li>
-<li><a href="../lectures/BIO708_EffectSizes_Svelte.pdf">slides on effect
-sizes</a></li>
-<li><a href="../lectures/BIO708_EffectSizes.html">script for effect
-sizes</a></li>
+measurement theory</a> <!-- COMMENT
+-   [script for interpretability](../lectures/Interpreting_lm_Output.html)
+-   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
+-   [script for effect sizes](../lectures/BIO708_EffectSizes.html)
+COMMENT --></li>
 </ul>
 <h1 id="resources">Resources</h1>
 <ul>
@@ -241,11 +246,9 @@ benchmarking in this.</li>
 2024</a> which discusses benchmarking quantitative effects.</li>
 </ul>
 <h1 id="assignment">Assignment</h1>
-<ul>
-<li>Assignment, due Feb 23rd (see
-<code>docs/assignments/BIO708_2024_Assignment_MIC.pdf</code> in
-repo)</li>
-</ul>
+<!-- COMMENT
+-   Assignment, due Feb 23rd (see `docs/assignments/BIO708_2024_Assignment_MIC.pdf` in repo)
+COMMENT -->
 <div id="footer">
   <div style="text-align:center">
     <hr>
