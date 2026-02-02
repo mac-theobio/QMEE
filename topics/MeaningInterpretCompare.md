@@ -1,6 +1,6 @@
 ---
 title: "Meaningful, interpretable and comparable estimates"
-author: "Ian Dworkin"
+author: "Based on ideas from Ian Dworkin"
 ---
 
 Introduction
@@ -24,10 +24,11 @@ Class materials
 ===============
 
 -   [slides on measurement theory](../lectures/BIO708_Measurement_and_Meaning.pdf)
+<!-- COMMENT
 -   [script for interpretability](../lectures/Interpreting_lm_Output.html)
 -   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
 -   [script for effect sizes](../lectures/BIO708_EffectSizes.html)
-
+COMMENT -->
 
 Resources
 =========
@@ -42,4 +43,6 @@ Resources
 Assignment
 ==========
 
+<!-- COMMENT
 -   Assignment, due Feb 23rd (see `docs/assignments/BIO708_2024_Assignment_MIC.pdf` in repo)
+COMMENT -->
