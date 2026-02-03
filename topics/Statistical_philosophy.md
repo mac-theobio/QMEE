@@ -20,7 +20,7 @@ approaches.
 Resources
 ---------
 
-* [Lecture notes](https://github.com/dushoff/statistics_talks/blob/2833e2d5/outputs/philosophy.handouts.pdf) [Slides](https://github.com/dushoff/statistics_talks/blob/2833e2d5/outputs/philosophy.slides.pdf)
+* [Lecture notes](https://github.com/dushoff/statistics_talks/blob/66bf47a7/outputs/philosophy.handouts.pdf) [Slides](https://github.com/dushoff/statistics_talks/blob/66bf47a7/outputs/philosophy.slides.pdf)
 * Power analysis ([notes](../lectures/power_analysis.notes.html), [slides](../lectures/power_analysis.slides.html))
 * [Fisher and Neyman-Pearson](../lectures/fisher-neyman-pearson.html)
 
