@@ -14,7 +14,7 @@ bibliography: qmee.bib
 * P-values as strength of evidence against (never **for**!) a scientific hypothesis
 * report exact P-value
 * sometimes truncated if "very small" (e.g. R reports "< 2.2e-16"; can get exact values if you need them
-	* JD argues that you do not: “be very suspicious of any P-value < 1e-3”
+	* JD argues that you do not need them: “be very suspicious of any P-value < 1e-3”
 
 ## Neyman-Pearson
 
