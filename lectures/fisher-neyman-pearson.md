@@ -1,5 +1,5 @@
 ---
-title: 'Fisherian' vs 'Neyman-Pearson' p-values
+title: "'Fisherian' vs 'Neyman-Pearson' p-values"
 bibliography: qmee.bib
 ---
 
@@ -11,16 +11,16 @@ bibliography: qmee.bib
 
 ## Fisherian
 
-* $p$-values as strength of evidence against (never **for**!) a scientific hypothesis
-* report exact $p$-value
+* P-values as strength of evidence against (never **for**!) a scientific hypothesis
+* report exact P-value
 * sometimes truncated if "very small" (e.g. R reports "< 2.2e-16"; can get exact values if you need them
 
 ## Neyman(n)-Pearson
 
 * decision-theoretic approach
-* set $\alpha$ (rejection) level **ahead of time**
-* **specify alternative hypothesis** ($H_A$) ahead of time
+* set α (rejection) level **ahead of time**
+* **specify alternative hypothesis** (H_A) ahead of time
 * if everything else is correct (e.g. test assumptions hold), can say that decisions to  have a correct *error rate*
-* underlies power calculations as well (set power = $1-\beta$ = prob of correctly rejecting $H_0$)
+* underlies power calculations as well (set power = 1-β = prob of correctly rejecting H_0 under H_A)
 
 ## References
