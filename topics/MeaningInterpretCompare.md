@@ -40,7 +40,7 @@ Resources
    -   [Open source book on effect sizes, with examples in R](https://matthewbjane.quarto.pub/). Also useful chapter on benchmarking in this.
    -   [Higgs 2024](https://critical-inference.com/quantitative-backdrop/) which discusses benchmarking quantitative effects. 
 
-* [Graph sizing](../tips/resize.notes.html); [slides](../tips/resize.notes.html)
+* [Graph sizing](../tips/resize.notes.html); [slides](../tips/resize.slides.html)
 
 Assignment
 ==========
