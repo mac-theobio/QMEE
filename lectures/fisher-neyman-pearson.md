@@ -14,13 +14,14 @@ bibliography: qmee.bib
 * P-values as strength of evidence against (never **for**!) a scientific hypothesis
 * report exact P-value
 * sometimes truncated if "very small" (e.g. R reports "< 2.2e-16"; can get exact values if you need them
+	* JD argues that you do not: “be very suspicious of any P-value < 1e-3”
 
 ## Neyman-Pearson
 
 * decision-theoretic approach
 * set α (rejection) level **ahead of time**
-* specify alternative hypothesis (H_A) **ahead of time**
+* specify alternative hypothesis ($H_A$) **ahead of time**
 * if everything else is correct (e.g. test assumptions hold), can say that decisions to  have a correct *error rate*
-* underlies power calculations as well (set power = 1-β = prob of correctly rejecting H_0 under H_A)
+* underlies power calculations as well (set power = 1-β = prob of correctly rejecting $H_0$ under $H_A$)
 
 ## References
