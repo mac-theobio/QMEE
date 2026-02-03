@@ -26,37 +26,24 @@ options(list(digits = 3, show.signif.stars = F, show.coef.Pvalues = FALSE))
 For most of the tutorial we are going to stick to the two group type evaluation (i.e. extending on a "t-test" like scenario), but focusing on estimating meaningful effect sizes.
 
 
-## loading libraries.
+## loading packages
 
-### PLEASE NOTE the dabestr library seems to have a bug
+(Install them if you need them)
 
-Temporary fix (thanks Ben)
-
-Install (just once) using the line below (uncomment it)
-```{r}
-#remotes::install_github("bbolker/dabestr", ref="unpaired_unbalanced")
-```
-
-
-```{r}
+```{r load-pkgs, message = FALSE}
 library(dabestr)
-```
-
-If you have not installed these before, you may need to do first (you only need to install them once).
-
-```{r}
 library(effectsize)
 library(emmeans)
 library(ggplot2)
 library(ggbeeswarm)
 ```
 
-We are using some new R libraries today. Both [effectsize](https://easystats.github.io/effectsize/)
- and [dabestr](https://www.estimationstats.com/#/) (also see [here](https://github.com/ACCLAB/dabestr)) that will help with making the estimates and the plotting. As we get to some more advanced models, some of the tools in [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/) will help. Eventually we will also use both the effects library and emmeans library for complex models.
+We are using some new R packages today. Both [effectsize](https://easystats.github.io/effectsize/)
+ and [dabestr](https://www.estimationstats.com/#/) (also see [here](https://github.com/ACCLAB/dabestr)) will help with making the estimates and the plotting. As we get to some more advanced models, some of the tools in [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/) will help. Eventually we will also use both the `effects` and `emmeans` packages for complex models.
  
 
 
-## functions we will use in todays class
+## functions we will use in today's class
 
 A nice set of outputs from a linear model
 ```{r}
@@ -182,9 +169,9 @@ We have compares the effects of genotype on two traits? But how do we know which
 
 ## Effect sizes
 
-We will compute a few of the effect sizes we discussed in lecture. We are going to use the functions in the `effectsize` library for this.
+We will compute a few of the effect sizes we discussed in lecture. We are going to use the functions in the `effectsize` package for this.
 
-For simple experimental designs the `effectsize` library is generally a more useful choice than `dabestr` (but does not use bootstrapped CIs or makes pretty plots). Indeed it has many many options. One somewhat odd thing is that for `glass_delta` (where we used the standard deviation of the "control" group), it is the second group that is used for the standard deviation so we need to switch the releveling. Slight differences between the two libraries in values is because of some bias correction that I think is applied.
+For simple experimental designs the `effectsize` package is generally a more useful choice than `dabestr` (but does not use bootstrapped CIs or makes pretty plots). Indeed it has many many options. One somewhat odd thing is that for `glass_delta` (where we used the standard deviation of the "control" group), it is the second group that is used for the standard deviation so we need to switch the releveling. Slight differences between the two packages in values is because of some bias correction that I think is applied.
 
 Again, all of this (how we are scaling our differences) would be determined *a priori*. For this tutorial I am just showing you how to do it.
 
@@ -210,7 +197,7 @@ glass_delta(tarsus ~ genotype_rev, data = sct_dat_subset)
 
 ## Gardner-Altman estimation plots
 
-Let's first use [dabestr](https://www.estimationstats.com) to compute the differences and then use a [Garnder-Altman estimation plot](https://en.wikipedia.org/wiki/Estimation_statistics#Gardner-Altman_plot) from [Gardner and Altman 1986](https://www.bmj.com/content/bmj/292/6522/746.full.pdf) (British Medical Journal 292:746).
+Let's first use [dabestr](https://www.estimationstats.com) to compute the differences and then use a [Gardner-Altman estimation plot](https://en.wikipedia.org/wiki/Estimation_statistics#Gardner-Altman_plot) from [Gardner and Altman 1986](https://www.bmj.com/content/bmj/292/6522/746.full.pdf) (British Medical Journal 292:746).
 
 
 ```{r}
@@ -336,7 +323,7 @@ Obviously (and I said it above, but it bears repeating), for a real analysis the
 
 ## emmeans can do this all as well
 
-For models with complexity of multiple predictors, continuous predictors, interactions etc, `emmeans` can probably handle what you want. It is very flexivle, but not super-intuitive (for `emmeans`, which is usually pretty good.)
+For models with complexity of multiple predictors, continuous predictors, interactions etc, `emmeans` can probably handle what you want. It is very flexible, but not super-intuitive (for `emmeans`, which is usually pretty good.)
 
 See `?eff_size`
 
