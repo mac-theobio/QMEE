@@ -52,8 +52,10 @@ topics/subdocs/%.html: $(wildcard topics/*.md)
 ## lectures/subdocs/cleaning.slides.html: lectures/cleaning.rmd
 ## lectures/subdocs/Simulations.notes.html: lectures/Simulations.rmd
 ## lectures/subdocs/Permutations.slides.html: lectures/Permutations.rmd
+## lectures/subdocs/testfile.slides.html: lectures/testfile.rmd
 
 ## tips/subdocs/R_style.notes.html: tips/R_style.rmd
+## tips/subdocs/resize.notes.html: tips/resize.rmd
 
 ######################################################################
 
