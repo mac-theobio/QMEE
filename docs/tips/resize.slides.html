@@ -3154,8 +3154,12 @@ ul.task-list{list-style: none;}
 </article></slide><slide class=""><hgroup><h2>virtual/&lsquo;physical&rsquo; size</h2></hgroup><article  id="virtualphysical-size">
 
 <ul>
-<li>dimension arguments <code>width</code>, <code>height</code> in <code>pdf()</code>, <code>png()</code>, etc. (different units!)</li>
-<li><code>width</code>, <code>height</code> in <code>ggsave</code> (always inches!)</li>
+<li>dimension arguments <code>width</code>, <code>height</code> in <code>pdf()</code>, <code>png()</code>, etc. (different units!)
+
+<ul>
+<li>but always inches in pdf, which is generally the best choice</li>
+</ul></li>
+<li><code>width</code>, <code>height</code> in <code>ggsave</code> (always inches for any format)</li>
 <li>can also control text, etc. sizes with e.g. <code>cex</code> (base R) or <code>theme_*(base_size = ...)</code> (ggplot2)</li>
 <li>chunk options: <code>fig.width</code>, <code>fig.height</code> (Rmarkdown), <code>fig-width</code>, <code>fig-height</code> (quarto) (can set these to a default spec in a document, in YAML header or via <code>knitr::opts_chunk()</code>)</li>
 <li><strong>decreasing</strong> the physical size of a figure <strong>increases</strong> the relative size of text, lines, etc.</li>

@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Based on ideas from Ian Dworkin" />
-  <title>Meaningful, interpretable and comparable estimates</title>
+  <title>‘Fisherian’ vs ‘Neyman-Pearson’ p-values</title>
   <style>
 html {
 color: #1a1a1a;
@@ -161,7 +160,26 @@ width: 0.8em;
 margin: 0 0.8em 0.2em -1.6em;
 vertical-align: middle;
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+} </style>
 </head>
 <body>
 <header class="site-header">
@@ -176,82 +194,51 @@ vertical-align: middle;
 </header>
 
 <header id="title-block-header">
-<h1 class="title">Meaningful, interpretable and comparable
-estimates</h1>
-<p class="author">Based on ideas from Ian Dworkin</p>
+<h1 class="title">‘Fisherian’ vs ‘Neyman-Pearson’ p-values</h1>
 </header>
-<h1 id="introduction">Introduction</h1>
-<p>Getting the computer to fit a linear model is relatively
-straightforward. Spending the time and making sure what you plan to do
-is <strong>meaningful</strong> with respect to the measurements you have
-used, making your model estimates (coefficients)
-<strong>interpretable</strong> to help you understand the model output,
-and determining the best measures of effect to make your results
-<strong>comparable</strong> within your model, and to other estimates in
-the scientific literature is a key part of this.</p>
-<p>In some sense the whole week is to get you to focus on the question
-<em>“What is the difference?”</em> (or “what are the differences?”), and
-to make sure the differences (and their associated uncertainties) are
-meaningful, interpretable and comparable. This is generally much better
-than asking questions like “Is there a difference?” (“are there
-differences?”). These latter questions are often much less useful, and
-more likely to result in bad habits in terms of data modeling,
-statistical inference and using these to answer biological
-questions.</p>
-<h1 id="goals-for-this-week">Goals for this week</h1>
+<h2 id="cromeresearching1997"><span class="citation" data-cites="cromeResearching1997">Crome (1997)</span></h2>
+<blockquote>
+<p>Perhaps the average user of significance tests, without knowing it,
+smears him- or herself over the three major statistical schools, and
+disobeys the rules of each: we act as if Fisherian and often believe we
+are; attempt Neymann-Pearson approaches, but never properly; and
+interpret tests in a Bayesian fashion.</p>
+</blockquote>
+<blockquote>
+<p>In theory, hypothesis testing is not about decision making–decision
+theory is available for that. In practice, however, statistics and
+hypothesis testing cannot wriggle out of the patently obvious fact theat
+they can be used, and often are used, as decision-making procedures</p>
+</blockquote>
+<h2 id="fisherian">Fisherian</h2>
 <ul>
-<li><p>Making estimates meaningful: What you measure, and how it impacts
-how you model data, and derive meaning from model estimates.</p></li>
-<li><p>Making estimates interpretable: How simple “transformations” like
-mean-centring and standardization (z-transformation) predictor variables
-can aid in interpretation.</p></li>
-<li><p>Making estimates comparable: How to make your model estimates
-(coefficients) both within your experiment, and (hopefully) to enable
-meaningful comparisons with the broader literature.</p></li>
+<li>P-values as strength of evidence against (never
+<strong>for</strong>!) a scientific hypothesis</li>
+<li>report exact P-value</li>
+<li>sometimes truncated if “very small” (e.g. R reports “&lt; 2.2e-16”;
+can get exact values if you need them</li>
 </ul>
-<h1 id="class-materials">Class materials</h1>
+<h2 id="neymann-pearson">Neyman(n)-Pearson</h2>
 <ul>
-<li><a href="../lectures/BIO708_Measurement_and_Meaning.pdf">slides on
-measurement theory</a> <!-- COMMENT
--   [script for interpretability](../lectures/Interpreting_lm_Output.html)
--   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
--   [script for effect sizes](../lectures/BIO708_EffectSizes.html)
-COMMENT --></li>
+<li>decision-theoretic approach</li>
+<li>set α (rejection) level <strong>ahead of time</strong></li>
+<li><strong>specify alternative hypothesis</strong> (H_A) ahead of
+time</li>
+<li>if everything else is correct (e.g. test assumptions hold), can say
+that decisions to have a correct <em>error rate</em></li>
+<li>underlies power calculations as well (set power = 1-β = prob of
+correctly rejecting H_0 under H_A)</li>
 </ul>
-<h1 id="resources">Resources</h1>
-<ul>
-<li><p>Introductory</p>
-<ul>
-<li><a href="https://doi.org/10.1016/j.tree.2023.08.005">Voje et
-al. 2023</a> on representational measurement theory and
-meaning(<strong>N</strong>ominal, <strong>O</strong>rdinal,
-<strong>I</strong>nterval, <strong>R</strong>atio)</li>
-<li><a href="https://doi.org/10.1111/j.2041-210X.2010.00012.x">Schielzeth</a>
-(2010) on centering and scaling in linear models (interpretability)</li>
-<li><a href="https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1469-185X.2007.00027.x">Nakagawa
-and Cuthill 2007</a> on effect sizes (and their confidence intervals)
-and how to make good use of them in biology (comparability)</li>
-</ul></li>
-<li><p><a href="https://matthewbjane.quarto.pub/">Open source book on
-effect sizes, with examples in R</a>. Also useful chapter on
-benchmarking in this.</p></li>
-<li><p><a href="https://critical-inference.com/quantitative-backdrop/">Higgs
-2024</a> which discusses benchmarking quantitative effects.</p></li>
-<li><p><a href="../tips/resize.notes.html">Graph sizing</a>; <a href="../tips/resize.notes.html">slides</a></p></li>
-</ul>
-<h1 id="assignment">Assignment</h1>
-<p>Describe your data and one or more of your questions from the point
-of view of measurement theory, guided by the steps in <a href="https://doi.org/10.1016/j.tree.2023.08.005">Voje et al. 2023</a>
-Figure 1 (note that this is <em>not</em> the same as Figure I). That is:
-describe the theoretical context, relevant attributes, what you will
-measure on what kind of scale, and how this will affect your statistical
-analyses.</p>
-<p>Also, for at least one comparison discuss how you will decide whether
-a difference is “important” – you could specify a cutoff level, or
-describe how you will investigate this question further.</p>
-<!-- COMMENT
--   Assignment, due Feb 23rd (see `docs/assignments/BIO708_2024_Assignment_MIC.pdf` in repo)
-COMMENT -->
+<h2 class="unnumbered" id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-cromeResearching1997" class="csl-entry" role="listitem">
+Crome, Francis H. J. 1997. <span>“Researching Tropical Forest
+Fragmentation: <span>Shall</span> We Keep on Doing What We’re
+Doing?”</span> In <em>Tropical Forest Remnants: Ecology, Management, and
+Conservation of Fragmented Communities</em>, edited by W. F Laurance and
+R. O Bierregard, 485–501. Chicago, IL: University of Chicago Press. <a href="http://www.math.mcmaster.ca/bolker/misc/Crome1997.pdf">http://www.math.mcmaster.ca/bolker/misc/Crome1997.pdf</a>.
+</div>
+</div>
 <div id="footer">
   <div style="text-align:center">
     <hr>
