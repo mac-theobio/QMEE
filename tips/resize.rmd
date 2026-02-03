@@ -17,7 +17,8 @@ title: "sizing graphs"
 ## virtual/'physical' size
 
 * dimension arguments `width`, `height` in `pdf()`, `png()`, etc. (different units!)
-* `width`, `height` in `ggsave` (always inches!)
+	* but always inches in pdf, which is generally the best choice
+* `width`, `height` in `ggsave` (always inches for any format)
 * can also control text, etc. sizes with e.g. `cex` (base R) or `theme_*(base_size = ...)` (ggplot2)
 * chunk options: `fig.width`, `fig.height` (Rmarkdown), `fig-width`, `fig-height` (quarto) (can set these to a default spec in a document, in YAML header or via `knitr::opts_chunk()`)
 * **decreasing** the physical size of a figure **increases** the relative size of text, lines, etc.
