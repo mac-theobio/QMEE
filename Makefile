@@ -49,6 +49,7 @@ assignments/subdocs/%.html: $(wildcard assignments/*.md)
 topics/subdocs/%.html: $(wildcard topics/*.md)
 	cd topics && $(MAKE) subdocs/$*.html
 
+## lectures/subdocs/effects.slides.html: lectures/effects.rmd
 ## lectures/subdocs/cleaning.slides.html: lectures/cleaning.rmd
 ## lectures/subdocs/Simulations.notes.html: lectures/Simulations.rmd
 ## lectures/subdocs/Permutations.slides.html: lectures/Permutations.rmd
