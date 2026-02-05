@@ -1,0 +1,64 @@
+---
+title: Measuring effects
+author: Jonathan Dushoff, Ben Bolker
+---
+
+## Goals
+
+* Introduce some ways of measuring effects
+
+* Distinguish between measures of effect and measures of clarity
+
+* Discuss advantages and disadvantages of standardized (unitless) measures of effect
+
+## A story
+
+Vitellogenin
+
+# Effects vs clarity
+
+## Model summary
+
+## An analogy
+
+Standard deviation and standard error
+
+## A modest proposal
+
+We should never be looking at a lot of P values
+
+# Absolute effects
+
+## Simple effects
+
+Difference
+
+Slope
+
+## Units
+
+## Advantages
+
+## Disadvantages
+
+# Standardized effects
+
+## Standardizing variables
+
+Need to cancel the units
+
+## Example: correlation
+
+## Ways to standardize
+
+standard deviation; overall mean; logs
+
+## Digression: logged ratios
+
+# Standardized _predictors_
+
+## Standard deviation
+
+## Mean
+
+
