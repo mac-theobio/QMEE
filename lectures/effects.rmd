@@ -3,6 +3,8 @@ title: Measuring effects
 author: Jonathan Dushoff, Ben Bolker
 ---
 
+MOVING to Talks/ for now 2026 Feb 05 (Thu)
+
 ## Goals
 
 * Introduce some ways of measuring effects
@@ -52,6 +54,8 @@ Need to cancel the units
 ## Ways to standardize
 
 standard deviation; overall mean; logs
+
+## How does log standardize?
 
 ## Digression: logged ratios
 
