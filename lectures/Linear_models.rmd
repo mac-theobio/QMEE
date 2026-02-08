@@ -75,53 +75,44 @@ print(gg0 +
 > - $Y = a+bX$: $Y$ is the response, $X$ is the input variable   
 ($b$ is the *slope* - expected change in $Y$ per unit change in $X$)
 > - Categorical predictor with two categories: one parameter
-     - difference in predicted value between levels, or
-    	code the categories as 0, 1 ... (*dummy variables*)
+>    - difference in predicted value between levels, or code the categories as 0, 1 ... (*dummy variables*)
 > - Parameters are (usually) easy to interpret
-> - *Confidence intervals* for the parameter
+> - can get p-values, CIs for each parameter
  
 ## Multi-parameter variables
  
-- With more than two categories, there is more than one
+> - With more than two categories, there is more than one
 predictor variable (parameter) associated with a single input variable
-    - Why can't we just code them, for example as 0, 1, 2?
-- Non-linear response to an input variable
-    - Linear models can work for non-linear responses! e.g. $Y = a + bX + cX^2$ (predictors are 1, $X$, $X^2$)
-    	- For complex smooth curves better to use *splines* (`splines::ns()`, or `mgcv` package)
-- More than one predictor variable per input variable
+>     - Why can't we just code them, for example as 0, 1, 2?
+> - Non-linear response to an input variable
+>     - Linear models can work for non-linear responses! e.g. $Y = a + bX + cX^2$ (predictors are 1, $X$, $X^2$)
+>     	- For complex smooth curves better to use *splines* (`splines::ns()`, or `mgcv` package)
+> - More than one predictor variable per input variable
 
 ## Multi-parameter variables are hard to interpret
 
-- If you're just trying to control for it, include it in the model and then ignore it!
-- Otherwise, you can (and should) get a $p$ value for the variable as a whole
-- But we can only get CIs on the parameters --- and there are different ways to parameterize (*contrasts*)
-     - If you do have (a) clear scientific question(s), you can set up contrasts that allow you to test it/them (we can help)
-     - If you must, do pairwise comparisons, test each pair of variables for differences and make an `aabbc` list (more later)
+> - If you're just trying to control for it, include it in the model and then ignore it!
+> - Otherwise, you can (and should) get a $p$ value for the variable as a whole
+> - But we can only get CIs on the parameters --- and there are different ways to parameterize (*contrasts*)
+>      - If you do have (a) clear scientific question(s), you can set up contrasts that allow you to test it/them (we can help)
+>      - If you must, do pairwise comparisons, test each pair of variables for differences and make an `aabbc` list (more later)
 
 ## Interactions
  
-- Interactions allow the value of one predictor to affect the
-relationship between another predictor and the response variable
-- Interpreting *main effects* in the presence
-of interactions is tricky (*principle of marginality*)
-- Your estimate of the effect of variable $B$ now varies
-- You need to pick a fixed point, or average in some way
-- Example: $Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1 X_2$
-- The response to $X_1$ is $Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1$  
-the response to $X_1$ *depends on* the value of $X_2$.
+> - Interactions allow the value of one predictor to affect the relationship between another predictor and the response variable
+> - Interpreting *main effects* in the presence of interactions is tricky (*principle of marginality*)
+> - Your estimate of the effect of variable $B$ now varies
+> - You need to pick a fixed point (see Schielzeth 2010), or average in some way 
+> - Example: $Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1 X_2$
+> - The response to $X_1$ is $Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1$  the response to $X_1$ *depends on* the value of $X_2$.
  
 ## An experimental example
  
-- You want to know whether (how!)  a drug treatment changes the
-	metabolism of some rabbits
-- You're using adult, prime-aged rabbits and keeping them under
-	controlled conditions, so you don't expect their metabolism to
-	change *without* the drug.
-    - Not good enough!
-- You also introduce some control rabbits and treat them exactly the
-same, including giving them fake pills. You find no significant
-change in the metabolism of the control rabbits through time
-    - Still not good enough! Why?
+> - You want to know whether (how!)  a drug treatment changes the metabolism of some rabbits
+> - You're using adult, prime-aged rabbits and keeping them under controlled conditions, so you don't expect their metabolism to change *without* the drug.
+>    - Not good enough!
+> - You also introduce some control rabbits and treat them exactly the same, including giving them fake pills. You find no significant change in the metabolism of the control rabbits through time
+>    - Still not good enough! Why?
  
 ## Testing interactions
  
@@ -130,53 +121,42 @@ $$
 M = a + B_x X + B_t t + B_{xt} Xt
 $$
 - The interaction term $B_{xt}$ represents the *difference in the response* between the two groups.
-- It asks: **did the treatment group change differently than the control group**?
+- It asks: **how different are the changes in the treatment group from the changes in the control group**?
  
 ## Interactions and parameters
  
-- In simple cases, the interaction may use only
-one parameter
-- We can use CIs, and coefficient plots, and get a pretty good idea what's
-going on
-- In complicated cases, interaction terms have many parameters 
-- These have all the interpretation problems of other multi-parameter
-variables, or more
-- Think about "differences in differences"
+> - In simple cases (2x2), the interaction  only uses one parameter
+> - We can use CIs, and coefficient plots, and understand what's going on
+> - In complicated cases, interaction terms have many parameters 
+> - These have all the interpretation problems of other multi-parameter variables, or more
+> - Think about "differences in differences"
 
 ## Interactions: example
 
-- Bear road-crossing
-- Predictor variables: sex (categorical), road type (categorical: major/minor), road length (continuous)
-- Two-way interactions
-     - sex $\times$ road length: "are females more sensitive to amount of road than males?"
-	 - sex $\times$ road type: "do females vary behaviour between road type more than males?"
-	 - road type $\times$ road length: "does amount of road affect crossings differently for different road types?"
+> - Bear road-crossing [@karelusEffects2017]
+> - Predictor variables: sex (categorical), road type (categorical: major/minor), road length (continuous)
+> - Two-way interactions
+>      - sex $\times$ road length: "are females more or less sensitive to amount of road than males?"
+> 	 - sex $\times$ road type: "do females vary behaviour between road type more or less than males?"
+>	 - road type $\times$ road length: "how differently does amount of road affect crossings for different road types?"
 
 ## Statistical philosophy
  
-- Don't accept the null hypothesis
-    - Don't throw out predictors you wanted to test because
-		they're not significant
-	- Don't throw out interactions you wanted to test because
-		they're not significant
-- This may make your life harder, but it's worth it for the karma
-     - 	There are techniques to deal with multiple predictors (e.g.,
-ridge or lasso regression)
-     - 	good ways to estimate sensible main effects in the presence of
-interactions (centering variables [@schielzeth_simple_2010]; "sum-to-zero contrasts")
+> - Don't accept the null hypothesis
+>     - Don't throw out predictors you wanted to test because they're not significant
+> 	- Don't throw out interactions you wanted to test because they're not significant
+> - This may make your life harder, but it's worth it for the karma
+>     - 	There are techniques to deal with 'too many' predictors (e.g., ridge or lasso regression)
+>    - 	good ways to estimate sensible main effects in the presence of interactions (centering variables [@schielzeth_simple_2010]; "sum-to-zero contrasts")
  
 ## Diagnostics
  
-- Because the linear model is sensitive (sometimes!) to
-assumptions, it is good to evaluate them
-- Concerns (in order):
-    - *Bias*/*linearity*: did you miss a nonlinear relationship?
-    - *Heteroscedasticity* (does variance change across the
-		data set, e.g. increasing variance with increasing mean?)
-	- Normality (assuming no overall problems, do your
-		**residuals** look Normal?)
-    - Independence is hard to test
-- Normality is the **least important** of these assumptions
+> - Because the linear model depends (somewhat!) on assumptions, it is good to evaluate them
+> - Concerns (in order):
+>     - *Bias*/*linearity*: did you miss a nonlinear relationship?
+>     - *Heteroscedasticity* (does variance change across the data set, e.g. increasing variance with increasing mean?)
+>     - Independence is hard to test (unless your observations are ordered, e.g. in time or space)
+>     - Normality (assuming no overall problems, do your **residuals** look Normal?) [the **least important** of these assumptions]
 
 ## Default plots in R
 
