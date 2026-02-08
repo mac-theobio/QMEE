@@ -18,23 +18,23 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
 
 ## Cheat sheet
 
-```{r cheat-sheet, echo = FALSE}
+```{r cheat-sheet, echo = FALSE, out.width = "100%"}
 knitr::include_graphics("../pix/linear_tests_cheat_sheet.png")
 ```
 
 # Basic theory
 
-## Assumptions
+## Assumptions {.build}
 
-- Independence
-- *Response variables* are linear functions of *predictor (derived) variables*, in turn based on *input (observed) variables* ("independent"/"dependendent")
+> - Independence
+> - **Response variables** are linear functions of **predictor** (derived) variables, in turn based on **input** (observed) variables ("independent"/"dependendent")
      - One or more predictor variables per input variable
      - Estimate a parameter for the effect of each predictor variable
-- *Errors* or *residuals* have **constant variance** and are **Normally distributed**
+> - *Errors* or *residuals* have **constant variance** and are **Normally distributed**
      - In other words, the difference between our model *predictions*
        and our observations is Normal
-     - *not* assuming the marginal distribution is Normal
-- (Predictor variables measured without error)
+         - *not* assuming the marginal distribution is Normal
+> - (Predictor variables measured without error)
  
 ## Marginal vs conditional distributions
 
@@ -53,12 +53,12 @@ print(gg0)
 
 ## Marginal vs conditional distributions
 
-```{r marg-dist-2}
+```{r marg-dist-2, echo = FALSE}
 print(gg0 +
         geom_density(aes(group = r, fill = factor(r),
                          y = after_stat(..density../3)),
                      color = NA, alpha = 0.4) +
-        scale_fill_discrete_qualitative()
+        scale_fill_discrete_qualitative(guide = "none")
       )
 ```
 
@@ -71,15 +71,14 @@ print(gg0 +
  
 ## One-parameter variables
  
-- Continuous predictor: straight line, one parameter 
-     - Also implies one *input variable*
-- $Y = a+bX$: $Y$ is the response, $X$ is the input variable   
+> - Continuous predictor: straight line, one parameter 
+> - $Y = a+bX$: $Y$ is the response, $X$ is the input variable   
 ($b$ is the *slope* - expected change in $Y$ per unit change in $X$)
-- Categorical predictor with two categories: one parameter
+> - Categorical predictor with two categories: one parameter
      - difference in predicted value between levels, or
     	code the categories as 0, 1 ... (*dummy variables*)
-- Parameters are (usually) easy to interpret
-- *Confidence intervals* for the parameter
+> - Parameters are (usually) easy to interpret
+> - *Confidence intervals* for the parameter
  
 ## Multi-parameter variables
  
