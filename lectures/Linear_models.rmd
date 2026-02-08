@@ -14,22 +14,54 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
  
 - ANOVA, ANCOVA, regression, $t$ test are **all (part of) the same thing**, the **general** linear model ([twitter thread](https://twitter.com/MaartenvSmeden/status/1365036506751135746), [cheat sheet](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf))
 - "linear model" (`lm` in R), to distinguish it from the *generalized* linear model (`glm` in R)
-- Unfortunately SAS calls it `PROC GLM`
+- foundation of many other statistical methods
+
+## Cheat sheet
+
+```{r cheat-sheet, echo = FALSE}
+knitr::include_graphics("../pix/linear_tests_cheat_sheet.png")
+```
 
 # Basic theory
 
 ## Assumptions
- 
-- *Response variables* are linear functions of *predictor (derived) variables*, in turn based on *input (observed) variables*
-     - One or more predictor variables per input variable
-     - Estimate a parameter for the effect of each predictor variable (more later)
+
 - Independence
-- *Errors* or *residuals* are Normally distributed with constant variance
+- *Response variables* are linear functions of *predictor (derived) variables*, in turn based on *input (observed) variables* ("independent"/"dependendent")
+     - One or more predictor variables per input variable
+     - Estimate a parameter for the effect of each predictor variable
+- *Errors* or *residuals* have **constant variance** and are **Normally distributed**
      - In other words, the difference between our model *predictions*
        and our observations is Normal
      - *not* assuming the marginal distribution is Normal
 - (Predictor variables measured without error)
  
+## Marginal vs conditional distributions
+
+```{r marg-dist, echo = FALSE, message = FALSE}
+library(ggplot2); set_theme(theme_bw())
+library(colorspace)
+r <- rep(1:3, echo = 1000)
+muvec <-  c(1, 4, 10)
+sdvec <-  c(1, 1, 3)
+set.seed(20260207)
+dd <- data.frame(r, x = rnorm(3000, mean = muvec[r], sd = sdvec[r]))
+gg0 <- ggplot(dd, aes(x = x)) + geom_histogram(aes(y = after_stat(..density..)),
+                                               bins = 50)
+print(gg0)
+```
+
+## Marginal vs conditional distributions
+
+```{r marg-dist-2}
+print(gg0 +
+        geom_density(aes(group = r, fill = factor(r),
+                         y = after_stat(..density../3)),
+                     color = NA, alpha = 0.4) +
+        scale_fill_discrete_qualitative()
+      )
+```
+
 ## Machinery
  
 - *Least squares* fit - minimize the squared differences between predictions and observations
@@ -169,17 +201,21 @@ plot(m1, id.n=4)
 performance::check_model(m1)
 ```
 
+## DHARMa
+
+
+```{r DHARMa, fig.height = 5, fig.width=10}
+library(DHARMa); plot(simulateResiduals(m1))
+```
+
 ## Transformations
  
-- One way to deal with problems in model assumptions is by
-	transforming one or more of your variables
-- Transformations are not cheating: a transformed scale may be as
-natural (or more natural) a way to think about your data as your
-original scale
+- Can deal with some problems in model assumptions by transforming variables
+- A transformed scale may be as natural (or more natural) a way to think about your data as your original scale
 - The linear scale (no transformation) often has direct meaning, if
-you are adding things up or scaling them (as in our ant example)
+you are adding things up or scaling them
 - The log scale is often the best scale for thinking about physical
-quantities: 1 is to 10 as 10 is to?
+quantities
 <!-- - The *log odds*, or *logit*, scale is often the best scale for
 thinking about probabilities: 1% is to 10% as 10% is to ? -->
  
@@ -189,8 +225,8 @@ thinking about probabilities: 1% is to 10% as 10% is to ? -->
     - Homoscedasticity
     - Linearity
     - Normality
-- But there is no guarantee that you can fix them all
-- Piles of zeros are hard too (consider GLMs)
+- No guarantee that you can fix them all at once
+- Hard: Counts, data with zeros, fat tails ...
  
 ## Transformations to consider
  
