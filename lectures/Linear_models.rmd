@@ -251,7 +251,7 @@ thinking about probabilities: 1% is to 10% as 10% is to ? -->
  
 - log $y$-lin $x$ for $y \propto e^x$; log $y$-log $x$ for $y \propto x^b$
 - Box-Cox and [related transformations](https://www.rdocumentation.org/packages/car/versions/3.0-10/topics/bcPower)
-- GLM may bepreferable to classical transform + LM for:
+- GLM may be preferable to classical transform + LM for:
      - proportions (logistic, arcsin-sqrt) [@warton_arcsine_2011; @smithsonbetter2006; @kubinecOrdered2022a]
 	 - count data (log, log(1+x)) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
  
@@ -292,7 +292,6 @@ $(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positi
 - `ggplot`: `geom_smooth(method="lm")` fits a linear model
 	to each *group* of data (i.e. by facet/colour/etc.) and plots predictions with CIs
 - `effects`, `emmeans`, `sjPlot`, `marginaleffects`, `ggpredict`, ...
-- tools:
 
 # Examples
 

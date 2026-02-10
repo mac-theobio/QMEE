@@ -115,7 +115,6 @@ lm_out(mod1)
 
 By default this shows the differences of each of *versicolor* and *virginica* to *setosa*. The intercept is the mean Sepal length for *setosa*, and the other two coefficients are the treatment contrasts (differences) for the other two species with *setosa*.
 
-
 ## But what we want is different than this!
 
 We want to see if *versicolor* is different than either of the other two species, and the other two species averaged.
