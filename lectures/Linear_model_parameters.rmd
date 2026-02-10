@@ -57,8 +57,8 @@ pr(lm1 <- lm(colonies~place,data=ants))
 
 ***
 
-R's behaviour may seem annoying at first -- it seems like the estimated values of the groups are what we're really interested in -- but it is really designed for testing *differences among groups*. To get the estimates per group
-(what SAS calls `LSMEANS`), you could:
+R's behaviour is designed for testing *differences among groups*. To get the estimates per group, you could:
+
 
 - use a regression formula `colonies~place-1`, or equivalently `colonies~place+0`, to suppress the implicit intercept term:
 ```{r coefmat0,echo=FALSE}
@@ -96,9 +96,8 @@ plot(allEffects(lm1))
 -------
 
 or
-```{r dotwhisker,message=FALSE}
-library("dotwhisker")
-dwplot(lm0)
+```{r dotwhisker,message=FALSE, warning = FALSE}
+library("dotwhisker"); dwplot(lm0)
 ```
 
 ## More than two levels
@@ -131,9 +130,11 @@ mliz <- lizards %>%
     select(grahami,height,diameter,light,time) %>%
     gather(variable,value,-grahami)
 
-ggplot(mliz,aes(x=value,y=grahami))+geom_boxplot(,fill="lightgray")+
-  facet_wrap(~variable,scale="free_x",nrow=1)+
-  geom_hline(yintercept=mean(lizards$grahami),colour="red",lwd=1,alpha=0.4)
+print(ggplot(mliz,aes(x=value,y=grahami))
+      + geom_boxplot(,fill="lightgray")
+      + facet_wrap(~variable,scale="free_x",nrow=1)
+      + geom_hline(yintercept=mean(lizards$grahami),
+                   colour="red",lwd=1,alpha=0.4))
 ```
 
 -----
@@ -193,15 +194,28 @@ labelpos <- with(cc,
       y=c(int,int,int,int),
       yend=c(int,int+timemidday,int+timelate,int+lightsunny)))
 xpos <- -0.1
-ggplot(pp,aes(x=time,y=grahami,colour=light))+geom_point()+
-  geom_line(aes(group=light))+
-  annotate("segment",x=labelpos$x,xend=labelpos$xend,y=labelpos$y,
-           yend=labelpos$yend,alpha=0.5,
-           arrow=arrow(length = unit(0.3,"cm"),ends="both"))+
-  annotate("text",x=with(labelpos,(x+xend)/2)+xpos,y=with(labelpos,(y+yend)/2),
-label=paste0("beta[",1:4,"]"),parse=TRUE)+
-  annotate("segment",x=labelpos$x[1],xend=labelpos$x[3],y=labelpos$y[1],
-           yend=labelpos$y[1],alpha=0.3,lty=2)
+print(ggplot(pp,aes(x=time,y=grahami,colour=light))
+      + geom_point()
+      + geom_line(aes(group=light))
+      + annotate("segment"
+         , x=labelpos$x
+         , xend=labelpos$xend
+         , y=labelpos$y
+         , yend=labelpos$yend
+         , alpha=0.5
+         , arrow=arrow(length = unit(0.3,"cm"),ends="both"))
+      + annotate("text"
+               , x=with(labelpos, (x+xend)/2)+xpos
+               , y=with(labelpos, (y+yend)/2)
+               , label=paste0("beta[",1:4,"]"), parse=TRUE)
+      + annotate("segment"
+               , x=labelpos$x[1]
+               , xend=labelpos$x[3]
+               , y=labelpos$y[1]
+               , yend=labelpos$y[1]
+               , alpha=0.3
+               , lty=2)
+      )
 ```
 
 ## Interaction model
@@ -266,7 +280,7 @@ I didn't do the pictures.
 
 ## More graphics
 
-```{r dwplot_liz1}
+```{r dwplot_liz1, warning = FALSE}
 dwplot(list(additive=lmTL1,interaction=lmTL2))+
     geom_vline(xintercept=0,lty=2)
 ```
