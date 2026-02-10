@@ -218,6 +218,15 @@ performance::check_model(m1)
 library(DHARMa); plot(simulateResiduals(m1))
 ```
 
+## Using significance tests for diagnostics
+
+* another mine field
+* small data sets: tests not very powerful
+* large data sets: tests **too** powerful
+* answering the wrong question! not "are my data Normal?" (no), but "are my data sufficiently non-Normal to give me a (sufficiently) wrong answer"?
+* [problems with **two-stage** approaches](https://stats.stackexchange.com/q/649761/2126) (using a test to decide what to do) [@shamsudheenShould2023]
+* what should you do??
+
 ## Transformations
  
 - Can deal with some problems in model assumptions by transforming variables
@@ -340,13 +349,17 @@ car::Anova(lm_add)
 print(summary(lm_int))
 ```
 
-## Sum-to-zero contrasts
+## Contrasts
 
-If you want to make comparisons you should centre continuous input variables and use *sum-to-zero* contrasts for factors:
+```{r test3, message = FALSE}
+library(emmeans)
+em_light <- emmeans(lm_int, ~ light)
+print(em_contr <- contrast(em_light, "eff"))
+```
 
-```{r test3}
-lm_int_c <- update(lm_int, contrasts = list(time = contr.sum, light = contr.sum))
-print(summary(lm_int_c))
+## Contrasts
+```{r plot-test3}
+plot(em_contr)
 ```
 
 # Multiple comparisons
