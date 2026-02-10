@@ -24,6 +24,7 @@ Class materials
 ===============
 
 -   [slides on measurement theory](../lectures/BIO708_Measurement_and_Meaning.pdf)
+- [effect size slides](https://github.com/dushoff/statistics_talks/blob/d55aa97/outputs/effectSize.slides.pdf); [filled-in notes](https://github.com/dushoff/statistics_talks/blob/d55aa97/outputs/effectSize.complete.pdf)
 <!-- COMMENT
 -   [script for interpretability](../lectures/Interpreting_lm_Output.html)
 -   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
