@@ -382,6 +382,9 @@ See [emmeans vignette on comparisons](https://cran.r-project.org/web/packages/em
 library(emmeans)
 library(ggplot2); theme_set(theme_bw())
 e1 <- emmeans(lm_add, spec = ~ time)
+```
+
+```{r pairs-plot}
 plot(pairs(e1)) + geom_vline(xintercept = 0, lty = 2)
 ```
 
