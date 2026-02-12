@@ -143,6 +143,9 @@ viz26.Rout: code/viz26.R
 viz24.Rout: code/viz24.R
 	$(pipeR)
 
+crabs_shrimp.Rout: code/crabs_shrimp.R
+	$(pipeR)
+
 ## Prepping for viz26, probably don't need this?
 bananas.Rout: code/bananas.R
 	$(pipeR)

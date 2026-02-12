@@ -1,5 +1,5 @@
 ---
-title: Linear models lecture
+title: Linear models
 author: Jonathan Dushoff and Ben Bolker
 bibliography: ../qmee.bib
 ---
@@ -12,11 +12,15 @@ knitr::opts_chunk$set(dev.args = list(png = list(type = "cairo")))
  
 ## History
  
-- ANOVA, ANCOVA, regression, $t$ test are **all (part of) the same thing**, the **general** linear model ([twitter thread](https://twitter.com/MaartenvSmeden/status/1365036506751135746), [cheat sheet](https://lindeloev.github.io/tests-as-linear/linear_tests_cheat_sheet.pdf))
-- "linear model" (`lm` in R), to distinguish it from the *generalized* linear model (`glm` in R)
+- $t$ test, ANOVA, regression are **all (part of) the same thing**, the **general linear model**
+- "linear model" (`lm` in R), to distinguish it from the **generalized** linear model (`glm`)
 - foundation of many other statistical methods
 
+![](../pix/linmod_barjoke.png)
+
 ## Cheat sheet
+
+https://lindeloev.github.io/tests-as-linear/
 
 ```{r cheat-sheet, echo = FALSE, out.width = "100%"}
 knitr::include_graphics("../pix/linear_tests_cheat_sheet.png")
@@ -27,7 +31,7 @@ knitr::include_graphics("../pix/linear_tests_cheat_sheet.png")
 ## Assumptions {.build}
 
 > - Independence
-> - **Response variables** are linear functions of **predictor** (derived) variables, in turn based on **input** (observed) variables ("independent"/"dependendent")
+> - **Response** (dependent) variables are linear functions of **predictor** (derived) variables, in turn based on **input** (observed, "independent") variables
      - One or more predictor variables per input variable
      - Estimate a parameter for the effect of each predictor variable
 > - *Errors* or *residuals* have **constant variance** and are **Normally distributed**
@@ -62,12 +66,22 @@ print(gg0 +
       )
 ```
 
+## Linear or non-linear models?
+
+> * $y = a + b x$
+> * $y = a + b x + c x^2 + d x^3$
+> * $y = \frac{a}{b+x}$
+> * $y = a + b \log(x)$
+> * $y = \log(a + b x)$
+> * $y = a x^b$
+> * $\log(y) = a + b \log(x)$
+
 ## Machinery
  
 - *Least squares* fit - minimize the squared differences between predictions and observations
-- LS fits have lots of nice properties
-- Solution is a simple (!?) matrix equation
-- Sensitive to some violations of assumptions - e.g. anomalous events have a strong effect
+- lots of nice properties (variance partitioning etc.)
+- Solution is computationally easy (linear algebra)
+- Sensitive to some violations of assumptions - e.g. outliers have a strong effect
  
 ## One-parameter variables
  
@@ -77,22 +91,23 @@ print(gg0 +
 > - Categorical predictor with two categories: one parameter
 >    - difference in predicted value between levels, or code the categories as 0, 1 ... (*dummy variables*)
 > - Parameters are (usually) easy to interpret
-> - can get p-values, CIs for each parameter
+> - can get $p$-values, CIs for each parameter
  
 ## Multi-parameter variables
  
-> - With more than two categories, there is more than one
-predictor variable (parameter) associated with a single input variable
->     - Why can't we just code them, for example as 0, 1, 2?
+> - Often have have several
+**predictor variables** (parameters) associated with each **input variable**
 > - Non-linear response to an input variable
->     - Linear models can work for non-linear responses! e.g. $Y = a + bX + cX^2$ (predictors are 1, $X$, $X^2$)
+>     - Linear models can work for non-linear responses! e.g. $Y = a + bX + cX^2$ (predictor vars $\{1, X, X^2 \}$)
 >     	- For complex smooth curves better to use *splines* (`splines::ns()`, or `mgcv` package)
-> - More than one predictor variable per input variable
+> - Categorical variables with $>2$ levels
+>     - Why can't we just code them, for example as 0, 1, 2?
+>     - *dummy variables* or *contrasts*
 
-## Multi-parameter variables are hard to interpret
+## Effect sizes/$p$-values for multi-parameter variables
 
 > - If you're just trying to control for it, include it in the model and then ignore it!
-> - Otherwise, you can (and should) get a $p$ value for the variable as a whole
+> - Otherwise, you can (and should) get a $p$ value for the variable as a whole (it's not in `summary()` output)
 > - But we can only get CIs on the parameters --- and there are different ways to parameterize (*contrasts*)
 >      - If you do have (a) clear scientific question(s), you can set up contrasts that allow you to test it/them (we can help)
 >      - If you must, do pairwise comparisons, test each pair of variables for differences and make an `aabbc` list (more later)
@@ -101,11 +116,23 @@ predictor variable (parameter) associated with a single input variable
  
 > - Interactions allow the value of one predictor to affect the relationship between another predictor and the response variable
 > - Interpreting *main effects* in the presence of interactions is tricky (*principle of marginality*)
-> - Your estimate of the effect of variable $B$ now varies
-> - You need to pick a fixed point (see Schielzeth 2010), or average in some way 
+> - Estimated effect of $A$ depends on baseline value of $B$: pick a fixed point [@schielzeth_simple_2010], or average in some way 
 > - Example: $Y = a + b_1 X_1 + b_2 X_2 + b_{12} X_1 X_2$
 > - The response to $X_1$ is $Y = (a+b_2 X_2) + (b_1+b_{12}X_2) X_1$  the response to $X_1$ *depends on* the value of $X_2$.
  
+## Example (`nlme::Orthodont` data)
+
+```{r int-plot, message=FALSE, warning = FALSE, echo = FALSE}
+data("Orthodont", package = "nlme")
+fit_lm <- lm(distance ~ Sex * age, data = Orthodont)
+library(sjPlot)
+library(ggplot2); set_theme(theme_bw())
+plot_model(fit_lm, type = "pred", terms  = c("age [7:15]", "Sex")) +
+  stat_sum(data = Orthodont, aes(x=age, y = distance, colour = Sex,
+                                 fill = Sex)) +
+  labs(title = "", y = "distance (mm)")
+```
+
 ## An experimental example
  
 > - You want to know whether (how!)  a drug treatment changes the metabolism of some rabbits
@@ -133,20 +160,20 @@ $$
 
 ## Interactions: example
 
-> - Bear road-crossing [@karelusEffects2017]
+> - Bear movement behaviour [@karelusEffects2017]
 > - Predictor variables: sex (categorical), road type (categorical: major/minor), road length (continuous)
 > - Two-way interactions
 >      - sex $\times$ road length: "are females more or less sensitive to amount of road than males?"
 > 	 - sex $\times$ road type: "do females vary behaviour between road type more or less than males?"
 >	 - road type $\times$ road length: "how differently does amount of road affect crossings for different road types?"
 
-## Statistical philosophy
+## Statistical philosophy (again!)
  
 > - Don't accept the null hypothesis
 >     - Don't throw out predictors you wanted to test because they're not significant
 > 	- Don't throw out interactions you wanted to test because they're not significant
 > - This may make your life harder, but it's worth it for the karma
->     - 	There are techniques to deal with 'too many' predictors (e.g., ridge or lasso regression)
+>     - There are techniques to deal with 'too many' predictors (e.g., ridge or lasso regression)
 >    - 	good ways to estimate sensible main effects in the presence of interactions (centering variables [@schielzeth_simple_2010]; "sum-to-zero contrasts")
  
 ## Diagnostics
@@ -158,7 +185,9 @@ $$
 >     - Independence is hard to test (unless your observations are ordered, e.g. in time or space)
 >     - Normality (assuming no overall problems, do your **residuals** look Normal?) [the **least important** of these assumptions]
 
-## Default plots in R
+## Diagnostic plots: base R
+
+Data from @paczoltMultiple2015a
 
 ```{r diagplots}
 skewdata <- read.csv("../data/skewdat.csv")
@@ -168,6 +197,8 @@ m1 <- lm(skew~Size, data=skewdata)
 ```{r fakeplot, eval = FALSE}
 plot(m1, id.n=4)
 ```
+
+## 
 
 ```{r realplot, echo = FALSE}
 par(mfrow=c(2,2), mar=c(2,3,1.5,1), mgp=c(2,1,0))
@@ -183,9 +214,18 @@ performance::check_model(m1)
 ## DHARMa
 
 
-```{r DHARMa, fig.height = 5, fig.width=10}
+```{r DHARMa, fig.height = 5, fig.width=10, message=FALSE, out.width = "100%"}
 library(DHARMa); plot(simulateResiduals(m1))
 ```
+
+## Using significance tests for diagnostics
+
+* another mine field
+* small data sets: tests not very powerful
+* large data sets: tests **too** powerful
+* answering the wrong question! not "are my data Normal?" (no), but "are my data sufficiently non-Normal to give me a (sufficiently) wrong answer"?
+* [problems with **two-stage** approaches](https://stats.stackexchange.com/q/649761/2126) (using a test to decide what to do) [@shamsudheenShould2023]
+* what should you do??
 
 ## Transformations
  
@@ -209,13 +249,11 @@ thinking about probabilities: 1% is to 10% as 10% is to ? -->
  
 ## Transformations to consider
  
-- log-lin, lin-log and log-log for various sorts of exponential and
-power relationships
+- log $y$-lin $x$ for $y \propto e^x$; log $y$-log $x$ for $y \propto x^b$
 - Box-Cox and [related transformations](https://www.rdocumentation.org/packages/car/versions/3.0-10/topics/bcPower)
-- Avoid classical 'transform then linear model' recommendations for
-     - probability data (logistic, arcsin or arcsin-square root) [@warton_arcsine_2011]
-	 - or count data (log, log(1+x) or square root) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
-	 - Generally better to respect the structure of these data with a GLM
+- GLM may be preferable to classical transform + LM for:
+     - proportions (logistic, arcsin-sqrt) [@warton_arcsine_2011; @smithsonbetter2006; @kubinecOrdered2022a]
+	 - count data (log, log(1+x)) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
  
 ## Deciding whether to transform
  
@@ -223,6 +261,7 @@ power relationships
 ones and looking at $p$ values
 - *Box-Cox transformation* tries out transformations of the form
 $(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positive* data only)
+- tricky for data $\le 0$
 - see `MASS::boxcox()` or `car::powerTransform()`
 
 ## Collinearity
@@ -237,56 +276,56 @@ $(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positi
 ## Basic tools
 
 - `lm` fits a linear model
-- `summary` prints statistics associated with the *parameters* that were fitted
+- `summary` prints statistics associated with the fitted parameters
 - `dotwhisker::dwplot()` plots a **coefficient table** [@gelman_lets_2002]; `by_2sd=TRUE` automatically scales continuous predictors
-- `car::Anova()` and `drop1()` will find $p$ values that test the effect of
-variables that have more than one parameter. `anova(model1, model2)` tests the difference between two specific models (only needed for specialized comparisons)
+- `car::Anova()` and `drop1()` finds $p$ values for multi-parameter effects. `anova(model1, model2)` tests the difference between two specific models
 - `broom::tidy()` gives you tidy coefficient tables; consider `conf.int = TRUE`
+- [parameters package](https://easystats.github.io/parameters/)
 
 ## Plotting
 
-- `plot` applied to an `lm` object gives you **diagnostic** plots
-- In `ggplot`, `geom_smooth(method="lm")` fits a linear model
-	to each group of data (i.e.  each group that you have identified by
-	plotting it in a different colour, within a different facet, etc.
-- `effects`, `emmeans`, `sjPlot` packages ...
-- tools:
-    - `predict` gives predicted values, and standard errors.
-    - `simulate` simulates values from the fitted model
-    - `methods(class="lm")` shows lots of possibilities
+- `plot.lm()` (*S3 method*):  diagnostic** plots
+- base R:
+   - `predict` to predict values (`newdata`, `se.fit` args)
+   - `simulate` to simulate values from the fitted model
+   - `methods(class="lm")` shows lots of possibilities
+- `ggplot`: `geom_smooth(method="lm")` fits a linear model
+	to each *group* of data (i.e. by facet/colour/etc.) and plots predictions with CIs
+- `effects`, `emmeans`, `sjPlot`, `marginaleffects`, `ggpredict`, ...
 
 # Examples
 
-## Simple model
+## Simple model 
 
-[data](../data/lizards.csv) 
+[data](../data/lizards.csv)  [@schoenerNonsynchronous1970b]
 
-```{r tests1}
-lizards <- read.csv("../data/lizards.csv", stringsAsFactors=TRUE)
-lizards$time <- factor(lizards$time,levels=c("early","midday","late"))
-lmint <- lm(grahami~light*time, data=lizards)
-lmboth <- lm(grahami~light + time, data=lizards)
-lmlight <- lm(grahami~light, data=lizards)
-lmtime <- lm(grahami~time, data=lizards)
+```{r tests1, message = FALSE}
+library(tidyverse)
+lizards <- read.csv("../data/lizards.csv", stringsAsFactors=TRUE) |>
+  mutate(across(time, ~ factor(., levels=c("early","midday","late"))))
+lm_int   <- lm(grahami~light*time, data=lizards)
+lm_add   <- update(lm_int, . ~ light + time)
+lm_light <- update(lm_add, . ~ . - time)
+lm_time  <-  update(lm_add, . ~ . - light)
 ```
 
 
 ## Summary
 
 ```{r sum_lizards}
-summary(lmboth)
+summary(lm_add)
 ```
 
 ## Test time by comparing with light model (dropping time)
 
 ```{r tests1B}
-anova(lmboth, lmlight)
+anova(lm_add, lm_light)
 ```
 
 ## Test light (identical to test in summary()
 
 ```{r test_light}
-anova(lmboth, lmtime)
+anova(lm_add, lm_time)
 ## In this simple case, drop1 and car::Anova
 ##  will do exactly the same thing we did above
 ```
@@ -294,28 +333,32 @@ anova(lmboth, lmtime)
 ## Test both
 
 ```{r drop1}
-drop1(lmboth, test="F")
+drop1(lm_add, test="F")
 ```
 
 ## Better anova table
 
 ```{r car_anova}
-car::Anova(lmboth)
+car::Anova(lm_add)
 ```
 
 ## Interaction model
 
 ```{r test2}
-print(summary(lmint))
+print(summary(lm_int))
 ```
 
-## Sum-to-zero contrasts
+## Contrasts
 
-If you want to make comparisons you should centre continuous input variables and use *sum-to-zero* contrasts for factors:
+```{r test3, message = FALSE}
+library(emmeans)
+em_light <- emmeans(lm_int, ~ light)
+print(em_contr <- contrast(em_light, "eff"))
+```
 
-```{r test3}
-lmint_c <- update(lmint, contrasts = list(time = contr.sum, light = contr.sum))
-print(summary(lmint_c))
+## Contrasts
+```{r plot-test3}
+plot(em_contr)
 ```
 
 # Multiple comparisons
@@ -337,7 +380,10 @@ See [emmeans vignette on comparisons](https://cran.r-project.org/web/packages/em
 ```{r emmeans,message=FALSE}
 library(emmeans)
 library(ggplot2); theme_set(theme_bw())
-e1 <- emmeans(lmboth, spec = ~ time)
+e1 <- emmeans(lm_add, spec = ~ time)
+```
+
+```{r pairs-plot}
 plot(pairs(e1)) + geom_vline(xintercept = 0, lty = 2)
 ```
 
