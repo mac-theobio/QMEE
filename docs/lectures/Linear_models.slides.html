@@ -3573,7 +3573,7 @@ lm_time  &lt;-  update(lm_add, . ~ . - light)</pre>
 ## Multiple R-squared:  0.5466, Adjusted R-squared:  0.475 
 ## F-statistic: 7.634 on 3 and 19 DF,  p-value: 0.001513</pre>
 
-</article></slide><slide class=""><hgroup><h2>Test time by comparing with light model (dropping time)</h2></hgroup><article  id="test-time-by-comparing-with-light-model-dropping-time">
+</article></slide><slide class=""><hgroup><h2>Test effect of time (2 df) by comparing with additive model with light model (dropping time)</h2></hgroup><article  id="test-effect-of-time-2-df-by-comparing-with-additive-model-with-light-model-dropping-time">
 
 <pre class = 'prettyprint lang-r'>anova(lm_add, lm_light)</pre>
 
@@ -3587,7 +3587,9 @@ lm_time  &lt;-  update(lm_add, . ~ . - light)</pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
 
-</article></slide><slide class=""><hgroup><h2>Test light (identical to test in summary()</h2></hgroup><article  id="test-light-identical-to-test-in-summary">
+</article></slide><slide class=""><hgroup><h2>Test light</h2></hgroup><article  id="test-light">
+
+<p>Because <code>light</code> has only two levels (sunny/shady), this gives the same \(p\)-value as shown in <code>summary()</code> for <code>lightsunny</code></p>
 
 <pre class = 'prettyprint lang-r'>anova(lm_add, lm_time)</pre>
 
@@ -3604,7 +3606,7 @@ lm_time  &lt;-  update(lm_add, . ~ . - light)</pre>
 <pre class = 'prettyprint lang-r'>## In this simple case, drop1 and car::Anova
 ##  will do exactly the same thing we did above</pre>
 
-</article></slide><slide class=""><hgroup><h2>Test both</h2></hgroup><article  id="test-both">
+</article></slide><slide class=""><hgroup><h2>Test both light and time</h2></hgroup><article  id="test-both-light-and-time">
 
 <pre class = 'prettyprint lang-r'>drop1(lm_add, test=&quot;F&quot;)</pre>
 
@@ -3622,10 +3624,6 @@ lm_time  &lt;-  update(lm_add, . ~ . - light)</pre>
 </article></slide><slide class=""><hgroup><h2>Better anova table</h2></hgroup><article  id="better-anova-table">
 
 <pre class = 'prettyprint lang-r'>car::Anova(lm_add)</pre>
-
-<pre >## Registered S3 method overwritten by &#39;car&#39;:
-##   method           from
-##   na.action.merMod lme4</pre>
 
 <pre >## Anova Table (Type II tests)
 ## 
@@ -3663,6 +3661,35 @@ lm_time  &lt;-  update(lm_add, . ~ . - light)</pre>
 ## Residual standard error: 10.75 on 17 degrees of freedom
 ## Multiple R-squared:  0.7504, Adjusted R-squared:  0.677 
 ## F-statistic: 10.22 on 5 and 17 DF,  p-value: 0.0001179</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>drop1</code> for interaction model</h2></hgroup><article  id="drop1-for-interaction-model">
+
+<p>Drops <em>only</em> the interaction term (respects marginality)</p>
+
+<pre class = 'prettyprint lang-r'>drop1(lm_int, test = &quot;F&quot;)</pre>
+
+<pre >## Single term deletions
+## 
+## Model:
+## grahami ~ light * time
+##            Df Sum of Sq    RSS    AIC F value   Pr(&gt;F)   
+## &lt;none&gt;                  1964.9 114.30                    
+## light:time  2    1604.7 3569.6 124.03  6.9416 0.006254 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
+
+</article></slide><slide class=""><hgroup><h2>ANOVA for models with interactions</h2></hgroup><article  id="anova-for-models-with-interactions">
+
+<blockquote>
+<p>The designations &ldquo;type-II&rdquo; and &ldquo;type-III&rdquo; are borrowed from SAS, but the definitions used here do not correspond precisely to those employed by SAS. Type-II tests are calculated according to the principle of marginality, testing each term after all others, except ignoring the term’s higher-order relatives; so-called type-III tests violate marginality, testing each term in the model after all of the others. This definition of Type-II tests corresponds to the tests produced by SAS for analysis-of-variance models, where all of the predictors are factors, but not more generally (i.e., when there are quantitative predictors). Be very careful in formulating the model for type-III tests, or the hypotheses tested will not make sense.</p>
+</blockquote>
+
+<p>Set <code>options(contrasts = c(&quot;contr.sum&quot;, &quot;contr.poly&quot;))</code> if you want to use type 3 ANOVA!</p>
+
+<pre class = 'prettyprint lang-r'>car::Anova(lm_int, type = &quot;II&quot;)
+car::Anova(lm_int, type = &quot;III&quot;)
+lm_int_sum &lt;- update(lm_int, contrasts = list(light = contr.sum, time = contr.sum))
+car::Anova(lm_int_sum, type = &quot;III&quot;)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Contrasts</h2></hgroup><article  id="contrasts">
 
