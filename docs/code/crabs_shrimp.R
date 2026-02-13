@@ -1,5 +1,5 @@
 ## testing emmeans/marginaleffects on crabs/shrimp example
-dd <- read.csv("../data/culcita_volume.csv")
+dd <- read.csv("data/culcita_volume.csv")
 library(ggpubr)
 library(ggbeeswarm)
 library(emmeans)
@@ -12,7 +12,7 @@ plot(gg0)
 
 plot(gg0 + ggpubr::stat_pwc())
 
-m <- lm(predvolume ~ ttt, culcitalvolume)
+m <- lm(predvolume ~ ttt, dd)
 
 ## what contrasts do we want?
 ## effect of symbiont = (average of symb ttt - control)
@@ -29,7 +29,7 @@ print(cc)
 plot(cc) + refline
 
 ## interaction might not be the most useful way to look at this either ...
-m2 <- lm(predvolume ~ crab*shrimp, culcitalvolume)
+m2 <- lm(predvolume ~ crab*shrimp, dd)
 summary(m2)
 dotwhisker::dwplot(m2) + refline
 
@@ -37,6 +37,5 @@ library(marginaleffects)
 avg_comparisons(m)
 
 H <- do.call(cbind, my_contrasts)
-H <- cbind(intercept = rep(1/4, 4), H)
 avg_predictions(m, by = "ttt", hypothesis = H)
 
