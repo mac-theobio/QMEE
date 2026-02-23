@@ -75,16 +75,24 @@ print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
       )
 ```
 
+## What is `family` really doing?
+
+* under the hood: specifying the **variance function**, e.g.
+    * Gaussian: constant variance
+	* Poisson: variance = mean
+	* binomial: variance prop to $p(1-p)$
+* for classic GLMs, this is all you need
+
 ## Link functions
 
-- on what scale are the relationship(s) between predictor(s) and response linear?
-- link function goes from *data* scale (counts, proportions etc.) to *effect* or *link* or *linear predictor* scale
-    - Poisson=log; binomial=logit
-- *inverse link* function goes from effect scale to data scale
-    - Poisson=exponential; binomial=logistic
-- each family has a default "canonical" link (sensible + nice math)
-    - default usually OK (*except*: use `family=Gamma(link="log")`)
-
+> - on what scale are the relationship(s) between predictor(s) and response linear?
+> - link function goes from *data* scale (counts, proportions etc.) to *effect* or *link* or *linear predictor* scale
+>     - Poisson=log; binomial=logit
+> - *inverse link* function goes from effect scale to data scale
+>     - Poisson=exponential; binomial=logistic
+> - each family has a default "canonical" link (sensible + nice math)
+>     - default is usually fine (*except*: use `family=Gamma(link="log")`)
+ 
 ## Machinery
 
 > - "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ describes patterns on the link scale
@@ -98,14 +106,14 @@ print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
 
 ## Machinery (2)
 
-Model setup is the same as linear models
+Model setup is almost the same as linear models
 
 - categorical vs. continuous predictors
 - contrasts
 - interactions
-- multivariable regression vs ANOVA vs ANCOVA vs ...
+- etc.
 
-but the linear relationship is set up on the link scale
+but the linear relationship is assumed **on the link scale**
 
 ## log/exponential function (`log`/`exp`): count data
 
@@ -143,11 +151,11 @@ par(op)
 > - too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (Ratio >1.2 worrisome; ratio>3, v. worrisome (check your model & data!)
 > - **quasi-likelihood models** (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
 > - alternatives:
->     - Poisson $\to$ negative binomial (`MASS::glm.nb`)
-> 	  - binomial $\to$ beta-binomial (`glmmTMB` package)
+>     - Poisson $\to$ negative binomial (`MASS::glm.nb`, `glmmTMB`)
+> 	  - binomial $\to$ beta-binomial (`glmmTMB`)
 > - overdispersion **not relevant** for
->     - binary responses
-> 	- families/models that already estimated dispersion (Gaussian, Gamma, neg binom, ...)
+>   - binary responses
+> 	- families/models that estimate dispersion (Gaussian, Gamma, neg binom, ...)
 
 ## Parameter interpretation
 
@@ -178,8 +186,8 @@ par(op)
 ## inference
 
 - Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
-	- approximate, may be way off if parameters have extreme values (*complete separation*)
-	- asymptotic (finite-size correction/"degrees of freedom" are hard, usually ignored)
+	- **approximate**: may be way off if parameters have extreme values (*complete separation*)
+	- $Z$ rather than $t$ tests: "degrees of freedom" usually ingored
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC etc.
 
@@ -204,7 +212,7 @@ par(op)
 ## offsets
 
 - constant terms added to a model
-- what if we want to model densities rather than counts?
+- e.g. what if we want to model densities rather than counts?
 - log-link (Poisson/NB) models: $\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)$
 - if we know the area then we want $\mu = A \cdot \mu_0$
 - equivalent to adding $\log(A)$ to the linear predictor ($\exp(\log(\mu_0) + \log(A)) = \mu_0 \cdot A$)
@@ -231,14 +239,13 @@ par(op)
 
 ## Common `glm()` problems
 
-- don't ignore overdispersion
-- don't use binomial/Poisson models with non-integer responses
-- don't equate negative binomial with binomial rather than Poisson
-- don't leave out `family=` in `glm()`; don't use `glm()` for linear models
-- don't get confused about predictions on effect scale
-- don't worry about overdispersion unnecessarily (e.g. for binary data)
-- don't back-transform SEs rather than CIs
-- don't ignore random effects (next topic -- mixed models)
+- ignoring overdispersion
+- binomial or Poisson models with non-integer responses (use offsets?)
+- leaving out `family=` in `glm()`
+- forgetting `predict()` uses link scale by default
+- worrying about overdispersion when you don't have to
+- using `offset(A)` rather than `offset(log(A))`
+- ignoring random effects (next topic -- mixed models)
 
 # Example
 
