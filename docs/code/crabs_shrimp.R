@@ -3,6 +3,8 @@ dd <- read.csv("data/culcita_volume.csv")
 library(ggpubr)
 library(ggbeeswarm)
 library(emmeans)
+library(dplyr)
+library(marginaleffects)
 
 gg0 <- ggplot(dd, aes(ttt, predvolume)) +
   geom_boxplot(fill = "gray") +
@@ -33,9 +35,31 @@ m2 <- lm(predvolume ~ crab*shrimp, dd)
 summary(m2)
 dotwhisker::dwplot(m2) + refline
 
-library(marginaleffects)
+
 avg_comparisons(m)
 
 H <- do.call(cbind, my_contrasts)
 avg_predictions(m, by = "ttt", hypothesis = H)
 
+### 
+ddL <- read.csv("data/culcitalogreg.csv")
+ddL_sum <- (ddL  
+  |> summarise(across(predation,
+                      .fns = list(pred = sum,
+                                  N = length),
+                      .names = "{.fn}"),
+               .by = c(ttt.1, crab, shrimp))
+  |> mutate(prop = pred/N)
+)
+
+library(DHARMa)
+mb <- glm(predation ~ crab*shrimp, family = binomial, data = ddL)
+
+plot(simulateResiduals(mb))
+performance::check_model(mb)
+avg_predictions(mb, by = c("crab", "shrimp"))
+avg_comparisons(mb, by = c("crab", "shrimp"))
+
+mbs <- glm(cbind(pred, N-pred) ~crab*shrimp, family = binomial,
+    data = ddL)
+confint(mb)
