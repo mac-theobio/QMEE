@@ -11,31 +11,14 @@ knitr::opts_chunk$set(echo=FALSE,
                       dev.args = list(png = list(type = "cairo")))
 ```
 
-# Basics
-
-## Basics
-
-- in R: `glm()`, model specification as before:
-`glm(y~f1+x1+f2+x2, data=..., family=..., ...)`
-- definition: *family*/*link function*
-
-## Family
-
-- family: what kind of data do I have?
-    - from **first principles**: family specifies the relationship between the mean and variance
-	- `family=binomial`: proportions, out of a total number of counts; includes binary (Bernoulli) ("logistic regression")
-	- `family=poisson`: Poisson (independent counts, no set maximum, or far from the maximum)
-	- other (Normal (`"gaussian"`), Gamma)
-- default family for `glm` is Gaussian
-
-## Most GLMs are logistic regression
-
-```{r echo=FALSE}
+```{r sscrape-fun, echo=FALSE}
 sscrape <- function(string="logistic+regression") {
     require("stringr")
     sstring0 <- "http://scholar.google.ca/scholar?as_q=&num=10&btnG=Search+Scholar&as_epq=STRING&as_oq=&as_eq=&as_occt=any&as_sauthors=&as_publication=&as_ylo=&as_yhi=&as_sdt=1.&as_sdtp=on&as_sdts=5&hl=en"
     sstring <- sub("STRING",string,sstring0)
     rr <- suppressWarnings(readLines(url(sstring)))
+    ## from https://stackoverflow.com/a/72254415/190277
+    Sys.setlocale("LC_ALL", "C")
     ## rr2 <- rr[grep("[Rr]esults",rr)[1]]
     rr2 <- rr
     rstr <- gsub(",","",
@@ -58,9 +41,31 @@ if (!file.exists(fn)) {
                       "logistic+regression","Poisson+regression","binomial+regression"),sscrape)
   save("gscrape",file=fn)
 } else load(fn)
+logpois_pct <- round(sum(gscrape[c("logistic+regression", "Poisson+regression")])/sum(gscrape)*100)
 ```       
 
-```{r gscrapepix,message=FALSE,fig.width=6,fig.height=3}
+# Basics
+
+## Basics
+
+- in R: `glm()`, model specification as before:
+`glm(y~f1+x1+f2+x2, data=..., family=..., ...)`
+- definition: **family**/**link function**
+
+## Family
+
+- family: what kind of data do I have?
+    - from **first principles**: family specifies the relationship between the mean and variance
+	- `family=binomial`: proportions, out of a total number of counts; includes binary (Bernoulli) ("logistic regression")
+	- `family=poisson`: Poisson (independent counts, no set maximum, or far from the maximum)
+	- other (Normal (`"gaussian"`), Gamma)
+- default family for `glm` is Gaussian
+- most GLMs (`r logpois_pct`%) are logistic or Poisson
+
+<!-- ## Most GLMs are logistic regression -->
+
+
+```{r gscrapepix,message=FALSE,fig.width=6,fig.height=3, eval = FALSE}
 d <- data.frame(n=names(gscrape),v=gscrape)
 d$n <- reorder(d$n,d$v)
 print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
@@ -70,35 +75,45 @@ print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
       )
 ```
 
+## What is `family` really doing?
+
+* under the hood: specifying the **variance function**, e.g.
+    * Gaussian: constant variance
+	* Poisson: variance = mean
+	* binomial: variance prop to $p(1-p)$
+* for classic GLMs, this is all you need
+
 ## Link functions
 
-- on what scale are the relationship(s) between predictor(s) and response linear?
-- link function goes from *data* scale (counts, proportions etc.) to *effect* or *link* or *linear predictor* scale
-    - Poisson=log; binomial=logit
-- *inverse link* function goes from effect scale to data scale
-    - Poisson=exponential; binomial=logistic
-- each family has a default "canonical" link (sensible + nice math)
-    - default usually OK (*except*: use `family=Gamma(link="log")`)
-
+> - on what scale are the relationship(s) between predictor(s) and response linear?
+> - link function goes from *data* scale (counts, proportions etc.) to *effect* or *link* or *linear predictor* scale
+>     - Poisson=log; binomial=logit
+> - *inverse link* function goes from effect scale to data scale
+>     - Poisson=exponential; binomial=logistic
+> - each family has a default "canonical" link (sensible + nice math)
+>     - default is usually fine (*except*: use `family=Gamma(link="log")`)
+ 
 ## Machinery
 
-- "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ describes patterns on the link scale
-- Fit **doesn't transform the responses**: instead applies *inverse* link function to the linear predictor 
-    - instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
-- this is good, because the observed value of $y$ might be zero
-    - e.g. count (Poisson) phenotype vs. temperature (centered at 20 C)
-	- with $\beta=\{1,1\}$, $T=15$, $\textrm{counts} \sim \textrm{Poisson}(\lambda=\exp(-4)=`r round(exp(-4),3)`)$
+> - "linear predictor" $\eta = \beta_0 + \beta_1 x_1 + \ldots$ describes patterns on the link scale
+> - Fit **doesn't transform the responses**: instead applies *inverse* link function to the linear predictor 
+>     - instead of $\log(y) \sim x$, we analyze $y \sim \mathrm{Poisson}(\exp(x))$
+> - this is good, because the observed value of $y$ might be zero
+>     - e.g. count (Poisson) phenotype vs. temperature (centered at 20°C)
+> 	- with $\beta=\{1,1\}$, $T=15$:
+> 	- counts $\sim \textrm{Poisson}(\lambda=\exp(1 + 1 \cdot (15-20)))$
+> 	- = $\textrm{Poisson}(\lambda = \exp(-4))=\textrm{Poisson}(\lambda=`r round(exp(-4),3)`)$
 
 ## Machinery (2)
 
-Model setup is the same as linear models
+Model setup is almost the same as linear models
 
 - categorical vs. continuous predictors
 - contrasts
 - interactions
-- multivariable regression vs ANOVA vs ANCOVA vs ...
+- etc.
 
-but the linear relationship is set up on the link scale
+but the linear relationship is assumed **on the link scale**
 
 ## log/exponential function (`log`/`exp`): count data
 
@@ -133,21 +148,20 @@ par(op)
 
 ## overdispersion
 
-- too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (Ratio >1.2 worrisome; ratio>3, v. worrisome (check your model & data!)
-- **quasi-likelihood models** (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
-- alternatives:
-    - Poisson $\to$ negative binomial (`MASS::glm.nb`)
-	- binomial $\to$ beta-binomial (`glmmTMB` package)
-- overdispersion **not relevant** for
-    - binary responses
-	- families with estimated scale parameters (Gaussian, Gamma, NB, ...)
-	- models that already account for it (NB, quasi-likelihood)
+> - too much variance: (residual deviance)/(residual df) should be $\approx 1$.  (Ratio >1.2 worrisome; ratio>3, v. worrisome (check your model & data!)
+> - **quasi-likelihood models** (e.g. `family=quasipoisson`); fit, then adjust CIs/p-values
+> - alternatives:
+>     - Poisson $\to$ negative binomial (`MASS::glm.nb`, `glmmTMB`)
+> 	  - binomial $\to$ beta-binomial (`glmmTMB`)
+> - overdispersion **not relevant** for
+>   - binary responses
+> 	- families/models that estimate dispersion (Gaussian, Gamma, neg binom, ...)
 
-## parameter interpretation
+## Parameter interpretation
 
 - as with linear models (change in response per change in input)
 - but on *link* scale
-- log link: proportional for small $\beta$, changes
+- log link: proportional for small $\beta$
      - e.g. $\beta=0.01 \to$ "$\approx$ 1% change per unit change in input"
 	 - $\beta=3 \to$ "$(e^3) \approx$ `r round(exp(3))`-fold change per change in input"
 
@@ -167,13 +181,13 @@ par(op)
 	- e.g. going from log-odds of 0 to 1; estimated $\Delta$ prob $\approx$ 0.25
       - `plogis(0)=` `r round(plogis(0),2)`
       - `plogis(0+1)=` `r round(plogis(1),2)`
- - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); read Gelman and Hill's *Applied Regression Modeling* book (p. 81; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false))
+ - also see [UCLA FAQ on odds ratios](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faq-how-do-i-interpret-odds-ratios-in-logistic-regression/); @gelmanDataAnalysisUsing2006 (p. 82; [Google books link](https://books.google.ca/books?id=lV3DIdV0F9AC&printsec=frontcover&dq=gelman+hill+logistic+parameter&hl=en&sa=X&ved=0ahUKEwjt8Zq_1-bgAhUqzIMKHTl0D3EQ6AEIKjAA#v=snippet&q=divide%20by%204&f=false))
 			  
 ## inference
 
 - Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
-	- approximate, can be way off if parameters have extreme values (*complete separation*)
-	- asymptotic (finite-size correction/"degrees of freedom" are hard, usually ignored)
+	- **approximate**: may be way off if parameters have extreme values (*complete separation*)
+	- $Z$ rather than $t$ tests: "degrees of freedom" usually ingored
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC etc.
 
@@ -198,7 +212,7 @@ par(op)
 ## offsets
 
 - constant terms added to a model
-- what if we want to model densities rather than counts?
+- e.g. what if we want to model densities rather than counts?
 - log-link (Poisson/NB) models: $\mu_0 = \exp(\beta_0 + \beta_1 x_1 + ...)$
 - if we know the area then we want $\mu = A \cdot \mu_0$
 - equivalent to adding $\log(A)$ to the linear predictor ($\exp(\log(\mu_0) + \log(A)) = \mu_0 \cdot A$)
@@ -209,7 +223,7 @@ par(op)
 
 - `ggplot2`
     - `geom_smooth(method="glm", method.args=list(family=...))`
-- `dotwhisker`, `emmeans`, `effects`, `sjPlot`
+- `dotwhisker`, `emmeans`, `effects`, `sjPlot`, `marginaleffects`
     - need to interpret parameters appropriately
     - means may be computed on link *or* response scale
 
@@ -223,19 +237,15 @@ par(op)
 ([beeswarm plot](http://stackoverflow.com/questions/11889353/avoiding-overlap-when-jittering-points beeswarm plot]))
 - see also: GLM extensions talk ([source](https://github.com/bbolker/iiscvisit/blob/master/workshops/glm_extensions.rmd))
 
-## Common(est?) `glm()` problems
+## Common `glm()` problems
 
-- neglecting overdispersion
-- binomial/Poisson models with non-integer data
-- equating negative binomial with binomial rather than Poisson
-- failing to specify `family` ($\to$ linear model);
-using `glm()` for linear models (unnecessary)
-- predictions on effect scale
-- using $(k,N)$ rather than $(k,N-k)$ in binomial models
-- worrying about overdispersion unnecessarily (binary/Gamma)
-- back-transforming SEs rather than CIs
-- Poisson for *underdispersed* responses
-- ignoring random effects
+- ignoring overdispersion
+- binomial or Poisson models with non-integer responses (use offsets?)
+- leaving out `family=` in `glm()`
+- forgetting `predict()` uses link scale by default
+- worrying about overdispersion when you don't have to
+- using `offset(A)` rather than `offset(log(A))`
+- ignoring random effects (next topic -- mixed models)
 
 # Example
 
@@ -308,7 +318,7 @@ print(gg2 <- gg1+geom_smooth(method="glm",formula=y~poly(x,2),
 ## improved model
 
 ``` {r aids_model_2.R}
-g2 <- update(g1,.~poly(date,2))
+g2 <- update(g1, . ~ poly(date,2))
 ```
 
 ## new diagnostics

@@ -44,3 +44,7 @@ Other
 * data/cc2.rds
 * data/CA_homicide.rds: Canadian homicide data (processed, from 2021)
 
+### Untracked files ### (2)
+
+* data/culcita_volume.csv
+* data/culcitalogreg.csv
