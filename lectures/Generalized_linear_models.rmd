@@ -61,7 +61,7 @@ logpois_pct <- round(sum(gscrape[c("logistic+regression", "Poisson+regression")]
 
 ## Family
 
-- family: what kind of data do I have?
+- family: what kind of data (response variable) do I have?
     - from **first principles**: family specifies the relationship between the mean and variance
 	- `family=binomial`: proportions, out of a total number of counts; includes binary (Bernoulli) ("logistic regression")
 	- `family=poisson`: Poisson (independent counts, no set maximum, or far from the maximum)
@@ -88,7 +88,7 @@ print(ggplot(d,aes(x=v,y=n))+geom_point(size=5)
     * Gaussian: constant variance
 	* Poisson: variance = mean
 	* binomial: variance prop to $p(1-p)$
-* for classic GLMs, this is all you need
+* for classic GLMs, this is all you need to fit the model correctly
 
 ## Link functions
 
