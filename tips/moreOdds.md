@@ -25,6 +25,18 @@ The population
 
 What is the probability that a person with a positive test has MMV?
 
+## Bayes factors
+
+Ratio of “evidence” for different hypotheses
+
+* Likelihood of data given hypothesis
+
+For a dichotomous (yes/no) question, a Bayes factor is an odds ratios
+
+They combine multiplicatively
+
+* So additive on the log-odds scale
+
 ## Conclusion
 
 * Odds are cool
