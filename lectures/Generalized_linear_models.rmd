@@ -199,7 +199,7 @@ qlogis(0.99)
 
 - Wald $Z$ tests (i.e., results of `summary()`), confidence intervals
 	- **approximate**: may be way off if parameters have extreme values (*complete separation*)
-	- $Z$ rather than $t$ tests: "degrees of freedom" usually ingored
+	- $Z$ rather than $t$ tests: "degrees of freedom" usually ignored
 - likelihood ratio tests (equivalent to  $F$ tests); `drop1(model,test="Chisq")`, `anova(model1,model2)`), profile confidence intervals (`MASS::confint.glm`)
 - AIC etc.
 
