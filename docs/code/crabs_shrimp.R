@@ -77,6 +77,7 @@ confint(mbs)
 mbs2 <- glm(cbind(pred, N-pred) ~ttt.1, family = binomial,
     data = ddL_sum)
 
-cc <- contrast(emmeans(mbs2, specs = ~ ttt.1), my_contrasts, type = "response")
+cc <- contrast(emmeans(mbs2, specs = ~ ttt.1), my_contrasts, type = "response") +
 
-plot(cc) + scale_x_log10()
+plot(cc) + scale_x_log10() +   geom_vline(xintercept = 1, lty = 2)
+
