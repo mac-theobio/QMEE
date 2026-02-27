@@ -45,10 +45,10 @@ Open for discussion; _let us know if you have suggestions_.
 
 <!-- COMMENT
 - [Simulating data in statistics](topics/Simulations.html) 
-- [Contrasts](topics/Contrasts.html) 
 
 - [Multivariate responses](Multivariate_responses.html)
 - [Linear model parameters] (parameters.html) [Probably covered in LM topic now? 2024 Mar 19 (Tue)]
+- [Contrasts](topics/Contrasts.html) 
 - [Penalized regression] (penalized.html)
 
 -->
