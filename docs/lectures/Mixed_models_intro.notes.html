@@ -11,6 +11,7 @@
 
 <meta name="author" content="Jonathan Dushoff, Ben Bolker" />
 
+<meta name="date" content="2026-03-01" />
 
 <title>Mixed models</title>
 
@@ -420,14 +421,15 @@ display: none;
 
 <h1 class="title toc-ignore">Mixed models</h1>
 <h4 class="author">Jonathan Dushoff, Ben Bolker</h4>
+<h4 class="date">1 March 2026</h4>
 
 </div>
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>Mixed models are models which combine “random” and “fixed”
-effects.</p>
+<p>Mixed models are models which combine <strong>random</strong> and
+<strong>fixed</strong> effects.</p>
 <ul>
 <li>Fixed effects are effects whose parameters we wish to estimate
 <ul>
@@ -444,8 +446,9 @@ estimating individually
 </div>
 <div id="modern-and-classic-approaches" class="section level2">
 <h2>Modern and classic approaches</h2>
-<p>The “modern” approach to mixed models involves explicitly estimating
-“random” parameters and their variances (see below).</p>
+<p>The modern approach to mixed models involves estimating the variances
+of random effects and finding the <em>conditional modes</em> for each
+group (see below).</p>
 <p>Compared to the <a href="../tips/Mixed_models_Classic_approach.html">classic ANOVA
 approach</a> to mixed models, the modern approach is:</p>
 <ul>
@@ -467,27 +470,29 @@ exposed to). As a result:</p>
 </div>
 <div id="model" class="section level2">
 <h2>Model</h2>
-<p>“Treatment” is a fixed effect</p>
+<p><em>Treatment</em> is a fixed effect</p>
 <ul>
 <li>We want to estimate the difference in growth with clean air and
 dirty air</li>
 </ul>
-<p>“Tree” is a random effect</p>
+<p><em>Tree</em> is a random effect</p>
 <ul>
 <li>We want to know what about the <em>distribution</em> of tree effects
-(so we can control for it); we are not specifically interested in the
-difference in growth between tree 3 and tree 5</li>
+(so we can control for it); in this case we are not specifically
+interested in the difference in growth between (e.g.) tree 3 and tree
+5</li>
 </ul>
 </div>
 <div id="random-effects" class="section level2">
 <h2>Random effects</h2>
-<p>Random effects are based on unordered factors</p>
+<p>Random effects are based on unordered factors (<em>grouping
+variables</em>)</p>
 <ul>
 <li>the levels of the factor are conceptualized as random samples from a
 larger population</li>
 <li>the effect of each level is therefore a random variable</li>
 <li>the essential parameters we estimate are not the effect of each
-level, but the mean and variance of the <em>distribution</em>.</li>
+level, but the variance of the <em>distribution</em>.</li>
 </ul>
 </div>
 <div id="is-this-a-random-effect" class="section level2">
@@ -495,15 +500,14 @@ level, but the mean and variance of the <em>distribution</em>.</li>
 <p>Treating something as a random effect means treating the levels as
 interchangeable from the point of view of your scientific
 hypothesis.</p>
-<p>There is sometimes controversy about when it is appropriate to model
-a predictor using random effects. Here are some criteria …</p>
+<p>There aren’t hard-and-fast rule about when you should model a
+predictor as a random effect. Here are some criteria …</p>
 </div>
 <div id="philosophical-questions" class="section level2">
 <h2>philosophical questions</h2>
 <ul>
 <li>are the levels chosen from a larger population?</li>
 <li>are the levels chosen randomly?</li>
-<li>are the levels a non-exhaustive sample of possible levels?</li>
 <li>do you want to be able to make predictions about new (unobserved)
 levels?
 <ul>
@@ -527,35 +531,32 @@ country, village, household</li>
 <ul>
 <li>individual identity <em>can</em> be associated with a random
 effect</li>
-<li>this can also be done with residual structures</li>
+<li>this can also be done by modeling correlation in the residuals</li>
 </ul></li>
 </ul>
 </div>
 <div id="inferential-questions" class="section level2">
 <h2>inferential questions</h2>
-<p>The choice to make something a random effect will affect your
-inferences about <em>other</em> variables than on your inferences about
-the focal variable</p>
+<p>Choosing to use a random effect will affect your inferences</p>
 <ul>
-<li>Inferring using a fixed effect means we are inferring across the
-group of levels we have measured (only)</li>
-<li>Inferring using a random effect means we are inferring across a
-<em>population represented by</em> the group of levels we have
-measured</li>
+<li>Using a fixed effect means we are making inferences about the levels
+we have measured (only)</li>
+<li>Using a random effect means we are making inferences about a
+<em>population represented by</em> the levels we have measured</li>
 </ul>
 </div>
 <div id="examples" class="section level2">
 <h2>Examples</h2>
 <p><strong>Influenza vaccination experiment</strong></p>
 <ul>
-<li>Year as a fixed effect: did vaccination “help” on average over these
+<li>Year as a fixed effect: did vaccination help on average over these
 years (with a particular set of flu strains, etc.)</li>
-<li>Year as random effect: will vaccination “help” on average over a
-wider set of years (assuming observed years are representative)</li>
+<li>Year as random effect: will vaccination help on average over a wider
+set of years (assuming observed years are representative)</li>
 </ul>
 <p><strong>Spruce trees</strong></p>
 <ul>
-<li>May not have enough data to do a random effects analysis</li>
+<li>May not have enough data to do a mixed model</li>
 <li>Our <em>statistical</em> inference is then limited to the areas we
 studied</li>
 <li>Whether we can broaden our <em>scientific</em> inference is a
@@ -565,19 +566,12 @@ scientific question (not statistical)</li>
 <div id="practical-questions" class="section level2">
 <h2>Practical questions</h2>
 <ul>
-<li>Modern methods
+<li><p>have you measured a sufficient number of levels to estimate a
+variance (&gt;5, preferably &gt;10)?</p></li>
+<li><p>May need more for more complicated models</p></li>
+<li><p>Otherwise</p>
 <ul>
-<li>have you measured a sufficient number of levels to estimate a
-variance (&gt;5, preferably &gt;10)?</li>
-<li>May need more for more complicated models</li>
-</ul></li>
-<li>Classic methods
-<ul>
-<li>Do you have a balanced design?</li>
-</ul></li>
-<li>Otherwise
-<ul>
-<li>Limit your inference</li>
+<li>Limit your inference (e.g. switch to fixed effects)</li>
 <li>Try an even more advanced approach (usually Bayesian)</li>
 </ul></li>
 </ul>
@@ -585,7 +579,8 @@ variance (&gt;5, preferably &gt;10)?</li>
 <div id="random-slopes" class="section level2">
 <h2>Random slopes</h2>
 <ul>
-<li>Are only intercepts affected by random factors, or also responses?
+<li>Are only intercepts affected by random factors, or also effects of
+some predictors?
 <ul>
 <li>e.g., spruce trees</li>
 </ul></li>
@@ -605,9 +600,8 @@ fixed effect (e.g., level of acidity) and a <em>grouping variable</em>
 models. You just need to specify which effects are random.</p>
 <ul>
 <li>Works with unbalanced designs</li>
-<li>Works with crossed random effects</li>
-<li>May require a lot of data (and sometimes a lot of levels) for a
-reliable fit
+<li>Works with <em>crossed</em> random effects</li>
+<li>May require a lot of data/a lot of levels for a reliable fit
 <ul>
 <li>Depends on model complexity</li>
 </ul></li>
@@ -679,11 +673,11 @@ etc.)</p>
 <ul>
 <li>LMMs: REML vs ML
 <ul>
-<li>analogy: <span class="math inline">\(n-1\)</span> in estimation of
-variance</li>
+<li>analogy: dividing by <span class="math inline">\(n-1\)</span> when
+estimating variance</li>
 <li>analogy: paired <span class="math inline">\(t\)</span>-test</li>
-<li>what do I do when I have more than 2 treatment levels per
-block?</li>
+<li>REML is the natural extension to &gt;2 treatment levels per
+block</li>
 </ul></li>
 <li>GLMMs: PQL, Laplace, Gauss-Hermite</li>
 </ul>
@@ -707,6 +701,8 @@ structures, gives denominator df/<span class="math inline">\(p\)</span>
 values</li>
 <li><code>(g)lmer</code> (<code>lme4</code> package): newer, faster,
 does crossed random effects, GLMMs</li>
+<li><code>glmmTMB</code>: more families for GLMMs; zero-inflation etc
+etc</li>
 <li><a href="https://cran.r-project.org/web/views/MixedModels.html">many
 others (see task view)</a></li>
 </ul></li>

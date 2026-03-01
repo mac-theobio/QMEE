@@ -1,11 +1,12 @@
 ---
 title: Mixed models
 author: Jonathan Dushoff, Ben Bolker
+date: 1 March 2026
 ---
 
 ## Introduction
 
-Mixed models are models which combine "random" and "fixed" effects.
+Mixed models are models which combine **random** and **fixed** effects.
 
 -   Fixed effects are effects whose parameters we wish to estimate
     -   The slope of a phosphorus response
@@ -18,7 +19,7 @@ Mixed models are models which combine "random" and "fixed" effects.
 
 ## Modern and classic approaches
 
-The "modern" approach to mixed models involves explicitly estimating "random" parameters and their variances (see below).
+The modern approach to mixed models involves estimating the variances of random effects and finding the *conditional modes* for each group (see below).
 
 Compared to the [classic ANOVA approach](../tips/Mixed_models_Classic_approach.html) to mixed models, the modern approach is:
 
@@ -39,38 +40,37 @@ to). As a result:
 
 ## Model
 
-"Treatment" is a fixed effect
+*Treatment* is a fixed effect
 
 -   We want to estimate the difference in growth with clean air and
         dirty air
 
-"Tree" is a random effect
+*Tree* is a random effect
 
 -   We want to know what about the *distribution* of tree effects
-	  (so we can control for it); we are not specifically interested
-	  in the difference in growth between tree 3 and tree 5
+	  (so we can control for it); in this case we are not specifically interested
+	  in the difference in growth between (e.g.) tree 3 and tree 5
 
 ## Random effects
 
-Random effects are based on unordered factors
+Random effects are based on unordered factors (*grouping variables*)
 
 -   the levels of the factor are conceptualized as random samples from a
     larger population
 -   the effect of each level is therefore a random variable
 -   the essential parameters we estimate are not the effect of each
-    level, but the mean and variance of the *distribution*.
+    level, but the variance of the *distribution*.
 
 ## Is this a random effect?
 
 Treating something as a random effect means treating the levels as interchangeable from the point of view of your scientific hypothesis.
 
-There is sometimes controversy about when it is appropriate to model a predictor using random effects. Here are some criteria ...
+There aren't hard-and-fast rule about when you should model a predictor as a random effect. Here are some criteria ...
 
 ## philosophical questions
 
 -   are the levels chosen from a larger population?
 -   are the levels chosen randomly?
--   are the levels a non-exhaustive sample of possible levels?
 -   do you want to be able to make predictions about new (unobserved) levels?
 	 - or inferences that include them?
 -   are you interested in the distribution of levels/variability among levels?
@@ -83,49 +83,44 @@ There is sometimes controversy about when it is appropriate to model a predictor
 
 * repeated measures
 	* individual identity _can_ be associated with a random effect
-	* this can also be done with residual structures
+	* this can also be done by modeling correlation in the residuals
 
 ## inferential questions
 
-The choice to make something a random effect will affect
-your inferences about *other* variables than on your
-inferences about the focal variable
+Choosing to use a random effect will affect
+your inferences
 
--   Inferring using a fixed effect means we are inferring across the
-    group of levels we have measured (only)
--   Inferring using a random effect means we are inferring across a
-    *population represented by* the group of levels we have measured
+-   Using a fixed effect means we are making inferences about the
+    levels we have measured (only)
+-   Using a random effect means we are making inferences about a
+    *population represented by* the levels we have measured
 
 ## Examples
 
 __Influenza vaccination experiment__
 
-* Year as a fixed effect: did vaccination "help" on average over these years (with a particular set of flu strains, etc.)
-* Year as random effect: will vaccination "help" on average over a wider set of years (assuming observed years are representative)
+* Year as a fixed effect: did vaccination help on average over these years (with a particular set of flu strains, etc.)
+* Year as random effect: will vaccination help on average over a wider set of years (assuming observed years are representative)
 
 __Spruce trees__
 
-* May not have enough data to do a random effects analysis
+* May not have enough data to do a mixed model
 * Our _statistical_ inference is then limited to the areas we studied
 * Whether we can broaden our _scientific_ inference is a scientific question (not statistical)
 
 ## Practical questions
 
-- Modern methods
-	* have you measured a sufficient number of levels to estimate a
-    variance (>5, preferably >10)?
-	* May need more for more complicated models
-
-- Classic methods
-	* Do you have a balanced design?
+- have you measured a sufficient number of levels to estimate a
+  variance (>5, preferably >10)?
+- May need more for more complicated models
 
 - Otherwise
-	* Limit your inference
+	* Limit your inference (e.g. switch to fixed effects)
 	* Try an even more advanced approach (usually Bayesian)
 
 ## Random slopes
 
-* Are only intercepts affected by random factors, or also responses?
+* Are only intercepts affected by random factors, or also effects of some predictors?
 	* e.g., spruce trees 
 
 * Random slopes are often conceptually appealing, but computationally challenging
@@ -139,9 +134,9 @@ Modern mixed-model packages (see below) can fit a wide variety of
 models. You just need to specify which effects are random.
 
 -   Works with unbalanced designs
--   Works with crossed random effects
--   May require a lot of data (and sometimes a lot of levels) for a reliable fit 
-	* Depends on model complexity
+-   Works with _crossed_ random effects
+-   May require a lot of data/a lot of levels for a reliable fit 
+	- Depends on model complexity
 
 ## Too few levels
 
@@ -193,9 +188,9 @@ Different for linear mixed models (LMMs: normally distributed response)
 and generalized linear mixed models (GLMMs: binomial, Poisson, etc.)
 
 -   LMMs: REML vs ML
-    -   analogy: $n-1$ in estimation of variance
-    -   analogy: paired $t$-test
-    -   what do I do when I have more than 2 treatment levels per block?
+    -  analogy: dividing by $n-1$ when estimating variance
+    -  analogy: paired $t$-test
+    -  REML is the natural extension to >2 treatment levels per block
 -   GLMMs: PQL, Laplace, Gauss-Hermite
 
 _Or_:
@@ -203,7 +198,6 @@ _Or_:
 -   Bayesian approach: put a combined prior on the parameters
 
 ## Practical details in R
-
 
 * Classical designs
 	-   `aov + Error()` term
@@ -214,6 +208,7 @@ _Or_:
 		 values
 	-   `(g)lmer` (`lme4` package): newer, faster, does crossed random effects,
 		 GLMMs
+    -   `glmmTMB`: more families for GLMMs; zero-inflation etc etc
 	-   [many others (see task view)](https://cran.r-project.org/web/views/MixedModels.html)
 
 
