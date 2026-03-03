@@ -86,32 +86,19 @@ pp <- (pp
 
 ## plot predictions
 
-```{r mmex3, fig.width=10}
+```{r mmex3, fig.width=10, out.width = "100%"}
 theme_set(theme_classic()+theme(legend.position="none"))
 q0+geom_line(data=pp, aes(y=value)) + facet_wrap(~name)
 ```
 
 ## diagnostics
 
-- more do-it-yourself
+* `DHARMa::simulateResiduals()`
+* `performance::check_model()`
 
-```{r diag,fig.keep="none"}
-plot(lm3)  ## fitted vs residual
-## scale-location
-plot(lm3, sqrt(abs(resid(.))) ~ fitted(.),
-     type=c("p","smooth"), col.line="red")
-## Q-Q plots
-qqmath(lm3)
-## or:
-aa <- augment(lm3)
-names(aa)
-## and then use ggplot.
+```{r, echo = FALSE}
+performance::check_model(lm3, check = "reqq")
 ```
-
-Or use `DHARMa::simulateResiduals(lm3, plot=TRUE)`,
-or `performance::check_model()`
-
-
 
 ## coefficient plots
 
@@ -120,16 +107,20 @@ Use `broom.mixed` (in conjunction with `dotwhisker::dwplot`)
 - use `tidy` directly for more control (`?tidy.merMod`)
 - may want to specify `effects="fixed"`, `conf.int=TRUE`, `conf.method="profile"` (for CIs on random effects parameters)
 
-```{r coefplots, results="hide", fig.keep="none", cache = TRUE}
+```{r coefplots, results="hide", fig.keep="none", cache = TRUE, message = FALSE}
 tt <- tidy(lm3, conf.int=TRUE, conf.method="profile")
+```
+
+##
+
+```{r re_dotplot, warning=FALSE}
 dwplot(tt)
 ```
 
 ## random effects plots
 
-```{r replot, fig.keep="none", results="hide"}
+```{r replot}
 lattice::dotplot(ranef(lm3))
-lattice::qqmath(ranef(lm3))
 ```
 
 Or `sjPlot::plot_model()`
@@ -156,9 +147,9 @@ e.g.
 - *Culcita* (coral-reef) example: randomized-block design, so each treatment (none/crabs/shrimp/both) is repeated in every block; thus `(treat|block)` is maximal
 - CBPP data: each herd is measured in every period, so in principle we could use `(period|herd)`, not just `(1|herd)`
 
-## Random-slopes models: what does `(x|g)` really do?
+## Random-slopes models
 
-- equivalent to `(1+x|g)`
+- what does `(x|g)` (or `(1+x|g)` really do?
 - both intercept (baseline) and slope vary across groups
 - estimates **bivariate** zero-centered distribution:
 
@@ -176,21 +167,17 @@ $$
 \right)
 $$
 
-`equatiomatic` packages:
+## `equatiomatic` package
 
 ```{r equatiomatic, results="asis"}
-## remotes::install_github('datalorax/equatiomatic')
-if (require("equatiomatic", quietly = TRUE)) {
-    library(equatiomatic)
-    extract_eq(lm3)
-}
+equatiomatic::extract_eq(lm3)
 ```
 
 ## What is a practical model?
 
 - Avoid **singular** fits
 - singular = zero variances, +/- 1 correlations
-- More subtle for larger models: use `isSingular(model)`
+- More subtle for larger models: use `isSingular()`
 
 ## How to simplify?
 
@@ -198,6 +185,7 @@ if (require("equatiomatic", quietly = TRUE)) {
 - simplify random effects [@bates_parsimonious_2015;@matuschek_balancing_2017;@barr_random_2013]
    - drop slopes
    - force correlations to zero (use `1+x||g` to fit intercept and slope independently)
+   - structured random effects (diagonal, compound symmetric ...)
    
 ## Convergence failures 
 
@@ -209,6 +197,8 @@ if (require("equatiomatic", quietly = TRUE)) {
      - `$fixef`, etc.: are answers sufficiently similar?
      - `$llik`: how similar is goodness-of-fit?
 
+## allFit
+
 ```{r allFit_ex, cache=TRUE, message=FALSE}
 m1 <- lmer(Reaction ~ Days + (Days|Subject), sleepstudy)
 aa <- allFit(m1)
@@ -217,9 +207,17 @@ names(ss)
 ss$fixef
 ```
 
+## allFit plot
+
+```{r fig.width = 12, out.width = "100%"}
+source("https://raw.githubusercontent.com/lme4/lme4/refs/heads/master/misc/plot_allFit.R")
+par(las=1); tpar(fmar = c(1,12,1,1))
+plot(aa, flip = TRUE)
+```
+
 ## GLMMs: integration techniques
 
-- PQL, Laplace, AGQ
+- PQL, Laplace, adaptive Gauss-Hermite quadrature (AGHQ)
 - fast/flexible/inaccurate $\to$ slow/inflexible/accurate
 - **amount of data per group** is what matters
     - number of points, info per point (binary vs count)
@@ -232,6 +230,7 @@ ss$fixef
 
 ## Other resources
 
+- [Mixed Models task view]()
 - the [GLMM FAQ](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
 
 ## References
