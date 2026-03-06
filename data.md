@@ -1,8 +1,6 @@
 
 data/index.html ## Leave this here; it should be suppressed downstream
 
-MISSING: index.html)
-
 FAO banana data behind pix/bananas.png
 * data/bananas.tsv
 
@@ -28,14 +26,21 @@ Other
 * data/aids.csv: data on Australian AIDS cases from Dobson and Barnett
 * data/dll.csv: data for mixed model example (from Dworkin 2011 *Evolution and Development*)
 
-## Mysterious
-* data/multiv_brmsfit.rda
-
-## Fake vitamin data (from JD's Statistics Talks repo)
+Fake vitamin data (from JD's Statistics Talks repo)
 * data/vitamins_data.rds
 
-## Fly data from Ian's Contrasts lecture
+Fly data from Ian's Contrasts lecture
 * data/contrast_tutorial_dat.RData
+
+Tick data from mixed-model example
+* data/Elston2001_tickdata.txt
+
+Crab-shrimp data from linear-models example
+* data/culcita_volume.csv
+* data/culcitalogreg.csv
+
+Multivariate data
+* data/multiv_brmsfit.rda
 
 ### Older files ###
 
@@ -44,7 +49,3 @@ Other
 * data/cc2.rds
 * data/CA_homicide.rds: Canadian homicide data (processed, from 2021)
 
-### Untracked files ### (2)
-
-* data/culcita_volume.csv
-* data/culcitalogreg.csv
