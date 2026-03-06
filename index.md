@@ -53,6 +53,10 @@ Open for discussion; _let us know if you have suggestions_.
 
 -->
 
+## Other
+
+[Our data directory](data/index.html)
+
 ## Faculty
 
 -   [Jonathan Dushoff](http://www.biology.mcmaster.ca/dushoff/)
@@ -60,5 +64,3 @@ Open for discussion; _let us know if you have suggestions_.
 <!-- COMMENT
 -   [Ian Dworkin for a bit](https://dworkinlab.github.io/)
 -->
-
-[data directory](data/index.html)

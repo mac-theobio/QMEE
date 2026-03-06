@@ -17,6 +17,7 @@ Other files from the cleaning lecture
 
 Canada homicide data (visualization sessions):
 * data/CA_homicide.csv: Canadian homicide data
+	* data/CA_homicide.rds: processed, from 2021
 * data/CA_popdat.csv: Canadian population information
 * data/canadaRegions.csv
 
@@ -47,5 +48,4 @@ Multivariate data
 * data/portal_data_joined.csv: data from the Portal project
 * data/contrasts2.RData
 * data/cc2.rds
-* data/CA_homicide.rds: Canadian homicide data (processed, from 2021)
 
