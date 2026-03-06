@@ -3,7 +3,10 @@ title: Final project
 bibliography: ../qmee.bib
 ---
 
+
 The final project is a group activity. The first step will be to identify a biological question and some data to answer it with.
+
+<!-- COMMENT
 
 ## Project proposals
 
@@ -23,25 +26,28 @@ This is supposed to be an initial set of ideas; you're not required to do exactl
 Feel free to reach out to the instructors if you want to clarify the parameters of the assignment.
 
 We will help organize groups based on interests and make recommendations about which of the proposals from that group are the most feasible and appropriate for this course.
+-->
 
+
+<!--
 ## Future milestones
 
 * decide on groups, data set, set up GitHub repo with README file
 * updated README.md, data-analysis journal, analysis plan
 * presentations (in class)
 * final write-up (end of term)
+-->
 
-<!--
 ## Tasks
 
-by **6 March** you should:
+by **13 March** you should:
 
 * decide which data set/which questions you are going to pursue
 * pick a short name for your project (letters, numbers, and underscores only please) and create a new repository with this name; whoever creates it should invite the other project participant(s) as well as `@bbolker` and `@dushoff`.
 * upload your data (if possible)
 * write a `README.md` file for your repository that says briefly what you plan to do and says where the data is/are
 
-by **13 March** you should:
+by **17 March** you should:
 
 * update your README with thoughts and questions about next steps
 * Start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also a good place to record plans for how you will proceed with your analysis
