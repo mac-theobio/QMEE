@@ -24,20 +24,20 @@ timefun <- function(x,units,digits=0,component="elapsed") {
 }
 ```
 
+## 
+
 This tutorial follows from our introduction to multivariate linear models, extending it by using multivariate linear **mixed** models.
 
-Useful packages:
+## Useful packages
 
 ```{r, pkgs, message=FALSE}
 library(MCMCglmm)
 library(lme4)
 library(brms)
-library(tidyr)
-library(dplyr)
+library(tidyverse); theme_set(theme_bw())
 library(corrplot)
 library(broom.mixed)
 library(dotwhisker)
-library(ggplot2); theme_set(theme_bw())
 ```
 
 ```{r chkver, echo=FALSE}
@@ -48,24 +48,18 @@ if (packageVersion("broom.mixed")<"0.2.4") stop("need broom.mixed >= 0.2.4")
 
 This is an old *Drosophila melanogaster* data set from Ian Dworkin's PhD work [@dworkin_evidence_2005]. This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study Dworkin measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).
 
+## 
+
 Get data from https://doi.org/10.5061/dryad.8376 or [this repo](https://mac-theobio.github.io/QMEE/data/dll.csv):
 
 
 ```{r get_data}
-dll_data <- read.csv("../data/dll.csv")
-```
-
-```{r proc_data,cache=TRUE}
-## make temp a factor (25 vs 30 degrees)
-dll_data$temp <- factor(dll_data$temp)
-## scale relevant variables (fancier but less repetition than previously)
 morph_vars <- c("femur","tibia","tarsus","SCT")
-morph_vars_sc <- paste(morph_vars,"s",sep="_")
-dll_data2 <- dll_data
-## c() drops unwanted structure from the results of scale()
-for (i in 1:length(morph_vars)) {
-    dll_data2[[morph_vars_sc[i]]] <- c(scale(dll_data[[morph_vars[i]]]))
-}
+dll_data <- read.csv("../data/dll.csv") |>
+  mutate(across(temp, factor),
+         ## scale & center (and convert back from matrix to vector)
+         across(any_of(morph_vars), ~drop(scale(.)), .names = "{.col}_s")
+)
 ```
 
 ## Mixed models
@@ -92,27 +86,25 @@ The way we're going to make this work is to expand ("melt", or `gather()` or `pi
 
 ## A trick to do multivariate mixed models using lme4
 
-lme4 does not (currently) have a natural syntax for multivariate responses, however, as I eluded to in class, there is an important relationship between multivariate response models and so called "repeated" measures (or longitudinal) models. As such we can use a few tricks to estimate the model in lme4. Below this, I will go through the same model using MCMCglmm, which is a library which has a more natural syntax for such multivariate responses, but is explicitly Bayesian, so you need to provide prior distributions. 
+`lme4` does not (currently) have a natural syntax for multivariate responses, however, as I alluded to in class, there is an important relationship between multivariate response models and so called "repeated" measures (or longitudinal) models. As such we can use a few tricks to estimate the model in lme4. Below this, I will go through the same model using MCMCglmm, which is a library which has a more natural syntax for such multivariate responses, but is explicitly Bayesian, so you need to provide prior distributions. 
 
 
-### melting code for lme4
+## melting code for lme4
 
 What we need to first do (for lme4) is to generate a single column that represents the numeric values for our response traits, and then a second variable that stores the trait type.
 
 <img src="../pix/the-persistence-of-memory-1931.jpg" alt="melting" style="width: 100px;" />
 
 ```{r melt}
-dll_melt <- (dll_data2
-    %>% select(-c(femur,tibia,tarsus,SCT))  ## drop unscaled vars
+dll_melt <- (dll_data
+    %>% select(-any_of(morph_vars))
     %>% mutate(units=factor(1:n()))
-    %>% gather(trait,value, -c(units,replicate,line,genotype,temp))
+    %>% pivot_longer(names_to = "trait", cols = paste0(morph_vars, "_s"))
     %>% drop_na()
     %>% arrange(units)
 )
 ## saveRDS(dll_melt, file="dll_melt.rds")
 ```
-
-(in case you're familiar with current-day tidyverse: `gather()` is an earlier version of `pivot_longer()`, which is now recommended).
 
 ---
 
@@ -120,6 +112,8 @@ Look at how this has changed the structure of the data from a **wide** format:
 ```{r head_wide}
 head(dll_data) # original wide
 ```
+
+## 
 
 to a **long** format:
 
@@ -148,7 +142,7 @@ af <- allFit(lmer1, parallel="multicore",ncpus=4)
 ss <- summary(af)
 ```
 
-### lme4: fixed-effects formula
+## lme4: fixed-effects formula
 
 - the `system.time()` business is just to keep track of how long the command takes to run
 (we could have kept the HTML output clean by hiding this in the `.Rmd` file, at the cost of making the `.Rmd` 
@@ -170,13 +164,14 @@ f3 <- fvars(~trait:(genotype*temp)-1)
 identical(f2,f3) ## TRUE
 ## how to test equivalence of f1 and {f2,f3}?
 ```
-### lme4: random-effects formula
+## lme4: random-effects formula
 
 - `(trait-1|line)` means "variance/covariances of traits among lines"
 - `-1` so we consider traits, not *differences* among traits
 - `(trait-1|units)` specifies "var/cov of traits among units (individuals)"
 
-### lme4: control specificatons
+## lme4: control specificatons
+
 - `lmer` always includes a residual variance term. This is redundant
 because we have only one data point per individual per trait:
 `lmerControl(...)` tells `lmer` not complain
@@ -220,7 +215,7 @@ all positive (i.e. first axis of variation is *size* variation?)
 
 ## lme4: coefficient plot
 
-```{r dwplot}
+```{r dwplot, warning = FALSE}
 cc1 <- tidy(lmer1,effect="fixed") %>%
   tidyr::separate(term,into=c("trait","fixeff"),extra="merge",
                   remove=FALSE)
@@ -248,7 +243,10 @@ saveRDS(cc2, file="../data/cc2.rds")
 
 (about 40 minutes to run on 8 cores on a fast machine)
 
+
 # MCMCglmm
+
+## MCMCglmm
 
 Another option is the `MCMCglmm` package, which has a natural interface for general multivariate mixed models.  It takes a while to get used to the interface, but here is an example. Please check out [here](https://cran.r-project.org/web/packages/MCMCglmm/index.html) for more information about the package, and [here](https://web.archive.org/web/20110526163114/https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf) for an overview of how to use it.
 
@@ -297,7 +295,7 @@ t2 <- system.time(
                           random=~ us(trait):line, 
                           rcov=~ us(trait):units,
                           prior=  prior.model.1,
-                          data= dll_data2, 
+                          data= dll_data, 
                           family = fam.test, 
                           nitt= 10000, burnin= 2000, thin=10)
 )
@@ -329,6 +327,8 @@ The fit takes `r round(t2["elapsed"])` seconds.
 Normally we would spend a fair bit of time on diagnostics of the MCMC, but for now we will just quickly check the trace plots and autocorrelation.
 
 In the fitted object `$Sol` is for solution, which is the term used for fixed effects in MCMCglmm. `$VCV` is for the variance-covariance matrix.
+
+## trace plots
 
 ```{r diag_plots}
 library(lattice)
@@ -415,7 +415,7 @@ library(brms)
 t3 <- system.time(
     brmsfit <- brm(
         mvbind(femur_s, tibia_s, tarsus_s, SCT_s) ~ genotype*temp + (1|p|line) + (1|q|replicate),
-        data = dll_data2, chains = 4, cores = 4)
+        data = dll_data, chains = 4, cores = 4)
 )
 saveRDS(brmsfit,file="../data/multiv_brmsfit.rda")
 ```

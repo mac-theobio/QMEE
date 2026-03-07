@@ -26,6 +26,7 @@ Other
 * data/skewdat.csv: data on reproductive skew in fish from Paczolt et al 2015 *J. Heredity*
 * data/aids.csv: data on Australian AIDS cases from Dobson and Barnett
 * data/dll.csv: data for mixed model example (from Dworkin 2011 *Evolution and Development*)
+* data/dworkin_canalization.csv: more multivariate fly data from Dworkin
 
 Fake vitamin data (from JD's Statistics Talks repo)
 * data/vitamins_data.rds
@@ -49,6 +50,5 @@ Multivariate data
 * data/contrasts2.RData
 * data/cc2.rds
 
-### Untracked files ### (1)
 
-* data/dworkin_canalization.csv
+

@@ -3214,15 +3214,15 @@ overflow-y: auto !important;
 
 <slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Introduction</h2></hgroup><article  id="introduction">
 
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section">
+
 <p>In today’s class we are introducing how to model data when you have multiple continuous response variables. This can be done with a relatively simple extension of the linear models you learned previously (regression, ANOVA, ANCOVA style models).</p>
 
 </article></slide><slide class=""><hgroup><h2>Packages</h2></hgroup><article  id="packages">
 
-<p>You may also need to install the following packages. If you do not have them remove the &lsquo;#&rsquo; to uncomment the lines.</p>
+<p>You may also need to install these packages …</p>
 
-<pre class = 'prettyprint lang-r'># install.packages(&quot;car&quot;)
-# install.packages(&quot;geomorph&quot;)
-library(car)
+<pre class = 'prettyprint lang-r'>library(car)
 library(geomorph)</pre>
 
 <p>the <code>car</code> package has some useful functions for helping to make inferences for <a href='https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf' title=''>multivariate linear models</a>. the <code>geomorph</code> package is a specialized package for biological shape analysis (geometric morphometrics), but since this data is inherently multidimensional, there are many useful functions. Check the <a href='https://github.com/geomorphR/geomorph/wiki' title=''>wiki</a> out.</p>
@@ -3231,7 +3231,7 @@ library(geomorph)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Source in some custom functions</h2></hgroup><article  id="source-in-some-custom-functions">
 
-<p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>. We wrote most of them for a paper analyzing multivariate shape of <em>Drosophila</em> wings across altitudinal and latitudinal gradients. <a href='http://onlinelibrary.wiley.com/doi/10.1111/j.1558-5646.2012.01774.x/full' title=''>Check here</a> for the paper and <a href='http://datadryad.org/resource/doi:10.5061/dryad.r43k1' title=''>here</a> for the full data and scripts. Lots of cool multivariate examples.</p>
+<p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>. We wrote most of them for a paper analyzing multivariate shape of <em>Drosophila</em> wings across altitudinal and latitudinal gradients <span class="cite">(W. Pitchers, Pool, and Dworkin 2013)</span>; full data and scripts <a href='http://datadryad.org/resource/doi:10.5061/dryad.r43k1' title=''>here</a>. Lots of cool multivariate examples.</p>
 
 <ul>
 <li><a href='../code/MLM_Dworkin.R' title=''>R script to source</a></li>
@@ -3244,7 +3244,9 @@ ls()</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Data</h2></hgroup><article  id="data">
 
-<p>We will use an old <em>Drosophila melanogaster</em> data set from my PhD work. The associated paper can be found <a href='http://onlinelibrary.wiley.com/doi/10.1111/j.1525-142X.2005.05010.x/abstract' title=''>here</a>. This was from a study that was meant to test predictions of a model on how mutational and environmental variation can influence the overall structure of phenotypic variation. For this study I measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).</p>
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-1">
+
+<p>We will use an old <em>Drosophila melanogaster</em> data set from my PhD work <span class="cite">(Dworkin 2005)</span>. This study tested the predictions of a model on the influence of mutational and environmental variation on the overall structure of phenotypic variation. For this study I measured several traits (lengths) on the first leg as well as the number of sex comb teeth (a structure used to clasp females during copulation) for different wild type strains (line) reared at different developmental temperatures (temp), with and without a mutation that effects proximal-distal axis development in limbs (genotype).</p>
 
 <p><a href='https://datadryad.org/dataset/doi:10.5061/dryad.8376' title=''>Data Dryad site</a></p>
 
@@ -3418,20 +3420,15 @@ levels(dll_data$genotype)</pre>
 
 <h3>Checking rank of the matrix</h3>
 
-<p>We could also check to see if the covariance matrix was not of full rank (i.e. for a covariance matrix for 4 variables, do we really have 4 &ldquo;independent axes&rdquo;). One quick check (which directly relates to PCA) is to examine the eigenvalues of the covariance matrix, and make sure the final ones are not really small.</p>
+<p>We could also check to see if the covariance matrix was not of full rank (i.e. for a covariance matrix for 4 variables, do we really have 4 &ldquo;independent axes&rdquo;). One quick check (which directly relates to PCA) is to examine the eigenvalues of the covariance matrix, and make sure the final ones are not really small. ## Eigenvalues of a variance-covariance matrix.</p>
 
-</article></slide><slide class=""><hgroup><h2>Eigenvalues of a variance-covariance matrix.</h2></hgroup><article  id="eigenvalues-of-a-variance-covariance-matrix.">
+<p>Many methods in multivariate statistics, depend on <em>eigenvalues</em>. I am not going to go over the details of <em>eigendecomposition</em> at the moment, but you will see we use them a lot. We can extract the eigenvalues (usually denoted as \(\lambda\)) from our covariance matrix. We get as many eigenvalues as we have variables (\(k\)) in the covariance matrix (4 in this case), ordered from largest (\(\lambda_1\) sometimes called the principal eigenvalue) to the smallest (\(\lambda_k\)). What we want to watch for is that none of the eigenvalues are equal to zero (that’s where we can have problems).</p>
 
-<p>Many methods in multivariate statistics, depend on <em>eigenvalues</em>. I am not going to go over the details of <em>eigendecomposition</em> at the moment, but you will see we use them alot. We can extract the eigenvalues (usually denoted as \(\lambda\)) from our covariance matrix. We get as many eigenvalues as we have variables (\(k\)) in the covariance matrix (4 in this case), ordered from largest (\(\lambda_1\) sometimes called the principal eigenvalue) to the smallest (\(\lambda_k\)). What we want to watch for is that none of the eigenvalues are equal to zero (that’s where we can have problems).</p>
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-2">
 
 <p>To get the eigenvalues, we will use a <em>singular value decomposition</em> this can also be done using an <em>eigendecomposition</em> for this matrix (a symmetric one) and the results should be the same.</p>
 
-<p>Note what I am doing. - First computing the variance-covariance matrix (VCV), a symmetric matrix.</p>
-
-<ul>
-<li><p>Then extracting the eigenvalues from that matrix.</p></li>
-<li><p>I am also calculating the determinant of the matrix (I won’t explain here, but for simple 2x2 matrices like the area of the shape the matrix defines).</p></li>
-</ul>
+<p>Note what I am doing. - First computing the variance-covariance matrix (VCV), a symmetric matrix. - Then extracting the eigenvalues from that matrix. - I am also calculating the determinant of the matrix (I won’t explain here, but for simple 2x2 matrices like the area of the shape the matrix defines).</p>
 
 <p>For our purposes at the moment, as long as the determinant can be estimated (it is not so small that the computer spits out a warning) we are ok. Also note that this determinant is equal to \(\prod{\lambda_i}\)</p>
 
@@ -3500,7 +3497,9 @@ dll_data$SCT_s &lt;- drop(scale(dll_data$SCT))</pre>
 ## tarsus_s   0.571   0.497    1.000 0.296
 ## SCT_s      0.206   0.237    0.296 1.000</pre>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Multivariate linear models, let’s begin …</h2></hgroup><article  id="multivariate-linear-models-lets-begin">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Multivariate linear models</h2></hgroup><article  id="multivariate-linear-models">
+
+</article></slide><slide class=""><hgroup><h2>Let’s begin …</h2></hgroup><article  id="lets-begin">
 
 <p>The multivariate general linear model is:</p>
 
@@ -3636,19 +3635,21 @@ class(mlm_fit1)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Test statistics for multivariate linear models (and back to eigenvalues)</h2></hgroup><article  id="test-statistics-for-multivariate-linear-models-and-back-to-eigenvalues">
 
-<p>The other two things to note is this &ldquo;Pillai&rdquo; statistic and the approximate \(F\) statistic. It turns out that with the matrices that are used for inference (\(\mathbf{H}\) the <em>hypothesis matrix</em>) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of \(\mathbf{A} = \mathbf{HE^{-1}}\) where \(\mathbf{E}\) is the matrix of &ldquo;residuals&rdquo;. Generally the different approaches then take the eigenvalues of \(\mathbf{A}\) to generate a test statistic There are four commonly used test statistics that are derived from the eigenvalues of this matrix. If you are so inclined, check out inferences for <a href='https://journal.r-project.org/archive/2013-1/fox-friendly-weisberg.pdf' title=''>multivariate linear models</a> for more information, and how it is used in <code>car</code>.</p>
+<p>The other two things to note is this &ldquo;Pillai&rdquo; statistic and the approximate \(F\) statistic. It turns out that with the matrices that are used for inference (\(\mathbf{H}\) the <em>hypothesis matrix</em>) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of \(\mathbf{A} = \mathbf{HE^{-1}}\) where \(\mathbf{E}\) is the matrix of &ldquo;residuals&rdquo;. Generally the different approaches then take the eigenvalues of \(\mathbf{A}\) to generate a test statistic There are four commonly used test statistics that are derived from the eigenvalues of this matrix. If you are so inclined, check out inferences for multivariate linear models, and their implementation in the <code>car</code> package <span class="cite">(Fox, Friendly, and Weisberg 2013)</span>.</p>
 
-<h3>Various test statistics for multivariate linear models. Or, fun with eigenvalues</h3>
+</article></slide><slide class=""><hgroup><h2>Various test statistics for multivariate linear models. Or, fun with eigenvalues</h2></hgroup><article  id="various-test-statistics-for-multivariate-linear-models.-or-fun-with-eigenvalues">
 
-<p>While this defaults to Pillai’s trace (\(\Lambda_{Pillai}\)), which is the trace (sum of the diagonals of \(\mathbf{H}(\mathbf{H}+\mathbf{E})^{-1}\).This is basically generating a matrix where the between group VCV is &ldquo;divided&rdquo; by the overall VCV. However, it is also equivalent to \[\Lambda_{Pillai} = \sum_{n=1}^{k} \frac{\lambda_k}{1+ \lambda_k}\]</p>
+<p>While this defaults to Pillai’s trace (\(\Lambda_{\textrm{Pillai}}\)), which is the trace (sum of the diagonals of \(\mathbf{H}(\mathbf{H}+\mathbf{E})^{-1}\). This is basically generating a matrix where the between group VCV is &ldquo;divided&rdquo; by the overall VCV. However, it is also equivalent to</p>
 
-<p>Many in biology seem to use \(\Lambda_{Wilks}\), which is.</p>
+<p>\[\Lambda_{\textrm{Pillai}} = \sum_{n=1}^{k} \frac{\lambda_k}{1+ \lambda_k}\]</p>
+
+</article></slide><slide class=""><hgroup><h2>Wilks \(\Lambda\)</h2></hgroup><article  id="wilks-lambda">
+
+<p>Many in biology seem to use \(\Lambda_{\textrm{Wilks}}\), which is.</p>
 
 <p>\[\Lambda_{Wilks} = \prod_{n=1}^{k} \frac{1}{1+ \lambda_k}\]</p>
 
 <p>Most of the time these give pretty similar results (when compared to the appropriate distributions). What you care about is you can easily change it, like so:</p>
-
-<h3>Wilks \(\Lambda\)</h3>
 
 <pre class = 'prettyprint lang-r'>summary(manova(mlm_fit1), 
         test = &quot;Wilks&quot;)</pre>
@@ -3659,7 +3660,11 @@ class(mlm_fit1)</pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</pre>
 
-<p>In each case a test statistic, and an approximation of the F statistic and a p-value. It is worth seeing how the <code>car</code> package handles this (more for complex models, as we will see).</p>
+<p>In each case a test statistic, and an approximation of the F statistic and a p-value.</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-3">
+
+<p>It is worth seeing how the <code>car</code> package handles this (more for complex models, as we will see):</p>
 
 <pre class = 'prettyprint lang-r'>Anova(mlm_fit1)</pre>
 
@@ -3672,11 +3677,9 @@ class(mlm_fit1)</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Measures of effect size?</h2></hgroup><article  id="measures-of-effect-size">
 
-</article></slide><slide class=""><hgroup><h2>Some background &amp; review</h2></hgroup><article  id="some-background-review">
+</article></slide><slide class=""><hgroup><h2>Euclidean Distance, or the magnitude of the treatment contrast vector.</h2></hgroup><article  id="euclidean-distance-or-the-magnitude-of-the-treatment-contrast-vector.">
 
-<h3>Euclidian Distance, or the magnitude of the treatment contrast vector.</h3>
-
-<p>What we would like to start to think about is effect size. This is not something that is universally agreed upon in multivariate statistics. However in both morphometrics and genomics it is typical to use the magnitude or <em>length</em> of the vector for coefficients associated with the response. This is sometimes known as the <em>L2 norm</em> of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:</p>
+<p>Let’s think about effect size; there’s no consensus about the &lsquo;best&rsquo; effect size in multivariate statistics. However in both morphometrics and genomics it’s typical to use the magnitude or <em>length</em> of the vector for coefficients associated with the response. This is sometimes known as the <em>L2 norm</em> of the vector, but you can mostly easily think about it as the square root of the sum of squares for each coefficient. i.e:</p>
 
 <p>\[
 \lVert \mathbf{\hat{x}} \rVert = \sqrt{\mathbf{\hat{x}&#39;} \cdot \mathbf{\hat{x}}}
@@ -3691,7 +3694,7 @@ class(mlm_fit1)</pre>
 \mathbf{\hat{x}} = \mathbf{\bar{x}}_{Dll} - \mathbf{\bar{x}}_{wt}
 \]</p>
 
-<h3>multivariate effect size in R</h3>
+</article></slide><slide class=""><hgroup><h2>multivariate effect size in R</h2></hgroup><article  id="multivariate-effect-size-in-r">
 
 <p>For our model we can examine the coefficients easily</p>
 
@@ -3701,24 +3704,29 @@ class(mlm_fit1)</pre>
 ## (Intercept)  -0.069  -0.172   0.0624 -0.141
 ## genotypeDll   0.157   0.392  -0.1423  0.322</pre>
 
-<p>With the second row (genotypeDll) representing the treatment contrasts (differences) compared to the intercept, which in this case is simply the mean values for the wild type for the 4 traits.</p>
+<p>With the second row (<code>genotypeDll</code>) representing the treatment contrasts (differences) compared to the intercept, which in this case is simply the mean values for the wild type for the 4 traits.</p>
 
 <p>How about a single effect size for our treatment contrast? Well, we can start with magnitude of the treatment contrast vector</p>
 
-<pre class = 'prettyprint lang-r'># Length/magnitude (L2 norm) of the vector
-sqrt(t(coef(mlm_fit1)[2,]) %*% coef(mlm_fit1)[2,])</pre>
+<pre class = 'prettyprint lang-r'>cvec &lt;- coef(mlm_fit1)[2,] 
+# Length/magnitude (L2 norm) of the vector
+sqrt(t(cvec) %*% cvec)</pre>
 
 <pre >##      [,1]
 ## [1,] 0.55</pre>
 
-<pre class = 'prettyprint lang-r'># or equivalently
-sqrt(sum(coef(mlm_fit1)[2,]^2))</pre>
+<pre class = 'prettyprint lang-r'>sqrt(sum(cvec^2))</pre>
 
 <pre >## [1] 0.55</pre>
 
+<pre class = 'prettyprint lang-r'>sqrt(crossprod(cvec))</pre>
+
+<pre >##      [,1]
+## [1,] 0.55</pre>
+
 <p>However, this gets annoying to write out each time. So one of the functions in the source file does this for you. <code>PD()</code> (for Procrustes Distance) computes the Euclidean Distance between two vectors, but also can compute the length of the vector we want.</p>
 
-<pre class = 'prettyprint lang-r'>PD(coef(mlm_fit1)[2,])</pre>
+<pre class = 'prettyprint lang-r'>PD(cvec)</pre>
 
 <pre >##      [,1]
 ## [1,] 0.55</pre>
@@ -3736,7 +3744,7 @@ sqrt(sum(coef(mlm_fit1)[2,]^2))</pre>
 
 <p>Then as long as you scale other measures of effect size by the multivariate mean for the &ldquo;control&rdquo;, they can be broadly compared. Not many folks seem to use this.</p>
 
-<h3><em>Cohen’s d</em> and <em>Mahalanobis distance</em></h3>
+</article></slide><slide class=""><hgroup><h2><em>Cohen’s d</em> and <em>Mahalanobis distance</em></h2></hgroup><article  id="cohens-d-and-mahalanobis-distance">
 
 <p>However probably the most common approaches is to scale the treatment effect by a measure of biological variability like the standard deviation. If you think about a common univariate measure of effect size like <em>Cohen’s d</em>:</p>
 
@@ -3746,13 +3754,17 @@ d = \frac{\bar{x}_t - \bar{x}_c}{\sigma_{pooled}}
 
 <p>Where \(\bar{x}_t\) is the estimated (or just mean) treatment mean, \(\bar{x}_c\) is the estimated control mean, and \(\sigma_{pooled}\) is the pooled standard deviation. Don’t confuse this pooled standard deviation with the standard error (a measure of uncertainty due to sampling). Indeed if you replace the denominator in <em>Cohen’s d</em> with the standard error, you get a <em>t</em> statistic ( a measure of the magnitude of your effect relative to your uncertainty in your estimate).</p>
 
-<p>We can use a multivariate extension of this same approach. As you will see it is essentially the Euclidian distance we examined above but scaled by the pooled variance-covariance matrix, \(\mathbf{S}_{pooled}\). This is known as the <em>Mahalanobis Distance</em>. The measure is defined as:</p>
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-4">
+
+<p>We can use a multivariate extension of this same approach. As you will see it is essentially the Euclidean distance we examined above but scaled by the pooled variance-covariance matrix, \(\mathbf{S}_{pooled}\). This is known as the <em>Mahalanobis Distance</em>. The measure is defined as:</p>
 
 <p>\[
 D^{2} = (\mathbf{\bar{x}}_t - \mathbf{\bar{x}}_c )&#39; \mathbf{S}^{-1}_{pl} (\mathbf{\bar{x}}_t - \mathbf{\bar{x}}_c)
 \]</p>
 
 <p>Where \(\mathbf{\bar{x}}_t\) is the mean vector for the treatment,\(\mathbf{\bar{x}}_c\) is the mean vector for the control and \(\mathbf{S}^{-1}_{pl}\) is the inverse of the pooled phenotypic variance-covariance matrix. Great care should be taken with generating the pooled covariance matrix. In particular you should first center observations on their treatment means, and then generate the pooled covariance matrix (this is true for <em>Cohen’s d</em> with respect to the pooled standard deviation as well). This is what Ben mentioned in class. Or you can use the formula I showed in class.</p>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-5">
 
 <p>You can probably envision other variants of this (in particular which matrix to use for scaling).</p>
 
@@ -3792,7 +3804,9 @@ D^{2} = (\mathbf{\bar{x}}_t - \mathbf{\bar{x}}_c )&#39; \mathbf{S}^{-1}_{pl} (\m
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Distance based approaches</h2></hgroup><article  id="distance-based-approaches">
 
-<p>Before we get too complicated with our model, I also want to show you a distance based approach, as implemented in geomorph. This is useful because we are computing distances (essentially Euclidean distances) between observations (although not the raw distances, but based on the mean estimates within and between treatment levels). This means we are ultimately estimating far fewer coefficients, so can be very helpful when we have large numbers of response traits relative to number of observations.</p>
+</article></slide><slide class=""><hgroup><h2>Distance based approaches</h2></hgroup><article  id="distance-based-approaches-1">
+
+<p>Before we get too complicated with our model, I also want to show you a distance based approach, as implemented in <code>geomorph</code>. This is useful because we are computing distances (essentially Euclidean distances) between observations (although not the raw distances, but based on the mean estimates within and between treatment levels). This means we are ultimately estimating far fewer coefficients, so can be very helpful when we have large numbers of response traits relative to number of observations.</p>
 
 <p>They have a number of functions in the geomorph package, but for most needs, I suggest starting with <code>procD.lm</code></p>
 
@@ -3832,9 +3846,9 @@ mlm_fit2 &lt;- procD.lm(f1 = as.matrix(dll_data[, 9:12]) ~ genotype,
 
 <p>The ’advanced.procD.lm()` can do much of this automatically, but it is designed to compare sets of nested models.</p>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Does the data conform to the assumptions of a multivariate linear model?</h2></hgroup><article  id="does-the-data-conform-to-the-assumptions-of-a-multivariate-linear-model">
+</article></slide><slide class=""><hgroup><h2>Does the data conform to the assumptions of a multivariate linear model?</h2></hgroup><article  id="does-the-data-conform-to-the-assumptions-of-a-multivariate-linear-model">
 
-<p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>this paper</a> we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
+<p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <span class="cite">W. R. Pitchers et al. (2014)</span> <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>, we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>More complicated models</h2></hgroup><article  id="more-complicated-models">
 
@@ -3910,7 +3924,32 @@ Anova(mlm_fit5)</pre>
 ## $partials
 ##   variable.name        partial.Rsq
 ## 1          temp  0.150926579344357
-## 2      genotype 0.0257889597702598</pre></article></slide>
+## 2      genotype 0.0257889597702598</pre>
+
+</article></slide><slide class=""><hgroup><h2>References</h2></hgroup><article  id="references" class="unnumbered">
+
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-dworkinEvidenceCanalizationDistalless2005b" class="csl-entry">
+<p>Dworkin, Ian. 2005. <span>
+“Evidence for Canalization of Distal-Less Function in the Leg of <span>
+<em>Drosophila Melanogaster</em></span>.”</span> <em>Evolution &amp; Development</em> 7 (2): 89–100. <a href='https://doi.org/10.1111/j.1525-142X.2005.05010.x' title=''>https://doi.org/10.1111/j.1525-142X.2005.05010.x</a>.</p></div>
+
+<div id="ref-foxHypothesisTestsMultivariate2013c" class="csl-entry">
+<p>Fox, John, Michael Friendly, and Sanford Weisberg. 2013. <span>
+“Hypothesis <span>
+Tests</span> for <span>
+Multivariate Linear Models Using</span> the Car <span>
+Package</span>.”</span> <em>The R Journal</em> 5 (1): 39. <a href='https://doi.org/10.32614/RJ-2013-004' title=''>https://doi.org/10.32614/RJ-2013-004</a>.</p></div>
+
+<div id="ref-pitchersPotentialInfluenceMorphology2014" class="csl-entry">
+<p>Pitchers, W. R., C. P. Klingenberg, T. Tregenza, J. Hunt, and I. Dworkin. 2014. <span>
+“The Potential Influence of Morphology on the Evolutionary Divergence of an Acoustic Signal.”</span> <em>Journal of Evolutionary Biology</em> 27 (10): 2163–76. <a href='https://doi.org/10.1111/jeb.12471' title=''>https://doi.org/10.1111/jeb.12471</a>.</p></div>
+
+<div id="ref-pitchersAltitudinalClinalVariation2013a" class="csl-entry">
+<p>Pitchers, William, John E. Pool, and Ian Dworkin. 2013. <span>
+“Altitudinal Clinal Variation in Wing Size and Shape in <span>
+African</span> <span>
+<em>Drosophila Melanogaster</em></span>: One Cline or Many?”</span> <em>Evolution</em> 67 (2): 438–52. <a href='https://doi.org/10.1111/j.1558-5646.2012.01774.x' title=''>https://doi.org/10.1111/j.1558-5646.2012.01774.x</a>.</p></div></div></article></slide>
 
 
   <slide class="backdrop"></slide>
