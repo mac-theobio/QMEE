@@ -36,8 +36,8 @@ Lecture recordings should  be available via Echo360: please e-mail us to request
 
 - [Permutations](topics/Permutations.html) and [Linear models](topics/Linear_models.html)
 - [Generalized linear models (additional)](topics/Generalized_linear_models.html)
-- [Mixed models (additional)](topics/Mixed_models.html)
-- [Bayesian statistics](topics/Bayesian_statistics.html)
+- [Mixed models](topics/Mixed_models.html)
+- [Multivariate responses](topics/Multivariate_responses.html)
 
 ### Additional topics
 
@@ -45,8 +45,7 @@ Open for discussion; _let us know if you have suggestions_.
 
 <!-- COMMENT
 - [Simulating data in statistics](topics/Simulations.html) 
-
-- [Multivariate responses](Multivariate_responses.html)
+- [Bayesian statistics](topics/Bayesian_statistics.html)
 - [Linear model parameters] (parameters.html) [Probably covered in LM topic now? 2024 Mar 19 (Tue)]
 - [Contrasts](topics/Contrasts.html) 
 - [Penalized regression] (penalized.html)
