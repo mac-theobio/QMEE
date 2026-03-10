@@ -41,7 +41,7 @@ Might measure lots of different characteristics for each individual. Could model
 ## examples
 
 * morphometric measurements (e.g. head breadth, head length, snout-vent length)
-* morphometric 'landscapes' (e.g. vein intersections on a fly wing)
+* morphometric 'landmarks' (e.g. vein intersections on a fly wing)
 * responses to different stimuli
 * suites of behavioural responses
 * omics: gene expression, microbial abundance, etc.
@@ -53,7 +53,7 @@ $$
 \begin{array}{cccc}
 \sigma^2_1 & \sigma_{12} & \sigma_{13} & \dots \\
 . & \sigma^2_{2} & \sigma_{23} & \dots \\
-. & . & \sigma^3_{2} & \dots \\
+. & . & \sigma^2_{3} & \dots \\
 \vdots & \vdots & \vdots & \ddots
 \end{array}
 \right)
@@ -263,7 +263,7 @@ Generate a single column with the numeric values of the responses, and a second 
 dll_melt <- (dll_data
     |> select(-any_of(morph_vars))
     |> mutate(units=factor(1:n()))
-    |> pivot_longer(names_to = "trait", cols = paste0(morph_vars, "_s"))
+    |> pivot_longer(names_to = "trait", cols = morph_vars_s)
     |> drop_na()
     |> arrange(units)
 )
