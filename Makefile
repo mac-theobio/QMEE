@@ -137,6 +137,12 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+manova.Rout: code/manova.R
+	$(pipeR)
+
+MultivariateMixed.Rout: code/MultivariateMixed.R
+	$(pipeR)
+
 viz26.Rout: code/viz26.R
 	$(pipeR)
 

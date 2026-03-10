@@ -3137,7 +3137,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -3234,7 +3234,7 @@ overflow-y: auto !important;
 
 <ul>
 <li>morphometric measurements (e.g. head breadth, head length, snout-vent length)</li>
-<li>morphometric &lsquo;landscapes&rsquo; (e.g. vein intersections on a fly wing)</li>
+<li>morphometric &lsquo;landmarks&rsquo; (e.g. vein intersections on a fly wing)</li>
 <li>responses to different stimuli</li>
 <li>suites of behavioural responses</li>
 <li>omics: gene expression, microbial abundance, etc.</li>
@@ -3247,7 +3247,7 @@ overflow-y: auto !important;
 \begin{array}{cccc}
 \sigma^2_1 &amp; \sigma_{12} &amp; \sigma_{13} &amp; \dots \\
 . &amp; \sigma^2_{2} &amp; \sigma_{23} &amp; \dots \\
-. &amp; . &amp; \sigma^3_{2} &amp; \dots \\
+. &amp; . &amp; \sigma^2_{3} &amp; \dots \\
 \vdots &amp; \vdots &amp; \vdots &amp; \ddots
 \end{array}
 \right)
@@ -3504,11 +3504,25 @@ y = \mathbf{X\beta} + \mathbf{Zb} + \epsilon
 <pre class = 'prettyprint lang-r'>dll_melt &lt;- (dll_data
     |&gt; select(-any_of(morph_vars))
     |&gt; mutate(units=factor(1:n()))
-    |&gt; pivot_longer(names_to = &quot;trait&quot;, cols = paste0(morph_vars, &quot;_s&quot;))
+    |&gt; pivot_longer(names_to = &quot;trait&quot;, cols = morph_vars_s)
     |&gt; drop_na()
     |&gt; arrange(units)
-)
-## saveRDS(dll_melt, file=&quot;dll_melt.rds&quot;)</pre>
+)</pre>
+
+<pre >## Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+## ℹ Please use `all_of()` or `any_of()` instead.
+##   # Was:
+##   data %&gt;% select(morph_vars_s)
+## 
+##   # Now:
+##   data %&gt;% select(all_of(morph_vars_s))
+## 
+## See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</pre>
+
+<pre class = 'prettyprint lang-r'>## saveRDS(dll_melt, file=&quot;dll_melt.rds&quot;)</pre>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 
@@ -3602,15 +3616,15 @@ y = \mathbf{X\beta} + \mathbf{Zb} + \epsilon
 <pre class = 'prettyprint lang-r'>vv1 &lt;- VarCorr(lmer1)
 print(vv1)</pre>
 
-<pre >##  Groups   Name          Std.Dev. Corr           
-##  units    traitfemur_s  0.658                   
-##           traitSCT_s    0.732    0.05           
-##           traittarsus_s 0.570    0.57 0.20      
-##           traittibia_s  0.674    0.90 0.12 0.47 
-##  line     traitfemur_s  0.489                   
-##           traitSCT_s    0.392    0.14           
-##           traittarsus_s 0.462    0.81 0.37      
-##           traittibia_s  0.473    0.87 0.22 0.83 
+<pre >##  Groups   Name          Std.Dev. Corr          
+##  units    traitfemur_s  0.658                  
+##           traitSCT_s    0.732    0.05          
+##           traittarsus_s 0.570    0.57 0.20     
+##           traittibia_s  0.674    0.90 0.12 0.47
+##  line     traitfemur_s  0.489                  
+##           traitSCT_s    0.392    0.14          
+##           traittarsus_s 0.462    0.81 0.37     
+##           traittibia_s  0.473    0.87 0.22 0.83
 ##  Residual               0.457</pre>
 
 </article></slide><slide class=""><hgroup><h2>lme4: correlation plot</h2></hgroup><article  id="lme4-correlation-plot">
