@@ -2,8 +2,8 @@
 title: Multivariate approaches
 ---
 
-* [Multivariate intro](../lectures/MultivariateIntro.slides.html)
-* [Multivariate mixed models](../lectures/MultivariateMixed.slides.html)
+* [Multivariate models](../lectures/MultivariateMixed.slides.html)
+	* [More on the classic approach (from Ian)](../lectures/MultivariateIntro.slides.html)
 
 <!-- 
 * [Ian's Associated R file](MLM_Dworkin.R)
