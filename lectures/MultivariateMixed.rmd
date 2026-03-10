@@ -33,7 +33,10 @@ Might measure lots of different characteristics for each individual. Could model
 * a combined test of the effect of a predictor on individuals' characteristics
 * information on how characteristics change in a correlated way, at the population level or within individuals
 
-**Alternatives**: many univariate models with multiplicity correction (e.g. differential expression analysis); collapse variables to summary statistics (diversity metrics, principal components)
+## Alternatives
+
+* several (or many) univariate models with multiplicity correction (e.g. differential expression analysis)
+* collapse variables to summary statistics (diversity metrics, principal components)
 
 ## examples
 
@@ -124,6 +127,8 @@ morph_vars <- c("femur","tibia","tarsus","SCT")
 ```{r dll-data}
 dll_data
 ```
+
+## 
 
 ```{r dll_tab}
 ## tabulate and show only the first five lines
