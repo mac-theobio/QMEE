@@ -1,0 +1,204 @@
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+# MCMCglmm
+
+## MCMCglmm
+
+Another option is the `MCMCglmm` package, which has a natural interface for general multivariate mixed models.  It takes a while to get used to the interface, but here is an example. Please check out [here](https://cran.r-project.org/web/packages/MCMCglmm/index.html) for more information about the package, and [here](https://web.archive.org/web/20110526163114/https://cran.r-project.org/web/packages/MCMCglmm/vignettes/Overview.pdf) for an overview of how to use it.
+
+---
+
+First I find it easier (given the interface of MCMCglmm) to create a formula with the response variables and predictors. This is only for the fixed effects part of the model.
+```{r mod_fm}
+fmla.MMLM1  <- cbind(femur_s, tibia_s, tarsus_s, SCT_s) ~
+    trait:(genotype*temp) - 1
+```
+
+---
+
+Now we need to let `MCMCglmm` know which family (i.e. distribution) the response variables are. Since all are normal (Gaussian), we can specify it the following way.
+
+```{r fam}
+fam.test <- rep("gaussian", 4 )
+```
+
+---
+
+Since `MCMCglmm` is fundamentally a Bayesian approach, it needs a prior. If you provide no prior by default, it tries a "flat" prior, although this rarely works. In this case we provide not-quite-flat priors **only** for the random effects of line and for the residual variances (could also provide them for the fixed effects). Choosing priors for variances and covariances is tricky (and too technical for right now), so we will use the default prior distributions (*inverse-Wishart*). Ian Dworkin has some simple tutorials where he draws out the effects of various common priors for variances and covariances.
+
+```{r prior} 
+prior.model.1 <- list( R = list(V=diag(4)/4, nu=0.004),  
+                       G = list(G1=list(V=diag(4)/4, nu=0.004)))
+```
+
+---
+
+Let's take a quick look at the prior 
+
+
+```{r prior_glimpse}
+prior.model.1
+```
+
+---
+
+The `R` matrix prior is for the residuals. This is $\mathbf{R}_{4,4}$ as we have 4 traits in the VCV matrix. We have have non-zero variances for each trait as the mode for the prior, and 0 for covariances. However this is a weak prior, so even small amounts of data will largely overcome the pull of the prior. Another sensible approach we have used is to make the prior proportional to the overall observed VCV, as there is a large literature on the proportionality of covariance matrices for morphology. This may not be sensible for other types of multivariate response measures.
+
+##
+
+```{r MCMCglmm_fit,cache=TRUE,results="hide"}
+##,depends.on=c("prior","mod_fm","get_data")}
+t2 <- system.time(
+    MMLM1.fit <- MCMCglmm(fmla.MMLM1,
+                          random=~ us(trait):line, 
+                          rcov=~ us(trait):units,
+                          prior=  prior.model.1,
+                          data= as.data.frame(dll_data), 
+                          family = fam.test, 
+                          nitt= 10000, burnin= 2000, thin=10)
+)
+```
+
+## MCMCglmm specification: fixed effects
+
+- `fmla.MMLM1` is the formula object we created above
+- it looks like the `lmer` formula
+- the `trait` term is a reserved word in `MCMCglmm`, letting it know we want to fit a multivariate mixed model
+- `MCMCglmm` automatically melts the data for us (and assigns the name `trait` the same way we did manually above)
+
+## MCMCglmm: random effects
+
+- `random=~us(trait):line` asks `MCMCglmm` to fit an *unstructured* covariance matrix for the line term (i.e the different wild type genotypes we are examining).- "Unstructured" means we are estimating the complete 4 x 4 matrix of covariances (= 4*5/2 = 10 elements total)
+- equivalent to `(trait-1|line)` in `lmer` model
+- `MCMCglmm` also automatically adds a `units`
+- `rcov=~us(trait):units` = `(trait-1|units)`
+- `MCMCglmm` offers a few other options for variance-covariance structures
+
+## MCMCglmm: other options
+
+The `nitt` is how many iterations for the MCMC we want to perform, and the `burnin` is how many should be ignored at the beginning of the random walk.
+
+## MCMCglmm: diagnostics
+
+The fit takes `round(t2["elapsed"])`` seconds. <!-- restore r chunk if doing this for real -->
+
+Normally we would spend a fair bit of time on diagnostics of the MCMC, but for now we will just quickly check the trace plots and autocorrelation.
+
+In the fitted object `$Sol` is for solution, which is the term used for fixed effects in MCMCglmm. `$VCV` is for the variance-covariance matrix.
+
+## trace plots
+
+```{r diag_plots}
+library(lattice)
+xyplot(MMLM1.fit$Sol[,1:4])
+xyplot(MMLM1.fit$Sol[,13:16])
+acf(MMLM1.fit$Sol[,1:2])
+
+xyplot(MMLM1.fit$VCV[,1:4])
+acf(MMLM1.fit$VCV[,1:3])
+```
+
+Nothing terribly worrying.
+
+```{r MCMCglmm_sum}
+summary(MMLM1.fit)
+```
+
+Sometimes it is easier to look at the fixed and random effects separately.
+
+```{r summary_fixed}
+summary(MMLM1.fit$Sol)
+```
+
+And for the random effects.
+```{r summary_random}
+summary(MMLM1.fit$VCV)
+```
+
+This is not the most friendly output, and it takes a while to get used to. However, we can see that we still have evidence for something interesting going, and we could extract the vectors of effects as we did above.
+
+let's look at the VCV matrix for the random effects of line in a slightly clearer way (as a matrix)
+
+```{r VCV}
+##' extract variance-covariance matrices for MCMCglmm objects
+##' does not (yet) set cor, stddev, residual-var attributes
+##' may be fragile: depends on group vars not having dots in them?
+VarCorr.MCMCglmm <- function(object, ...) {
+    s <- summary(object$VCV)$statistics[,"Mean"]
+    grps <- gsub("^[^.]+\\.([[:alnum:]]+)$","\\1",names(s))
+    ss <- split(s,grps)
+    getVC <- function(x) {
+        nms <- gsub("^([^.]+)\\.[[:alnum:]]+$","\\1",names(x))
+        n <- length(nms)
+        L <- round(sqrt(n))
+        dimnms <- gsub("^([^:]+):.*$","\\1",nms[1:L])
+        return(matrix(x,dimnames=list(dimnms,dimnms),
+                      nrow=L))
+    }
+    r <- setNames(lapply(ss,getVC),unique(grps))
+    return(r)
+}
+vv <- VarCorr(MMLM1.fit)
+```
+
+```{r MCMCglmm_corrplot,width=10}
+par(mfrow=c(1,2))
+corrplot.mixed(cov2cor(vv$line),upper="ellipse")
+corrplot.mixed(cov2cor(vv$units),upper="ellipse")
+```
+
+- among-line effects are very similar to `lme4` estimates (variables are in a different order)
+- among-individual effects a
+
+This is only a taste of what to do, and after this we could start asking questions about this genetic covariance matrix. 
+
+Compare fixed effects:
+
+```{r dwplot3}
+tt <- tidy(MMLM1.fit)
+tt2 <- tidy(lmer1)
+tt_comb <- bind_rows(lmer=tt,MCMCglmm=tt2,.id="model") |>
+    filter(effect=="fixed")
+dwplot(tt_comb)+geom_vline(xintercept=0,lty=2)
+```
+
+## brms
+
+see `vignette("brms_multivariate")`
+
+**SLOW**
+
+```{r brms1,eval=FALSE}
+library(brms)
+t3 <- system.time(
+    brmsfit <- brm(
+        mvbind(femur_s, tibia_s, tarsus_s, SCT_s) ~ genotype*temp + (1|p|line) + (1|q|replicate),
+        data = dll_data, chains = 4, cores = 4)
+)
+saveRDS(brmsfit,file="../data/multiv_brmsfit.rda")
+```
+
+This takes a long time! ($\approx 40$ minutes, even computing the chains in parallel)
+
+
+## Pros and cons
+
+- MCMCglmm: Bayesian
+    - easier to get various kinds of confidence intervals
+	- flexible priors
+	- more flexible variance structures
+	- multiple response types within a unit (e.g. Gaussian + Poisson)
+- lme4: frequentist
+    - faster
+	- simpler interface (??)
+	- more convenient outputs
+- other options: `glmmTMB`, `brms` ...
+
+
+**FIXME**:
+
+- sort out random effects tidying
+- set wildtype as baseline level
+- check out convergence warnings with nloptwrap vs bobyqa (why is `allFit` not working?)

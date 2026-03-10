@@ -454,6 +454,8 @@ As with any other general linear model you want to examine how well the model fi
 
 # More complicated models
 
+## 
+
 Let's add some complexity to the model. We have additional predictors, temp (rearing temperature) and line (different wild type strains.)
 
 ```{r mlm_45}

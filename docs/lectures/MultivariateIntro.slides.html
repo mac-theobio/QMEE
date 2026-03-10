@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2026-03-07" />
+  <meta name="date" content="2026-03-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3208,7 +3208,7 @@ overflow-y: auto !important;
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">07 Mar 2026</p>
+            <p style="margin-top: 6px; margin-left: -2px;">09 Mar 2026</p>
           </hgroup>
   </slide>
 
@@ -3851,6 +3851,8 @@ mlm_fit2 &lt;- procD.lm(f1 = as.matrix(dll_data[, 9:12]) ~ genotype,
 <p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <span class="cite">W. R. Pitchers et al. (2014)</span> <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>, we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>More complicated models</h2></hgroup><article  id="more-complicated-models">
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article  id="section-6">
 
 <p>Let’s add some complexity to the model. We have additional predictors, temp (rearing temperature) and line (different wild type strains.)</p>
 
