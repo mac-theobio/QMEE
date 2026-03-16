@@ -75,6 +75,7 @@ Resources
 		-   [Notes version](../lectures/Bayesian_overview.notes.html)
 	-   [Example](../lectures/Bayesian_example.slides.html)
 		-   [Notes version](../lectures/Bayesian_example.notes.html)
+<!-- COMMENT
 
 Assignment
 ----------
@@ -85,3 +86,4 @@ Install JAGS (and either `rjags` or `R2jags`). Use `jags` to fit a Bayesian mode
 
 * See the [assignment instructions](../admin/assignments.html)
 
+-->
