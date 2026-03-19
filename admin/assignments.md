@@ -50,6 +50,6 @@ Weights and rubrics
 - Assessments will be weighted as follows
    - participation (forum and in-class) 10%
    - assignments 45%
-   - first draft of project 15%
-   - in-class presentation of final project 15%
-   - written final project 15% (you will get feedback and have a chance to make improvements between the presentation and the final submission of the written project)
+   - project proposal 5%
+   - in-class presentation of final project 20%
+   - written final project 20% (you will get feedback and have a chance to make improvements between the presentation and the final submission of the written project)
