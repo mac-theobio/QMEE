@@ -263,5 +263,6 @@ makestuff/Makefile:
 -include makestuff/pipeR.mk
 
 -include makestuff/git.mk
+-include makestuff/gitbranch.mk
 -include makestuff/visual.mk
 
