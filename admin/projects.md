@@ -37,6 +37,7 @@ We will help organize groups based on interests and make recommendations about w
 * presentations (in class)
 * final write-up (end of term)
 -->
+<!--
 
 ## Tasks
 
@@ -52,21 +53,42 @@ by **17 March** you should:
 * update your README with thoughts and questions about next steps
 * Start a file called journal.md where you record anything you do that involves looking at patterns in the data (i.e., anything but data cleaning). The journal is also a good place to record plans for how you will proceed with your analysis
 	* (for example, "if the diagnostic plots look OK, we will look at the summary table and use the clarity of the response to phosphorus as our main outcome". (See @simmons_false-positive_2011.)
+-->
+<!--
+-->
 
 ## Presentations
-
-We will have presentations on **Tue 31 March and 7 April**. Presentation slots will be assigned at random. Let us know well in advance if you have constraints or problems.
 
 <!-- COMMENT
 Schedule will be posted Wed morning. 
 You should plan to talk for 10-12 minutes and take questions for 3-5 minutes. 
+We will have presentations on **Tue 31 March and 7 April**. Presentation slots will be assigned at random. Let us know well in advance if you have constraints or problems.
 -->
 
 The presentation is not expected to be a finished work; you will still have three more weeks to work on your writeup. Outline your scientific question, the approaches you are taking, and outstanding questions about how to go forward. You can include one or two results (or preliminary results), if you have them.
 
-Please plan to finish on time. Time is short, and we want to be able to comment when appropriate.
+Please plan to take 12-15 minutes for your presentation. Time is short, and we want to be able to comment when appropriate.
 
+<!-- COMMENT
 The presentation is worth two ordinary assignments. 
+-->
+
+## Presentation dates
+
+We have divided the groups into Early (31 Mar) and Late (7 Apr). If two groups want to switch places, and everyone agrees, just let us know. Groups are listed by repo name, because we had a convenient list of those.
+
+* artlight Late
+* BAT-CMR Late
+* BC_validation_project Early
+* Cntnap2_OXT Early
+* ERIP_IndDiff Early
+* Final_Project_Molly_Hayden Early
+* ILD_Biopsy Late
+* Multivariate_TxS_Anemone Late
+* Pers_W_E Early
+* QMEE_FinalProject_TangTangIman Early
+* roots Late
+* TRES_Fun Late
 
 ## Writeup 
 
@@ -74,5 +96,9 @@ In the final project writeup, you should introduce a scientific question and pre
 
 Your writeup should be posted to your repository as a PDF file. Please do **not** include R code in your writeup. All analyses should be clearly documented and reproducible; your `README.md` file should describe the location of code and data files, and the steps necessary to reproduce the analyses.
 
+<!-- COMMENT
 The writeup is due at noon on **Tue 21 April**. It is worth four ordinary assignments. 
+-->
+
+The writeup is due at noon on **Tue 21 April**. 
 
