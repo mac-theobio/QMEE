@@ -6,7 +6,7 @@ current: target
 -include target.mk
 
 vim_session:
-	bash -cl "vmt README.md index.md rweb.mk"
+	bash -ic "vmt README.md index.md rweb.mk"
 
 ##################################################################
 
