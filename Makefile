@@ -137,10 +137,19 @@ Sources += $(wildcard docs/code/*.*)
 
 ######################################################################
 
+manova.Rout: code/manova.R
+	$(pipeR)
+
+MultivariateMixed.Rout: code/MultivariateMixed.R
+	$(pipeR)
+
 viz26.Rout: code/viz26.R
 	$(pipeR)
 
 viz24.Rout: code/viz24.R
+	$(pipeR)
+
+crabs_shrimp.Rout: code/crabs_shrimp.R
 	$(pipeR)
 
 ## Prepping for viz26, probably don't need this?
@@ -254,5 +263,6 @@ makestuff/Makefile:
 -include makestuff/pipeR.mk
 
 -include makestuff/git.mk
+-include makestuff/gitbranch.mk
 -include makestuff/visual.mk
 

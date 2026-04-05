@@ -19,7 +19,6 @@ Goals for this week
 
 - Making estimates comparable: How to make your model estimates (coefficients) both within your experiment, and (hopefully) to enable meaningful comparisons with the broader literature.
 
-
 Class materials
 ===============
 

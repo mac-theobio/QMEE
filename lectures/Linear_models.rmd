@@ -1,5 +1,5 @@
 ---
-title: Linear models lecture
+title: Linear models
 author: Jonathan Dushoff and Ben Bolker
 bibliography: ../qmee.bib
 ---
@@ -251,7 +251,7 @@ thinking about probabilities: 1% is to 10% as 10% is to ? -->
  
 - log $y$-lin $x$ for $y \propto e^x$; log $y$-log $x$ for $y \propto x^b$
 - Box-Cox and [related transformations](https://www.rdocumentation.org/packages/car/versions/3.0-10/topics/bcPower)
-- GLM may bepreferable to classical transform + LM for:
+- GLM may be preferable to classical transform + LM for:
      - proportions (logistic, arcsin-sqrt) [@warton_arcsine_2011; @smithsonbetter2006; @kubinecOrdered2022a]
 	 - count data (log, log(1+x)) [@ohara_not_2010; @ives_for_2015; @warton_three_2016; @morrissey_revisiting_2020]
  
@@ -292,7 +292,6 @@ $(y^\lambda-1)/\lambda$ ($\lambda=0$ corresponds to log-transformation) (*positi
 - `ggplot`: `geom_smooth(method="lm")` fits a linear model
 	to each *group* of data (i.e. by facet/colour/etc.) and plots predictions with CIs
 - `effects`, `emmeans`, `sjPlot`, `marginaleffects`, `ggpredict`, ...
-- tools:
 
 # Examples
 
@@ -317,21 +316,23 @@ lm_time  <-  update(lm_add, . ~ . - light)
 summary(lm_add)
 ```
 
-## Test time by comparing with light model (dropping time)
+## Test effect of time (2 df) by comparing with additive model with light model (dropping time)
 
 ```{r tests1B}
 anova(lm_add, lm_light)
 ```
 
-## Test light (identical to test in summary()
+## Test light
+
+Because `light` has only two levels (sunny/shady), this gives the same $p$-value as shown in `summary()` for `lightsunny`. `drop1` and `car::Anova` give the same $p$-value too ...
+
+
 
 ```{r test_light}
 anova(lm_add, lm_time)
-## In this simple case, drop1 and car::Anova
-##  will do exactly the same thing we did above
 ```
 
-## Test both
+## Test both light and time
 
 ```{r drop1}
 drop1(lm_add, test="F")
@@ -339,7 +340,7 @@ drop1(lm_add, test="F")
 
 ## Better anova table
 
-```{r car_anova}
+```{r car_anova, message = FALSE}
 car::Anova(lm_add)
 ```
 
@@ -349,17 +350,58 @@ car::Anova(lm_add)
 print(summary(lm_int))
 ```
 
-## Contrasts
+## `drop1` for interaction model
 
-```{r test3, message = FALSE}
-library(emmeans)
-em_light <- emmeans(lm_int, ~ light)
-print(em_contr <- contrast(em_light, "eff"))
+Drops *only* the interaction term (respects marginality)
+
+```{r test2B}
+drop1(lm_int, test = "F")
+```
+
+## ANOVA for models with interactions
+
+From `?car::Anova` [emphasis added]:
+
+> Type-II tests are calculated according to the **principle of marginality**, testing each term after all others, except ignoring the term's higher-order relatives; so-called type-III tests violate marginality, testing each term in the model after all of the others.  ... **Be very careful in formulating the model for type-III tests**, or the hypotheses tested will not make sense.
+
+Probably best to set `options(contrasts = c("contr.sum", "contr.poly"))` if you want to use type 3 ANOVA!
+
+## compare ...
+
+Three different questions, three different answers ...
+
+```{r test3B, eval = FALSE}
+car::Anova(lm_int, type = "II")
+car::Anova(lm_int, type = "III")
+## alternative to setting contrasts globally
+lm_int_sum <- update(lm_int,
+                     contrasts = list(light = contr.sum,
+                                      time = contr.sum))
+car::Anova(lm_int_sum, type = "III")
 ```
 
 ## Contrasts
+
+Contrasts allow you to ask *specific* questions (rather than "is the overall term significant?" or "all pairwise contrasts")
+
+`help("contrast-methods", package = "emmeans")`
+
+```{r invis-load, echo = FALSE, message = FALSE}
+## want to load first and ignore startup message ...
+library(emmeans)
+```
+
+```{r test3}
+library(emmeans)
+em_time <- emmeans(lm_int, ~ time)
+## default does a multiple comparisons correction
+print(em_contr <- contrast(em_time, method = "eff", adjust = "none"))
+```
+
+## Plot contrasts
+
 ```{r plot-test3}
-plot(em_contr)
+plot(em_contr) + geom_vline(xintercept = 0, lty = 2)
 ```
 
 # Multiple comparisons
@@ -373,6 +415,10 @@ plot(em_contr)
 ## compact letter displays
 
 There is a tradition of figuring out which *pairs* of treatments are significantly different and assigning a letter to each such "not-clearly-not-equivalent" group. If you need to do this to make your supervisor happy, you can [use ggpubr](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/). The `multcomp` package can do the basic computations too.
+
+From Russ Lenth (`emmeans` author):
+
+> These displays promote visually the idea that two means that are “not significantly different” are to be judged as being equal; and that is a very wrong interpretation. In addition, they draw an artificial “bright line” between P values on either side of alpha, even ones that are very close.
 
 ## Pairwise comparisons with emmeans
 
@@ -388,12 +434,56 @@ e1 <- emmeans(lm_add, spec = ~ time)
 plot(pairs(e1)) + geom_vline(xintercept = 0, lty = 2)
 ```
 
-## Expected marginal means plot
+## effects plot
 
-Or you could just look at the picture:
+```{r}
+library(effects)
+plot(allEffects(lm_int))
+```
 
-```{r em2}
-plot(e1)
+## dot-whisker plot
+
+* depends on contrasts set in the model!
+* probably works best for numeric covariates: `by_2sd` standardization available
+* good for comparing models (show coefficients side-by-side, dodged)
+
+## dot-whisker plot
+
+```{r dw, warning = FALSE}
+library(dotwhisker)
+dotwhisker::dwplot(
+              list(interaction = lm_int,
+                   additive = lm_add)) + geom_vline(xintercept=0, lty =2)
+```
+
+
+## Diagnostic vs prediction vs inferential
+
+* diagnostic plots: base-R `plot()`, `performance::check_model()`, `DHARMa`
+* inferential: coefficient plots, contrast plots
+* predictive: `emmeans`, `effects`, `ggpredict`
+
+## Prediction plots
+
+* For multi-parameter models, have to make a decision about how to set non-focal parameters
+* this is what `emmeans` and `effects` packages are originally designed for
+
+## emmeans (1)
+
+```{r}
+plot(emmeans(lm_int, ~ time*light))
+```
+
+## emmeans (2)
+
+```{r}
+plot(emmeans(lm_int, ~ time), comparison = TRUE)
+```
+
+Adds 83.4% "non-overlap" arrows [@knolmisuse2011]
+
+```{r echo=FALSE}
+oval <- 1-2*pnorm(-1.96/sqrt(2))
 ```
 
 # Generalizations

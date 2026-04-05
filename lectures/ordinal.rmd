@@ -1,0 +1,134 @@
+---
+title: "Ordinal models"
+output:
+  html_document:
+    code_folding: hide
+bibliography: ../qmee.bib	
+author: Ben Bolker
+---
+
+## Load packages ...
+
+```{r pkgs,message=FALSE}
+## fitting
+library(MASS) ## polr
+library(ordinal)
+library(tidyverse); theme_set(theme_bw())
+## Bayesian solutions
+library(MCMCglmm)
+library(brms)
+library(patchwork)
+## remotes::install_github("https://github.com/bbolker/ordinalsim")
+library(ordinalsim)
+library(sure)
+```
+
+## Goal
+
+* estimate effects of categorical and continuous predictors when the response is *ordinal*
+* categorical but ordered; we don't know distances between successive levels
+* CLM = **cumulative link** model
+* 
+
+## house data
+
+"Frequency table from a Copenhagen housing conditions survey"
+
+
+```{r}
+## FIXME: compute weighted means
+pd <- position_dodge(width = 0.25)
+ggplot(housing, aes(x=Type, y = as.numeric(Sat), colour = Infl)) +
+  geom_point(aes(size=Freq), position = pd) +
+  facet_wrap(~Cont, labeller = label_both) +
+  scale_y_continuous(breaks = 1:3,
+                     labels = levels(housing$Sat)) +
+  labs(y = "Satisfaction")
+```
+
+```{r}
+house.plr <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+print(ss <- summary(house.plr))
+```
+
+Understanding the intercept terms:
+```{r}
+## select baseline predictors (first level of each factor)
+get_pframe <- function(Infl_sel = "Low",
+                       Type_sel = "Tower",
+                       Cont_sel = "Low") {
+  subset(housing,
+                 Infl == Infl_sel &
+                 Type == Type_sel &
+                 Cont == Cont_sel,
+                 select = -c(Sat, Freq))[1,]
+}
+
+pframe <- get_pframe()
+## predict probs from fitted model
+(probs <- predict(house.plr, newdata = pframe, type = "probs"))
+
+zeta <- ss$zeta
+
+## hand calculation
+c(plogis(zeta[1]), diff(plogis(zeta)), 1-plogis(zeta[2]))
+```
+
+@gambarotaOrdinal2024
+
+```{r}
+cat_latent_plot(prob = probs)
+```
+
+## Assumptions
+
+* independence
+* **proportional odds** or equivalent: changes to predictors (change in category, or a change in a numeric variable) shifts log-odds of neighbouring categories (Medium vs Low, High vs Medium) up or down by the *same amount*
+* linearity of effects on this log-odds scale
+
+## Alternative links
+
+* logit (log-odds): *proportional odds*
+* probit: very similar. Interpretable as shifting the distribution of a Gaussian latent variable
+
+## Diagnostics
+
+`DHARMa`, `performance::check_model()` Seem to be terrible ... ? @greenwellResiduals2018
+
+```{r}
+set.seed(101)  # for reproducibility
+sres <- resids(house.plr)
+p1 <- autoplot.polr(house.plr, what = "covariate", x = housing$Type)
+p2 <- autoplot.polr(house.plr, what = "qq")
+p1 + p2
+```
+
+May not work with `clmm`, `clmm2` (mixed models)?
+
+[Frank Harrell on evaluating PO assumptions](https://www.fharrell.com/post/impactpo/)
+
+## other packages
+
+* `rms::orm`
+* for mixed models: `ordinal` (`?residuals.lrm`)
+* Bayesian mixed models: `brms`, `MCMCglmm`, ...
+
+## ordinal package
+
+* works with `emmeans`, `effects`, etc.
+* testing proportionality: can set effects of some variables to be *nominal* (more flexible, allow non-proportionality) with `nominal = ~ ...`
+
+## Example
+
+```{r}
+fit2 <- clm(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+summary(fit2)
+predict(fit2, newdata = pframe, se.fit = TRUE) ## probs
+```
+
+[Frank Harrell on PO models](https://www.fharrell.com/post/rpo/)
+
+
+
+## References
+

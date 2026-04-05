@@ -15,6 +15,8 @@ Class materials
 
 -   [Main lecture notes](../lectures/Linear_models.notes.html)
     -   [slide version](../lectures/Linear_models.slides.html)
+- [Crabs/shrimp example](../code/crabs_shrimp.R)
+  - [Crabs/shrimp data](../data/culcita_volume.csv)
 -   [Parameters](../lectures/Linear_model_parameters.notes.html)
 
 Resources
