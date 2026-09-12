@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
+  <meta name="generator" content="pandoc 3.10" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Based on ideas from Ian Dworkin" />
   <title>Meaningful, interpretable and comparable estimates</title>
   <style>
+
 html {
 color: #1a1a1a;
 background-color: #fdfdfd;
@@ -89,6 +90,7 @@ border-left: 2px solid #e6e6e6;
 color: #606060;
 }
 code {
+white-space: pre-wrap;
 font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
 font-size: 85%;
 margin: 0;
@@ -108,8 +110,8 @@ background-color: transparent;
 overflow: visible;
 }
 hr {
-background-color: #1a1a1a;
 border: none;
+border-top: 1px solid #1a1a1a;
 height: 1px;
 margin: 1em 0;
 }
@@ -152,10 +154,13 @@ padding-left: 0;
 #TOC a:not(:hover) {
 text-decoration: none;
 }
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 
 ul.task-list[class]{list-style: none;}
@@ -219,11 +224,13 @@ meaningful comparisons with the broader literature.</p></li>
 measurement theory</a></li>
 <li><a href="https://github.com/dushoff/statistics_talks/blob/d55aa97/outputs/effectSize.slides.pdf">effect
 size slides</a>; <a href="https://github.com/dushoff/statistics_talks/blob/d55aa97/outputs/effectSize.complete.pdf">filled-in
-notes</a> <!-- COMMENT
--   [script for interpretability](../lectures/Interpreting_lm_Output.html)
--   [slides on effect sizes](../lectures/BIO708_EffectSizes_Svelte.pdf)
--   [script for effect sizes](../lectures/BIO708_EffectSizes.html)
-COMMENT --></li>
+notes</a> &lt;!– COMMENT</li>
+<li><a href="../lectures/Interpreting_lm_Output.html">script for
+interpretability</a></li>
+<li><a href="../lectures/BIO708_EffectSizes_Svelte.pdf">slides on effect
+sizes</a></li>
+<li><a href="../lectures/BIO708_EffectSizes.html">script for effect
+sizes</a> COMMENT –&gt;</li>
 </ul>
 <h1 id="resources">Resources</h1>
 <ul>

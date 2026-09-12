@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
+  <meta name="generator" content="pandoc 3.10" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Statistical_philosophy</title>
   <style>
+
 html {
 color: #1a1a1a;
 background-color: #fdfdfd;
@@ -88,6 +89,7 @@ border-left: 2px solid #e6e6e6;
 color: #606060;
 }
 code {
+white-space: pre-wrap;
 font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
 font-size: 85%;
 margin: 0;
@@ -107,8 +109,8 @@ background-color: transparent;
 overflow: visible;
 }
 hr {
-background-color: #1a1a1a;
 border: none;
+border-top: 1px solid #1a1a1a;
 height: 1px;
 margin: 1em 0;
 }
@@ -151,10 +153,13 @@ padding-left: 0;
 #TOC a:not(:hover) {
 text-decoration: none;
 }
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 
 ul.task-list[class]{list-style: none;}
@@ -168,7 +173,6 @@ vertical-align: middle;
 div.csl-bib-body { }
 div.csl-entry {
 clear: both;
-margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
 margin-left:2em;
@@ -208,14 +212,13 @@ margin-left: 2em;
 </tr>
 <tr>
 <td><span class="citation" data-cites="gelman_statistical_2014">Gelman
-and Loken (2014)</span>, <span class="citation" data-cites="dushoff_i_2019">Dushoff, Kain, and Bolker (2019)</span>,
-<span class="citation" data-cites="davidoff_standing_1999">Davidoff
+and Loken (2014)</span>, <span class="citation" data-cites="dushoff_i_2019">Dushoff et al. (2019)</span>, <span class="citation" data-cites="davidoff_standing_1999">Davidoff
 (1999)</span>, <span class="citation" data-cites="pigliucci_reject_2004">Pigliucci (2004)</span>, <span class="citation" data-cites="berger_could_2003">Berger (2003)</span>,
 <span class="citation" data-cites="mccullagh_what_2002">McCullagh
 (2002)</span>, <span class="citation" data-cites="gerber_publication_2008">Gerber and Malhotra (2008)</span>,
 <span class="citation" data-cites="goldacre_statistical_2011">Goldacre
-(2011)</span>, <span class="citation" data-cites="nieuwenhuis_erroneous_2011">Nieuwenhuis, Forstmann, and
-Wagenmakers (2011)</span>, <span class="citation" data-cites="gelman_difference_2006">Gelman and Stern (2006)</span></td>
+(2011)</span>, <span class="citation" data-cites="nieuwenhuis_erroneous_2011">Nieuwenhuis et al.
+(2011)</span>, <span class="citation" data-cites="gelman_difference_2006">Gelman and Stern (2006)</span></td>
 </tr>
 </tbody>
 </table>
@@ -247,9 +250,9 @@ authors, (1) quote their presentation of the test results; (2) describe
 the issues, if any, with their presentation; (3) if there is any room
 for improvement in the presentation, write a revised statement that more
 accurately reflects what inferences we should make from the results.
-Table 1 of <span class="citation" data-cites="dushoff_i_2019">Dushoff,
-Kain, and Bolker (2019)</span> may be useful (although you are not
-required to use “clarity” language).</p>
+Table 1 of <span class="citation" data-cites="dushoff_i_2019">Dushoff et
+al. (2019)</span> may be useful (although you are not required to use
+“clarity” language).</p>
 <!-- COMMENT
 
 -   Formulate a hypothesis about your data, and discuss how you would test it statistically.
@@ -262,8 +265,8 @@ submit. Remember to email us the name of your repo file. Don’t submit in
 a proprietary format, like Word. Plain text is best, PDF is also OK.</p>
 <h2 id="readings">Readings</h2>
 <ul>
-<li>Please read <span class="citation" data-cites="nuzzo_scientific_2014">Nuzzo (2014)</span>; <span class="citation" data-cites="simmons_false-positive_2011">Simmons,
-Nelson, and Simonsohn (2011)</span>; <span class="citation" data-cites="harrell_introduction_2017">Harrell (2017)</span> (references
+<li>Please read <span class="citation" data-cites="nuzzo_scientific_2014">Nuzzo (2014)</span>; <span class="citation" data-cites="simmons_false-positive_2011">Simmons et al.
+(2011)</span>; <span class="citation" data-cites="harrell_introduction_2017">Harrell (2017)</span> (references
 below). They should not be too hard to get through. Think about your own
 statistical philosophy and be prepared to talk about what statistical
 inference means to you.</li>
@@ -273,7 +276,7 @@ in!</p>
 <p>You can also check out this fun web site on <a href="http://www.tylervigen.com/spurious-correlations">spurious
 correlations</a></p>
 <h2 class="unnumbered" id="references">References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-berger_could_2003" class="csl-entry" role="listitem">
 Berger, James O. 2003. <span>“Could <span>Fisher</span>,
 <span>Jeffreys</span> and <span>Neyman</span> <span>Have</span>
@@ -318,12 +321,12 @@ Goldacre, Ben. 2011. <span>“The Statistical Error That Just Keeps on
 Coming.”</span> <em>The Guardian</em>, September. <a href="http://www.theguardian.com/commentisfree/2011/sep/09/bad-science-research-error">http://www.theguardian.com/commentisfree/2011/sep/09/bad-science-research-error</a>.
 </div>
 <div id="ref-harrell_introduction_2017" class="csl-entry" role="listitem">
-Harrell, Frank. 2017. <span>“Introduction.”</span> <em>Statistical
+Harrell, Frank. 2017. <span>“Introduction.”</span> In <em>Statistical
 Thinking</em>. <a href="https://www.fharrell.com/post/introduction/">https://www.fharrell.com/post/introduction/</a>.
 </div>
 <div id="ref-mccullagh_what_2002" class="csl-entry" role="listitem">
 McCullagh, Peter. 2002. <span>“What Is a Statistical Model?”</span>
-<em>Annals of Statistics</em> 30 (5): 1225–1310. <a href="https://doi.org/10.1214/aos/1035844977">https://doi.org/10.1214/aos/1035844977</a>.
+<em>Annals of Statistics</em> 30 (5): 1225–310. <a href="https://doi.org/10.1214/aos/1035844977">https://doi.org/10.1214/aos/1035844977</a>.
 </div>
 <div id="ref-nieuwenhuis_erroneous_2011" class="csl-entry" role="listitem">
 Nieuwenhuis, Sander, Birte U. Forstmann, and Eric-Jan Wagenmakers. 2011.
@@ -335,7 +338,7 @@ Nuzzo, Regina. 2014. <span>“Scientific Method: Statistical
 Errors.”</span> <em>Nature</em> 506 (7487): 150–52. <a href="https://doi.org/10.1038/506150a">https://doi.org/10.1038/506150a</a>.
 </div>
 <div id="ref-pigliucci_reject_2004" class="csl-entry" role="listitem">
-Pigliucci, Massimo. 2004. <span>“Reject That Null Hypothesis!”</span> <a href="https://web.archive.org/web/20040820160247fw_/http://life.bio.sunysb.edu/ee/pigliuccilab/handouts/reject_null_hypothesis.pdf">https://web.archive.org/web/20040820160247fw_/http://life.bio.sunysb.edu/ee/pigliuccilab/handouts/reject_null_hypothesis.pdf</a>.
+Pigliucci, Massimo. 2004. <em>Reject That Null Hypothesis!</em> <a href="https://web.archive.org/web/20040820160247fw_/http://life.bio.sunysb.edu/ee/pigliuccilab/handouts/reject_null_hypothesis.pdf">https://web.archive.org/web/20040820160247fw_/http://life.bio.sunysb.edu/ee/pigliuccilab/handouts/reject_null_hypothesis.pdf</a>.
 </div>
 <div id="ref-simmons_false-positive_2011" class="csl-entry" role="listitem">
 Simmons, Joseph P., Leif D. Nelson, and Uri Simonsohn. 2011.
