@@ -244,7 +244,7 @@ Sources += orphans.mk
 
 ### Makestuff
 
-Sources += Makefile README.md notes.txt
+Sources += Makefile README.md notes.txt .gitignore
 
 ## TODO.md moved to private repo
 
