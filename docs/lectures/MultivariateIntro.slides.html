@@ -9,7 +9,7 @@
 
 
 
-  <meta name="date" content="2026-04-12" />
+  <meta name="date" content="2026-09-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3125,8 +3125,9 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -3208,7 +3209,7 @@ overflow-y: auto !important;
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">12 Apr 2026</p>
+            <p style="margin-top: 6px; margin-left: -2px;">13 Sep 2026</p>
           </hgroup>
   </slide>
 
@@ -3231,7 +3232,7 @@ library(geomorph)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Source in some custom functions</h2></hgroup><article  id="source-in-some-custom-functions">
 
-<p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>. We wrote most of them for a paper analyzing multivariate shape of <em>Drosophila</em> wings across altitudinal and latitudinal gradients <span class="cite">(W. Pitchers, Pool, and Dworkin 2013)</span>; full data and scripts <a href='http://datadryad.org/resource/doi:10.5061/dryad.r43k1' title=''>here</a>. Lots of cool multivariate examples.</p>
+<p>We are also going to need some custom functions for multivariate analysis. We use these a lot, but we have been bad and not made an R package out of them. They are available on both our github pages <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>. We wrote most of them for a paper analyzing multivariate shape of <em>Drosophila</em> wings across altitudinal and latitudinal gradients <span class="cite">(Pitchers et al. 2013)</span>; full data and scripts <a href='http://datadryad.org/resource/doi:10.5061/dryad.r43k1' title=''>here</a>. Lots of cool multivariate examples.</p>
 
 <ul>
 <li><a href='../code/MLM_Dworkin.R' title=''>R script to source</a></li>
@@ -3266,7 +3267,7 @@ ls()</pre>
 ##  Mean   :1.18   line-8 : 110              Mean   :27.4   Mean   :0.546  
 ##  3rd Qu.:1.00   line-2 : 104              3rd Qu.:30.0   3rd Qu.:0.566  
 ##  Max.   :2.00   line-11: 100              Max.   :30.0   Max.   :0.698  
-##                 (Other):1294                             NA&#39;s   :24     
+##                 (Other):1294                             NAs    :24     
 ##      tibia           tarsus           SCT      
 ##  Min.   :0.342   Min.   :0.106   Min.   : 6.0  
 ##  1st Qu.:0.465   1st Qu.:0.175   1st Qu.:10.0  
@@ -3274,7 +3275,7 @@ ls()</pre>
 ##  Mean   :0.482   Mean   :0.188   Mean   :11.2  
 ##  3rd Qu.:0.501   3rd Qu.:0.200   3rd Qu.:12.0  
 ##  Max.   :0.609   Max.   :0.258   Max.   :32.0  
-##  NA&#39;s   :19      NA&#39;s   :17      NA&#39;s   :25</pre>
+##  NAs    :19      NAs    :17      NAs    :25</pre>
 
 <pre class = 'prettyprint lang-r'>str(dll_data)</pre>
 
@@ -3635,7 +3636,7 @@ class(mlm_fit1)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Test statistics for multivariate linear models (and back to eigenvalues)</h2></hgroup><article  id="test-statistics-for-multivariate-linear-models-and-back-to-eigenvalues">
 
-<p>The other two things to note is this &ldquo;Pillai&rdquo; statistic and the approximate \(F\) statistic. It turns out that with the matrices that are used for inference (\(\mathbf{H}\) the <em>hypothesis matrix</em>) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of \(\mathbf{A} = \mathbf{HE^{-1}}\) where \(\mathbf{E}\) is the matrix of &ldquo;residuals&rdquo;. Generally the different approaches then take the eigenvalues of \(\mathbf{A}\) to generate a test statistic There are four commonly used test statistics that are derived from the eigenvalues of this matrix. If you are so inclined, check out inferences for multivariate linear models, and their implementation in the <code>car</code> package <span class="cite">(Fox, Friendly, and Weisberg 2013)</span>.</p>
+<p>The other two things to note is this &ldquo;Pillai&rdquo; statistic and the approximate \(F\) statistic. It turns out that with the matrices that are used for inference (\(\mathbf{H}\) the <em>hypothesis matrix</em>) in a multivariate test, there are multiple possible test statistics that can be evaluated based on the eigenvalues. Essentially we want to examine the eigenvalues of \(\mathbf{A} = \mathbf{HE^{-1}}\) where \(\mathbf{E}\) is the matrix of &ldquo;residuals&rdquo;. Generally the different approaches then take the eigenvalues of \(\mathbf{A}\) to generate a test statistic There are four commonly used test statistics that are derived from the eigenvalues of this matrix. If you are so inclined, check out inferences for multivariate linear models, and their implementation in the <code>car</code> package <span class="cite">(Fox et al. 2013)</span>.</p>
 
 </article></slide><slide class=""><hgroup><h2>Various test statistics for multivariate linear models. Or, fun with eigenvalues</h2></hgroup><article  id="various-test-statistics-for-multivariate-linear-models.-or-fun-with-eigenvalues">
 
@@ -3831,8 +3832,9 @@ mlm_fit2 &lt;- procD.lm(f1 = as.matrix(dll_data[, 9:12]) ~ genotype,
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Call: procD.lm(f1 = as.matrix(dll_data[, 9:12]) ~ genotype, iter = 2000,  
-##     data = dll_data)</pre>
+## Call: procD.lm(f1 = as.matrix(dll_data[, 
+## 9:12]) ~ genotype, iter = 2000, data = 
+## dll_data)</pre>
 
 <p>Of note, this allows for several different types of permutation tests, by default based on using the residuals from a reduced model (in this case there is only one). Also note that it also provides a measure of \(R^2\), which is not identical to the one I provided (but similar in this instance).</p>
 
@@ -3848,7 +3850,7 @@ mlm_fit2 &lt;- procD.lm(f1 = as.matrix(dll_data[, 9:12]) ~ genotype,
 
 </article></slide><slide class=""><hgroup><h2>Does the data conform to the assumptions of a multivariate linear model?</h2></hgroup><article  id="does-the-data-conform-to-the-assumptions-of-a-multivariate-linear-model">
 
-<p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <span class="cite">W. R. Pitchers et al. (2014)</span> <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>, we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
+<p>As with any other general linear model you want to examine how well the model fit conforms to the assumptions of the GLM. This gets a bit trickier for multivariate data, although it can still be done. The most difficult issue is whether the residuals conform to multivariate normality. While there are a number of tests for this, in almost all cases with reasonable amounts of data, MVN seems to be rejected. Therefore, most researchers use non-parametric resampling (bootstrapping and permutation tests) to aid in the inferences. There are several approaches to this. See both the <code>adonis()</code> and the functions in <code>geomorph</code> for some examples. On our github page with the code for <span class="cite">Pitchers et al. (2014)</span> <a href='https://github.com/DworkinLab/PitchersJEB2014_cricket_wings/blob/master/scripts/CGwing_analyses_final_2014.Rmd' title=''>here</a>, we have some different approaches. Remember that it gets tricky to do permutation tests for complex models (where you can not just do a simple permutation of response data relative to predictors). Also keep in mind that you want to resample at the levels of observations (rows), not single variables!</p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>More complicated models</h2></hgroup><article  id="more-complicated-models">
 
@@ -3892,8 +3894,9 @@ Anova(mlm_fit5)</pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Call: procD.lm(f1 = as.matrix(dll_data[, 9:12]) ~ genotype * temp,  
-##     iter = 2000, data = dll_data)</pre>
+## Call: procD.lm(f1 = as.matrix(dll_data[, 
+## 9:12]) ~ genotype * temp, iter = 2000, 
+## data = dll_data)</pre>
 
 <p>We can look at the lengths of the vectors to get a sense of relative effects of temp, genotype and their interaction.</p>
 
