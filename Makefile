@@ -87,11 +87,27 @@ old_site: gh-pages
 
 push_all: update_all
 	$(MAKE) all.time
+	$(MAKE) dateup
 
+## git checks out docs/ before index.md, lectures/, tips/, topics/, so every
+## clone and every merge leaves products looking OLDER than their sources.
+## dateup declares the checked-out products current, so we don't re-render
+## (and re-churn) pages nobody changed.
+dateupR = touch docs/*.html docs/*/*.html
 dateup:
-	touch docs/*.html docs/*/*.html
+	$(dateupR)
 
-syncup: update_all pull dateup all.time
+## Do it once per clone, before make gets a chance to decide what is stale.
+## Inlined, not $(MAKE) dateup: a sub-make would need dateup.time again.
+Ignore += dateup.time
+Makefile: | dateup.time
+dateup.time:
+	$(dateupR)
+	touch $@
+
+## dateup must come AFTER all.time, not before: all.time pulls again (once
+## per subdirectory), which re-inverts the mtimes dateup had just fixed.
+syncup: update_all pull all.time dateup
 
 ######################################################################
 
