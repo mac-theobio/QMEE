@@ -125,7 +125,10 @@ Sources += $(wildcard docs/data/*.*)
 
 Sources += $(wildcard *.pl)
 Sources += data.md
-Ignore += data_index.md
+## Was Ignore-d (untracked): fresh clones then lacked it, forcing a rebuild
+## and, via mtime inversion, a spurious rebuild of docs/data/index.html too.
+## Deterministic output (no timestamps in dataindex.pl), so tracking it is safe.
+Sources += data_index.md
 
 ## Edit data.md page; it's also supposed to edit itself
 ## To mark MISSING files and append UNTRACKED ones
