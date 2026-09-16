@@ -124,17 +124,14 @@ data:
 Sources += $(wildcard docs/data/*.*)
 
 Sources += $(wildcard *.pl)
-Sources += data.md
-## Was Ignore-d (untracked): fresh clones then lacked it, forcing a rebuild
-## and, via mtime inversion, a spurious rebuild of docs/data/index.html too.
-## Deterministic output (no timestamps in dataindex.pl), so tracking it is safe.
-Sources += data_index.md
 
 ## Edit data.md page; it's also supposed to edit itself
 ## To mark MISSING files and append UNTRACKED ones
+Sources += data.md
 data.md: $(wildcard data/*.*sv data/*.rd* data/*.RData)
 	$(touch)
 ## Don't edit (might be read-only to remind you)
+Sources += data_index.md
 data_index.md: data.md dataindex.pl
 	- $(MAKE) data data.filemerge
 	$(PUSHRO)
