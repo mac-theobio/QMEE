@@ -1,5 +1,6 @@
 ## content from makestuff
 target.mk
+resources
 arrive.log
 leave.log
 leavetest.log
@@ -52,6 +53,7 @@ cpdir/
 *.newdiff
 *.blame
 target.mk
+resources
 arrive.log
 leave.log
 leavetest.log
